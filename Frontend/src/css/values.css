@@ -1,0 +1,41 @@
+.values{
+    height: auto;
+    width: 100%;
+    background-color: rgb(194, 233, 194);
+}
+
+.value-container{
+    height: auto;
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+   
+}
+
+.value-container .contain{
+    height: 200px;
+    width: 300px;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+     padding: 1rem;
+}
+
+.contain div{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.contain div img{
+    height: 100px;
+    width: 100px;
+    
+}
+

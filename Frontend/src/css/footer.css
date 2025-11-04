@@ -1,0 +1,27 @@
+.footer{
+    height : auto;
+    width: 100%;
+    background-color: #17313E;
+    color : #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-wrap: wrap;
+}
+
+.footer div ul h2{
+    font-size: 20px;
+}
+
+.footer ul li img{
+    height: 100px;
+}
+
+.footer ul{
+    line-height: 20px;
+}
+
+.footer ul li{
+    list-style-type: none;
+    font-size: 12px;
+}

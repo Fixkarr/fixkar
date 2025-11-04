@@ -1,0 +1,60 @@
+.contact{
+    height: auto;
+    width: 100%;
+    background-image : linear-gradient(rgb(255, 255, 255),rgba(216, 214, 214, 0.87)), url('Images/contactbg.jpg');
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contactForm{
+    height: "auto";
+    width : 80%;
+    background-color: #fff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+ .left, .right{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left .image{
+    height: 100%;
+    width: 100%;
+    
+}
+
+.right form{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 10px;
+}
+
+.right form input, textarea{
+    padding: 0.5rem;
+    width: 100%;
+    background-color: #fff;
+    outline: none;
+    border: none;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-size: 12px;
+}
+
+.right form button{
+    font-size: 12px;
+}
