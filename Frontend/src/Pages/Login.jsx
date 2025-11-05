@@ -74,7 +74,7 @@ const Login = () => {
             <div className="signup-container bg-white p-3 rounded shadow">
 
                <div className="flex flex-row">
-                          <span className="text-primary" onClick={()=> navigate('/')}><FaArrowLeft /></span>
+                          <span className="text-primary" role='button' onClick={()=> navigate('/')}><FaArrowLeft /></span>
                           <center><h4 className="text-primary mb-3">Log in</h4></center>
                         </div>
             <form onSubmit={formik.handleSubmit}>

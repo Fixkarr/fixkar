@@ -3,6 +3,7 @@ import "../css/customersignup.css";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useFormik } from "formik";
+import { FaArrowLeft } from "react-icons/fa6";
 import * as Yup from "yup";
 import Navbar from "../Components/Navbar.jsx";
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,7 +16,6 @@ import {
   auth,
   provider,
   signInWithPopup,
-  signOut,
 } from "../firebase.js";
 import { server_url } from "../App.jsx";
 import { setCurrentUserData } from "../redux/user.slice.js";
@@ -116,11 +116,12 @@ const Signup = () => {
         theme="colored"
       />
       <Navbar />
-      <div className="customer-signup container-fluid d-flex align-items-center justify-content-center bg-secondary-subtle">
+      <div className="customer-signup container-fluid d-flex align-items-center pt-5 justify-content-center bg-secondary-subtle">
         <div className="signup-container bg-white p-3 rounded shadow">
-          <center>
-            <h4 className="text-primary mb-3">Sign Up</h4>
-          </center>
+         <div className="flex flex-row">
+                                   <span className="text-primary" role='button' onClick={()=> navigate('/')}><FaArrowLeft /></span>
+                                   <center><h4 className="text-primary mb-3">Sign up</h4></center>
+                                 </div>
 
           <form onSubmit={formik.handleSubmit}>
             {/* Full Name */}

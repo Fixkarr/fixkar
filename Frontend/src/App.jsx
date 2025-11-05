@@ -22,6 +22,8 @@ import PageNotFound from './Components/PageNotFound'
 import OnBoard from './Professional/OnBoard'
 import VerifyMobile from './Professional/VerifyMobile'
 import Onboarding from './Professional/Onboarding'
+import Pending from './Professional/Pending'
+import Rejected from './Professional/Rejected'
 export const server_url = "http://localhost:3000"
 
 
@@ -39,8 +41,12 @@ const App = () => {
     <>
       <Routes>
         <Route path='/' element={!currentUserData ? <Home/> : (
-          <Navigate to={role === "customer" ? ("/customer/home") : (role === "professional" ? (currentUserData?.user?.onBoarded ? (currentUserData?.user?.status === "pending" ? 
-            ("/application/pending"):(currentUserData?.user?.status === "rejected" ? ("/application/rejected"):("/professional/home"))
+          <Navigate to={role === "customer" ? 
+            ("/customer/home") : (role === "professional" ? 
+              (currentUserData?.user?.onBoarded ? 
+                (currentUserData?.user?.status === "pending" ? 
+            ("/application/pending"):(currentUserData?.user?.status === "rejected" ? 
+              ("/application/rejected"):("/professional/home"))
           ):("/onboard/verify-mobile")): ("/admin"))}/>
           )}/>
         <Route path='/signup' element={currentUserData ? <Navigate to="/"/> : <Signup/>}/>
@@ -48,7 +54,7 @@ const App = () => {
         <Route path='/forget-password' element={currentUserData ? <Navigate to="/"/> : <ForgetPass/>}/>
         <Route path='/verify-otp' element={currentUserData ? <Navigate to="/"/> : <OtpVerify/>}/>
         <Route path='/reset-password' element={currentUserData ? <Navigate to="/"/> : <ResetPassword/>}/>
-        <Route element={<DashboardLayout/>}>
+        <Route element={<DashboardLayout/>} >
 
         {/* Customer pannel routes */}
             <Route path='/customer/home' element={role === "customer" ? <CustomerHome/> : <Navigate to="/"/>}/>
@@ -62,6 +68,8 @@ const App = () => {
         <Route element={role === "professional"? <OnBoard/> : <Navigate to="/"/>}>
           <Route path='/onboard/verify-mobile' element={!currentUserData?.user?.userId?.isMobileVerified ? (<VerifyMobile/>):(<Navigate to="/onboard"/>)}/>
           <Route path='/onboard' element={!currentUserData?.user?.userId?.isMobileVerified ? (<Navigate to="/onboard/verify-mobile"/>) : (currentUserData?.user?.onBoarded ? (<Navigate to="/"/>): (<Onboarding userData={currentUserData}/>))}/>
+          <Route path="/application/pending" element={<Pending/>}/>
+          <Route path="/application/rejected" element={<Rejected/>}/>
         </Route>
         <Route path='*' element={<PageNotFound/>}/>
       </Routes>

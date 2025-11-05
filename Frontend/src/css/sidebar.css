@@ -58,7 +58,7 @@
     text-decoration: none;
 }
 
-.active{
+.sidebar .active{
     background-color: #0d6efd;
     color : White!important;
     border-radius: 8px;

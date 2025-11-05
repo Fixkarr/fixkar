@@ -101,7 +101,7 @@ const Onboarding = ({ userData }) => {
         theme="colored"
       />
 
-      <div className="onboarding bg-primary-subtle">
+      <div className="onboarding bg-primary-subtle mt-5">
         <div>
           <h2>Welcome, {userData?.user?.fullName || "Professional"}</h2>
           <p>Let's complete your onboarding process.</p>

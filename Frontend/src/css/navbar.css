@@ -1,3 +1,70 @@
+/* Navbar base styling */
+.navbar {
+  background: rgba(255, 255, 255, 0.15); /* Transparent white */
+  backdrop-filter: blur(12px); /* Glass blur */
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease-in-out;
+  box-shadow: none;
+}
+
+/* On scroll — slightly darker and sharper glass */
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Brand */
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #0d6efd !important;
+  text-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
+}
+
+/* Links */
+.nav-link {
+  color: #000;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #0d6efd;
+  transform: translateY(-1px);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+}
+
 .signupCollapse{
     position: absolute;
     top: 100%;

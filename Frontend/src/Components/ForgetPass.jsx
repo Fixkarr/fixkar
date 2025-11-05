@@ -62,7 +62,7 @@ const ForgetPass = () => {
       <div className="forget-pass container-fluid d-flex align-items-center justify-content-center bg-secondary-subtle">
         <div className="signup-container bg-white p-3 rounded shadow">
           <div className="flex flex-row">
-            <span className="text-primary" onClick={()=> navigator('/login')}><FaArrowLeft /></span>
+            <span className="text-primary" role="button" onClick={()=> navigator('/login')}><FaArrowLeft /></span>
             <center><h4 className="text-primary mb-3">Verify it's you!</h4></center>
           </div>
 

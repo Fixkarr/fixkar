@@ -1,0 +1,17 @@
+.welcome{
+    font-size: 2vmax;
+}
+.para{
+    font-size : 1.2vmax;
+}
+.search p, .search label, .search span, .search button {
+    font-size: 1.2vmax;
+}
+
+.search input::placeholder{
+        font-size: 1.2vmax;
+}
+
+.search input{
+    padding: .2rem !important;
+}

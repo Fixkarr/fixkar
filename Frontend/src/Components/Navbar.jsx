@@ -1,12 +1,32 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { NavLink, Link, } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../css/navbar.css";
 const Navbar = () => {
+  useEffect(() => {
+  const handleScroll = () => {
+    const navbar = document.querySelector(".navbar");
+    if (window.scrollY > 30) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  };
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
   const navigate = useNavigate()
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg fixed-top"
+          style={{
+    background: "rgba(255,255,255,0.2)",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    borderBottom: "1px solid rgba(255,255,255,0.3)"
+  }}
+      >
         <div className="container-fluid">
           <NavLink className="navbar-brand" href="#">
             Fixkar

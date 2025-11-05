@@ -79,55 +79,52 @@ export const registerUserWithForm = async (req,res ) =>{
 }
 
 
-export const login = async (req,res ) =>{
-    const {email, password} = req.body;
-   
-    try {
-       if(!email || !password){
-        return res.status(400).json({
-            message : "All Fields are required"
-        })
-        } 
-        
-        // step 2 - check if user already exists
+export const login = async (req, res) => {
+  const { email, password } = req.body;
 
-        const existingUser = await User.findOne({email});
+  try {
+    if (!email || !password) {
+      return res.status(400).json({ message: "All Fields are required" });
+    }
 
-        if(!existingUser){
-            return res.status(400).json({
-                message : "User does not exists with this email"
-            })
-        }
+    const existingUser = await User.findOne({ email });
 
-        const isValidPassword = await bcrypt.compare(password,existingUser.password);
+    if (!existingUser) {
+      return res.status(400).json({ message: "User does not exist with this email" });
+    }
 
-        if(!isValidPassword){
-            return res.status(400).json({
-                message : "Invalid credentials",
-            })
-        }
-       
-        const token = await genToken(existingUser._id);
-        res.cookie("token", token, {
-            secure : process.env.NODE_ENV === 'production',
-            sameSite : "strict",
-            maxAge : 7 * 24 * 60 * 60 * 1000 // 7 days
+    const isValidPassword = await bcrypt.compare(password, existingUser.password);
+    if (!isValidPassword) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
 
+    const token = await genToken(existingUser._id);
+    res.cookie("token", token, {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      httpOnly: true,
+    });
 
-        })
+    let userData;
+    if (existingUser.role === "customer") {
+      userData = await Customer.findOne({ userId: existingUser._id }).populate("userId");
+    } else if (existingUser.role === "professional") {
+      userData = await Professional.findOne({ userId: existingUser._id }).populate("userId");
+    } else {
+      userData = existingUser; // for admin or other roles
+    }
 
-        res.status(201).json({
-            message : "User Logged in successfully",
-            user : existingUser
-        })
+    return res.status(200).json({
+      message: "User logged in successfully",
+      user: userData,
+    });
+  } catch (error) {
+    console.log("error in login controller", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-    } catch (error) {
-        console.log("error in loginCustomerWithForm controller", error);
-        res.status(500).json({
-            message : "Internal Server Error"
-        })
-    } 
-}
 
 export const signOut = async (req,res)=>{
     try {

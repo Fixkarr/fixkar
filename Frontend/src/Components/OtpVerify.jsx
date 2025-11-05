@@ -72,7 +72,7 @@ const OtpVerify = () => {
       <div className="forget-pass container-fluid d-flex align-items-center justify-content-center bg-secondary-subtle">
         <div className="signup-container bg-white p-3 rounded shadow">
            <div className="flex flex-row">
-                      <span className="text-primary" onClick={()=> navigate('/forget-pass')}><FaArrowLeft /></span>
+                      <span className="text-primary" role="button" onClick={()=> navigate('/forget-pass')}><FaArrowLeft /></span>
                       <center><h4 className="text-primary mb-3">Enter OTP!</h4></center>
             </div>
 
