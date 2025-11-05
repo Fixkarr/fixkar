@@ -1,36 +1,50 @@
-import React, { useState } from "react";
-import { FaMapMarkerAlt, FaSearch, FaCrosshairs } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/customerhome.css"
-const SearchSection = () => {
-  const [location, setLocation] = useState("");
-  const [service, setService] = useState("");
+import "../css/customerhome.css";
+import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 
-  // Detect user location
-  const handleDetectLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const { latitude, longitude } = pos.coords;
-          setLocation(`Lat: ${latitude.toFixed(3)}, Lng: ${longitude.toFixed(3)}`);
-        },
-        () => alert("Location access denied!")
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  };
+
+
+const SearchSection = () => {
+  const googleLoaded = useLoadGoogleMaps(); // script load status
+  const inputRef = useRef(null);
+
+  const [service, setService] = useState("");
 
   const services = ["Electrician", "Plumber", "Painter", "Carpenter", "Labour", "Cleaner"];
 
+  // Initialize autocomplete AFTER script loads
+  useEffect(() => {
+    if (!googleLoaded || !inputRef.current) return;
+
+    const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
+      types: ["geocode"],
+      componentRestrictions: { country: "in" },
+    });
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+
+      const locationData = {
+        address: place.formatted_address,
+        lat: place.geometry?.location?.lat(),
+        lng: place.geometry?.location?.lng(),
+      };
+
+      console.log("Selected Location:", locationData);
+    });
+  }, [googleLoaded]);
+
   return (
     <div className="search container mt-4">
-      <div className="p-2 p-md-4 rounded-4 shadow-sm" 
-           style={{
-             backdropFilter: "blur(10px)",
-             background: "rgba(255, 255, 255, 0.6)",
-           }}>
-        
+      <div
+        className="p-2 p-md-4 rounded-4 shadow-sm"
+        style={{
+          backdropFilter: "blur(10px)",
+          background: "rgba(255, 255, 255, 0.6)",
+        }}
+      >
         {/* Location Input */}
         <div className="mb-3 position-relative">
           <label className="form-label fw-semibold">Your Location</label>
@@ -39,15 +53,11 @@ const SearchSection = () => {
               <FaMapMarkerAlt />
             </span>
             <input
+              ref={inputRef}
               type="text"
               className="form-control border-start-0"
               placeholder="Enter your location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
             />
-            <button className="btn btn-outline-primary" onClick={handleDetectLocation}>
-              <FaCrosshairs/> Detect
-            </button>
           </div>
         </div>
 
@@ -68,7 +78,7 @@ const SearchSection = () => {
           </div>
         </div>
 
-        {/* Service Buttons */}
+        {/* Quick Service Buttons */}
         <div className="d-flex flex-wrap gap-2 mt-3">
           {services.map((srv) => (
             <button key={srv} className="btn btn-outline-primary rounded-pill px-3 py-1">

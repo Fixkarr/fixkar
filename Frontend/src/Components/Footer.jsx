@@ -6,6 +6,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
+
 const Footer = () => {
   return (
     <>
@@ -13,7 +14,12 @@ const Footer = () => {
         <div>
           <ul>
           <li>
-            <img src="Images/final logo.png" alt="logo" />
+             <div className="logo">
+            {/* <img src="/Images/final logo.png" alt="logo" className='img-fluid'/> */}
+           <h2 className="navbar-brand">
+                       Fixkar
+                     </h2>
+        </div>
           </li>
           <li>
             <p>Tum Apna Dream house socho <br /> pura hum karenge! ❤️</p>

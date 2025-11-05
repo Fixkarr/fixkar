@@ -2,7 +2,7 @@ import {initializeApp } from 'firebase/app';
 import {getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification , signInWithPopup, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
-      apiKey: "AIzaSyA6UvlFZtuNIR_ciOc_JoiGSGLZtbeqins",
+      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "fixkar-62c40.firebaseapp.com",
   projectId: "fixkar-62c40",
   storageBucket: "fixkar-62c40.firebasestorage.app",

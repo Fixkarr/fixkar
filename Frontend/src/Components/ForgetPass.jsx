@@ -16,6 +16,9 @@ const ForgetPass = () => {
   const navigator = useNavigate()
   const [loading, setLoading] = useState(false);
   const {setEmail} = useAuth();
+
+  
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Invalid email format")

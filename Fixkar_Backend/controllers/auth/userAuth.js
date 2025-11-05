@@ -111,8 +111,8 @@ export const login = async (req, res) => {
       userData = await Customer.findOne({ userId: existingUser._id }).populate("userId");
     } else if (existingUser.role === "professional") {
       userData = await Professional.findOne({ userId: existingUser._id }).populate("userId");
-    } else {
-      userData = existingUser; // for admin or other roles
+    }else{
+        return res.status(400).json({message : "No role assigned to this user"})
     }
 
     return res.status(200).json({
@@ -188,6 +188,10 @@ export const resetPassword = async (req, res) => {
                 user : customer
             })
         }else if(role === "professional"){
+            let professional = await Professional.findOne({userId : existingUser._id})
+
+            if(!professional){
+
            await Professional.create({
                 userId : existingUser._id,
                 dob : "",
@@ -199,7 +203,8 @@ export const resetPassword = async (req, res) => {
                 poi : "",
                 profilePicture : ""
             })
-              const professional = await Professional.findOne({userId : existingUser._id}).populate("userId")
+        }
+               professional = await Professional.findOne({userId : existingUser._id}).populate("userId")
              return res.status(201).json({
                 message : "user registered successfully",
                 user : professional

@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import '../css/customerhome.css'
 import SearchSection from './SearchComponent'
+
 const CustomerHome = () => {
 
   const {currentUserData} = useSelector((state)=>state.user)

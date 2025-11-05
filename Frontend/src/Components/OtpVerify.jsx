@@ -18,6 +18,13 @@ const OtpVerify = () => {
   const {email, setOtpVerified} = useAuth()
   const [loading, setLoading] = useState(false);
 
+   useEffect(() => {
+      if (email == "") {
+        navigate("/forget-password");
+      }
+    }, [email]);
+  
+
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
 

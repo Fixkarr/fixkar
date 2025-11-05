@@ -3,7 +3,7 @@ const AuthContext = createContext()
 export const AuthProvider = ({children}) => {
     const [email, setEmail] = useState("")
     const [otpVerified, setOtpVerified] = useState(false)
-
+    // const [isEmailSent, SetIsEmailSent] = useState(false)
   return (
     <AuthContext.Provider value={{email, setEmail, otpVerified, setOtpVerified}}>
         {children}

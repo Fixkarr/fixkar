@@ -103,7 +103,7 @@ const Onboarding = ({ userData }) => {
 
       <div className="onboarding bg-primary-subtle mt-5">
         <div>
-          <h2>Welcome, {userData?.user?.fullName || "Professional"}</h2>
+          <h2>Welcome, {userData?.user?.userId?.fullName || "Professional"}</h2>
           <p>Let's complete your onboarding process.</p>
         </div>
         <hr className="text-primary" />

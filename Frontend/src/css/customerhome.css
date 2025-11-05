@@ -4,7 +4,7 @@
 .para{
     font-size : 1.2vmax;
 }
-.search p, .search label, .search span, .search button {
+.search p, .search label, .search span, .search button, .search input {
     font-size: 1.2vmax;
 }
 

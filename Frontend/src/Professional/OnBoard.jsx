@@ -40,13 +40,16 @@ const OnBoard = () => {
     <div className='onboard'>
          <main className='p-6'>
             <section className='upper border'>
-                <div>
-                    <h2>Fixkar</h2>
-                </div>
+                <div className="logo">
+            {/* <img src="/Images/final logo.png" alt="logo" className='img-fluid'/> */}
+           <h2 className="navbar-brand">
+                       Fixkar
+                     </h2>
+        </div>
            <div className='d-flex gap-4'>
              <span className='text-primary'><IoCall/> +10 92 92988 28</span> 
             <span className='text-primary'><MdEmail/> @fixkar.com</span>
-            <span className='text-danger' onClick={handleLogout}><RiLogoutCircleRLine/></span>
+            <span className='text-danger' role='button' onClick={handleLogout}><RiLogoutCircleRLine/></span>
            </div>
         </section>
         <div className='outlets'>
