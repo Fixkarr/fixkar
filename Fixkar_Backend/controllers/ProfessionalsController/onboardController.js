@@ -3,7 +3,7 @@ import { Professional, User } from "../../models/userModel.js";
 
 export const onboard = async (req, res) => {
   try {
-    const { dob, address, profession } = req.body;
+    const { dob, address, profession, lat,lng } = req.body;
 
     // Step 1: Validation
     if (!dob || !address || !profession) {
@@ -51,7 +51,15 @@ export const onboard = async (req, res) => {
       { userId: req.userId },
       {
         dob,
-        address,
+        address : {
+          addressLine : address,
+          lat,
+          lng
+        },
+        location : {
+          type : 'Point',
+          coordinates : [lng, lat]
+        },
         profession,
         profilePicture: profileResult.secure_url,
         poi: poiResult.secure_url,

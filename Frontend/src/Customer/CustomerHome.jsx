@@ -2,10 +2,26 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import '../css/customerhome.css'
 import SearchSection from './SearchComponent'
-
+import { useDispatch } from 'react-redux'
+import { setSelectedLocation, setSelectedService } from '../redux/location.slice'
+import { useNavigate } from 'react-router-dom'
 const CustomerHome = () => {
 
   const {currentUserData} = useSelector((state)=>state.user)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLocationSelect = (location)=>{
+    dispatch(setSelectedLocation(location));
+    navigate("/customer/hire-professionals");
+  }
+
+  const handleServiceSelect = (service) => {
+    dispatch(setSelectedService(service));
+    navigate("/customer/hire-professionals");
+  };
+
+
   
   return (
     
@@ -13,7 +29,7 @@ const CustomerHome = () => {
           <div>
             <h2 className='welcome'>Welcome, <span className='text-primary'>{currentUserData?.user?.userId?.fullName}!</span></h2>
             <p className='para'>Find Professionals near you!</p>
-            <SearchSection/>
+            <SearchSection onLocationSelect={handleLocationSelect} onServiceSelect={handleServiceSelect}/>
           </div>
     </div>
   )

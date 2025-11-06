@@ -46,7 +46,6 @@ const VerifyMobile = () => {
       setLoading(true)
       const result = await axios.post(`${server_url}/api/otp/verify`, {phone : `+91${mobile}`,otp }, {withCredentials : true})
       toast.success(result.data.message);
-      console.log(result.data)
       if(result.data.user){
         dispatch(setCurrentUserData({user : result.data.user}))
       }else{
@@ -56,7 +55,7 @@ const VerifyMobile = () => {
       navigate("/onboard")
       setLoading(false)
     } catch (error) {
-      toast.error(error)
+      toast.error(error.response.data.message)
       setLoading(false)
     }
   };

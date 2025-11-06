@@ -32,7 +32,20 @@ const professionalSchema = new mongoose.Schema({
     dob : {type : Date},
     profession : {type : String},
     description : {type : String},
-    address : {type : String},
+    address : {addressLine : String,
+        lat : Number,
+        lng : Number
+    },
+    location : {
+        type : {
+            type : String,
+            enum : ['Point'],
+            default : 'Point'
+        },
+        coordinates : {
+            type : [Number],
+        }
+    },
     profilePicture : {type : String},
     charges : {type : String},
     gallery : [{type : String}],
@@ -51,6 +64,8 @@ const professionalSchema = new mongoose.Schema({
     },
     reviews : [{type : mongoose.Schema.Types.ObjectId, ref : "Review",}]
 },{timestamps : true});
+
+professionalSchema.index({location : "2dsphere"})
 
 export const Professional = mongoose.model("Professional", professionalSchema);
 

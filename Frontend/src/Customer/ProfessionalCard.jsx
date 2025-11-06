@@ -1,7 +1,7 @@
 // components/ProfessionalCard.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import { FaStar } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const ProfessionalCard = ({ data }) => {
   return (
@@ -22,7 +22,7 @@ const ProfessionalCard = ({ data }) => {
           <p className="text-muted m-0">{data?.profession || "Not specified"}</p>
 
           <p className="text-muted small mt-2 mb-1">
-            <strong>Address:</strong> {data?.address || "Not Provided"}
+            <strong>Address:</strong> {data?.address?.addressLine || "Not Provided"}
           </p>
 
           <div className="d-flex align-items-center gap-1 mt-2">

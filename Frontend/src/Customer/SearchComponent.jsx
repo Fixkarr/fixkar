@@ -3,25 +3,36 @@ import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/customerhome.css";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
+import { useDispatch } from "react-redux";
+import { setSelectedLocation, setSelectedService } from "../redux/location.slice";
 
-
-
-const SearchSection = () => {
-  const googleLoaded = useLoadGoogleMaps(); // script load status
+const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
+  const googleLoaded = useLoadGoogleMaps();
   const inputRef = useRef(null);
 
+  const dispatch = useDispatch();
   const [service, setService] = useState("");
 
-  const services = ["Electrician", "Plumber", "Painter", "Carpenter", "Labour", "Cleaner"];
+  const services = [
+    "Electrician",
+    "Plumber",
+    "Painter",
+    "Carpenter",
+    "Labour",
+    "Cleaner",
+  ];
 
-  // Initialize autocomplete AFTER script loads
+  // Location autocomplete
   useEffect(() => {
     if (!googleLoaded || !inputRef.current) return;
 
-    const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
-      types: ["geocode"],
-      componentRestrictions: { country: "in" },
-    });
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      {
+        types: ["geocode"],
+        componentRestrictions: { country: "in" },
+      }
+    );
 
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
@@ -32,21 +43,32 @@ const SearchSection = () => {
         lng: place.geometry?.location?.lng(),
       };
 
-      console.log("Selected Location:", locationData);
+      // Save location to Redux
+      dispatch(setSelectedLocation(locationData));
+
+      // If parent component wants callback (CustomerHome case)
+      if (onLocationSelect) onLocationSelect(locationData);
     });
-  }, [googleLoaded]);
+  }, [googleLoaded, dispatch, onLocationSelect]);
+
+  // When typing in service input
+  const handleServiceChange = (value) => {
+    setService(value);
+    dispatch(setSelectedService(value));
+    if(onServiceSelect) onServiceSelect(value)
+  };
 
   return (
-    <div className="search container mt-4">
+    <div className="search container">
       <div
-        className="p-2 p-md-4 rounded-4 shadow-sm"
+        className="p-lg-4 p-2 rounded-4 shadow-sm"
         style={{
           backdropFilter: "blur(10px)",
           background: "rgba(255, 255, 255, 0.6)",
         }}
       >
         {/* Location Input */}
-        <div className="mb-3 position-relative">
+        <div className="mb-2 position-relative">
           <label className="form-label fw-semibold">Your Location</label>
           <div className="input-group">
             <span className="input-group-text bg-white border-end-0">
@@ -62,7 +84,7 @@ const SearchSection = () => {
         </div>
 
         {/* Service Search Input */}
-        <div className="mb-3 position-relative">
+        {/* <div className="mb-3 position-relative">
           <label className="form-label fw-semibold">Search for Services</label>
           <div className="input-group">
             <span className="input-group-text bg-white border-end-0">
@@ -73,15 +95,19 @@ const SearchSection = () => {
               className="form-control border-start-0"
               placeholder="Search services (e.g. plumber, electrician)"
               value={service}
-              onChange={(e) => setService(e.target.value)}
+              onChange={(e) => handleServiceChange(e.target.value)}
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Quick Service Buttons */}
         <div className="d-flex flex-wrap gap-2 mt-3">
           {services.map((srv) => (
-            <button key={srv} className="btn btn-outline-primary rounded-pill px-3 py-1">
+            <button
+              key={srv}
+              onClick={() => handleServiceChange(srv)}
+              className="btn btn-outline-primary rounded-pill px-lg-3 px-1 py-lg-1 py-0"
+            >
               {srv}
             </button>
           ))}

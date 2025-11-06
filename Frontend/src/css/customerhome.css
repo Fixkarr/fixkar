@@ -3,6 +3,7 @@
 }
 .para{
     font-size : 1.2vmax;
+    margin: 0;
 }
 .search p, .search label, .search span, .search button, .search input {
     font-size: 1.2vmax;

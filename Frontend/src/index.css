@@ -14,6 +14,40 @@ body {
 }
 
 
-.professionalCard{
+.professionalCard {
   max-width: 300px!important;
+}
+
+.professionalCard
+
+
+
+.professionals h4{
+   font-size: 2vmax!important;
+}
+
+.professionalsContainer{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.searchPlaceholder{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.searchPlaceholder img{
+  height: 150%;
+  width: 100%;
+  overflow: hidden;
+}
+
+p{
+  font-size: 1.2vmax;
 }

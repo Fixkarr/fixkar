@@ -5,7 +5,7 @@ const userSlice = createSlice({
     name : 'user',
     initialState : {
         currentUserData : null,
-        city : null
+        
     },
     reducers : {
         setCurrentUserData : (state, action)=>{
