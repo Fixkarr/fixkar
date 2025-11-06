@@ -67,7 +67,7 @@ const Navbar = () => {
             </ul>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 flex gap-2">
               <li className="nav-item">
-                <button className="btn border border-primary " onClick={()=>navigate('/login')}>Login</button>
+                <button className="btn border border-primary text-primary" onClick={()=>navigate('/login')}>Login</button>
               </li>
               <li className="nav-item">
                <div className="dropdown">

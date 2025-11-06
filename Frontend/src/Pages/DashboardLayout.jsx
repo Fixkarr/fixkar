@@ -19,7 +19,6 @@ const DashboardLayout = () => {
    const handleLogout = async ()=>{
       try {
       const response  = await axios.post(`${server_url}/api/auth/logout`, {}, {withCredentials : true})
-      toast.info(response.data.message);
       dispatch(setCurrentUserData(null))
       navigate("/")
     } catch (error) {

@@ -57,7 +57,6 @@ const Signup = () => {
       }
       
       const response = await axios.post(`${server_url}/api/auth/google-auth`, user, {withCredentials : true})
-      console.log(response)
       dispatch(setCurrentUserData(response.data))
     } catch (error) {
       setError("Something went wrong!")
@@ -99,7 +98,6 @@ const Signup = () => {
       //  console.log("error in form submition:", error.response.data.message)
        toast.error(error.response.data.message)
           setLoading(false)
-       
       }
     },
   });
