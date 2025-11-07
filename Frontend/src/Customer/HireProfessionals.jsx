@@ -41,7 +41,7 @@ const HireProfessionals = () => {
     <div className="professionals container px-3 px-md-5 py-4">
       
       {/* Heading */}
-      <h2 className="fw-semibold mt-2 welcome mb-3">Available Professionals</h2>
+      <h2 className="fw-semibold mt-2 welcome mb-3">Search Professionals</h2>
 
       {/* Search */}
       <SearchSection />

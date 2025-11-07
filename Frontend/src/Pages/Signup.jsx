@@ -49,7 +49,9 @@ const Signup = () => {
   // 🔹 Google Signup
   const handleSignupWithGoogle = async () => {
     try {
+        setLoading(true)
       const result = await signInWithPopup(auth, provider);
+
       const user = {
         fullName: result.user.displayName,
         email : result.user.email,
@@ -58,9 +60,11 @@ const Signup = () => {
       
       const response = await axios.post(`${server_url}/api/auth/google-auth`, user, {withCredentials : true})
       dispatch(setCurrentUserData(response.data))
+      setLoading(false)
     } catch (error) {
       setError("Something went wrong!")
       console.log(error)
+      setLoading(false)
     }
   };
 
@@ -206,10 +210,10 @@ const Signup = () => {
           </center>
           <center>
             <button
-              className="btn border border-secondary w-100 mt-2"
+              className="btn border border-secondary w-100 mt-2"  disabled={loading}
               onClick={handleSignupWithGoogle}
             >
-              <FcGoogle /> Sign up with Google
+              <FcGoogle />{loading ? <ClipLoader size={20}/> : "Sign up with Google"}
             </button>
           </center>
 

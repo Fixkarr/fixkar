@@ -5,6 +5,7 @@ import { onboard } from '../controllers/ProfessionalsController/onboardControlle
 import upload from '../middlewares/multer.js';
 import { getAllProfessionals, getAllVerifiedProfessionals } from '../controllers/ProfessionalsController/getAllProfessionals.js';
 import { searchProfessionals } from '../controllers/CustomerController/searchController.js';
+import { completeProfile } from '../controllers/ProfessionalsController/completeProfile.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -21,4 +22,7 @@ userRoute.post("/onboard",   upload.fields([
     { name: "profilePicture", maxCount: 1 },
     { name: "poi", maxCount: 1 },
   ]), isAuth, onboard);
+
+
+ userRoute.post("/professional/complete-profile", isAuth, completeProfile)
 export default userRoute;

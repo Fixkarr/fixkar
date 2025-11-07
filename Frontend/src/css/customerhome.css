@@ -16,3 +16,17 @@
 .search input{
     padding: .2rem !important;
 }
+
+.completeProfile input{
+   font-size: 12px;
+}
+
+.completeProfile label{
+    font-size : 15px!important;
+}
+
+
+.completeProfile button .completeProfile input, .completeProfile input::placeholder, .completeProfile option, .completeProfile select{
+    font-size : 12px !important;
+}
+

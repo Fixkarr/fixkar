@@ -48,7 +48,26 @@ const professionalSchema = new mongoose.Schema({
         }
     },
     profilePicture : {type : String},
-    charges : {type : String},
+    charges : {
+        amountType : {
+            type : String,
+            enum : ["hourly", "daily", "contract", "multiple"],
+            default : "multiple"
+        },
+        hourly : {
+            amount : String,
+        },
+        daily : {
+            amount : String,
+        },
+        contract : {
+            minAmount : String,
+            maxAmount : String,
+        },
+        amountDesc : {
+            type : String,
+        }
+    },
     gallery : [{type : String}],
     poi : {type : String},
     status : {
