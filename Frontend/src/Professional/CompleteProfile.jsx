@@ -8,8 +8,10 @@ import axios from "axios";
 import { server_url } from "../App";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
+import { useNavigate } from "react-router-dom";
 
 export default function CompleteProfile() {
+  const navigate = useNavigate()
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
   const formik = useFormik({
@@ -70,8 +72,8 @@ export default function CompleteProfile() {
       try {
         setLoading(true)
         const result = await axios.post(`${server_url}/api/user/professional/complete-profile`, payload , {withCredentials : true})
-        console.log(result.data.professional);
         dispatch(setCurrentUserData(result.data))
+        navigate("/")
         setLoading(false)
       } catch (error) {
         console.log("Error in complete Profile",error)

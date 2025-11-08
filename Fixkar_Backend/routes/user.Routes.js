@@ -6,6 +6,7 @@ import upload from '../middlewares/multer.js';
 import { getAllProfessionals, getAllVerifiedProfessionals } from '../controllers/ProfessionalsController/getAllProfessionals.js';
 import { searchProfessionals } from '../controllers/CustomerController/searchController.js';
 import { completeProfile } from '../controllers/ProfessionalsController/completeProfile.js';
+import { setBusyDays } from '../controllers/ProfessionalsController/busyDays.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -24,5 +25,9 @@ userRoute.post("/onboard",   upload.fields([
   ]), isAuth, onboard);
 
 
- userRoute.post("/professional/complete-profile", isAuth, completeProfile)
-export default userRoute;
+ userRoute.post("/professional/complete-profile", isAuth, completeProfile);
+ userRoute.post("/professional/set-busy-days", isAuth, setBusyDays)
+
+
+
+ export default userRoute;

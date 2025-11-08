@@ -52,7 +52,6 @@ const professionalSchema = new mongoose.Schema({
         amountType : {
             type : String,
             enum : ["hourly", "daily", "contract", "multiple"],
-            default : "multiple"
         },
         hourly : {
             amount : String,
@@ -78,10 +77,7 @@ const professionalSchema = new mongoose.Schema({
     onBoarded : {type : Boolean, default : false},
     ratings : {type : String, default : 0},
     totalReviews : {type : Number, default : 0},
-    availability : {
-        availableDays : [{type : Date}],
-        busyDays : [{type : Date}]
-    },
+    busyDays : [{type : String}],
     reviews : [{type : mongoose.Schema.Types.ObjectId, ref : "Review",}]
 },{timestamps : true});
 

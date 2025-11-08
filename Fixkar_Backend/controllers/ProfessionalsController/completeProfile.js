@@ -18,7 +18,7 @@ export const completeProfile =async (req,res)=>{
         })
        }
 
-       const updatedProfessional = await Professional.findByIdAndUpdate(professional._id, {
+        await Professional.findByIdAndUpdate(professional._id, {
         description,
         charges : {
             amountType : pricingType,
@@ -32,6 +32,8 @@ export const completeProfile =async (req,res)=>{
         }
        },{new : true})
 
+
+       const updatedProfessional = await Professional.findById(professional._id).populate("userId")
        if(updatedProfessional){
         return res.status(200).json({
             message : "Profile completed successfully!",

@@ -51,3 +51,71 @@ body {
 p{
   font-size: 1.2vmax;
 }
+
+button{
+  font-size: 1vmax;
+}
+
+.rdp-day_disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+
+/* // day card styling */
+
+.day-card {
+  background: var(--bs-primary);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.25s;
+  width: 70px;
+  height: 90px;
+}
+
+/* Hover effect on larger screens only */
+@media (hover: hover) {
+  .day-card:hover {
+    filter: brightness(1.15);
+    transform: scale(1.05);
+  }
+}
+
+/* TEXT SIZES */
+.day-year {
+  font-size: 10px;
+  opacity: 0.9;
+}
+.day-number {
+  font-size: 22px;
+  margin: 2px 0;
+}
+.day-month {
+  font-size: 12px;
+  opacity: 0.95;
+}
+
+/* ✅ MOBILE RESPONSIVE SMALL MODE */
+@media (max-width: 480px) {
+  .day-card {
+    width: 36px;
+    height: 48px;
+    border-radius: 6px;
+  }
+
+  .day-year {
+    font-size: 7px;
+  }
+  .day-number {
+    font-size: 14px;
+  }
+  .day-month {
+    font-size: 8px;
+  }
+}

@@ -43,8 +43,6 @@ export const registerUserWithForm = async (req, res) => {
         if (role === "customer") {
             await Customer.create({
                 userId: newUser._id,
-                address: "",
-                mobile: "",
             })
             const customer = await Customer.findOne({ userId: newUser._id }).populate("userId")
             return res.status(201).json({
@@ -54,10 +52,6 @@ export const registerUserWithForm = async (req, res) => {
         } else if (role === "professional") {
             await Professional.create({
                 userId: newUser._id,
-                dob: "",
-                profession: "",
-                description: "",
-                mobile: "",
                 address: {
                     addressLine: "",
                     lat: null,
@@ -67,9 +61,6 @@ export const registerUserWithForm = async (req, res) => {
                     type: "Point",
                     coordinates: []
                 },
-                charges: "",
-                poi: "",
-                profilePicture: ""
             })
             const professional = await Professional.findOne({ userId: newUser._id }).populate("userId")
             return res.status(201).json({
@@ -187,8 +178,6 @@ export const googleAuth = async (req, res) => {
         if (role === "customer") {
             await Customer.create({
                 userId: existingUser._id,
-                address: "",
-                mobile: "",
             })
             const customer = await Customer.findOne({ userId: existingUser._id }).populate("userId")
             return res.status(201).json({
@@ -202,10 +191,6 @@ export const googleAuth = async (req, res) => {
 
                 await Professional.create({
                     userId: existingUser._id,
-                    dob: "",
-                    profession: "",
-                    description: "",
-                    mobile: "",
                     address: {
                         addressLine: "",
                         lat: null,
@@ -215,9 +200,7 @@ export const googleAuth = async (req, res) => {
                         type: "Point",
                         coordinates: [] 
                     },
-                    charges: "",
-                    poi: "",
-                    profilePicture: "",
+
                 })
             }
             professional = await Professional.findOne({ userId: existingUser._id }).populate("userId")
