@@ -9,6 +9,7 @@ import { server_url } from "../App";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
 import { useNavigate } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 export default function CompleteProfile() {
   const navigate = useNavigate()
@@ -88,6 +89,7 @@ export default function CompleteProfile() {
     <div className="p-2 completeProfile">
       <div className="bg-white rounded-2xl p-6">
         <h2 className="text-xl font-semibold mb-3 welcome text-primary">
+          <span onClick={()=>navigate("/")}><IoMdArrowRoundBack /></span> <br />
           Complete Your Profile
         </h2>
              <p className="text-sm text-gray-600">Provide your details to make your profile more attractive to customers.</p>

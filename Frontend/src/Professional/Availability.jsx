@@ -8,10 +8,12 @@ import { ClipLoader } from "react-spinners";
 import { server_url } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
+import '../css/availability.css'
 
 export default function Availability() {
   const { currentUserData } = useSelector(state => state.user);
   const [loading, setLoading] = useState(false);
+  const [confirm, setConfirm] = useState(false)
   const [selectedDays, setSelectedDays] = useState([]);
   const dispatch = useDispatch();
 
@@ -53,6 +55,7 @@ export default function Availability() {
   };
 
   const handleSave = async () => {
+
     try {
       setLoading(true);
 
@@ -62,17 +65,19 @@ export default function Availability() {
 
       dispatch(setCurrentUserData(result.data));
       setLoading(false);
+      setConfirm(false)
 
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
       setLoading(false);
+      setConfirm(false)
     }
   };
 
   return (
     <>
       <ToastContainer autoClose={2500} theme="colored" />
-      <div className="p-3 w-full d-flex justify-content-center flex-column">
+      <div className="p-3 w-full d-flex justify-content-center flex-column relative">
         <center>
           <h3 className="text-primary mb-3">Mark Days You Are Not Available</h3>
           <DayPicker
@@ -81,11 +86,20 @@ export default function Availability() {
             onDayClick={handleDayClick}
             modifiers={modifiers}
             modifiersStyles={modifiersStyles}
-            disabled={{ before: new Date() }}
+            disabled={{ before: new Date()}||confirm }
           />
         </center>
-
-        <button className="btn btn-primary w-100 mt-3" disabled={loading} onClick={handleSave}>
+        {
+          confirm && (
+            <div className="text-dark p-4 confirm">
+              <button className="close btn border border-danger text-danger" onClick={()=>setConfirm(false)}>close</button>
+              <h4>Confirm to save changes</h4>
+              <p className="text-danger">Once you click confirm, you cannot change it later, so make the selection carefully.</p>
+              <button className="btn btn-primary" onClick={handleSave} disabled={loading}>{loading ? <ClipLoader size={20} /> : "Confirm"}</button>
+            </div>
+          )
+        }
+        <button className="btn btn-primary w-100 mt-3" disabled={confirm} onClick={()=>setConfirm(true)}>
           {loading ? <ClipLoader size={20} /> : "Save"}
         </button>
       </div>

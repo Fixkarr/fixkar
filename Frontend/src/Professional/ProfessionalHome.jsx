@@ -48,7 +48,7 @@ const ProfessionalHome = () => {
      </div>
 
       {!isProfileComplete && (
-        <div className="alert alert-warning d-flex align-items-center gap-md-3 flex-column flex-md-row p-4 rounded shadow-sm">
+        <div className="alert alert-warning d-flex align-items-center gap-md-3 flex-column flex-md-row p-4 rounded shadow-sm mt-2">
           <div className="flex-grow-1">
             <h5 className="mb-2 fw-bold welcome">Complete Your Profile!</h5>
             <p className="mb-2" style={{ fontSize: "0.8vmax", lineHeight: "1.4" }}>
