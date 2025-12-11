@@ -129,3 +129,10 @@ hr{
   margin: 2px !important;
   color: blue !important;
 }
+
+#profilePicture{
+  visibility: hidden;
+
+}
+
+

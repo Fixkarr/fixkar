@@ -5,8 +5,18 @@
 
 .profilePicture{
     width: 20vw;
+    height: 20vw;
     /* overflow: hidden; */
     position: relative;
+    border: 1px solid rgb(0, 132, 255);
+    border-radius: 50%;
+}
+.loader{
+  z-index: 3;
+  position: absolute;
+  top: 3%;
+  left: 25%;
+  transform: translate(-50%, -50%);
 }
 
 .profilePicture img{
@@ -46,13 +56,41 @@
 }   
 
 .profile-upper-right{
-    max-width: 40vw;
+    min-width: 25vw;
     line-height: 1.5vmax;
     overflow-wrap: break-word;
     padding: 0.2rem;
+    position: relative;
+   
 }
+
 
 .profile-upper-right p,.profile-upper-right span, .profile-upper-right b{
     font-size: 1vmax;
     margin: 0;
+}
+
+.charges> div{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border: 1px solid blue;
+    border-radius: 5px;
+    padding: 0.4rem;
+    /* padding-bottom:2rem;
+    padding-right: 2rem; */
+}
+ .pen{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 2px;
+    cursor: pointer;
+}
+
+
+.charges b{
+    width: 100%;
 }

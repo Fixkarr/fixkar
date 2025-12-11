@@ -1,5 +1,6 @@
 import cloudinary from "../../config/cloudinary.js";
 import { Professional, User } from "../../models/userModel.js";
+import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
 
 export const onboard = async (req, res) => {
   try {
@@ -19,19 +20,6 @@ export const onboard = async (req, res) => {
         .json({ message: "Profile picture and ID proof required" });
     }
 
-    // Step 2: Function to upload to Cloudinary using streams
-    const uploadToCloudinary = (file) => {
-      return new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          { folder: "professionals" },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        );
-        stream.end(file.buffer); // send buffer data
-      });
-    };
 
     // Step 3: Upload both files
     const [profileResult, poiResult] = await Promise.all([
@@ -62,12 +50,13 @@ export const onboard = async (req, res) => {
         },
         profession,
         profilePicture: profileResult.secure_url,
+        public_id : profileResult.public_id,
         poi: poiResult.secure_url,
         onBoarded: true, // optional flag
       },
       { new: true } // return updated document
     );
-
+    
     // Step 6: Response
     return res.status(200).json({
       success: true,

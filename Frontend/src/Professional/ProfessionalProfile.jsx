@@ -6,11 +6,56 @@ import { CiLocationOn } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineMail } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
-
-
+import { MdOutlineCurrencyRupee } from "react-icons/md";
+import { FaPencil } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { setCurrentUserData } from "../redux/user.slice";
 import "../css/profile.css"
 import ReadMoreText from "../Components/ReadMoreText";
+import { useEffect } from "react";
+import axios from "axios";
+import { server_url } from "../App";
+import { ClipLoader } from "react-spinners";
+import { toast, ToastContainer } from "react-toastify";
+import UpdateProfileInfoForm from "./UpdateProfileInfoForm";
+import CompleteProfileToast from "./CompleteProfileToast";
+
+
+
+
 const ProfessionalProfile = () => {
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
+   useEffect(() => {
+    if (profilePicture) { // Only log if a file is actually selected (not null)
+      // You can also add logic here to upload the image to a server
+      // 
+
+      const updatePicture = async ()=>{
+        try {
+          setLoading(true)
+          const formData = new FormData();
+          formData.append('profilePicture', profilePicture);
+        const result = await axios.post(`${server_url}/api/user/update-profile-picture`, formData, {
+          withCredentials : true
+        })
+        dispatch(setCurrentUserData(result?.data));
+        setLoading(false)
+      } catch (error) {
+        toast.error(error.message)
+        setLoading(false)
+      }
+      }
+      updatePicture()
+    }
+  }, [profilePicture]);
+  const handlePictureSubmit = (e)=>{
+    setProfilePicture(e.target.files[0])
+  }
+
+
+
   const {currentUserData} = useSelector(state => state.user)
   const ProfessionalDetails = currentUserData?.user
    const isProfileComplete = Boolean(ProfessionalDetails?.charges);
@@ -31,20 +76,43 @@ const ProfessionalProfile = () => {
   }
   return (
     <>
+    <ToastContainer
+    position="top-right" autoClose={3000} theme="colored"
+    />
       <div className = "profile p-2">
           <div className="profile-upper">
               <div className="profile-upper-left">
                   <div className="profilePicture">
-                    <img src={ProfessionalDetails?.profilePicture} alt="" className="img-fluid"/>
-                  <span className="bg-primary text-light"> <RiImageEditLine color=""/></span>
+                   <div className="loader">
+                     <p>{loading && <ClipLoader size={30} color="blue"/>}</p>
+                   </div>
+                    <img src={ProfessionalDetails?.profilePicture || "/Images/placeholderProfile.avif"} className="img-fluid"/>
+                       <span className="bg-primary text-light cursor-pointer"> <label htmlFor="profilePicture"><RiImageEditLine color=""/></label></span>
+                       <input type="file" accept="image/*" id="profilePicture" onChange={(e) =>handlePictureSubmit(e)} />
+      
                   </div>
               </div>
               <div className="profile-upper-right">
-                  <h2 className="welcome m-0">{ProfessionalDetails?.userId?.fullName}</h2>
+                 <div >
+                <span className="text-primary pen" data-bs-toggle='modal' data-bs-target='#exampleModal'> <FaPencil /></span>
+                    
+                      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="exampleModalLabel">Update Profile</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <UpdateProfileInfoForm/>
+    </div>
+  </div>
+</div>
+
+                   <h2 className="welcome m-0">{ProfessionalDetails?.userId?.fullName}</h2>
                   <p className="m-0 badge text-bg-primary ">{ProfessionalDetails?.profession}</p>
                   <hr />
-                  <b>Description : </b><ReadMoreText text={ProfessionalDetails?.description}/>
-                  <hr />
+                  {isProfileComplete && <><b>Description : </b><ReadMoreText text={ProfessionalDetails?.description}/><hr /></>}
+                  
                  <div>
                   <b className="icon fw-bold"> <CiLocationOn/></b> <ReadMoreText text={ProfessionalDetails?.address?.addressLine}/>
                  </div>
@@ -56,33 +124,29 @@ const ProfessionalProfile = () => {
                   <div>
                   <b className="icon fw-bold"> <IoCallOutline /> </b> <span>{ProfessionalDetails?.userId?.mobile}</span>
                  </div>
+                 <hr/>
+                 </div>
+                 {isProfileComplete && <div className="charges">
+                  <h5 className="mt-3 text-primary welcome">My Charges</h5>
+                   <div>
+                     <div>
+                       <span className="text-primary pen"> <FaPencil /></span>
+                        {ProfessionalDetails?.charges?.hourly && <p><b>Hourly :</b> <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.hourly?.amount}/hr</p>}
+                        {ProfessionalDetails?.charges?.daily && <p><b>Daily :</b>  <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.daily?.amount}/day</p>}
+                        {ProfessionalDetails?.charges?.contract && <p><b>Contract : </b><span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.minAmount}</span> - <span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.maxAmount}</span></p>}
+                    </div>
+                    <div >
+                        <b>Charge Description</b>
+                        <p className="position-static"><ReadMoreText text={ProfessionalDetails?.charges?.amountDesc}/></p>
+                    </div>
+                   </div>
+                 </div>}
               </div>
           </div>
           <hr/>
           <div className="profile-lower p-2">
                 {!isProfileComplete && (
-        <div className="alert alert-warning d-flex align-items-center gap-md-3 flex-column flex-md-row p-4 rounded shadow-sm mt-2">
-          <div className="flex-grow-1">
-            <h5 className="mb-2 fw-bold welcome">Complete Your Profile!</h5>
-            <p className="mb-2" style={{ fontSize: "0.8vmax", lineHeight: "1.4" }}>
-              Your profile is currently incomplete. Please complete your profile
-              so that customers can understand you better, <br /> which will increase
-              your chances of getting work.
-            </p>
-
-            <ul className="mb-3 ps-3"  style={{ fontSize: "0.8vmax", lineHeight: "1.4" }}>
-              {<li>Profile Description missing</li>}
-              {<li>Service Charges not set</li>}
-              <li>Profile looking incomplete to customers</li>
-            </ul>
-          </div>
-
-          <button onClick={()=>navigate("/professional/complete-profile")} style={{fontSize : "0.9vmax"}}
-            className="btn btn-primary btn-sm px-md-4 py-md-2 m-0 fw-semibold"
-          >
-            Complete Now
-          </button>
-        </div>
+                  <CompleteProfileToast/>
       )}
 
         <div className="myGallery mt-2">

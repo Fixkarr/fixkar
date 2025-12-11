@@ -5,7 +5,7 @@ export const searchProfessionals = async (req, res) => {
   try {
     let { lat, lng, service } = req.query;
 
-    if (!lat || !lng) {
+    if (!lat || !lng) { 
       return res.status(400).json({
         success: false,
         message: "Latitude and Longitude are required",

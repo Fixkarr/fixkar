@@ -48,6 +48,7 @@ const professionalSchema = new mongoose.Schema({
         }
     },
     profilePicture : {type : String},
+    public_id : {type : String},
     charges : {
         amountType : {
             type : String,

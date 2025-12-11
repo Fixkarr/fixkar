@@ -7,7 +7,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useGetCurrentUser from './hooks/useGetCurrentUser';
 
-import Home from './Pages/Home';
+import Home from './Pages/Home'; 
 import Signup from './Pages/Signup';
 import Login from './Pages/Login';
 import ForgetPass from './Components/ForgetPass';

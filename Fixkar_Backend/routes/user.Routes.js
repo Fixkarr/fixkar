@@ -7,6 +7,7 @@ import { getAllProfessionals, getAllVerifiedProfessionals } from '../controllers
 import { searchProfessionals } from '../controllers/CustomerController/searchController.js';
 import { completeProfile } from '../controllers/ProfessionalsController/completeProfile.js';
 import { setBusyDays } from '../controllers/ProfessionalsController/busyDays.controller.js';
+import { updateProfileInfo, updateProfilePicture } from '../controllers/updateProfile.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -24,10 +25,13 @@ userRoute.post("/onboard",   upload.fields([
     { name: "poi", maxCount: 1 },
   ]), isAuth, onboard);
 
+  userRoute.post("/update-profile-picture", upload.fields([
+    {name : "profilePicture", maxCount : 1}
+  ]), isAuth ,updateProfilePicture)
 
  userRoute.post("/professional/complete-profile", isAuth, completeProfile);
  userRoute.post("/professional/set-busy-days", isAuth, setBusyDays)
-
+userRoute.post("/update-profile-info", isAuth, updateProfileInfo)
 
 
  export default userRoute;
