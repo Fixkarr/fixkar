@@ -173,6 +173,7 @@ const Onboarding = ({ userData }) => {
               placeholder="Enter your address"
               value={formik.values.address}
               onChange={formik.handleChange}
+             
               onBlur={formik.handleBlur}
               className="form-control"
             />

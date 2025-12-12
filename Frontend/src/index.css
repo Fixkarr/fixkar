@@ -136,3 +136,10 @@ hr{
 }
 
 
+/* Add this to your main CSS file */
+.pac-container {
+  /* Ensure the suggestions appear above any modal overlay */
+  z-index: 99999 !important;
+  /* Add typical styling for better appearance */
+
+}

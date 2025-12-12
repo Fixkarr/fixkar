@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { useFormik } from "formik";
@@ -7,8 +7,8 @@ import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import { server_url } from "../App.jsx";
 import { useDispatch } from 'react-redux';
-import { setCurrentUserData } from '../redux/user.slice.js';
 import { toast, ToastContainer } from 'react-toastify';
+import { setCurrentUserData } from '../redux/user.slice.js';
 
 
 const UpdateProfileInfoForm = () => {
@@ -18,9 +18,10 @@ const UpdateProfileInfoForm = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
      const validationSchema = Yup.object({
-        address: Yup.string(),
+        // Combined address validation into one entry
+        address: Yup.string().required("Address is required"), 
         fullName: Yup.string(),
-        address : Yup.string()
+        description: Yup.string(), // Added validation for description
       });
 
       const formik = useFormik({
@@ -39,22 +40,25 @@ const UpdateProfileInfoForm = () => {
 
         setLoading(true);
 
-        const formData = new FormData();
-        formData.append("address", values.address);
-        formData.append("fullName", values.fullName);
-        formData.append("description", values.description);
-        formData.append("lat", latLng.lat);
-        formData.append("lng", latLng.lng);
+      const payload = {
+        fullName : values.fullName,
+          address: values.address,
+          description: values.description,
+          lat: latLng.lat,
+          lng: latLng.lng,
+      }
 
 
         const response = await axios.post(
           `${server_url}/api/user/update-profile-info`,
-          formData,
+          payload,
           {withCredentials: true }
         );
-        console.log(response?.data)
+        dispatch(setCurrentUserData(response?.data))
+          // You might want to update Redux store here if successful, e.g., dispatch(setCurrentUserData(response.data.user))
           resetForm();
         setLoading(false)
+        toast.success("Profile updated successfully!"); // Added success message
       } catch (error) {
         toast.error(error.response?.data?.message || "Something went wrong.");
       } finally {
@@ -64,42 +68,44 @@ const UpdateProfileInfoForm = () => {
   });
   
 
-   useEffect(() => {
-    if (!googleLoaded || !addressInputRef.current) return;
-  
-    const autocomplete = new window.google.maps.places.Autocomplete(
-      addressInputRef.current,
-      {
-        fields: ["formatted_address", "geometry"],
-        componentRestrictions: { country: "in" },
-      }
-    );
-  
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-  
-      if (!place.geometry) {
-        toast.error("Please select address from suggestions only.");
-        return;
-      }
-  
-      const formattedAddress = place.formatted_address;
-      const lat = place.geometry.location.lat();
-      const lng = place.geometry.location.lng();
-  
-      // ✅ Set address in formik
-      formik.setFieldValue("address", formattedAddress);
-  
-      // ✅ Save coordinates to state for backend
-      setLatLng({ lat, lng });
-    });
-  
-  }, [googleLoaded]);
+  useEffect(() => {
+  if (!googleLoaded || !addressInputRef.current) return;
+
+  const autocomplete = new window.google.maps.places.Autocomplete(
+    addressInputRef.current,
+    {
+      fields: ["formatted_address", "geometry"],
+      componentRestrictions: { country: "in" },
+      types: ["address"],
+    }
+  );
+
+  autocomplete.addListener("place_changed", () => {
+    const place = autocomplete.getPlace();
+
+    if (!place.geometry) {
+      toast.error("Please select address from suggestions only.");
+      formik.setFieldValue("address", "");
+      return;
+    }
+
+    const formattedAddress = place.formatted_address;
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
+
+    formik.setFieldValue("address", formattedAddress);
+    setLatLng({ lat, lng });
+  });
+
+  return () => {
+    window.google.maps.event.clearInstanceListeners(autocomplete);
+  };
+}, [googleLoaded]);
 
 
   return (
         <>
-         <ToastContainer position="top-right" autoClose={3000} theme="colored" />
+         <ToastContainer/>
          <div className="modal-body">
              <form onSubmit={formik.handleSubmit}>
       {/* Full Name */}
@@ -121,16 +127,16 @@ const UpdateProfileInfoForm = () => {
       {/* Address */}
       <div className="mb-3">
         <label className="form-label fw-semibold">Address</label>
-        <input
+       <input
           type="text"
           ref={addressInputRef}
           name="address"
           className="form-control"
           placeholder="Enter address"
           value={formik.values.address}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-        />
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        /> 
       </div>
            {formik.touched.address && formik.errors.address && (
             <div className="text-danger">{formik.errors.address}</div>
@@ -153,13 +159,16 @@ const UpdateProfileInfoForm = () => {
           )}
 
       {/* Submit Button */}
-      <button type="submit" disabled={loading} className="btn btn-primary mt-3">
+     <center>
+         <button type="submit" disabled={loading} className="btn btn-primary">
                    {loading ? <ClipLoader size={20} /> : "Update"}
                  </button>
+     </center>
     </form>
         </div>
         </>
   )
 }
 
-export default UpdateProfileInfoForm
+export default UpdateProfileInfoForm;
+

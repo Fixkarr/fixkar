@@ -68,52 +68,68 @@ export const updateProfileInfo = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Convert lat/lng to number
-    const latitude = Number(lat);
-    const longitude = Number(lng);
+    // Dynamic update object for User collection
+    const userUpdateData = {};
+    if (typeof fullName === 'string' && fullName.trim() !== '') {
+      userUpdateData.fullName = fullName.trim();
+    }
 
-    // Parallel Updates (Fastest)
+    // Convert lat/lng to numbers if valid
+    const latitude = lat !== undefined ? Number(lat) : undefined;
+    const longitude = lng !== undefined ? Number(lng) : undefined;
+
+    // Dynamic update object for Professional collection
+    const professionalUpdateData = {};
+
+    if (typeof description === 'string' && description.trim() !== '') {
+      professionalUpdateData.description = description.trim();
+    }
+
+    // Update address only if provided and lat/lng valid numbers
+    if (typeof address === 'string' && address.trim() !== '' && !isNaN(latitude) && !isNaN(longitude)) {
+      professionalUpdateData.address = {
+        addressLine: address.trim(),
+        lat: latitude,
+        lng: longitude,
+      };
+      professionalUpdateData.location = {
+        type: "Point",
+        coordinates: [longitude, latitude],
+      };
+    }
+
+    // Run updates in parallel
     const [updatedUser, updatedProfessional] = await Promise.all([
-      User.findByIdAndUpdate(
-        req.userId,
-        { fullName },
-        { new: true }
-      ),
+      Object.keys(userUpdateData).length > 0
+        ? User.findByIdAndUpdate(req.userId, userUpdateData, { new: true })
+        : Promise.resolve(null),  // Skip update if no fields
 
-      Professional.findOneAndUpdate(
-        { userId: req.userId },
-        {
-          address: {
-            addressLine: address,
-            lat: latitude,
-            lng: longitude,
-          },
-          location: {
-            type: "Point",
-            coordinates: [longitude, latitude],
-          },
-          description,
-        },
-        { new: true }
-      ).populate("userId") // Same query me populate — no second query needed
+      Object.keys(professionalUpdateData).length > 0
+        ? Professional.findOneAndUpdate(
+            { userId: req.userId },
+            professionalUpdateData,
+            { new: true }
+          ).populate("userId")
+        : Promise.resolve(null),
     ]);
 
-    if (!updatedProfessional) {
-      return res.status(404).json({ message: "Professional not found" });
+    if (!updatedProfessional && !updatedUser) {
+      return res.status(400).json({ message: "No valid fields to update" });
     }
 
     return res.status(200).json({
       message: "Professional info updated successfully",
-      user: updatedProfessional
+      user: updatedProfessional || updatedUser,
     });
 
   } catch (error) {
     console.log("error in updateProfileInfo:", error.message);
     return res.status(500).json({
-      message: "Internal server error!"
+      message: "Internal server error!",
     });
   }
 };
+
 
 
 export  const updateCharge = async (req,res)=>{
