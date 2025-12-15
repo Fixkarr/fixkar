@@ -9,7 +9,7 @@ import { server_url } from "../App.jsx";
 import { useDispatch } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import { setCurrentUserData } from '../redux/user.slice.js';
-
+  
 
 const UpdateProfileInfoForm = () => {
     const googleLoaded = useLoadGoogleMaps();
@@ -18,8 +18,7 @@ const UpdateProfileInfoForm = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
      const validationSchema = Yup.object({
-        // Combined address validation into one entry
-        address: Yup.string().required("Address is required"), 
+        address: Yup.string(),
         fullName: Yup.string(),
         description: Yup.string(), // Added validation for description
       });
@@ -33,10 +32,12 @@ const UpdateProfileInfoForm = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        if(!latLng.lat || !latLng.lng){
+       if(values.address !== ""){
+         if(!latLng.lat || !latLng.lng){
            toast.error("Please select a valid address from suggestions.");
           return;
         }
+       }
 
         setLoading(true);
 

@@ -143,3 +143,11 @@ hr{
   /* Add typical styling for better appearance */
 
 }
+
+
+@media (max-width: 576px) {
+  .modal-dialog {
+    max-width: 95%;
+    margin: auto;
+  }
+}

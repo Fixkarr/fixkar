@@ -19,6 +19,7 @@ import { ClipLoader } from "react-spinners";
 import { toast, ToastContainer } from "react-toastify";
 import UpdateProfileInfoForm from "./UpdateProfileInfoForm";
 import CompleteProfileToast from "./CompleteProfileToast";
+import UpdateCharges from "./UpdateCharges";
 
 
 
@@ -59,9 +60,9 @@ const ProfessionalProfile = () => {
   const {currentUserData} = useSelector(state => state.user)
   const ProfessionalDetails = currentUserData?.user
    const isProfileComplete = Boolean(ProfessionalDetails?.charges);
+   const ChargesNotDefined = ProfessionalDetails?.charges?.hourly?.amount == "0" && ProfessionalDetails?.charges?.daily?.amount == "0" && ProfessionalDetails?.charges?.contract?.minAmount == "0"
   const navigate = useNavigate()
 
-  console.log(ProfessionalDetails)
   if(!ProfessionalDetails){
     return (
       <>
@@ -94,9 +95,9 @@ const ProfessionalProfile = () => {
               </div>
               <div className="profile-upper-right">
                  <div >
-                <span className="text-primary pen" data-bs-toggle='modal' data-bs-target='#exampleModal'> <FaPencil /></span>
+                <span className="text-primary pen" data-bs-toggle='modal' data-bs-target='#infoModal'> <FaPencil /></span>
                     
-                      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div className="modal fade" id="infoModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
@@ -130,14 +131,33 @@ const ProfessionalProfile = () => {
                   <h5 className="mt-3 text-primary welcome">My Charges</h5>
                    <div>
                      <div>
-                       <span className="text-primary pen"> <FaPencil /></span>
-                        {ProfessionalDetails?.charges?.hourly && <p><b>Hourly :</b> <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.hourly?.amount}/hr</p>}
-                        {ProfessionalDetails?.charges?.daily && <p><b>Daily :</b>  <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.daily?.amount}/day</p>}
-                        {ProfessionalDetails?.charges?.contract && <p><b>Contract : </b><span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.minAmount}</span> - <span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.maxAmount}</span></p>}
+                       <span className="text-primary pen" data-bs-toggle='modal' data-bs-target='#ChargesModal'> <FaPencil /></span>
+                    
+                      <div className="modal fade" id="ChargesModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="exampleModalLabel">Update Charges</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <UpdateCharges/>
+    </div>
+  </div>
+</div>
+
+                  {
+                    ChargesNotDefined && (
+                      <p className="text-danger">Charges are not defined, Update the charges!</p>
+                    )
+                  }
+                        {ProfessionalDetails?.charges?.hourly?.amount !== "0" && <p><b>Hourly :</b> <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.hourly?.amount}/hr</p>}
+                        {ProfessionalDetails?.charges?.daily?.amount  !== "0" && <p><b>Daily :</b>  <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.daily?.amount}/day</p>}
+                        {ProfessionalDetails?.charges?.contract.minAmount  !== "0" && <p><b>Contract : </b><span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.minAmount}</span> - <span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.maxAmount}</span></p>}
                     </div>
                     <div >
+                       {ProfessionalDetails?.charges?.amountDesc && <>
                         <b>Charge Description</b>
-                        <p className="position-static"><ReadMoreText text={ProfessionalDetails?.charges?.amountDesc}/></p>
+                        <p className="position-static"><ReadMoreText text={ProfessionalDetails?.charges?.amountDesc}/></p></>}
                     </div>
                    </div>
                  </div>}

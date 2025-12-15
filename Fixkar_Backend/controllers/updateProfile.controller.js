@@ -117,9 +117,11 @@ export const updateProfileInfo = async (req, res) => {
       return res.status(400).json({ message: "No valid fields to update" });
     }
 
+    const professional = await Professional.findOne({userId : req.userId}).populate("userId");
+
     return res.status(200).json({
       message: "Professional info updated successfully",
-      user: updatedProfessional || updatedUser,
+      user: professional,
     });
 
   } catch (error) {
@@ -131,7 +133,48 @@ export const updateProfileInfo = async (req, res) => {
 };
 
 
-
 export  const updateCharge = async (req,res)=>{
+  try {
+    const {charges, chargeType} = req.body;
+    const userId = req.userId;
+    const professional = await Professional.findOne({userId});
 
+    if(!professional){
+      return res.status(404).json({
+        message : "Professional not found!"
+      })
+    }
+
+    const updatedProfessional = await Professional.findByIdAndUpdate(professional._id, {
+      charges : {
+        amountType : chargeType,
+        hourly :{amount : Number(charges.hourlyRate) },
+        daily : {amount : Number(charges.dailyRate) } ,
+        contract : {
+          minAmount : Number(charges.contractMin),
+          maxAmount : Number(charges.contractMax) 
+        } ,
+        amountDesc : charges.chargeDescription 
+      }
+    }, {new : true})
+
+    if(!updatedProfessional){
+      return res.status(400).json({
+        message : "failed to update charges!"
+      })
+    }
+
+    const populatedProfessional = await Professional.findById(updatedProfessional._id).populate("userId");
+
+    return res.status(200).json({
+      message : "Charges updated successfully!",
+      user : populatedProfessional
+    })
+
+  } catch (error) {
+    console.log("error in updateCharge:", error.message);
+    return res.status(500).json({
+      message: "Internal server error!",
+    });
+  }
 }
