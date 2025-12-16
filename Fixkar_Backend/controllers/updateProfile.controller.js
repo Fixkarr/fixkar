@@ -135,7 +135,7 @@ export const updateProfileInfo = async (req, res) => {
 
 export  const updateCharge = async (req,res)=>{
   try {
-    const {charges, chargeType} = req.body;
+    const {amountDesc, chargeType, hourlyRate, dailyRate, contract} = req.body;
     const userId = req.userId;
     const professional = await Professional.findOne({userId});
 
@@ -145,17 +145,33 @@ export  const updateCharge = async (req,res)=>{
       })
     }
 
+    const chargesObj = {
+  amountType: chargeType,
+};
+
+if (hourlyRate) {
+  chargesObj.hourly = hourlyRate;
+}
+
+if (dailyRate) {
+  chargesObj.daily = dailyRate;
+}
+
+if (contract?.contractMin || contract?.contractMax) {
+  chargesObj.contract = {
+    minAmount: contract.contractMin,
+    maxAmount: contract.contractMax,
+  };
+}
+
+if (amountDesc) {
+  chargesObj.amountDesc = amountDesc;
+}
+
+
+
     const updatedProfessional = await Professional.findByIdAndUpdate(professional._id, {
-      charges : {
-        amountType : chargeType,
-        hourly :{amount : Number(charges.hourlyRate) },
-        daily : {amount : Number(charges.dailyRate) } ,
-        contract : {
-          minAmount : Number(charges.contractMin),
-          maxAmount : Number(charges.contractMax) 
-        } ,
-        amountDesc : charges.chargeDescription 
-      }
+      charges : chargesObj
     }, {new : true})
 
     if(!updatedProfessional){

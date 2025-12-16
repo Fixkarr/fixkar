@@ -57,15 +57,6 @@ const ResetPassword = () => {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnHover
-        theme="colored"
-      />
       <Navbar />
       <div className="forget-pass container-fluid d-flex align-items-center justify-content-center bg-secondary-subtle">
         <div className="signup-container bg-white p-3 rounded shadow">

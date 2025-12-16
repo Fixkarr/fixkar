@@ -43,7 +43,7 @@ const ProfessionalCard = ({ data }) => {
       {/* ✅ Visit Profile Button */}
       <div className="text-center">
         <Link
-          to={`/professional/profile/${data?._id}`}
+          to={`/professional/profile/visit/${data?._id}`}
           className="btn btn-primary btn-sm px-4 rounded-pill"
         >
           Visit Profile

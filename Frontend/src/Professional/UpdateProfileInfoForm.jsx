@@ -106,7 +106,6 @@ const UpdateProfileInfoForm = () => {
 
   return (
         <>
-         <ToastContainer/>
          <div className="modal-body">
              <form onSubmit={formik.handleSubmit}>
       {/* Full Name */}

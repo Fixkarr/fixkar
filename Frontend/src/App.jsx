@@ -35,6 +35,8 @@ import ProfessionalHome from './Professional/ProfessionalHome';
 import ProfessionalProfile from './Professional/ProfessionalProfile';
 import ProfessionalBookings from './Professional/ProfessionalBookings';
 import CompleteProfile from './Professional/CompleteProfile';
+import { ToastContainer } from 'react-toastify';
+import ProfessionalInfo from './Customer/ProfessionalInfo';
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 
@@ -69,7 +71,6 @@ const App = () => {
 
   return (
     <Routes>
-
       {/* Public Routes */}
       <Route path="/" element={redirectUser()} />
       <Route path="/signup" element={!currentUserData ? <Signup /> : <Navigate to="/" replace />} />
@@ -88,6 +89,7 @@ const App = () => {
         <Route path="/customer/notifications" element={role === 'customer' ? <CustomerNotifications /> : <Navigate to="/" />} />
         <Route path="/customer/contact" element={role === 'customer' ? <CustomerContact /> : <Navigate to="/" />} />
         <Route path="/customer/profile" element={role === 'customer' ? <CustomerProfile /> : <Navigate to="/" />} />
+        <Route path='professional/profile/visit/:id' element={role === 'customer' ? <ProfessionalInfo/> :  <Navigate to="/" />}/>
 
         {/* Professional */}
         <Route path="/professional/home" element={role === 'professional' ? <ProfessionalHome /> : <Navigate to="/" />} />

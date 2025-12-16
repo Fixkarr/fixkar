@@ -60,15 +60,7 @@ const Login = () => {
   return (
     
     <>
-     <ToastContainer
-            position="top-right"  // You can change to "bottom-left", etc.
-            autoClose={3000}      // 3 seconds
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            pauseOnHover
-            theme="colored"
-          />
+    
       <Navbar/>
       <div className='login container-fluid d-flex align-items-center justify-content-center bg-secondary-subtle'>
             <div className="signup-container bg-white p-3 rounded shadow">

@@ -3,21 +3,20 @@ import React, { useState } from "react";
 import { server_url } from "../App";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
+import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 const UpdateCharges = () => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
-  const [chargeType, setChargeType] = useState("multiple");
   const [charges, setCharges] = useState({
     hourlyRate: "",
     dailyRate: "",
     contractMin: "",
     contractMax: "",
-    chargeDescription : ""
+    chargeDescription : "",
+    chargeType : "multiple"
   });
 
-  const handleTypeChange = (e) => {
-    setChargeType(e.target.value);
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,15 +30,25 @@ const UpdateCharges = () => {
     e.preventDefault();
 
     const payload = {
-      chargeType,
-      charges,
+        amountDesc : charges.chargeDescription,
+        chargeType : charges.chargeType,
+        hourlyRate : charges.hourlyRate ? { amount: Number(charges.hourlyRate) } : undefined,
+        dailyRate : charges.dailyRate ? { amount: Number(charges.dailyRate) } : undefined,
+        contract : 
+        charges.contractMin || charges.contractMax ? 
+        {
+          contractMin : Number(charges.contractMin),
+          contractMax : Number(charges.contractMax)
+        } : undefined
     };
 
     try {
         setLoading(true)
         const result = await axios.post(`${server_url}/api/user/update-charges`, payload, {withCredentials : true});
         dispatch(setCurrentUserData(result?.data))
+        toast.success(result?.data?.message)
         setLoading(false); 
+
     } catch (error) {
         console.log(error.message);
         setLoading(false)
@@ -54,8 +63,8 @@ const UpdateCharges = () => {
           <label className="form-label fw-semibold">Charge Type</label>
           <select
             className="form-select"
-            value={chargeType}
-            onChange={handleTypeChange}
+            value={charges.chargeType}
+            onChange={handleChange}
           >
             <option value="">Select charge type</option>
             <option value="multiple">Multiple</option>
@@ -66,7 +75,7 @@ const UpdateCharges = () => {
         </div>
 
         {/* MULTIPLE */}
-        {chargeType === "multiple" && (
+        {charges.chargeType === "multiple" && (
           <>
             <div className="mb-3">
               <label className="form-label fw-semibold">Hourly Rate</label>
@@ -119,7 +128,7 @@ const UpdateCharges = () => {
         )}
 
         {/* HOURLY */}
-        {chargeType === "hourly" && (
+        {charges.chargeType === "hourly" && (
           <div className="mb-3">
             <label className="form-label fw-semibold">Hourly Rate</label>
             <input
@@ -134,7 +143,7 @@ const UpdateCharges = () => {
         )}
 
         {/* DAILY */}
-        {chargeType === "daily" && (
+        {charges.chargeType === "daily" && (
           <div className="mb-3">
             <label className="form-label fw-semibold">Daily Rate</label>
             <input
@@ -149,7 +158,7 @@ const UpdateCharges = () => {
         )}
 
         {/* CONTRACT */}
-        {chargeType === "contract" && (
+        {charges.chargeType === "contract" && (
           <div className="mb-3">
             <label className="form-label fw-semibold">
               Contract Rate (Min - Max)
@@ -190,7 +199,10 @@ const UpdateCharges = () => {
 
         {/* Submit */}
         <center>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" disabled={loading} className="btn btn-primary">
+            {loading && <>
+              <ClipLoader size={20}/>
+            </>}
             Update Charges
           </button>
         </center>

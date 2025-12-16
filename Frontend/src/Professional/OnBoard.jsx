@@ -27,15 +27,7 @@ const OnBoard = () => {
 
   return (
     <>
-       <ToastContainer
-        position="top-right" // You can change to "bottom-left", etc.
-        autoClose={3000} // 3 seconds
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnHover
-        theme="colored"
-      />
+      
     <div className='onboard'>
          <main className='p-6'>
             <section className='upper border'>

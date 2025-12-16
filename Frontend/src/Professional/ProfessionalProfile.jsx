@@ -22,8 +22,6 @@ import CompleteProfileToast from "./CompleteProfileToast";
 import UpdateCharges from "./UpdateCharges";
 
 
-
-
 const ProfessionalProfile = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -60,7 +58,8 @@ const ProfessionalProfile = () => {
   const {currentUserData} = useSelector(state => state.user)
   const ProfessionalDetails = currentUserData?.user
    const isProfileComplete = Boolean(ProfessionalDetails?.charges);
-   const ChargesNotDefined = ProfessionalDetails?.charges?.hourly?.amount == "0" && ProfessionalDetails?.charges?.daily?.amount == "0" && ProfessionalDetails?.charges?.contract?.minAmount == "0"
+   const ChargesNotDefined = Boolean(!ProfessionalDetails?.charges?.hourly?.amount  && !ProfessionalDetails?.charges?.daily?.amount  && !ProfessionalDetails?.charges?.contract?.minAmount && !ProfessionalDetails?.charges?.amountDesc)
+
   const navigate = useNavigate()
 
   if(!ProfessionalDetails){
@@ -77,9 +76,6 @@ const ProfessionalProfile = () => {
   }
   return (
     <>
-    <ToastContainer
-    position="top-right" autoClose={3000} theme="colored"
-    />
       <div className = "profile p-2">
           <div className="profile-upper">
               <div className="profile-upper-left">
@@ -150,9 +146,9 @@ const ProfessionalProfile = () => {
                       <p className="text-danger">Charges are not defined, Update the charges!</p>
                     )
                   }
-                        {ProfessionalDetails?.charges?.hourly?.amount !== "0" && <p><b>Hourly :</b> <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.hourly?.amount}/hr</p>}
-                        {ProfessionalDetails?.charges?.daily?.amount  !== "0" && <p><b>Daily :</b>  <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.daily?.amount}/day</p>}
-                        {ProfessionalDetails?.charges?.contract.minAmount  !== "0" && <p><b>Contract : </b><span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.minAmount}</span> - <span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.maxAmount}</span></p>}
+                        {ProfessionalDetails?.charges?.hourly?.amount  && <p><b>Hourly :</b> <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.hourly?.amount}/hr</p>}
+                        {ProfessionalDetails?.charges?.daily?.amount   && <p><b>Daily :</b>  <MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.daily?.amount}/day</p>}
+                        {ProfessionalDetails?.charges?.contract?.minAmount  && <p><b>Contract : </b><span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.minAmount}</span> {ProfessionalDetails?.charges?.contract?.maxAmount !== "0" && <>- <span><MdOutlineCurrencyRupee />{ProfessionalDetails?.charges?.contract?.maxAmount}</span></>}</p>}
                     </div>
                     <div >
                        {ProfessionalDetails?.charges?.amountDesc && <>

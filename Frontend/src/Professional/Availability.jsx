@@ -76,7 +76,6 @@ export default function Availability() {
 
   return (
     <>
-      <ToastContainer autoClose={2500} theme="colored" />
       <div className="p-3 w-full d-flex justify-content-center flex-column relative">
         <center>
           <h3 className="text-primary mb-3">Mark Days You Are Not Available</h3>

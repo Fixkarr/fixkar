@@ -118,7 +118,6 @@ const Onboarding = ({ userData }) => {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} theme="colored" />
 
       <div className="onboarding bg-primary-subtle mt-5">
         <h2>Welcome, {userData?.user?.userId?.fullName || "Professional"}</h2>
