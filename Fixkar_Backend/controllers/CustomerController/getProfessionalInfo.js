@@ -8,7 +8,7 @@ export const getProfessionalInfo = async (req,res)=>{
             return res.status(400).json({message: "Professional ID not found"});
         }
 
-        const professionalInfo = await Professional.findById(id).populate("userId");
+        const professionalInfo = await Professional.findOne({userId : id}).populate("userId");
         if(!professionalInfo){
             return res.status(404).json({message: "Professional not found"});
         }

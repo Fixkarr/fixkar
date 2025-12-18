@@ -4,6 +4,7 @@ import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom"
 
 const ProfessionalCard = ({ data }) => {
+  const km = (data?.distance/1000).toFixed(2);
   return (
     <div className="professionalCard card shadow-sm border-0 p-3 rounded-4 h-100">
 
@@ -24,7 +25,7 @@ const ProfessionalCard = ({ data }) => {
           <p className="text-muted small mt-2 mb-1">
             <strong>Address:</strong> {data?.address?.addressLine || "Not Provided"}
           </p>
-
+          <p className="text-muted small mt-2 mb-1">{km} km away</p>
           <div className="d-flex align-items-center gap-1 mt-2">
             {[...Array(5)].map((_, i) => (
               <FaStar
@@ -43,7 +44,7 @@ const ProfessionalCard = ({ data }) => {
       {/* ✅ Visit Profile Button */}
       <div className="text-center">
         <Link
-          to={`/professional/profile/visit/${data?._id}`}
+          to={`/professional/profile/visit/${data?.userId?._id}`}
           className="btn btn-primary btn-sm px-4 rounded-pill"
         >
           Visit Profile

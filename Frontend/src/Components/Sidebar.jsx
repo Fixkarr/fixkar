@@ -38,6 +38,7 @@ const Sidebar = () => {
                 <li><NavLink to="/professional/home"><GoHome /><span className='hide'>Home</span></NavLink></li>
                 <li><NavLink to="/professional/bookings"><FaRegAddressBook /><span className='hide'> My Bookings</span></NavLink></li>
                 <li><NavLink to="/professional/profile"><CgProfile /> <span className='hide'>Profile</span></NavLink></li>
+                <li><NavLink to="/professional/messages"><FiMessageSquare /> <span className='hide'>Messages</span></NavLink></li>
             </ul>
             }
         </div>

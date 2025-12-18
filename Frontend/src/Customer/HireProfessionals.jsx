@@ -11,7 +11,7 @@ const HireProfessionals = () => {
 
   const [professionals, setProfessionals] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  
   useEffect(() => {
     if (selectedLocation?.lat && selectedLocation?.lng) {
       fetchProfessionals();
@@ -28,7 +28,7 @@ const HireProfessionals = () => {
           service: selectedService || "",
         },
       });
-
+      console.log(response);
       setProfessionals(response.data.professionals || []);
     } catch (error) {
       console.log("Error fetching professionals:", error);

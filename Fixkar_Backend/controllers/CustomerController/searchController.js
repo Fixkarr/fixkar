@@ -5,7 +5,7 @@ export const searchProfessionals = async (req, res) => {
   try {
     let { lat, lng, service } = req.query;
 
-    if (!lat || !lng) { 
+    if (!lat || !lng) {
       return res.status(400).json({
         success: false,
         message: "Latitude and Longitude are required",
@@ -15,25 +15,62 @@ export const searchProfessionals = async (req, res) => {
     lat = parseFloat(lat);
     lng = parseFloat(lng);
 
-    let query = {
-      status: "approved",
-      onBoarded: true,
-      location: {
-        $near: {
-          $geometry: { type: "Point", coordinates: [lng, lat] }, // ✅ Order: Lng, Lat
-          $maxDistance: 100 * 1000 // ✅ 100km
-        }
+    let pipeline = [
+      {
+        $geoNear: {
+          near: {
+            type: "Point",
+            coordinates: [lng, lat], // ✅ lng, lat
+          },
+          distanceField: "distance", // meters
+          maxDistance: 100 * 1000, // 100km
+          spherical: true,
+          query: {
+            status: "approved",
+            onBoarded: true,
+          },
+        },
       }
-    };
+    ];
 
+    // 🔍 service filter (simple & safe)
     if (service && service.trim() !== "") {
-      query.profession = { $regex: service, $options: "i" }; // ✅ Case-insensitive
+      pipeline.push({
+        $match: {
+          profession: { $regex: service, $options: "i" },
+        },
+      });
     }
 
-    const professionals = await Professional.find(query)
-      .populate("userId", "fullName email mobile") // ✅ populate user details
-      .select("-__v -updatedAt -availability -reviews")
-      .limit(50); // optional limit
+    // 🔗 populate userId
+    pipeline.push(
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "userId",
+        },
+      },
+      {
+        $unwind: "$userId",
+      },
+      {
+        $project: {
+          __v: 0,
+          updatedAt: 0,
+          availability: 0,
+          reviews: 0,
+          "userId.password": 0,
+          "userId.__v": 0,
+        },
+      },
+      {
+        $limit: 50,
+      }
+    );
+
+    const professionals = await Professional.aggregate(pipeline);
 
     return res.status(200).json({
       success: true,

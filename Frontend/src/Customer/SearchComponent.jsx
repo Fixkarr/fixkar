@@ -83,22 +83,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
           </div>
         </div>
 
-        {/* Service Search Input */}
-        {/* <div className="mb-3 position-relative">
-          <label className="form-label fw-semibold">Search for Services</label>
-          <div className="input-group">
-            <span className="input-group-text bg-white border-end-0">
-              <FaSearch />
-            </span>
-            <input
-              type="text"
-              className="form-control border-start-0"
-              placeholder="Search services (e.g. plumber, electrician)"
-              value={service}
-              onChange={(e) => handleServiceChange(e.target.value)}
-            />
-          </div>
-        </div> */}
+  
 
         {/* Quick Service Buttons */}
         <div className="d-flex flex-wrap gap-2 mt-3">

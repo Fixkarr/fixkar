@@ -8,6 +8,8 @@ import { searchProfessionals } from '../controllers/CustomerController/searchCon
 import { completeProfile } from '../controllers/ProfessionalsController/completeProfile.js';
 import { setBusyDays } from '../controllers/ProfessionalsController/busyDays.controller.js';
 import { updateCharge, updateProfileInfo, updateProfilePicture } from '../controllers/updateProfile.controller.js';
+import multerErrorHandler from '../middlewares/multerErrorHandler.js';
+import { getUserById } from '../controllers/getUserById.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -16,6 +18,7 @@ userRoute.get("/current", isAuth ,getCurrentUser);
 userRoute.get("/professionals", isAuth ,getAllProfessionals);
 userRoute.get("/verifiedProfessionals", getAllVerifiedProfessionals);
 userRoute.get("/professionals/search", searchProfessionals);
+userRoute.get("/getUserById/:userId", getUserById);
 
 
 // professionals routes
@@ -23,7 +26,7 @@ userRoute.get("/professionals/search", searchProfessionals);
 userRoute.post("/onboard",   upload.fields([
     { name: "profilePicture", maxCount: 1 },
     { name: "poi", maxCount: 1 },
-  ]), isAuth, onboard);
+  ]), multerErrorHandler, isAuth, onboard);
 
   
 
@@ -34,11 +37,13 @@ userRoute.post("/onboard",   upload.fields([
 // update profile
 userRoute.post("/update-profile-picture", upload.fields([
     {name : "profilePicture", maxCount : 1}
-  ]), isAuth ,updateProfilePicture)
+  ]), multerErrorHandler, isAuth ,updateProfilePicture)
 
 
 userRoute.post("/update-profile-info", isAuth, updateProfileInfo)
 userRoute.post("/update-charges", isAuth, updateCharge);
+
+
 
 
  export default userRoute;

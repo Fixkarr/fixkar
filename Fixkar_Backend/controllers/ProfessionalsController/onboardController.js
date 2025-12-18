@@ -23,8 +23,8 @@ export const onboard = async (req, res) => {
 
     // Step 3: Upload both files
     const [profileResult, poiResult] = await Promise.all([
-      uploadToCloudinary(profilePicture),
-      uploadToCloudinary(poi),
+      uploadToCloudinary(profilePicture, "professionals/profile_pictures", "image"),
+      uploadToCloudinary(poi, "professionals/poi_documents", "image"),
     ]);
 
     // Step 4: Find the professional by userId

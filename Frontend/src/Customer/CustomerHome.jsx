@@ -5,6 +5,7 @@ import SearchSection from './SearchComponent'
 import { useDispatch } from 'react-redux'
 import { setSelectedLocation, setSelectedService } from '../redux/location.slice'
 import { useNavigate } from 'react-router-dom'
+import Instructions from './Instructions'
 const CustomerHome = () => {
 
   const {currentUserData} = useSelector((state)=>state.user)
@@ -31,6 +32,8 @@ const CustomerHome = () => {
             <p className='para'>Find Professionals near you!</p>
             <SearchSection onLocationSelect={handleLocationSelect} onServiceSelect={handleServiceSelect}/>
           </div>
+          <br />
+          <Instructions/>
     </div>
   )
 }

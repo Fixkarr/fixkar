@@ -11,6 +11,8 @@ import '../css/professionalInfo.css'
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { IoCallOutline } from "react-icons/io5";
 import RequestHireForm from './RequestHireForm'
+import { useDispatch } from 'react-redux'
+import { setSelectedProfessional } from '../redux/professionalInfo.slice'
 
 const ProfessionalInfo = () => {
     const [loading, setLoading] = useState(false)
@@ -26,6 +28,8 @@ const ProfessionalInfo = () => {
     !professionalInfo?.charges?.amountDesc
   );
 
+  const dispatch = useDispatch()
+
     console.log("ChargesNotDefined : ",ChargesNotDefined);
     const {id} = useParams()
     const navigate = useNavigate()
@@ -36,6 +40,7 @@ const ProfessionalInfo = () => {
           setLoading(true)
           const result = await axios.get(`${server_url}/api/customer/get-professional-info/${id}`, {withCredentials : true})
           setProfessionalInfo(result?.data?.professionalInfo)
+          dispatch(setSelectedProfessional(result?.data?.professionalInfo))
           console.log(result?.data?.professionalInfo)
           setLoading(false) 
         } catch (error) {
@@ -122,7 +127,7 @@ const ProfessionalInfo = () => {
 
             <div className="col-4 col-md-6">
               <div className="d-flex justify-content-start gap-3 align-items-start action">
-                <span className="btn btn-outline-primary btn-sm chat">
+                <span className="btn btn-outline-primary btn-sm chat" onClick={()=>navigate(`/customer/chat/${id}`)}>
                   <IoChatbubbleEllipsesOutline /> Chat
                 </span>
                 <span className="btn btn-outline-primary btn-sm call">

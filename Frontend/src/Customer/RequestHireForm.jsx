@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 const RequestHireForm = ({ proInfo}) => {
 
   const busyDays = proInfo?.busyDays;
-  console.log(busyDays);
 
     const today = new Date().toISOString().split("T")[0];
     const [minTime, setMinTime] = useState("");

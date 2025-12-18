@@ -13,7 +13,7 @@ export const updateProfilePicture = async (req,res)=>{
     }
 
     try {
-        const result = await uploadToCloudinary(file);
+        const result = await uploadToCloudinary(file, "professionals/profile_pictures", "image");
         if(!result){
           return  res.status(404).json({
                 message : "failed to upload your profile Picture, try again!"

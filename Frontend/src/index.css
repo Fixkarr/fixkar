@@ -125,6 +125,10 @@ button{
   font-size: 1vw;
 }
 
+.hindi{
+  font-size: 1vw !important;
+}
+
 hr{
   margin: 2px !important;
   color: blue !important;
