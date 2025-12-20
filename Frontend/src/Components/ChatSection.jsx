@@ -216,7 +216,7 @@ useEffect(() => {
               style={{ maxWidth: "75%" }}
             >
               <div className="msg-container">
-                {msg.message !== "" && (<small>{msg.message}</small>)}
+                {msg.message !== "" && (<strong>{msg.message}</strong>)}
                 {msg.attachments?.length !== 0 && (
                   msg?.attachments.map((media)=>(
                     media.fileType == "image" ? (
@@ -234,7 +234,7 @@ useEffect(() => {
                   ))
                 )}
               </div>
-              <small className="text-muted" style={{ fontSize: "11px" }}>
+              <small className="text-muted">
       {msg.status === "seen"
         ? formatTime(msg.seenAt)
         : msg.status === "delivered"

@@ -106,8 +106,7 @@ const RequestHireForm = ({ proInfo}) => {
       toast.error(error.response.data.message)
       setLoading(false)
     }
-
-    alert("Hire request sent successfully!");
+  
   };
 
   return (

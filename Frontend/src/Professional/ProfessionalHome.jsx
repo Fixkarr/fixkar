@@ -29,7 +29,7 @@ const ProfessionalHome = () => {
      <div className="d-flex justify-content-between w-full">
        <div>
         <h2 className="welcome">
-          Welcome, <span className="text-primary">{userId?.fullName}!</span>
+          Welcome, <span className="text-primary fs-1">{userId?.fullName}!</span>
         </h2>
       </div>
       <button type="button" className="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">

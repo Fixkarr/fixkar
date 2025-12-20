@@ -28,14 +28,15 @@ const DashboardLayout = () => {
   return (
     <>
       <div className='dashboardLayout'>
-        <Sidebar/>
-        <main className='p-6'>
-            <section className='upper border'>
+        <Sidebar />
+
+        <main className='p-2'>
+            <section className='upper border p-2'>
                 <span className='text-primary'><IoCall/> +10 92 92988 28</span> 
                 <span className='text-primary'><MdEmail/> @fixkar.com</span>
                 <span className='text-danger' role='button' onClick={handleLogout}><RiLogoutCircleRLine/></span>
             </section>
-            <Outlet/>
+            <Outlet />
         </main>
       </div>
     </>

@@ -36,17 +36,18 @@ import ProfessionalHome from './Professional/ProfessionalHome';
 import ProfessionalProfile from './Professional/ProfessionalProfile';
 import ProfessionalBookings from './Professional/ProfessionalBookings';
 import CompleteProfile from './Professional/CompleteProfile';
-import { ToastContainer } from 'react-toastify';
 import ProfessionalInfo from './Customer/ProfessionalInfo';
 import ChatSection from './Components/ChatSection';
 import socket from './socket.js'
 import { setOnlineUsers } from './redux/chat.slice.js';
 import Messages from './Professional/Messages.jsx';
+import useGetMyBookings from './hooks/useGetMyBookings.jsx';
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 
 const App = () => {
   useGetCurrentUser();
+  useGetMyBookings();
   const { currentUserData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const location = useLocation();

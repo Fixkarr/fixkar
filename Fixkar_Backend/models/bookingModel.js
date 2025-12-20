@@ -16,7 +16,7 @@ const bookingSchema = new mongoose.Schema({
     mobileNumber : {type : String, required : true},
     status : {
         type : String,
-        enum : ['pending', 'accepted', 'in-progress', "rejected", 'completed', 'cancelled', 'paid'],
+        enum : ['pending', 'accepted', 'in-progress', "rejected", 'completed', 'cancelled'],
         default : 'pending'
     },
 },{timestamps : true})
