@@ -13,6 +13,7 @@ import cookieParser from 'cookie-parser';
 import customerRouter from './routes/customer.Routes.js'
 import messageRouter from './routes/messageRoutes.js';
 import { Message } from './models/messageModel.js';
+import bookingRouter from './routes/booking.Routes.js';
 
 dotenv.config();
 const app = express();
@@ -29,10 +30,11 @@ app.use(express.json());
 //adding all routes
 
 app.use("/api/otp", router);
-app.use("/api/auth", authRouter) 
-app.use("/api/user", userRoute)
-app.use("/api/customer", customerRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRoute);
+app.use("/api/customer", customerRouter);
 app.use("/api/messages", messageRouter);
+app.use("/api/booking", bookingRouter);
 
 const server = http.createServer(app);
 

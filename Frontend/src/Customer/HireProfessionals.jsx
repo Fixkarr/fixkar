@@ -3,10 +3,14 @@ import SearchSection from "./SearchComponent";
 import ProfessionalCard from "./ProfessionalCard";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { getDistanceMatrixData } from "../utils/getDistanceMatrixData.js";
 
 import { server_url } from "../App";
 
+
 const HireProfessionals = () => {
+
+ 
   const { selectedLocation, selectedService } = useSelector((state) => state.location);
 
   const [professionals, setProfessionals] = useState([]);
@@ -28,7 +32,7 @@ const HireProfessionals = () => {
           service: selectedService || "",
         },
       });
-      console.log(response);
+
       setProfessionals(response.data.professionals || []);
     } catch (error) {
       console.log("Error fetching professionals:", error);

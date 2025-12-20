@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { calculateVisitingCharge } from "../utils/calculateVsitingCharge";
+import { ClipLoader } from "react-spinners";
+import axios from "axios";
+import { server_url } from "../App";
 
 const RequestHireForm = ({ proInfo}) => {
-
+  const {selectedLocation} = useSelector(state=> state.location);
+  const {currentUserData} = useSelector(state=> state.user);
+  const {distance} = useSelector(state=> state.distance);
+  const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
+  const mobileNumber = currentUserData?.user?.userId?.mobile
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const visitingCharge = calculateVisitingCharge(parseFloat(distance?.distance.text));
   const busyDays = proInfo?.busyDays;
 
     const today = new Date().toISOString().split("T")[0];
@@ -14,8 +26,10 @@ const RequestHireForm = ({ proInfo}) => {
     workTime: "",
     problemDesc: "",
     chargeType: "",
-    workAddress: "",
+    workAddress: `${selectedLocation?.address}`,
   });
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,15 +50,62 @@ const RequestHireForm = ({ proInfo}) => {
     }
   }, [formData.workDate, today]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+      const payload = {
+    customerName : formData.customerName,
+    professionalId : proInfo._id,
+    visitingCharge,
+    profession : proInfo.profession,
+    workDate : formData.workDate,
+    workTime : formData.workTime,
+    workAddress : formData.workAddress,
+    problemDescription : formData.problemDesc,
+    distanceInKm : parseFloat(distance?.distance.text),
+    chargeType : formData.chargeType,
+    mobileNumber,
+  }
 
       if (busyDays.includes(formData.workDate)) {
       toast.info("This date is not available. Please select another date.");
       return;
     }
+    
+    if(!isMobileVerified){
+  return toast.warning(
+  <div>
+    <h6 className="fw-bold mb-1">Mobile Not Verified</h6>
+    <p className="small mb-2">
+      Please verify your mobile number to hire a professional.
+    </p>
+    <button
+      className="btn btn-sm btn-primary rounded-pill"
+      onClick={() => {
+        toast.dismiss();
+        navigate("/customer/verify-mobile");
+      }}
+    >
+      Verify Mobile Number
+    </button>
+  </div>,
+  {
+    autoClose: false,
+    position: "top-center",
+  }
+);
 
-    console.log("Hire Request Data:", formData);
+    }
+    try {
+      setLoading(true)
+      const result = await axios.post(`${server_url}/api/booking/create-booking`, payload, {withCredentials : true});
+      toast.success(result.data.message)
+      setLoading(false);
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.response.data.message)
+      setLoading(false)
+    }
 
     alert("Hire request sent successfully!");
   };
@@ -53,12 +114,27 @@ const RequestHireForm = ({ proInfo}) => {
     <div className="card shadow-sm border-0">
       <div className="card-body">
         <h5 className="fw-bold mb-3">
-          Hire Professional
+          Important Notice!
         </h5>
 
-        <p className="text-muted small mb-4">
-          No payment required now. Charges will be finalized after work confirmation.
-        </p>
+        <ul>
+          <li className="text-muted small mb-4">
+            The professional’s visiting charge is <b>₹${visitingCharge}</b>. This is the standard fee for the professional to visit your location. <br />
+            प्रोफेशनल का विज़िट चार्ज <b>₹${visitingCharge}</b> है। यह चार्ज प्रोफेशनल के आपके स्थान तक आने के लिए लिया जाता है।
+          </li>
+          <li className="text-muted small mb-4">
+            Once the work is completed, this visiting charge will be added to the final bill, and the total amount will need to be paid accordingly. <br />
+            काम पूरा होने के बाद यह विज़िट चार्ज फाइनल बिल में जोड़ दिया जाएगा, और कुल राशि का भुगतान करना होगा।
+          </li>
+          <li className="text-muted small mb-4">
+            In case you decide not to proceed with the work after the professional arrives, an additional ₹50 will be applicable as a visit handling charge. <br />
+            यदि किसी कारणवश प्रोफेशनल के आने के बाद आप काम आगे नहीं करवाना चाहते हैं, तो ₹50 का अतिरिक्त चार्ज लगेगा।
+          </li>
+          <li className="text-muted small mb-4">So in that situation, the total payable amount would be <b>{`₹${visitingCharge + 50}`}</b>. <br />
+            ऐसे में कुल देय राशि <b>₹${visitingCharge + 50}</b> होगी।
+          </li>
+        </ul>
+       
 
         <form onSubmit={handleSubmit}>
           {/* Customer Name */}
@@ -144,6 +220,21 @@ const RequestHireForm = ({ proInfo}) => {
             </select>
           </div>
 
+          {/* Mobile Number  */}
+
+          {
+            isMobileVerified && (
+              <div className="mb-3">
+                <label className="form-label fw-semibold">
+                  Mobile Number
+                </label>
+                <div >
+                  {mobileNumber}
+                </div>
+              </div>
+            )
+          }
+
           {/* Address */}
           <div className="mb-3">
             <label className="form-label fw-semibold">
@@ -161,8 +252,8 @@ const RequestHireForm = ({ proInfo}) => {
           </div>
 
           {/* Submit Button */}
-          <button type="submit" className="btn btn-primary w-100">
-            Send Hire Request
+          <button type="submit" disabled={loading} className="btn btn-primary w-100">
+            {loading && <ClipLoader size={20}/>} Send Hire Request
           </button>
         </form>
       </div>

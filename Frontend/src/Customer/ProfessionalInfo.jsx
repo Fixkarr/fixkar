@@ -13,6 +13,8 @@ import { IoCallOutline } from "react-icons/io5";
 import RequestHireForm from './RequestHireForm'
 import { useDispatch } from 'react-redux'
 import { setSelectedProfessional } from '../redux/professionalInfo.slice'
+import { toast } from 'react-toastify'
+
 
 const ProfessionalInfo = () => {
     const [loading, setLoading] = useState(false)
@@ -29,8 +31,8 @@ const ProfessionalInfo = () => {
   );
 
   const dispatch = useDispatch()
-
-    console.log("ChargesNotDefined : ",ChargesNotDefined);
+    
+    
     const {id} = useParams()
     const navigate = useNavigate()
 
@@ -41,10 +43,9 @@ const ProfessionalInfo = () => {
           const result = await axios.get(`${server_url}/api/customer/get-professional-info/${id}`, {withCredentials : true})
           setProfessionalInfo(result?.data?.professionalInfo)
           dispatch(setSelectedProfessional(result?.data?.professionalInfo))
-          console.log(result?.data?.professionalInfo)
           setLoading(false) 
         } catch (error) {
-          console.log(error.message)
+          toast.error(error.message)
           setLoading(false)
         }
       }

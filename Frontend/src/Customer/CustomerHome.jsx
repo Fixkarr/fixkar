@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { setSelectedLocation, setSelectedService } from '../redux/location.slice'
 import { useNavigate } from 'react-router-dom'
 import Instructions from './Instructions'
+import MobileNotVerified from './MobileNotVerified'
 const CustomerHome = () => {
 
   const {currentUserData} = useSelector((state)=>state.user)
@@ -29,6 +30,7 @@ const CustomerHome = () => {
     <div className='p-md-5 p-2'>
           <div>
             <h2 className='welcome'>Welcome, <span className='text-primary'>{currentUserData?.user?.userId?.fullName}!</span></h2>
+            {!currentUserData?.user?.userId?.isMobileVerified && <MobileNotVerified/>}
             <p className='para'>Find Professionals near you!</p>
             <SearchSection onLocationSelect={handleLocationSelect} onServiceSelect={handleServiceSelect}/>
           </div>

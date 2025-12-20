@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/verifyMobile.css";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from 'axios'
 import { server_url } from "../App";
 import {ClipLoader} from 'react-spinners'
@@ -9,11 +9,13 @@ import Countdown from "react-countdown";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
-
+import { useSelector } from "react-redux";
 
 const VerifyMobile = () => {
-   const [timerActive, setTimerActive] = useState(false);
-    const [key, setKey] = useState(0);
+  const {currentUserData} = useSelector(state=>state.user);
+  const role = currentUserData?.user?.userId?.role;
+  const [timerActive, setTimerActive] = useState(false);
+  const [key, setKey] = useState(0);
   const [loading, setLoading] = useState(false)
   const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState("");
@@ -52,7 +54,7 @@ const VerifyMobile = () => {
         dispatch(useGetCurrentUser());
       }
 
-      navigate("/onboard")
+      role === "professional" ? navigate("/onboard") : navigate(-1);
       setLoading(false)
     } catch (error) {
       toast.error(error.response.data.message)
@@ -72,7 +74,6 @@ const VerifyMobile = () => {
     } catch (error) {
       toast.error(error.response.data.message)
         setLoading(false)
-
     }
   
   }

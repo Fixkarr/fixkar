@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import useGetCurrentUser from './hooks/useGetCurrentUser';
@@ -49,12 +49,17 @@ const App = () => {
   useGetCurrentUser();
   const { currentUserData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const location = useLocation();
   const role = currentUserData?.user?.userId?.role;
   const isOnboarded = currentUserData?.user?.onBoarded;
   const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
   const status = currentUserData?.user?.status;
   const userId = currentUserData?.user?.userId?._id;
 
+  useEffect(() => {
+  document.body.classList.remove("modal-open");
+  document.querySelectorAll(".modal-backdrop").forEach(b => b.remove());
+}, [location.pathname]);
 
   useEffect(()=>{
 
@@ -123,6 +128,7 @@ const App = () => {
         <Route path="/customer/profile" element={role === 'customer' ? <CustomerProfile /> : <Navigate to="/" />} />
         <Route path='professional/profile/visit/:id' element={role === 'customer' ? <ProfessionalInfo/> :  <Navigate to="/" />}/>
         <Route path='customer/chat/:id' element={role === 'customer' ? <ChatSection/> : <Navigate to="/" />}/>
+        <Route path='/customer/verify-mobile' element={role === 'customer' && !isMobileVerified ? <VerifyMobile/> :<Navigate to="/" />}/>
         {/* Professional */}
         <Route path="/professional/home" element={role === 'professional' ? <ProfessionalHome /> : <Navigate to="/" />} />
         <Route path="/professional/profile" element={role === 'professional' ? <ProfessionalProfile /> : <Navigate to="/" />} />
