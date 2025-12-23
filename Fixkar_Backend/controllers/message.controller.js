@@ -16,27 +16,6 @@ export const getMessages = async (req, res) => {
       ]
     })
 
-    //  await Message.updateMany(
-    //   {
-    //     sender: recieverId,
-    //     reciever: senderId,
-    //     status: { $ne: "seen" },
-    //   },
-    //   {
-    //     status: "seen",
-    //     seenAt: new Date().toISOString(),
-    //   }
-    // );
-
-
-    // const senderSocketId = userSocketMap[recieverId];
-    // if (senderSocketId) {
-    //   io.to(senderSocketId).emit("messagesSeen", {
-    //      senderId,
-    //     recieverId,
-    //   });
-    // }
-
 
     res.status(200).json({
       message: "Messages fetched successfully",
@@ -171,7 +150,7 @@ export const getMyConversations = async (req, res) => {
       // unseen messages (only received ones)
       if (
         msg.reciever._id.toString() === myId &&
-        msg.seen === false
+        msg.status !== 'seen'
       ) {
         conversationsMap[otherUser._id].unseenCount += 1;
       }

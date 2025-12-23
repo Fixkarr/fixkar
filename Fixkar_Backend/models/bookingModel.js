@@ -14,11 +14,20 @@ const bookingSchema = new mongoose.Schema({
     workAddress : {type : String, required : true},
     distanceInKm : {type : Number, required : true},
     mobileNumber : {type : String, required : true},
+    rejectMessage  : {type : String},
+    reachedAt: {
+    type: Date,
+    default: null
+    },
+    reachedOTP : {type : String},
     status : {
         type : String,
-        enum : ['pending', 'accepted', 'in-progress', "rejected", 'completed', 'cancelled'],
+        enum : ['pending', 'accepted', 'reached', 'in-progress', "rejected", 'completed', 'cancelled'],
         default : 'pending'
     },
+    startedAt : {
+        type : Date,
+    }
 },{timestamps : true})
 
 export const Booking = mongoose.model("Booking", bookingSchema);

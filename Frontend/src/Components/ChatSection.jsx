@@ -15,9 +15,10 @@ import useGetUserById from "../hooks/useGetUserById.jsx";
 import { BsCheck } from "react-icons/bs";
 import { BsCheckAll } from "react-icons/bs";
 import { formatTime } from "../utils/formatTime.js";
-
+import { useNavigate } from "react-router-dom";
 
 const ChatSection = () => {
+  const navigate = useNavigate()
     const {id} = useParams()
     useGetUserById(id);
     const dispatch = useDispatch();

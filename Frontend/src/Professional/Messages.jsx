@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 
 const Messages = () => {
   const {onlineUsers} = useSelector(state=>state.chat)
+  const {currentUserData}  = useSelector(state=>state.user);
+  const role = currentUserData?.user?.userId?.role;
   const [conversations, setConversations] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -16,6 +18,7 @@ const Messages = () => {
           { withCredentials: true }
         );
         setConversations(result?.data?.conversations);
+        console.log(result?.data?.conversations)  
       } catch (error) {
         console.log(error.message);
       }
@@ -38,14 +41,13 @@ const Messages = () => {
             key={chat.user._id}
             className="list-group-item list-group-item-action d-flex align-items-center gap-3"
             style={{ cursor: "pointer" }}
-            onClick={() => navigate(`/professional/chat/${chat.user._id}`)}
+            onClick={() => navigate(role == "professional" ? `/professional/chat/${chat.user._id}` : `/customer/chat/${chat.user._id}`)}
           >
             {/* Avatar */}
             <div className="position-relative">
               <img
                 src="/Images/placeholderProfile.avif"
                 alt={chat.user.fullName}
-                className="rounded-circle"
                 width="45"
                 height="45"
               />

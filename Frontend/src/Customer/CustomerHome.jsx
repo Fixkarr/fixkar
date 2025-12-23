@@ -7,6 +7,7 @@ import { setSelectedLocation, setSelectedService } from '../redux/location.slice
 import { useNavigate } from 'react-router-dom'
 import Instructions from './Instructions'
 import MobileNotVerified from './MobileNotVerified'
+import Messages from '../Professional/Messages'
 const CustomerHome = () => {
 
   const {currentUserData} = useSelector((state)=>state.user)
@@ -36,6 +37,7 @@ const CustomerHome = () => {
           </div>
           <br />
           <Instructions/>
+          <Messages/>
     </div>
   )
 }

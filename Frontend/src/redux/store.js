@@ -6,7 +6,7 @@ import professionalInfoSlice from './professionalInfo.slice.js'
 import chatSlice from './chat.slice.js'
 import distanceSlice from './distance.slice.js'
 import bookingSlice from './booking.Slice.js'
-
+import reachedOtpSlice from './otp.Slice.js'
 export const store = configureStore({
     reducer : {
         user : userSlice,
@@ -15,6 +15,7 @@ export const store = configureStore({
         professionalInfo : professionalInfoSlice,
         chat : chatSlice,
         distance : distanceSlice,
-        bookings : bookingSlice
+        bookings : bookingSlice,
+        reachedOtp : reachedOtpSlice
     }
 })

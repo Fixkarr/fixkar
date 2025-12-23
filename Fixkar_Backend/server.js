@@ -55,7 +55,11 @@ export const userSocketMap = {};
 io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
 
-  if(userId) userSocketMap[userId] = socket.id;
+  if(userId) {
+    userSocketMap[userId] = socket.id;
+      socket.join(userId.toString())
+      console.log("📌 User joined room:", userId)
+  }
 
     socket.on("markMessagesSeen", async ({ senderId }) => {
     await Message.updateMany(

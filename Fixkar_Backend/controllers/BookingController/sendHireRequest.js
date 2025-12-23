@@ -1,6 +1,6 @@
 import { Booking } from "../../models/bookingModel.js";
 import { Customer } from "../../models/userModel.js";
-
+import {io} from '../../server.js'
 export const sendHireRequest = async (req, res)=>{
     try {
         const {professionalId, profession, workDate, workTime, mobileNumber, problemDescription, visitingCharge, workAddress, distanceInKm, chargeType, customerName} = req.body;
@@ -23,11 +23,41 @@ export const sendHireRequest = async (req, res)=>{
             mobileNumber
         })
 
-        await newBooking.save();
+        const savedBooking = await newBooking.save()
+    const booking = await Booking.findById(savedBooking._id)
+  .populate({
+    path: "customerId",
+    populate: {
+      path: "userId",
+      model: "User",
+      select: "fullName",
+    },
+  })
+  .populate({
+    path: "professionalId",
+    select: "profilePicture address userId",
+    populate: {
+      path: "userId",
+      model: "User",
+      select: "fullName",
+    },
+  });
+
+       io.to(booking.professionalId.userId._id.toString()).emit(
+      "newBookingRequest",
+      booking
+    );
+
+    io.to(booking.customerId.userId._id.toString()).emit(
+      "bookingCreated",
+      booking
+    );
+
 
         res.status(200).json({
             success : true,
             message : "Hire request sent successfully",
+            booking
         })
 
 
