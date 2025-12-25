@@ -17,8 +17,7 @@ const Messages = () => {
           `${server_url}/api/messages/get-my-conversations`,
           { withCredentials: true }
         );
-        setConversations(result?.data?.conversations);
-        console.log(result?.data?.conversations)  
+        setConversations(result?.data?.conversations); 
       } catch (error) {
         console.log(error.message);
       }

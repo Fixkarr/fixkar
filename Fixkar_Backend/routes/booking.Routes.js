@@ -7,6 +7,10 @@ import { cancelCustomerBooking } from '../controllers/BookingController/cancelCu
 import { acceptBooking } from '../controllers/BookingController/acceptBooking.js';
 import { reachedToLocation } from '../controllers/BookingController/reachedToLocation.js';
 import { verifyReachedOtp } from '../controllers/BookingController/verifyReachedOtp.js';
+import { sendQuoteAmount } from '../controllers/BookingController/sendQuoteAmount.js';
+import { createOrder, verifyPayment } from '../controllers/payment.controller.js';
+import { getProfessionalWallet } from '../controllers/ProfessionalsController/getProfessionalWallet.js';
+import { getWalletTransaction } from '../controllers/ProfessionalsController/getWalletTransaction.js';
 
 const bookingRouter = express.Router();
 
@@ -17,5 +21,12 @@ bookingRouter.post('/cancel-booking', cancelCustomerBooking)
 bookingRouter.post('/accept-booking', acceptBooking)
 bookingRouter.post('/mark-reached', isAuth, reachedToLocation)
 bookingRouter.post('/verify-reached-otp', isAuth, verifyReachedOtp);
+bookingRouter.post('/send-quote-amount', isAuth, sendQuoteAmount)
 
+//payment route
+
+bookingRouter.post('/create-order', createOrder);
+bookingRouter.post('/verify-payment', verifyPayment)
+bookingRouter.get('/get-professional-wallet', isAuth, getProfessionalWallet)
+bookingRouter.get('/get-wallet-transaction', isAuth, getWalletTransaction)
 export default bookingRouter;

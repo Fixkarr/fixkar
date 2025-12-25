@@ -10,13 +10,29 @@ import { server_url } from "../App";
 import SwipeToConfirm from "./SwipeToConfirm";
 import { ClipLoader } from "react-spinners";
 import { formatDate, formatTime } from "../utils/formatTime&Date";
+import { TbTransactionRupee } from "react-icons/tb";
+import { CiWallet } from "react-icons/ci";
+import { MdFreeCancellation } from "react-icons/md";
+import { calculatePlatformFee } from "../utils/calculatePlatformFee";
+import useGetWalletTransaction from "../hooks/useGetWalletTransaction";
+
 export default function ProfessionalBookings() {
+  useGetWalletTransaction()
+  const {walletTransaction} = useSelector(state => state.wallet);
+  // console.log(walletTransaction)
   const [loading, setLoading] = useState(false);
   const [rejectBookingId, setRejectBookingId] = useState(null);
   const [quoteAmount, setQuoteAmount] = useState("");
   const { myBookings } = useSelector((state) => state.bookings);
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
+
+  const findTransaction = (bookingId) =>{
+    const transaction =  walletTransaction.find(tx => tx.bookingId._id == bookingId)
+    return transaction
+  }
+
+ 
 
   const handleAcceptBooking = async (bookingId)=>{
     try {
@@ -80,7 +96,6 @@ export default function ProfessionalBookings() {
   }
   const handleVerifyReachedOtp = async (bookingId)=>{
     try {
-      setLoading(true)
       const result = await axios.post(`${server_url}/api/booking/verify-reached-otp`, {otp, bookingId}, {withCredentials : true})
       toast.success(result.data.message)
     } catch (error) {
@@ -89,7 +104,14 @@ export default function ProfessionalBookings() {
     }
   }
   const sendQuoteAPI = async (bookingId)=>{
-
+    try {
+      const result = await axios.post(`${server_url}/api/booking/send-quote-amount`, {bookingId, quoteAmount}, {withCredentials : true});
+      toast.success(result.data.message);
+      setQuoteAmount("")
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.response.data.message)
+    }
   }
 
   return myBookings.length !== 0 ? (
@@ -187,6 +209,97 @@ export default function ProfessionalBookings() {
                 </>
               )}
             </div>
+              {/* Cancel  */}
+            {booking.status == "cancelled" && !booking.currentPaymentId && (
+              <div className="card border-0 shadow-sm mb-3">
+  <div className="card-body">
+
+    <div className="d-flex align-items-center mb-2">
+      <div
+        className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center"
+        style={{ width: "42px", height: "42px" }}
+      >
+        <i className="bi bi-x-lg"></i>
+      </div>
+
+      <div className="ms-3">
+        <h6 className="mb-0 fw-semibold text-secondary">
+          Booking Cancelled
+        </h6>
+        <small className="text-muted">
+          Customer cancelled this booking
+        </small>
+      </div>
+    </div>
+
+    <div className="bg-light rounded p-3 mt-3">
+      <p className="mb-0 text-muted small">
+        This booking was cancelled by the customer before the scheduled date.
+        No cancellation or visiting charges were applied.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+            )}
+            {booking.status == "cancelled" && booking.currentPaymentId && (
+              <div className="card border-0 shadow-sm mb-3">
+  <div className="card-body">
+
+    <div className="d-flex align-items-center mb-3">
+      <div
+        className="bg-warning text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+    
+      >
+        <MdFreeCancellation />
+      </div>
+
+      <div className="ms-3">
+        <h6 className="mb-0 fw-semibold text-warning">
+          Booking Cancelled (Late)
+        </h6>
+        <small className="text-muted">
+          Customer cancelled after the scheduled date
+        </small>
+      </div>
+    </div>
+
+    <div className="bg-light rounded p-3 mb-3">
+      <div className="d-flex justify-content-between">
+        <span className="text-muted">Cancellation Fee</span>
+        <span className="fw-semibold">₹50</span>
+      </div>
+
+      <div className="d-flex justify-content-between mt-2">
+        <span className="text-muted">Visiting Charge</span>
+        <span className="fw-semibold">₹{booking.visitingCharge}</span>
+      </div>
+      <div className="d-flex justify-content-between mt-2">
+        <span className="text-muted">Platform Fee</span>
+        <span className="fw-semibold text-danger">- ₹{findTransaction(booking._id)?.commission}</span>
+      </div>
+
+      <hr className="my-2" />
+
+      <div className="d-flex justify-content-between">
+       <span className="fw-bold text-success d-flex align-items-center justify-content-between gap-2">Added to Wallet <b><CiWallet/></b> </span>
+        <span className="fw-bold text-success">
+          ₹{findTransaction(booking._id)?.professionalAmount}
+        </span>
+      </div>
+    </div>
+
+    <p className="mb-0 text-muted small">
+      The customer cancelled this booking late.  
+      The cancellation fee and visiting charge have been successfully added to your wallet.
+    </p>
+
+  </div>
+</div>
+
+            )}
+
             {rejectBookingId === booking._id && booking.status !== "rejected" && (
               <RejectBookingReason bookingId={booking._id} />
             )}
@@ -292,6 +405,7 @@ export default function ProfessionalBookings() {
           onChange={(e) => setQuoteAmount(e.target.value)}
           min={0}
           max={6}
+          required
         />
       </div>
 
@@ -308,6 +422,93 @@ export default function ProfessionalBookings() {
     </div>
   </div>
 )}
+
+  {booking.quoteAmount && booking.status !== "completed" && (
+       <div className="alert alert-info rounded-4 shadow-sm mt-4">
+    <h6 className="fw-bold mb-2">
+      Quote Sent Successfully
+    </h6>
+
+    <p className="mb-2">
+      You have sent the work charge to the customer.
+      Please wait for the customer to complete the payment.
+    </p>
+
+    <div className="border rounded p-3 bg-light">
+      <div className="d-flex justify-content-between">
+        <span>Work Charge</span>
+        <span className="fw-semibold">₹{booking.quoteAmount}</span>
+      </div>
+    </div>
+
+    <small className="text-muted d-block mt-2">
+      You will be notified once the payment is completed.
+    </small>
+  </div>
+  )}
+
+  {booking.status == "completed" && (
+    <div className="card border-0 shadow-sm mb-3">
+  <div className="card-body">
+
+    {/* Header */}
+    <div className="d-flex align-items-center mb-3">
+      <div
+        className="bg-success text-white p-3 rounded-circle d-flex align-items-center justify-content-center"
+      >
+        <TbTransactionRupee />
+      </div>
+
+      <div className="ms-3">
+        <h6 className="mb-0 fw-semibold text-success">
+          Payment Received
+        </h6>
+        <small className="text-muted">
+          Customer has completed the payment
+        </small>
+      </div>
+    </div>
+
+    {/* Amount Section */}
+    <div className="bg-light rounded p-3 mb-3">
+      <div className="d-flex justify-content-between">
+        <span className="text-muted">Service Amount</span>
+        <span className="fw-semibold">₹{findTransaction(booking._id)?.grossAmount}</span>
+      </div>
+
+      <div className="d-flex justify-content-between mt-2">
+        <span className="text-muted">Platform Fee</span>
+        <span className="text-danger">- ₹{findTransaction(booking._id)?.commission}</span>
+      </div>
+
+      <hr className="my-2" />
+
+      <div className="d-flex justify-content-between">
+        <span className="fw-bold text-success d-flex align-items-center justify-content-between gap-2">Added to Wallet <b><CiWallet/></b> </span>
+        <span className="fw-bold text-success">₹{findTransaction(booking._id)?.professionalAmount}</span>
+      </div>
+    </div>
+
+    {/* Booking Info */}
+    <div className="mb-3">
+      <small className="text-muted d-block">Booking ID</small>
+      <span className="fw-semibold">{booking._id}</span>
+    </div>
+
+    {/* Actions */}
+    <div className="d-flex gap-2">
+      <button className="btn btn-success btn-sm w-100">
+        View Wallet
+      </button>
+      <button className="btn btn-outline-secondary btn-sm w-100">
+        Booking Details
+      </button>
+    </div>
+
+  </div>
+</div>
+
+  )}
 
 
           </div>

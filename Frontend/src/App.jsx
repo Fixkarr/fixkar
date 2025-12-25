@@ -43,6 +43,7 @@ import Messages from "./Professional/Messages.jsx";
 import useGetMyBookings from "./hooks/useGetMyBookings.jsx";
 import { addNewBooking, updateBookingInRedux } from "./redux/booking.Slice.js";
 import { clearReachedOtp, setReachedOtp } from "./redux/otp.Slice.js";
+import { refreshWallet } from "./redux/wallet.slice.js";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 
@@ -106,6 +107,7 @@ const App = () => {
     // ✅ COMMON UPDATE (cancel / accept / payment)
     socket.on("bookingUpdated", (booking) => {
       dispatch(updateBookingInRedux(booking));
+      dispatch(refreshWallet())
     });
 
     socket.on("connect_error", (err) => {

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { SlCalender } from "react-icons/sl";
 import Availability from "./Availability";
 import DayCard from "./DayCard";
+import ProfessionalWallet from "./ProfessionalWallet";
+
 const ProfessionalHome = () => {
   const navigate = useNavigate()
   const { currentUserData } = useSelector((state) => state.user);
@@ -11,6 +13,7 @@ const ProfessionalHome = () => {
   const userId = currentUserData?.user?.userId;
   const isProfileComplete = Boolean(user?.charges);
    const [showSelectedDays, setShowSelectedDays] = useState([]);
+
    useEffect(() => {
     if (currentUserData?.user?.busyDays) {
       const converted = currentUserData.user.busyDays.map(date => {
@@ -20,6 +23,7 @@ const ProfessionalHome = () => {
       });
      setShowSelectedDays(converted)
     }
+    
   }, [currentUserData]);
 
 
@@ -89,7 +93,8 @@ const ProfessionalHome = () => {
           </div>
           </>
       )} 
-    
+
+      <ProfessionalWallet/>
     </div>
   );
 };

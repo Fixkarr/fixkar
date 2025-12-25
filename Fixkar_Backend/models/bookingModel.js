@@ -27,6 +27,19 @@ const bookingSchema = new mongoose.Schema({
     },
     startedAt : {
         type : Date,
+    },
+    quoteAmount : {
+        type : Number
+    },
+    quoteSentAt : {
+        type : Date
+    },
+    currentPaymentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Payment",
+    },
+    completedAt : {
+        type : Date
     }
 },{timestamps : true})
 

@@ -10,6 +10,7 @@ import { formatDate, formatTime } from "../utils/formatTime&Date";
 import { setReachedOtp } from "../redux/otp.Slice";
 import { useDispatch } from "react-redux";
 import { MdHomeRepairService } from "react-icons/md";
+import PayButton from "./PayButton";
 
 const CustomerBookings = () => {
   const [loading, setLoading] = useState(false);
@@ -75,8 +76,7 @@ const CustomerBookings = () => {
                 <span>₹{visitingCharge + 50}</span>
               </div>
             </div>
-
-            <button className="btn btn-info w-100 fw-semibold">Pay Now</button>
+           <PayButton bookingId={bookingId} paymentType={"CANCEL"} label={`Pay ₹${50 + visitingCharge}`}/>
           </div>,
           {
             autoClose: false, // ❌ auto close band
@@ -296,8 +296,84 @@ const CustomerBookings = () => {
       </p>
     </div>
   </div>
-)}
+              )}
+            {booking.quoteAmount && (
+               <div className="bg-success-subtle border border-success rounded-3 p-3 mt-3">
+      <p className="mb-1 fw-semibold text-success">
+        💰 Service Cost Shared
+      </p>
 
+      <div className="d-flex justify-content-between">
+        <span>Service Charge</span>
+        <strong>₹{booking.quoteAmount}</strong>
+      </div>
+
+      <div className="d-flex justify-content-between">
+        <span>Visiting Charge</span>
+        <strong>₹{booking.visitingCharge}</strong>
+      </div>
+
+      <hr className="my-2" />
+
+      <div className="d-flex justify-content-between fw-bold">
+        <span>Total Payable</span>
+        <span>₹{booking.quoteAmount + booking.visitingCharge}</span>
+      </div>
+
+        {booking.status !== "completed" && <PayButton bookingId={booking._id} paymentType={"FINAL"} label={`Pay ₹${booking.quoteAmount + booking.visitingCharge}`}/>}
+    </div>
+             )}
+            
+            {booking.status == "cancelled" && !booking.currentPaymentId && (
+                      <div className="card border-warning shadow-sm mt-3">
+            <div className="card-body text-center">
+              <h5 className="text-warning fw-bold mb-2">
+                Booking Cancelled
+              </h5>
+
+              <p className="text-muted mb-1">
+                You have cancelled this booking successfully.
+              </p>
+
+              <p className="text-muted small">
+                No cancellation charges were applied.
+              </p>
+            </div>
+          </div>
+            )}
+            {booking.status == "cancelled" && booking.currentPaymentId && (
+              <div className="card border-danger shadow-sm mt-3">
+    <div className="card-body">
+      <h5 className="text-danger fw-bold mb-2 text-center">
+         Late Cancellation
+      </h5>
+
+      <p className="mb-2">
+        You cancelled this booking after the professional had started the visit.
+      </p>
+
+      <ul className="list-group list-group-flush mb-3">
+        <li className="list-group-item d-flex justify-content-between">
+          <span>Late Cancellation Fee</span>
+          <strong>₹50</strong>
+        </li>
+        <li className="list-group-item d-flex justify-content-between">
+          <span>Professional Visiting Charge</span>
+          <strong>₹{booking.visitingCharge}</strong>
+        </li>
+        <li className="list-group-item d-flex justify-content-between">
+          <span>Total paid amount</span>
+          <strong>₹{booking.visitingCharge + 50}</strong>
+        </li>
+      </ul>
+
+      <div className="alert alert-success mb-0">
+         Payment completed successfully.  
+        The amount has been transferred to the professional.
+      </div>
+    </div>
+  </div>
+            )}
 
           </div>
         </div>
