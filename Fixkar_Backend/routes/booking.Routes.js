@@ -11,11 +11,14 @@ import { sendQuoteAmount } from '../controllers/BookingController/sendQuoteAmoun
 import { createOrder, verifyPayment } from '../controllers/payment.controller.js';
 import { getProfessionalWallet } from '../controllers/ProfessionalsController/getProfessionalWallet.js';
 import { getWalletTransaction } from '../controllers/ProfessionalsController/getWalletTransaction.js';
+import { getBookingById } from '../controllers/BookingController/getBookingById.js';
+import { postReview } from '../controllers/review.controller.js';
 
 const bookingRouter = express.Router();
 
 bookingRouter.post('/create-booking', isAuth, sendHireRequest);
 bookingRouter.get('/my-bookings', isAuth, getMyBookings);
+bookingRouter.get('/get-booking', getBookingById)
 bookingRouter.post('/reject-booking', rejectBooking)
 bookingRouter.post('/cancel-booking', cancelCustomerBooking)
 bookingRouter.post('/accept-booking', acceptBooking)
@@ -23,10 +26,16 @@ bookingRouter.post('/mark-reached', isAuth, reachedToLocation)
 bookingRouter.post('/verify-reached-otp', isAuth, verifyReachedOtp);
 bookingRouter.post('/send-quote-amount', isAuth, sendQuoteAmount)
 
+
 //payment route
 
 bookingRouter.post('/create-order', createOrder);
 bookingRouter.post('/verify-payment', verifyPayment)
 bookingRouter.get('/get-professional-wallet', isAuth, getProfessionalWallet)
 bookingRouter.get('/get-wallet-transaction', isAuth, getWalletTransaction)
+
+
+// review route
+
+bookingRouter.post('/post-review', postReview);
 export default bookingRouter;

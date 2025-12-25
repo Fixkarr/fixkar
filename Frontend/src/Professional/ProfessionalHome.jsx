@@ -5,6 +5,7 @@ import { SlCalender } from "react-icons/sl";
 import Availability from "./Availability";
 import DayCard from "./DayCard";
 import ProfessionalWallet from "./ProfessionalWallet";
+import ProBookingCard from "./professionalBooking/proBookingCard";
 
 const ProfessionalHome = () => {
   const navigate = useNavigate()

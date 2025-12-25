@@ -30,7 +30,7 @@ const CustomerHome = () => {
     
     <div className='p-md-5 p-2'>
           <div>
-            <h2 className='welcome'>Welcome, <span className='text-primary'>{currentUserData?.user?.userId?.fullName}!</span></h2>
+            <h2 className='welcome'>Welcome, <span className='text-primary fs-1'>{currentUserData?.user?.userId?.fullName}!</span></h2>
             {!currentUserData?.user?.userId?.isMobileVerified && <MobileNotVerified/>}
             <p className='para'>Find Professionals near you!</p>
             <SearchSection onLocationSelect={handleLocationSelect} onServiceSelect={handleServiceSelect}/>

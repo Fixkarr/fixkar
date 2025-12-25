@@ -4,7 +4,7 @@ const DayCard = ( {year, day, month} ) => {
  
   return (
     <div
-      className="day-card bg-danger"
+      className="day-card bg-danger welcome"
     >
       {/* YEAR */}
       <small className="day-year">{year}</small>

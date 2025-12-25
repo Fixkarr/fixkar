@@ -44,6 +44,8 @@ import useGetMyBookings from "./hooks/useGetMyBookings.jsx";
 import { addNewBooking, updateBookingInRedux } from "./redux/booking.Slice.js";
 import { clearReachedOtp, setReachedOtp } from "./redux/otp.Slice.js";
 import { refreshWallet } from "./redux/wallet.slice.js";
+import ProBookingDetails from "./Professional/professionalBooking/proBookingDetails.jsx";
+import CusBookingDetail from "./Customer/customerBooking/CusBookingDetail.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 
@@ -109,7 +111,7 @@ const App = () => {
       dispatch(updateBookingInRedux(booking));
       dispatch(refreshWallet())
     });
-
+    
     socket.on("connect_error", (err) => {
       console.log("🔴 Socket error:", err.message);
     });
@@ -189,6 +191,12 @@ const App = () => {
           }
         />
         <Route
+          path="/customer/bookings/:bookingId"
+          element={
+            role === "customer" ? <CusBookingDetail /> : <Navigate to="/" />
+          }
+        />
+        <Route
           path="/customer/hire-professionals"
           element={
             role === "customer" ? <HireProfessionals /> : <Navigate to="/" />
@@ -258,6 +266,16 @@ const App = () => {
           element={
             role === "professional" ? (
               <ProfessionalBookings />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/professional/bookings/:bookingId"
+          element={
+            role === "professional" ? (
+              <ProBookingDetails />
             ) : (
               <Navigate to="/" />
             )

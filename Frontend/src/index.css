@@ -157,3 +157,16 @@ hr{
     margin: auto;
   }
 }
+
+.booking-card {
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 10px;
+  border: 1px solid #444;
+  margin-bottom: 5px;
+}
+
+.booking-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 12px 28px rgba(13, 110, 253, 0.25); /* primary shadow */
+}
