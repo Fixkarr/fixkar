@@ -204,7 +204,6 @@ const CusBookingDetail = () => {
     {booking.status == 'cancelled' && (
             <CusCancelBooking booking={booking}/>
     )}
-
     {booking.status === "completed" && (
         <CusCompleteBooking booking={booking}/>
     )}

@@ -56,7 +56,7 @@ export const getMyBookings = async (req, res) => {
         model : "User",
         select : "fullName"
       }
-    }).sort({createdAt : -1});
+    }).populate('review').sort({createdAt : -1});
 
     return res.status(200).json({
       message: bookings.length

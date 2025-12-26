@@ -10,7 +10,24 @@ export const postReview = async(req,res)=>{
             })
         }
 
-        const booking = await Booking.findById(bookingId)
+        const booking = await Booking.findById(bookingId).populate({
+            path: "customerId",
+            populate: {
+            path: "userId",
+            model: "User",
+            select: "fullName",
+            },
+        })
+        .populate({
+            path: "professionalId",
+            select: "profilePicture address userId",
+            populate: {
+            path: "userId",
+            model: "User",
+            select: "fullName",
+            },
+        }).populate('review');
+
         if(!booking){
             return res.status(400).json({
                 message : "Booking not found!"
@@ -25,11 +42,21 @@ export const postReview = async(req,res)=>{
             review
         })
         
-        res.status(200).json({
-            message : "Thank you for your feedback!",
-            review : newReview
-        })
+        booking.review = newReview._id;
+        await booking.save();
 
+        io.to(booking.customerId.userId._id.toString()).emit(
+            "bookingUpdated",
+             booking
+        )
+        io.to(booking.professionalId.userId._id.toString()).emit(
+            "bookingUpdated",
+             booking
+        )
+
+        res.status(200).json({
+            message : "Review posted!"
+        })
 
     } catch (error) {
         console.log(error.message)

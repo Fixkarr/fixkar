@@ -30,7 +30,8 @@ export const rejectBooking = async (req,res)=>{
       model: "User",
       select: "fullName",
     },
-  });
+  }).populate('review');
+  
    if (!updatedBooking) { 
       return res.status(404).json({
         message: "Booking not found",

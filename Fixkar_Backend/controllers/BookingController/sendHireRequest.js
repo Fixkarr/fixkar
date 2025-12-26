@@ -41,7 +41,7 @@ export const sendHireRequest = async (req, res)=>{
       model: "User",
       select: "fullName",
     },
-  });
+  }).populate('review');
 
        io.to(booking.professionalId.userId._id.toString()).emit(
       "newBookingRequest",

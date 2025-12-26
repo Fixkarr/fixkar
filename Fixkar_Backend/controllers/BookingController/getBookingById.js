@@ -25,7 +25,7 @@ export const getBookingById = async (req,res)=>{
         model : "User",
         select : "fullName"
       }
-    })
+    }).populate('review')
 
     if(!booking){
         return res.status(400).json({

@@ -76,8 +76,6 @@ const professionalSchema = new mongoose.Schema({
         default : 'pending'
     },
     onBoarded : {type : Boolean, default : false},
-    ratings : {type : String, default : 0},
-    totalReviews : {type : Number, default : 0},
     busyDays : [{type : String}],
     reviews : [{type : mongoose.Schema.Types.ObjectId, ref : "Review",}]
 },{timestamps : true});

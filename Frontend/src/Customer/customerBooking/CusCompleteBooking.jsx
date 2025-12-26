@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
+import { FaStar } from 'react-icons/fa';
+import axios from 'axios'
+import { server_url } from '../../App';
+import { toast } from 'react-toastify';
 
 const CusCompleteBooking = ({booking}) => {
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault();
-        console.log({rating, review})
+        try {
+          const result = await axios.post(`${server_url}/api/booking/post-review`, {rating, review, bookingId : booking._id})
+          toast.info(result.data.message);
+        } catch (error) {
+          console.log(error.message)
+          toast.error(error.response.data.message)
+        }
     }
 
   return (
@@ -57,7 +67,7 @@ const CusCompleteBooking = ({booking}) => {
   </div>
 
   {/* Rating & Review */}
-  <div className="border rounded-3 p-3 mb-4">
+  {!booking.review && <div className="border rounded-3 p-3 mb-4">
     <form>
    <div className="mb-3">
   <label className="form-label fw-semibold">
@@ -108,23 +118,28 @@ const CusCompleteBooking = ({booking}) => {
       Post Review
     </button>
   </form>
-  </div>
+  </div>}
 
   {/* Review Given By You */}
-  <div className="bg-primary-subtle border border-primary rounded-3 p-3">
+  {booking.review && <div className="bg-primary-subtle border border-primary rounded-3 p-3">
     <h6 className="fw-bold mb-2 text-primary">
       Review Given By You
     </h6>
 
     <div className="mb-1 text-warning fs-5">
-      ★ ★ ★ ★ ★
+       {[1, 2, 3, 4, 5].map((star) => (
+        <FaStar
+          key={star}
+          size={18}
+          color={star <= booking.review.rating  ? "#ffc107" : "#e4e5e9"}
+        />
+      ))}
     </div>
 
     <p className="mb-0 text-muted small">
-      The professional was very polite and completed the work on time.
-      Highly recommended!
+     {booking.review.review}
     </p>
-  </div>
+  </div>}
 
 </div>
 

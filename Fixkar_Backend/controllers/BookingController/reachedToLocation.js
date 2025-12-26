@@ -22,7 +22,7 @@ export const reachedToLocation = async (req, res)=>{
       model: "User",
       select: "fullName",
     },
-  });
+  }).populate('review');
 
    if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
