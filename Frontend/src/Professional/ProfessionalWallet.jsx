@@ -12,9 +12,9 @@ const ProfessionalWallet = () => {
    useGetProfessionalWallet()
 const {wallet} = useSelector(state=> state.wallet);
   const {
-    pendingBalance,
-    totalWithdrawn,
-    totalEarned,
+    pendingBalance = 0,
+    totalWithdrawn = 0,
+    totalEarned = 0,
   } = wallet || {};
 
   return (

@@ -1,32 +1,55 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  FaUserCheck,
+  FaArrowRight,
+  FaExclamationCircle,
+} from "react-icons/fa";
 
 const CompleteProfileToast = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+
   return (
-     <div className="alert alert-warning d-flex align-items-center gap-md-3 flex-column flex-md-row p-4 rounded shadow-sm mt-2">
-          <div className="flex-grow-1">
-            <h5 className="mb-2 fw-bold welcome">Complete Your Profile!</h5>
-            <p className="mb-2" style={{ fontSize: "0.8vmax", lineHeight: "1.4" }}>
-              Your profile is currently incomplete. Please complete your profile
-              so that customers can understand you better, <br /> which will increase
-              your chances of getting work.
-            </p>
+    <div className="alert alert-warning border-0 shadow rounded-4 p-4 mt-3 d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
+      
+      {/* Icon */}
+      <div className="bg-warning bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+           style={{ width: "52px", height: "52px" }}>
+        <FaExclamationCircle className="text-warning fs-4" />
+      </div>
 
-            <ul className="mb-3 ps-3"  style={{ fontSize: "0.8vmax", lineHeight: "1.4" }}>
-              {<li>Profile Description missing</li>}
-              {<li>Service Charges not set</li>}
-              <li>Profile looking incomplete to customers</li>
-            </ul>
-          </div>
+      {/* Content */}
+      <div className="flex-grow-1">
+        <h5 className="fw-bold mb-1 d-flex align-items-center gap-2">
+          <FaUserCheck className="text-primary" />
+          Complete Your Profile
+        </h5>
 
-          <button onClick={()=>navigate("/professional/complete-profile")} style={{fontSize : "0.9vmax"}}
-            className="btn btn-primary btn-sm px-md-4 py-md-2 m-0 fw-semibold"
-          >
-            Complete Now
-          </button>
-        </div>
-  )
-}
+        <p className="mb-2 text-dark small">
+          Your profile is currently incomplete. Completing your profile helps
+          customers understand your services better and significantly increases
+          your chances of getting hired.
+        </p>
 
-export default CompleteProfileToast
+        <ul className="mb-0 ps-3 small text-dark">
+          <li>Profile description is missing</li>
+          <li>Service charges are not set</li>
+          <li>Incomplete profiles receive fewer bookings</li>
+        </ul>
+      </div>
+
+      {/* CTA */}
+      <div className="text-end">
+        <button
+          onClick={() => navigate("/professional/complete-profile")}
+          className="btn btn-primary rounded-pill px-4 d-inline-flex align-items-center gap-2 fw-semibold"
+        >
+          Complete Now
+          <FaArrowRight />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default CompleteProfileToast;

@@ -1,0 +1,84 @@
+.profile-card {
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.profile-header {
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  padding: 18px 20px;
+  border-radius: 14px;
+  color: #fff;
+}
+
+.badge-profession {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.info-item {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-item svg {
+  color: #4f46e5;
+  font-size: 18px;
+}
+
+.charges-card {
+  background: linear-gradient(135deg, #ecfeff, #eef2ff);
+  border-radius: 14px;
+}
+
+.charge-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  transition: 0.25s ease;
+}
+
+.charge-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.warning-box {
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  border-left: 4px solid #f97316;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.loader-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
