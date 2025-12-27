@@ -20,6 +20,7 @@ import { toast, ToastContainer } from "react-toastify";
 import UpdateProfileInfoForm from "./UpdateProfileInfoForm";
 import CompleteProfileToast from "./CompleteProfileToast";
 import UpdateCharges from "./UpdateCharges";
+import MyGallery from "./MyGallery";
 
 
 const ProfessionalProfile = () => {
@@ -164,12 +165,14 @@ const ProfessionalProfile = () => {
                 {!isProfileComplete && (
                   <CompleteProfileToast/>
       )}
-
-        <div className="myGallery mt-2">
-          <h2 className="welcome">My Gallery</h2>
+        <div className="review">
+          weofrubvjds
         </div>
-
+        <div className="myGallery mt-2">
+            <MyGallery/>
           </div>
+
+            </div>
       </div>
     </>
   )

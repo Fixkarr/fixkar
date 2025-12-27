@@ -29,9 +29,8 @@ const ProBookingDetails = () => {
     const {bookingId} = useParams()
     const {walletTransaction} = useSelector(state => state.wallet);
     const {myBookings} = useSelector(state=> state.bookings)
-
     const booking = myBookings.find(book => book._id == bookingId)
-    const transaction = walletTransaction.find(tx => tx.bookingId._id == bookingId)
+    const transaction = walletTransaction?.find(tx => tx.bookingId?._id == bookingId)
      const isReachedEnabled = (booking)=>{
     if (booking.status !== "accepted") return false;
 

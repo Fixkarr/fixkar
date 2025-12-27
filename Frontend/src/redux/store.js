@@ -8,7 +8,7 @@ import distanceSlice from './distance.slice.js'
 import bookingSlice from './booking.Slice.js'
 import reachedOtpSlice from './otp.Slice.js'
 import walletSlice from './wallet.slice.js'
-
+import gallerySlice from './gallery.Slice.js'
 export const store = configureStore({
     reducer : {
         user : userSlice,
@@ -19,6 +19,7 @@ export const store = configureStore({
         distance : distanceSlice,
         bookings : bookingSlice,
         reachedOtp : reachedOtpSlice,
-        wallet : walletSlice
+        wallet : walletSlice,
+        gallery : gallerySlice
     }
 })

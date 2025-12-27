@@ -7,7 +7,7 @@ import { getAllProfessionals, getAllVerifiedProfessionals } from '../controllers
 import { searchProfessionals } from '../controllers/CustomerController/searchController.js';
 import { completeProfile } from '../controllers/ProfessionalsController/completeProfile.js';
 import { setBusyDays } from '../controllers/ProfessionalsController/busyDays.controller.js';
-import { updateCharge, updateProfileInfo, updateProfilePicture } from '../controllers/updateProfile.controller.js';
+import { updateCharge, updateProfileInfo, updateProfilePicture, uploadMedia } from '../controllers/updateProfile.controller.js';
 import multerErrorHandler from '../middlewares/multerErrorHandler.js';
 import { getUserById } from '../controllers/getUserById.controller.js';
 const userRoute = express.Router();
@@ -42,7 +42,8 @@ userRoute.post("/update-profile-picture", upload.fields([
 
 userRoute.post("/update-profile-info", isAuth, updateProfileInfo)
 userRoute.post("/update-charges", isAuth, updateCharge);
-
+userRoute.post('/upload-media', upload.single("media"),   // 👈 important
+  multerErrorHandler, isAuth, uploadMedia)
 
 
 

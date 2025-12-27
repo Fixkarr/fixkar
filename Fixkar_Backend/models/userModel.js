@@ -68,7 +68,7 @@ const professionalSchema = new mongoose.Schema({
             type : String,
         }
     },
-    gallery : [{type : String}],
+    gallery : [{type : mongoose.Schema.Types.ObjectId, ref : 'Gallery'}],
     poi : {type : String},
     status : {
         type : String,

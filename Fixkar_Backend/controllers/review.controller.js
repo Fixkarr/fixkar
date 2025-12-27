@@ -1,5 +1,6 @@
 import {Booking} from '../models/bookingModel.js'
 import { Review } from '../models/reviewModel.js'
+import { Professional } from '../models/userModel.js'
 import { io } from '../server.js'
 export const postReview = async(req,res)=>{
     try {
@@ -17,8 +18,7 @@ export const postReview = async(req,res)=>{
             model: "User",
             select: "fullName",
             },
-        })
-        .populate({
+        }).populate({
             path: "professionalId",
             select: "profilePicture address userId",
             populate: {
@@ -41,6 +41,16 @@ export const postReview = async(req,res)=>{
             rating : Number(rating),
             review
         })
+
+        const professional = await Professional.findById(booking.professionalId);
+        if(!professional){
+            return res.status(400).json({
+                message : "professional not found"
+            })
+        }
+        professional.reviews.push(newReview)
+
+        await professional.save();
         
         booking.review = newReview._id;
         await booking.save();

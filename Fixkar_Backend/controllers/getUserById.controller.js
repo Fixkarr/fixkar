@@ -15,13 +15,25 @@ export const getUserById = async (req,res)=>{
         }
 
          if(user.role === "customer"){
-                    const customer = await Customer.findOne({userId : user._id}).populate("userId")
+                    const customer = await Customer.findOne({userId : user._id}).populate("userId", '-password')
                     return res.status(200).json({
                         message  : "user fetched successfully",
                         user : customer
                     })
                 }else if(user.role === "professional"){
-                    const professional = await Professional.findOne({userId : user._id}).populate("userId")
+                   const professional = await Professional.findOne({ userId: user._id }).select("-poi -dob").populate("userId", "-password").populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 5 reviews
+    }
+  }).populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 6 images
+    }
+  });
                     return res.status(200).json(
                        { message : "user fetched successfully",
                         user : professional}

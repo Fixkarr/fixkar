@@ -17,7 +17,7 @@ export const getAllProfessionals = async (req,res)=>{
 
 export const getAllVerifiedProfessionals = async (req,res)=>{
     try {
-        const verifiedProfessionals = await Professional.find({status : "approved"}).populate("userId")
+        const verifiedProfessionals = await Professional.find({status : "approved"}).select('-poi -dob').populate("userId", '-password')
         if(!verifiedProfessionals){
             return res.status(404).json({message: "Professionals Not Found"})
         }

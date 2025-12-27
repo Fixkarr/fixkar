@@ -21,12 +21,22 @@ export const setBusyDays = async (req,res)=>{
             })
         }
 
-        const updatedProfessional = await Professional.findByIdAndUpdate(professional._id,
-            {
-                $addToSet: { busyDays: { $each: formattedDays } } // <-- MAGIC
-            },{new : true}
-        ).populate("userId")
-
+      const updatedProfessional = await Professional.findByIdAndUpdate(
+  professional._id,
+  {
+    $addToSet: { busyDays: { $each: formattedDays } }
+  },
+  { new: true }
+)
+.populate("userId", "-password")
+.populate({
+  path: "reviews",
+  options: { sort: { createdAt: -1 }, limit: 10 } // latest reviews
+})
+.populate({
+  path: "gallery",
+  options: { sort: { createdAt: -1 }, limit: 20 } // latest gallery
+});
         return res.status(200).json({
             message : "Dates updated!",
             user : updatedProfessional

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { server_url } from '../../App';
 import { toast } from 'react-toastify';
 import PayButton from '../PayButton';
+import { ClipLoader } from 'react-spinners';
 
 const CusHandleCancel = ({booking}) => {
     const [loading,setLoading] = useState(false);

@@ -1,5 +1,7 @@
 import cloudinary from "../config/cloudinary.js";
+import { Gallery } from "../models/galleryModel.js";
 import { Professional, User } from "../models/userModel.js";
+import { io } from "../server.js";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary.js"
 
 export const updateProfilePicture = async (req,res)=>{
@@ -38,7 +40,20 @@ export const updateProfilePicture = async (req,res)=>{
             public_id : result.public_id
         }, {new : true})
 
-        const updatedUser = await Professional.findById(updatedPicture._id).populate("userId");
+        const updatedUser = await Professional.findById(updatedPicture._id).select('-poi -dob').populate("userId", '-password').populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 5 reviews
+    }
+  })
+  .populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 6 images
+    }
+  });
 
         if(!updatedPicture){
            return res.status(400).json({
@@ -117,7 +132,20 @@ export const updateProfileInfo = async (req, res) => {
       return res.status(400).json({ message: "No valid fields to update" });
     }
 
-    const professional = await Professional.findOne({userId : req.userId}).populate("userId");
+    const professional = await Professional.findOne({userId : req.userId}).select('-poi -dob').populate("userId", '-password').populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 5 reviews
+    }
+  })
+  .populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 6 images
+    }
+  });
 
     return res.status(200).json({
       message: "Professional info updated successfully",
@@ -180,7 +208,20 @@ if (amountDesc) {
       })
     }
 
-    const populatedProfessional = await Professional.findById(updatedProfessional._id).populate("userId");
+    const populatedProfessional = await Professional.findById(updatedProfessional._id).select('-poi -dob').populate("userId", '-password').populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 10 reviews
+    }
+  })
+  .populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 20 images
+    }
+  });
 
     return res.status(200).json({
       message : "Charges updated successfully!",
@@ -191,6 +232,77 @@ if (amountDesc) {
     console.log("error in updateCharge:", error.message);
     return res.status(500).json({
       message: "Internal server error!",
+    });
+  }
+}
+
+export const uploadMedia = async (req,res)=>{
+  try {
+    const user = req.userId;
+    const professional = await Professional.findOne({userId : user})
+
+    if(!professional){
+      return res.status(400).json({
+        message : "Professional not found!"
+      })
+    }
+
+     if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file provided",
+      });
+    }
+
+    if (professional?.gallery?.length >= 20) {
+      return res.status(400).json({
+        message: "Gallery limit reached",
+      });
+    }
+
+    const result = await uploadToCloudinary(
+      req.file,
+      "professional_gallery"
+    );
+
+     const media = await Gallery.create({
+      professionalId : professional._id,
+      mediaUrl: result.secure_url,
+      mediaType: result.resource_type,
+      publicId: result.public_id,
+    });
+
+    professional.gallery.push(media._id);
+    await professional.save();
+
+    const updatedProfessional = await Professional.findById(
+      professional._id
+    ).select('-poi -dob').populate('userId', '-password').populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 5 reviews
+    }
+  })
+  .populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 6 images
+    }
+  });
+
+
+    return res.status(200).json({
+      message : "Media uploaded!",
+      user : updatedProfessional
+    })
+
+  } catch (error) {
+     console.error("Upload Media Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Media upload failed",
     });
   }
 }
