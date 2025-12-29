@@ -230,14 +230,14 @@ const ProfessionalProfile = () => {
   {isProfileComplete && (
     <div className="card border-0 shadow-sm rounded-4">
 
-      <div className="card-header bg-light d-flex justify-content-between align-items-center rounded-top-4">
-        <h5 className="mb-0 fw-semibold text-primary d-flex align-items-center gap-2">
+      <div className="card-header bg-primary d-flex justify-content-between align-items-center rounded-top-4">
+        <h5 className="mb-0 fw-semibold text-light d-flex align-items-center gap-2">
           <GiTakeMyMoney />
           My Charges
         </h5>
 
         <span
-          className="btn text-primary btn-sm"
+          className="btn text-light btn-sm"
           data-bs-toggle="modal"
           data-bs-target="#ChargesModal"
         >

@@ -9,15 +9,33 @@ import GalleryPlaceholder from "../Components/GalleryPlaceholder";
 // import { uploadMedia } from "../Customer/uploadMedia";
 import { setCurrentUserData } from "../redux/user.slice";
 import UploadMedia from "../Customer/uploadMedia";
+import axios from "axios";
+import { server_url } from "../App";
+import { toast } from "react-toastify";
 
 
 
 const MyGallery = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+ const [selectedMedia, setSelectedMedia] = useState(null);
+  const handleDelete = async(mediaId)=>{
+    try {
+      setLoading(true);
+      const result = await axios.delete(`${server_url}/api/user/delete-media/${mediaId}`, {withCredentials : true})
+      dispatch(setCurrentUserData(result.data));
+      setSelectedMedia(null)
+      toast.success(result.data.message)
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      setSelectedMedia(null)
+      setLoading(false);
+    }
+  }
 
   // 🔥 NEW STATES (UI ONLY)
-  const [selectedMedia, setSelectedMedia] = useState(null);
+ 
 
   const { currentUserData } = useSelector((state) => state.user);
   const media = currentUserData?.user?.gallery;
@@ -28,12 +46,16 @@ const MyGallery = () => {
 
       {/* ===== Header ===== */}
       <div className="card border-0 shadow-sm rounded-4 mb-3">
-        <div className="card-body d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center gap-2">
-            <FaImages className="text-primary fs-4" />
+        <div className="card-body rounded-3 d-flex justify-content-between align-items-center"
+            style={{
+      background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
+    }}
+        >
+          <div className="d-flex text-light align-items-center gap-2">
+            <FaImages className="text-light fs-4" />
             <div>
               <h5 className="mb-0 fw-semibold">My Gallery</h5>
-              <small className="text-muted">
+              <small>
                 Tap on any media to preview
               </small>
             </div>
@@ -119,9 +141,9 @@ const MyGallery = () => {
                   Back
                 </button>
 
-                <button className="btn btn-danger rounded-pill d-flex align-items-center gap-2">
+                <button disabled={loading} className="btn btn-danger rounded-pill d-flex align-items-center gap-2" onClick={()=>handleDelete(selectedMedia._id)}>
                   <FaTrashAlt />
-                  Delete
+                  {loading && <ClipLoader size={10} />} Delete
                 </button>
               </div>
 

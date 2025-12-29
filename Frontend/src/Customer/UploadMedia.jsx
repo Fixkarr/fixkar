@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { IoClose, IoCloudUploadOutline } from "react-icons/io5";
 import { ClipLoader } from "react-spinners";
 import { server_url } from "../App";
 import { toast } from "react-toastify";
@@ -16,6 +16,15 @@ const UploadMedia = () => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const fileInputRef= useRef(null)
+
+  // handle leave
+
+  const handleLeave = ()=>{
+    setPreview(null);
+    setFile(null);
+    setUploading(false)
+    setError("")
+  }
 
   // 1️⃣ File select + preview
   const handleSelect = (e) => {
@@ -142,8 +151,10 @@ const UploadMedia = () => {
 
       {/* Preview */}
       {preview && (
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-end"> 
+           <span  className="text-danger" role="button" onClick={handleLeave}><IoClose size={20}/> </span>
           <div className="ratio ratio-1x1 rounded-4 overflow-hidden shadow-sm">
+           
             {file.type.startsWith("image") ? (
               <img
                 src={preview}

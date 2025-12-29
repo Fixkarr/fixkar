@@ -5,7 +5,7 @@ import cloudinary from '../../config/cloudinary.js'
 export const deleteMedia = async(req,res)=>{
     try {
         const myId = req.userId;
-        const {mediaId} = req.body;
+        const {mediaId} = req.params;
 
         const professional = await Professional.findOne({userId : myId});
         if(!professional){

@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/customerhome.css";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { useDispatch } from "react-redux";
 import { setSelectedLocation, setSelectedService } from "../redux/location.slice";
+import MapPinDrop from "./MapPinDrop";
 
 const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
   const googleLoaded = useLoadGoogleMaps();
   const inputRef = useRef(null);
+
+  const [coords, setCoords] = useState({
+    lat: null,
+    lng: null,
+    address: "",
+  });
 
   const dispatch = useDispatch();
   const [service, setService] = useState("");
@@ -22,7 +29,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
     "Cleaner",
   ];
 
-  // Location autocomplete
+  // 🔹 Autocomplete (ONLY initial location)
   useEffect(() => {
     if (!googleLoaded || !inputRef.current) return;
 
@@ -36,39 +43,27 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
 
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
+      if (!place.geometry) return;
 
-      const locationData = {
+      setCoords({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
         address: place.formatted_address,
-        lat: place.geometry?.location?.lat(),
-        lng: place.geometry?.location?.lng(),
-      };
-
-      // Save location to Redux
-      dispatch(setSelectedLocation(locationData));
-
-      // If parent component wants callback (CustomerHome case)
-      if (onLocationSelect) onLocationSelect(locationData);
+      });
     });
-  }, [googleLoaded, dispatch, onLocationSelect]);
+  }, [googleLoaded]);
 
-  // When typing in service input
   const handleServiceChange = (value) => {
     setService(value);
     dispatch(setSelectedService(value));
-    if(onServiceSelect) onServiceSelect(value)
+    if (onServiceSelect) onServiceSelect(value);
   };
 
   return (
     <div className="search container">
-      <div
-        className="p-lg-4 p-2 rounded-4 shadow-sm"
-        style={{
-          backdropFilter: "blur(10px)",
-          background: "rgba(255, 255, 255, 0.6)",
-        }}
-      >
+      <div className="p-lg-4 p-2 rounded-4 shadow-sm bg-white bg-opacity-75">
         {/* Location Input */}
-        <div className="mb-2 position-relative">
+        <div className="mb-2">
           <label className="form-label fw-semibold">Your Location</label>
           <div className="input-group">
             <span className="input-group-text bg-white border-end-0">
@@ -83,15 +78,42 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
           </div>
         </div>
 
-  
+        {/* Map + Confirm */}
+        {coords.lat && coords.lng && (
+          <>
+            <MapPinDrop coords={coords} setCoords={setCoords} />
 
-        {/* Quick Service Buttons */}
+            <div className="mt-2 small text-muted">
+              📍 {coords.address || "Updating address..."}
+            </div>
+
+            <button
+              className="btn btn-primary w-100 mt-3"
+              onClick={() => {
+                const finalLocation = {
+                  lat: Number(coords.lat),
+                  lng: Number(coords.lng),
+                  address: coords.address,
+                };
+
+                dispatch(setSelectedLocation(finalLocation));
+                if (onLocationSelect) onLocationSelect(finalLocation);
+
+                console.log("✅ Final Location:", finalLocation);
+              }}
+            >
+              📍 Confirm Exact Location
+            </button>
+          </>
+        )}
+
+        {/* Services */}
         <div className="d-flex flex-wrap gap-2 mt-3">
           {services.map((srv) => (
             <button
               key={srv}
               onClick={() => handleServiceChange(srv)}
-              className="btn btn-outline-primary rounded-pill px-lg-3 px-1 py-lg-1 py-0"
+              className="btn btn-outline-primary rounded-pill px-3 py-1"
             >
               {srv}
             </button>
