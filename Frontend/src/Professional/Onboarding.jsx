@@ -10,6 +10,9 @@ import { server_url } from "../App.jsx";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
+import { FaCamera, FaIdCard, FaUserCheck } from "react-icons/fa6";
+import { FaBirthdayCake, FaInfoCircle, FaMapMarkerAlt } from "react-icons/fa";
+import { MdWork } from "react-icons/md";
 
 const Onboarding = ({ userData }) => {
   const [loading, setLoading] = useState(false);
@@ -118,100 +121,184 @@ const Onboarding = ({ userData }) => {
 
   return (
     <>
+<div className="mt-5">
 
-      <div className="onboarding bg-primary-subtle mt-5">
-        <h2>Welcome, {userData?.user?.userId?.fullName || "Professional"}</h2>
-        <p>Let's complete your onboarding process.</p>
-        <hr className="text-primary" />
+  <div className="card border-0 rounded-4 shadow overflow-hidden">
 
-        <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-          {/* Date */}
-          <div className="input-container">
-            <label className="text-primary">Date of Birth</label>
-            <input
-              type="date"
-              name="dob"
-              max={maxDate}
-              value={formik.values.dob}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="form-control"
-            />
-          </div>
-          {formik.touched.dob && formik.errors.dob && (
-            <div className="text-danger">{formik.errors.dob}</div>
-          )}
-
-          {/* Profession */}
-          <div className="input-container">
-            <label className="text-primary">Profession</label>
-            <select
-              name="profession"
-              className="form-select"
-              value={formik.values.profession}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            >
-              <option value="">Select Profession</option>
-              <option value="Electrician">Electrician</option>
-              <option value="Painter">Painter</option>
-              <option value="Plumber">Plumber</option>
-              <option value="Carpenter">Carpenter</option>
-              <option value="Labour">Labour</option>
-              <option value="Engineer">Engineer</option>
-            </select>
-          </div>
-
-          {/* ✅ Address with Google Autocomplete */}
-          <div className="input-container">
-            <label className="text-primary">Address</label>
-            <input
-              type="text"
-              ref={addressInputRef}
-              name="address"
-              placeholder="Enter your address"
-              value={formik.values.address}
-              onChange={formik.handleChange}
-             
-              onBlur={formik.handleBlur}
-              className="form-control"
-            />
-          </div>
-          {formik.touched.address && formik.errors.address && (
-            <div className="text-danger">{formik.errors.address}</div>
-          )}
-
-          {/* Profile Picture */}
-          <div className="input-container">
-            <label className="text-primary">Profile Picture</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                formik.setFieldValue("profilePicture", e.target.files[0])
-              }
-              className="form-control"
-            />
-          </div>
-
-          {/* POI */}
-          <div className="input-container">
-            <label className="text-primary">Proof of Identity</label>
-            <input
-              type="file"
-              accept="image/*,application/pdf"
-              onChange={(e) => formik.setFieldValue("poi", e.target.files[0])}
-              className="form-control"
-            />
-          </div>
-
-          <center>
-            <button type="submit" disabled={loading} className="btn btn-primary mt-3">
-              {loading ? <ClipLoader size={20} /> : "Submit"}
-            </button>
-          </center>
-        </form>
+  {/* ===== Header ===== */}
+  <div
+    className="p-4 text-white"
+    style={{
+      background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
+    }}
+  >
+    <div className="d-flex align-items-center gap-3">
+      <FaUserCheck size={36} />
+      <div>
+        <h4 className="mb-0 fw-bold">
+          Welcome, {userData?.user?.userId?.fullName || "Professional"}
+        </h4>
+        <small className="opacity-75">
+          Complete your onboarding to start getting jobs
+        </small>
       </div>
+    </div>
+  </div>
+
+  {/* ===== Body ===== */}
+  <div className="card-body bg-light">
+
+    <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
+
+      {/* DOB */}
+      <div className="mb-3">
+        <label className="form-label fw-semibold text-primary">
+          <FaBirthdayCake className="me-2" />
+          Date of Birth
+        </label>
+        <input
+          type="date"
+          name="dob"
+          max={maxDate}
+          value={formik.values.dob}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="form-control rounded-3"
+        />
+        {formik.touched.dob && formik.errors.dob && (
+          <div className="text-danger small">{formik.errors.dob}</div>
+        )}
+      </div>
+
+      {/* Profession */}
+      <div className="mb-3">
+        <label className="form-label fw-semibold text-primary">
+          <MdWork className="me-2" />
+          Profession
+        </label>
+        <select
+          name="profession"
+          className="form-select rounded-3"
+          value={formik.values.profession}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        >
+          <option value="">Select Profession</option>
+          <option value="Electrician">Electrician</option>
+          <option value="Painter">Painter</option>
+          <option value="Plumber">Plumber</option>
+          <option value="Carpenter">Carpenter</option>
+          <option value="Labour">Labour</option>
+          <option value="Engineer">Engineer</option>
+        </select>
+      </div>
+
+      {/* Address */}
+      <div className="mb-3">
+        <label className="form-label fw-semibold text-primary">
+          <FaMapMarkerAlt className="me-2" />
+          Address
+        </label>
+        <input
+          type="text"
+          ref={addressInputRef}
+          name="address"
+          placeholder="Enter your full address"
+          value={formik.values.address}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className="form-control rounded-3"
+        />
+        {formik.touched.address && formik.errors.address && (
+          <div className="text-danger small">{formik.errors.address}</div>
+        )}
+      </div>
+
+      {/* Profile Picture */}
+      <div className="mb-4">
+        <label className="form-label fw-semibold text-primary">
+          <FaCamera className="me-2" />
+          Profile Picture
+        </label>
+
+        <div className="alert alert-warning py-2 small mb-2">
+          <FaInfoCircle className="me-1" />
+          Upload a clear photo of your face, front-facing, no sunglasses or blur.
+        </div>
+
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) =>
+            formik.setFieldValue("profilePicture", e.target.files[0])
+          }
+          className="form-control rounded-3"
+        />
+
+        {/* Preview (UI only) */}
+        {formik.values.profilePicture && (
+          <div className="mt-3 text-center">
+            <img
+              src={URL.createObjectURL(formik.values.profilePicture)}
+              alt="Profile Preview"
+              className="rounded-circle border shadow"
+              style={{ width: "120px", height: "120px", objectFit: "cover" }}
+            />
+            <div className="small text-muted mt-1">Profile Preview</div>
+          </div>
+        )}
+      </div>
+
+      {/* POI */}
+      <div className="mb-4">
+        <label className="form-label fw-semibold text-primary">
+          <FaIdCard className="me-2" />
+          Proof of Identity
+        </label>
+
+        <div className="alert alert-warning py-2 small mb-2">
+          <FaInfoCircle className="me-1" />
+          Upload a valid government ID (Aadhaar / PAN / Driving License).  
+          Image must be readable or PDF only.
+        </div>
+
+        <input
+          type="file"
+          accept="image/*,application/pdf"
+          onChange={(e) => formik.setFieldValue("poi", e.target.files[0])}
+          className="form-control rounded-3"
+        />
+
+        {/* POI Preview (image only) */}
+        {formik.values.poi && formik.values.poi.type.startsWith("image/") && (
+          <div className="mt-3 text-center">
+            <img
+              src={URL.createObjectURL(formik.values.poi)}
+              alt="POI Preview"
+              className="rounded border shadow-sm"
+              style={{ maxWidth: "220px" }}
+            />
+            <div className="small text-muted mt-1">ID Preview</div>
+          </div>
+        )}
+      </div>
+
+      {/* Submit */}
+      <div className="text-center">
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn btn-primary px-5 rounded-pill fw-semibold"
+        >
+          {loading ? <ClipLoader size={20} /> : "Complete Onboarding"}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</div>
+
     </>
   );
 };

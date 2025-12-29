@@ -7,6 +7,17 @@ import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import { server_url } from "../App";
 
+import {
+  FaUser,
+  FaCalendarAlt,
+  FaClock,
+  FaTools,
+  FaMoneyBillWave,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaInfoCircle,
+} from "react-icons/fa";
+
 const RequestHireForm = ({ proInfo }) => {
   const { selectedLocation } = useSelector((state) => state.location);
   const { currentUserData } = useSelector((state) => state.user);
@@ -15,6 +26,7 @@ const RequestHireForm = ({ proInfo }) => {
   const mobileNumber = currentUserData?.user?.userId?.mobile;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
   const visitingCharge = calculateVisitingCharge(
     parseFloat(distance?.distance.text)
   );
@@ -57,8 +69,8 @@ const RequestHireForm = ({ proInfo }) => {
       const [hour, minute] = formData.workTime.split(":").map(Number);
       const selectedMinutes = hour * 60 + minute;
 
-      const startTime = 8 * 60; // 08:00
-      const endTime = 17 * 60; // 17:00
+      const startTime = 8 * 60;
+      const endTime = 17 * 60;
 
       if (selectedMinutes < startTime || selectedMinutes > endTime) {
         toast.warning(
@@ -67,6 +79,7 @@ const RequestHireForm = ({ proInfo }) => {
         return;
       }
     }
+
     const payload = {
       customerName: formData.customerName,
       professionalId: proInfo._id,
@@ -109,6 +122,7 @@ const RequestHireForm = ({ proInfo }) => {
         }
       );
     }
+
     try {
       setLoading(true);
       const result = await axios.post(
@@ -117,60 +131,55 @@ const RequestHireForm = ({ proInfo }) => {
         { withCredentials: true }
       );
       toast.success(result.data.message);
-      navigate('/customer/bookings')
+      navigate("/customer/bookings");
       setLoading(false);
     } catch (error) {
-      console.log(error.message);
       toast.error(error.response.data.message);
       setLoading(false);
     }
   };
 
   return (
-    <div className="card shadow-sm border-0">
-      <div className="card-body">
-        <h5 className="fw-bold mb-3">Important Notice!</h5>
+    <div className="card border-0 shadow rounded-4 overflow-hidden">
 
-        <ul>
-          <li className="text-muted small mb-4">
-            The professional’s visiting charge is <b>₹${visitingCharge}</b>.
-            This is the standard fee for the professional to visit your
-            location. <br />
-            प्रोफेशनल का विज़िट चार्ज <b>₹${visitingCharge}</b> है। यह चार्ज
-            प्रोफेशनल के आपके स्थान तक आने के लिए लिया जाता है।
-          </li>
-          <li className="text-muted small mb-4">
-            Once the work is completed, this visiting charge will be added to
-            the final bill, and the total amount will need to be paid
-            accordingly. <br />
-            काम पूरा होने के बाद यह विज़िट चार्ज फाइनल बिल में जोड़ दिया जाएगा,
-            और कुल राशि का भुगतान करना होगा।
-          </li>
-          <li className="text-muted small mb-4">
-            In case you decide not to proceed with the work after the
-            professional arrives, an additional ₹50 will be applicable as a
-            visit handling charge. <br />
-            यदि किसी कारणवश प्रोफेशनल के आने के बाद आप काम आगे नहीं करवाना चाहते
-            हैं, तो ₹50 का अतिरिक्त चार्ज लगेगा।
-          </li>
-          <li className="text-muted small mb-4">
-            So in that situation, the total payable amount would be{" "}
-            <b>{`₹${visitingCharge + 50}`}</b>. <br />
-            ऐसे में कुल देय राशि <b>₹${visitingCharge + 50}</b> होगी।
-          </li>
-        </ul>
+      {/* Header */}
+      <div
+        className="px-4 py-3 text-white"
+        style={{ background: "linear-gradient(135deg,#0d6efd,#4f9cff)" }}
+      >
+        <h5 className="fw-bold mb-0">
+          <FaTools className="me-2" />
+          Hire Professional
+        </h5>
+        <small className="opacity-75">
+          Fill the details carefully to request service
+        </small>
+      </div>
+
+      <div className="card-body bg-light">
+
+        {/* Notice */}
+        <div className="alert alert-info border-0 rounded-4 small">
+          <FaInfoCircle className="me-1" />
+          Visiting charge is <b>₹{visitingCharge}</b>.  
+          It will be added to the final bill.  
+          Cancellation after arrival may cost extra <b>₹50</b>.
+        </div>
 
         <form onSubmit={handleSubmit}>
-          {/* Customer Name */}
+
+          {/* Name */}
           <div className="mb-3">
-            <label className="form-label fw-semibold">Your Name</label>
+            <label className="form-label fw-semibold">
+              <FaUser className="me-1 text-primary" /> Your Name
+            </label>
             <input
               type="text"
               className="form-control"
               name="customerName"
-              placeholder="Enter your full name"
               value={formData.customerName}
               onChange={handleChange}
+              placeholder="Enter your full name"
               required
             />
           </div>
@@ -178,7 +187,9 @@ const RequestHireForm = ({ proInfo }) => {
           {/* Date & Time */}
           <div className="row">
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold">Preferred Date</label>
+              <label className="form-label fw-semibold">
+                <FaCalendarAlt className="me-1 text-primary" /> Preferred Date
+              </label>
               <input
                 type="date"
                 className="form-control"
@@ -196,7 +207,9 @@ const RequestHireForm = ({ proInfo }) => {
             </div>
 
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold">Preferred Time</label>
+              <label className="form-label fw-semibold">
+                <FaClock className="me-1 text-primary" /> Preferred Time
+              </label>
               <input
                 type="time"
                 className="form-control"
@@ -207,33 +220,21 @@ const RequestHireForm = ({ proInfo }) => {
                 onChange={handleChange}
                 required
               />
-              {formData.workTime &&
-                (() => {
-                  const [h, m] = formData.workTime.split(":").map(Number);
-                  const mins = h * 60 + m;
-                  if (mins < 480 || mins > 1020) {
-                    return (
-                      <small className="text-danger">
-                        Please select a time between 8:00 AM and 5:00 PM
-                      </small>
-                    );
-                  }
-                })()}
             </div>
           </div>
 
-          {/* Problem Description */}
+          {/* Problem */}
           <div className="mb-3">
             <label className="form-label fw-semibold">
-              Describe Your Problem
+              <FaTools className="me-1 text-primary" /> Describe Your Problem
             </label>
             <textarea
               className="form-control"
               name="problemDesc"
               rows="3"
-              placeholder="Explain the work you want to get done"
               value={formData.problemDesc}
               onChange={handleChange}
+              placeholder="Explain the work you want to get done"
               required
             />
           </div>
@@ -241,7 +242,7 @@ const RequestHireForm = ({ proInfo }) => {
           {/* Charge Type */}
           <div className="mb-3">
             <label className="form-label fw-semibold">
-              Preferred Charge Type
+              <FaMoneyBillWave className="me-1 text-primary" /> Preferred Charge Type
             </label>
             <select
               className="form-select"
@@ -257,36 +258,38 @@ const RequestHireForm = ({ proInfo }) => {
             </select>
           </div>
 
-          {/* Mobile Number  */}
-
+          {/* Mobile */}
           {isMobileVerified && (
             <div className="mb-3">
-              <label className="form-label fw-semibold">Mobile Number</label>
-              <div>{mobileNumber}</div>
+              <label className="form-label fw-semibold">
+                <FaPhoneAlt className="me-1 text-primary" /> Mobile Number
+              </label>
+              <div className="form-control bg-white">{mobileNumber}</div>
             </div>
           )}
 
           {/* Address */}
-          <div className="mb-3">
-            <label className="form-label fw-semibold">Work Address</label>
+          <div className="mb-4">
+            <label className="form-label fw-semibold">
+              <FaMapMarkerAlt className="me-1 text-primary" /> Work Address
+            </label>
             <textarea
               className="form-control"
               name="workAddress"
               rows="2"
-              placeholder="Enter full address where work is required"
               value={formData.workAddress}
               onChange={handleChange}
               required
             />
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="btn btn-primary w-100"
+            className="btn btn-primary w-100 rounded-pill fw-semibold"
           >
-            {loading && <ClipLoader size={20} />} Send Hire Request
+            {loading ? <ClipLoader size={20} color="#fff" /> : "Send Hire Request"}
           </button>
         </form>
       </div>

@@ -1,21 +1,13 @@
 import React, { useState } from "react";
 import { FaImages, FaCloudUploadAlt } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
-import { uploadMedia } from "../Customer/uploadMedia";
+import UploadMedia from "../Customer/uploadMedia";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
 
 const GalleryPlaceholder = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-   const handleMedia = async (e) => {
-      const selectedFile = e.target.files[0];
-      if (!selectedFile) return;
-      setLoading(true);
-      const data = await uploadMedia(selectedFile);
-      dispatch(setCurrentUserData(data))
-      setLoading(false);
-    };
 
   return (
     <div className="card border-0 shadow rounded-4 p-4 text-center bg-light">
@@ -42,32 +34,8 @@ const GalleryPlaceholder = () => {
         your profile stand out.
       </p>
 
-      {/* Upload Button */}
-      <label
-        htmlFor="media"
-        className="btn btn-primary rounded-pill px-4 d-inline-flex align-items-center gap-2"
-      >
-        {loading ? (
-          <>
-            <ClipLoader size={18} color="#fff" />
-            Uploading...
-          </>
-        ) : (
-          <>
-            <FaCloudUploadAlt />
-            Upload Media
-          </>
-        )}
+        <UploadMedia/>
 
-        <input
-          type="file"
-          id="media"
-          hidden
-          disabled={loading}
-          accept="image/*,video/*"
-          onChange={handleMedia}
-        />
-      </label>
 
       {/* Footer Note */}
       <div className="mt-3">

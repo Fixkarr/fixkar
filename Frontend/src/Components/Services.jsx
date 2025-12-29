@@ -47,53 +47,156 @@ const Services = () => {
   return (
     <>
 
-       <div className="Services">
-          <h3 className="fs-3 text-center mx-auto my-3">Our Services</h3>
-    <p className='p-title text-center my-3'>Hire Professionals</p>
+    <div className="Services py-5"
+  style={{
+    background: "linear-gradient(180deg, #f8f9ff 0%, #eef3ff 100%)"
+  }}
+>
 
-          <p className="text-center mx-auto my-3">We Provide the best professionals for your house at one place. Make Your Dream House Comfortable.</p>
-         <center>
-           <div className="cards container">
-            {services.map((item,idx)=>{
-              return <div className='cardS' key={idx}>
-                <div className="image">
-                  <img src={item.image} alt={item.title}/>
-                </div>
-                <div className="title">
-                  <h4>{item.title}</h4>
-                  <p>{item.description}</p>
-                  <button>↗</button>
-                </div>
-              </div>
-            })}
+  {/* ===== Header ===== */}
+  <div className="text-center mb-5">
+    <span className="badge rounded-pill px-4 py-2 mb-3"
+      style={{
+        background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
+        color: "#fff"
+      }}
+    >
+      🔧 Home Services
+    </span>
+
+    <h2 className="fw-bold display-6">
+      Trusted <span className="text-primary">Professionals</span>
+    </h2>
+
+    <p className="text-muted mt-2 fs-6">
+      One platform for electricians, plumbers, carpenters & more
+    </p>
+  </div>
+
+  {/* ===== SERVICES GRID ===== */}
+  <div className="container">
+    <div className="row g-4 justify-content-center">
+
+      {services.map((item, idx) => (
+        <div className="col-xl-3 col-lg-4 col-md-6" key={idx}>
+          <div
+            className="card h-100 border-0 rounded-4 overflow-hidden service-glass"
+            style={{
+              background: "rgba(255,255,255,0.75)",
+              backdropFilter: "blur(12px)"
+            }}
+          >
+
+            {/* Image */}
+            <div className="ratio ratio-4x3 position-relative">
+              <img
+                src={item.image}
+                alt={item.title}
+                className="img-fluid object-fit-cover"
+              />
+              <div
+                className="position-absolute top-0 start-0 w-100 h-100"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.45))",
+                }}
+              />
+            </div>
+
+            {/* Body */}
+            <div className="card-body text-center">
+              <h5 className="fw-semibold">{item.title}</h5>
+              <p className="text-muted small">{item.description}</p>
+            </div>
+
+            {/* CTA */}
+            <div className="card-footer bg-transparent border-0 text-center pb-4">
+              <button className="btn btn-primary rounded-pill px-4">
+                Explore Service →
+              </button>
+            </div>
+
           </div>
-         </center> <br /> <br />
-           <p className='p-title text-center'>Join Our Familly</p>
-         <p className="text-center mx-auto my-3">Are you the working Professional? We have the opportunity for you. <br /> You can join our familly by these simple steps.</p>
-        <div className="hiring container mt-5">
-  <div className="box light-blue">
-   <span> <FaWpforms /></span>
-    <h2 className="text-danger">Sign up as Professional</h2>
-    <p>If you want to join us as a professional, the first step is sign up to our platform and verify yourself with your details.</p>
+        </div>
+      ))}
+
+    </div>
   </div>
-  <div className="box light-green">
-    <span><MdOutlineContactEmergency /></span>
-    <h2 className="text-danger">We will contact you</h2>
-    <p>Once you onboarded, our team will contact you to verify your qualifications, experience, and other required details.</p>
+
+  {/* ===== JOIN FIXKAR FAMILY ===== */}
+  <div className="container mt-5 pt-5">
+
+    <div className="text-center mb-5">
+      <span className="badge rounded-pill px-4 py-2 mb-3"
+        style={{
+          background: "linear-gradient(135deg, #198754, #42c985)",
+          color: "#fff"
+        }}
+      >
+        💼 Career Opportunity
+      </span>
+
+      <h2 className="fw-bold">
+        Join the <span className="text-success">Fixkar Family</span>
+      </h2>
+
+      <p className="text-muted mt-2">
+        Turn your skills into income — start working today
+      </p>
+    </div>
+
+    <div className="row g-4">
+
+      {/* STEP 1 */}
+      <div className="col-lg-3 col-md-6">
+        <div className="card border-0 shadow-sm rounded-4 text-center p-4 h-100 step-card">
+          <FaWpforms size={42} className="text-primary mb-3" />
+          <h5 className="fw-semibold">Sign Up</h5>
+          <p className="text-muted small">
+            Register as a professional & submit your details
+          </p>
+        </div>
+      </div>
+
+      {/* STEP 2 */}
+      <div className="col-lg-3 col-md-6">
+        <div className="card border-0 shadow-sm rounded-4 text-center p-4 h-100 step-card">
+          <MdOutlineContactEmergency size={42} className="text-success mb-3" />
+          <h5 className="fw-semibold">Verification</h5>
+          <p className="text-muted small">
+            Our team verifies your skills & documents
+          </p>
+        </div>
+      </div>
+
+      {/* STEP 3 */}
+      <div className="col-lg-3 col-md-6">
+        <div className="card border-0 shadow-sm rounded-4 text-center p-4 h-100 step-card">
+          <FaBusinessTime size={42} className="text-warning mb-3" />
+          <h5 className="fw-semibold">Approval</h5>
+          <p className="text-muted small">
+            Wait for confirmation from our team
+          </p>
+        </div>
+      </div>
+
+      {/* STEP 4 */}
+      <div className="col-lg-3 col-md-6">
+        <div className="card border-0 shadow-sm rounded-4 text-center p-4 h-100 step-card">
+          <FaHandshake size={42} className="text-info mb-3" />
+          <h5 className="fw-semibold">Start Earning</h5>
+          <p className="text-muted small">
+            Receive job requests & grow your income
+          </p>
+        </div>
+      </div>
+
+    </div>
   </div>
-  <div className="box light-yellow">
-    <span> <FaBusinessTime /></span>
-    <h2 className="text-danger">Wait for our Approval</h2>
-    <p>After verification, our team will review and approve your application. Please wait until you receive confirmation.</p>
-  </div>
-  <div className="box light-purple">
-    <span><FaHandshake /></span>
-    <h2 className="text-danger">You will be Hired</h2>
-    <p>Once approved, you will officially become a part of our platform and can start providing your services to our customers.</p>
-  </div>
+
 </div>
 
-      </div>
+
     </>
   )
 }

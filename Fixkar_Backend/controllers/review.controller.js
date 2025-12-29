@@ -11,22 +11,7 @@ export const postReview = async(req,res)=>{
             })
         }
 
-        const booking = await Booking.findById(bookingId).populate({
-            path: "customerId",
-            populate: {
-            path: "userId",
-            model: "User",
-            select: "fullName",
-            },
-        }).populate({
-            path: "professionalId",
-            select: "profilePicture address userId",
-            populate: {
-            path: "userId",
-            model: "User",
-            select: "fullName",
-            },
-        }).populate('review');
+        const booking = await Booking.findById(bookingId)
 
         if(!booking){
             return res.status(400).json({
@@ -38,6 +23,7 @@ export const postReview = async(req,res)=>{
             bookingId,
             professionalId : booking.professionalId,
             customerId : booking.customerId,
+            customerName : booking.customerName,
             rating : Number(rating),
             review
         })
@@ -55,13 +41,38 @@ export const postReview = async(req,res)=>{
         booking.review = newReview._id;
         await booking.save();
 
-        io.to(booking.customerId.userId._id.toString()).emit(
+        const populatedBooking = await Booking.findById(booking._id).populate({
+    path: "customerId",
+    populate: {
+      path: "userId",
+      model: "User",
+      select: "fullName",
+    },
+  }).populate({
+    path: "professionalId",
+    select: "profilePicture address userId",
+    populate: {
+      path: "userId",
+      model: "User",
+      select: "fullName",
+    },
+  }).populate({
+    path: "review",
+    populate: {
+      path: "customerId",
+      populate: {
+        path: "userId",
+        select: "fullName",
+      },
+    },
+  });
+        io.to(populatedBooking.customerId.userId._id.toString()).emit(
             "bookingUpdated",
-             booking
+             populatedBooking
         )
-        io.to(booking.professionalId.userId._id.toString()).emit(
+        io.to(populatedBooking.professionalId.userId._id.toString()).emit(
             "bookingUpdated",
-             booking
+             populatedBooking
         )
 
         res.status(200).json({
@@ -69,7 +80,7 @@ export const postReview = async(req,res)=>{
         })
 
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         return res.status(500).json({
             message  : "Internal server error!"
         })

@@ -1,246 +1,330 @@
-import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import {server_url} from '../App'
-import { ClipLoader } from 'react-spinners'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { server_url } from "../App";
+import { ClipLoader } from "react-spinners";
 import { CiLocationOn } from "react-icons/ci";
-import '../css/professionalInfo.css'
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
-import { IoCallOutline } from "react-icons/io5";
-import RequestHireForm from './RequestHireForm'
-import { useDispatch } from 'react-redux'
-import { setSelectedProfessional } from '../redux/professionalInfo.slice'
-import { toast } from 'react-toastify'
-
+import { IoChatbubbleEllipsesOutline, IoCallOutline } from "react-icons/io5";
+import { FaUserTie, FaMoneyBillWave, FaInfoCircle } from "react-icons/fa";
+import RequestHireForm from "./RequestHireForm";
+import { useDispatch } from "react-redux";
+import { setSelectedProfessional } from "../redux/professionalInfo.slice";
+import { toast } from "react-toastify";
+import ProReviews from "../Professional/ProReviews";
+import ProfessionalGallerySection from "./ProfessionalGallerySection";
 
 const ProfessionalInfo = () => {
-    const [loading, setLoading] = useState(false)
-    const [professionalInfo, setProfessionalInfo] = useState(null)
-    const isProfessionalInfo = Boolean(professionalInfo);
-    const ChargesNotDefined =
-  !professionalInfo?.charges ||
-  (
-    !professionalInfo?.charges?.hourly?.amount &&
-    !professionalInfo?.charges?.daily?.amount &&
-    !professionalInfo?.charges?.contract?.minAmount &&
-    !professionalInfo?.charges?.contract?.maxAmount &&
-    !professionalInfo?.charges?.amountDesc
-  );
+  const [loading, setLoading] = useState(false);
+  const [professionalInfo, setProfessionalInfo] = useState(null);
+  const isProfessionalInfo = Boolean(professionalInfo);
 
-  const dispatch = useDispatch()
-    
-    
-    const {id} = useParams()
-    const navigate = useNavigate()
+  const ChargesNotDefined =
+    !professionalInfo?.charges ||
+    (
+      !professionalInfo?.charges?.hourly?.amount &&
+      !professionalInfo?.charges?.daily?.amount &&
+      !professionalInfo?.charges?.contract?.minAmount &&
+      !professionalInfo?.charges?.contract?.maxAmount &&
+      !professionalInfo?.charges?.amountDesc
+    );
 
-    useEffect(()=>{
-      const fetchProfessionalInfo = async ()=>{
-        try {
-          setLoading(true)
-          const result = await axios.get(`${server_url}/api/customer/get-professional-info/${id}`, {withCredentials : true})
-          setProfessionalInfo(result?.data?.professionalInfo)
-          dispatch(setSelectedProfessional(result?.data?.professionalInfo))
-          setLoading(false) 
-        } catch (error) {
-          toast.error(error.message)
-          setLoading(false)
-        }
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchProfessionalInfo = async () => {
+      try {
+        setLoading(true);
+        const result = await axios.get(
+          `${server_url}/api/customer/get-professional-info/${id}`,
+          { withCredentials: true }
+        );
+        setProfessionalInfo(result?.data?.professionalInfo);
+        dispatch(setSelectedProfessional(result?.data?.professionalInfo));
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setLoading(false);
       }
-      fetchProfessionalInfo();
-    },[])
+    };
+    fetchProfessionalInfo();
+  }, []);
 
-  return (
-    <>
-     <div>{loading ? <center className='mt-5'><ClipLoader size={50} color='#0d6efd' className='text-primary'/> </center>: (
-      <>
-        {!isProfessionalInfo &&  <div className="d-flex justify-content-center min-vh-100 bg-light">
-      <div className="card shadow-sm border-0" style={{ maxWidth: "420px", width: "100%" }}>
-        <div className="card-body text-center p-4">
-          
-          {/* Title */}
-          <h5 className="fw-bold text-danger mb-2">
-            Oops! Something went wrong
-          </h5>
+  /* ================= LOADER ================= */
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <ClipLoader size={50} color="#0d6efd" />
+      </div>
+    );
+  }
 
-          {/* Description */}
-          <p className="text-muted mb-3">
-            We couldn’t complete your request.  
-            Please try the following steps:
+  /* ================= ERROR STATE ================= */
+  if (!isProfessionalInfo) {
+    return (
+      <div className="d-flex justify-content-center min-vh-100 bg-light">
+        <div className="card shadow border-0 rounded-4 p-4 text-center" style={{ maxWidth: 420 }}>
+          <h5 className="fw-bold text-danger mb-2">Oops! Something went wrong</h5>
+          <p className="text-muted small">
+            Please refresh the page or try again later.
           </p>
-
-          {/* Instructions */}
-          <ul className="text-start small text-muted mb-4">
-            <li>Check your internet connection</li>
-            <li>Refresh the page and try again</li>
-            <li>Come back later if the issue persists</li>
-          </ul>
-
-          {/* Actions */}
           <div className="d-flex gap-2 justify-content-center">
-            <button
-              className="btn btn-primary btn-sm px-3"
-              onClick={() => window.location.reload()}
-            >
-              Refresh Page
+            <button className="btn btn-primary btn-sm" onClick={() => window.location.reload()}>
+              Refresh
             </button>
-
-            <button
-              className="btn btn-outline-secondary btn-sm px-3"
-              onClick={() => navigate(-1)}
-            >
+            <button className="btn btn-outline-secondary btn-sm" onClick={() => navigate(-1)}>
               Go Back
             </button>
           </div>
-
         </div>
       </div>
-    </div>}
+    );
+  }
 
+  return (
+    <div className="container my-4">
 
-          <div className="container my-4 professionalInfo">
-      <div className="card border-0 shadow-sm">
-        <div className="card-body">
-
-          {/* Profile Header */}
-          <div className="row">
-            <div className="col-8 col-md-6">
-              <div className="row m-0">
-                <div className="col-6 img-container">
+      {/* ================= HEADER CARD ================= */}
+      <div className="card border-0 shadow-sm rounded-4 mb-4">
+        <div
+          className="p-4 text-white rounded-top-4"
+          style={{ background: "linear-gradient(135deg, #0d6efd, #4f9cff)" }}
+        >
+          <div className="row align-items-center">
+            <div className="col-md-8 d-flex align-items-center gap-3">
               <img
                 src={professionalInfo?.profilePicture}
                 alt="Profile"
-                className="img-fluid rounded-circle border"
+                className="rounded-circle border border-3 border-white"
+                style={{ width: 90, height: 90, objectFit: "cover" }}
               />
+              <div>
+                <h4 className="fw-bold mb-1">
+                  {professionalInfo?.userId?.fullName}
+                </h4>
+                <div className="d-flex align-items-center gap-2">
+                  <FaUserTie />
+                  <span>{professionalInfo?.profession}</span>
+                </div>
+                <span className="badge bg-success mt-2">
+                  {professionalInfo?.status?.[0]?.toUpperCase() +
+                    professionalInfo?.status?.slice(1)}
+                </span>
               </div>
-
-            <div className="col-6">
-              <h5 className="fw-bold mb-1">{professionalInfo?.userId?.fullName}</h5>
-              <p className="text-muted mb-1">{professionalInfo?.profession}</p>
-              <span className="badge bg-success">
-                {professionalInfo?.status?.[0]?.toUpperCase()+professionalInfo?.status?.slice(1)}
-              </span>
             </div>
-              </div>
-            </div>
 
-            <div className="col-4 col-md-6">
-              <div className="d-flex justify-content-start gap-3 align-items-start action">
-                <span className="btn btn-outline-primary btn-sm chat" onClick={()=>navigate(`/customer/chat/${id}`)}>
-                  <IoChatbubbleEllipsesOutline /> Chat
-                </span>
-                <span className="btn btn-outline-primary btn-sm call">
-                  <IoCallOutline /> Call
-                </span>
-                <span className="btn btn-primary btn-sm call" data-bs-toggle="modal" data-bs-target="#hireFormModal">
-                  Hire
-                </span>
-                <div className="modal fade" id="hireFormModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Request Hiring</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <RequestHireForm proInfo={professionalInfo}/>
-      </div>
-    </div>
-  </div>
-</div>
-              </div>
+            <div className="col-md-4 mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
+              <button
+                className="btn btn-outline-light btn-sm"
+                onClick={() => navigate(`/customer/chat/${id}`)}
+              >
+                <IoChatbubbleEllipsesOutline /> Chat
+              </button>
+              <button
+                className="btn btn-light btn-sm fw-semibold"
+                data-bs-toggle="modal"
+                data-bs-target="#hireFormModal"
+              >
+                Hire
+              </button>
             </div>
           </div>
+        </div>
+      </div>
 
-          <hr />
+      {/* ================= ABOUT & ADDRESS ================= */}
+  <div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
 
-          {/* About */}
-          {professionalInfo?.description && <div className="mb-3">
-            <h6 className="fw-semibold">About</h6>
-            <p className="text-muted mb-0">
-              {professionalInfo?.description}
-            </p>
-          </div>}
+  {/* Header */}
+  <div
+    className="px-4 py-3 text-white"
+    style={{
+      background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
+    }}
+  >
+    <div className="d-flex align-items-center gap-2">
+      <FaInfoCircle size={18} />
+      <h6 className="mb-0 fw-semibold">Professional Details</h6>
+    </div>
+    <small className="opacity-75">
+      About the professional & service location
+    </small>
+  </div>
 
-          {/* Address */}
-         { professionalInfo?.address?.addressLine && <div className="mb-3">
-            <h6 className="fw-semibold">Address</h6>
-            <p className="text-muted mb-0">
-             <CiLocationOn /> {professionalInfo?.address?.addressLine}
-            </p>
-          </div>}
+  {/* Body */}
+  <div className="card-body bg-light">
 
-          <hr />
+    {/* About */}
+    {professionalInfo?.description && (
+      <div className="mb-4">
+        <div className="d-flex align-items-start gap-2 mb-1">
+          <FaInfoCircle className="text-primary mt-1" />
+          <h6 className="fw-semibold mb-0">About</h6>
+        </div>
 
-          {/* Charges */}
-          <h6 className="fw-semibold mb-2">Charges</h6>
-          {!ChargesNotDefined ? <div className="mb-3">
-            
+        <p className="text-muted small mb-0 ps-4">
+          {professionalInfo.description}
+        </p>
+      </div>
+    )}
 
-            <div className="d-flex justify-content-between gap-3 flex-wrap">
-              <div style={{minWidth : "200px"}}>
-                {professionalInfo?.charges?.hourly?.amount && <div className="border rounded p-2 text-center">
-                  <small className="text-muted">Hourly</small>
-                  <div className="fw-bold">₹ {professionalInfo?.charges?.hourly?.amount}</div>
-                </div>}
-              </div>
+    {/* Address */}
+    {professionalInfo?.address?.addressLine && (
+      <div>
+        <div className="d-flex align-items-start gap-2 mb-1">
+          <CiLocationOn className="text-danger mt-1" />
+          <h6 className="fw-semibold mb-0">Service Address</h6>
+        </div>
 
-              <div style={{minWidth : "200px"}}>
-                 {professionalInfo?.charges?.daily?.amount && <div className="border rounded p-2 text-center">
-                  <small className="text-muted">Daily</small>
-                  <div className="fw-bold">₹ {professionalInfo?.charges?.daily?.amount}</div>
-                </div>}
-              </div>
+        <p className="text-muted small mb-0 ps-4">
+          {professionalInfo.address.addressLine}
+        </p>
+      </div>
+    )}
 
-             <div style={{minWidth : "200px"}}>
-               {(professionalInfo?.charges?.contract?.minAmount || professionalInfo?.charges?.contract?.maxAmount) && <div className="border rounded p-2 text-center">
-                  <small className="text-muted">Contract</small>
-                  <div className="fw-bold">
-                    ₹ {professionalInfo?.charges?.contract?.minAmount} – ₹{" "}
-                    {professionalInfo?.charges?.contract?.maxAmount}
+  </div>
+</div>
+
+
+      {/* ================= CHARGES ================= */}
+    <div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
+  
+  {/* Header */}
+  <div
+    className="px-4 py-3 text-white"
+    style={{
+      background: "linear-gradient(135deg, #198754, #20c997)",
+    }}
+  >
+    <div className="d-flex align-items-center gap-2">
+      <FaMoneyBillWave size={20} />
+      <h6 className="mb-0 fw-semibold">Service Charges</h6>
+    </div>
+    <small className="opacity-75">
+      Transparent pricing provided by the professional
+    </small>
+  </div>
+
+  {/* Body */}
+  <div className="card-body bg-light">
+
+    {!ChargesNotDefined ? (
+      <>
+        {/* Charges Cards */}
+        <div className="row g-3">
+
+          {professionalInfo?.charges?.hourly?.amount && (
+            <div className="col-md-4">
+              <div className="card border-0 shadow-sm h-100 rounded-4">
+                <div className="card-body text-center">
+                  <div className="mb-2 text-success">
+                    <FaMoneyBillWave size={22} />
                   </div>
-                </div>}
+                  <small className="text-muted d-block">Hourly Charge</small>
+                  <h5 className="fw-bold text-dark mb-0">
+                    ₹ {professionalInfo.charges.hourly.amount}
+                    <span className="text-muted fs-6"> / hr</span>
+                  </h5>
+                </div>
               </div>
-            </div>
-            {professionalInfo?.charges?.amountDesc && <div className='border mt-2 rounded p-2'>
-                <p>{professionalInfo?.charges?.amountDesc}</p>
-            </div>}
-          </div> : (
-            <div className="border rounded p-2 text-center w-full">
-              <p>The professional has not defined their charges yet. You can contact the professional to know the charges.</p>
             </div>
           )}
 
-          <hr />
-
-          {/* Ratings */}
-          <div className="d-flex justify-content-between align-items-center">
-            <div>
-              <h6 className="fw-semibold mb-0">Ratings</h6>
-              <small className="text-muted">
-                {professionalInfo?.ratings} ⭐ ({professionalInfo?.reviews?.length} reviews);
-              </small>
+          {professionalInfo?.charges?.daily?.amount && (
+            <div className="col-md-4">
+              <div className="card border-0 shadow-sm h-100 rounded-4">
+                <div className="card-body text-center">
+                  <div className="mb-2 text-primary">
+                    <FaMoneyBillWave size={22} />
+                  </div>
+                  <small className="text-muted d-block">Daily Charge</small>
+                  <h5 className="fw-bold text-dark mb-0">
+                    ₹ {professionalInfo.charges.daily.amount}
+                    <span className="text-muted fs-6"> / day</span>
+                  </h5>
+                </div>
+              </div>
             </div>
+          )}
 
-            <button className="btn btn-outline-primary btn-sm">
-              View Reviews
-            </button>
-          </div>
+          {(professionalInfo?.charges?.contract?.minAmount ||
+            professionalInfo?.charges?.contract?.maxAmount) && (
+            <div className="col-md-4">
+              <div className="card border-0 shadow-sm h-100 rounded-4">
+                <div className="card-body text-center">
+                  <div className="mb-2 text-warning">
+                    <FaMoneyBillWave size={22} />
+                  </div>
+                  <small className="text-muted d-block">Contract Charge</small>
+                  <h6 className="fw-bold text-dark mb-0">
+                    ₹ {professionalInfo.charges.contract.minAmount}
+                    {professionalInfo.charges.contract.maxAmount && (
+                      <> – ₹ {professionalInfo.charges.contract.maxAmount}</>
+                    )}
+                  </h6>
+                </div>
+              </div>
+            </div>
+          )}
 
         </div>
-      </div>
-    </div>
 
-
-
-
-      
+        {/* Charge Description */}
+        {professionalInfo?.charges?.amountDesc && (
+          <div className="mt-4">
+            <div className="alert alert-success bg-success bg-opacity-10 border-0 rounded-4">
+              <h6 className="fw-semibold text-success mb-1">
+                Charge Details
+              </h6>
+              <p className="mb-0 small text-dark">
+                {professionalInfo.charges.amountDesc}
+              </p>
+            </div>
+          </div>
+        )}
       </>
-     )}</div>
-    </>
-  )
-}
+    ) : (
+      <div className="alert alert-warning border-0 rounded-4 mb-0">
+        <strong>Charges not available.</strong><br />
+        Please contact the professional directly to know the pricing details.
+      </div>
+    )}
 
-export default ProfessionalInfo
+  </div>
+</div>
+
+      {/* {=======================Reviews=============} */}
+
+      {professionalInfo?.reviews.length !==0 && <div className="review">
+            <ProReviews reviews={professionalInfo?.reviews}/>
+          </div>}
+          
+          {/* ================gallery============== */}
+      {professionalInfo?.gallery.length !==0 && <ProfessionalGallerySection professionalInfo={professionalInfo}/>}
+
+      {/* ================= MODAL ================= */}
+      <div
+        className="modal fade"
+        id="hireFormModal"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content rounded-4">
+            <div className="modal-header">
+              <h5 className="modal-title fw-semibold">Request Hiring</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div className="modal-body">
+              <RequestHireForm proInfo={professionalInfo} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+};
+
+export default ProfessionalInfo;

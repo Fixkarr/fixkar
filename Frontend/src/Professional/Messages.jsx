@@ -99,8 +99,7 @@ const Messages = () => {
         {/* ===== Empty State ===== */}
         {(!conversations || conversations.length === 0) && (
           <div
-            className="d-flex flex-column justify-content-center align-items-center text-center px-3"
-            style={{ height: "70vh" }}
+            className="d-flex flex-column justify-content-center align-items-center text-center px-3 py-5"
           >
             <FaRegCommentDots
               size={60}

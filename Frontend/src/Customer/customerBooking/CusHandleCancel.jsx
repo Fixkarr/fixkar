@@ -1,93 +1,110 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import { server_url } from '../../App';
-import { toast } from 'react-toastify';
-import PayButton from '../PayButton';
-import { ClipLoader } from 'react-spinners';
+import React, { useState } from "react";
+import axios from "axios";
+import { server_url } from "../../App";
+import { toast } from "react-toastify";
+import PayButton from "../PayButton";
+import { ClipLoader } from "react-spinners";
+import { FaExclamationTriangle, FaMoneyBillWave } from "react-icons/fa";
 
-const CusHandleCancel = ({booking}) => {
-    const [loading,setLoading] = useState(false);
-    
+const CusHandleCancel = ({ booking }) => {
+  const [loading, setLoading] = useState(false);
+  const [paymentLocked, setPaymentLocked] = useState(false);
+
   const handleCancel = async (bookingId, visitingCharge) => {
     try {
       setLoading(true);
+
       const result = await axios.post(
         `${server_url}/api/booking/cancel-booking`,
         { bookingId }
       );
 
+      // 🔴 Late cancellation case
       if (!result.data.success) {
-        return toast.info(
-          <div className="alert alert-info mt-3" role="alert">
-            <h6 className="fw-bold mb-2">Late Cancellation Notice</h6>
+        setLoading(false);
 
-            <p className="mb-2">
-              You are attempting to cancel this booking after the scheduled
-              working date. As per our cancellation policy, late cancellations
-              require payment of the professional’s visiting charge along with
-              an additional cancellation fee.
+        const toastId = toast.info(
+          <div className="p-2">
+
+            {/* Header */}
+            <div className="d-flex align-items-center gap-2 mb-2">
+              <FaExclamationTriangle className="text-warning fs-4" />
+              <h6 className="fw-bold mb-0">Late Cancellation</h6>
+            </div>
+
+            <p className="small text-muted">
+              This booking is being cancelled after the scheduled date.
+              As per policy, visiting charge + cancellation fee must be paid.
             </p>
 
-            <p className="mb-3">
-              Please note that the booking will be cancelled{" "}
-              <strong>
-                only after the applicable charges are paid successfully
-              </strong>
-              . Until the payment is completed, the booking will remain active
-              and cannot be cancelled.
-            </p>
-
-            <div className="border rounded p-2 mb-3 bg-light">
-              <div className="d-flex justify-content-between">
-                <span>Professional Visiting Charge</span>
+            {/* Charges */}
+            <div className="border rounded-3 p-3 bg-light mb-3">
+              <div className="d-flex justify-content-between small">
+                <span>Visiting Charge</span>
                 <span>₹{visitingCharge}</span>
               </div>
 
-              <div className="d-flex justify-content-between">
-                <span>Late Cancellation Fee</span>
+              <div className="d-flex justify-content-between small">
+                <span>Cancellation Fee</span>
                 <span>₹50</span>
               </div>
 
               <hr className="my-2" />
 
               <div className="d-flex justify-content-between fw-bold">
-                <span>Total Payable Amount</span>
+                <span>Total</span>
                 <span>₹{visitingCharge + 50}</span>
               </div>
             </div>
-           <PayButton bookingId={bookingId} paymentType={"CANCEL"} label={`Pay ₹${50 + visitingCharge}`}/>
+
+            {/* Pay Button */}
+            <div className="text-center">
+              <PayButton
+                bookingId={bookingId}
+                paymentType="CANCEL"
+                label={`Pay ₹${visitingCharge + 50}`}
+                disabled={paymentLocked}
+                onSuccess={() => {
+                  // ✅ auto close toast
+                  toast.dismiss(toastId);
+                  setPaymentLocked(true);
+                }}
+              />
+            </div>
+
           </div>,
           {
-            autoClose: false, // ❌ auto close band
+            autoClose: false,
             closeOnClick: false,
             draggable: false,
             pauseOnHover: true,
-            onClose: () => {
-              setLoading(false);
-            },
           }
         );
+
+        return;
       }
 
       toast.success(result.data.message);
       setLoading(false);
+
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
       toast.error("Internal server error!");
       setLoading(false);
     }
   };
-  return (
-                <button
-                  className="btn btn-outline-danger"
-                  disabled={loading}
-                  onClick={() =>
-                    handleCancel(booking._id, booking.visitingCharge)
-                  }
-                >
-                  {loading && <ClipLoader size={20} />} Cancel
-                </button>
-  )
-}
 
-export default CusHandleCancel
+  return (
+    <button
+      className="btn btn-outline-danger rounded-pill px-3 d-flex align-items-center gap-2"
+      disabled={loading || paymentLocked}
+      onClick={() =>
+        handleCancel(booking._id, booking.visitingCharge)
+      }
+    >
+      {loading ? <ClipLoader size={16} /> : "Cancel Booking"}
+    </button>
+  );
+};
+
+export default CusHandleCancel;

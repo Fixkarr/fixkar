@@ -40,6 +40,36 @@ export const createOrder = async (req, res) => {
     if (amount <= 0) {
       return res.status(400).json({ message: "Invalid payment amount" });
     }
+    // 🔐 DUPLICATE PAYMENT PROTECTION
+const alreadyPaid = await Payment.findOne({
+  bookingId,
+  paymentType,
+  status: "paid"
+});
+
+if (alreadyPaid) {
+  return res.status(400).json({
+    message: "Payment already completed for this booking"
+  });
+}
+
+if (
+  paymentType === "FINAL" &&
+  booking.status === "completed"
+) {
+  return res.status(400).json({
+    message: "Service payment already done"
+  });
+}
+
+if (
+  paymentType === "CANCEL" &&
+  booking.status === "cancelled"
+) {
+  return res.status(400).json({
+    message: "Cancellation already processed"
+  });
+}
 
     // 4️⃣ Payment record banao
     const payment = await Payment.create({

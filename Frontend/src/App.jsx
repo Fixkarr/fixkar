@@ -21,9 +21,8 @@ import DashboardLayout from "./Pages/DashboardLayout";
 import CustomerHome from "./Customer/CustomerHome";
 import CustomerBookings from "./Customer/CustomerBookings";
 import HireProfessionals from "./Customer/HireProfessionals";
-import CustomerNotifications from "./Customer/CustomerNotifications";
 import CustomerContact from "./Customer/CustomerContact";
-import CustomerProfile from "./Customer/CustomerProfile";
+
 
 // Professional
 import OnBoard from "./Professional/OnBoard";
@@ -203,25 +202,9 @@ const App = () => {
           }
         />
         <Route
-          path="/customer/notifications"
-          element={
-            role === "customer" ? (
-              <CustomerNotifications />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        <Route
           path="/customer/contact"
           element={
             role === "customer" ? <CustomerContact /> : <Navigate to="/" />
-          }
-        />
-        <Route
-          path="/customer/profile"
-          element={
-            role === "customer" ? <CustomerProfile /> : <Navigate to="/" />
           }
         />
         <Route

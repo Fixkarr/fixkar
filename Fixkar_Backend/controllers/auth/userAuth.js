@@ -62,7 +62,7 @@ export const registerUserWithForm = async (req, res) => {
                     coordinates: []
                 },
             })
-            const professional = await Professional.findOne({ userId: newUser._id }).populate("userId")
+            const professional = await Professional.findOne({ userId: newUser._id }).populate("userId", '-password')
             return res.status(201).json({
                 message: "user registered successfully",
                 user: professional
@@ -107,9 +107,21 @@ export const login = async (req, res) => {
 
         let userData;
         if (existingUser.role === "customer") {
-            userData = await Customer.findOne({ userId: existingUser._id }).populate("userId");
+            userData = await Customer.findOne({ userId: existingUser._id }).populate("userId", '-password');
         } else if (existingUser.role === "professional") {
-            userData = await Professional.findOne({ userId: existingUser._id }).populate("userId");
+            userData = await Professional.findOne({ userId: existingUser._id }).select('-poi -dob').populate("userId", '-password').populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 5 reviews
+    }
+  }).populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 6 images
+    }
+  });
         } else {
             return res.status(400).json({ message: "No role assigned to this user" })
         }
@@ -203,9 +215,22 @@ export const googleAuth = async (req, res) => {
 
                 })
             }
-            professional = await Professional.findOne({ userId: existingUser._id }).populate("userId")
+            professional = await Professional.findOne({ userId: existingUser._id }).populate("userId", '-password').select('-poi -dob').populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 5 reviews
+    }
+  }).populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 6 images
+    }
+  });
+  
             return res.status(201).json({
-                message: "user registered successfully",
+                message: "user loggedin successfully",
                 user: professional
             })
         }

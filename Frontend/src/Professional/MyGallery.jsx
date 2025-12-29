@@ -6,8 +6,11 @@ import { FaImages, FaTrashAlt } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
 
 import GalleryPlaceholder from "../Components/GalleryPlaceholder";
-import { uploadMedia } from "../Customer/uploadMedia";
+// import { uploadMedia } from "../Customer/uploadMedia";
 import { setCurrentUserData } from "../redux/user.slice";
+import UploadMedia from "../Customer/uploadMedia";
+
+
 
 const MyGallery = () => {
   const dispatch = useDispatch();
@@ -19,14 +22,6 @@ const MyGallery = () => {
   const { currentUserData } = useSelector((state) => state.user);
   const media = currentUserData?.user?.gallery;
 
-  const handleMedia = async (e) => {
-    const selectedFile = e.target.files[0];
-    if (!selectedFile) return;
-    setLoading(true);
-    const data = await uploadMedia(selectedFile);
-    dispatch(setCurrentUserData(data));
-    setLoading(false);
-  };
 
   return media?.length !== 0 ? (
     <div className="container my-4">
@@ -44,7 +39,7 @@ const MyGallery = () => {
             </div>
           </div>
 
-          <label
+          {/* <label
             htmlFor="media"
             className="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2"
           >
@@ -68,7 +63,10 @@ const MyGallery = () => {
               accept="image/*, video/*"
               onChange={handleMedia}
             />
-          </label>
+          </label> */}
+
+            <UploadMedia/>
+
         </div>
       </div>
 

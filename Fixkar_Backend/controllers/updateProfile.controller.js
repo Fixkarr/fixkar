@@ -238,7 +238,8 @@ if (amountDesc) {
 
 export const uploadMedia = async (req,res)=>{
   try {
-    const user = req.userId;
+    const user = req.userId; 
+    const {mediaUrl, mediaType, publicId} = req.body
     const professional = await Professional.findOne({userId : user})
 
     if(!professional){
@@ -247,29 +248,17 @@ export const uploadMedia = async (req,res)=>{
       })
     }
 
-     if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "No file provided",
-      });
-    }
-
     if (professional?.gallery?.length >= 20) {
       return res.status(400).json({
         message: "Gallery limit reached",
       });
     }
 
-    const result = await uploadToCloudinary(
-      req.file,
-      "professional_gallery"
-    );
-
      const media = await Gallery.create({
       professionalId : professional._id,
-      mediaUrl: result.secure_url,
-      mediaType: result.resource_type,
-      publicId: result.public_id,
+      mediaUrl,
+      mediaType,
+      publicId
     });
 
     professional.gallery.push(media._id);
@@ -291,7 +280,7 @@ export const uploadMedia = async (req,res)=>{
       limit: 20   // latest 6 images
     }
   });
-
+  
 
     return res.status(200).json({
       message : "Media uploaded!",

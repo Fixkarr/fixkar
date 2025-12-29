@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import { NavLink, Link, } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { FaHome, FaInfoCircle, FaTools, FaPhoneAlt, FaUserPlus } from "react-icons/fa";
+import { MdLogin } from "react-icons/md";
 import "../css/navbar.css";
 const Navbar = () => {
   useEffect(() => {
@@ -19,72 +21,107 @@ const Navbar = () => {
   const navigate = useNavigate()
   return (
     <>
-      <nav className="navbar navbar-expand-lg fixed-top"
-          style={{
-    background: "rgba(255,255,255,0.2)",
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
-    borderBottom: "1px solid rgba(255,255,255,0.3)"
+    <nav
+  className="navbar navbar-expand-lg fixed-top shadow-sm"
+  style={{
+    background: "rgba(255,255,255,0.75)",
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
+    borderBottom: "1px solid rgba(0,0,0,0.05)",
   }}
-      >
-        <div className="container-fluid">
-          <NavLink className="navbar-brand" href="#">
-            Fixkar
+>
+  <div className="container-fluid px-md-4">
+
+    {/* BRAND */}
+    <NavLink className="navbar-brand fw-bold fs-4 text-primary" to="/">
+      Fixkar
+    </NavLink>
+
+    {/* TOGGLER */}
+    <button
+      className="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span className="navbar-toggler-icon"></span>
+    </button>
+
+    {/* CONTENT */}
+    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+
+      {/* LEFT LINKS */}
+      <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
+        <li className="nav-item">
+          <NavLink className="nav-link fw-semibold" to="/">
+            <FaHome className="me-1 text-primary" /> Home
           </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link fw-semibold" to="#">
+            <FaInfoCircle className="me-1 text-info" /> About
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link fw-semibold" to="#">
+            <FaTools className="me-1 text-warning" /> Services
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link fw-semibold" to="#">
+            <FaPhoneAlt className="me-1 text-success" /> Contact
+          </NavLink>
+        </li>
+      </ul>
+
+      {/* RIGHT ACTIONS */}
+      <ul className="navbar-nav mb-2 mb-lg-0 gap-2 align-items-lg-center">
+
+        {/* LOGIN */}
+        <li className="nav-item">
           <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+            className="btn btn-outline-primary rounded-pill px-4 fw-semibold"
+            onClick={() => navigate("/login")}
           >
-            <span className="navbar-toggler-icon"></span>
+            <MdLogin className="me-1" />
+            Login
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink className="nav-link active" aria-current="page" to="/">
-                  Home
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" href="#">
-                  About
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" href="#">
-                  Services
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" href="#">
-                  Contact
-                </NavLink>
-              </li>
-            </ul>
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0 flex gap-2">
-              <li className="nav-item">
-                <button className="btn border border-primary text-primary" onClick={()=>navigate('/login')}>Login</button>
-              </li>
-              <li className="nav-item">
-               <div className="dropdown">
-  <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Signup
-  </button>
-  <ul className="dropdown-menu">
-    <li><NavLink className="dropdown-item" to="/signup?role=customer">Signup as customer</NavLink></li>
-    <li><NavLink className="dropdown-item" to="/signup?role=professional">Signup as professional</NavLink></li>
-  </ul>
-</div>
-              </li>
-              {/* ----Collapse--- */}
-            </ul>
-          </div>
-        </div>
-      </nav>
+        </li>
+
+        {/* SIGNUP */}
+        <li className="nav-item dropdown">
+          <button
+            className="btn btn-primary rounded-pill px-4 fw-semibold dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <FaUserPlus className="me-1" />
+            Signup
+          </button>
+
+          <ul className="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+            <li>
+              <NavLink className="dropdown-item" to="/signup?role=customer">
+                Signup as Customer
+              </NavLink>
+            </li>
+            <li>
+              <NavLink className="dropdown-item" to="/signup?role=professional">
+                Signup as Professional
+              </NavLink>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
     </>
   );
 };

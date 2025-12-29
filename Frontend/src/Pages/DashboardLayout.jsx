@@ -1,53 +1,100 @@
-import React from 'react'
-import Sidebar from '../Components/Sidebar'
-import { Outlet } from 'react-router-dom'
-import '../css/dashboardLayout.css'
+import React from "react";
+import Sidebar from "../Components/Sidebar";
+import { Outlet } from "react-router-dom";
+import "../css/dashboardLayout.css";
 import { MdEmail } from "react-icons/md";
 import { IoCall } from "react-icons/io5";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import { toast, ToastContainer } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { setCurrentUserData } from '../redux/user.slice';
-import { useNavigate } from 'react-router-dom';
-import { server_url } from '../App';
-import axios from 'axios'
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setCurrentUserData } from "../redux/user.slice";
+import { useNavigate } from "react-router-dom";
+import { server_url } from "../App";
+import axios from "axios";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 const DashboardLayout = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-   const handleLogout = async ()=>{
-      try {
-      await axios.post(`${server_url}/api/auth/logout`, {}, {withCredentials : true})
-      dispatch(setCurrentUserData(null))
-      navigate("/")
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${server_url}/api/auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(setCurrentUserData(null));
+      navigate("/");
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     }
-  }
+  };
+
   return (
-    <>
-      <div className='dashboardLayout'>
+    <div className="dashboardLayout d-flex">
+
+      {/* Sidebar */}
+
         <Sidebar />
 
-        <main className='p-2'>
-            <section className='upper border p-2'>
-              <div className='d-flex align-items-center gap-2' role='button' onClick={()=>navigate(-1)}>
-                <span className='text-primary'> <IoMdArrowRoundBack/></span>
-                <span className='text-primary'> Back</span>
-              </div>
-               <div className='upper p-2'>
-                 <span className='text-primary'><IoCall/> +10 92 92988 28</span> 
-                <span className='text-primary'><MdEmail/> @fixkar.com</span>
-                <span className='text-danger' role='button' onClick={handleLogout}><RiLogoutCircleRLine/></span>
-               </div>
-            </section>
-            <Outlet />
-        </main>
-      </div>
-    </>
-  )
-}
 
-export default DashboardLayout
+      {/* Main Area */}
+      <main className="flex-grow-1 p-3 bg-light">
+
+        {/* ===== Top Bar ===== */}
+        <section
+          className="card border-0 shadow-sm rounded-4 mb-3 overflow-hidden"
+        >
+          {/* Gradient Header */}
+          <div
+            className="px-4 py-3 text-white d-flex justify-content-between align-items-center flex-wrap gap-3"
+            style={{
+              background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
+            }}
+          >
+            {/* Back Button */}
+            <div
+              className="d-flex align-items-center gap-2 fw-semibold"
+              role="button"
+              onClick={() => navigate(-1)}
+            >
+              <IoMdArrowRoundBack size={18} />
+              <span>Back</span>
+            </div>
+
+            {/* Right Info */}
+            <div className="d-flex align-items-center gap-4 flex-wrap">
+              <span className="d-flex align-items-center gap-1 small">
+                <IoCall size={16} />
+                +10 92 92988 28
+              </span>
+
+              <span className="d-flex align-items-center gap-1 small">
+                <MdEmail size={16} />
+                support@fixkar.com
+              </span>
+
+              <span
+                role="button"
+                onClick={handleLogout}
+                className="d-flex align-items-center gap-1 text-warning fw-semibold"
+              >
+                <RiLogoutCircleRLine size={18} />
+                Logout
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Page Content ===== */}
+        <div className="card border-0 shadow-sm rounded-4 p-3">
+          <Outlet />
+        </div>
+
+      </main>
+    </div>
+  );
+};
+
+export default DashboardLayout;

@@ -34,6 +34,7 @@ const HireProfessionals = () => {
       });
 
       setProfessionals(response.data.professionals || []);
+      console.log(professionals);
     } catch (error) {
       console.log("Error fetching professionals:", error);
     } finally {

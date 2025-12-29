@@ -4,6 +4,8 @@ import { connectDB } from './config/db.js';
 import router from './routes/otpRoutes.js';
 import authRouter from './routes/authRoutes.js';
 import cors from 'cors';
+import dns from "dns";
+dns.setDefaultResultOrder("ipv4first");
 
 import http from 'http';
 import { Server } from 'socket.io';

@@ -9,6 +9,16 @@
     transition: all 0.3s ease;
 }
 
+/* html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden; /* body scroll disable 
+  
+*/
+
+
+
 body {
   background: url('images/background.png')
     no-repeat center center/cover;

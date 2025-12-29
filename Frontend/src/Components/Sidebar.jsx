@@ -1,49 +1,154 @@
-import React, { useState } from 'react'
-import '../css/sidebar.css'
+import React from "react";
+import "../css/sidebar.css";
 import { GoHome } from "react-icons/go";
 import { FaRegAddressBook } from "react-icons/fa6";
 import { IoConstructOutline } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import { FiMessageSquare } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
-import { RiLogoutCircleRLine } from "react-icons/ri";
 import { MdOutlineEngineering } from "react-icons/md";
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const Sidebar = () => {
-  const {currentUserData} = useSelector(state=> state.user)
+  const { currentUserData } = useSelector((state) => state.user);
   const role = currentUserData?.user?.userId?.role;
 
   return (
-    <div className='sidebar border'>
-        <div className="logo">
-            {/* <img src="/Images/final logo.png" alt="logo" className='img-fluid'/> */}
-           <h2 className="navbar-brand">
-                       Fixkar
-                     </h2>
-        </div>
-        <div className='links'>
-          {role === "customer" &&
-            <ul>
-                <li><NavLink  to="/customer/home"><GoHome /><span className='hide'>Home</span></NavLink></li>
-                <li><NavLink to="/customer/bookings"><FaRegAddressBook /><span className='hide'> My Bookings</span></NavLink></li>
-                <li><NavLink to="/customer/hire-professionals"><MdOutlineEngineering /> <span className='hide'>Hire Professionals</span></NavLink></li>
-                <li><NavLink to="/customer/notifications"><FaRegBell /> <span className='hide'>Notifications</span></NavLink></li>
-                <li><NavLink to="/customer/contact"><FiMessageSquare /> <span className='hide'>Contact</span></NavLink></li>
-                <li><NavLink to="/customer/profile"><CgProfile /> <span className='hide'>Profile</span></NavLink></li>
-            </ul>
-            }
-            {role === "professional" &&
-                <ul>
-                <li><NavLink to="/professional/home"><GoHome /><span className='hide'>Home</span></NavLink></li>
-                <li><NavLink to="/professional/bookings"><FaRegAddressBook /><span className='hide'> My Bookings</span></NavLink></li>
-                <li><NavLink to="/professional/profile"><CgProfile /> <span className='hide'>Profile</span></NavLink></li>
-                <li><NavLink to="/professional/messages"><FiMessageSquare /> <span className='hide'>Messages</span></NavLink></li>
-            </ul>
-            }
-        </div>
-    </div>
-  )
-}
+    <aside
+      className="d-flex flex-column p-3 text-white"
+      style={{
+        width: "260px",
+        minHeight: "100vh",
+        background: "linear-gradient(180deg, #0d6efd, #4f9cff)",
+      }}
+    >
+      {/* ===== Logo ===== */}
+      <div className="text-center mb-4">
+        <h3 className="fw-bold m-0">Fixkar</h3>
+        <small className="opacity-75">Service Dashboard</small>
+      </div>
 
-export default Sidebar
+      {/* ===== Links ===== */}
+      <ul className="nav nav-pills flex-column gap-2">
+
+        {role === "customer" && (
+          <>
+            <li className="nav-item">
+              <NavLink
+                to="/customer/home"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <GoHome /> <span className="hide">Home</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/customer/bookings"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <FaRegAddressBook /> <span className="hide">My Bookings</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/customer/hire-professionals"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <MdOutlineEngineering />{" "}
+                <span className="hide">Hire Professionals</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/customer/contact"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <FiMessageSquare /> <span className="hide">Help & Support</span>
+              </NavLink>
+            </li>
+
+          </>
+        )}
+
+        {role === "professional" && (
+          <>
+            <li className="nav-item">
+              <NavLink
+                to="/professional/home"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <GoHome /> <span className="hide">Home</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/professional/bookings"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <FaRegAddressBook />{" "}
+                <span className="hide">My Bookings</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/professional/profile"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <CgProfile /> <span className="hide">Profile</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/professional/messages"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <FiMessageSquare /> <span className="hide">Messages</span>
+              </NavLink>
+            </li>
+          </>
+        )}
+      </ul>
+    </aside>
+  );
+};
+
+export default Sidebar;

@@ -7,28 +7,34 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 
+
 const Footer = () => {
   return (
-    <>
-      <div className="footer px-5 py-3">
-        <div>
-          <ul>
-          <li>
-             <div className="logo">
-            {/* <img src="/Images/final logo.png" alt="logo" className='img-fluid'/> */}
-           <h2 className="navbar-brand">
-                       Fixkar
-                     </h2>
+   <>
+  {/* ===== FOOTER ===== */}
+  <footer
+    className="pt-5 pb-3"
+    style={{
+      background: "linear-gradient(135deg, #0d6efd, #1e3c72)",
+      color: "#fff",
+    }}
+  >
+    <div className="container">
+      <div className="row g-4">
+
+        {/* BRAND */}
+        <div className="col-md-4">
+          <h2 className="fw-bold mb-2">Fixkar</h2>
+          <p className="small opacity-75">
+            Tum apna dream house socho,<br />
+            pura hum karenge! ❤️
+          </p>
         </div>
-          </li>
-          <li>
-            <p>Tum Apna Dream house socho <br /> pura hum karenge! ❤️</p>
-          </li>
-        </ul>
-        </div>
-        <div>
-          <ul>
-            <h2>Important Links</h2>
+
+        {/* IMPORTANT LINKS */}
+        <div className="col-6 col-md-2">
+          <h6 className="fw-semibold mb-3">Important Links</h6>
+          <ul className="list-unstyled small">
             <li><MdKeyboardArrowRight /> Home</li>
             <li><MdKeyboardArrowRight /> About</li>
             <li><MdKeyboardArrowRight /> Login</li>
@@ -37,19 +43,23 @@ const Footer = () => {
             <li><MdKeyboardArrowRight /> Our Professionals</li>
           </ul>
         </div>
-        <div>
-          <ul>
-            <h2>Helpful Links</h2>
+
+        {/* HELPFUL LINKS */}
+        <div className="col-6 col-md-2">
+          <h6 className="fw-semibold mb-3">Helpful Links</h6>
+          <ul className="list-unstyled small">
             <li><MdKeyboardArrowRight /> Help</li>
             <li><MdKeyboardArrowRight /> Privacy Policy</li>
             <li><MdKeyboardArrowRight /> Refund Policy</li>
             <li><MdKeyboardArrowRight /> Terms & Conditions</li>
           </ul>
         </div>
-        <div>
-          <ul>
-            <h2>Our Services</h2>
-            <li><MdKeyboardArrowRight /> Electritians</li>
+
+        {/* SERVICES */}
+        <div className="col-6 col-md-2">
+          <h6 className="fw-semibold mb-3">Our Services</h6>
+          <ul className="list-unstyled small">
+            <li><MdKeyboardArrowRight /> Electricians</li>
             <li><MdKeyboardArrowRight /> Plumbers</li>
             <li><MdKeyboardArrowRight /> Workers</li>
             <li><MdKeyboardArrowRight /> Builders</li>
@@ -58,19 +68,30 @@ const Footer = () => {
             <li><MdKeyboardArrowRight /> Civil Engineers</li>
           </ul>
         </div>
-          <div>
-            <ul>
-              <h2>Our Social Links</h2>
-              <li><MdKeyboardArrowRight /> <FaInstagram /> Instagram</li>
-              <li><MdKeyboardArrowRight /> <FaFacebookSquare /> Facebook</li>
-              <li><MdKeyboardArrowRight /> <FaLinkedin />  Linked in</li>
-              <li><MdKeyboardArrowRight /> <FaSquareXTwitter /> X (twitter)</li>
-              <li><MdKeyboardArrowRight /> <MdOutlineMail /> himanshu@gmail.com</li>
-            </ul>
-          </div>
+
+        {/* SOCIAL */}
+        <div className="col-6 col-md-2">
+          <h6 className="fw-semibold mb-3">Connect With Us</h6>
+          <ul className="list-unstyled small">
+            <li><MdKeyboardArrowRight /> <FaInstagram className="me-1 text-warning" /> Instagram</li>
+            <li><MdKeyboardArrowRight /> <FaFacebookSquare className="me-1 text-info" /> Facebook</li>
+            <li><MdKeyboardArrowRight /> <FaLinkedin className="me-1 text-primary" /> LinkedIn</li>
+            <li><MdKeyboardArrowRight /> <FaSquareXTwitter className="me-1" /> X (Twitter)</li>
+            <li><MdKeyboardArrowRight /> <MdOutlineMail className="me-1" /> himanshu@gmail.com</li>
+          </ul>
+        </div>
+
       </div>
-      <div className="mx-auto container-fluid bg-secondary text-center text-light">copyright &copy; 2025 | All Rights Reserved | FixKar | Made with ❤️ Alpha tech</div>
-    </>
+    </div>
+
+    {/* ===== COPYRIGHT ===== */}
+    <div className="text-center mt-4 pt-3 border-top border-light border-opacity-25 small">
+      © 2025 <strong>Fixkar</strong>. All Rights Reserved |  
+      Made with ❤️ by <strong>Alpha Tech</strong>
+    </div>
+  </footer>
+</>
+
   )
 }
 
