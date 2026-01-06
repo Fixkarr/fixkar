@@ -2,14 +2,33 @@ import cloudinary from "../config/cloudinary.js";
 
 export const uploadToCloudinary = (file, folder) => {
   return new Promise((resolve, reject) => {
+     let resourceType = "image";
+    let flags;
+
+    // 📄 PDF / DOC
+    if (file.mimetype === "application/pdf") {
+      resourceType = "raw";
+      flags = "attachment:false"; // browser mein open ho
+    }
+
+    // 🎥 Video
+    else if (file.mimetype.startsWith("video/")) {
+      resourceType = "video";
+    }
+
+    // 🖼️ Image → default image
+    else if (file.mimetype.startsWith("image/")) {
+      resourceType = "image";
+    }
 
     const stream = cloudinary.uploader.upload_stream(
       {
         folder,
-        resource_type: "auto",          // ✅ AUTO = image + video
+        resource_type: resourceType,
         chunk_size: 6 * 1024 * 1024,    // ✅ REQUIRED for videos (6MB chunks)
         timeout: 120000,                // ✅ 2 min timeout
-        secure: true,                   // ✅ HTTPS
+        secure: true,   
+        flags,              // ✅ HTTPS
         public_id: `${Date.now()}_${file.originalname
           .split(".")
           .slice(0, -1)

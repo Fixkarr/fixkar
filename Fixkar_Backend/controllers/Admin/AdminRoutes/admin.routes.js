@@ -1,13 +1,17 @@
 import express from 'express'
 import { adminSignup } from '../AdminController/adminSignup.js';
 import { adminLogin } from '../AdminController/adminLogin.js';
-import { isAuth } from '../../../middlewares/isAuth.js';
 import { getCurrentAdmin } from '../AdminController/getCurrentAdmin.js';
+import { isAdmin } from '../../../middlewares/isAdmin.js';
+import { adminPermission } from '../../../middlewares/adminPermission.js';
+import { addService } from '../AdminController/addService.js';
+import upload from '../../../middlewares/multer.js'
 
 const adminRouter = express.Router()
 
 adminRouter.post('/signup', adminSignup)
 adminRouter.post('/login', adminLogin)
-adminRouter.get('/get-current-admin', isAuth, getCurrentAdmin);
+adminRouter.get('/get-current-admin', isAdmin, getCurrentAdmin);
 
+adminRouter.post('/create-service', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), addService)
 export default adminRouter;

@@ -12,6 +12,7 @@ import multerErrorHandler from '../middlewares/multerErrorHandler.js';
 import { getUserById } from '../controllers/getUserById.controller.js';
 import { getCloudinarySignature } from '../controllers/ProfessionalsController/getCloudinarySignature.js';
 import { deleteMedia } from '../controllers/ProfessionalsController/deleteMedia.js';
+import { getServices } from '../controllers/getServices.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -49,6 +50,10 @@ userRoute.post("/update-charges", isAuth, updateCharge);
 userRoute.post('/upload-media', isAuth, uploadMedia)
 userRoute.get('/signature', getCloudinarySignature);
 userRoute.delete('/delete-media/:mediaId', isAuth, deleteMedia)
+
+//service
+
+userRoute.get('/get-services', getServices)
 
 
 

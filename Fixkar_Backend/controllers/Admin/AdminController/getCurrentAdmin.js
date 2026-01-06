@@ -2,7 +2,7 @@ import { Admin } from "../AdminModels/admin.model.js";
 
 export const getCurrentAdmin = async (req, res)=>{
     try {
-       const adminId = req.userId;
+       const adminId = req.admin._id;
        if(!adminId){
         return
        } 

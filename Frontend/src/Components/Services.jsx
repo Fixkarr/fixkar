@@ -4,45 +4,11 @@ import { FaWpforms } from "react-icons/fa";
 import { FaBusinessTime } from "react-icons/fa6";
 import { MdOutlineContactEmergency } from "react-icons/md";
 import { FaHandshake } from "react-icons/fa";
+import { useSelector } from 'react-redux';
+import useGetServices from '../hooks/useGetServices';
 const Services = () => {
-
- const services = [
-    {
-      title : "Blacksmith",
-      image : "/Images/blacksmithProfile.jpg",
-      description : "A person who shapes and forges metal objects by heating and hammering.",
-    },
-    {
-      title : "Electrician",
-      image : "Images/electricianProfile.jpg",
-      description : "A specialist who installs, maintains, and repairs electrical wiring and systems.",
-    },
-    {
-      title : "Carpenter",
-      image : "Images/carpenterProfile.jpg",
-      description : "A skilled worker who builds and repairs wooden structures and furniture.",
-    },
-    {
-      title : "Painter",
-      image : "Images/painterProfile.jpg",
-      description : "A person who applies paint to walls, buildings, or objects for decoration and protection.",
-    },
-    {
-      title : "Plumbur",
-      image : "Images/plumberProfile.jpg",
-      description : "A tradesperson who installs and repairs water pipes, drainage systems, and fittings.",
-    },
-    {
-      title : "Engineer",
-      image : "Images/engineerProfile.jpg",
-      description : "Professionals who design, plan, and oversee the construction of infrastructure like roads, bridges, and buildings.",
-    },
-    {
-      title : "Workers",
-      image : "Images/workerProfile.jpg",
-      description : "General laborers who assist in construction or other physical tasks.",
-    },
-  ]
+  useGetServices()
+  const {services} = useSelector(state => state.services)
 
   return (
     <>
@@ -77,8 +43,8 @@ const Services = () => {
   <div className="container">
     <div className="row g-4 justify-content-center">
 
-      {services.map((item, idx) => (
-        <div className="col-xl-3 col-lg-4 col-md-6" key={idx}>
+      {services?.map((item) => (
+        <div className="col-xl-3 col-lg-4 col-md-6" key={item._id}>
           <div
             className="card h-100 border-0 rounded-4 overflow-hidden service-glass"
             style={{
@@ -91,7 +57,7 @@ const Services = () => {
             <div className="ratio ratio-4x3 position-relative">
               <img
                 src={item.image}
-                alt={item.title}
+                alt={item.name}
                 className="img-fluid object-fit-cover"
               />
               <div
@@ -105,7 +71,7 @@ const Services = () => {
 
             {/* Body */}
             <div className="card-body text-center">
-              <h5 className="fw-semibold">{item.title}</h5>
+              <h5 className="fw-semibold">{item.name}</h5>
               <p className="text-muted small">{item.description}</p>
             </div>
 

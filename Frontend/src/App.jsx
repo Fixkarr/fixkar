@@ -50,6 +50,7 @@ import AdminSignup from "./Admin/AdminComponents/AdminSignup.jsx";
 import AdminLogin from "./Admin/AdminComponents/AdminLogin.jsx";
 import AdminLanding from "./Admin/AdminComponents/AdminLanding.jsx";
 import AdminHome from "./Admin/AdminComponents/AdminHome.jsx";
+import AdminServices from "./Admin/AdminComponents/AdminServices.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -293,6 +294,9 @@ const App = () => {
 
           <Route path={`${adminpath}/home`} element={currentAdmin ? <AdminHome/> : <Navigate to="/" />}/>
           <Route path={`${adminpath}/signup`} element={currentAdmin?.role === "super_admin" ? <AdminSignup/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+          
+          <Route path={`${adminpath}/manage-services`} element={currentAdmin?.role === "super_admin" ? <AdminServices/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+
       </Route>
 
       {/* Onboarding */}

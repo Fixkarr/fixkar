@@ -3,11 +3,14 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/customerhome.css";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedLocation, setSelectedService } from "../redux/location.slice";
 import MapPinDrop from "./MapPinDrop";
+import useGetServices from "../hooks/useGetServices";
 
 const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
+  useGetServices()
+  const {services} = useSelector(state => state.services)
   const googleLoaded = useLoadGoogleMaps();
   const inputRef = useRef(null);
 
@@ -20,14 +23,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
   const dispatch = useDispatch();
   const [service, setService] = useState("");
 
-  const services = [
-    "Electrician",
-    "Plumber",
-    "Painter",
-    "Carpenter",
-    "Labour",
-    "Cleaner",
-  ];
+
 
   // 🔹 Autocomplete (ONLY initial location)
   useEffect(() => {
@@ -109,13 +105,48 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
 
         {/* Services */}
         <div className="d-flex flex-wrap gap-2 mt-3">
-          {services.map((srv) => (
+          {services?.map((srv) => (
             <button
-              key={srv}
-              onClick={() => handleServiceChange(srv)}
-              className="btn btn-outline-primary rounded-pill px-3 py-1"
+              key={srv._id}
+              onClick={() => handleServiceChange(srv.name)}
+              className="border-0 bg-transparent p-0"
+              style={{ outline: "none" }}
             >
-              {srv}
+               <div
+        className="card border-0 bg-primary-subtle text-primary shadow-sm rounded-4 text-center"
+        style={{
+          width: "90px", 
+          cursor: "pointer",
+          transition: "all 0.25s ease",
+        }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.transform = "translateY(-4px)")
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.transform = "translateY(0)")
+        }
+      >
+        {/* Image */}
+        <div className="pt-3">
+          <img
+            src={srv.image}
+            alt={srv.name}
+            className="img-fluid rounded-circle"
+            style={{
+              width: "45px",
+              height: "45px",
+              objectFit: "cover",
+            }}
+          />
+        </div>
+
+        {/* Name */}
+        <div className="px-2 pb-3 mt-2">
+          <small className="fw-semibold text-primary">
+            {srv.name}
+          </small>
+        </div>
+      </div>
             </button>
           ))}
         </div>

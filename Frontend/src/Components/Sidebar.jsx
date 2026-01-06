@@ -65,7 +65,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 
             <li className="nav-item">
               <NavLink
-                to="/customer/hire-professionals"
+                to={`${adminpath}/manage-services`}
                 className={({ isActive }) =>
                   `nav-link d-flex align-items-center gap-2 rounded-3 ${
                     isActive ? "bg-white text-primary fw-semibold" : "text-white"
@@ -73,7 +73,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
                 }
               >
                 <MdOutlineEngineering />{" "}
-                <span className="hide">Hire Professionals</span>
+                <span className="hide">Manage Services</span>
               </NavLink>
             </li>
 

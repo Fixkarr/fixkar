@@ -1,7 +1,7 @@
 import React from 'react'
 
 const StatCard = ({ title, value, icon, color }) => (
-    <div className="col-xl-3 col-lg-4 col-md-6">
+    <div className="col-xl-3 col-lg-4 col-md-6 booking-card" role='button'>
     <div className={`card border-0 shadow-lg rounded-4 h-100`}>
       <div className="card-body d-flex align-items-center gap-3">
         <div

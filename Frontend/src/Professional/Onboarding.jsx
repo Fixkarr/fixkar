@@ -13,12 +13,17 @@ import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { FaCamera, FaIdCard, FaUserCheck } from "react-icons/fa6";
 import { FaBirthdayCake, FaInfoCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
+import { useSelector } from "react-redux";
+import useGetServices from "../hooks/useGetServices.jsx";
 
 const Onboarding = ({ userData }) => {
+  useGetServices()
   const [loading, setLoading] = useState(false);
+  const {services} = useSelector(state=> state.services)
   const navigate = useNavigate();
   const googleLoaded = useLoadGoogleMaps(); // ✅ Google script load status
   const addressInputRef = useRef(null);
+
 
    const [latLng, setLatLng] = useState({ lat: null, lng: null });
 
@@ -184,12 +189,9 @@ const Onboarding = ({ userData }) => {
           onBlur={formik.handleBlur}
         >
           <option value="">Select Profession</option>
-          <option value="Electrician">Electrician</option>
-          <option value="Painter">Painter</option>
-          <option value="Plumber">Plumber</option>
-          <option value="Carpenter">Carpenter</option>
-          <option value="Labour">Labour</option>
-          <option value="Engineer">Engineer</option>
+          {services?.map((srv)=>{
+            return <option value={srv.name} key={srv._id}>{srv.name}</option>
+          })}
         </select>
       </div>
 

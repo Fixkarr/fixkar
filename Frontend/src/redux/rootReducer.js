@@ -10,6 +10,7 @@ import reachedOtpSlice from './otp.Slice.js'
 import walletSlice from './wallet.slice.js'
 import gallerySlice from './gallery.Slice.js'
 import adminSlice from './admin.Slice.js'
+import serviceSlice from './service.Slice.js'
 
 const appReducer = combineReducers({
         user : userSlice,
@@ -22,7 +23,8 @@ const appReducer = combineReducers({
         reachedOtp : reachedOtpSlice,
         wallet : walletSlice,
         gallery : gallerySlice,
-        admin : adminSlice
+        admin : adminSlice,
+        services : serviceSlice
 })
 
 const rootReducer = (state, action) => {
