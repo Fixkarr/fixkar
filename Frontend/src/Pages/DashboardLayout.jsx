@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md";
 import { IoCall } from "react-icons/io5";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
 import { useNavigate } from "react-router-dom";
 import { server_url } from "../App";
@@ -16,7 +16,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 const DashboardLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const {currentAdmin} = useSelector(state=>state.admin);
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -24,7 +24,7 @@ const DashboardLayout = () => {
         {},
         { withCredentials: true }
       );
-      dispatch(setCurrentUserData(null));
+      dispatch({type : 'LOGOUT'});
       navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
@@ -50,7 +50,7 @@ const DashboardLayout = () => {
           <div
             className="px-4 py-3 text-white d-flex justify-content-between align-items-center flex-wrap gap-3"
             style={{
-              background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
+              background: `linear-gradient(135deg, ${currentAdmin ? '#0f2027' : '#0d6efd'}, ${currentAdmin ? '#2c5364' : '#4f9cff'})`,
             }}
           >
             {/* Back Button */}

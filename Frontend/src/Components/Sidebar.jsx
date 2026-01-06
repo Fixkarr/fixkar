@@ -10,9 +10,12 @@ import { MdOutlineEngineering } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
 const Sidebar = () => {
   const { currentUserData } = useSelector((state) => state.user);
+  const {currentAdmin} = useSelector(state=> state.admin)
   const role = currentUserData?.user?.userId?.role;
+const adminpath = import.meta.env.VITE_ADMIN_PATH
 
   return (
     <aside
@@ -20,7 +23,7 @@ const Sidebar = () => {
       style={{
         width: "260px",
         minHeight: "100vh",
-        background: "linear-gradient(180deg, #0d6efd, #4f9cff)",
+        background: `linear-gradient(135deg, ${currentAdmin ? '#0f2027' : '#0d6efd'}, ${currentAdmin ? '#2c5364' : '#4f9cff'})`,
       }}
     >
       {/* ===== Logo ===== */}
@@ -31,6 +34,64 @@ const Sidebar = () => {
 
       {/* ===== Links ===== */}
       <ul className="nav nav-pills flex-column gap-2">
+
+        {currentAdmin && (
+          currentAdmin?.role == "super_admin" && <>
+            <li className="nav-item">
+              <NavLink
+                to={`${adminpath}/home`}
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <GoHome /> <span className="hide">Home</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to={`${adminpath}/signup`}
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <FaRegAddressBook /> <span className="hide">Create an Admin</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/customer/hire-professionals"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <MdOutlineEngineering />{" "}
+                <span className="hide">Hire Professionals</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to="/customer/contact"
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <FiMessageSquare /> <span className="hide">Help & Support</span>
+              </NavLink>
+            </li>
+
+          </>
+        )}
 
         {role === "customer" && (
           <>

@@ -40,18 +40,26 @@ import socket from "./socket.js";
 import { setOnlineUsers } from "./redux/chat.slice.js";
 import Messages from "./Professional/Messages.jsx";
 import useGetMyBookings from "./hooks/useGetMyBookings.jsx";
+import useGetCurrentAdmin from './hooks/useGetCurrentAdmin.jsx'
 import { addNewBooking, updateBookingInRedux } from "./redux/booking.Slice.js";
 import { clearReachedOtp, setReachedOtp } from "./redux/otp.Slice.js";
 import { refreshWallet } from "./redux/wallet.slice.js";
 import ProBookingDetails from "./Professional/professionalBooking/proBookingDetails.jsx";
 import CusBookingDetail from "./Customer/customerBooking/CusBookingDetail.jsx";
+import AdminSignup from "./Admin/AdminComponents/AdminSignup.jsx";
+import AdminLogin from "./Admin/AdminComponents/AdminLogin.jsx";
+import AdminLanding from "./Admin/AdminComponents/AdminLanding.jsx";
+import AdminHome from "./Admin/AdminComponents/AdminHome.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
+const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const App = () => {
   useGetCurrentUser();
+  useGetCurrentAdmin()
   useGetMyBookings();
   const { currentUserData } = useSelector((state) => state.user);
+  const {currentAdmin} = useSelector(state => state.admin);
   const dispatch = useDispatch();
   const location = useLocation();
   const role = currentUserData?.user?.userId?.role;
@@ -280,6 +288,11 @@ const App = () => {
             role === "professional" ? <ChatSection /> : <Navigate to="/" />
           }
         />
+
+        {/* Admin  */}
+
+          <Route path={`${adminpath}/home`} element={currentAdmin ? <AdminHome/> : <Navigate to="/" />}/>
+          <Route path={`${adminpath}/signup`} element={currentAdmin?.role === "super_admin" ? <AdminSignup/> : (<Navigate to={`${adminpath}/home`}/>)}/>
       </Route>
 
       {/* Onboarding */}
@@ -312,6 +325,18 @@ const App = () => {
         />
       </Route>
 
+
+
+
+          {/* Admin Pannel starts here */}
+
+         
+          <Route path={`${adminpath}`} element={ !currentUserData && !currentAdmin ? <AdminLanding/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
+
+          <Route path={`${adminpath}/login`} element={ !currentUserData && !currentAdmin ? <AdminLogin/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
+
+          
+        
       {/* 404 */}
       <Route path="*" element={<PageNotFound />} />
     </Routes>

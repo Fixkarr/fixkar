@@ -108,7 +108,7 @@ export const login = async (req, res) => {
         let userData;
         if (existingUser.role === "customer") {
             userData = await Customer.findOne({ userId: existingUser._id }).populate("userId", '-password');
-        } else if (existingUser.role === "professional") {
+        } else if (existingUser.role === "professional") {  
             userData = await Professional.findOne({ userId: existingUser._id }).select('-poi -dob').populate("userId", '-password').populate({
     path: "reviews",
     options: {
