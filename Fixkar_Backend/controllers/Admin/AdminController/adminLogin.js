@@ -33,7 +33,7 @@ export const adminLogin = async (req, res) =>{
         const token = await genToken(isExists._id);
         res.cookie("token", token, {
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 24 * 60 * 60 * 1000, // 24 hours
             httpOnly: true,
         });

@@ -36,7 +36,8 @@ export const registerUserWithForm = async (req, res) => {
         const token = await genToken(newUser._id);
         res.cookie("token", token, {
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "none",
+            httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         })
 
@@ -100,7 +101,7 @@ export const login = async (req, res) => {
         const token = await genToken(existingUser._id);
         res.cookie("token", token, {
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
             httpOnly: true,
         });
@@ -183,7 +184,7 @@ export const googleAuth = async (req, res) => {
         const token = await genToken(existingUser._id);
         res.cookie("token", token, {
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000,// 7 days
             httpOnly: true
         })
