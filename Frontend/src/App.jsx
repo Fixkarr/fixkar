@@ -44,7 +44,7 @@ import useGetCurrentAdmin from './hooks/useGetCurrentAdmin.jsx'
 import { addNewBooking, updateBookingInRedux } from "./redux/booking.Slice.js";
 import { clearReachedOtp, setReachedOtp } from "./redux/otp.Slice.js";
 import { refreshWallet } from "./redux/wallet.slice.js";
-import ProBookingDetails from "./Professional/professionalBooking/proBookingDetails.jsx";
+import ProBookingDetails from "./Professional/professionalBooking/ProBookingDetails.jsx";
 import CusBookingDetail from "./Customer/customerBooking/CusBookingDetail.jsx";
 import AdminSignup from "./Admin/AdminComponents/AdminSignup.jsx";
 import AdminLogin from "./Admin/AdminComponents/AdminLogin.jsx";
