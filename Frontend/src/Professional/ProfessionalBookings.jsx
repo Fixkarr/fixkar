@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
-import ProBookingCard from "./professionalBooking/proBookingCard";
+import ProBookingCard from "./professionalBooking/ProBookingCard";
 
 export default function ProfessionalBookings() {
 
