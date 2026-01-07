@@ -173,17 +173,17 @@ export const sendEmailOtp = async (req, res) => {
 
     // ✅ Nodemailer send
     const transporter = nodemailer.createTransport({
-       host: "smtp.gmail.com",
-      port: 465, // or 587 if using TLS
-      secure: true, // true for 465, false for 587
+       host: "smtp-relay.brevo.com",
+      port: 587, // or 587 if using TLS
+      secure: false, // true for 465, false for 587
       auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
+    user: 'apikey',
+    pass: process.env.BREVO_API_KEY
   }
     });
 
     await transporter.sendMail({
-      from: `"Fixkar" <${process.env.SMTP_USER}>`,
+      from: '"Fixkar" <hg852106@gmail.com>',
       to: email,
       subject: "Your Password Reset OTP",
       text: `Your OTP for password reset is ${plainOtp}. It is valid for ${Math.floor(OTP_EXPIRY/60)} minutes.`,
