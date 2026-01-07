@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaImages, FaCloudUploadAlt } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
-import UploadMedia from "../Customer/uploadMedia";
+import UploadMedia from "../Customer/UploadMedia";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
 
