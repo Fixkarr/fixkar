@@ -137,20 +137,26 @@ export const login = async (req, res) => {
     }
 };
 
-
 export const signOut = async (req, res) => {
-    try {
-        res.clearCookie("token")
-        return res.status(200).json({
-            message: "Signout successfull"
-        })
-    } catch (error) {
-        console.log("error in signOutCustomer", error)
-        return res.status(500).json({
-            message: "Internal server error"
-        })
-    }
-}
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      path: "/"
+      // domain: ".onrender.com"  // agar login me domain diya tha to
+    });
+
+    return res.status(200).json({
+      message: "Signout successful"
+    });
+  } catch (error) {
+    console.log("error in signOutCustomer", error);
+    return res.status(500).json({
+      message: "Internal server error"
+    });
+  }
+};
 
 
 // reset password
