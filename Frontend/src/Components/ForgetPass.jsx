@@ -34,7 +34,6 @@ const ForgetPass = () => {
       try {
         setLoading(true)
         const result = await axios.post(`${server_url}/api/otp/send-email-otp`, values)
-        console.log(result)
         toast.success(result.data.message);
         setLoading(false)
         setEmail(values.email);

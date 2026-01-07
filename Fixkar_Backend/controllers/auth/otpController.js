@@ -177,10 +177,11 @@ export const sendEmailOtp = async (req, res) => {
       port: 587, // or 587 if using TLS
       secure: false, // true for 465, false for 587
       auth: {
-    user: 'apikey',
+    user: '9f8266001@smtp-brevo.com',
     pass: process.env.BREVO_API_KEY
   }
     });
+
 
     await transporter.sendMail({
       from: '"Fixkar" <hg852106@gmail.com>',
