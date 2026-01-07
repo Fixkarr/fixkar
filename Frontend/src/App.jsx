@@ -51,6 +51,7 @@ import AdminLogin from "./Admin/AdminComponents/AdminLogin.jsx";
 import AdminLanding from "./Admin/AdminComponents/AdminLanding.jsx";
 import AdminHome from "./Admin/AdminComponents/AdminHome.jsx";
 import AdminServices from "./Admin/AdminComponents/AdminServices.jsx";
+import AdminUsers from "./Admin/AdminComponents/AdminUsers.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -297,6 +298,8 @@ const App = () => {
           
           <Route path={`${adminpath}/manage-services`} element={currentAdmin?.role === "super_admin" ? <AdminServices/> : (<Navigate to={`${adminpath}/home`}/>)}/>
 
+          <Route path={`${adminpath}/manage-users`} element={currentAdmin?.role === "super_admin" ? <AdminUsers/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+
       </Route>
 
       {/* Onboarding */}
@@ -327,15 +330,10 @@ const App = () => {
           path="/application/rejected"
           element={status === "rejected" ? <Rejected /> : <Navigate to="/" />}
         />
-      </Route>
+      </Route> 
+      {/* Admin Pannel starts here */}
 
-
-
-
-          {/* Admin Pannel starts here */}
-
-         
-          <Route path={`${adminpath}`} element={ !currentUserData && !currentAdmin ? <AdminLanding/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
+ <Route path={`${adminpath}`} element={ !currentUserData && !currentAdmin ? <AdminLanding/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 
           <Route path={`${adminpath}/login`} element={ !currentUserData && !currentAdmin ? <AdminLogin/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 

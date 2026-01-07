@@ -14,7 +14,12 @@ const AdminServices = () => {
   useGetServices()
   const {services} = useSelector(state => state.services);
   return (
-    <div className="container-fluid py-4">
+    <div className="container-fluid py-4"
+       style={{
+          background: "linear-gradient(135deg, #0f2027, #2c5364)",
+          minHeight : "100vh"
+        }}
+    > 
       {/* ================= HEADER ================= */}
       <div
         className="card border-0 shadow-lg rounded-4 mb-4 text-white"
@@ -25,7 +30,7 @@ const AdminServices = () => {
         <div className="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
           <div>
             <h4 className="fw-bold mb-1">
-              <FaTools className="me-2 text-warning" />
+                <FaTools className="me-2 text-warning" />
               Services Management
             </h4>
             <p className="mb-0 text-light opacity-75">

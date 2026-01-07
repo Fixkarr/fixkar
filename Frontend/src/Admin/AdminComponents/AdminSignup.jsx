@@ -66,17 +66,15 @@ const AdminSignup = () => {
 
   return (
     <div
-      className="min-vh-100 d-flex align-items-center justify-content-center"
+      className="min-vh-100 d-flex justify-content-center py-4"
       style={{
         background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
       }}
     >
       <div
-        className="card border-0 shadow-lg text-white p-4"
+        className="card border-0 shadow-lg text-primary p-4"
         style={{
-          width: "100%",
-          maxWidth: "440px",
-          background: "rgba(0,0,0,0.75)",
+          width: "80%",
           backdropFilter: "blur(12px)",
           borderRadius: "18px",
           animation: "fadeInUp 0.8s ease",
@@ -95,7 +93,7 @@ const AdminSignup = () => {
           >
             <FaUserShield size={30} />
           </div>
-          <h4 className="fw-bold">Admin Signup</h4>
+          <h4 className="fw-bold">Create a new Admin</h4>
           <p className="text-muted small mb-0">
             Restricted Access – FixKar Admin Panel
           </p>

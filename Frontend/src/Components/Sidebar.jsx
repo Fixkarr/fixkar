@@ -1,9 +1,9 @@
 import React from "react";
 import "../css/sidebar.css";
 import { GoHome } from "react-icons/go";
-import { FaRegAddressBook } from "react-icons/fa6";
+import { FaRegAddressBook, FaUserShield } from "react-icons/fa6";
 import { IoConstructOutline } from "react-icons/io5";
-import { FaRegBell } from "react-icons/fa";
+import { FaRegBell, FaTools } from "react-icons/fa";
 import { FiMessageSquare } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineEngineering } from "react-icons/md";
@@ -72,8 +72,22 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
                   }`
                 }
               >
-                <MdOutlineEngineering />{" "}
+                <FaTools />{" "}
                 <span className="hide">Manage Services</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink
+                to={`${adminpath}/manage-users`}
+                className={({ isActive }) =>
+                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
+                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
+                  }`
+                }
+              >
+                <FaUserShield />{" "}
+                <span className="hide">Manage Users</span>
               </NavLink>
             </li>
 
@@ -86,7 +100,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
                   }`
                 }
               >
-                <FiMessageSquare /> <span className="hide">Help & Support</span>
+                <FiMessageSquare /> <span className="hide">Manage Enquiry</span>
               </NavLink>
             </li>
 

@@ -37,7 +37,6 @@ const AdminLogin = () => {
     }),
 
     onSubmit: async (values, {resetForm}) => {
-      console.log(values);
      try {
                 const result  = await axios.post(`${server_url}/api/admin/login`, values, {withCredentials : true});
                 toast.success(result.data.message);
