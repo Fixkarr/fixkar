@@ -7,7 +7,7 @@ import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
 import { setReachedOtp } from "../redux/otp.Slice";
 import { useDispatch } from "react-redux";
 
-import CusBookingCard from "./customerBooking/cusBookingCard";
+import CusBookingCard from "./customerBooking/CusBookingCard";
 
 const CustomerBookings = () => {
   const { myBookings } = useSelector((state) => state.bookings);
