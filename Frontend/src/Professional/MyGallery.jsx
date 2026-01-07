@@ -8,7 +8,7 @@ import { ClipLoader } from "react-spinners";
 import GalleryPlaceholder from "../Components/GalleryPlaceholder";
 // import { uploadMedia } from "../Customer/uploadMedia";
 import { setCurrentUserData } from "../redux/user.slice";
-import UploadMedia from "../Customer/uploadMedia";
+import UploadMedia from "../Customer/UploadMedia";
 import axios from "axios";
 import { server_url } from "../App";
 import { toast } from "react-toastify";
