@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 dotenv.config();
 import { Customer, Professional, User } from "../../models/userModel.js";
+import { transporter } from "../../utils/mailer.js";
 
 
 const OTP_EXPIRY = parseInt(process.env.OTP_EXPIRY_SECONDS || "300"); // seconds
@@ -172,15 +173,7 @@ export const sendEmailOtp = async (req, res) => {
     await redis.set(`email_otp_resend:${email}`, "1", "EX", OTP_RESEND_COOLDOWN);
 
     // ✅ Nodemailer send
-    const transporter = nodemailer.createTransport({
-       host: "smtp-relay.brevo.com",
-      port: 587, // or 587 if using TLS
-      secure: false, // true for 465, false for 587
-      auth: {
-    user: '9f8266001@smtp-brevo.com',
-    pass: process.env.BREVO_API_KEY
-  }
-    });
+
 
 
     await transporter.sendMail({
