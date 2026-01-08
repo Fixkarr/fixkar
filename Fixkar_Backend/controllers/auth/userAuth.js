@@ -172,21 +172,25 @@ export const resetPassword = async (req, res) => {
     res.status(200).json({ message: "Password reset successfully" });
 };
 
-export const googleAuth = async (req, res) => {
+export const googleAuthSignup = async (req, res) => {
     try {
         const { fullName, email, role } = req.body;
 
         let existingUser = await User.findOne({ email });
 
-        if (!existingUser) {
-            const hashedPass = await bcrypt.hash("pass", 10);
+        if (existingUser) {
+           return res.status(400).json({
+            message : "User already exists with this email"
+           })
+        }
+         const hashedPass = await bcrypt.hash("pass", 10);
             existingUser = await User.create({
                 fullName,
                 email,
                 password: hashedPass,
                 role
             })
-        }
+
         const token = await genToken(existingUser._id);
         res.cookie("token", token, {
             secure: process.env.NODE_ENV === 'production',
@@ -198,7 +202,8 @@ export const googleAuth = async (req, res) => {
             await Customer.create({
                 userId: existingUser._id,
             })
-            const customer = await Customer.findOne({ userId: existingUser._id }).populate("userId")
+            const customer = await Customer.findOne({ userId: existingUser._id }).populate("userId", "-password")
+
             return res.status(201).json({
                 message: "user registered successfully",
                 user: customer
@@ -246,3 +251,65 @@ export const googleAuth = async (req, res) => {
         return res.status(500).json({ message: "google auth error" });
     }
 }
+
+export const googleAuthLogin = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found. Please signup with Google first.",
+      });
+    }
+
+    // Generate token
+    const token = await genToken(user._id);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    // Role based response
+    if (user.role === "customer") {
+      const customer = await Customer.findOne({ userId: user._id })
+        .populate("userId", "-password");
+
+      return res.status(200).json({
+        message: "Google login successful",
+        user: customer,
+      });
+    }
+
+    if (user.role === "professional") {
+      const professional = await Professional.findOne({ userId: user._id })
+        .populate("userId", "-password")
+        .select("-poi -dob")
+        .populate({
+          path: "reviews",
+          options: { sort: { createdAt: -1 }, limit: 10 },
+        })
+        .populate({
+          path: "gallery",
+          options: { sort: { createdAt: -1 }, limit: 20 },
+        });
+
+      return res.status(200).json({
+        message: "Google login successful",
+        user: professional,
+      });
+    }
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Google login failed" });
+  }
+};

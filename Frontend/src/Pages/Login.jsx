@@ -12,6 +12,12 @@ import '../css/login.css'
 import { server_url } from '../App';
 import { useDispatch } from 'react-redux';
 import { setCurrentUserData } from '../redux/user.slice';
+import {
+  auth,
+  provider,
+  signInWithPopup,
+} from "../firebase.js";
+import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {
    const [showPass, setShowPass] = useState(false);
@@ -55,7 +61,24 @@ const Login = () => {
         }
       })
 
+      const handleLoginWithGoogle = async () => {
+    try {
+        setLoading(true)
+      const result = await signInWithPopup(auth, provider);
 
+      const user = {
+        email : result.user.email,
+      }
+      
+      const response = await axios.post(`${server_url}/api/auth/google-auth-login`, user, {withCredentials : true})
+      dispatch(setCurrentUserData(response.data))
+      setLoading(false)
+    } catch (error) {
+      setError("Something went wrong!")
+      console.log(error)
+      setLoading(false)
+    }
+  };
 
   return (
     
@@ -143,7 +166,18 @@ const Login = () => {
         {loading ? <ClipLoader size={20} color="#fff" /> : "Login"}
       </button>
     </form>
-
+            <hr />
+                  <center>
+                    <span className="or">or</span>
+                  </center>
+                  <center>
+                    <button
+                      className="btn border border-secondary w-100 mt-2"  disabled={loading}
+                      onClick={handleLoginWithGoogle}
+                    >
+                      <FcGoogle />{loading ? <ClipLoader size={20}/> : "Login with Google"}
+                    </button>
+                  </center>
     {/* Footer */}
     <div className="text-center mt-4">
       <span

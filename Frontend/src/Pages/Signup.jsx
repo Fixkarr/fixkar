@@ -58,7 +58,7 @@ const Signup = () => {
         role
       }
       
-      const response = await axios.post(`${server_url}/api/auth/google-auth`, user, {withCredentials : true})
+      const response = await axios.post(`${server_url}/api/auth/google-auth-signup`, user, {withCredentials : true})
       dispatch(setCurrentUserData(response.data))
       setLoading(false)
     } catch (error) {
