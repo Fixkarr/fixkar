@@ -54,7 +54,11 @@ const DashboardLayout = () => {
             }}
           >
             {/* Back Button */}
-            <div
+           
+
+            {/* Right Info */}
+            <div className="d-flex align-items-center gap-4 flex-wrap">
+               <div
               className="d-flex align-items-center gap-2 fw-semibold"
               role="button"
               onClick={() => navigate(-1)}
@@ -62,9 +66,7 @@ const DashboardLayout = () => {
               <IoMdArrowRoundBack size={18} />
               <span>Back</span>
             </div>
-
-            {/* Right Info */}
-            <div className="d-flex align-items-center gap-4 flex-wrap">
+            
               <span className="d-flex align-items-center gap-1 small">
                 <IoCall size={16} />
                 +10 92 92988 28
