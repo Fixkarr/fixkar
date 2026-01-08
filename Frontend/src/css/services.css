@@ -1,10 +1,10 @@
-.service-glass {
+/* .service-glass {
   transition: all 0.35s ease;
 }
 .service-glass:hover {
   transform: translateY(-10px);
   box-shadow: 0 20px 45px rgba(13,110,253,0.25);
-}
+} */
 
 .step-card {
   transition: all 0.3s ease;
@@ -12,4 +12,27 @@
 .step-card:hover {
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 16px 30px rgba(0,0,0,0.12);
+}
+
+.service-card-sm {
+  transition: all 0.2s ease;
+}
+
+.service-card-sm:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.service-card-sm img {
+  transition: transform 0.25s ease;
+}
+
+.service-card-sm:hover img {
+  transform: scale(1.04);
+}
+
+/* Description ko control karne ke liye (no slice) */
+.service-card-sm p {
+  font-size: 12px;
+  line-height: 1.4;
 }
