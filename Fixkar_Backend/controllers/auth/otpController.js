@@ -172,9 +172,6 @@ export const sendEmailOtp = async (req, res) => {
 
     await redis.set(`email_otp_resend:${email}`, "1", "EX", OTP_RESEND_COOLDOWN);
 
-    // ✅ Nodemailer send
-
-
 
     await transporter.sendMail({
       from: '"Fixkar" <hg852106@gmail.com>',

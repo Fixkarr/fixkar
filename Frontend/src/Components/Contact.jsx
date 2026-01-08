@@ -12,8 +12,14 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
-
+import { useLocation } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 const Contact = () => {
+  
+const location = useLocation();
+const { pathname } = location;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,8 +38,10 @@ const Contact = () => {
   };
 
   return (
+    <>
+      {pathname !== '/' && <Navbar/>}
     <div
-      className="contact d-flex align-items-center"
+      className="contact d-flex align-items-center mt-5"
       style={{
         minHeight: "100vh",
         background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
@@ -170,6 +178,8 @@ const Contact = () => {
         </div>
       </div>
     </div>
+    {pathname !== '/' && <Footer/>}
+    </>
   );
 };
 

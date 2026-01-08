@@ -24,7 +24,7 @@ const Footer = () => {
       <div className="row g-4">
 
         {/* BRAND */}
-        <div className="col-md-2">
+        <div className="col-md-3">
            <img src="/Images/logo1.png" className="img-fluid" alt="fixkar logo" style={{
       height : "30px", width : "108px",
       // filter: "invert(-60%)" 
@@ -61,22 +61,9 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* SERVICES */}
-        <div className="col-6 col-md-2">
-          <h6 className="fw-semibold mb-3">Our Services</h6>
-          <ul className="list-unstyled small">
-            <li><MdKeyboardArrowRight /> Electricians</li>
-            <li><MdKeyboardArrowRight /> Plumbers</li>
-            <li><MdKeyboardArrowRight /> Workers</li>
-            <li><MdKeyboardArrowRight /> Builders</li>
-            <li><MdKeyboardArrowRight /> Carpenters</li>
-            <li><MdKeyboardArrowRight /> Blacksmith</li>
-            <li><MdKeyboardArrowRight /> Civil Engineers</li>
-          </ul>
-        </div>
 
         {/* SOCIAL */}
-        <div className="col-6 col-md-2">
+        <div className="col-6 col-md-3">
           <h6 className="fw-semibold mb-3">Connect With Us</h6>
           <ul className="list-unstyled small">
             <li><MdKeyboardArrowRight /> <FaInstagram className="me-1 text-warning" /> Instagram</li>

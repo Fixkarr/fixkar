@@ -13,9 +13,16 @@ import {
   FaGlobe,
   FaMapMarkerAlt,
 } from "react-icons/fa";
+import Footer from "../Footer";
+import Navbar from "../Navbar";
+import { useLocation } from "react-router-dom";
 
 const CancellationRefundPolicy = () => {
+   const location = useLocation();
+const { pathname } = location;
   return (
+    <>
+    {pathname !== '/' && <Navbar/>}
     <div className="container my-5">
       <div className="card shadow border-0">
         <div className="card-body p-4 p-md-5">
@@ -189,6 +196,8 @@ const CancellationRefundPolicy = () => {
         </div>
       </div>
     </div>
+    {pathname !== '/' && <Footer/>}
+    </>
   );
 };
 

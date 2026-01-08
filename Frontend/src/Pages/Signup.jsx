@@ -4,9 +4,11 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useFormik } from "formik";
 import { FaArrowLeft } from "react-icons/fa6";
+import { FaUser, FaLock } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 import * as Yup from "yup";
 import Navbar from "../Components/Navbar.jsx";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
@@ -109,111 +111,145 @@ const Signup = () => {
   return (
     <>
       <Navbar />
-      <div className="customer-signup container-fluid d-flex align-items-center pt-5 justify-content-center bg-secondary-subtle">
-        <div className="signup-container bg-white p-3 rounded shadow">
-         <div className="flex flex-row">
-                                   <span className="text-primary" role='button' onClick={()=> navigate('/')}><FaArrowLeft /></span>
-                                   <center><h4 className="text-primary mb-3">Sign up</h4></center>
-                                 </div>
+      <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div className="col-11 col-sm-9 col-md-6 col-lg-4">
 
-          <form onSubmit={formik.handleSubmit}>
-            {/* Full Name */}
-            <div className="mb-3">
-              <label htmlFor="fullName" className="form-label">
-                Name
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="fullName"
-                name="fullName"
-                placeholder="Enter your full name"
-                value={formik.values.fullName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.fullName && formik.errors.fullName && (
-                <small className="text-danger">{formik.errors.fullName}</small>
-              )}
-            </div>
+    <div className="card border-0 shadow-lg rounded-4 p-4">
 
-            {/* Email */}
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                className="form-control"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your valid email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.email && formik.errors.email && (
-                <small className="text-danger">{formik.errors.email}</small>
-              )}
-            </div>
-
-            {/* Password */}
-            <div className="mb-3 position-relative">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                className="form-control"
-                type={showPass ? "text" : "password"}
-                id="password"
-                name="password"
-                placeholder="Set password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <span
-                onClick={handleShowPass}
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "38px",
-                  cursor: "pointer",
-                }}
-              >
-                {showPass ? <FaRegEyeSlash /> : <FaRegEye />}
-              </span>
-              {formik.touched.password && formik.errors.password && (
-                <small className="text-danger">{formik.errors.password}</small>
-              )}
-            </div>
-
-            <center>
-              <button type="submit" disabled={loading} className="btn btn-primary w-100">
-                {loading ? <ClipLoader size={20}/> : "Sign Up"}
-              </button>
-            </center>
-          </form>
-
-          <hr />
-          <center>
-            <span className="or">or</span>
-          </center>
-          <center>
-            <button
-              className="btn border border-secondary w-100 mt-2"  disabled={loading}
-              onClick={handleSignupWithGoogle}
-            >
-              <FcGoogle />{loading ? <ClipLoader size={20}/> : "Sign up with Google"}
-            </button>
-          </center>
-
-             <div className="p-2 lowerDiv">
-                <span className="text-primary" onClick={()=>navigate('/login')}>Already have an account? Login</span>
-             </div>
-        
-        </div>
+      {/* Header */}
+      <div className="d-flex align-items-center mb-4">
+        <span
+          className="text-primary fs-5 me-2"
+          role="button"
+          onClick={() => navigate("/")}
+        >
+          <FaArrowLeft />
+        </span>
+        <h4 className="fw-bold text-primary m-0 text-center flex-grow-1">
+          Create Account
+        </h4>
       </div>
+
+      {/* Form */}
+      <form onSubmit={formik.handleSubmit}>
+
+        {/* Full Name */}
+        <div className="mb-3">
+          <label className="form-label fw-semibold small">Full Name</label>
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <FaUser className="text-primary" />
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              id="fullName"
+              name="fullName"
+              placeholder="Enter your full name"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </div>
+          {formik.touched.fullName && formik.errors.fullName && (
+            <small className="text-danger">{formik.errors.fullName}</small>
+          )}
+        </div>
+
+        {/* Email */}
+        <div className="mb-3">
+          <label className="form-label fw-semibold small">Email Address</label>
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <MdEmail className="text-primary" />
+            </span>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </div>
+          {formik.touched.email && formik.errors.email && (
+            <small className="text-danger">{formik.errors.email}</small>
+          )}
+        </div>
+
+        {/* Password */}
+        <div className="mb-3 position-relative">
+          <label className="form-label fw-semibold small">Password</label>
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <FaLock className="text-primary" />
+            </span>
+            <input
+              type={showPass ? "text" : "password"}
+              className="form-control"
+              id="password"
+              name="password"
+              placeholder="Create a password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </div>
+
+          <span
+            onClick={handleShowPass}
+            className="position-absolute top-50 end-0 translate-middle-y me-3"
+            style={{ cursor: "pointer" }}
+          >
+            {showPass ? <FaRegEyeSlash /> : <FaRegEye />}
+          </span>
+
+          {formik.touched.password && formik.errors.password && (
+            <small className="text-danger">{formik.errors.password}</small>
+          )}
+        </div>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn btn-primary w-100 rounded-pill py-2 fw-semibold mt-2"
+        >
+          {loading ? <ClipLoader size={18} /> : "Create Account"}
+        </button>
+
+      </form>
+
+      {/* Divider */}
+      <div className="text-center my-3 text-muted small">OR</div>
+
+      {/* Google */}
+      <button
+        className="btn btn-outline-secondary w-100 rounded-pill py-2 d-flex align-items-center justify-content-center gap-2"
+        disabled={loading}
+        onClick={handleSignupWithGoogle}
+      >
+        <FcGoogle size={20} />
+        {loading ? <ClipLoader size={18} /> : "Continue with Google"}
+      </button>
+
+      {/* Footer */}
+      <div className="text-center mt-4">
+        <span
+          className="text-primary fw-semibold"
+          role="button"
+          onClick={() => navigate("/login")}
+        >
+          Already have an account? Login
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
     </>
   );
 };

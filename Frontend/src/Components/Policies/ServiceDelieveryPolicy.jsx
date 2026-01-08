@@ -12,9 +12,16 @@ import {
   FaEnvelope,
   FaGlobe,
 } from "react-icons/fa";
-
+import { useLocation } from "react-router-dom";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 const ServiceDelieveryPolicy = () => {
+   const location = useLocation();
+const { pathname } = location;
+
   return (
+    <>
+     {pathname !== '/' && <Navbar/>}
     <div className="container my-5">
       <div className="card shadow-lg border-0">
         <div className="card-body p-4 p-md-5">
@@ -143,6 +150,8 @@ const ServiceDelieveryPolicy = () => {
         </div>
       </div>
     </div>
+     {pathname !== '/' && <Footer/>}
+    </>
   );
 };
 
