@@ -56,6 +56,7 @@ import TermsAndConditions from "./Components/Policies/TermsAndConditions.jsx";
 import ServiceDelieveryPolicy from "./Components/Policies/ServiceDelieveryPolicy.jsx";
 import CancellationRefundPolicy from "./Components/Policies/CancellationRefundPolicy.jsx";
 import PrivacyPolicy from "./Components/Policies/PrivacyPolicy.jsx";
+import Contact from "./Components/Contact.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -333,6 +334,8 @@ const App = () => {
           <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
           <Route path="/service-delievery" element={<ServiceDelieveryPolicy/>}/>
           <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicy/>}/>
+          <Route path="/contact" element={<Contact/>}/>
+
         
       {/* 404 */}
       <Route path="*" element={<PageNotFound />} />

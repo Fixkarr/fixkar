@@ -71,7 +71,7 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link fw-semibold" to="#">
+          <NavLink className="nav-link fw-semibold" to="/contact">
             <FaPhoneAlt className="me-1 text-success" /> Contact
           </NavLink>
         </li>

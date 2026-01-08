@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
 import ProBookingCard from "./professionalBooking/ProBookingCard";
+import useGetMyBookings from "../hooks/useGetMyBookings";
 
 export default function ProfessionalBookings() {
-
+    useGetMyBookings();
   const { myBookings } = useSelector((state) => state.bookings);
-
+  
   
   return myBookings.length !== 0 ? (
     <div className="container py-4">
