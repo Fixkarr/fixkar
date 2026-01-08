@@ -35,7 +35,7 @@ const Navbar = () => {
     {/* BRAND */}
     <NavLink className="navbar-brand fw-bold fs-4 text-primary" to="/">
        <img src="/Images/logo2.png" className="img-fluid" alt="fixkar logo" style={{
-      height : "40px", width : "128px", 
+     height : "30px", width : "108px",
     }}/>
     </NavLink>
 

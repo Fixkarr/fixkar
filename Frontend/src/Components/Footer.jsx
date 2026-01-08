@@ -26,7 +26,7 @@ const Footer = () => {
         {/* BRAND */}
         <div className="col-md-2">
            <img src="/Images/logo1.png" className="img-fluid" alt="fixkar logo" style={{
-      height : "40px", width : "138px",
+      height : "30px", width : "108px",
       // filter: "invert(-60%)" 
     }}/>
           <p className="small opacity-75">

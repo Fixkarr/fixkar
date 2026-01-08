@@ -29,7 +29,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
   {/* ===== Logo ===== */}
   <div className="text-center mb-4">
     <img src="/Images/logo1.png" className="img-fluid" alt="fixkar logo" style={{
-      height : "40px", width : "138px",
+      height : "30px", width : "108px",
     }}/>
     <small className="opacity-75 d-none d-md-block">
       Service Dashboard
