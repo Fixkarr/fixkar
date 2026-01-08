@@ -33,7 +33,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   // const [user, setUser] = useState(null);
-  const [error, setError] = useState("")
+
   // 👁️ Show/Hide Password
   const handleShowPass = () => {
     setShowPass(!showPass);
@@ -62,8 +62,8 @@ const Signup = () => {
       dispatch(setCurrentUserData(response.data))
       setLoading(false)
     } catch (error) {
-      setError("Something went wrong!")
-      console.log(error)
+    
+      toast.error(error.response.data.message);
       setLoading(false)
     }
   };

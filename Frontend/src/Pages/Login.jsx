@@ -74,8 +74,8 @@ const Login = () => {
       dispatch(setCurrentUserData(response.data))
       setLoading(false)
     } catch (error) {
-      setError("Something went wrong!")
-      console.log(error)
+  
+      toast.error(error.response.data.message)
       setLoading(false)
     }
   };
