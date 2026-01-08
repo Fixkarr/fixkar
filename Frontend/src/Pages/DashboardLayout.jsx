@@ -48,10 +48,11 @@ const DashboardLayout = () => {
         >
           {/* Gradient Header */}
           <div
-            className="px-4 py-1 text-white d-flex align-items-center flex-wrap gap-3"
+            className="px-2 py-2 text-white d-flex align-items-center flex-wrap gap-3"
             style={{
               background: `linear-gradient(135deg, ${currentAdmin ? '#0f2027' : '#0d6efd'}, ${currentAdmin ? '#2c5364' : '#4f9cff'})`,
-            }}
+              fontSize : "1vmax" 
+            }}  
           >
             {/* Back Button */}
            
@@ -66,7 +67,7 @@ const DashboardLayout = () => {
               <IoMdArrowRoundBack size={18} />
               <span>Back</span>
             </div>
-            
+
               <span className="d-flex align-items-center gap-1 small">
                 <IoCall size={16} />
                 +10 92 92988 28
@@ -82,7 +83,7 @@ const DashboardLayout = () => {
                 onClick={handleLogout}
                 className="d-flex align-items-center gap-1 text-warning fw-semibold"
               >
-                <RiLogoutCircleRLine size={18} />
+                <RiLogoutCircleRLine/>
                 Logout
               </span>
             </div>
