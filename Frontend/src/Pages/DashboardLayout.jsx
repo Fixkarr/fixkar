@@ -40,7 +40,7 @@ const DashboardLayout = () => {
 
 
       {/* Main Area */}
-      <main className="flex-grow-1 p-3 bg-light">
+      <main className="flex-grow-1 p-1 bg-light">
 
         {/* ===== Top Bar ===== */}
         <section
@@ -88,7 +88,7 @@ const DashboardLayout = () => {
         </section>
 
         {/* ===== Page Content ===== */}
-        <div className="card border-0 shadow-sm rounded-4 p-3">
+        <div className="card border-0 shadow-sm rounded-4 p-1">
           <Outlet />
         </div>
 
