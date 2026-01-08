@@ -29,9 +29,9 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
   {/* ===== Logo ===== */}
   <div className="text-center mb-4">
     <img src="/Images/logo1.png" className="img-fluid" alt="fixkar logo" style={{
-      height : "30px", width : "108px",
+      maxHeight : "30px", maxWidth : "108px",
     }}/>
-    <small className="opacity-75 d-none d-md-block">
+    <small className="opacity-75  d-md-block">
       Service Dashboard
     </small>
   </div>
@@ -45,13 +45,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to={`${adminpath}/home`}
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <GoHome />
-            <span className="d-none d-md-inline">Home</span>
+            <span className=" d-md-inline">Home</span>
           </NavLink>
         </li>
 
@@ -59,13 +59,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to={`${adminpath}/signup`}
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <FaRegAddressBook />
-            <span className="d-none d-md-inline">Create an Admin</span>
+            <span className=" d-md-inline">Create an Admin</span>
           </NavLink>
         </li>
 
@@ -73,13 +73,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to={`${adminpath}/manage-services`}
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <FaTools />
-            <span className="d-none d-md-inline">Manage Services</span>
+            <span className=" d-md-inline">Manage Services</span>
           </NavLink>
         </li>
 
@@ -87,13 +87,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to={`${adminpath}/manage-users`}
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <FaUserShield />
-            <span className="d-none d-md-inline">Manage Users</span>
+            <span className=" d-md-inline">Manage Users</span>
           </NavLink>
         </li>
 
@@ -101,13 +101,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/customer/contact"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <FiMessageSquare />
-            <span className="d-none d-md-inline">Manage Enquiry</span>
+            <span className=" d-md-inline">Manage Enquiry</span>
           </NavLink>
         </li>
       </>
@@ -119,13 +119,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/customer/home"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <GoHome />
-            <span className="d-none d-md-inline">Home</span>
+            <span className=" d-md-inline">Home</span>
           </NavLink>
         </li>
 
@@ -133,13 +133,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/customer/bookings"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <FaRegAddressBook />
-            <span className="d-none d-md-inline">My Bookings</span>
+            <span className=" d-md-inline">My Bookings</span>
           </NavLink>
         </li>
 
@@ -147,13 +147,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/customer/hire-professionals"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <MdOutlineEngineering />
-            <span className="d-none d-md-inline">Hire Professionals</span>
+            <span className=" d-md-inline">Hire Professionals</span>
           </NavLink>
         </li>
 
@@ -161,13 +161,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/customer/contact"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <FiMessageSquare />
-            <span className="d-none d-md-inline">Help & Support</span>
+            <span className=" d-md-inline">Help & Support</span>
           </NavLink>
         </li>
       </>
@@ -179,13 +179,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/professional/home"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <GoHome />
-            <span className="d-none d-md-inline">Home</span>
+            <span className=" d-md-inline">Home</span>
           </NavLink>
         </li>
 
@@ -193,13 +193,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/professional/bookings"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <FaRegAddressBook />
-            <span className="d-none d-md-inline">My Bookings</span>
+            <span className=" d-md-inline">My Bookings</span>
           </NavLink>
         </li>
 
@@ -207,13 +207,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/professional/profile"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <CgProfile />
-            <span className="d-none d-md-inline">Profile</span>
+            <span className=" d-md-inline">Profile</span>
           </NavLink>
         </li>
 
@@ -221,13 +221,13 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
           <NavLink
             to="/professional/messages"
             className={({ isActive }) =>
-              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"
               }`
             }
           >
             <FiMessageSquare />
-            <span className="d-none d-md-inline">Messages</span>
+            <span className=" d-md-inline">Messages</span>
           </NavLink>
         </li>
       </>
