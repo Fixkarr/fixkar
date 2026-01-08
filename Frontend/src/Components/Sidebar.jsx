@@ -21,7 +21,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
     <aside
       className="d-flex flex-column p-3 text-white"
       style={{
-        width: "260px",
+        width: "100px",
         minHeight: "100vh",
         background: `linear-gradient(135deg, ${currentAdmin ? '#0f2027' : '#0d6efd'}, ${currentAdmin ? '#2c5364' : '#4f9cff'})`,
       }}
