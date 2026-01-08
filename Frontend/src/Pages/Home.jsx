@@ -21,8 +21,8 @@ const Home = () => {
 
   {/* ===== OVERLAY (OUTSIDE carousel-inner) ===== */}
   <div
-    className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
-    style={{
+    className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end align-items-md-center  p-5"
+    style={{ 
       background:
         "linear-gradient(135deg, rgba(13,110,253,0.75), rgba(0,0,0,0.65))",
       zIndex: 2,
@@ -100,23 +100,15 @@ const Home = () => {
       <div className="carousel-item active" data-bs-interval="2500">
         <img
           src="Images/electrician.jpg"
-          className="d-block w-100 vh-100 object-fit-cover"
+          className="d-block w-100 object-fit-cover"
           alt="Electrician"
         />
       </div>
 
       <div className="carousel-item" data-bs-interval="2500">
         <img
-          src="Images/blacksmith.webp"
-          className="d-block w-100 vh-100 object-fit-cover"
-          alt="Blacksmith"
-        />
-      </div>
-
-      <div className="carousel-item" data-bs-interval="2500">
-        <img
-          src="Images/Carpenter.webp"
-          className="d-block w-100 vh-100 object-fit-cover"
+          src="Images/workerProfile.jpg"
+          className="d-block w-100  object-fit-cover"
           alt="Carpenter"
         />
       </div>
@@ -124,7 +116,7 @@ const Home = () => {
       <div className="carousel-item" data-bs-interval="2500">
         <img
           src="Images/plumbing.jpg"
-          className="d-block w-100 vh-100 object-fit-cover"
+          className="d-block w-100 object-fit-cover"
           alt="Plumber"
         />
       </div>
@@ -132,7 +124,7 @@ const Home = () => {
       <div className="carousel-item" data-bs-interval="2500">
         <img
           src="Images/Engineering.webp"
-          className="d-block w-100 vh-100 object-fit-cover"
+          className="d-block w-100  object-fit-cover"
           alt="Engineer"
         />
       </div>
@@ -140,7 +132,7 @@ const Home = () => {
       <div className="carousel-item">
         <img
           src="Images/painter.webp"
-          className="d-block w-100 vh-100 object-fit-cover"
+          className="d-block w-100  object-fit-cover"
           alt="Painter"
         />
       </div>
@@ -148,7 +140,7 @@ const Home = () => {
       <div className="carousel-item">
         <img
           src="Images/construction.jpg"
-          className="d-block w-100 vh-100 object-fit-cover"
+          className="d-block w-100  object-fit-cover"
           alt="Construction"
         />
       </div>
