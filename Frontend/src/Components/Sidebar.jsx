@@ -19,210 +19,220 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 
   return (
     <aside
-      className="d-flex flex-column p-3 text-white"
-      style={{
-        width: "100px",
-        minHeight: "100vh",
-        background: `linear-gradient(135deg, ${currentAdmin ? '#0f2027' : '#0d6efd'}, ${currentAdmin ? '#2c5364' : '#4f9cff'})`,
-      }}
-    >
-      {/* ===== Logo ===== */}
-      <div className="text-center mb-4">
-        <h3 className="fw-bold m-0">Fixkar</h3>
-        <small className="opacity-75">Service Dashboard</small>
-      </div>
+  className="d-flex flex-column p-2 p-md-3 text-white"
+  style={{
+    // width: "100px", // mobile slim
+    minHeight: "100vh",
+    background: `linear-gradient(135deg, ${currentAdmin ? "#0f2027" : "#0d6efd"}, ${currentAdmin ? "#2c5364" : "#4f9cff"})`,
+  }}
+>
+  {/* ===== Logo ===== */}
+  <div className="text-center mb-4">
+    <h3 className="fw-bold m-0 fs-6 fs-md-4">Fixkar</h3>
+    <small className="opacity-75 d-none d-md-block">
+      Service Dashboard
+    </small>
+  </div>
 
-      {/* ===== Links ===== */}
-      <ul className="nav nav-pills flex-column gap-2">
+  {/* ===== Links ===== */}
+  <ul className="nav nav-pills flex-column gap-2">
 
-        {currentAdmin && (
-          currentAdmin?.role == "super_admin" && <>
-            <li className="nav-item">
-              <NavLink
-                to={`${adminpath}/home`}
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <GoHome /> <span className="hide">Home</span>
-              </NavLink>
-            </li>
+    {currentAdmin && (
+      currentAdmin?.role == "super_admin" && <>
+        <li className="nav-item">
+          <NavLink
+            to={`${adminpath}/home`}
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <GoHome />
+            <span className="d-none d-md-inline">Home</span>
+          </NavLink>
+        </li>
 
-            <li className="nav-item">
-              <NavLink
-                to={`${adminpath}/signup`}
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <FaRegAddressBook /> <span className="hide">Create an Admin</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to={`${adminpath}/signup`}
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FaRegAddressBook />
+            <span className="d-none d-md-inline">Create an Admin</span>
+          </NavLink>
+        </li>
 
-            <li className="nav-item">
-              <NavLink
-                to={`${adminpath}/manage-services`}
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <FaTools />{" "}
-                <span className="hide">Manage Services</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to={`${adminpath}/manage-services`}
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FaTools />
+            <span className="d-none d-md-inline">Manage Services</span>
+          </NavLink>
+        </li>
 
-            <li className="nav-item">
-              <NavLink
-                to={`${adminpath}/manage-users`}
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <FaUserShield />{" "}
-                <span className="hide">Manage Users</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to={`${adminpath}/manage-users`}
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FaUserShield />
+            <span className="d-none d-md-inline">Manage Users</span>
+          </NavLink>
+        </li>
 
-            <li className="nav-item">
-              <NavLink
-                to="/customer/contact"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <FiMessageSquare /> <span className="hide">Manage Enquiry</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to="/customer/contact"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FiMessageSquare />
+            <span className="d-none d-md-inline">Manage Enquiry</span>
+          </NavLink>
+        </li>
+      </>
+    )}
 
-          </>
-        )}
+    {role === "customer" && (
+      <>
+        <li className="nav-item">
+          <NavLink
+            to="/customer/home"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <GoHome />
+            <span className="d-none d-md-inline">Home</span>
+          </NavLink>
+        </li>
 
-        {role === "customer" && (
-          <>
-            <li className="nav-item">
-              <NavLink
-                to="/customer/home"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <GoHome /> <span className="hide">Home</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to="/customer/bookings"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FaRegAddressBook />
+            <span className="d-none d-md-inline">My Bookings</span>
+          </NavLink>
+        </li>
 
-            <li className="nav-item">
-              <NavLink
-                to="/customer/bookings"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <FaRegAddressBook /> <span className="hide">My Bookings</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to="/customer/hire-professionals"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <MdOutlineEngineering />
+            <span className="d-none d-md-inline">Hire Professionals</span>
+          </NavLink>
+        </li>
 
-            <li className="nav-item">
-              <NavLink
-                to="/customer/hire-professionals"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <MdOutlineEngineering />{" "}
-                <span className="hide">Hire Professionals</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to="/customer/contact"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FiMessageSquare />
+            <span className="d-none d-md-inline">Help & Support</span>
+          </NavLink>
+        </li>
+      </>
+    )}
 
-            <li className="nav-item">
-              <NavLink
-                to="/customer/contact"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <FiMessageSquare /> <span className="hide">Help & Support</span>
-              </NavLink>
-            </li>
+    {role === "professional" && (
+      <>
+        <li className="nav-item">
+          <NavLink
+            to="/professional/home"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <GoHome />
+            <span className="d-none d-md-inline">Home</span>
+          </NavLink>
+        </li>
 
-          </>
-        )}
+        <li className="nav-item">
+          <NavLink
+            to="/professional/bookings"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FaRegAddressBook />
+            <span className="d-none d-md-inline">My Bookings</span>
+          </NavLink>
+        </li>
 
-        {role === "professional" && (
-          <>
-            <li className="nav-item">
-              <NavLink
-                to="/professional/home"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <GoHome /> <span className="hide">Home</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to="/professional/profile"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <CgProfile />
+            <span className="d-none d-md-inline">Profile</span>
+          </NavLink>
+        </li>
 
-            <li className="nav-item">
-              <NavLink
-                to="/professional/bookings"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <FaRegAddressBook />{" "}
-                <span className="hide">My Bookings</span>
-              </NavLink>
-            </li>
+        <li className="nav-item">
+          <NavLink
+            to="/professional/messages"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FiMessageSquare />
+            <span className="d-none d-md-inline">Messages</span>
+          </NavLink>
+        </li>
+      </>
+    )}
+  </ul>
+</aside>
 
-            <li className="nav-item">
-              <NavLink
-                to="/professional/profile"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <CgProfile /> <span className="hide">Profile</span>
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/professional/messages"
-                className={({ isActive }) =>
-                  `nav-link d-flex align-items-center gap-2 rounded-3 ${
-                    isActive ? "bg-white text-primary fw-semibold" : "text-white"
-                  }`
-                }
-              >
-                <FiMessageSquare /> <span className="hide">Messages</span>
-              </NavLink>
-            </li>
-          </>
-        )}
-      </ul>
-    </aside>
   );
 };
 

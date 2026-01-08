@@ -6,6 +6,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 
 const Footer = () => {
@@ -23,7 +24,7 @@ const Footer = () => {
       <div className="row g-4">
 
         {/* BRAND */}
-        <div className="col-md-4">
+        <div className="col-md-2">
           <h2 className="fw-bold mb-2">Fixkar</h2>
           <p className="small opacity-75">
             Tum apna dream house socho,<br />
@@ -32,7 +33,7 @@ const Footer = () => {
         </div>
 
         {/* IMPORTANT LINKS */}
-        <div className="col-6 col-md-2">
+        <div className="col-6 col-md-3">
           <h6 className="fw-semibold mb-3">Important Links</h6>
           <ul className="list-unstyled small">
             <li><MdKeyboardArrowRight /> Home</li>
@@ -45,13 +46,15 @@ const Footer = () => {
         </div>
 
         {/* HELPFUL LINKS */}
-        <div className="col-6 col-md-2">
-          <h6 className="fw-semibold mb-3">Helpful Links</h6>
+        <div className="col-6 col-md-3">
+          <h6 className="fw-semibold mb-4">Helpful Links</h6>
           <ul className="list-unstyled small">
-            <li><MdKeyboardArrowRight /> Help</li>
-            <li><MdKeyboardArrowRight /> Privacy Policy</li>
-            <li><MdKeyboardArrowRight /> Refund Policy</li>
-            <li><MdKeyboardArrowRight /> Terms & Conditions</li>
+            <li><MdKeyboardArrowRight /> Help</li> 
+             <li><MdKeyboardArrowRight /> <Link to="/privacy-policy" className='text-light' >Privacy Policy</Link></li>
+           
+            <li><MdKeyboardArrowRight /> <Link to="/terms&conditions" className='text-light' >Terms & Condition</Link></li>
+             <li><MdKeyboardArrowRight /> <Link to="/cancellation-refund-policy" className='text-light' >Cancellation & Refund Policy</Link></li>
+            <li><MdKeyboardArrowRight /> <Link to="/service-delievery" className='text-light' >Service Delievery Policy</Link></li>
           </ul>
         </div>
 
@@ -86,7 +89,7 @@ const Footer = () => {
 
     {/* ===== COPYRIGHT ===== */}
     <div className="text-center mt-4 pt-3 border-top border-light border-opacity-25 small">
-      © 2025 <strong>Fixkar</strong>. All Rights Reserved |  
+     © {new Date(Date.now()).getFullYear()} <strong>Fixkar</strong>. All Rights Reserved |
       Made with ❤️ by <strong>Alpha Tech</strong>
     </div>
   </footer>

@@ -52,6 +52,10 @@ import AdminLanding from "./Admin/AdminComponents/AdminLanding.jsx";
 import AdminHome from "./Admin/AdminComponents/AdminHome.jsx";
 import AdminServices from "./Admin/AdminComponents/AdminServices.jsx";
 import AdminUsers from "./Admin/AdminComponents/AdminUsers.jsx";
+import TermsAndConditions from "./Components/Policies/TermsAndConditions.jsx";
+import ServiceDelieveryPolicy from "./Components/Policies/ServiceDelieveryPolicy.jsx";
+import CancellationRefundPolicy from "./Components/Policies/CancellationRefundPolicy.jsx";
+import PrivacyPolicy from "./Components/Policies/PrivacyPolicy.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -322,7 +326,13 @@ const App = () => {
 
           <Route path={`${adminpath}/login`} element={ !currentUserData && !currentAdmin ? <AdminLogin/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 
-          
+
+          {/* footer links */}
+
+          <Route path="/terms&conditions" element={<TermsAndConditions/>}/>
+          <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+          <Route path="/service-delievery" element={<ServiceDelieveryPolicy/>}/>
+          <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicy/>}/>
         
       {/* 404 */}
       <Route path="*" element={<PageNotFound />} />

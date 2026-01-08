@@ -62,75 +62,101 @@ const Login = () => {
     <>
     
       <Navbar/>
-      <div className='login container-fluid d-flex align-items-center justify-content-center bg-secondary-subtle'>
-            <div className="signup-container bg-white p-3 rounded shadow">
+   <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div className="card shadow-lg border-0 rounded-4 p-4 p-md-5" style={{ maxWidth: "420px", width: "100%" }}>
 
-               <div className="flex flex-row">
-                          <span className="text-primary" role='button' onClick={()=> navigate('/')}><FaArrowLeft /></span>
-                          <center><h4 className="text-primary mb-3">Log in</h4></center>
-                        </div>
-            <form onSubmit={formik.handleSubmit}>
-       <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                className="form-control"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.email && formik.errors.email && (
-                <small className="text-danger">{formik.errors.email}</small>
-              )}
-            </div>
+    {/* Header */}
+    <div className="d-flex align-items-center mb-3">
+      <span
+        role="button"
+        className="text-primary me-2"
+        onClick={() => navigate("/")}
+      >
+        <FaArrowLeft />
+      </span>
+      <h4 className="fw-bold text-primary mb-0">Welcome Back</h4>
+    </div>
 
-                <div className="mb-3 position-relative">
-                            <label htmlFor="password" className="form-label">
-                              Password
-                            </label>
-                            <input
-                              className="form-control"
-                              type={showPass ? "text" : "password"}
-                              id="password"
-                              name="password"
-                              placeholder="Enter password"
-                              value={formik.values.password}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                            />
-                            <span
-                              onClick={handleShowPass}
-                              style={{
-                                position: "absolute",
-                                right: "10px",
-                                top: "38px",
-                                cursor: "pointer",
-                              }}
-                            >
-                              {showPass ? <FaRegEyeSlash /> : <FaRegEye />}
-                            </span>
-                            {formik.touched.password && formik.errors.password && (
-                              <small className="text-danger">{formik.errors.password}</small>
-                            )}
-                          </div>
-                           <center>
-              <button type="submit" disabled={loading} className="btn btn-primary w-100">
-               { loading ? <ClipLoader size={20}/>: "Login"}
-              </button>
-            </center>
-            </form>
-          
-                       <div className="p-2 lowerDiv">
-                          <span className="text-danger" onClick={()=>navigate('/forget-password')}>Forgotten Password?</span>
-                       </div>
-   
-            </div>
+    <p className="text-muted small mb-4">
+      Login to continue using <strong>Fixkar</strong>
+    </p>
+
+    {/* Form */}
+    <form onSubmit={formik.handleSubmit}>
+      {/* Email */}
+      <div className="mb-3">
+        <label htmlFor="email" className="form-label fw-semibold small">
+          Email Address
+        </label>
+        <input
+          className="form-control form-control-lg"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.email && formik.errors.email && (
+          <small className="text-danger">{formik.errors.email}</small>
+        )}
       </div>
+
+      {/* Password */}
+      <div className="mb-3">
+        <label htmlFor="password" className="form-label fw-semibold small">
+          Password
+        </label>
+
+        <div className="input-group input-group-lg">
+          <input
+            type={showPass ? "text" : "password"}
+            className="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          <span
+            className="input-group-text bg-white"
+            role="button"
+            onClick={handleShowPass}
+          >
+            {showPass ? <FaRegEyeSlash /> : <FaRegEye />}
+          </span>
+        </div>
+
+        {formik.touched.password && formik.errors.password && (
+          <small className="text-danger">{formik.errors.password}</small>
+        )}
+      </div>
+
+      {/* Button */}
+      <button
+        type="submit"
+        disabled={loading}
+        className="btn btn-primary w-100 py-2 fw-semibold"
+      >
+        {loading ? <ClipLoader size={20} color="#fff" /> : "Login"}
+      </button>
+    </form>
+
+    {/* Footer */}
+    <div className="text-center mt-4">
+      <span
+        role="button"
+        className="text-danger fw-semibold small"
+        onClick={() => navigate("/forget-password")}
+      >
+        Forgotten Password?
+      </span>
+    </div>
+  </div>
+</div>
+
     </>
   )
 }
