@@ -32,7 +32,7 @@ const CustomerHome = () => {
   
   return (
     
-    <div className="container-fluid p-md-5 p-3 bg-light">
+    <div className="container-fluid p-3 bg-light">
 
   {/* ===== HERO SECTION ===== */}
   <div className="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">

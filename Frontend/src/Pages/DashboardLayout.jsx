@@ -48,7 +48,7 @@ const DashboardLayout = () => {
         >
           {/* Gradient Header */}
           <div
-            className="px-4 py-3 text-white d-flex justify-content-between align-items-center flex-wrap gap-3"
+            className="px-4 py-1 text-white d-flex align-items-center flex-wrap gap-3"
             style={{
               background: `linear-gradient(135deg, ${currentAdmin ? '#0f2027' : '#0d6efd'}, ${currentAdmin ? '#2c5364' : '#4f9cff'})`,
             }}
