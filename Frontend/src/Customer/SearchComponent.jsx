@@ -95,7 +95,6 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
                 dispatch(setSelectedLocation(finalLocation));
                 if (onLocationSelect) onLocationSelect(finalLocation);
 
-                console.log("✅ Final Location:", finalLocation);
               }}
             >
               📍 Confirm Exact Location

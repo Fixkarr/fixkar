@@ -1,4 +1,5 @@
 import { Booking } from "../../models/bookingModel.js";
+import { ReachedOtp } from "../../models/reachedOtpModel.js";
 import {io} from '../../server.js'
 import bcrypt from "bcryptjs";
 export const reachedToLocation = async (req, res)=>{
@@ -41,36 +42,32 @@ export const reachedToLocation = async (req, res)=>{
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const hashedOTP = await bcrypt.hash(otp, 10);
+
+    const isExistOtp = await ReachedOtp.findOne({ bookingId: booking._id });
+
+    if (isExistOtp) {
+      return res.status(400).json({ message: "OTP already generated for this booking" });
+    }
+
+     await ReachedOtp.create({
+      bookingId: booking._id,
+      otp,
+    })
 
     booking.status = "reached";
-    booking.reachedOTP = hashedOTP
-    booking.reachedAt = new Date();
+
     await booking.save();
 
 
-    const safeBooking = booking.toObject();
-    delete safeBooking.reachedOTP;
-
     io.to(booking.customerId.userId._id.toString()).emit(
       "bookingUpdated",
-      safeBooking
+      booking
     );
 
     io.to(booking.professionalId.userId._id.toString()).emit(
       "bookingUpdated",
-      safeBooking
+      booking
     );
-
-     io.to(booking.customerId.userId._id.toString()).emit(
-      "reachedOTP",
-      {
-        bookingId: booking._id,
-        otp,
-        message: "Please share this OTP with the professional",
-      }
-    );
-
 
     res.status(200).json({
       success: true,

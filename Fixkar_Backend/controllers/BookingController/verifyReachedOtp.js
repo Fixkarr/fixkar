@@ -1,6 +1,7 @@
 import {Booking} from '../../models/bookingModel.js'
 import bcrypt from 'bcryptjs';
 import {io} from '../../server.js'
+import { ReachedOtp } from '../../models/reachedOtpModel.js';
 
 export const verifyReachedOtp = async (req,res)=>{
     try {
@@ -27,7 +28,7 @@ export const verifyReachedOtp = async (req,res)=>{
       model: "User",
       select: "fullName",
     },
-  }).populate('review');
+  }).populate('review')
 
   if(!booking){
     return res.status(404).json({
@@ -44,13 +45,20 @@ export const verifyReachedOtp = async (req,res)=>{
 
   const otpStr = otp.toString();
 
-  const validOTP = await bcrypt.compare(otpStr, booking.reachedOTP);
-  if(!validOTP){
+  const isOtpExists = await ReachedOtp.findOne({ bookingId });
+  if(!isOtpExists){
+    return res.status(404).json({
+        message : "OTP not found!"
+    })
+  }
+
+ if(isOtpExists.otp !== otpStr){
     return res.status(400).json({
         message : "Invalid OTP!"
     })
   }
-
+ 
+  
     booking.status = 'in-progress'
     await booking.save();
 

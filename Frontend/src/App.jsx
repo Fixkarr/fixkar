@@ -99,21 +99,6 @@ const App = () => {
       }
     });
 
-    socket.on("reachedOTP", ({ bookingId, otp }) => {
-      if (role === "customer") {
-        dispatch(setReachedOtp({ bookingId, otp }));
-        localStorage.setItem(`otp_${bookingId}`, otp);
-      }
-    });
-
-    socket.on("bookingStatusUpdated", (data) => {
-      if (role === "customer") {
-        if (data.status === "in-progress") {
-          localStorage.removeItem(`otp_${data.bookingId}`);
-          dispatch(clearReachedOtp());
-        }
-      }
-    });
 
     // ✅ COMMON UPDATE (cancel / accept / payment)
     socket.on("bookingUpdated", (booking) => {

@@ -30,14 +30,16 @@ import CusInprogress from './CusInprogress';
 import PayButton from '../PayButton';
 import CusCancelBooking from './CusCancelBooking';
 import CusCompleteBooking from './CusCompleteBooking';
+import useGetReachedOtp from '../../hooks/useGetReachedOtp'
 
 
 
 const CusBookingDetail = () => {
     const [loading, setLoading] = useState(false)
     const {myBookings} = useSelector(state=> state.bookings)
-    const {otp} = useSelector(state=> state.reachedOtp);
+
     const {bookingId} = useParams();
+    const otp = useGetReachedOtp(bookingId)
      const booking = myBookings.find(book => book._id == bookingId)
 
   return (

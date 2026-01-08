@@ -13,6 +13,7 @@ import { getProfessionalWallet } from '../controllers/ProfessionalsController/ge
 import { getWalletTransaction } from '../controllers/ProfessionalsController/getWalletTransaction.js';
 import { getBookingById } from '../controllers/BookingController/getBookingById.js';
 import { postReview } from '../controllers/review.controller.js';
+import { getReachedOtp } from '../controllers/BookingController/getReachedOtp.js';
 
 const bookingRouter = express.Router();
 
@@ -25,6 +26,7 @@ bookingRouter.post('/accept-booking', acceptBooking)
 bookingRouter.post('/mark-reached', isAuth, reachedToLocation)
 bookingRouter.post('/verify-reached-otp', isAuth, verifyReachedOtp);
 bookingRouter.post('/send-quote-amount', isAuth, sendQuoteAmount)
+bookingRouter.get('/get-reached-otp/:bookingId', isAuth, getReachedOtp);
 
 
 //payment route
@@ -33,6 +35,7 @@ bookingRouter.post('/create-order', createOrder);
 bookingRouter.post('/verify-payment', verifyPayment)
 bookingRouter.get('/get-professional-wallet', isAuth, getProfessionalWallet)
 bookingRouter.get('/get-wallet-transaction', isAuth, getWalletTransaction)
+
 
 
 // review route
