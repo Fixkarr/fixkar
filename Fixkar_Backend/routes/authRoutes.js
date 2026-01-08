@@ -1,7 +1,7 @@
 // authRoutes.js
 import jwt from 'jsonwebtoken';
 import express from 'express';
-import { googleAuth, login, resetPassword, signOut,  registerUserWithForm, googleAuthSignup, googleAuthLogin } from '../controllers/auth/userAuth.js';
+import { login, resetPassword, signOut,  registerUserWithForm, googleAuthSignup, googleAuthLogin } from '../controllers/auth/userAuth.js';
 
 
 
