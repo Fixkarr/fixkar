@@ -34,7 +34,7 @@ const { pathname } = location;
     
 
      {pathname !== '/' && <Navbar/>}
-    <div className="container my-5">
+    <div className="container" style={{paddingTop : "5vh"}}>
       <div className="card shadow-lg border-0">
         <div className="card-body p-4 p-md-5">
           {/* Header */}

@@ -58,6 +58,7 @@ import CancellationRefundPolicy from "./Components/Policies/CancellationRefundPo
 import PrivacyPolicy from "./Components/Policies/PrivacyPolicy.jsx";
 import Contact from "./Components/Contact.jsx";
 import About from "./Pages/About.jsx";
+import ProfessionalOnboardingPolicy from "./Components/Policies/ProfessionalOnboardingPolicy.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -337,6 +338,7 @@ const App = () => {
           <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicy/>}/>
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/about" element={<About/>}/>
+          <Route path="/professional-policy" element={<ProfessionalOnboardingPolicy/>}/>
 
         
       {/* 404 */}

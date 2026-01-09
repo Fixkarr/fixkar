@@ -57,6 +57,7 @@ const Footer = () => {
             <li><MdKeyboardArrowRight /> <Link to="/terms-and-conditions" className='text-light' >Terms & Condition</Link></li>
              <li><MdKeyboardArrowRight /> <Link to="/cancellation-refund-policy" className='text-light' >Cancellation & Refund Policy</Link></li>
             <li><MdKeyboardArrowRight /> <Link to="/service-delievery" className='text-light' >Service Delievery Policy</Link></li>
+            <li><MdKeyboardArrowRight /> <Link to="/professional-policy" className='text-light' >Professional Onboarding Policy</Link></li>
           </ul>
         </div>
 

@@ -30,7 +30,7 @@ const { pathname } = location;
 </Helmet>
 
     {pathname !== '/' && <Navbar/>}
-      <div className="container my-5">
+      <div className="container" style={{paddingTop : "5vh"}}>
       <div className="card shadow border-0">
         <div className="card-body p-4 p-md-5">
           {/* Page Title */}
