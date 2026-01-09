@@ -24,7 +24,7 @@ const Home = () => {
     className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end align-items-md-center  p-5"
     style={{ 
       background:
-        "linear-gradient(135deg, rgba(13,110,253,0.75), rgba(0,0,0,0))",
+        "linear-gradient(135deg, rgba(13, 109, 253, 0.93), rgba(0,0,0,0))",
       zIndex: 2,
       pointerEvents: "none", // IMPORTANT
     }}
