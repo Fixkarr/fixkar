@@ -58,7 +58,9 @@ const Signup = () => {
       const user = {
         fullName: result.user.displayName,
         email : result.user.email,
-        role
+        role,
+        acceptedTerms: true,
+        acceptedProfessionalPolicy: role === "professional"
       }
       
       const response = await axios.post(`${server_url}/api/auth/google-auth-signup`, user, {withCredentials : true})
@@ -82,6 +84,12 @@ const Signup = () => {
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
+    acceptedTerms: Yup.boolean().oneOf([true], "You must accept Terms & Privacy Policy"),
+    acceptedProfessionalPolicy: Yup.boolean().when([], {
+  is: () => role === "professional",
+  then: schema =>
+    schema.oneOf([true], "You must accept Professional Onboarding Policy"),
+})
   });
 
   // 🧾 Formik Setup
@@ -90,6 +98,8 @@ const Signup = () => {
       fullName: "",
       email: "",
       password: "",
+      acceptedTerms: false,
+      acceptedProfessionalPolicy: false,
     },
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
@@ -112,7 +122,7 @@ const Signup = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+      <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light mt-5">
   <div className="col-11 col-sm-9 col-md-6 col-lg-4">
 
     <div className="card border-0 shadow-lg rounded-4 p-4">
@@ -212,6 +222,60 @@ const Signup = () => {
           )}
         </div>
 
+        <div className="form-check mb-2">
+  <input
+    type="checkbox"
+    className="form-check-input"
+    id="acceptedTerms"
+    name="acceptedTerms"
+    onChange={formik.handleChange}
+    checked={formik.values.acceptedTerms}
+    role="button"
+    required
+  />
+  <label className="form-check-label small" htmlFor="acceptedTerms">
+    I agree to the{" "}
+    <a href="/terms-and-conditions" target="_blank">Terms & Conditions</a> and{" "}
+    <a href="/privacy-policy" target="_blank">Privacy Policy</a>
+  </label> <br />
+{formik.touched.acceptedTerms && formik.errors.acceptedTerms && (
+  <small className="text-danger">{formik.errors.acceptedTerms}</small>
+)}
+</div>
+
+{role === "professional" && (
+  <>
+    <div className="form-check mb-2">
+      <input
+        type="checkbox"
+        className="form-check-input"
+        id="acceptedProfessionalPolicy"
+        name="acceptedProfessionalPolicy"
+        onChange={formik.handleChange}
+        checked={formik.values.acceptedProfessionalPolicy}
+        role="button"
+        required
+      />
+      <label className="form-check-label small">
+        I agree to the{" "}
+        <a href="/professional-policy" target="_blank">
+          Professional Onboarding Policy
+        </a>
+      </label>
+    </div>
+
+    {formik.touched.acceptedProfessionalPolicy &&
+      formik.errors.acceptedProfessionalPolicy && (
+        <small className="text-danger">
+          {formik.errors.acceptedProfessionalPolicy}
+        </small>
+      )}
+  </>
+)}
+
+
+
+
         {/* Submit */}
         <button
           type="submit"
@@ -229,12 +293,21 @@ const Signup = () => {
       {/* Google */}
       <button
         className="btn btn-outline-secondary w-100 rounded-pill py-2 d-flex align-items-center justify-content-center gap-2"
-        disabled={loading}
+         disabled={
+    loading ||
+    !formik.values.acceptedTerms ||
+    (role === "professional" && !formik.values.acceptedProfessionalPolicy)}
         onClick={handleSignupWithGoogle}
       >
         <FcGoogle size={20} />
         {loading ? <ClipLoader size={18} /> : "Continue with Google"}
       </button>
+      {(!formik.values.acceptedTerms ||
+  (role === "professional" && !formik.values.acceptedProfessionalPolicy)) && (
+  <small className="text-muted d-block text-center mt-2">
+    Please accept the required policies to continue with Google
+  </small>
+)}
 
       {/* Footer */}
       <div className="text-center mt-4">

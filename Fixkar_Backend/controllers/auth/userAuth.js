@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 import { genToken } from '../../utils/AuthToken.js';
 
 export const registerUserWithForm = async (req, res) => {
-    const { fullName, email, password, role } = req.body;
+    const { fullName, email, password, role,  acceptedTerms, acceptedProfessionalPolicy, } = req.body;
 
     try {
         if (!fullName || !email || !password) {
@@ -12,6 +12,17 @@ export const registerUserWithForm = async (req, res) => {
                 message: "All Fields are required"
             })
         }
+
+        if (!acceptedTerms) {
+      return res.status(400).json({ message: "Terms acceptance required" });
+    }
+
+    if (role === "professional" && !acceptedProfessionalPolicy) {
+      return res.status(400).json({ message: "Professional policy acceptance required" });
+    }
+
+      const userIP = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
+
 
         // step 2 - check if user already exists
 
@@ -28,7 +39,22 @@ export const registerUserWithForm = async (req, res) => {
             fullName,
             email,
             password: hashedPassword,
-            role
+            role,
+             termsAcceptance: {
+        accepted: true,
+        acceptedAt: new Date(),
+        acceptedIP: userIP,
+        policyVersion: "v1.0",
+      },
+      professionalAcceptance:
+        role === "professional"
+          ? {
+              accepted: true,
+              acceptedAt: new Date(),
+              acceptedIP: userIP,
+              policyVersion: "v1.0",
+            }
+          : undefined,
         })
 
 
@@ -174,7 +200,19 @@ export const resetPassword = async (req, res) => {
 
 export const googleAuthSignup = async (req, res) => {
     try {
-        const { fullName, email, role } = req.body;
+        const { fullName, email, role, acceptedTerms, acceptedProfessionalPolicy} = req.body;
+
+        
+         if (!acceptedTerms) {
+      return res.status(400).json({ message: "Terms acceptance required" });
+    }
+
+    if (role === "professional" && !acceptedProfessionalPolicy) {
+      return res.status(400).json({ message: "Professional policy acceptance required" });
+    }
+
+      const userIP = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
+
 
         let existingUser = await User.findOne({ email });
 
@@ -188,7 +226,22 @@ export const googleAuthSignup = async (req, res) => {
                 fullName,
                 email,
                 password: hashedPass,
-                role
+                role,
+                termsAcceptance: {
+                accepted: true,
+                acceptedAt: new Date(),
+                acceptedIP: userIP,
+                policyVersion: "v1.0",
+              },
+              professionalAcceptance:
+                role === "professional"
+                  ? {
+                      accepted: true,
+                      acceptedAt: new Date(),
+                      acceptedIP: userIP,
+                      policyVersion: "v1.0",
+            }
+          : undefined,
             })
 
         const token = await genToken(existingUser._id);
