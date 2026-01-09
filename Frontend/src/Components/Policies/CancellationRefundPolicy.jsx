@@ -12,10 +12,11 @@ import {
   FaEnvelope,
   FaGlobe,
   FaMapMarkerAlt,
+  FaExclamation,
 } from "react-icons/fa";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 const CancellationRefundPolicy = () => {
@@ -202,6 +203,12 @@ const { pathname } = location;
             📌 By booking a service on FixKar, you agree to this Cancellation &
             Refund Policy.
           </div>
+           <section className="mb-4">
+                      <h5 className="fw-bold">
+                        <FaExclamation className="me-2 text-dark" />
+                        This Policy forms part of the <Link to="/terms-and-conditions">Terms & Conditions</Link> of fixkar
+                      </h5>
+                    </section>
         </div>
       </div>
     </div>

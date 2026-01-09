@@ -11,8 +11,9 @@ import {
   FaMapMarkerAlt,
   FaEnvelope,
   FaGlobe,
+  FaExclamation,
 } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import { Helmet } from "react-helmet-async";
@@ -135,6 +136,12 @@ const { pathname } = location;
               the platform are service-based only.
             </p>
           </section>
+             <section className="mb-4">
+                      <h5 className="fw-bold">
+                        <FaExclamation className="me-2 text-dark" />
+                        This Policy forms part of the <Link to="/terms-and-conditions">Terms & Conditions</Link> of fixkar
+                      </h5>
+                    </section>
 
           {/* Help Section */}
           <section className="mt-5 p-4 bg-light rounded">
@@ -158,6 +165,8 @@ const { pathname } = location;
               <strong>Location:</strong> Lohta, Varanasi, Uttarpradesh
             </p>
           </section>
+
+
         </div>
       </div>
     </div>

@@ -12,8 +12,9 @@ import {
   FaEnvelope,
   FaGlobe,
   FaMapMarkerAlt,
+  FaExclamation,
 } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import { Helmet } from "react-helmet-async";
@@ -163,6 +164,12 @@ const { pathname } = location;
               time. Continued use of the platform after updates indicates
               acceptance of the revised policy.
             </p>
+          </section>
+          <section className="mb-4">
+            <h5 className="fw-bold">
+              <FaExclamation className="me-2 text-dark" />
+              This Privacy Policy forms part of the <Link to="/terms-and-conditions">Terms & Conditions</Link> of fixkar
+            </h5>
           </section>
 
           {/* Contact */}

@@ -9,8 +9,9 @@ import {
   FaUserCheck,
   FaGavel,
   FaTools,
+  FaExclamation,
 } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import { Helmet } from "react-helmet-async";
@@ -116,7 +117,7 @@ const { pathname } = location;
               hold payments, or take appropriate action in case of any violation
               of platform policies or misuse of services.
             </p>
-            <h5 className="fw-bold">
+            {/* <h5 className="fw-bold">
               <FaTools className="me-2 text-info" />
               Equipment Usage & Security Policy
             </h5>
@@ -140,7 +141,7 @@ where necessary.
 Any incident involving equipment must be reported immediately to FixKar
 support.
 
-            </p>
+            </p> */}
           </section>
 
           {/* Changes to Terms */}
@@ -168,6 +169,15 @@ support.
               during service delivery.
             </p>
           </section>
+              <section className="mb-4">
+              <h5>Limitation of Liabilty</h5>
+              <p className="text-muted">
+                Fixkar shall not be liable for any damages arising from service provided by independent professionals. <br />
+                Fixkar does not guarantee service quality, outcome, or professional performance.
+                Fixkar shall not be responsible for delays or failures caused by events beyond reasonable control.
+              </p>
+              </section>
+
 
           {/* Governing Law */}
           <section className="mb-4">
@@ -185,6 +195,14 @@ support.
           <div className="alert alert-primary mt-5 text-center">
             By using FixKar, you acknowledge that you have read, understood, and
             agreed to these Terms & Conditions.
+
+             <section className="mb-4">
+            <h5 className="fw-bold">
+              <FaExclamation className="me-2 text-dark" />
+              These Terms incorporate and include the <Link to="/privacy-policy">Privacy Policy</Link>, 
+              <Link to="/cancellation-refund-policy">Cancellation & Refund Policy</Link> and <Link to="/service-delievery">Service Delivery Policy</Link>
+            </h5>
+          </section>
           </div>
         </div>
       </div>
