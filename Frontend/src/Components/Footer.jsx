@@ -39,23 +39,22 @@ const Footer = () => {
         <div className="col-6 col-md-3">
           <h6 className="fw-semibold mb-3">Important Links</h6>
           <ul className="list-unstyled small">
-            <li><MdKeyboardArrowRight /> Home</li>
-            <li><MdKeyboardArrowRight /> About</li>
-            <li><MdKeyboardArrowRight /> Login</li>
-            <li><MdKeyboardArrowRight /> Register</li>
-            <li><MdKeyboardArrowRight /> Contact</li>
-            <li><MdKeyboardArrowRight /> Our Professionals</li>
+             <li><MdKeyboardArrowRight /> <Link to="/about" className='text-light' >About Us</Link></li>
+             <li><MdKeyboardArrowRight /> <Link to="/login" className='text-light' >Login</Link></li>
+             <li><MdKeyboardArrowRight /> <Link to="/signup?role=customer" className='text-light' >Register as Coustomer</Link></li>
+             <li><MdKeyboardArrowRight /> <Link to="/signup?role=professional" className='text-light' >Register as Worker/Professional</Link></li>
+            <li><MdKeyboardArrowRight /> <Link to="/contact" className='text-light' >Contact Us</Link></li>
+            <li><MdKeyboardArrowRight /> Our Service</li>
           </ul>
         </div>
 
         {/* HELPFUL LINKS */}
         <div className="col-6 col-md-3">
-          <h6 className="fw-semibold mb-4">Helpful Links</h6>
+          <h6 className="fw-semibold mb-4">Policy Pages</h6>
           <ul className="list-unstyled small">
-            <li><MdKeyboardArrowRight /> Help</li> 
              <li><MdKeyboardArrowRight /> <Link to="/privacy-policy" className='text-light' >Privacy Policy</Link></li>
            
-            <li><MdKeyboardArrowRight /> <Link to="/terms&conditions" className='text-light' >Terms & Condition</Link></li>
+            <li><MdKeyboardArrowRight /> <Link to="/terms-and-conditions" className='text-light' >Terms & Condition</Link></li>
              <li><MdKeyboardArrowRight /> <Link to="/cancellation-refund-policy" className='text-light' >Cancellation & Refund Policy</Link></li>
             <li><MdKeyboardArrowRight /> <Link to="/service-delievery" className='text-light' >Service Delievery Policy</Link></li>
           </ul>

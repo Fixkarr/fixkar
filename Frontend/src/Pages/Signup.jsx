@@ -22,6 +22,7 @@ import {
 import { server_url } from "../App.jsx";
 import { setCurrentUserData } from "../redux/user.slice.js";
 import { useLocation } from "react-router-dom";
+import Footer from "../Components/Footer.jsx";
 
 const Signup = () => {
 
@@ -249,7 +250,7 @@ const Signup = () => {
     </div>
   </div>
 </div>
-
+          <Footer/>
     </>
   );
 };

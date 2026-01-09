@@ -16,13 +16,20 @@ import {
 import { useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import { Helmet } from "react-helmet-async";
 
 const PrivacyPolicy = () => {
   const location = useLocation();
 const { pathname } = location;
 
   return (
-<>
+<>  <Helmet>
+  <title>Privacy Policy – Fixkar</title>
+  <meta
+    name="description"
+    content="Read Fixkar’s Privacy Policy to understand how we collect, use, and protect user data while delivering secure and technology-driven services."
+  />
+</Helmet>
     {pathname !== '/' && <Navbar/>}
     <div className="container my-5">
       <div className="card shadow border-0">

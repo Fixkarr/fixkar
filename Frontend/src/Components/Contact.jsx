@@ -15,6 +15,7 @@ import { FaMessage } from "react-icons/fa6";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import {Helmet} from 'react-helmet-async'
 const Contact = () => {
   
 const location = useLocation();
@@ -39,7 +40,19 @@ const { pathname } = location;
 
   return (
     <>
-      {pathname !== '/' && <Navbar/>}
+       {pathname !== '/' &&
+       <>
+        <Helmet>
+  <title>Contact Fixkar – Support & Help</title>
+  <meta
+    name="description"
+    content="Contact Fixkar for support, service queries, or assistance. Our team is available to help you connect with skilled professionals efficiently."
+  />
+</Helmet>
+
+      <Navbar/>
+      </>
+      }
     <div
       className="contact d-flex align-items-center mt-5"
       style={{

@@ -7,8 +7,11 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import {Provider} from 'react-redux'
 import { store } from './redux/store.js'
 import { ToastContainer } from 'react-toastify'
+  import {HelmetProvider} from 'react-helmet-async'
+
 createRoot(document.getElementById('root')).render(
-  <AuthProvider>
+ <HelmetProvider>
+   <AuthProvider>
     <BrowserRouter>
      <Provider store={store}>
        <ToastContainer   
@@ -23,4 +26,6 @@ createRoot(document.getElementById('root')).render(
      </Provider>
     </BrowserRouter>
   </AuthProvider>
+
+ </HelmetProvider>
 )

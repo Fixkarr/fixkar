@@ -13,12 +13,21 @@ import {
 import { useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import { Helmet } from "react-helmet-async";
 
 const TermsAndConditions = () => {
    const location = useLocation();
 const { pathname } = location;
   return (
     <>
+    <Helmet>
+  <title>Terms & Conditions – Fixkar</title>
+  <meta
+    name="description"
+    content="Review Fixkar’s Terms and Conditions outlining platform usage, professional responsibilities, user obligations, and service guidelines."
+  />
+</Helmet>
+
     {pathname !== '/' && <Navbar/>}
       <div className="container my-5">
       <div className="card shadow border-0">

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Navbar from '../Components/Navbar'
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import axios from 'axios';
@@ -20,6 +20,7 @@ import {
 import { FcGoogle } from 'react-icons/fc';
 import { MdEmail } from 'react-icons/md';
 import { FaLock } from 'react-icons/fa';
+import Footer from '../Components/Footer.jsx';
 
 const Login = () => {
    const [showPass, setShowPass] = useState(false);
@@ -213,7 +214,7 @@ const Login = () => {
   </div>
 </div>
 
-
+        <Footer/>
     </>
   )
 }

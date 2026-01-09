@@ -9,11 +9,19 @@ import Footer from '../Components/Footer'
 import { FaTools, FaMapMarkerAlt, FaBolt } from "react-icons/fa";
 import { IoSearchCircle } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
-
+import {Helmet} from 'react-helmet-async'
 const Home = () => {
   const navigate = useNavigate()
   return (
    <>
+  <Helmet>
+     <title>Fixkar – Smart Service Platform</title>
+       <meta
+          name="description"
+          content="Fixkar is a smart service platform connecting users with skilled professionals who use modern tools and technology to deliver reliable services across multiple categories."
+        />
+  </Helmet>
+
   <Navbar />
 
   {/* ===== HERO SECTION ===== */}

@@ -1,0 +1,30 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://fixkar.netlify.app/</loc>
+  </url>
+
+  <url>
+    <loc>https://fixkar.netlify.app/contact</loc>
+  </url>
+
+  <url>
+    <loc>https://fixkar.netlify.app/privacy-policy</loc>
+  </url>
+  <url>
+    <loc>https://fixkar.netlify.app/about</loc>
+  </url>
+  <url>
+    <loc>https://fixkar.netlify.app/login</loc>
+  </url>
+  <url>
+    <loc>https://fixkar.netlify.app/cancellation-refund-policy</loc>
+  </url>
+  <url>
+    <loc>https://fixkar.netlify.app/service-delievery</loc>
+  </url>
+  <url>
+    <loc>https://fixkar.netlify.app/terms-and-conditions</loc>
+  </url>
+
+</urlset>

@@ -9,6 +9,7 @@ import { server_url } from "../App";
 import { useAuth } from "../context/AuthContext";
 import {ClipLoader} from 'react-spinners'
 import { FaArrowLeft } from "react-icons/fa6";
+import Footer from "./Footer";
 
 const OtpVerify = () => {
   const [otp, setOtp] = useState("");
@@ -67,74 +68,95 @@ const OtpVerify = () => {
   return (
     <>
       <Navbar />
-      <div className="forget-pass container-fluid d-flex align-items-center justify-content-center bg-secondary-subtle">
-        <div className="signup-container bg-white p-3 rounded shadow">
-           <div className="flex flex-row">
-                      <span className="text-primary" role="button" onClick={()=> navigate('/forget-pass')}><FaArrowLeft /></span>
-                      <center><h4 className="text-primary mb-3">Enter OTP!</h4></center>
-            </div>
+      <div className="forget-pass container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div
+    className="bg-white p-4 p-md-5 rounded-4 shadow-lg"
+    style={{ maxWidth: "460px", width: "100%" }}
+  >
+    {/* Header */}
+    <div className="d-flex align-items-center mb-4">
+      <span
+        className="text-primary me-2"
+        role="button"
+        onClick={() => navigate("/forget-pass")}
+      >
+        <FaArrowLeft />
+      </span>
+      <h4 className="text-primary fw-bold m-0">Enter OTP</h4>
+    </div>
 
-          <form onSubmit={handleVerifyOtp}>
-            <div className="mb-3">
-              <label htmlFor="otp" className="form-label">
-                Enter 6-digit OTP sent to your email
-              </label>
-              <input
-                type="text"
-                id="otp"
-                name="otp"
-                className="form-control text-center"
-                placeholder="Enter OTP"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                maxLength={6}
-              />
-            </div>
+    <p className="text-muted small mb-4">
+      Enter the 6-digit verification code sent to your registered email address.
+    </p>
 
-            <center>
-              <button type="submit" disabled={loading} className="btn btn-primary w-100">
-                {loading ? <ClipLoader size={20}/> :"Verify Otp"}
-              </button>
-            </center>
-          </form>
-
-          <div className="p-2 lowerDiv">
-            {!timerActive ? (
-              <button
-                onClick={handleResendOtp}
-                className="text-primary btn btn-border"
-              >
-                {loading ? <ClipLoader size={20}/> :"Resend Otp"}
-              </button>
-            ) : (
-              <Countdown
-                key={key}
-                date={Date.now() + 60000}
-                renderer={({ seconds, completed }) => {
-                  if (completed) {
-                    setTimerActive(false);
-                    return (
-                      <button
-                        onClick={handleResendOtp}
-                        className="text-primary btn btn-border"
-                        disabled={loading}
-                      >
-                        {loading ? <ClipLoader size={20}/> :"Resend Otp"}
-                      </button>
-                    );
-                  } else {
-                    return (
-                      <button disabled={loading} className="text-primary btn btn-border-0">
-                        Resend OTP ({seconds}s)
-                      </button>
-                    );
-                  }
-                }}
-              />
-            )}
-          </div>
-        </div>
+    {/* Form */}
+    <form onSubmit={handleVerifyOtp}>
+      <div className="mb-4">
+        <label htmlFor="otp" className="form-label fw-semibold">
+          Verification Code
+        </label>
+        <input
+          type="text"
+          id="otp"
+          name="otp"
+          className="form-control form-control-lg text-center fw-bold"
+          placeholder="••••••"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          maxLength={6}
+        />
       </div>
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="btn btn-primary w-100 py-2 fw-semibold"
+      >
+        {loading ? <ClipLoader size={20} /> : "Verify OTP"}
+      </button>
+    </form>
+
+    {/* Resend Section */}
+    <div className="text-center mt-4">
+      {!timerActive ? (
+        <button
+          onClick={handleResendOtp}
+          className="btn btn-link text-primary fw-semibold p-0"
+          disabled={loading}
+        >
+          {loading ? <ClipLoader size={20} /> : "Resend OTP"}
+        </button>
+      ) : (
+        <Countdown
+          key={key}
+          date={Date.now() + 60000}
+          renderer={({ seconds, completed }) => {
+            if (completed) {
+              setTimerActive(false);
+              return (
+                <button
+                  onClick={handleResendOtp}
+                  className="btn btn-link text-primary fw-semibold p-0"
+                  disabled={loading}
+                >
+                  {loading ? <ClipLoader size={20} /> : "Resend OTP"}
+                </button>
+              );
+            } else {
+              return (
+                <span className="text-muted small">
+                  Resend OTP in <strong>{seconds}s</strong>
+                </span>
+              );
+            }
+          }}
+        />
+      )}
+    </div>
+  </div>
+</div>
+
+      <Footer/>
     </>
   );
 };

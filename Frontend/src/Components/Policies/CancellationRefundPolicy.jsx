@@ -16,12 +16,21 @@ import {
 import Footer from "../Footer";
 import Navbar from "../Navbar";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const CancellationRefundPolicy = () => {
    const location = useLocation();
 const { pathname } = location;
   return (
     <>
+    <Helmet>
+          <title>Cancellation and Refunds Policy – Fixkar</title>
+
+       <meta
+  name="description"
+  content="Learn about Fixkar’s cancellation and refund policy, including service cancellations, professional delays, and refund processing guidelines."
+/>
+        </Helmet>
     {pathname !== '/' && <Navbar/>}
     <div className="container my-5">
       <div className="card shadow border-0">

@@ -15,12 +15,23 @@ import {
 import { useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import { Helmet } from "react-helmet-async";
 const ServiceDelieveryPolicy = () => {
    const location = useLocation();
 const { pathname } = location;
 
   return (
     <>
+
+     <Helmet>
+      <title>Service Delievery Policy – Fixkar</title>
+     <meta
+  name="description"
+  content="Understand how Fixkar delivers services through independent professionals using modern tools, including service timelines and delivery guidelines."
+/>
+    </Helmet>
+    
+
      {pathname !== '/' && <Navbar/>}
     <div className="container my-5">
       <div className="card shadow-lg border-0">
