@@ -55,6 +55,7 @@ export const reachedToLocation = async (req, res)=>{
     })
 
     booking.status = "reached";
+    booking.startedAt = Date.now()
 
     await booking.save();
 

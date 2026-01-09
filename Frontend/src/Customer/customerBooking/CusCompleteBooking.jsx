@@ -3,18 +3,23 @@ import { FaStar } from 'react-icons/fa';
 import axios from 'axios'
 import { server_url } from '../../App';
 import { toast } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 const CusCompleteBooking = ({booking}) => {
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
+    const [loading, setLoading] = useState(false)
     const handleSubmit = async(e)=>{
         e.preventDefault();
         try {
+          setLoading(true)
           const result = await axios.post(`${server_url}/api/booking/post-review`, {rating, review, bookingId : booking._id})
           toast.info(result.data.message);
+          setLoading(false)
         } catch (error) {
           console.log(error.message)
           toast.error(error.response.data.message)
+          setLoading(false)
         }
     }
 
@@ -114,8 +119,8 @@ const CusCompleteBooking = ({booking}) => {
       ></textarea>
     </div>
 
-    <button className="btn btn-primary w-100 rounded-pill fw-semibold" onClick={handleSubmit}>
-      Post Review
+    <button className="btn btn-primary w-100 rounded-pill fw-semibold" disabled={loading} onClick={handleSubmit}>
+     {loading && <ClipLoader size={10}/>} Post Review
     </button>
   </form>
   </div>}
