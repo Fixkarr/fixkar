@@ -147,13 +147,6 @@ export const sendEmailOtp = async (req, res) => {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: "Email is required" });
 
-    const existingUser = await User.findOne({email});
-    if(!existingUser){
-      return res.status(400).json({
-        message  : "User does not exist with this email"
-      })
-    }
-
     const canResend = await redis.get(`email_otp_resend:${email}`);
     if (canResend) {
       return res.status(429).json({ message: `Please wait before requesting new OTP.` });
@@ -176,14 +169,14 @@ export const sendEmailOtp = async (req, res) => {
       await redis.del(`email_otp:${email}`);
       await redis.del(`email_otp_resend:${email}`);
       return res.status(500).json({
-        message: "Failed to send OTP email. Please try again.",
+        message: "Failed to send OTP Please try again.",
       });
     }
 
     return res.status(200).json({ message: "OTP sent to email successfully." });
   } catch (error) {
     console.error("sendEmailOtp error:", error);
-    return res.status(500).json({ message: "Failed to send OTP email." });
+    return res.status(500).json({ message: "Failed to send OTP" });
   }
 };
 
@@ -191,7 +184,7 @@ export const sendEmailOtp = async (req, res) => {
 export const verifyEmailOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    if (!email || !otp) return res.status(400).json({ message: "Email and OTP required" });
+    if (!email || !otp) return res.status(400).json({ message: "OTP required" });
 
     const recordRaw = await redis.get(`email_otp:${email}`);
     if (!recordRaw) return res.status(400).json({ message: "OTP expired or not found" });
@@ -203,6 +196,13 @@ export const verifyEmailOtp = async (req, res) => {
       return res.status(400).json({ message: "Invalid OTP" });
     }
 
+     await redis.set(
+      `email_verified:${email}`,
+      "true",
+      "EX",
+      15 * 60 // ⏱️ 15 minutes validity
+    );
+
     await redis.del(`email_otp:${email}`);
     await redis.del(`email_otp_resend:${email}`);
 
@@ -211,7 +211,6 @@ export const verifyEmailOtp = async (req, res) => {
 
     return res.status(200).json({ message: "OTP verified successfully." });
   } catch (error) {
-    console.error("verifyEmailOtp error:", error);
     return res.status(500).json({ message: "Failed to verify OTP." });
   }
 };

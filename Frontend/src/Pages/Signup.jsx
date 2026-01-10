@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../css/customersignup.css";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { FaCheck, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useFormik } from "formik";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -33,12 +33,15 @@ const Signup = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search);
   const role = queryParams.get("role") || "customer";
-  
+  const [wait, setWait] = useState(false)
   
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
-  // const [user, setUser] = useState(null);
+
+   const [otpSent, setOtpSent] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [otp, setOtp] = useState("");
 
   // 👁️ Show/Hide Password
   const handleShowPass = () => {
@@ -124,6 +127,40 @@ const Signup = () => {
     },
   });
 
+  // handle send otp
+  const handleSendOtp = async()=>{
+     try {
+      setWait(true)
+      await axios.post(`${server_url}/api/otp/send-email-otp`, {
+        email: formik.values.email,
+      });
+      setOtpSent(true);
+      toast.success("OTP sent to email");
+      setWait(false)
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send OTP");
+      setWait(false)
+    }
+  }
+
+    const handleVerifyOtp = async () => {
+    try {
+      setWait(true)
+      await axios.post(`${server_url}/api/otp/verify-email-otp`, {
+        email: formik.values.email,
+        otp,
+      });
+      setEmailVerified(true);
+      toast.success("Email verified successfully");
+      setWait(false)
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Invalid OTP");
+      setWait(false)
+    }
+  };
+
+
+
   return (
     <>
       <Navbar />
@@ -173,7 +210,7 @@ const Signup = () => {
         </div>
 
         {/* Email */}
-        <div className="mb-3">
+        <div className="mb-3 d-flex flex-column">
           <label className="form-label fw-semibold small">Email Address</label>
           <div className="input-group">
             <span className="input-group-text bg-white">
@@ -188,13 +225,48 @@ const Signup = () => {
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              disabled={emailVerified}
             />
           </div>
           {formik.touched.email && formik.errors.email && (
             <small className="text-danger">{formik.errors.email}</small>
           )}
+           {!otpSent && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark btn-sm mt-2"
+                    onClick={handleSendOtp} 
+                    disabled={!formik.values.email}
+                  >
+                    Send OTP
+                  </button>
+                )}
         </div>
+         
+         {otpSent && !emailVerified && (
+                <div className="mb-3">
+                  <label className="form-label">Enter OTP</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-success btn-sm mt-2"
+                    onClick={handleVerifyOtp}
+                  >
+                    Verify OTP
+                  </button>
+                </div>
+              )}
 
+               {emailVerified && (
+                <div className="alert alert-success py-2">
+                  <FaCheck className="text-success" size={10}/> Email verified
+                </div>
+              )}
         {/* Password */}
         <div className="mb-3 position-relative">
           <label className="form-label fw-semibold small">Password</label>
@@ -284,7 +356,7 @@ const Signup = () => {
         {/* Submit */}
         <button
           type="submit"
-          disabled={loading}
+          disabled={!emailVerified || loading}
           className="btn btn-primary w-100 rounded-pill py-2 fw-semibold mt-2"
         >
           {loading ? <ClipLoader size={18} /> : "Create Account"}

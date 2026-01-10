@@ -2,6 +2,7 @@
 import { User, Customer, Professional } from "../../models/userModel.js";
 import bcrypt from 'bcryptjs'
 import { genToken } from '../../utils/AuthToken.js';
+import redis from "../../services/redisClient.js";
 
 export const registerUserWithForm = async (req, res) => {
     const { fullName, email, password, role,  acceptedTerms, acceptedProfessionalPolicy, } = req.body;
@@ -12,6 +13,13 @@ export const registerUserWithForm = async (req, res) => {
                 message: "All Fields are required"
             })
         } 
+
+        const isEmailVerified = await redis.get(`email_verified:${email}`);
+         if (!isEmailVerified) {
+          return res.status(403).json({
+            message: "Please verify your email before signup",
+          });
+        }
 
         if (!acceptedTerms) {
       return res.status(400).json({ message: "Terms acceptance required" });
@@ -40,11 +48,11 @@ export const registerUserWithForm = async (req, res) => {
             email,
             password: hashedPassword,
             role,
-             termsAcceptance: {
-        accepted: true,
-        acceptedAt: new Date(),
-        acceptedIP: userIP,
-        policyVersion: "v1.0",
+            termsAcceptance: {
+            accepted: true,
+            acceptedAt: new Date(),
+            acceptedIP: userIP,
+            policyVersion: "v1.0",
       },
       professionalAcceptance:
         role === "professional"
@@ -58,7 +66,8 @@ export const registerUserWithForm = async (req, res) => {
         })
 
 
-
+          await redis.del(`email_verified:${email}`);
+          
         const token = await genToken(newUser._id);
         res.cookie("token", token, {
             secure: process.env.NODE_ENV === 'production',
