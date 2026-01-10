@@ -11,7 +11,7 @@ export const registerUserWithForm = async (req, res) => {
             return res.status(400).json({
                 message: "All Fields are required"
             })
-        }
+        } 
 
         if (!acceptedTerms) {
       return res.status(400).json({ message: "Terms acceptance required" });

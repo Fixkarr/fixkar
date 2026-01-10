@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema({
     mobile : {
         type : String,
     },
+    isEmailVerified : {type : Boolean,
+        default : false
+    },
     role : {type : String,
         required : true,
         enum : ['customer', 'professional', 'admin'],

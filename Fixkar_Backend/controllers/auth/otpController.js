@@ -4,11 +4,8 @@ import redis from "../../services/redisClient.js";
 import { client } from "../../utils/twilioClient.js";
 import Joi from "joi";
 import { generateOtpPlain, hashOtp, compareOtp } from "../../utils/otpHelper.js";
-import dotenv from "dotenv";
-import nodemailer from "nodemailer";
-dotenv.config();
 import { Customer, Professional, User } from "../../models/userModel.js";
-import { transporter } from "../../utils/mailer.js";
+import { sendEmailOtps } from "../../utils/mailer.js";
 
 
 const OTP_EXPIRY = parseInt(process.env.OTP_EXPIRY_SECONDS || "300"); // seconds
@@ -170,15 +167,18 @@ export const sendEmailOtp = async (req, res) => {
       createdAt: Date.now()
     }), "EX", OTP_EXPIRY);
 
-    await redis.set(`email_otp_resend:${email}`, "1", "EX", OTP_RESEND_COOLDOWN);
+    await redis.set(`email_otp_resend:${email}`, OTP_RESEND_COOLDOWN, "EX", OTP_RESEND_COOLDOWN);
 
-
-    await transporter.sendMail({
-      from: '"Fixkar" <hg852106@gmail.com>',
-      to: email,
-      subject: "Your Password Reset OTP",
-      text: `Your OTP for password reset is ${plainOtp}. It is valid for ${Math.floor(OTP_EXPIRY/60)} minutes.`,
-    });
+    try {
+      await sendEmailOtps(email, plainOtp);
+    } catch (emailErr) {
+      // rollback OTP if email fails
+      await redis.del(`email_otp:${email}`);
+      await redis.del(`email_otp_resend:${email}`);
+      return res.status(500).json({
+        message: "Failed to send OTP email. Please try again.",
+      });
+    }
 
     return res.status(200).json({ message: "OTP sent to email successfully." });
   } catch (error) {

@@ -19,6 +19,9 @@ import {
   provider,
   signInWithPopup,
 } from "../firebase.js";
+
+import { createUserWithEmailAndPassword, sendEmailVerification } from "../firebase.js";
+
 import { server_url } from "../App.jsx";
 import { setCurrentUserData } from "../redux/user.slice.js";
 import { useLocation } from "react-router-dom";
@@ -105,7 +108,9 @@ const Signup = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         setLoading(true)
+        
         const result = await axios.post(`${server_url}/api/auth/signup-customer`, {...values, role}, {withCredentials :true})
+
         dispatch(setCurrentUserData(result.data))
         toast.success(result.data.message)
         setLoading(false)
