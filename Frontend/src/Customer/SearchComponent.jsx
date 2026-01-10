@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaCrosshairs, FaMapMarkerAlt } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/customerhome.css";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
@@ -55,6 +55,49 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
     if (onServiceSelect) onServiceSelect(value);
   };
 
+    const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        if (!window.google) {
+          setCoords({ lat, lng, address: "" });
+          return;
+        }
+
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode(
+          { location: { lat, lng } },
+          (results, status) => {
+            if (status === "OK" && results[0]) {
+              setCoords({
+                lat,
+                lng,
+                address: results[0].formatted_address,
+              });
+            } else {
+              setCoords({
+                lat,
+                lng,
+                address: "",
+              });
+            }
+          }
+        );
+      },
+      () => {
+        alert("Location permission denied");
+      }
+    );
+  };
+
+
   return (
     <div className="search container">
       <div className="p-lg-4 p-2 rounded-4 shadow-sm bg-white bg-opacity-75">
@@ -72,6 +115,14 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
               placeholder="Enter your location"
             />
           </div>
+             <button
+            type="button"
+            className="btn btn-outline-primary btn-sm w-100 mt-2"
+            onClick={handleUseCurrentLocation}
+          >
+            <FaCrosshairs className="me-2" />
+            Use Current Location
+          </button>
         </div>
 
         {/* Map + Confirm */}
