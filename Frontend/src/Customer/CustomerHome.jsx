@@ -11,9 +11,12 @@ import Messages from '../Professional/Messages'
 import { FaSearchLocation, FaUserCheck, FaTools } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { IoSparkles } from "react-icons/io5";
+import useGetMyBookings from '../hooks/useGetMyBookings'
+import useGetNotifications from '../hooks/useGetNotifications'
 
 const CustomerHome = () => {
-
+  useGetMyBookings();
+  useGetNotifications()
   const {currentUserData} = useSelector((state)=>state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -108,9 +111,6 @@ const CustomerHome = () => {
     <div className="card-header bg-white border-0 d-flex align-items-center gap-2">
       <FaUserCheck className="text-primary" />
       <h6 className="mb-0 fw-semibold">Recent Messages</h6>
-    </div>
-    <div className="card-body p-0">
-      <Messages />
     </div>
   </div>
 

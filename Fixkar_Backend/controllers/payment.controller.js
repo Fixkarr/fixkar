@@ -5,6 +5,7 @@ import razorpayInstance from '../config/razorpay.js';
 import {io} from '../server.js'
 import {Wallet} from '../models/walletModel.js'
 import {WalletTransaction } from '../models/walletTransactionModel.js'
+import { Notification } from '../models/notificationModel.js';
 export const createOrder = async (req, res) => {
   try {
     const { bookingId, paymentType } = req.body;
@@ -190,6 +191,8 @@ export const verifyPayment = async (req,res)=>{
           })
         }
 
+
+
         const COMMISSION_PERCENT = Number(process.env.COMMISSION_PERCENT) || 5;
         const commission = Math.round((payment.amount * COMMISSION_PERCENT)/100);
 
@@ -199,6 +202,39 @@ export const verifyPayment = async (req,res)=>{
         wallet.totalEarned += professionalAmount;
 
         await wallet.save();
+
+        let notificationTitle = "";
+let notificationMessage = "";
+
+if (paymentType === "FINAL") {
+  notificationTitle = "Work Completed & Payment Received";
+  notificationMessage = `Work has been completed successfully. ₹${professionalAmount} has been added to your wallet.`;
+}
+
+if (paymentType === "CANCEL") {
+  notificationTitle = "Work Cancelled & Payment Settled";
+  notificationMessage = `Work has been cancelled. ₹${professionalAmount} has been added to your wallet as settlement.`;
+}
+
+await Notification.create({
+  userId: booking.professionalId.userId._id,
+  title: notificationTitle,
+  message: notificationMessage,
+  type: "booking",
+  relatedId: booking._id,
+  isRead: false,
+});
+
+io.to(booking.professionalId.userId._id.toString()).emit(
+  "notification",
+  {
+    title: notificationTitle,
+    message: notificationMessage,
+    type: "booking",
+    relatedId: booking._id,
+    isRead: false,
+  }
+);
 
         await WalletTransaction.create({
           walletId : wallet._id,

@@ -1,4 +1,5 @@
 import { Booking } from "../../models/bookingModel.js";
+import { Notification } from "../../models/notificationModel.js";
 import {io} from '../../server.js'
 export const cancelCustomerBooking = async (req, res) => {
     try {
@@ -43,6 +44,47 @@ export const cancelCustomerBooking = async (req, res) => {
         if (workDate > today) {
             booking.status = "cancelled";
             await booking.save();
+
+             await Notification.create({
+        userId: booking.professionalId.userId._id,
+        title: "Booking Cancelled",
+        message: `Customer has cancelled the booking. Customer Name : ${booking.customerId.userId.fullName}`,
+        type: "booking",
+        relatedId: booking._id,
+        isRead: false,
+      });
+
+          await Notification.create({
+        userId: booking.customerId.userId._id,
+        title: "Booking Cancelled",
+        message: `Your booking has been cancelled successfully. Professional Name : ${booking.professionalId.userId.fullName}`,
+        type: "booking",
+        relatedId: booking._id,
+        isRead: false,
+      });
+
+          io.to(booking.professionalId.userId._id.toString()).emit(
+        "notification",
+        {
+          title: "Booking Cancelled",
+            message: `Customer has cancelled the booking. Customer Name : ${booking.customerId.userId.fullName}`,
+          type: "booking",
+          relatedId: booking._id,
+          isRead: false,
+        }
+      );
+
+      io.to(booking.customerId.userId._id.toString()).emit(
+        "notification",
+        {
+          title: "Booking Cancelled",
+          message: `Your booking has been cancelled successfully. Professional Name : ${booking.professionalId.userId.fullName}`,
+          type: "booking",
+          relatedId: booking._id,
+          isRead: false,
+        }
+      );
+
 
               io.to(booking.customerId.userId._id.toString()).emit(
         "bookingUpdated",

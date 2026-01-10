@@ -39,10 +39,8 @@ import ChatSection from "./Components/ChatSection";
 import socket from "./socket.js";
 import { setOnlineUsers } from "./redux/chat.slice.js";
 import Messages from "./Professional/Messages.jsx";
-import useGetMyBookings from "./hooks/useGetMyBookings.jsx";
 import useGetCurrentAdmin from './hooks/useGetCurrentAdmin.jsx'
 import { addNewBooking, updateBookingInRedux } from "./redux/booking.Slice.js";
-import { clearReachedOtp, setReachedOtp } from "./redux/otp.Slice.js";
 import { refreshWallet } from "./redux/wallet.slice.js";
 import ProBookingDetails from "./Professional/professionalBooking/ProBookingDetails.jsx";
 import CusBookingDetail from "./Customer/customerBooking/CusBookingDetail.jsx";
@@ -59,6 +57,8 @@ import PrivacyPolicy from "./Components/Policies/PrivacyPolicy.jsx";
 import Contact from "./Components/Contact.jsx";
 import About from "./Pages/About.jsx";
 import ProfessionalOnboardingPolicy from "./Components/Policies/ProfessionalOnboardingPolicy.jsx";
+import Notification from "./Components/Notification.jsx";
+import { addNotification } from "./redux/notification.slice.js";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -66,7 +66,6 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 const App = () => {
   useGetCurrentUser();
   useGetCurrentAdmin()
-  useGetMyBookings();
   const { currentUserData } = useSelector((state) => state.user);
   const {currentAdmin} = useSelector(state => state.admin);
   const dispatch = useDispatch();
@@ -99,6 +98,10 @@ const App = () => {
       }
     });
 
+     socket.on("notification", (data) => {
+      dispatch(addNotification  (data));
+    });
+
     // ✅ CUSTOMER SIDE
     socket.on("bookingCreated", (booking) => {
       if (role === "customer") {
@@ -112,16 +115,14 @@ const App = () => {
       dispatch(updateBookingInRedux(booking));
       dispatch(refreshWallet())
     });
-    
-    socket.on("connect_error", (err) => {
-      console.log("🔴 Socket error:", err.message);
-    });
+  
 
     return () => {
       socket.off("getOnlineUsers");
       socket.off("newBookingRequest");
       socket.off("bookingCreated");
       socket.off("bookingUpdated");
+      socket.off("notification");
       socket.disconnect();
     };
   }, [userId, role]);
@@ -229,6 +230,14 @@ const App = () => {
             )
           }
         />
+         <Route
+          path="/customer/messages"
+          element={role === "customer" ? <Messages /> : <Navigate to="/" />}
+        />
+         <Route
+          path="/customer/notifications"
+          element={role === "customer" ? <Notification role={role} /> : <Navigate to="/" />}
+        />
         {/* Professional */}
         <Route
           path="/professional/home"
@@ -275,6 +284,10 @@ const App = () => {
         <Route
           path="/professional/messages"
           element={role === "professional" ? <Messages /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/professional/notifications"
+          element={role === "professional" ? <Notification role={role} /> : <Navigate to="/" />}
         />
         <Route
           path="/professional/chat/:id"

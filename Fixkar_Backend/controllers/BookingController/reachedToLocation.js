@@ -1,4 +1,5 @@
 import { Booking } from "../../models/bookingModel.js";
+import { Notification } from "../../models/notificationModel.js";
 import { ReachedOtp } from "../../models/reachedOtpModel.js";
 import {io} from '../../server.js'
 import bcrypt from "bcryptjs";
@@ -58,6 +59,27 @@ export const reachedToLocation = async (req, res)=>{
     booking.startedAt = Date.now()
 
     await booking.save();
+
+    
+    await Notification.create({
+      userId: booking.customerId.userId._id,
+      title: "Professional Reached Location",
+      message: `Professional ${booking.professionalId.userId.fullName} has reached your location. OTP : ${otp}`,
+      type: "booking",
+      relatedId: booking._id,
+      isRead: false,
+    });
+
+    io.to(booking.customerId.userId._id.toString()).emit(
+      "notification",
+      {
+        title: "Professional Reached Location",
+        message: `Professional ${booking.professionalId.userId.fullName} has reached your location. OTP : ${otp}`,
+        type: "booking",
+        relatedId: booking._id,
+        isRead: false,
+      }
+    );
 
 
     io.to(booking.customerId.userId._id.toString()).emit(

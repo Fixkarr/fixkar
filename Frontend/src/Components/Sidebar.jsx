@@ -3,19 +3,43 @@ import "../css/sidebar.css";
 import { GoHome } from "react-icons/go";
 import { FaRegAddressBook, FaUserShield } from "react-icons/fa6";
 import { IoConstructOutline } from "react-icons/io5";
-import { FaRegBell, FaTools } from "react-icons/fa";
-import { FiMessageSquare } from "react-icons/fi";
+import { FaHeadset, FaRegBell, FaTools } from "react-icons/fa";
+import { FiBell, FiMessageSquare } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineEngineering } from "react-icons/md";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { server_url } from "../App";
+import { markAllAsRead } from "../redux/notification.slice";
+import { toast } from "react-toastify";
 
 
 const Sidebar = () => {
   const { currentUserData } = useSelector((state) => state.user);
   const {currentAdmin} = useSelector(state=> state.admin)
+  const unreadCount = useSelector(
+    state => state.notification.unreadCount
+  );
   const role = currentUserData?.user?.userId?.role;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
+const dispatch = useDispatch()
+
+ const handleBellClick = async () => {
+    try {
+      // 🔹 Backend update
+      await axios.get(
+        `${server_url}/api/notification/mark-all-as-read`,
+        { withCredentials: true }
+      );
+
+      // 🔹 Redux update
+      dispatch(markAllAsRead());
+
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
+  };
 
   return (
     <aside
@@ -139,7 +163,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
             }
           >
             <FaRegAddressBook />
-            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>My Bookings</span>
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Bookings</span>
           </NavLink>
         </li>
 
@@ -153,10 +177,42 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
             }
           >
             <MdOutlineEngineering />
-            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Hire Professionals</span>
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Hire</span>
           </NavLink>
         </li>
 
+        
+        <li className="nav-item" style={{fontSize : "0.5vmax"}}>
+          <NavLink
+            to="/customer/messages"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FiMessageSquare />
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Messages</span>
+          </NavLink>
+        </li>
+        <li className="nav-item position-relative" style={{fontSize : "0.5vmax"}} onClick={handleBellClick}>
+          <NavLink
+            to="/customer/notifications"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FiBell />
+            {unreadCount > 0 && (
+              <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                {unreadCount}
+              </span>
+            )}
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Notifications</span>
+          </NavLink>
+        </li>
         <li className="nav-item" style={{fontSize : "0.5vmax"}}>
           <NavLink
             to="/customer/contact"
@@ -166,7 +222,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
               }`
             }
           >
-            <FiMessageSquare />
+            <FaHeadset />
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Help & Support</span>
           </NavLink>
         </li>
@@ -199,7 +255,25 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
             }
           >
             <FaRegAddressBook />
-            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>My Bookings</span>
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Bookings</span>
+          </NavLink>
+        </li>
+         <li className="nav-item positive-relative" style={{fontSize : "0.5vmax"}} onClick={handleBellClick}>
+          <NavLink
+            to="professional/notifications"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FiBell />
+             {unreadCount > 0 && (
+              <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                {unreadCount}
+              </span>
+            )}
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Notifications</span>
           </NavLink>
         </li>
 

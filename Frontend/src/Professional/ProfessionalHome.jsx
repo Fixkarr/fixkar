@@ -7,8 +7,12 @@ import DayCard from "./DayCard";
 import ProfessionalWallet from "./ProfessionalWallet";
 import { FaUserTie, FaExclamationTriangle, FaCalendarCheck } from "react-icons/fa";
 import { MdOutlineEventBusy } from "react-icons/md";
+import useGetMyBookings from "../hooks/useGetMyBookings";
+import useGetNotifications from "../hooks/useGetNotifications";
 
 const ProfessionalHome = () => {
+  useGetMyBookings()
+  useGetNotifications()
   const navigate = useNavigate()
   const { currentUserData } = useSelector((state) => state.user);
   const user = currentUserData?.user;

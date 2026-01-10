@@ -1,4 +1,5 @@
 import { Booking } from "../../models/bookingModel.js"
+import { Notification } from "../../models/notificationModel.js";
 import { io } from "../../server.js";
 
 export const rejectBooking = async (req,res)=>{
@@ -37,6 +38,26 @@ export const rejectBooking = async (req,res)=>{
         message: "Booking not found",
       });
     }
+
+     await Notification.create({
+      userId: updatedBooking.customerId.userId._id,
+      title: "Booking Rejected",
+      message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
+      type: "booking",
+      relatedId: updatedBooking._id,
+      isRead: false,
+    });
+
+    io.to(updatedBooking.customerId.userId._id.toString()).emit(
+      "notification",
+      {
+        title: "Booking Rejected",
+        message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
+        type: "booking",
+        relatedId: updatedBooking._id,
+        isRead: false,
+      }
+    );
 
      io.to(updatedBooking.customerId.userId._id.toString()).emit(
       "bookingUpdated",

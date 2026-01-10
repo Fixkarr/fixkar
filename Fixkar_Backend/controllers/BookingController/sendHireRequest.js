@@ -1,4 +1,5 @@
 import { Booking } from "../../models/bookingModel.js";
+import { Notification } from "../../models/notificationModel.js";
 import { Customer } from "../../models/userModel.js";
 import {io} from '../../server.js'
 export const sendHireRequest = async (req, res)=>{
@@ -42,6 +43,27 @@ export const sendHireRequest = async (req, res)=>{
       select: "fullName",
     },
   }).populate('review');
+
+   await Notification.create({
+      userId: booking.professionalId.userId._id,
+      title: "New Booking Request",
+      message: `New hire request received from ${booking.customerId.userId.fullName}`,
+      type: "booking",
+      relatedId: booking._id,
+      isRead: false,
+    });
+
+    io.to(booking.professionalId.userId._id.toString()).emit(
+      "notification",
+      {
+        title: "New Booking Request",
+        message: `New hire request received from ${booking.customerId.userId.fullName}`,
+        type: "booking",
+        relatedId: booking._id,
+        isRead: false,
+      }
+    );
+
 
        io.to(booking.professionalId.userId._id.toString()).emit(
       "newBookingRequest",

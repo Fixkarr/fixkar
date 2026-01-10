@@ -11,6 +11,7 @@ import walletSlice from './wallet.slice.js'
 import gallerySlice from './gallery.Slice.js'
 import adminSlice from './admin.Slice.js'
 import serviceSlice from './service.Slice.js'
+import notificationSlice from './notification.slice.js'
 
 const appReducer = combineReducers({
         user : userSlice,
@@ -24,7 +25,8 @@ const appReducer = combineReducers({
         wallet : walletSlice,
         gallery : gallerySlice,
         admin : adminSlice,
-        services : serviceSlice
+        services : serviceSlice,
+        notifications : notificationSlice
 })
 
 const rootReducer = (state, action) => {

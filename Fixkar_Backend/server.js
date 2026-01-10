@@ -17,6 +17,7 @@ import messageRouter from './routes/messageRoutes.js';
 import { Message } from './models/messageModel.js';
 import bookingRouter from './routes/booking.Routes.js';
 import adminRouter from './controllers/Admin/AdminRoutes/admin.routes.js';
+import notificationRouter from './routes/notification.routes.js';
 
 dotenv.config();
 const app = express();
@@ -40,7 +41,7 @@ app.use("/api/customer", customerRouter);
 app.use("/api/messages", messageRouter);
 app.use("/api/booking", bookingRouter);
 app.use('/api/admin', adminRouter)
-
+app.use('/api/notifications', notificationRouter)
 const server = http.createServer(app);
 
 //initialize socket.io server
