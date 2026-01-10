@@ -104,25 +104,31 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
         {/* Location Input */}
         <div className="mb-2">
           <label className="form-label fw-semibold">Your Location</label>
-          <div className="input-group">
-            <span className="input-group-text bg-white border-end-0">
-              <FaMapMarkerAlt />
-            </span>
-            <input
-              ref={inputRef}
-              type="text"
-              className="form-control border-start-0"
-              placeholder="Enter your location"
-            />
-          </div>
-             <button
-            type="button"
-            className="btn btn-outline-primary btn-sm w-100 mt-2"
-            onClick={handleUseCurrentLocation}
-          >
-            <FaCrosshairs className="me-2" />
-            Use Current Location
-          </button>
+         <div className="input-group">
+  {/* Left icon */}
+  <span className="input-group-text bg-white border-end-0">
+    <FaMapMarkerAlt />
+  </span>
+
+  {/* Input */}
+  <input
+    ref={inputRef}
+    type="text"
+    className="form-control border-start-0 border-end-0"
+    placeholder="Enter your location"
+  />
+
+  {/* Use current location button */}
+  <button
+    type="button"
+    className="btn btn-primary input-group-text"
+    onClick={handleUseCurrentLocation}
+    title="Use current location"
+  >
+    <FaCrosshairs /> Use My Location 
+  </button>
+</div>
+
         </div>
 
         {/* Map + Confirm */}
