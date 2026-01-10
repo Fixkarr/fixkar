@@ -23,7 +23,7 @@ const getIcon = (type) => {
 
 const Notifications = () => {
   const notifications = useSelector(
-    (state) => state.notification.notifications
+    (state) => state.notifications.notification
   );
 
   return (

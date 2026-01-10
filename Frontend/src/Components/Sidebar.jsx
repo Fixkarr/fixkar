@@ -19,7 +19,7 @@ const Sidebar = () => {
   const { currentUserData } = useSelector((state) => state.user);
   const {currentAdmin} = useSelector(state=> state.admin)
   const unreadCount = useSelector(
-    state => state.notification.unreadCount
+    state => state.notifications.unreadCount
   );
   const role = currentUserData?.user?.userId?.role;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
