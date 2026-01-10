@@ -15,7 +15,7 @@ const useGetNotifications = () => {
                 dispatch(setNotifications({  notifications: result.data.notifications,
                                             unreadCount: result.data.unreadCount}))
             } catch (error) {
-                     console.log("Notification fetch error", error.message);
+                    
             }
         }
 

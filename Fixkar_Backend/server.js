@@ -41,7 +41,7 @@ app.use("/api/customer", customerRouter);
 app.use("/api/messages", messageRouter);
 app.use("/api/booking", bookingRouter);
 app.use('/api/admin', adminRouter)
-app.use('/api/notifications', notificationRouter)
+app.use('/api/notification', notificationRouter)
 const server = http.createServer(app);
 
 //initialize socket.io server

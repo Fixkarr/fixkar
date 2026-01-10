@@ -13,7 +13,7 @@ const useGetMyBookings = () => {
             const result = await axios.get(`${server_url}/api/booking/my-bookings`, {withCredentials : true});
             dispatch(setMyBookings(result?.data.bookings))
         } catch (error) {
-            toast.error(error.response.data.message)
+       
         }
     }
 
