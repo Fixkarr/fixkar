@@ -99,7 +99,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
 
 
   return (
-    <div className="search container">
+    <div className="container">
       <div className="p-lg-4 p-2 rounded-4 shadow-sm bg-white bg-opacity-75">
         {/* Location Input */}
         <div className="mb-2">
@@ -125,7 +125,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
     onClick={handleUseCurrentLocation}
     title="Use current location"
   >
-    <FaCrosshairs /> Use My Location 
+    <FaCrosshairs /> Detect 
   </button>
 </div>
 
