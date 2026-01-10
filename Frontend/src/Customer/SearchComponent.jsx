@@ -169,9 +169,8 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
               style={{ outline: "none" }}
             >
                <div
-        className="card border-0 bg-primary-subtle text-primary shadow-sm rounded-4 text-center"
-        style={{
-          width: "90px", 
+        className="card border-0 bg-primary-subtle text-primary shadow-sm rounded-4 text-center px-2"
+        style={{ 
           cursor: "pointer",
           transition: "all 0.25s ease",
         }}
@@ -183,22 +182,22 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
         }
       >
         {/* Image */}
-        <div className="pt-3">
+        <div className="p-1">
           <img
             src={srv.image}
             alt={srv.name}
             className="img-fluid rounded-circle"
             style={{
-              width: "45px",
-              height: "45px",
+              width: "20px",
+              height: "20px",
               objectFit: "cover",
             }}
           />
         </div>
 
         {/* Name */}
-        <div className="px-2 pb-3 mt-2">
-          <small className="fw-semibold text-primary">
+        <div>
+          <small className="fw-semibold text-primary" style={{fontSize : "0.5vmax"}}>
             {srv.name}
           </small>
         </div>
