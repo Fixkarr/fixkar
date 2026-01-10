@@ -12,8 +12,8 @@ const useGetNotifications = () => {
             try {
                 const result = await axios.get(`${server_url}/api/notification/get-my-notifications`, {withCredentials  :true})
 
-                dispatch(setNotifications({  notifications: res.data.notifications,
-                                            unreadCount: res.data.unreadCount}))
+                dispatch(setNotifications({  notifications: result.data.notifications,
+                                            unreadCount: result.data.unreadCount}))
             } catch (error) {
                      console.log("Notification fetch error", error.message);
             }

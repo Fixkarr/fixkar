@@ -99,7 +99,7 @@ const App = () => {
     });
 
      socket.on("notification", (data) => {
-      dispatch(addNotification  (data));
+      dispatch(addNotification(data));
     });
 
     // ✅ CUSTOMER SIDE
