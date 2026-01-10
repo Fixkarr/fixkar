@@ -205,13 +205,14 @@ const dispatch = useDispatch()
             }
           >
             <FiBell />
-            {unreadCount > 0 && (
+           
+            <span className="d-md-inline" style={{fontSize : "0.8vmax"}}>Notifications</span>
+          </NavLink>
+           {unreadCount > 0 && (
               <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
                 {unreadCount}
               </span>
             )}
-            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Notifications</span>
-          </NavLink>
         </li>
         <li className="nav-item" style={{fontSize : "0.5vmax"}}>
           <NavLink
@@ -268,13 +269,14 @@ const dispatch = useDispatch()
             }
           >
             <FiBell />
-             {unreadCount > 0 && (
+           
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Notifications</span>
+          </NavLink>
+            {unreadCount > 0 && (
               <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
                 {unreadCount}
               </span>
             )}
-            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Notifications</span>
-          </NavLink>
         </li>
 
         <li className="nav-item" style={{fontSize : "0.5vmax"}}>
