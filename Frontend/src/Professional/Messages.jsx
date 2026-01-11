@@ -73,7 +73,7 @@ const Messages = () => {
             <div className="flex-grow-1">
               <div className="d-flex justify-content-between align-items-center">
                 <h6 className="mb-0 fw-semibold text-dark">
-                  {conv.user.userId.fullName}
+                  {conv.user.fullName}
                 </h6>
                 <small className="text-muted">
                   {new Date(conv.lastMessageTime).toLocaleTimeString([], {
