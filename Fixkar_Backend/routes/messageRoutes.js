@@ -1,6 +1,6 @@
 import express from 'express'
 import { isAuth } from '../middlewares/isAuth.js';
-import { getMessages, getMyConversations, markMessagesSeen, sendMessage } from '../controllers/message.controller.js';
+import { deleteMessagesForMe, getMessages, getMyConversations, markMessagesSeen, sendMessage } from '../controllers/message.controller.js';
 import upload from '../middlewares/multer.js'
 import multerErrorHandler from '../middlewares/multerErrorHandler.js';
 const messageRouter = express.Router();
@@ -16,5 +16,7 @@ messageRouter.put(
   isAuth,
   markMessagesSeen
 );
+
+messageRouter.post("/delete-messages", isAuth, deleteMessagesForMe);
 
 export default messageRouter;

@@ -37,7 +37,6 @@ import CompleteProfile from "./Professional/CompleteProfile";
 import ProfessionalInfo from "./Customer/ProfessionalInfo";
 import ChatSection from "./Components/ChatSection";
 import socket from "./socket.js";
-import { setOnlineUsers } from "./redux/chat.slice.js";
 import Messages from "./Professional/Messages.jsx";
 import useGetCurrentAdmin from './hooks/useGetCurrentAdmin.jsx'
 import { addNewBooking, updateBookingInRedux } from "./redux/booking.Slice.js";
@@ -87,9 +86,9 @@ const App = () => {
     socket.io.opts.query = { userId };
     socket.connect();
     // ✅ ONLINE USERS
-    socket.on("getOnlineUsers", (users) => {
-      dispatch(setOnlineUsers(users));
-    });
+    // socket.on("getOnlineUsers", (users) => {
+    //   dispatch(setOnlineUsers(users));
+    // });
 
     // ✅ PROFESSIONAL SIDE
     socket.on("newBookingRequest", (booking) => {

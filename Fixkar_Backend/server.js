@@ -64,31 +64,8 @@ io.on("connection", (socket) => {
   if(userId) {
     userSocketMap[userId] = socket.id;
       socket.join(userId.toString())
-      console.log("📌 User joined room:", userId)
   }
 
-    socket.on("markMessagesSeen", async ({ senderId }) => {
-    await Message.updateMany(
-      {
-        sender: senderId,
-        reciever: userId,
-        status: { $ne: "seen" },
-      },
-      {
-        status: "seen",
-        seenAt: new Date().toISOString(),
-      }
-    );
-
-    const senderSocket = userSocketMap[senderId];
-    if (senderSocket) {
-      io.to(senderSocket).emit("messagesSeen", {
-        senderId: userId,
-      });
-    }
-  });
-
-  // emit online users to all connected clients
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap))
 

@@ -3,6 +3,7 @@
 import { Message } from "../models/messageModel.js";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 import { io, userSocketMap } from "../server.js"
+import cloudinary from "../config/cloudinary.js"
 
 export const getMessages = async (req, res) => {
   try {
@@ -14,8 +15,19 @@ export const getMessages = async (req, res) => {
         { sender: senderId, reciever: recieverId },
         { sender: recieverId, reciever: senderId }
       ]
-    })
+    }).sort({ createdAt: 1 });
 
+    await Message.updateMany(
+      {
+        sender: recieverId,
+        reciever: senderId,
+        status: { $ne: "seen" }
+      },
+      {
+        status: "seen",
+        seenAt: new Date()
+      }
+    );
 
     res.status(200).json({
       message: "Messages fetched successfully",
@@ -29,9 +41,6 @@ export const getMessages = async (req, res) => {
     )
   }
 }
-
-
-// send message to selected user
 
 
 export const sendMessage = async (req, res) => {
@@ -78,7 +87,8 @@ export const sendMessage = async (req, res) => {
         message: "Message or attachment required",
       });
     }
-    const isReceiverOnline = userSocketMap[recieverId];
+    const isReceiverOnline = Boolean(userSocketMap[recieverId]);
+
     const newMessage = await Message.create({
       sender: senderId,
       reciever: recieverId,
@@ -100,11 +110,11 @@ export const sendMessage = async (req, res) => {
       io.to(senderSocketId).emit("newMessage", newMessage);
     }
 
-      if (recieverSocketId && senderSocketId) {
+    if (recieverSocketId) {
       io.to(senderSocketId).emit("messageDelivered", {
         messageId: newMessage._id,
       });
-    }
+}
 
     res.status(201).json({
       success: true,
@@ -121,7 +131,7 @@ export const sendMessage = async (req, res) => {
 
 export const getMyConversations = async (req, res) => {
   try {
-    const myId = req.userId;
+   const myId = req.userId.toString();
 
     const messages = await Message.find({
       $or: [{ sender: myId }, { reciever: myId }]
@@ -141,7 +151,9 @@ export const getMyConversations = async (req, res) => {
       if (!conversationsMap[otherUser._id]) {
         conversationsMap[otherUser._id] = {
           user: otherUser,
-          lastMessage: msg.message,
+          lastMessage:
+  msg.message ||
+  (msg.attachments?.length ? "📎 Attachment" : ""),
           lastMessageTime: msg.createdAt,
           unseenCount: 0,
         };
@@ -161,7 +173,6 @@ export const getMyConversations = async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error.message);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -187,7 +198,7 @@ export const markMessagesSeen = async(req,res)=>{
     const senderSocket = userSocketMap[senderId];
     if (senderSocket) {
       io.to(senderSocket).emit("messagesSeen", {
-        senderId: myId
+        seenBy: myId
       });
     }
 
@@ -196,3 +207,54 @@ export const markMessagesSeen = async(req,res)=>{
     res.status(500).json({ message: "Failed to mark seen" });
   }
 }
+
+
+export const deleteMessagesForMe = async (req, res) => {
+  try {
+    const { messageIds } = req.body;
+    const myId = req.userId;
+
+    const messages = await Message.find({
+      _id: { $in: messageIds }
+    });
+
+    for (let msg of messages) {
+
+      // already deleted by me?
+      if (msg.deleteFor.includes(myId)) continue;
+
+      // add myId to deletedFor
+      msg.deleteFor.push(myId);
+      await msg.save();
+
+      // 🔥 CHECK: both sender & receiver deleted?
+      const senderDeleted = msg.deleteFor.includes(msg.sender.toString());
+      const receiverDeleted = msg.deleteFor.includes(msg.reciever.toString());
+
+      if (senderDeleted && receiverDeleted) {
+        // 🧹 CLEANUP CLOUDINARY
+        if (msg.attachments?.length) {
+          for (let att of msg.attachments) {
+            if (att.publicId) {
+              await cloudinary.uploader.destroy(
+                att.publicId,
+                { resource_type: att.fileType }
+              );
+            }
+          }
+        }
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Messages deleted for you",
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Failed to delete messages",
+    });
+  }
+};
