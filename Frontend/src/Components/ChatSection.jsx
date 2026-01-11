@@ -20,7 +20,6 @@ const ChatSection = () => {
     /* ================= FETCH MESSAGES ================= */
   useGetMyMessages(recieverId);
 
-
   const messagesEndRef = useRef(null);
   const { selectedConversationUser, messages } = useSelector(
   (state) => state.chatMessages
@@ -92,7 +91,9 @@ const ChatSection = () => {
   }, [selectedFiles]);
 
   return (
-    <div className="card border-0 shadow rounded-4 overflow-hidden h-100">
+    <div className="card border-0 shadow rounded-4 overflow-hidden "
+    style={{ height: "100vh", display: "flex", flexDirection: "column" }}
+    >
 
       {/* ===== HEADER ===== */}
       <div

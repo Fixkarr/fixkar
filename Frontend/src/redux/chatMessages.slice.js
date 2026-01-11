@@ -21,7 +21,6 @@ const chatMessagesSlice = createSlice({
     setSelectedConversation: (state, action) => {
       state.selectedConversationId = action.payload.userId;
       state.selectedConversationUser = action.payload.user;
-      state.messages = []; // reset messages on chat switch
     },
 
     updateConversationOnNewMessage: (state, action) => {
