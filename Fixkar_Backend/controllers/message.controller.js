@@ -100,6 +100,7 @@ export const sendMessage = async (req, res) => {
 
     // emit message via socket
     const recieverSocketId = userSocketMap[recieverId];
+   
     if (recieverSocketId) {
       io.to(recieverSocketId).emit("newMessage", newMessage);
     }

@@ -58,6 +58,8 @@ import About from "./Pages/About.jsx";
 import ProfessionalOnboardingPolicy from "./Components/Policies/ProfessionalOnboardingPolicy.jsx";
 import Notification from "./Components/Notification.jsx";
 import { addNotification } from "./redux/notification.slice.js";
+import { addMessageToChat, markAllMessagesSeenInChat, updateConversationOnNewMessage, updateMessageStatus } from "./redux/chatMessages.slice.js";
+import { setOnlineUsers } from "./redux/presence.slice.js";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -86,9 +88,42 @@ const App = () => {
     socket.io.opts.query = { userId };
     socket.connect();
     // ✅ ONLINE USERS
-    // socket.on("getOnlineUsers", (users) => {
-    //   dispatch(setOnlineUsers(users));
-    // });
+    socket.on("getOnlineUsers", (users) => {
+      dispatch(setOnlineUsers(users));
+    });
+    // 1️⃣ New Message
+  socket.on("newMessage", (msg) => {
+    dispatch(addMessageToChat(msg));
+
+    dispatch(
+      updateConversationOnNewMessage({
+        senderId: msg.sender === userId ? msg.reciever : msg.sender,
+        message: msg.message || "📎 Attachment",
+        isMine: msg.sender === userId,
+      })
+    );
+  });
+
+  // 2️⃣ Message Delivered ✔
+  socket.on("messageDelivered", ({ messageId }) => {
+    dispatch(
+      updateMessageStatus({
+        messageId,
+        status: "delivered",
+        deliveredAt: new Date().toISOString(),
+      })
+    );
+  });
+
+  // 3️⃣ Messages Seen ✔✔
+  socket.on("messagesSeen", ({ seenBy }) => {
+    dispatch(
+      markAllMessagesSeenInChat({
+        myId: userId,
+        otherUserId: seenBy,
+      })
+    );
+  });
 
     // ✅ PROFESSIONAL SIDE
     socket.on("newBookingRequest", (booking) => {
@@ -117,6 +152,9 @@ const App = () => {
   
 
     return () => {
+      socket.off("newMessage");
+      socket.off("messageDelivered");
+      socket.off("messagesSeen");
       socket.off("getOnlineUsers");
       socket.off("newBookingRequest");
       socket.off("bookingCreated");
