@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   conversations: [],
   selectedConversation: null, // userId
+  totalUnreadCount : 0,
 };
 
 const messagesSlice = createSlice({
@@ -12,6 +13,10 @@ const messagesSlice = createSlice({
     // 🔹 set full conversation list
     setConversations: (state, action) => {
       state.conversations = action.payload;
+      state.totalUnreadCount = action.payload.reduce(
+    (sum, conv) => sum + (conv.unseenCount || 0),
+    0
+  );
     },
 
     // 🔹 select chat (open chat)

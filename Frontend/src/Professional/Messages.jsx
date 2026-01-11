@@ -11,7 +11,6 @@ const Messages = () => {
    const { currentUserData } = useSelector((state) => state.user);
   const role = currentUserData?.user?.userId?.role;
   const {conversations} = useSelector(state => state.messages);
-  console.log(conversations);
   return (
     <div className="card border-0 shadow-sm rounded-4 h-100">
 
@@ -74,7 +73,7 @@ const Messages = () => {
             <div className="flex-grow-1">
               <div className="d-flex justify-content-between align-items-center">
                 <h6 className="mb-0 fw-semibold text-dark">
-                  {conv.user.fullName}
+                  {conv.user.userId.fullName}
                 </h6>
                 <small className="text-muted">
                   {new Date(conv.lastMessageTime).toLocaleTimeString([], {

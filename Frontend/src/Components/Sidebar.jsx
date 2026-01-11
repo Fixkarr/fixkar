@@ -21,6 +21,9 @@ const Sidebar = () => {
   const unreadCount = useSelector(
     state => state.notifications.unreadCount
   );
+  const totalUnreadMessages = useSelector(
+  (state) => state.messages.totalUnreadCount
+);
   const role = currentUserData?.user?.userId?.role;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
 const dispatch = useDispatch()
@@ -194,6 +197,11 @@ const dispatch = useDispatch()
             <FiMessageSquare />
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Messages</span>
           </NavLink>
+           {totalUnreadMessages > 0 && (
+    <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+      {totalUnreadMessages}
+    </span>
+  )}
         </li>
         <li className="nav-item position-relative" style={{fontSize : "0.5vmax"}} onClick={handleBellClick}>
           <NavLink
@@ -305,6 +313,11 @@ const dispatch = useDispatch()
             <FiMessageSquare />
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Messages</span>
           </NavLink>
+                {totalUnreadMessages > 0 && (
+          <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+            {totalUnreadMessages}
+          </span>
+        )}
         </li>
       </>
     )}

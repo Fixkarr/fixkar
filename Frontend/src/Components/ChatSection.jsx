@@ -53,6 +53,18 @@ const ChatSection = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+  if (!recieverId) return;
+
+  axios.put(
+    `${server_url}/api/messages/mark-seen`,
+    { senderId: recieverId },
+    { withCredentials: true }
+  ).catch(err => {
+  });
+
+}, [recieverId]);
+
   /* ================= SEND MESSAGE ================= */
   const handleSend = async () => {
     if (!message.trim() && selectedFiles.length === 0) return;
@@ -92,7 +104,7 @@ const ChatSection = () => {
 
   return (
     <div className="card border-0 shadow rounded-4 overflow-hidden "
-    style={{ height: "100vh", display: "flex", flexDirection: "column" }}
+    style={{ height: "80vh", display: "flex", flexDirection: "column" }}
     >
 
       {/* ===== HEADER ===== */}
