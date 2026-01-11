@@ -113,7 +113,7 @@ const ChatSection = () => {
 
         <div>
           <h6 className="mb-0 fw-semibold">
-            {selectedConversationUser?.fullName}
+            {selectedConversationUser?.userId.fullName}
           </h6>
           <small
             className={`fw-semibold ${

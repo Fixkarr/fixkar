@@ -16,7 +16,6 @@ const useGetUserById = (userId) => {
                     user : result.data.user
                 }))
             } catch (error) {
-                console.log(error.message);
             }
        }
 
