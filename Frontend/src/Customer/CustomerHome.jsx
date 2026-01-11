@@ -106,14 +106,7 @@ const CustomerHome = () => {
     </div>
   )}
 
-  {/* ===== MESSAGES SECTION ===== */}
-  <div className="card border-0 shadow-sm rounded-4">
-    <div className="card-header bg-white border-0 d-flex align-items-center gap-2">
-      <FaUserCheck className="text-primary" />
-      <h6 className="mb-0 fw-semibold">Recent Messages</h6>
-    </div>
-  </div>
-
+  
 </div>
 
   )

@@ -2,32 +2,21 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { server_url } from "../App";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaCircle, FaRegCommentDots } from "react-icons/fa";
+import { fetchMyConversations } from "../redux/chat.thunks";
 
 const Messages = () => {
-  const { onlineUsers } = useSelector((state) => state.chat);
+  const dispatch = useDispatch()
+  const { onlineUsers, conversations } = useSelector((state) => state.chat);
   const { currentUserData } = useSelector((state) => state.user);
 
   const role = currentUserData?.user?.userId?.role;
-  const [conversations, setConversations] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMyConversation = async () => {
-      try {
-        const result = await axios.get(
-          `${server_url}/api/messages/get-my-conversations`,
-          { withCredentials: true }
-        );
-        setConversations(result?.data?.conversations);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-
-    fetchMyConversation();
-  }, []);
+    dispatch(fetchMyConversations())
+  }, [dispatch]);
 
   const isOnline = (userId) => onlineUsers.includes(userId);
 

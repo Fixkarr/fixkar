@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ImAttachment } from "react-icons/im";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {setMessages} from '../redux/chat.slice.js'
+import {clearUnseenCount, setMessages} from '../redux/chat.slice.js'
 import { server_url } from "../App";
 import { addMessage } from "../redux/chat.slice.js";
 import axios from 'axios'
@@ -71,14 +71,20 @@ useEffect(() => {
   };
 }, [selectedFiles]);
 
+  useEffect(() => {
+  if (!recieverId) return;
 
-useEffect(() => {
-  if (!recieverId || !onlineUsers.includes(recieverId)) return;
+  // 1️⃣ Backend source of truth
+  axios.put(
+    `${server_url}/api/messages/mark-seen`,
+    { senderId: recieverId },
+    { withCredentials: true }
+  );
 
-  socket.emit("markMessagesSeen", {
-    senderId: recieverId,
-  });
-}, [recieverId, onlineUsers]);
+  // 2️⃣ Redux inbox update
+  dispatch(clearUnseenCount(recieverId));
+
+}, [recieverId, dispatch]);
     
   useEffect(()=>{
        const fetchMessages = async () => {
@@ -117,7 +123,7 @@ useEffect(() => {
 
   socket.on("messagesSeen", handleSeen);
   return () => socket.off("messagesSeen", handleSeen);
-}, [messages, recieverId, myId]);
+}, [messages, recieverId, myId, dispatch]);
 
 
   useEffect(() => {

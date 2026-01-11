@@ -166,3 +166,33 @@ export const getMyConversations = async (req, res) => {
   }
 };
 
+export const markMessagesSeen = async(req,res)=>{
+    try {
+    const { senderId } = req.body;
+    const myId = req.userId;
+
+    await Message.updateMany(
+      {
+        sender: senderId,
+        reciever: myId,
+        status: { $ne: "seen" }
+      },
+      {
+        status: "seen",
+        seenAt: new Date()
+      }
+    );
+
+    // sender ko notify (ticks update)
+    const senderSocket = userSocketMap[senderId];
+    if (senderSocket) {
+      io.to(senderSocket).emit("messagesSeen", {
+        senderId: myId
+      });
+    }
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to mark seen" });
+  }
+}

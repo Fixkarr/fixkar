@@ -84,7 +84,7 @@ const Notifications = () => {
                     {item.message}
                   </p>
                   <small className="text-secondary">
-                    {formatDate(item.createdAt)}
+                    {formatDate(item.createdAt) || 'Just now'}
                   </small>
                 </div>
 
