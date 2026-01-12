@@ -9,6 +9,19 @@ import { store } from './redux/store.js'
 import { ToastContainer } from 'react-toastify'
   import {HelmetProvider} from 'react-helmet-async'
 
+  if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then((reg) => {
+        console.log("✅ SW registered:", reg.scope);
+      })
+      .catch((err) => {
+        console.error("❌ SW registration failed:", err);
+      });
+  });
+}
+
 createRoot(document.getElementById('root')).render(
  <HelmetProvider>
    <AuthProvider>
