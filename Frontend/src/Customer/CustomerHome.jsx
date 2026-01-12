@@ -16,6 +16,7 @@ import useGetNotifications from '../hooks/useGetNotifications'
 import { generateFCMToken } from '../utils/generateFCMToken'
 import EnableNotificationModal from '../Components/EnableNotificationModal'
 import { useEffect } from 'react'
+import { useState } from 'react'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
