@@ -60,7 +60,7 @@ const CustomerHome = () => {
 };
 
   const handleCloseModal = () => {
-    localStorage.setItem("notifPermissionAsked", "true");
+    localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
     setShowNotificationModal(false);
   };
 

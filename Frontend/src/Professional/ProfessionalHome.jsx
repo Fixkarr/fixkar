@@ -38,9 +38,9 @@ const ProfessionalHome = () => {
   }, [currentUserData]);
 
   useEffect(() => {
-    const alreadyAsked = localStorage.getItem("notifPermissionAsked");
+    const alreadyAsked = localStorage.getItem(`notif${currentUserData?.user?.userId?._id}`);
 
-    if (!alreadyAsked && Notification.permission === "default") {
+    if (!alreadyAsked || Notification.permission === "default" || Notification.permission === "denied") {
       setShowNotificationModal(true);
     }
   }, []);
@@ -49,7 +49,7 @@ const ProfessionalHome = () => {
     try {
       setNotifLoading(true);
       await generateFCMToken();
-      localStorage.setItem("notifPermissionAsked", "true");
+      localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
       setShowNotificationModal(false);
     } catch (err) {
       console.log(err);
@@ -59,7 +59,7 @@ const ProfessionalHome = () => {
   };
 
     const handleCloseModal = () => {
-    localStorage.setItem("notifPermissionAsked", "true");
+    localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
     setShowNotificationModal(false);
   };
 
