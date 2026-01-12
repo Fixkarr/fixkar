@@ -39,9 +39,9 @@ const CustomerHome = () => {
   };
 
    useEffect(() => {
-    const alreadyAsked = localStorage.getItem("notifPermissionAsked");
+    const alreadyAsked = localStorage.getItem(`notif${currentUserData?.user?.userId?._id}`);
 
-    if (!alreadyAsked && Notification.permission === "default") {
+    if (!alreadyAsked || Notification.permission === "default" || Notification.permission === "denied") {
       setShowNotificationModal(true);
     }
   }, []);
@@ -50,7 +50,7 @@ const CustomerHome = () => {
   try {
     setNotifLoading(true);
     await generateFCMToken(); // 🔔 permission popup yahin aayega
-    localStorage.setItem("notifPermissionAsked", "true");
+    localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
     setShowNotificationModal(false);
   } catch (err) {
     console.log(err);
