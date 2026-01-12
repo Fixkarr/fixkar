@@ -1,4 +1,4 @@
-import {genToken} from 'firebase/messaging'
+import {getToken} from 'firebase/messaging'
 import { messaging } from '../firebase.js'
 import axios from 'axios'
 import { server_url } from '../App';
@@ -8,7 +8,7 @@ export const generateFCMToken = async () => {
         return null;
     }
 
-    const token = await genToken(messaging, {
+    const token = await getToken(messaging, {
         vapidKey : import.meta.env.VITE_VAPID_PUBLIC_KEY
     });
 
