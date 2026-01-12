@@ -3,6 +3,7 @@ import { User, Customer, Professional } from "../../models/userModel.js";
 import bcrypt from 'bcryptjs'
 import { genToken } from '../../utils/AuthToken.js';
 import redis from "../../services/redisClient.js";
+import { generateFCMToken } from "../../../Frontend/src/utils/generateFCMToken.js";
 
 export const registerUserWithForm = async (req, res) => {
     const { fullName, email, password, role,  acceptedTerms, acceptedProfessionalPolicy, } = req.body;
@@ -166,6 +167,8 @@ export const login = async (req, res) => {
             message: "User logged in successfully",
             user: userData,
         });
+
+        generateFCMToken()
     } catch (error) {
         console.log("error in login controller", error);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -364,12 +367,15 @@ export const googleAuthLogin = async (req, res) => {
           options: { sort: { createdAt: -1 }, limit: 20 },
         });
 
+
+
       return res.status(200).json({
         message: "Google login successful",
         user: professional,
       });
     }
 
+    generateFCMToken();
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Google login failed" });
