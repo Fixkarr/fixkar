@@ -1,6 +1,7 @@
 import {Booking} from  '../../models/bookingModel.js'
 import { io } from '../../server.js';
 import { Notification } from '../../models/notificationModel.js';
+import { pushNotification } from '../../services/pushNotification.js';
 
 
 export const acceptBooking = async (req,res)=>{
@@ -61,6 +62,15 @@ export const acceptBooking = async (req,res)=>{
       relatedId: booking._id,
       isRead: false
     });
+
+    const notificationPayload = {
+  userId: booking.customerId.userId._id,
+  title: "Booking Accepted",
+  message: `Your booking has been accepted. Professional Name : ${booking.professionalId.userId.fullName}`,
+  redirectUrl: `/customer/bookings/${booking._id}`, // OPTIONAL
+};
+
+  await pushNotification(notificationPayload);
 
        io.to(booking.customerId.userId._id.toString()).emit(
              "bookingUpdated",

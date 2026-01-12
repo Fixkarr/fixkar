@@ -3,6 +3,7 @@ import { Notification } from "../../models/notificationModel.js";
 import { ReachedOtp } from "../../models/reachedOtpModel.js";
 import {io} from '../../server.js'
 import bcrypt from "bcryptjs";
+import { pushNotification } from "../../services/pushNotification.js";
 export const reachedToLocation = async (req, res)=>{
     try{
     const {bookingId} = req.body;
@@ -69,6 +70,16 @@ export const reachedToLocation = async (req, res)=>{
       relatedId: booking._id,
       isRead: false,
     });
+
+    
+      const notificationPayload = {
+      userId: booking.customerId.userId._id,
+      title: "Professional Reached Location",
+      message: `Professional ${booking.professionalId.userId.fullName} has reached your location. OTP : ${otp}`,
+      redirectUrl: `/customer/bookings/${booking._id}`, // OPTIONAL
+    };
+    
+      await pushNotification(notificationPayload);
 
     io.to(booking.customerId.userId._id.toString()).emit(
       "notification",

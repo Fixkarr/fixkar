@@ -64,6 +64,10 @@ professionalAcceptance: {
     type: String,
     select: false
   }
+},
+fcmTokens : {
+    type : [String], 
+    default : []
 }
 
 },{timestamps:true});   

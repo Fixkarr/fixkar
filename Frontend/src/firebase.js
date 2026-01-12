@@ -1,4 +1,5 @@
 import {initializeApp } from 'firebase/app';
+import {getMessaging } from 'firebase/messaging';
 import {getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification , signInWithPopup, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -12,8 +13,9 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-
+export const messaging = getMessaging(app);
 export {auth, provider, signInWithPopup, signOut, createUserWithEmailAndPassword, sendEmailVerification };

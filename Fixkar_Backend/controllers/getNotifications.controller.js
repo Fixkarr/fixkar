@@ -1,4 +1,5 @@
 import { Notification } from "../models/notificationModel.js";
+import { User } from "../models/userModel.js";
 
 export const getNotifications = async (req,res)=>{
     try {
@@ -17,6 +18,49 @@ export const getNotifications = async (req,res)=>{
          return res.status(500).json({
       success: false,
       message: "Internal server error"
+    });
+    }
+}
+
+export const saveFCMToken = async (req,res)=>{
+    try {
+        const userId = req.userId;
+        const {fcmToken} = req.body;
+
+        if (!fcmToken) {
+      return res.status(400).json({
+        success: false,
+        message: "FCM token is required",
+      });
+    }
+
+    const user = await User.findById(userId);
+    if(!user){
+        return res.status(404).json({
+        success: false,
+        message: "User not found",
+    })
+    }
+
+    if (user.fcmTokens.includes(fcmToken)) {
+      return res.status(200).json({
+        success: true,
+        message: "FCM token already saved",
+      });
+    }
+
+    user.fcmTokens.push(fcmToken);
+    await user.save();
+
+      return res.status(200).json({
+      success: true,
+      message: "FCM token saved successfully",
+    });
+
+    } catch (error) {
+          return res.status(500).json({
+      success: false,
+      message: "Internal server error",
     });
     }
 }

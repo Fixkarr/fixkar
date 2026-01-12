@@ -1,6 +1,7 @@
 import { Booking } from "../../models/bookingModel.js";
 import { Notification } from "../../models/notificationModel.js";
 import {io} from '../../server.js'
+import { pushNotification } from "../../services/pushNotification.js";
 export const cancelCustomerBooking = async (req, res) => {
     try {
         const { bookingId } = req.body;
@@ -62,6 +63,17 @@ export const cancelCustomerBooking = async (req, res) => {
         relatedId: booking._id,
         isRead: false,
       });
+
+      
+          const notificationPayload = {
+        userId: booking.professionalId.userId._id,
+        title: "Booking Cancelled",
+        message: `Your booking has been cancelled successfully. Customer Name : ${booking.customerId.userId.fullName}`,
+        redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
+      };
+      
+        await pushNotification(notificationPayload);
+
 
           io.to(booking.professionalId.userId._id.toString()).emit(
         "notification",

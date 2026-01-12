@@ -1,6 +1,7 @@
 import { Booking } from "../../models/bookingModel.js"
 import { Notification } from "../../models/notificationModel.js";
 import { io } from "../../server.js";
+import { pushNotification } from "../../services/pushNotification.js";
 
 export const rejectBooking = async (req,res)=>{
     try {
@@ -47,6 +48,16 @@ export const rejectBooking = async (req,res)=>{
       relatedId: updatedBooking._id,
       isRead: false,
     });
+
+    
+        const notificationPayload = {
+      userId: updatedBooking.customerId.userId._id,
+      title: "Booking Rejected",
+      message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
+      redirectUrl: `/customer/bookings/${updatedBooking._id}`, // OPTIONAL
+    };
+    
+      await pushNotification(notificationPayload);
 
     io.to(updatedBooking.customerId.userId._id.toString()).emit(
       "notification",

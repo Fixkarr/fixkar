@@ -2,6 +2,7 @@ import { Booking } from "../../models/bookingModel.js";
 import { Notification } from "../../models/notificationModel.js";
 import { Customer } from "../../models/userModel.js";
 import {io} from '../../server.js'
+import { pushNotification } from "../../services/pushNotification.js";
 export const sendHireRequest = async (req, res)=>{
     try {
         const {professionalId, profession, workDate, workTime, mobileNumber, problemDescription, visitingCharge, workAddress, distanceInKm, chargeType, customerName} = req.body;
@@ -53,6 +54,16 @@ export const sendHireRequest = async (req, res)=>{
       isRead: false,
     });
 
+    
+      const notificationPayload = {
+      userId: booking.professionalId.userId._id,
+      title: "New Booking Request",
+      message: `New hire request received from ${booking.customerId.userId.fullName}`,
+      redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
+    };
+    
+      await pushNotification(notificationPayload);
+
     io.to(booking.professionalId.userId._id.toString()).emit(
       "notification",
       {
@@ -63,6 +74,8 @@ export const sendHireRequest = async (req, res)=>{
         isRead: false,
       }
     );
+
+
 
 
        io.to(booking.professionalId.userId._id.toString()).emit(
