@@ -11,8 +11,9 @@ export const pushNotification = async ({
 
      
 const payload = {
-    notification: { title, body : message },
     data : {
+        title, 
+        body : message,
         redirectUrl : redirectUrl || '',
 
     },
@@ -20,5 +21,6 @@ const payload = {
   };
  
   return await admin.messaging().sendEachForMulticast(payload);
+
 
 }

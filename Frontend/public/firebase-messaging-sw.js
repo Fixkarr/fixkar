@@ -13,10 +13,35 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   self.registration.showNotification(
-    payload.notification.title,
+    payload.data.title,
     {
-      body: payload.notification.body,
+      body: payload.data.body,
       icon: "/favicon.png",   // same logo jo tum in-app me use karte ho
+      data : {
+         redirectUrl: payload.data.redirectUrl,
+      }
     }
   );
+});
+
+self.addEventListener("notificationclick", function (event) {
+  event.notification.close();
+
+  const redirectUrl = event.notification.data?.redirectUrl;
+
+  if (redirectUrl) {
+    event.waitUntil(
+      clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+        for (const client of clientList) {
+          if (client.url.includes("/") && "focus" in client) {
+            client.navigate(redirectUrl);
+            return client.focus();
+          }
+        }
+        if (clients.openWindow) {
+          return clients.openWindow(redirectUrl);
+        }
+      })
+    );
+  }
 });
