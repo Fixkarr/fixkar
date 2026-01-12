@@ -6,6 +6,7 @@ import {io} from '../server.js'
 import {Wallet} from '../models/walletModel.js'
 import {WalletTransaction } from '../models/walletTransactionModel.js'
 import { Notification } from '../models/notificationModel.js';
+import { pushNotification } from '../services/pushNotification.js';
 export const createOrder = async (req, res) => {
   try {
     const { bookingId, paymentType } = req.body;
@@ -220,17 +221,26 @@ await Notification.create({
   userId: booking.professionalId.userId._id,
   title: notificationTitle,
   message: notificationMessage,
-  type: "booking",
+  type: "booking_cancelled",
   relatedId: booking._id,
   isRead: false,
 });
+
+  const notificationPayload = {
+  userId: booking.professionalId.userId._id,
+  title: notificationTitle,
+  message: notificationMessage,
+  redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
+};
+
+  await pushNotification(notificationPayload);
 
 io.to(booking.professionalId.userId._id.toString()).emit(
   "notification",
   {
     title: notificationTitle,
     message: notificationMessage,
-    type: "booking",
+    type: "booking_cancelled",
     relatedId: booking._id,
     isRead: false,
   }
