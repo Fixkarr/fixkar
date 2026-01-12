@@ -14,10 +14,10 @@ import { ToastContainer } from 'react-toastify'
     navigator.serviceWorker
       .register("/firebase-messaging-sw.js")
       .then((reg) => {
-        console.log("✅ SW registered:", reg.scope);
+        console.log("SW registered:", reg.scope);
       })
       .catch((err) => {
-        console.error("❌ SW registration failed:", err);
+        console.error("SW registration failed:", err);
       });
   });
 }

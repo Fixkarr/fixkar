@@ -19,7 +19,7 @@ export const pushNotification = async ({
         tokens: user.fcmTokens,
     };
 
-    return await admin.messaging().sendEachForMulticast(payload);
-
-
+    const response = await admin.messaging().sendEachForMulticast(payload);
+    console.log("🔥 FCM RESPONSE:", JSON.stringify(response, null, 2));
+    return response
 }
