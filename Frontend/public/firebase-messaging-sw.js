@@ -11,22 +11,21 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-console.log("🔥 SW LOADED");
 
-messaging.onBackgroundMessage((payload) => {
-  console.log("🔥 FCM BG MESSAGE", payload);
+// messaging.onBackgroundMessage((payload) => {
+//   console.log("🔥 FCM BG MESSAGE", payload);
 
-  const title = payload?.data?.title || "Notification";
-  const body = payload?.data?.body || "";
+//   const title = payload?.data?.title || "Notification";
+//   const body = payload?.data?.body || "";
 
-  self.registration.showNotification(title, {
-    body,
-    icon: "/favicon.png",
-    data: {
-      redirectUrl: payload?.data?.redirectUrl || "/",
-    },
-  });
-});
+//   self.registration.showNotification(title, {
+//     body,
+//     icon: "/favicon.png",
+//     data: {
+//       redirectUrl: payload?.data?.redirectUrl || "/",
+//     },
+//   });
+// });
 
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
