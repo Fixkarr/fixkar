@@ -37,7 +37,7 @@ export const acceptBooking = async (req,res)=>{
       await Notification.create({
       userId: booking.customerId.userId._id,
       title: "Booking Accepted",
-      message: "Your booking has been accepted by the professional",
+      message: `Your booking has been accepted. Professional Name : ${booking.professionalId.userId.fullName}`,
       type: "booking_accepted",
       relatedId: booking._id,
       isRead: false

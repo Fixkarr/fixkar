@@ -206,22 +206,26 @@ export const verifyPayment = async (req,res)=>{
 
         let notificationTitle = "";
 let notificationMessage = "";
+let type = "";
 
 if (paymentType === "FINAL") {
   notificationTitle = "Work Completed & Payment Received";
   notificationMessage = `Work has been completed successfully. ₹${professionalAmount} has been added to your wallet.`;
+  type = "booking_completed";
 }
 
 if (paymentType === "CANCEL") {
   notificationTitle = "Work Cancelled & Payment Settled";
   notificationMessage = `Work has been cancelled. ₹${professionalAmount} has been added to your wallet as settlement.`;
+  type = "booking_cancelled";
+  
 }
 
 await Notification.create({
   userId: booking.professionalId.userId._id,
   title: notificationTitle,
   message: notificationMessage,
-  type: "booking_cancelled",
+  type: type,
   relatedId: booking._id,
   isRead: false,
 });
@@ -240,7 +244,7 @@ io.to(booking.professionalId.userId._id.toString()).emit(
   {
     title: notificationTitle,
     message: notificationMessage,
-    type: "booking_cancelled",
+    type: type,
     relatedId: booking._id,
     isRead: false,
   }
