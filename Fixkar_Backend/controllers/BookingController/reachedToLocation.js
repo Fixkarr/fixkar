@@ -65,7 +65,7 @@ export const reachedToLocation = async (req, res)=>{
       userId: booking.customerId.userId._id,
       title: "Professional Reached Location",
       message: `Professional ${booking.professionalId.userId.fullName} has reached your location. OTP : ${otp}`,
-      type: "booking",
+      type: "booking_reached",
       relatedId: booking._id,
       isRead: false,
     });
@@ -75,7 +75,7 @@ export const reachedToLocation = async (req, res)=>{
       {
         title: "Professional Reached Location",
         message: `Professional ${booking.professionalId.userId.fullName} has reached your location. OTP : ${otp}`,
-        type: "booking",
+        type: "booking_reached",
         relatedId: booking._id,
         isRead: false,
       }

@@ -49,7 +49,7 @@ export const cancelCustomerBooking = async (req, res) => {
         userId: booking.professionalId.userId._id,
         title: "Booking Cancelled",
         message: `Customer has cancelled the booking. Customer Name : ${booking.customerId.userId.fullName}`,
-        type: "booking",
+        type: "booking_cancelled",
         relatedId: booking._id,
         isRead: false,
       });
@@ -58,7 +58,7 @@ export const cancelCustomerBooking = async (req, res) => {
         userId: booking.customerId.userId._id,
         title: "Booking Cancelled",
         message: `Your booking has been cancelled successfully. Professional Name : ${booking.professionalId.userId.fullName}`,
-        type: "booking",
+        type: "booking_cancelled",
         relatedId: booking._id,
         isRead: false,
       });
@@ -68,7 +68,7 @@ export const cancelCustomerBooking = async (req, res) => {
         {
           title: "Booking Cancelled",
             message: `Customer has cancelled the booking. Customer Name : ${booking.customerId.userId.fullName}`,
-          type: "booking",
+          type: "booking_cancelled",
           relatedId: booking._id,
           isRead: false,
         }
@@ -79,7 +79,7 @@ export const cancelCustomerBooking = async (req, res) => {
         {
           title: "Booking Cancelled",
           message: `Your booking has been cancelled successfully. Professional Name : ${booking.professionalId.userId.fullName}`,
-          type: "booking",
+          type: "booking_cancelled",
           relatedId: booking._id,
           isRead: false,
         }

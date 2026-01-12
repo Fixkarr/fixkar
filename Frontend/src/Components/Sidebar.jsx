@@ -185,7 +185,7 @@ const dispatch = useDispatch()
         </li>
 
         
-        <li className="nav-item" style={{fontSize : "0.5vmax"}}>
+        <li className="nav-item position-relative" style={{fontSize : "0.5vmax"}}>
           <NavLink
             to="/customer/messages"
             className={({ isActive }) =>
@@ -267,7 +267,7 @@ const dispatch = useDispatch()
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Bookings</span>
           </NavLink>
         </li>
-         <li className="nav-item positive-relative" style={{fontSize : "0.5vmax"}} onClick={handleBellClick}>
+         <li className="nav-item position-relative" style={{fontSize : "0.5vmax"}} onClick={handleBellClick}>
           <NavLink
             to="professional/notifications"
             className={({ isActive }) =>
@@ -301,7 +301,7 @@ const dispatch = useDispatch()
           </NavLink>
         </li>
 
-        <li className="nav-item" style={{fontSize : "0.5vmax"}}>
+        <li className="nav-item position-relative" style={{fontSize : "0.5vmax"}}>
           <NavLink
             to="/professional/messages"
             className={({ isActive }) =>

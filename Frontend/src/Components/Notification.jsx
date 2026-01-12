@@ -6,14 +6,27 @@ import {
   FaEnvelopeOpenText,
   FaBellSlash,
 } from "react-icons/fa";
+import { LuCalendarCheck2 } from "react-icons/lu";
 import { formatDate } from "../utils/formatTime&Date";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { FaRegCalendarXmark } from "react-icons/fa6";
 
 const getIcon = (type) => {
   switch (type) {
     case "announcement":
       return <FaBullhorn className="text-warning fs-4" />;
-    case "booking":
-      return <FaCalendarCheck className="text-success fs-4" />;
+    case "booking_pending":
+      return <MdOutlinePendingActions  className="text-warning fs-4" />;
+    case "booking_accepted":
+      return <FaCalendarCheck className="text-primary fs-4" />;
+    case "booking_rejceted":
+      return <FaCalendarTimes  className="text-danger fs-4" />;
+    case "booking_cancelled":
+      return <FaRegCalendarXmark  className="text-danger fs-4" />;
+    case "booking_completed":
+      return <LuCalendarCheck2  className="text-success fs-4" />;
+    case "booking_reached":
+      return <RiMotorbikeFill  className="text-info fs-4" />;
     case "message":
       return <FaEnvelopeOpenText className="text-primary fs-4" />;
     default:

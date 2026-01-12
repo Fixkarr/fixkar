@@ -37,7 +37,7 @@ export const acceptBooking = async (req,res)=>{
       userId: booking.customerId.userId._id,
       title: "Booking Accepted",
       message: "Your booking has been accepted by the professional",
-      type: "booking",
+      type: "booking_accepted",
       relatedId: booking._id,
       isRead: false
     });
@@ -47,7 +47,7 @@ export const acceptBooking = async (req,res)=>{
       {
         title: "Booking Accepted",
         message: `Your booking has been accepted. Professional Name : ${booking.professionalId.userId.fullName}`,
-        type: "booking",
+        type: "booking_accepted",
         relatedId: booking._id,
         isRead: false
       }
@@ -57,7 +57,7 @@ export const acceptBooking = async (req,res)=>{
       userId: booking.professionalId.userId._id,
       title: "Booking Accepted",
       message: `You accepted a booking successfully. Customer Name : ${booking.customerId.userId.fullName}`,
-      type: "booking",
+      type: "booking_accepted",
       relatedId: booking._id,
       isRead: false
     });

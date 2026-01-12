@@ -43,7 +43,7 @@ export const rejectBooking = async (req,res)=>{
       userId: updatedBooking.customerId.userId._id,
       title: "Booking Rejected",
       message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
-      type: "booking",
+      type: "booking_rejected",
       relatedId: updatedBooking._id,
       isRead: false,
     });
@@ -53,7 +53,7 @@ export const rejectBooking = async (req,res)=>{
       {
         title: "Booking Rejected",
         message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
-        type: "booking",
+        type: "booking_rejected",
         relatedId: updatedBooking._id,
         isRead: false,
       }

@@ -48,7 +48,7 @@ export const sendHireRequest = async (req, res)=>{
       userId: booking.professionalId.userId._id,
       title: "New Booking Request",
       message: `New hire request received from ${booking.customerId.userId.fullName}`,
-      type: "booking",
+      type: "booking_pending",
       relatedId: booking._id,
       isRead: false,
     });
@@ -58,7 +58,7 @@ export const sendHireRequest = async (req, res)=>{
       {
         title: "New Booking Request",
         message: `New hire request received from ${booking.customerId.userId.fullName}`,
-        type: "booking",
+        type: "booking_pending",
         relatedId: booking._id,
         isRead: false,
       }
