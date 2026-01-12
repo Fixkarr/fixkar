@@ -10,7 +10,7 @@ export const pushNotification = async ({
 
 
      
-const message = {
+const payload = {
     notification: { title, body : message },
     data : {
         redirectUrl : redirectUrl || '',
@@ -19,7 +19,7 @@ const message = {
     tokens : user.fcmTokens,
   };
  
-  return await admin.messaging().sendEachForMulticast(message);
+  return await admin.messaging().sendEachForMulticast(payload);
 
 
 }
