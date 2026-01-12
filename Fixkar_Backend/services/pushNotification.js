@@ -21,5 +21,4 @@ const payload = {
  
   return await admin.messaging().sendEachForMulticast(payload);
 
-
 }
