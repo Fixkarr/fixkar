@@ -21,7 +21,7 @@ const getIcon = (type) => {
       return <MdOutlinePendingActions  className="text-warning fs-4" />;
     case "booking_accepted":
       return <FaCalendarCheck className="text-primary fs-4" />;
-    case "booking_rejceted":
+    case "booking_rejected":
       return <FaCalendarTimes  className="text-danger fs-4" />;
     case "booking_cancelled":
       return <FaRegCalendarXmark  className="text-danger fs-4" />;
