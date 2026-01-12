@@ -2,7 +2,7 @@ importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"
 importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js");
 
 firebase.initializeApp({
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  apiKey: 'AIzaSyA6UvlFZtuNIR_ciOc_JoiGSGLZtbeqins',
   authDomain: "fixkar-62c40.firebaseapp.com",
   projectId: "fixkar-62c40",
   messagingSenderId: "797851996951",

@@ -9,8 +9,13 @@ import { FaUserTie, FaExclamationTriangle, FaCalendarCheck } from "react-icons/f
 import { MdOutlineEventBusy } from "react-icons/md";
 import useGetMyBookings from "../hooks/useGetMyBookings";
 import useGetNotifications from "../hooks/useGetNotifications";
+import { generateFCMToken } from "../utils/generateFCMToken";
+import EnableNotificationModal from "../Components/EnableNotificationModal";
 
 const ProfessionalHome = () => {
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [notifLoading, setNotifLoading] = useState(false);
+
   useGetMyBookings()
   useGetNotifications()
   const navigate = useNavigate()
@@ -32,9 +37,42 @@ const ProfessionalHome = () => {
     
   }, [currentUserData]);
 
+  useEffect(() => {
+    const alreadyAsked = localStorage.getItem("notifPermissionAsked");
+
+    if (!alreadyAsked && Notification.permission === "default") {
+      setShowNotificationModal(true);
+    }
+  }, []);
+
+   const handleEnableNotifications = async () => {
+    try {
+      setNotifLoading(true);
+      await generateFCMToken();
+      localStorage.setItem("notifPermissionAsked", "true");
+      setShowNotificationModal(false);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setNotifLoading(false);
+    }
+  };
+
+    const handleCloseModal = () => {
+    localStorage.setItem("notifPermissionAsked", "true");
+    setShowNotificationModal(false);
+  };
 
   return (
- <div className="container-fluid p-md-5 p-3 bg-light">
+ <>
+    <EnableNotificationModal
+        show={showNotificationModal}
+        onClose={handleCloseModal}
+        onEnable={handleEnableNotifications}
+        loading={notifLoading}
+      />
+
+  <div className="container-fluid p-md-5 p-3 bg-light">
 
   {/* ===== TOP BAR ===== */}
   <div className="card border-0 shadow-lg rounded-4 mb-4 overflow-hidden">
@@ -148,6 +186,7 @@ const ProfessionalHome = () => {
   <ProfessionalWallet />
 
 </div>
+ </>
 
   );
 };

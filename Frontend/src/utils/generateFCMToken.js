@@ -1,5 +1,5 @@
 import {genToken} from 'firebase/messaging'
-import { messaging } from '../firebase'
+import { messaging } from '../firebase.js'
 import axios from 'axios'
 import { server_url } from '../App';
 export const generateFCMToken = async () => {

@@ -13,8 +13,14 @@ import { MdLocationOn } from "react-icons/md";
 import { IoSparkles } from "react-icons/io5";
 import useGetMyBookings from '../hooks/useGetMyBookings'
 import useGetNotifications from '../hooks/useGetNotifications'
+import { generateFCMToken } from '../utils/generateFCMToken'
+import EnableNotificationModal from '../Components/EnableNotificationModal'
+import { useEffect } from 'react'
 
 const CustomerHome = () => {
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [notifLoading, setNotifLoading] = useState(false);
+
   useGetMyBookings();
   useGetNotifications()
   const {currentUserData} = useSelector((state)=>state.user)
@@ -31,10 +37,41 @@ const CustomerHome = () => {
     navigate("/customer/hire-professionals");
   };
 
+   useEffect(() => {
+    const alreadyAsked = localStorage.getItem("notifPermissionAsked");
+
+    if (!alreadyAsked && Notification.permission === "default") {
+      setShowNotificationModal(true);
+    }
+  }, []);
+
+  const handleEnableNotifications = async () => {
+  try {
+    setNotifLoading(true);
+    await generateFCMToken(); // 🔔 permission popup yahin aayega
+    localStorage.setItem("notifPermissionAsked", "true");
+    setShowNotificationModal(false);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    setNotifLoading(false);
+  }
+};
+
+  const handleCloseModal = () => {
+    localStorage.setItem("notifPermissionAsked", "true");
+    setShowNotificationModal(false);
+  };
 
   
   return (
-    
+    <>
+    <EnableNotificationModal
+  show={showNotificationModal}
+  onClose={handleCloseModal}
+  onEnable={handleEnableNotifications}
+  loading={notifLoading}
+/>
     <div className="container-fluid p-3 bg-light">
 
   {/* ===== HERO SECTION ===== */}
@@ -108,6 +145,7 @@ const CustomerHome = () => {
 
   
 </div>
+    </>
 
   )
 }
