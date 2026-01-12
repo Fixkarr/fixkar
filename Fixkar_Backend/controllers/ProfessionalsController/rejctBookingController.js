@@ -50,7 +50,7 @@ export const rejectBooking = async (req,res)=>{
     });
 
     
-        const notificationPayload = {
+      const notificationPayload = {
       userId: updatedBooking.customerId.userId._id,
       title: "Booking Rejected",
       message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
