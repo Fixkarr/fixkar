@@ -12,6 +12,7 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
+   console.log("🔥 FCM onBackgroundMessage FIRED", payload);
   self.registration.showNotification(
     payload?.data?.title || 'Notification',
     {
