@@ -1,8 +1,8 @@
-importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging.js");
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyA6UvlFZtuNIR_ciOc_JoiGSGLZtbeqins',
+  apiKey: "AIzaSyA6UvlFZtuNIR_ciOc_JoiGSGLZtbeqins",
   authDomain: "fixkar-62c40.firebaseapp.com",
   projectId: "fixkar-62c40",
   messagingSenderId: "797851996951",
@@ -11,18 +11,21 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+console.log("🔥 SW LOADED");
+
 messaging.onBackgroundMessage((payload) => {
-   console.log("🔥 FCM onBackgroundMessage FIRED", payload);
-  self.registration.showNotification(
-    payload?.data?.title || 'Notification',
-    {
-      body: payload?.data?.body,
-      icon: "/favicon.png",   // same logo jo tum in-app me use karte ho
-      data : {
-         redirectUrl: payload?.data?.redirectUrl,
-      }
-    }
-  );
+  console.log("🔥 FCM BG MESSAGE", payload);
+
+  const title = payload?.data?.title || "Notification";
+  const body = payload?.data?.body || "";
+
+  self.registration.showNotification(title, {
+    body,
+    icon: "/favicon.png",
+    data: {
+      redirectUrl: payload?.data?.redirectUrl || "/",
+    },
+  });
 });
 
 self.addEventListener("notificationclick", function (event) {
