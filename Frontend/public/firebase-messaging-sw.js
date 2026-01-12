@@ -13,12 +13,12 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   self.registration.showNotification(
-    payload.data.title,
+    payload?.data?.title || 'Notification',
     {
-      body: payload.data.body,
+      body: payload?.data?.body,
       icon: "/favicon.png",   // same logo jo tum in-app me use karte ho
       data : {
-         redirectUrl: payload.data.redirectUrl,
+         redirectUrl: payload?.data?.redirectUrl,
       }
     }
   );
