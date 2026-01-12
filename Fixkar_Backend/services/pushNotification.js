@@ -1,4 +1,5 @@
 import { User } from "../models/userModel.js";
+import admin from '../config/firebaseAdmin.js'
 
 export const pushNotification = async ({
     userId, title, message, redirectUrl
