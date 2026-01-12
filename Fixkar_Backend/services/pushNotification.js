@@ -10,14 +10,26 @@ export const pushNotification = async ({
 
 
 
-    const payload = {
-        data: {
-            title,
-            body: message,
-            redirectUrl: redirectUrl || '',
-        },
-        tokens: user.fcmTokens,
-    };
+   const payload = {
+  data: {
+    redirectUrl: redirectUrl || "",
+  },
+  webpush: {
+    notification: {
+      title: title,
+      body: message,
+      icon: "/favicon.png",
+      data: {
+        redirectUrl: redirectUrl || "",
+      },
+    },
+    fcmOptions: {
+      link: redirectUrl || "/",   // 🔥 IMPORTANT
+    },
+  },
+  tokens: user.fcmTokens,
+};
+
 
     const response = await admin.messaging().sendEachForMulticast(payload);
     console.log("🔥 FCM RESPONSE:", JSON.stringify(response, null, 2));
