@@ -146,14 +146,13 @@ else if (attachmentsArray.length > 0) {
   }
 }
 
-if (!isReceiverOnline) {
-  await pushNotification({
+     await pushNotification({
     userId: recieverId,
     title: "New message",
     message: notificationMessage,
     redirectUrl: '/',
   });
-}
+
 
     // emit message via socket
     const recieverSocketId = userSocketMap[recieverId];
