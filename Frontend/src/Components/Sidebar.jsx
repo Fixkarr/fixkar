@@ -13,6 +13,8 @@ import axios from "axios";
 import { server_url } from "../App";
 import { markAllAsRead } from "../redux/notification.slice";
 import { toast } from "react-toastify";
+import useGetMyConversations from "../hooks/useGetMyConversations";
+useGetMyConversations();
 
 
 const Sidebar = () => {

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const Messages = () => {
   const navigate = useNavigate();
-  useGetMyConversations();
+  
    const { currentUserData } = useSelector((state) => state.user);
   const role = currentUserData?.user?.userId?.role;
   const {conversations} = useSelector(state => state.messages);
