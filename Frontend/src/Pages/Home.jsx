@@ -10,12 +10,10 @@ import { FaTools, FaMapMarkerAlt, FaBolt } from "react-icons/fa";
 import { IoSearchCircle } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
 import {Helmet} from 'react-helmet-async'
-import { useAuth } from '../context/AuthContext'
+
 const Home = () => {
   const navigate = useNavigate()
-  const auth = useAuth();
-  
-  console.log(auth);
+
   return (
    <>
   <Helmet>

@@ -104,7 +104,7 @@ const ChatSection = () => {
 
   return (
     <div className="card border-0 shadow rounded-4 overflow-hidden "
-    style={{ height: "90vh", display: "flex", flexDirection: "column" }}
+    style={{ height: "80vh", display: "flex", flexDirection: "column" }}
     >
 
       {/* ===== HEADER ===== */}
