@@ -14,10 +14,10 @@ import { server_url } from "../App";
 import { markAllAsRead } from "../redux/notification.slice";
 import { toast } from "react-toastify";
 import useGetMyConversations from "../hooks/useGetMyConversations";
-useGetMyConversations();
 
 
 const Sidebar = () => {
+  useGetMyConversations();
   const { currentUserData } = useSelector((state) => state.user);
   const {currentAdmin} = useSelector(state=> state.admin)
   const unreadCount = useSelector(
