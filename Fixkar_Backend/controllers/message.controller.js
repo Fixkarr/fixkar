@@ -146,7 +146,7 @@ else if (attachmentsArray.length > 0) {
   }
 }
 
-     await pushNotification({
+    await pushNotification({
     userId: recieverId,
     title: "New message",
     message: notificationMessage,
@@ -312,7 +312,7 @@ if (messages.length === 0) {
       msg.deleteFor.push(myId);
       await msg.save();
 
-      // 🔥 CHECK: both sender & receiver deleted?
+
       const senderDeleted = msg.deleteFor.includes(msg.sender.toString());
       const receiverDeleted = msg.deleteFor.includes(msg.reciever.toString());
 
