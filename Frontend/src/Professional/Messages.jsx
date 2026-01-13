@@ -1,13 +1,12 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { BsCheck2All } from "react-icons/bs";
-import useGetMyConversations from "../hooks/useGetMyConversations";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Messages = () => {
   const navigate = useNavigate();
-  
+
    const { currentUserData } = useSelector((state) => state.user);
   const role = currentUserData?.user?.userId?.role;
   const {conversations} = useSelector(state => state.messages);

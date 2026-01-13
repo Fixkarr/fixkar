@@ -12,7 +12,7 @@ const useGetCurrentAdmin = () => {
              const result = await axios.get(`${server_url}/api/admin/get-current-admin`, {withCredentials : true});
               dispatch(setCurrentAdmin(result.data.admin));
            } catch (error) {
-
+           
            }
         }
     fetchAdmin()
