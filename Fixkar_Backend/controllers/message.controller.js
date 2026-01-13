@@ -4,6 +4,7 @@ import { Message } from "../models/messageModel.js";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 import { io, userSocketMap } from "../server.js"
 import cloudinary from "../config/cloudinary.js"
+import { pushNotification } from "../services/pushNotification.js";
 
 export const getMessages = async (req, res) => {
   try {
@@ -97,6 +98,38 @@ export const sendMessage = async (req, res) => {
         status: isReceiverOnline ? "delivered" : "sent",
         deliveredAt: isReceiverOnline ? new Date() : null,
     });
+
+    let notificationMessage = "";
+
+// TEXT has highest priority
+if (message && message.trim() !== "") {
+  notificationMessage =
+    message.length > 80
+      ? message.substring(0, 80) + "..."
+      : message;
+}
+
+// ONLY MEDIA
+else if (attachmentsArray.length > 0) {
+  const hasVideo = attachmentsArray.some(
+    (att) => att.fileType === "video"
+  );
+
+  if (hasVideo) {
+    notificationMessage = "🎥 Video";
+  } else if (attachmentsArray.length === 1) {
+    notificationMessage = "📷 Photo";
+  } else {
+    notificationMessage = "📎 Media";
+  }
+}
+
+await pushNotification({
+  userId: recieverId,              // 👈 receiver
+  title: "New message",
+  message: notificationMessage,    // 👈 correct preview
+  redirectUrl: `/`, // chat open
+});
 
     // emit message via socket
     const recieverSocketId = userSocketMap[recieverId];

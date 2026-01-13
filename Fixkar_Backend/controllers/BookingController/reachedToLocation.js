@@ -62,10 +62,10 @@ export const reachedToLocation = async (req, res)=>{
     await booking.save();
 
     
-    await Notification.create({
+    const notification = await Notification.create({
       userId: booking.customerId.userId._id,
-      title: "Professional Reached Location",
-      message: `Professional ${booking.professionalId.userId.fullName} has reached your location. OTP : ${otp}`,
+      title: "Professional Reached to your Location",
+      message: `${booking.professionalId.userId.fullName} has reached your location. Reached OTP is ${otp}`,
       type: "booking_reached",
       relatedId: booking._id,
       isRead: false,
@@ -73,9 +73,9 @@ export const reachedToLocation = async (req, res)=>{
 
     
       const notificationPayload = {
-      userId: booking.customerId.userId._id,
-      title: "Professional Reached Location",
-      message: `Professional ${booking.professionalId.userId.fullName} has reached your location. OTP : ${otp}`,
+      userId: notification.userId,
+      title: notification.title,
+      message: notification.message,
       redirectUrl: `/customer/bookings/${booking._id}`, // OPTIONAL
     };
     
@@ -84,11 +84,12 @@ export const reachedToLocation = async (req, res)=>{
     io.to(booking.customerId.userId._id.toString()).emit(
       "notification",
       {
-        title: "Professional Reached Location",
-        message: `Professional ${booking.professionalId.userId.fullName} has reached your location. OTP : ${otp}`,
-        type: "booking_reached",
-        relatedId: booking._id,
-        isRead: false,
+        title: notification.title,
+        message: notification.message,
+        type: notification.type,
+        relatedId: notification.relatedId,
+        isRead: notification.isRead,
+        createdAt: notification.createdAt,
       }
     );
 

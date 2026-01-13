@@ -34,7 +34,7 @@ export const acceptBooking = async (req,res)=>{
   booking.status = "accepted";
      await booking.save();
 
-      await Notification.create({
+     const notification =  await Notification.create({
       userId: booking.customerId.userId._id,
       title: "Booking Accepted",
       message: `Your booking has been accepted. Professional Name : ${booking.professionalId.userId.fullName}`,
@@ -46,22 +46,14 @@ export const acceptBooking = async (req,res)=>{
     io.to(booking.customerId.userId._id.toString()).emit(
       "notification",
       {
-        title: "Booking Accepted",
-        message: `Your booking has been accepted. Professional Name : ${booking.professionalId.userId.fullName}`,
-        type: "booking_accepted",
-        relatedId: booking._id,
-        isRead: false
+        title: notification.title,
+        message: notification.message,
+        type: notification.type,
+        relatedId: notification.relatedId,
+        isRead: notification.isRead,
+        createdAt: notification.createdAt,
       }
     );
-
-     await Notification.create({
-      userId: booking.professionalId.userId._id,
-      title: "Booking Accepted",
-      message: `You accepted a booking successfully. Customer Name : ${booking.customerId.userId.fullName}`,
-      type: "booking_accepted",
-      relatedId: booking._id,
-      isRead: false
-    });
 
     const notificationPayload = {
   userId: booking.customerId.userId._id,

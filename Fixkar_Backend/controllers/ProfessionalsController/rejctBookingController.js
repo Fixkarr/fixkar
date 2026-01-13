@@ -40,7 +40,7 @@ export const rejectBooking = async (req,res)=>{
       });
     }
 
-     await Notification.create({
+     const notification = await Notification.create({
       userId: updatedBooking.customerId.userId._id,
       title: "Booking Rejected",
       message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
@@ -51,9 +51,9 @@ export const rejectBooking = async (req,res)=>{
 
     
       const notificationPayload = {
-      userId: updatedBooking.customerId.userId._id,
-      title: "Booking Rejected",
-      message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
+      userId: notification.userId,
+      title: notification.title,
+      message: notification.message,
       redirectUrl: `/customer/bookings/${updatedBooking._id}`, // OPTIONAL
     };
     
@@ -62,11 +62,12 @@ export const rejectBooking = async (req,res)=>{
     io.to(updatedBooking.customerId.userId._id.toString()).emit(
       "notification",
       {
-        title: "Booking Rejected",
-        message: `Your booking has been rejected by ${updatedBooking.professionalId.userId.fullName}. Reason: ${finalReason}`,
-        type: "booking_rejected",
-        relatedId: updatedBooking._id,
-        isRead: false,
+        title: notification.title,
+        message: notification.message,
+        type: notification.type,
+        relatedId: notification.relatedId,
+        isRead: notification.isRead,
+        createdAt: notification.createdAt,
       }
     );
 

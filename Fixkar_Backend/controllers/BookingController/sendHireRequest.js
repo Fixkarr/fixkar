@@ -45,10 +45,10 @@ export const sendHireRequest = async (req, res)=>{
     },
   }).populate('review');
 
-   await Notification.create({
+   const notification = await Notification.create({
       userId: booking.professionalId.userId._id,
       title: "New Booking Request",
-      message: `New hire request received from ${booking.customerId.userId.fullName}`,
+      message: `New hire request received from ${booking.customerName}`,
       type: "booking_pending",
       relatedId: booking._id,
       isRead: false,
@@ -56,9 +56,9 @@ export const sendHireRequest = async (req, res)=>{
 
     
       const notificationPayload = {
-      userId: booking.professionalId.userId._id,
-      title: "New Booking Request",
-      message: `New hire request received from ${booking.customerId.userId.fullName}`,
+      userId: notification.userId,
+      title: notification.title,
+      message: notification.message,
       redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
     };
     
@@ -67,11 +67,12 @@ export const sendHireRequest = async (req, res)=>{
     io.to(booking.professionalId.userId._id.toString()).emit(
       "notification",
       {
-        title: "New Booking Request",
-        message: `New hire request received from ${booking.customerId.userId.fullName}`,
-        type: "booking_pending",
-        relatedId: booking._id,
-        isRead: false,
+        title: notification.title,
+        message: notification.message,
+        type: notification.type,
+        relatedId: notification.relatedId,
+        isRead: notification.isRead,
+        createdAt: notification.createdAt,
       }
     );
 

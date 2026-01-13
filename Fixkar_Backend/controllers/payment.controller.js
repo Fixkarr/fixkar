@@ -210,18 +210,18 @@ let type = "";
 
 if (paymentType === "FINAL") {
   notificationTitle = "Work Completed & Payment Received";
-  notificationMessage = `Work has been completed successfully. ₹${professionalAmount} has been added to your wallet.`;
+  notificationMessage = `${booking.customerName}'s Work has been completed successfully. ₹${professionalAmount} has been added to your wallet.`;
   type = "booking_completed";
 }
 
 if (paymentType === "CANCEL") {
   notificationTitle = "Work Cancelled & Payment Settled";
-  notificationMessage = `Work has been cancelled. ₹${professionalAmount} has been added to your wallet as settlement.`;
+  notificationMessage = `${booking.customerName} has cancelled the work. ₹${professionalAmount} has been added to your wallet as settlement.`;
   type = "booking_cancelled";
   
 }
 
-await Notification.create({
+const notification = await Notification.create({
   userId: booking.professionalId.userId._id,
   title: notificationTitle,
   message: notificationMessage,
@@ -231,9 +231,9 @@ await Notification.create({
 });
 
   const notificationPayload = {
-  userId: booking.professionalId.userId._id,
-  title: notificationTitle,
-  message: notificationMessage,
+  userId: notification.userId,
+  title: notification.title,
+  message: notification.message,
   redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
 };
 
@@ -242,11 +242,12 @@ await Notification.create({
 io.to(booking.professionalId.userId._id.toString()).emit(
   "notification",
   {
-    title: notificationTitle,
-    message: notificationMessage,
-    type: type,
-    relatedId: booking._id,
-    isRead: false,
+    title: notification.title,
+    message: notification.message,
+    type: notification.type,
+    relatedId: notification.relatedId,
+    isRead: notification.isRead,
+    createdAt: notification.createdAt,
   }
 );
 

@@ -46,57 +46,38 @@ export const cancelCustomerBooking = async (req, res) => {
             booking.status = "cancelled";
             await booking.save();
 
-             await Notification.create({
+         const notification =   await Notification.create({
         userId: booking.professionalId.userId._id,
         title: "Booking Cancelled",
-        message: `Customer has cancelled the booking. Customer Name : ${booking.customerId.userId.fullName}`,
+        message: `Customer has cancelled the booking. Customer Name : ${booking.customerName}`,
         type: "booking_cancelled",
         relatedId: booking._id,
         isRead: false,
       });
 
-          await Notification.create({
-        userId: booking.customerId.userId._id,
-        title: "Booking Cancelled",
-        message: `Your booking has been cancelled successfully. Professional Name : ${booking.professionalId.userId.fullName}`,
-        type: "booking_cancelled",
-        relatedId: booking._id,
-        isRead: false,
-      });
 
       
           const notificationPayload = {
-        userId: booking.professionalId.userId._id,
-        title: "Booking Cancelled",
-        message: `Your booking has been cancelled successfully. Customer Name : ${booking.customerId.userId.fullName}`,
+        userId: notification.userId,
+        title: notification.title,
+        message: notification.message,
         redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
       };
       
         await pushNotification(notificationPayload);
 
 
-          io.to(booking.professionalId.userId._id.toString()).emit(
+        io.to(booking.professionalId.userId._id.toString()).emit(
         "notification",
         {
-          title: "Booking Cancelled",
-            message: `Customer has cancelled the booking. Customer Name : ${booking.customerId.userId.fullName}`,
-          type: "booking_cancelled",
-          relatedId: booking._id,
-          isRead: false,
+          title: notification.title,
+          message: notification.message,
+          type: notification.type,
+          relatedId: notification.relatedId,
+          isRead: notification.isRead,
+          createdAt: notification.createdAt,
         }
       );
-
-      io.to(booking.customerId.userId._id.toString()).emit(
-        "notification",
-        {
-          title: "Booking Cancelled",
-          message: `Your booking has been cancelled successfully. Professional Name : ${booking.professionalId.userId.fullName}`,
-          type: "booking_cancelled",
-          relatedId: booking._id,
-          isRead: false,
-        }
-      );
-
 
               io.to(booking.customerId.userId._id.toString()).emit(
         "bookingUpdated",
