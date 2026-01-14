@@ -22,6 +22,7 @@ const ProfessionalDetailCard = ({ p }) => {
   const [reason, setReason] = useState('');
   const [accLoad, setAccLoad] = useState(false);
   const [rejLoad, setRejLoad] = useState(false);
+  const [showRejectBox, setShowRejectBox]  = useState(false);
   const handleAccept = async (proId) => {
     try {
       setAccLoad(true);
@@ -172,65 +173,57 @@ const ProfessionalDetailCard = ({ p }) => {
 
             <button
               className="btn btn-outline-danger px-4 fw-semibold shadow d-flex align-items-center gap-2"
-              id="liveToastBtn"
+              onClick={()=> setShowRejectBox(true)}
             >
               <FaTimes />
               Reject Application
             </button>
 
-            <div className="toast-container position-fixed bottom-0 end-0 p-3">
-              <div
-                id="liveToast"
-                className="toast"
-                role="alert"
-                aria-live="assertive"
-                aria-atomic="true"
-              >
-                <div className="toast-header">
-                  <strong className="me-auto">Give Reason for Rejection</strong>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="toast"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="toast-body">
-                  <h6 className="fw-semibold text-primary mb-2 d-flex align-items-center gap-2">
-                    <FaTimesCircle />
-                    Rejection Reason
-                  </h6>
+            {showRejectBox && (
+  <div className="card mt-3 border-danger">
+    <div className="card-body bg-light rounded-3">
+      <h6 className="fw-semibold text-danger d-flex align-items-center gap-2">
+        <FaTimesCircle />
+        Rejection Reason
+      </h6>
 
-                  <p className="text-muted small mb-3">
-                    Please mention the reason for rejecting this application.
-                    This feedback will help the professional improve and apply
-                    again.
-                  </p>
+      <textarea
+        className="form-control mb-3"
+        rows="4"
+        placeholder="Enter rejection reason..."
+        value={reason}
+        onChange={(e) => setReason(e.target.value)}
+      />
 
-                  {/* TEXTAREA */}
-                  <div className="mb-3">
-                    <textarea
-                      className="form-control"
-                      rows="4"
-                      placeholder="Enter rejection reason here..."
-                      value={reason}
-                      onChange={(e)=>setReason(e.target.value)}
-                    />
-                  </div>
+      <div className="d-flex justify-content-end gap-2">
+        <button
+          className="btn btn-secondary"
+          onClick={() => setShowRejectBox(false)}
+        >
+          Cancel
+        </button>
 
-                  {/* ACTION BUTTON */}
-                  <div className="d-flex justify-content-end">
-                    <button className="btn btn-danger px-4 d-flex align-items-center gap-2 shadow-sm"
-                    disabled={rejLoad}
-                    onClick={()=>handleReject(p.userId._id, reason)}
-                    >
-                      <FaPaperPlane />
-                      Send & Reject
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <button
+          className="btn btn-danger d-flex align-items-center gap-2"
+          disabled={rejLoad}
+          onClick={() => {
+            if (!reason.trim()) {
+              toast.error("Please enter rejection reason");
+              return;
+            }
+            handleReject(p.userId._id, reason);
+            setShowRejectBox(false);
+            setReason("");
+          }}
+        >
+          <FaPaperPlane />
+          Send & Reject
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
           </div>
         )}
 
