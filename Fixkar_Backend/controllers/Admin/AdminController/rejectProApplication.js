@@ -10,7 +10,7 @@ export const rejectApplication = async (req,res)=>{
             })
         }
         const admin = req.admin;
-        const professional = await Professional.findOne({userId : proUserId});
+        const professional = await Professional.findOne({userId : proUserId}).populate('userId', '-password');
         if(!professional){
             return res.status(404).json({
                 message : "Professional not found"
