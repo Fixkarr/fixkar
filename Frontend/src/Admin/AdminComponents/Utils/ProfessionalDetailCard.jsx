@@ -9,6 +9,7 @@ import {
   FaMoneyBillWave,
 } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa6";
+import DayCard from "../../../Professional/DayCard";
 
 const ProfessionalDetailCard = ({ p }) => {
   return (
@@ -169,13 +170,16 @@ const ProfessionalDetailCard = ({ p }) => {
         ) : (
           <div className="d-flex flex-wrap gap-2">
             {p.busyDays.map((day, idx) => (
-              <span
-                key={idx}
-                className="badge bg-warning text-dark shadow-sm"
-              >
-                {new Date(day).toLocaleDateString()}
-              </span>
+               <DayCard
+                        key={day}
+                        year={new Date(day).getFullYear()}
+                        day={String(new Date(day).getDate()).padStart(2, "0")}
+                        month={new Date(day).toLocaleString("default", {
+                          month: "short",
+                        })}
+                      />
             ))}
+           
           </div>
         )}
       </div>
