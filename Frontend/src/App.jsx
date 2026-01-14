@@ -168,7 +168,8 @@ const App = () => {
   // ROOT REDIRECT HANDLER LOGIC
   // ---------------------------
   const redirectUser = () => {
-    if (!currentUserData) return <Home />;
+    if (!currentUserData && !currentAdmin) return <Home />;
+    if(currentAdmin) return <Navigate to={adminpath}/>
 
     if (role === "customer") return <Navigate to="/customer/home" replace />;
 
