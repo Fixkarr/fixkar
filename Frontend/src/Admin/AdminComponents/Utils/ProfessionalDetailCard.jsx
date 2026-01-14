@@ -28,7 +28,7 @@ const ProfessionalDetailCard = ({ p }) => {
       setAccLoad(true);
       const result = await axios.post(
         `${server_url}/api/admin/accept-professional-application`,
-        { proId },
+        {proUserId : proId },
         { withCredentials: true }
       );
       toast.success(result.data.message);
@@ -43,7 +43,7 @@ const ProfessionalDetailCard = ({ p }) => {
       setRejLoad(true);
       const result = await axios.post(
         `${server_url}/api/admin/reject-professional-application`,
-        { proId, reason },
+        { proUserId : proId, reason },
         { withCredentials: true }
       );
       toast.success(result.data.message);
