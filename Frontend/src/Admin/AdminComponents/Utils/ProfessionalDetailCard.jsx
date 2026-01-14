@@ -7,6 +7,8 @@ import {
   FaStar,
   FaBirthdayCake,
   FaMoneyBillWave,
+  FaCheck,
+  FaTimes,
 } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa6";
 import DayCard from "../../../Professional/DayCard";
