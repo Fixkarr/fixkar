@@ -14,288 +14,30 @@ import { FaUserTie } from "react-icons/fa6";
 import DayCard from "../../../Professional/DayCard";
 
 const ProfessionalDetailCard = ({ p }) => {
-//   return (
-//     <div
-//   className="card border-0 shadow-lg rounded-4 mt-3 overflow-hidden"
-//   style={{
-//     background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
-//   }}
-// >
-//   {/* ================= HEADER STRIP ================= */}
-//   <div
-//     className="px-4 py-3 text-white"
-//     style={{
-//       background: "linear-gradient(90deg, #141e30, #243b55)",
-//     }}
-//   >
-//     <h5 className="mb-0 fw-bold d-flex align-items-center">
-//       <FaUserTie className="me-2 text-warning" />
-//       Professional Details
-//     </h5>
-//   </div>
-
-//   <div className="card-body bg-light">
-
-//     {/* ================= TOP SECTION ================= */}
-//     <div className="row align-items-center mb-4">
-
-//       {/* PROFILE IMAGE */}
-//       <div className="col-md-3 text-center">
-//         {p.profilePicture ? (
-//           <div
-//             className="rounded-circle mx-auto shadow"
-//             style={{
-//               width: "130px",
-//               height: "130px",
-//               padding: "5px",
-//               background:
-//                 "linear-gradient(135deg, #00c6ff, #0072ff)",
-//             }}
-//           >
-//             <img
-//               src={p.profilePicture}
-//               alt="Profile"
-//               className="rounded-circle w-100 h-100"
-//               style={{ objectFit: "cover" }}
-//             />
-//           </div>
-//         ) : (
-//           <div className="text-muted">No Profile Image</div>
-//         )}
-//       </div>
-
-//       {/* BASIC INFO */}
-//       <div className="col-md-6">
-//         <h5 className="fw-bold mb-1">{p.userId?.fullName}</h5>
-//         <div className="text-muted small mb-2">
-//           {p.userId?.email}
-//         </div>
-
-//         {p.onBoarded !== undefined && (
-//           <span
-//             className={`badge px-3 py-2 ${
-//               p.onBoarded ? "bg-success" : "bg-danger"
-//             }`}
-//           >
-//             {p.onBoarded ? (
-//               <>
-//                 <FaCheckCircle className="me-1" />
-//                 Onboarded
-//               </>
-//             ) : (
-//               <>
-//                 <FaTimesCircle className="me-1" />
-//                 Not Onboarded
-//               </>
-//             )}
-//           </span>
-//         )}
-//       </div>
-
-//       {/* DOB */}
-//       <div className="col-md-3 text-end">
-//         {p.dob && (
-//           <div className="small text-muted">
-//             <FaBirthdayCake className="me-1 text-warning" />
-//             {new Date(p.dob).toLocaleDateString()}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-
-//     <hr />
-
-//     {/* ================= DESCRIPTION ================= */}
-//     {p.description && (
-//       <div className="mb-4">
-//         <h6 className="fw-semibold text-primary">Description</h6>
-//         <p className="text-muted small mb-0">
-//           {p.description}
-//         </p>
-//       </div>
-//     )}
-
-//     {/* ================= CHARGES ================= */}
-//     {p.charges && (
-//       <div className="mb-4">
-//         <h6 className="fw-semibold text-success mb-2">
-//           <FaMoneyBillWave className="me-1" />
-//           Charges
-//         </h6>
-
-//         <div className="d-flex flex-wrap gap-2">
-//           {p.charges.hourly && (
-//             <span className="badge bg-white text-dark shadow-sm">
-//               Hourly: ₹{p.charges.hourly.amount}
-//             </span>
-//           )}
-
-//           {p.charges.daily && (
-//             <span className="badge bg-white text-dark shadow-sm">
-//               Daily: ₹{p.charges.daily.amount}
-//             </span>
-//           )}
-
-//           {p.charges.contract?.minAmount && (
-//             <span className="badge bg-white text-dark shadow-sm">
-//               Contract Min: ₹{p.charges.contract.minAmount}
-//             </span>
-//           )}
-
-//           {p.charges.contract?.maxAmount && (
-//             <span className="badge bg-white text-dark shadow-sm">
-//               Contract Max: ₹{p.charges.contract.maxAmount}
-//             </span>
-//           )}
-//         </div>
-
-//         {p.charges.amountDesc && (
-//           <div className="text-muted small mt-2">
-//             {p.charges.amountDesc}
-//           </div>
-//         )}
-//       </div>
-//     )}
-
-//     {/* ================= BUSY DAYS ================= */}
-//     {Array.isArray(p.busyDays) && (
-//       <div className="mb-4">
-//         <h6 className="fw-semibold text-danger mb-2">
-//           <FaCalendarAlt className="me-1" />
-//           Busy Days
-//         </h6>
-
-//         {p.busyDays.length === 0 ? (
-//           <div className="text-muted small">
-//             No busy days
-//           </div>
-//         ) : (
-//           <div className="d-flex flex-wrap gap-2">
-//             {p.busyDays.map((day, idx) => (
-//                <DayCard
-//                         key={day}
-//                         year={new Date(day).getFullYear()}
-//                         day={String(new Date(day).getDate()).padStart(2, "0")}
-//                         month={new Date(day).toLocaleString("default", {
-//                           month: "short",
-//                         })}
-//                       />
-//             ))}
-           
-//           </div>
-//         )}
-//       </div>
-//     )}
-
-//     {/* ================= POI ================= */}
-//     {p.poi && (
-//       <div className="mb-4">
-//         <h6 className="fw-semibold text-primary mb-2">
-//           Proof of Identity
-//         </h6>
-
-//         {(() => {
-//           const imageExtensions = ["jpg", "jpeg", "png", "webp", "gif"];
-//           const extension = p.poi.split(".").pop()?.toLowerCase();
-//           const isImage = imageExtensions.includes(extension);
-
-//           return isImage ? (
-//             <img
-//               src={p.poi}
-//               alt="POI"
-//               className="img-fluid rounded shadow-sm"
-//               style={{ maxWidth: "220px" }}
-//             />
-//           ) : (
-//             <a
-//               href={p.poi}
-//               target="_blank"
-//               rel="noreferrer"
-//               className="btn btn-sm btn-outline-primary"
-//             >
-//               Download Document
-//             </a>
-//           );
-//         })()}
-//       </div>
-//     )}
-
-//     {/* ================= REVIEWS ================= */}
-//     {Array.isArray(p.reviews) && (
-//       <div>
-//         <h6 className="fw-semibold mb-3 text-dark">
-//           Reviews
-//         </h6>
-
-//         {p.reviews.length === 0 ? (
-//           <div className="text-muted small">
-//             No reviews yet
-//           </div>
-//         ) : (
-//           p.reviews.map((r, idx) => (
-//             <div
-//               key={idx}
-//               className="p-3 mb-3 rounded-3 text-light"
-//               style={{
-//                 background:
-//                   "linear-gradient(135deg, #141e30, #243b55)",
-//               }}
-//             >
-//               <div className="d-flex justify-content-between">
-//                 <strong>{r.customerName}</strong>
-//                 <span className="text-warning">
-//                   {Array.from({ length: r.rating }).map((_, i) => (
-//                     <FaStar key={i} />
-//                   ))}
-//                 </span>
-//               </div>
-
-//               <div className="small text-secondary">
-//                 CustomerId: {r.customerId}
-//               </div>
-//               <div className="small text-secondary mb-2">
-//                 BookingId: {r.bookingId}
-//               </div>
-
-//               <p className="small mb-1">{r.review}</p>
-//               <div className="small text-secondary">
-//                 {new Date(r.createdAt).toLocaleDateString()}
-//               </div>
-//             </div>
-//           ))
-//         )}
-//       </div>
-//     )}
-
-//   </div>
-// </div>
-
-//   );
-
 return (
   <div
     className="card border-0 shadow-lg rounded-4 mt-4 overflow-hidden"
     style={{
       background:
-        "linear-gradient(135deg, rgba(15,32,39,0.95), rgba(32,58,67,0.95), rgba(44,83,100,0.95))",
+        "linear-gradient(135deg, rgba(17,24,39,0.95), rgba(31,41,55,0.95))",
       backdropFilter: "blur(10px)",
     }}
   >
     {/* ================= HEADER ================= */}
     <div
-      className="px-4 py-3 text-white d-flex justify-content-between align-items-center"
+      className="px-4 py-4 text-white d-flex justify-content-between align-items-center"
       style={{
-        background: "linear-gradient(90deg, #141e30, #243b55)",
+        background: "linear-gradient(90deg, #4f46e5, #06b6d4)",
       }}
     >
-      <h5 className="mb-0 fw-bold d-flex align-items-center">
-        <FaUserTie className="me-2 text-warning" />
-        Professional Details
-      </h5>
+      <h4 className="mb-0 fw-bold d-flex align-items-center gap-2">
+        <FaUserTie />
+        Professional Profile
+      </h4>
 
       {p.status && (
         <span
-          className={`badge px-3 py-2 text-uppercase ${
+          className={`badge px-3 py-2 rounded-pill text-uppercase fw-semibold ${
             p.status === "pending"
               ? "bg-warning text-dark"
               : p.status === "approved"
@@ -308,28 +50,28 @@ return (
       )}
     </div>
 
-    <div className="card-body bg-light">
+    <div className="card-body bg-light rounded-bottom-4">
 
-      {/* ================= TOP SECTION ================= */}
-      <div className="row align-items-center mb-4">
+      {/* ================= PROFILE ROW ================= */}
+      <div className="row align-items-center g-4 mb-4">
 
-        {/* PROFILE IMAGE */}
+        {/* IMAGE */}
         <div className="col-md-3 text-center">
           {p.profilePicture ? (
             <div
-              className="rounded-circle mx-auto shadow"
+              className="mx-auto rounded-circle shadow-lg"
               style={{
-                width: "130px",
-                height: "130px",
-                padding: "5px",
+                width: 140,
+                height: 140,
+                padding: 5,
                 background:
-                  "linear-gradient(135deg, #00c6ff, #0072ff)",
+                  "linear-gradient(135deg, #6366f1, #22d3ee)",
               }}
             >
               <img
                 src={p.profilePicture}
-                alt="Profile"
-                className="rounded-circle w-100 h-100"
+                alt="profile"
+                className="w-100 h-100 rounded-circle"
                 style={{ objectFit: "cover" }}
               />
             </div>
@@ -338,16 +80,16 @@ return (
           )}
         </div>
 
-        {/* BASIC INFO */}
+        {/* INFO */}
         <div className="col-md-6">
           <h5 className="fw-bold mb-1">{p.userId?.fullName}</h5>
-          <div className="text-muted small mb-2">
+          <p className="text-muted small mb-2">
             {p.userId?.email}
-          </div>
+          </p>
 
           {p.onBoarded !== undefined && (
             <span
-              className={`badge px-3 py-2 ${
+              className={`badge px-3 py-2 rounded-pill ${
                 p.onBoarded ? "bg-success" : "bg-danger"
               }`}
             >
@@ -369,7 +111,7 @@ return (
         {/* DOB */}
         <div className="col-md-3 text-end">
           {p.dob && (
-            <div className="small text-muted">
+            <div className="text-muted small">
               <FaBirthdayCake className="me-1 text-warning" />
               {new Date(p.dob).toLocaleDateString()}
             </div>
@@ -379,39 +121,37 @@ return (
 
       {/* ================= ACTION BUTTONS ================= */}
       {p.onBoarded === true && p.status === "pending" && (
-        <div className="d-flex justify-content-end gap-3 mb-4">
-          <button
-            className="btn btn-success px-4 shadow-sm d-flex align-items-center gap-2"
-          >
+        <div
+          className="d-flex justify-content-end gap-3 mb-4 p-3 rounded-3"
+          style={{
+            background:
+              "linear-gradient(135deg, #eef2ff, #ecfeff)",
+          }}
+        >
+          <button className="btn btn-success px-4 fw-semibold shadow d-flex align-items-center gap-2">
             <FaCheck />
             Accept Application
           </button>
 
-          <button
-            className="btn btn-outline-danger px-4 shadow-sm d-flex align-items-center gap-2"
-          >
+          <button className="btn btn-outline-danger px-4 fw-semibold shadow d-flex align-items-center gap-2">
             <FaTimes />
             Reject Application
           </button>
         </div>
       )}
 
-      <hr />
-
       {/* ================= DESCRIPTION ================= */}
       {p.description && (
         <div className="mb-4">
-          <h6 className="fw-semibold text-primary">Description</h6>
-          <p className="text-muted small mb-0">
-            {p.description}
-          </p>
+          <h6 className="fw-bold text-primary">Description</h6>
+          <p className="text-muted small">{p.description}</p>
         </div>
       )}
 
       {/* ================= CHARGES ================= */}
       {p.charges && (
         <div className="mb-4">
-          <h6 className="fw-semibold text-success mb-2">
+          <h6 className="fw-bold text-success mb-2">
             <FaMoneyBillWave className="me-1" />
             Charges
           </h6>
@@ -419,28 +159,133 @@ return (
           <div className="d-flex flex-wrap gap-2">
             {p.charges.hourly && (
               <span className="badge bg-white text-dark shadow-sm">
-                Hourly: ₹{p.charges.hourly.amount}
+                Hourly ₹{p.charges.hourly.amount}
               </span>
             )}
             {p.charges.daily && (
               <span className="badge bg-white text-dark shadow-sm">
-                Daily: ₹{p.charges.daily.amount}
+                Daily ₹{p.charges.daily.amount}
               </span>
             )}
             {p.charges.contract?.minAmount && (
               <span className="badge bg-white text-dark shadow-sm">
-                Contract Min: ₹{p.charges.contract.minAmount}
+                Min ₹{p.charges.contract.minAmount}
               </span>
             )}
             {p.charges.contract?.maxAmount && (
               <span className="badge bg-white text-dark shadow-sm">
-                Contract Max: ₹{p.charges.contract.maxAmount}
+                Max ₹{p.charges.contract.maxAmount}
               </span>
             )}
           </div>
+
+          {p.charges.amountDesc && (
+            <p className="text-muted small mt-2">
+              {p.charges.amountDesc}
+            </p>
+          )}
         </div>
       )}
 
+      {/* ================= BUSY DAYS ================= */}
+      {Array.isArray(p.busyDays) && (
+        <div className="mb-4">
+          <h6 className="fw-bold text-danger mb-2">
+            <FaCalendarAlt className="me-1" />
+            Busy Days
+          </h6>
+
+          {p.busyDays.length === 0 ? (
+            <p className="text-muted small">No busy days</p>
+          ) : (
+            <div className="d-flex flex-wrap gap-2">
+              {p.busyDays.map((day) => (
+                <DayCard
+                  key={day}
+                  year={new Date(day).getFullYear()}
+                  day={String(new Date(day).getDate()).padStart(2, "0")}
+                  month={new Date(day).toLocaleString("default", {
+                    month: "short",
+                  })}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ================= POI ================= */}
+      {p.poi && (
+        <div className="mb-4">
+          <h6 className="fw-bold text-primary mb-2">
+            Proof of Identity
+          </h6>
+
+          {(() => {
+            const ext = p.poi.split(".").pop()?.toLowerCase();
+            const img = ["jpg", "jpeg", "png", "webp", "gif"].includes(ext);
+
+            return img ? (
+              <img
+                src={p.poi}
+                alt="poi"
+                className="img-fluid rounded shadow"
+                style={{ maxWidth: 240 }}
+              />
+            ) : (
+              <a
+                href={p.poi}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-outline-primary btn-sm"
+              >
+                Download Document
+              </a>
+            );
+          })()}
+        </div>
+      )}
+
+      {/* ================= REVIEWS ================= */}
+      {Array.isArray(p.reviews) && (
+        <div>
+          <h6 className="fw-bold mb-3">Reviews</h6>
+
+          {p.reviews.length === 0 ? (
+            <p className="text-muted small">No reviews yet</p>
+          ) : (
+            p.reviews.map((r, i) => (
+              <div
+                key={i}
+                className="p-3 mb-3 rounded-3 text-white shadow"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #1e293b, #334155)",
+                }}
+              >
+                <div className="d-flex justify-content-between">
+                  <strong>{r.customerName}</strong>
+                  <span className="text-warning">
+                    {Array.from({ length: r.rating }).map((_, i) => (
+                      <FaStar key={i} />
+                    ))}
+                  </span>
+                </div>
+
+                <p className="small text-secondary mb-1">
+                  BookingId: {r.bookingId}
+                </p>
+
+                <p className="small">{r.review}</p>
+
+                <p className="small text-secondary mb-0">
+                  {new Date(r.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   </div>
 );
