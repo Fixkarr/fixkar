@@ -9,6 +9,7 @@ import {
   FaMoneyBillWave,
   FaCheck,
   FaTimes,
+  FaPaperPlane,
 } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa6";
 import DayCard from "../../../Professional/DayCard";
@@ -224,7 +225,7 @@ const ProfessionalDetailCard = ({ p }) => {
                     onClick={()=>handleReject(p.userId._id, reason)}
                     >
                       <FaPaperPlane />
-                      Reject & Send
+                      Send & Reject
                     </button>
                   </div>
                 </div>
