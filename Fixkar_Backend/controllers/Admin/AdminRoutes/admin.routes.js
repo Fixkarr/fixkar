@@ -8,6 +8,8 @@ import { addService } from '../AdminController/addService.js';
 import upload from '../../../middlewares/multer.js'
 import { getAllCustomers } from '../AdminController/getAllCustomers.js';
 import { getAllProfessionals } from '../../ProfessionalsController/getAllProfessionals.js';
+import { acceptApplication } from '../AdminController/acceptProApplication.js';
+import { rejectApplication } from '../AdminController/rejectProApplication.js';
 
 const adminRouter = express.Router()
 
@@ -17,6 +19,10 @@ adminRouter.get('/get-current-admin', isAdmin, getCurrentAdmin);
 
 adminRouter.post('/create-service', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), addService)
 
-adminRouter.get('/get-all-customers', isAdmin, adminPermission('super_admin'), getAllCustomers);
+adminRouter.get('/get-all-customers', isAdmin, adminPermission('super_admin', 'professional_admin'), getAllCustomers);
 adminRouter.get('/get-all-professionals', isAdmin, adminPermission('super_admin', 'professional_admin'), getAllProfessionals)
+
+
+adminRouter.post('/accept-professional-application', isAdmin, adminPermission('super_admin', 'professional_admin'), acceptApplication);
+adminRouter.post('/reject-professional-application', isAdmin, adminPermission('super_admin', 'professional_admin'), rejectApplication);
 export default adminRouter;

@@ -124,7 +124,11 @@ const professionalSchema = new mongoose.Schema({
     },
     onBoarded : {type : Boolean, default : false},
     busyDays : [{type : String}],
-    reviews : [{type : mongoose.Schema.Types.ObjectId, ref : "Review",}]
+    reviews : [{type : mongoose.Schema.Types.ObjectId, ref : "Review",}],
+    rejectionCount : {type : Number, default : 0},
+    acceptedBy : {type : mongoose.Schema.Types.ObjectId, ref : "Admin"},
+    rejectedBy : {type : mongoose.Schema.Types.ObjectId, ref : "Admin"},
+
 },{timestamps : true});
 
 professionalSchema.index({location : "2dsphere"})
