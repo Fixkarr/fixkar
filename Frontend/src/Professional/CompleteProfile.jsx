@@ -64,6 +64,7 @@ export default function CompleteProfile() {
         description: values.description,
         amountDesc: values.amountDesc,
         pricingType: values.pricingType,
+        skills: selectedSkills,  
         hourly: values.hourly ? { amount: Number(values.hourly) } : undefined,
         daily: values.daily ? { amount: Number(values.daily) } : undefined,
         contract:
