@@ -18,7 +18,7 @@ export const acceptApplication = async (req,res)=>{
             })
         }
 
-        const service = await Service.findOne({name : professional.profession});
+        const service = await Service.findById(professional.profession._id);
         if(!service){
             return res.status(400).json({
                 message : "Service not found for the professional's profession"
