@@ -209,7 +209,7 @@ const AdminSearch = ({ customers, professionals }) => {
                           {/* CENTER */}
                           <div className="col-md-4 text-center">
                             <span className="badge bg-info me-2">
-                              {p.profession}
+                              {p.profession.name}
                             </span>
 
                             <span
