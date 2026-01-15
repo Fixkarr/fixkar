@@ -34,7 +34,7 @@ const AdminServices = () => {
               Services Management
             </h4>
             <p className="mb-0 text-light opacity-75">
-              Manage all platform services & professionals
+             Manage all platform services & skills
             </p>
           </div>
 
@@ -64,81 +64,65 @@ const AdminServices = () => {
       </div>
 
       {/* ================= TABLE ================= */}
-      <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
-        <div className="table-responsive">
-          <table className="table table-hover align-middle mb-0">
-            <thead className="table-dark">
-              <tr>
-                <th>#</th>
-                <th>Service</th>
-                <th>Description</th>
-                <th className="text-center">
-                  <FaUsers className="me-1" />
-                  Professionals
-                </th>
-                <th className="text-center">
-                  <FaInfoCircle />
-                </th>
-              </tr>
-            </thead>
+       <div className="row g-4">
+        {services?.length > 0 ? (
+          services.map((service) => (
+            <div className="col-xl-3 col-lg-4 col-md-6" key={service._id}>
+              <div className="card border-0 shadow-lg rounded-4 h-100 service-card">
+                {/* Image */}
+                <img
+                  src={service.image}
+                  alt={service.name}
+                  className="card-img-top rounded-top-4"
+                  style={{ height: 160, objectFit: "cover" }}
+                />
 
-            <tbody>
-              {services.length > 0 ? (
-                services?.map((service, index) => (
-                  <tr key={service._id || index}>
-                    {/* Index */}
-                    <td className="fw-semibold">{index + 1}</td>
+                <div className="card-body d-flex flex-column">
+                  {/* Title */}
+                  <h5 className="fw-bold mb-1">{service.name}</h5>
+                  <p className="text-muted small">
+                    {service.description}
+                  </p>
 
-                    {/* Service Image + Name */}
-                    <td>
-                      <div className="d-flex align-items-center gap-3">
-                        <img
-                          src={service.image}
-                          alt={service.name}
-                          style={{
-                            width: 48,
-                            height: 48,
-                            objectFit: "cover",
-                            borderRadius: "10px",
-                          }}
-                          className="shadow-sm"
-                        />
-                        <span className="fw-semibold">
-                          {service.name}
+                  {/* Skills */}
+                  <div className="mb-3">
+                    {service.skills?.length > 0 ? (
+                      service.skills.map((skill) => (
+                        <span
+                          key={skill._id}
+                          className="badge bg-primary me-2 mb-2 px-3 py-2 rounded-pill"
+                        >
+                          {skill.name}
                         </span>
-                      </div>
-                    </td>
-
-                    {/* Description */}
-                    <td className="text-muted">
-                      {service.description}
-                    </td>
-
-                    {/* Professionals Count */}
-                    <td className="text-center">
-                      <span className="badge bg-primary fs-6 px-3 py-2 rounded-pill">
-                        {service.professionalCount}
+                      ))
+                    ) : (
+                      <span className="text-muted small">
+                        No skills added
                       </span>
-                    </td>
+                    )}
+                  </div>
 
-                    {/* Action */}
-                    <td className="text-center">
-                      <button className="btn btn-sm btn-outline-info rounded-pill px-3">
-                        View
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="text-center py-4 text-muted">
-                    No services found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                  {/* Footer */}
+                  <div className="mt-auto d-flex justify-content-between align-items-center">
+                    <span className="badge bg-success px-3 py-2 rounded-pill">
+                      <FaUsers className="me-1" />
+                      {service.professionalCount} Pros
+                    </span>
+
+                    <button className="btn btn-sm btn-outline-info rounded-pill px-3">
+                      <FaInfoCircle className="me-1" />
+                      View
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="col-12 text-center text-white opacity-75 py-5">
+            No services found
+          </div>
+        )}
       </div>
     </div>
   );
