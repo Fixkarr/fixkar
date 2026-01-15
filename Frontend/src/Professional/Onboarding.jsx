@@ -190,7 +190,7 @@ const Onboarding = ({ userData }) => {
         >
           <option value="">Select Profession</option>
           {services?.map((srv)=>{
-            return <option value={srv.name} key={srv._id}>{srv.name}</option>
+            return <option value={srv._id} key={srv._id}>{srv.name}</option>
           })}
         </select>
       </div>
