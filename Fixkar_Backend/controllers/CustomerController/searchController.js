@@ -77,6 +77,15 @@ export const searchProfessionals = async (req, res) => {
       }
     );
 
+    pipeline.push({
+  $lookup: {
+    from: "skills",
+    localField: "selectedSkills",
+    foreignField: "_id",
+    as: "selectedSkills",
+  },
+});
+
     // 🔗 Populate user
     pipeline.push(
       {
