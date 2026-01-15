@@ -6,6 +6,7 @@ import {
   FaAlignLeft,
   FaPlusCircle,
   FaServicestack,
+  FaTimes
 } from "react-icons/fa";
 import { server_url } from "../../../App";
 import { toast } from "react-toastify";
@@ -22,6 +23,9 @@ const AddServiceForm = () => {
     image: null,
   });
 
+  const [skillInput, setSkillInput] = useState("");
+  const [skills, setSkills] = useState([]);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
@@ -32,8 +36,31 @@ const AddServiceForm = () => {
     }
   };
 
+   const addSkill = () => {
+    if (!skillInput.trim()) return;
+
+    if (skills.includes(skillInput.trim())) {
+      toast.warning("Skill already added");
+      return;
+    }
+
+    setSkills([...skills, skillInput.trim()]);
+    setSkillInput("");
+  };
+
+  const removeSkill = (skill) => {
+    setSkills(skills.filter((s) => s !== skill));
+  };
+
   const handleSubmit = async(e) => {
     e.preventDefault();
+
+    
+    if (!formData.image) {
+      toast.error("Service image is required");
+      return;
+    }
+
 
     // 🔥 For now only console
     try {
@@ -43,6 +70,10 @@ const AddServiceForm = () => {
     data.append("description", formData.description);
     data.append("image", formData.image); // 🔥 FILE HERE
 
+      skills.forEach((skill) => {
+        data.append("skills[]", skill);
+      });
+
         const result = await axios.post(`${server_url}/api/admin/create-service`, data, {withCredentials : true,
             headers : {
           "Content-Type": "multipart/form-data",
@@ -50,6 +81,11 @@ const AddServiceForm = () => {
         });
         dispatch(setServices(result.data.services))
         toast.info(result.data.message)
+
+      setFormData({ name: "", description: "", image: null });
+      setSkills([]);
+      setSkillInput("");
+
         setLoading(false)
     } catch (error) {
         console.log(error)
@@ -73,7 +109,7 @@ const AddServiceForm = () => {
             Add New Service
           </h4>
           <p className="mb-0 text-light opacity-75">
-            Create a new service for FixKar platform
+             Create service with related skills
           </p>
         </div>
 
@@ -112,6 +148,45 @@ const AddServiceForm = () => {
                 onChange={handleChange}
                 required
               ></textarea>
+            </div>
+
+             <div className="mb-3">
+              <label className="form-label fw-semibold">
+                Skills under this service
+              </label>
+
+              <div className="d-flex gap-2">
+                <input
+                  type="text"
+                  className="form-control rounded-3"
+                  placeholder="Fan Repair"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="btn btn-success rounded-3"
+                  onClick={addSkill}
+                >
+                  Add
+                </button>
+              </div>
+
+              {/* Skill Chips */}
+              <div className="mt-2 d-flex flex-wrap gap-2">
+                {skills.map((skill, index) => (
+                  <span
+                    key={index}
+                    className="badge bg-primary d-flex align-items-center gap-2 px-3 py-2"
+                  >
+                    {skill}
+                    <FaTimes
+                      style={{ cursor: "pointer" }}
+                      onClick={() => removeSkill(skill)}
+                    />
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Image Upload */}
