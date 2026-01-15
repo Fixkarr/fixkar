@@ -96,7 +96,7 @@ export const rejectApplication = async (req,res)=>{
     <!-- CTA BUTTON -->
     <div style="text-align:center; margin:28px 0;">
       <a
-        href="{{retryLink}}"
+        href="https://fixkar.netlify.app/login"
         style="
           display:inline-block;
           padding:14px 34px;
