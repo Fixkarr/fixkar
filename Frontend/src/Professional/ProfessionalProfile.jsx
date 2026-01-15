@@ -67,7 +67,7 @@ const ProfessionalProfile = () => {
       !ProfessionalDetails?.charges?.amountDesc
   );
 
-  console.log(ProfessionalDetails);
+
   const reviews = ProfessionalDetails?.reviews
   const navigate = useNavigate();
 

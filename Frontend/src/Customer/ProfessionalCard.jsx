@@ -36,7 +36,6 @@ const ProfessionalCard = ({ data }) => {
         SetDistance(result);
       } catch (err) {
         toast.error(err.message);
-        console.error("Distance Error ❌", err);
       }
     };
 

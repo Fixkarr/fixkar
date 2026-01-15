@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     password : {
         type : String,
+        select : false
     },
     isMobileVerified : {type : Boolean, 
         default : false
@@ -67,7 +68,8 @@ professionalAcceptance: {
 },
 fcmTokens : {
     type : [String], 
-    default : []
+    default : [],
+    select : false
 }
 
 },{timestamps:true});   
