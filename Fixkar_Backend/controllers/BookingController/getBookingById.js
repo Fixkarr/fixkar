@@ -18,14 +18,17 @@ export const getBookingById = async (req,res)=>{
         select : "fullName"
       }
     }).populate({
-      path : "professionalId",
-      select : 'profilePicture address',
-      populate : {
-        path : "userId",
-        model : "User",
-        select : "fullName"
-      }
-    }).populate('review')
+    path: "professionalId",
+    select: "profilePicture address userId profession",
+    populate: [{
+      path: "userId",
+      model: "User",
+      select: "fullName",
+    },
+  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+     {path : "selectedSkills", select : "name"}
+],
+  }).populate('review');
 
     if(!booking){
         return res.status(400).json({

@@ -16,12 +16,15 @@ export const cancelCustomerBooking = async (req, res) => {
   })
   .populate({
     path: "professionalId",
-    select: "profilePicture address userId",
-    populate: {
+    select: "profilePicture address userId profession",
+    populate: [{
       path: "userId",
       model: "User",
       select: "fullName",
     },
+  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+     {path : "selectedSkills", select : "name"}
+],
   }).populate('review');
 
         if (!booking) {

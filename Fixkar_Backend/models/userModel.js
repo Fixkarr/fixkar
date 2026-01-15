@@ -77,8 +77,8 @@ export const User = mongoose.model("User", userSchema);
 const professionalSchema = new mongoose.Schema({
     userId : {type : mongoose.Schema.Types.ObjectId, ref : "User", required : true},
     dob : {type : Date},
-    profession : {type : String},
-    skills : [{type : mongoose.Schema.Types.ObjectId, ref : "Skill"}], 
+    profession : {type : mongoose.Schema.Types.ObjectId, ref : "Service"},
+    selectedSkills : [{type : mongoose.Schema.Types.ObjectId, ref : "Skill"}],
     description : {type : String},
     address : {addressLine : String,
         lat : Number,

@@ -280,6 +280,7 @@ const RequestHireForm = ({ proInfo }) => {
               value={formData.workAddress}
               onChange={handleChange}
               required
+              disabled
             />
           </div>
 

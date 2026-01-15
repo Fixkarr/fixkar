@@ -36,7 +36,15 @@ export const setBusyDays = async (req,res)=>{
 .populate({
   path: "gallery",
   options: { sort: { createdAt: -1 }, limit: 20 } // latest gallery
-});
+}).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  });
+  
         return res.status(200).json({
             message : "Dates updated!",
             user : updatedProfessional

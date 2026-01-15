@@ -5,7 +5,7 @@ import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
 import { CiLocationOn } from "react-icons/ci";
 import { IoChatbubbleEllipsesOutline, IoCallOutline } from "react-icons/io5";
-import { FaUserTie, FaMoneyBillWave, FaInfoCircle } from "react-icons/fa";
+import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools } from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
 import { useDispatch } from "react-redux";
 import { setSelectedProfessional } from "../redux/professionalInfo.slice";
@@ -105,7 +105,7 @@ const ProfessionalInfo = () => {
                 </h4>
                 <div className="d-flex align-items-center gap-2">
                   <FaUserTie />
-                  <span>{professionalInfo?.profession}</span>
+                  <span>{professionalInfo?.profession.name}</span>
                 </div>
                 <span className="badge bg-success mt-2">
                   {professionalInfo?.status?.[0]?.toUpperCase() +
@@ -185,6 +185,50 @@ const ProfessionalInfo = () => {
 
   </div>
 </div>
+
+{/* ================= SKILLS & EXPERTISE ================= */}
+<div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
+
+  {/* Header */}
+  <div
+    className="px-4 py-3 text-white"
+    style={{
+      background: "linear-gradient(135deg, #6f42c1, #9b6dff)",
+    }}
+  >
+    <div className="d-flex align-items-center gap-2">
+      <FaTools size={18} />
+      <h6 className="mb-0 fw-semibold">Skills & Expertise</h6>
+    </div>
+    <small className="opacity-75">
+      Services this professional is experienced in
+    </small>
+  </div>
+
+  {/* Body */}
+  <div className="card-body bg-light">
+    {professionalInfo?.selectedSkills &&
+    professionalInfo.selectedSkills.length > 0 ? (
+      <div className="d-flex flex-wrap gap-2">
+        {professionalInfo.selectedSkills.map((skill) => (
+          <span
+            key={skill._id}
+            className="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-semibold"
+            style={{ fontSize: "0.85rem" }}
+          >
+            {skill.name}
+          </span>
+        ))}
+      </div>
+    ) : (
+      <div className="alert alert-warning border-0 rounded-4 mb-0">
+        <strong>No skills listed.</strong><br />
+        This professional has not added specific skills yet.
+      </div>
+    )}
+  </div>
+</div>
+
 
 
       {/* ================= CHARGES ================= */}

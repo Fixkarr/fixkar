@@ -65,7 +65,18 @@ export const postReview = async(req,res)=>{
         select: "fullName",
       },
     },
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
+  
         io.to(populatedBooking.customerId.userId._id.toString()).emit(
             "bookingUpdated",
              populatedBooking

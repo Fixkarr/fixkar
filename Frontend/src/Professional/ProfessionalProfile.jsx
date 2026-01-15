@@ -23,6 +23,7 @@ import CompleteProfileToast from "./CompleteProfileToast";
 import UpdateCharges from "./UpdateCharges";
 import MyGallery from "./MyGallery";
 import ProReviews from "./ProReviews";
+import { FaTools } from "react-icons/fa";
 
 const ProfessionalProfile = () => {
   const [profilePicture, setProfilePicture] = useState(null);
@@ -146,7 +147,7 @@ const ProfessionalProfile = () => {
               {ProfessionalDetails?.userId?.fullName}
             </h4>
             <span className="badge bg-primary">
-              {ProfessionalDetails?.profession}
+              {ProfessionalDetails?.profession.name}
             </span>
           </div>
 
@@ -345,6 +346,39 @@ const ProfessionalProfile = () => {
 </div>
 
         <hr />
+        {/* ================= MY SKILLS ================= */}
+{ProfessionalDetails?.selectedSkills && (
+  <div className="card border-0 shadow-sm rounded-4 mb-3">
+    <div className="card-body">
+
+      <div className="d-flex align-items-center gap-2 mb-2">
+        <FaTools className="text-primary" />
+        <h6 className="mb-0 fw-semibold">My Skills</h6>
+      </div>
+
+      {ProfessionalDetails.selectedSkills.length > 0 ? (
+        <div className="d-flex flex-wrap gap-2">
+          {ProfessionalDetails.selectedSkills.map((skill) => (
+            <span
+              key={skill._id}
+              className="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-semibold"
+              style={{ fontSize: "0.85rem" }}
+            >
+              {skill.name}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <div className="alert alert-warning small mb-0">
+          You have not selected any skills yet.  
+          Complete your profile to add skills.
+        </div>
+      )}
+
+    </div>
+  </div>
+)}
+
         <div className="profile-lower p-2">
           {!isProfileComplete && <CompleteProfileToast />}
          {reviews.length !==0 && <div className="review">

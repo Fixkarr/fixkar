@@ -174,6 +174,16 @@ export const verifyPayment = async (req,res)=>{
       model: "User",
       select: "fullName",
     },
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
 
         if(paymentType === "FINAL"){

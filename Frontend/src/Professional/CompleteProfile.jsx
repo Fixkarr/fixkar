@@ -10,13 +10,27 @@ import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { FaUserEdit, FaMoneyBillWave, FaClock, FaCalendarDay, FaFileContract } from "react-icons/fa";
+import { FaUserEdit, FaMoneyBillWave, FaClock, FaCalendarDay, FaFileContract, FaTools } from "react-icons/fa";
 import { MdDescription } from "react-icons/md";
+import { useSelector } from "react-redux"; 
 
 export default function CompleteProfile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const {currentUserData} = useSelector(state=> state.user);
+  const availableSkills = currentUserData?.user?.profession?.skills || [];
+  
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
+  const handleSkillChange = (skillId) => {
+  setSelectedSkills((prev) =>
+    prev.includes(skillId)
+      ? prev.filter((id) => id !== skillId)
+      : [...prev, skillId]
+  );
+};
+
 
   const formik = useFormik({
     initialValues: {
@@ -24,6 +38,7 @@ export default function CompleteProfile() {
       pricingType: "multiple",
       hourly: "",
       daily: "",
+      skills: selectedSkills, 
       contractMin: "",
       contractMax: "",
       amountDesc: "",
@@ -134,6 +149,43 @@ export default function CompleteProfile() {
                 {formik.errors.description}
               </div>
             </div>
+
+            {availableSkills.length > 0 && (
+  <div className="mb-4">
+    <label className="form-label fw-semibold text-primary">
+      <FaTools className="me-2" />
+      Select Your Skills
+    </label>
+
+    <div className="row">
+      {availableSkills.map((skill) => (
+        <div className="col-md-6 mb-2" key={skill._id}>
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id={`skill-${skill._id}`}
+              checked={selectedSkills.includes(skill._id)}
+              onChange={() => handleSkillChange(skill._id)}
+            />
+            <label
+              className="form-check-label fw-semibold"
+              htmlFor={`skill-${skill._id}`}
+            >
+              {skill.name}
+            </label>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {selectedSkills.length === 0 && (
+      <small className="text-muted">
+        Please select at least one skill to improve your profile visibility.
+      </small>
+    )}
+  </div>
+)}
 
             {/* PRICING TYPE */}
             <div className="mb-3">

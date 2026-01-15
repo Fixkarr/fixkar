@@ -67,7 +67,7 @@ export const registerUserWithForm = async (req, res) => {
         })
 
 
-          await redis.del(`email_verified:${email}`);
+        await redis.del(`email_verified:${email}`);
           
         const token = await genToken(newUser._id);
         res.cookie("token", token, {
@@ -158,6 +158,16 @@ export const login = async (req, res) => {
       sort: { createdAt: -1 },
       limit: 20   // latest 6 images
     }
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate: {
+      path: "skills",
+      select: "name", // Skill schema field
+    },
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
         } else {
             return res.status(400).json({ message: "No role assigned to this user" })
@@ -365,7 +375,14 @@ export const googleAuthLogin = async (req, res) => {
         .populate({
           path: "gallery",
           options: { sort: { createdAt: -1 }, limit: 20 },
-        });
+        }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate: {
+      path: "skills",
+      select: "name", // Skill schema field
+    },
+  });
 
 
 

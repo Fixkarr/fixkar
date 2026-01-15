@@ -53,6 +53,16 @@ export const updateProfilePicture = async (req,res)=>{
       sort: { createdAt: -1 },
       limit: 20   // latest 6 images
     }
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
 
         if(!updatedPicture){
@@ -145,6 +155,16 @@ export const updateProfileInfo = async (req, res) => {
       sort: { createdAt: -1 },
       limit: 20   // latest 6 images
     }
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
 
     return res.status(200).json({
@@ -221,6 +241,16 @@ if (amountDesc) {
       sort: { createdAt: -1 },
       limit: 20   // latest 20 images
     }
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
 
     return res.status(200).json({
@@ -279,6 +309,16 @@ export const uploadMedia = async (req,res)=>{
       sort: { createdAt: -1 },
       limit: 20   // latest 6 images
     }
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
   
 

@@ -23,7 +23,7 @@ export const getCurrentUser = async (req, res)=>{
                 user : customer
             })
         }else if(user.role === "professional"){
-            const professional = await Professional.findOne({userId : user._id}).select('-poi -dob').populate("userId", '-password').populate({
+        const professional = await Professional.findOne({userId : user._id}).select('-poi -dob').populate("userId", '-password').populate({
     path: "reviews",
     options: {
       sort: { createdAt: -1 },
@@ -36,7 +36,18 @@ export const getCurrentUser = async (req, res)=>{
       sort: { createdAt: -1 },
       limit: 20   // latest 6 images
     }
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
+
 
             return res.status(200).json(
                { message : "current user fetched successfully",

@@ -49,14 +49,17 @@ export const getMyBookings = async (req, res) => {
         select : "fullName"
       }
     }).populate({
-      path : "professionalId",
-      select : 'profilePicture address',
-      populate : {
-        path : "userId",
-        model : "User",
-        select : "fullName"
-      }
-    }).populate('review').sort({createdAt : -1});
+    path: "professionalId",
+    select: "profilePicture address userId profession",
+    populate: [{
+      path: "userId",
+      model: "User",
+      select: "fullName",
+    },
+  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+     {path : "selectedSkills", select : "name"}
+],
+  }).populate('review').sort({createdAt : -1});
 
     return res.status(200).json({
       message: bookings.length

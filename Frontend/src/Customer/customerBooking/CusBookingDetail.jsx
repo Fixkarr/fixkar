@@ -63,7 +63,7 @@ const CusBookingDetail = () => {
             <FaUser className='text-primary'/> {booking.professionalId.userId.fullName}
           </h6>
           <small className="text-muted d-block">
-            <MdHomeRepairService className='text-primary'/> {booking.profession}
+            <MdHomeRepairService className='text-primary'/> {booking.professionalId.profession.name}
           </small>
           <small className="text-muted">
             <FaMapMarkerAlt className='text-danger'/> {booking.professionalId.address.addressLine}

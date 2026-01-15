@@ -7,6 +7,7 @@ import { setDistance } from "../redux/distance.slice";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { getDistanceMatrixData } from "../utils/getDistanceMatrixData";
 import { toast } from "react-toastify";
+const MAX_SKILLS = 5;
 
 const ProfessionalCard = ({ data }) => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -15,6 +16,10 @@ const ProfessionalCard = ({ data }) => {
   const { selectedLocation } = useSelector((state) => state.location);
 
   const [distance, SetDistance] = useState(null);
+
+  const skillsToShow = data?.selectedSkills?.slice(0, MAX_SKILLS) || [];
+  const hasMoreSkills =
+    data?.selectedSkills && data.selectedSkills.length > MAX_SKILLS;
 
   useEffect(() => {
     if (!mapsLoaded) return;
@@ -65,9 +70,22 @@ const ProfessionalCard = ({ data }) => {
             <h6 className="mb-0 fw-semibold">
               {data?.userId?.fullName || "Unknown User"}
             </h6>
-            <small className="opacity-75 d-flex align-items-center gap-1">
-              <FaUserTie />
-              {data?.profession || "Not specified"}
+            <small className="opacity-75 d-flex flex-column gap-1">
+            <span className="d-flex align-items-center gap-1">
+                <FaUserTie />
+              {data?.profession.name || "Not specified"}
+            </span>
+             {skillsToShow.length > 0 && (
+                <span className="text-white-50 small">
+                  {skillsToShow.map((skill, index) => (
+                    <span key={skill._id}>
+                      {skill.name}
+                      {index !== skillsToShow.length - 1 && ", "}
+                    </span>
+                  ))}
+                  {hasMoreSkills && " ..."}
+                </span>
+              )}
             </small>
           </div>
         </div>

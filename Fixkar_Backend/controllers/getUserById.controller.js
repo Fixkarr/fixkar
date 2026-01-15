@@ -33,7 +33,18 @@ export const getUserById = async (req,res)=>{
       sort: { createdAt: -1 },
       limit: 20   // latest 6 images
     }
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
+  
                     return res.status(200).json(
                        { message : "user fetched successfully",
                         user : professional}

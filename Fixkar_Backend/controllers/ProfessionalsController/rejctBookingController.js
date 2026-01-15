@@ -32,7 +32,14 @@ export const rejectBooking = async (req,res)=>{
       model: "User",
       select: "fullName",
     },
-  }).populate('review');
+  }).populate('review').populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  });
   
    if (!updatedBooking) { 
       return res.status(404).json({

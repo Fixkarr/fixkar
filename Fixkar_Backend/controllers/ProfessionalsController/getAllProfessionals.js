@@ -16,6 +16,13 @@ export const getAllProfessionals = async (req,res)=>{
       sort: { createdAt: -1 },
       limit: 20   // latest 6 images
     }
+  }).populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
   });
   
         res.status(200).json({
@@ -31,7 +38,14 @@ export const getAllProfessionals = async (req,res)=>{
 
 export const getAllVerifiedProfessionals = async (req,res)=>{
     try {
-        const verifiedProfessionals = await Professional.find({status : "approved"}).select('-poi -dob').populate("userId", '-password')
+        const verifiedProfessionals = await Professional.find({status : "approved"}).select('-poi -dob').populate("userId", '-password').populate({
+    path : "profession",
+    select : "name image skills",
+    populate : {
+      path : "skills",
+      select : "name"
+    }
+  });
         if(!verifiedProfessionals){
             return res.status(404).json({message: "Professionals Not Found"})
         }

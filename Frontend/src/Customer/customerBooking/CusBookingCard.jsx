@@ -40,7 +40,7 @@ const CusBookingCard = ({ booking }) => {
           </h6>
           <small className="opacity-75">
             <MdWork className="me-1" />
-            {booking?.profession}
+            {booking?.professionalId.profession.name}
           </small>
         </div>
       </div>
