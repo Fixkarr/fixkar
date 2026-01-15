@@ -19,7 +19,7 @@ export const completeProfile =async (req,res)=>{
         })
        }
 
-       
+       console.log(skills);
     let validatedSkills = [];
 
     if (skills && Array.isArray(skills) && skills.length > 0) {
