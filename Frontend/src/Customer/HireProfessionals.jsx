@@ -15,6 +15,10 @@ const HireProfessionals = () => {
   const [professionals, setProfessionals] = useState([]);
   const [loading, setLoading] = useState(false);
 
+ const { services } = useSelector(state => state.services);
+  const serviceName =
+  services.find(s => s._id === selectedService)?.name;
+
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   
@@ -83,7 +87,7 @@ const HireProfessionals = () => {
             {selectedService && (
               <>
                 <br />
-                <strong className="text-primary">Service:</strong> {selectedService}
+                <strong className="text-primary">Service:</strong> {serviceName}
               </>
             )}
           </p>
