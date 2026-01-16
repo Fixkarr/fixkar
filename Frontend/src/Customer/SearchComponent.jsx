@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSelectedLocation, setSelectedService } from "../redux/location.slice";
 import MapPinDrop from "./MapPinDrop";
 import useGetServices from "../hooks/useGetServices";
+import axios from 'axios'
+import { server_url } from "../App";
 
-const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
+const SearchSection = ({onSkillsChange }) => {
   useGetServices()
   const {services} = useSelector(state => state.services)
   const googleLoaded = useLoadGoogleMaps();
@@ -20,10 +22,26 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
     address: "",
   });
 
+
+
   const dispatch = useDispatch();
   const [service, setService] = useState("");
 
+  const [selectedServiceId, setSelectedServiceId] = useState(null);
+  const [serviceSkills, setServiceSkills] = useState([]);
 
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
+  const handleSkillToggle = (skillId) => {
+  setSelectedSkills((prev) =>
+{   const updated =  prev.includes(skillId)
+      ? prev.filter((id) => id !== skillId)
+      : [...prev, skillId];
+
+    if (onSkillsChange) onSkillsChange(updated);
+    return updated;
+  });
+};
 
   // 🔹 Autocomplete (ONLY initial location)
   useEffect(() => {
@@ -49,10 +67,24 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
     });
   }, [googleLoaded]);
 
-  const handleServiceChange = (value) => {
-    setService(value);
-    dispatch(setSelectedService(value));
-    if (onServiceSelect) onServiceSelect(value);
+  const handleServiceChange = async (service) => {
+    setSelectedServiceId(service._id);
+    dispatch(setSelectedService(service._id));
+     setSelectedSkills([]);
+    if (onSkillsChange) onSkillsChange([]);
+      try {
+      const res = await axios.get(
+        `${server_url}/api/user/get-service-skills/${service._id}`,
+        { withCredentials: true }
+      );
+
+      setServiceSkills(res.data.skills || []);
+    } catch (error) {
+      setServiceSkills([]);
+    }
+
+
+
   };
 
     const handleUseCurrentLocation = () => {
@@ -150,7 +182,6 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
                 };
 
                 dispatch(setSelectedLocation(finalLocation));
-                if (onLocationSelect) onLocationSelect(finalLocation);
 
               }}
             >
@@ -164,7 +195,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
           {services?.map((srv) => (
             <button
               key={srv._id}
-              onClick={() => handleServiceChange(srv.name)}
+              onClick={() => handleServiceChange(srv)}
               className="border-0 bg-transparent p-0"
               style={{ outline: "none" }}
             >
@@ -205,6 +236,36 @@ const SearchSection = ({ onLocationSelect, onServiceSelect }) => {
             </button>
           ))}
         </div>
+            {/* 🔥 SKILLS CHECKBOXES */}
+        {serviceSkills.length > 0 && (
+          <div className="mt-3">
+            <h6 className="fw-semibold">Filter by Skills</h6>
+
+            <div className="row">
+              {serviceSkills.map((skill) => (
+                <div key={skill._id} className="col-6">
+                  <div className="form-check">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      checked={selectedSkills.includes(skill._id)}
+                      onChange={() => handleSkillToggle(skill._id)}
+                      id={`skill-${skill._id}`}
+                    />
+                    <label
+                      htmlFor={`skill-${skill._id}`}
+                      className="form-check-label"
+                    >
+                      {skill.name}
+                    </label>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import { getUserById } from '../controllers/getUserById.controller.js';
 import { getCloudinarySignature } from '../controllers/ProfessionalsController/getCloudinarySignature.js';
 import { deleteMedia } from '../controllers/ProfessionalsController/deleteMedia.js';
 import { getServices } from '../controllers/getServices.controller.js';
+import { getServiceSkills } from '../controllers/getServiceSkills.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -22,6 +23,7 @@ userRoute.get("/professionals", isAuth ,getAllProfessionals);
 userRoute.get("/verifiedProfessionals", getAllVerifiedProfessionals);
 userRoute.get("/professionals/search", searchProfessionals);
 userRoute.get("/getUserById/:userId", getUserById);
+userRoute.get("/get-service-skills/:serviceId", isAuth, getServiceSkills)
 
 
 // professionals routes
