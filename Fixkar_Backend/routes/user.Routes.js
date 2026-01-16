@@ -21,8 +21,8 @@ const userRoute = express.Router();
 userRoute.get("/current", isAuth ,getCurrentUser);
 userRoute.get("/professionals", isAuth ,getAllProfessionals);
 userRoute.get("/verifiedProfessionals", getAllVerifiedProfessionals);
-userRoute.get("/professionals/search", searchProfessionals);
 userRoute.get("/getUserById/:userId", getUserById);
+userRoute.get("/professionals/search", searchProfessionals);
 userRoute.get("/get-service-skills/:serviceId", isAuth, getServiceSkills)
 
 

@@ -63,13 +63,13 @@ export const searchProfessionals = async (req, res) => {
     );
 
     // 🔍 Service filter (by name)
-    if (service && service.trim() !== "") {
-      pipeline.push({
-        $match: {
-          "profession.name": { $regex: service, $options: "i" },
-        },
-      });
-    }
+    if (service && mongoose.Types.ObjectId.isValid(service)) {
+  pipeline.push({
+    $match: {
+      "profession._id": new mongoose.Types.ObjectId(service),
+    },
+  });
+}
 
     // 🔥 OPTIONAL SKILLS FILTER (MAIN CHANGE)
     if (skills.length > 0) {
