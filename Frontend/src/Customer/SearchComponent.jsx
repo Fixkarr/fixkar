@@ -10,7 +10,7 @@ import useGetServices from "../hooks/useGetServices";
 import axios from 'axios'
 import { server_url } from "../App";
 
-const SearchSection = ({onSkillsChange }) => {
+const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange }) => {
   useGetServices()
   const {services} = useSelector(state => state.services)
   const googleLoaded = useLoadGoogleMaps();
@@ -70,8 +70,10 @@ const SearchSection = ({onSkillsChange }) => {
   const handleServiceChange = async (service) => {
     setSelectedServiceId(service._id);
     dispatch(setSelectedService(service._id));
-     setSelectedSkills([]);
-    if (onSkillsChange) onSkillsChange([]);
+      setSelectedSkills([]);
+      if (onSkillsChange) onSkillsChange([]);
+    if (onServiceSelect) onServiceSelect(service._id);
+    
       try {
       const res = await axios.get(
         `${server_url}/api/user/get-service-skills/${service._id}`,
@@ -182,6 +184,7 @@ const SearchSection = ({onSkillsChange }) => {
                 };
 
                 dispatch(setSelectedLocation(finalLocation));
+                if (onLocationSelect) onLocationSelect(finalLocation);
 
               }}
             >
