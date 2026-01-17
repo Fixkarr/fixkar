@@ -352,11 +352,28 @@ const ProfessionalProfile = () => {
   <div className="card border-0 shadow-sm rounded-4 mb-3">
     <div className="card-body">
 
-      <div className="d-flex align-items-center gap-2 mb-2">
-        <FaTools className="text-primary" />
-        <h6 className="mb-0 fw-semibold">My Skills</h6>
+      {/* ===== Header ===== */}
+      <div className="d-flex align-items-center justify-content-between mb-3">
+        <div className="d-flex align-items-center gap-2">
+          <FaTools className="text-primary fs-5" />
+          <h6 className="mb-0 fw-semibold">My Skills</h6>
+        </div>
+
+        {/* 🔥 UPDATE BUTTON */}
+        <button
+          className="btn btn-outline-primary btn-sm rounded-pill px-3"
+          onClick={() => {
+            // 👉 yahan modal / navigate logic aayega
+            // example:
+            // setShowSkillModal(true)
+            // navigate("/professional/update-skills")
+          }}
+        >
+          Update Skills
+        </button>
       </div>
 
+      {/* ===== Skills List ===== */}
       {ProfessionalDetails.selectedSkills.length > 0 ? (
         <div className="d-flex flex-wrap gap-2">
           {ProfessionalDetails.selectedSkills.map((skill) => (
@@ -370,15 +387,27 @@ const ProfessionalProfile = () => {
           ))}
         </div>
       ) : (
-        <div className="alert alert-warning small mb-0">
-          You have not selected any skills yet.  
-          Complete your profile to add skills.
+        <div className="alert alert-warning small mb-0 d-flex justify-content-between align-items-center">
+          <span>
+            You haven’t selected any skills yet.  
+            <br />
+            <strong>Add skills</strong> to improve your profile visibility.
+          </span>
+
+          <button
+            className="btn btn-warning btn-sm rounded-pill"
+            onClick={() => {
+              // 👉 same update skills action
+            }}
+          >
+            Add Skills
+          </button>
         </div>
       )}
-
     </div>
   </div>
 )}
+
 
         <div className="profile-lower p-2">
           {!isProfileComplete && <CompleteProfileToast />}

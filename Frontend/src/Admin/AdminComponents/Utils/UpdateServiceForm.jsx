@@ -113,8 +113,6 @@ const UpdateServiceForm = () => {
 
       dispatch(setServices(res.data.services));
       toast.success(res.data.message || "Service updated");
-
-      if (onClose) onClose();
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message || "Update failed");
