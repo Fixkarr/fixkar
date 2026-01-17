@@ -393,9 +393,11 @@ const ProfessionalProfile = () => {
               data-bs-dismiss="modal"
             ></button>
           </div>
-
+      <div className="modal-body">
+        <UpdateSkills professional={ProfessionalDetails}/>
+      </div>
           {/* 👇 Yahan tum future mein component inject karoge */}
-          <UpdateSkills professional={ProfessionalDetails}/>
+          
         </div>
       </div>
     </div>
