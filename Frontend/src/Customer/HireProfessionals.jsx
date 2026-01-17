@@ -70,88 +70,112 @@ const HireProfessionals = () => {
 
 
   return (
-    <div className="professionals container px-3 px-md-5 py-4">
-      
-      {/* Heading */}
-      <h2 className="fw-semibold mt-2 welcome mb-3">Search Professionals</h2>
+   <div className="professionals container px-3 px-md-5 py-4">
 
-      {/* Search */}
-      <SearchSection onSkillsChange={setSelectedSkills}/>
+  {/* Heading */}
+  <div className="text-center mb-4">
+    <h2 className="fw-bold mb-1">Search Professionals</h2>
+    <p className="text-muted small">
+      Find trusted professionals near your location
+    </p>
+  </div>
 
-      {/* Search summary */}
-      {selectedLocation?.address && (
-        <div className="mt-3 mb-4">
-          <h5 className="welcome mb-1">Search results for:</h5>
-          <p className="mb-0 text-muted">
-            <strong className="text-primary">Location:</strong> {selectedLocation.address}
-            {selectedService && (
-              <>
-                <br />
-                <strong className="text-primary">Service:</strong> {serviceName}
-              </>
-            )}
-          </p>
-        </div>
-      )}
+  {/* Search */}
+  <div className="mb-4">
+    <SearchSection onSkillsChange={setSelectedSkills} />
+  </div>
 
-      {/* Content states */}
-      {!selectedLocation?.lat ? (
-        <div className="text-center py-5">
-          <center>
-            <div className="searchPlaceholder mb-3">
-            <img
-              src="/Images/searchPlaceholder.png"
-              alt="Search"
-              style={{ maxWidth: "180px", opacity: 0.85, width: "100%" }}
-            />
-          </div>
-          </center>
-          <h4 className="fw-semibold welcome">Find Professionals Near You</h4>
-          <p className="text-muted">Enter your location to see available professionals.</p>
-        </div>
-      ) : loading ? (
-        <div className="text-center py-5">
-          <div className="spinner-border text-primary" role="status" style={{ width: "3rem", height: "3rem" }}>
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p className="mt-3 text-muted">Searching nearby professionals...</p>
-        </div>
-      ) : professionals.length === 0 ? (
-        <div className="text-center py-5">
-          <h5 className="fw-semibold welcome">No professionals found nearby</h5>
-          <p className="text-muted small">Try another service or change location</p>
-        </div>
-      ) : (
-        // Professionals grid
-       <>
-       
-         <div className="row mt-4 g-3">
-          {professionals.map((pro) => (
-            <div key={pro._id} className="col-12 col-sm-6 col-lg-4">
-              <ProfessionalCard data={pro} />
-            </div>
-          ))}
-        </div>
-         {hasMore && !loading && (
-            <div className="text-center mt-4">
-              <button
-                className="btn btn-outline-primary px-4"
-                onClick={() => fetchProfessionals(page + 1)}
-              >
-                Load More
-              </button>
-            </div>
-          )}
+  {/* Search summary */}
+  {selectedLocation?.address && (
+    <div
+      className="alert alert-light border rounded-4 shadow-sm mb-4"
+      style={{ background: "rgba(255,255,255,0.9)" }}
+    >
+      <h6 className="fw-semibold mb-1">Search results for</h6>
+      <p className="mb-0 small">
+        <span className="badge bg-primary me-2">Location</span>
+        {selectedLocation.address}
+      </p>
 
-          {loading && (
-            <div className="text-center mt-3">
-              <div className="spinner-border text-primary" />
-            </div>
-          )}
-       </>
-        
+      {selectedService && (
+        <p className="mb-0 small mt-1">
+          <span className="badge bg-success me-2">Service</span>
+          {serviceName}
+        </p>
       )}
     </div>
+  )}
+
+  {/* STATES */}
+  {!selectedLocation?.lat ? (
+    /* EMPTY STATE */
+    <div className="text-center py-5">
+      <img
+        src="/Images/searchPlaceholder.png"
+        alt="Search"
+        className="mb-3"
+        style={{ maxWidth: 180, opacity: 0.9, width: "100%" }}
+      />
+      <h4 className="fw-semibold mb-1">Find Professionals Near You</h4>
+      <p className="text-muted">
+        Enter your location to see available professionals
+      </p>
+    </div>
+  ) : loading ? (
+    /* LOADING */
+    <div className="text-center py-5">
+      <div
+        className="spinner-border text-primary mb-3"
+        role="status"
+        style={{ width: "3rem", height: "3rem" }}
+      />
+      <p className="text-muted fw-medium">
+        Searching nearby professionals...
+      </p>
+    </div>
+  ) : professionals.length === 0 ? (
+    /* NO RESULT */
+    <div className="text-center py-5">
+      <h5 className="fw-semibold mb-1">No professionals found</h5>
+      <p className="text-muted small">
+        Try another service or change your location
+      </p>
+    </div>
+  ) : (
+    <>
+      {/* GRID */}
+      <div className="row g-4 mt-2">
+        {professionals.map((pro) => (
+          <div key={pro._id} className="col-12 col-sm-6 col-lg-4">
+            <div className="h-100 shadow-sm rounded-4">
+              <ProfessionalCard data={pro} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* LOAD MORE */}
+      {hasMore && !loading && (
+        <div className="text-center mt-4">
+          <button
+            className="btn btn-outline-primary rounded-pill px-4 py-2"
+            onClick={() => fetchProfessionals(page + 1)}
+          >
+            Load More Professionals
+          </button>
+        </div>
+      )}
+
+      {/* BOTTOM LOADING */}
+      {loading && (
+        <div className="text-center mt-4">
+          <div className="spinner-border text-primary" />
+        </div>
+      )}
+    </>
+  )}
+</div>
+
   );
 };
 

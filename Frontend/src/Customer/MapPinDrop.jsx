@@ -59,7 +59,7 @@ const MapPinDrop = ({ coords, setCoords }) => {
     }
   }, [coords.lat, coords.lng]);
 
-  return <div ref={mapRef} style={{ height: "350px", width: "100%" }} />;
+  return <div className="mt-2" ref={mapRef} style={{ height: "350px", width: "100%" }} />;
 };
 
 export default MapPinDrop;
