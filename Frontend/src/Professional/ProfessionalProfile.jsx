@@ -232,7 +232,11 @@ const ProfessionalProfile = () => {
   {isProfileComplete && (
     <div className="card border-0 shadow-sm rounded-4">
 
-      <div className="card-header bg-primary d-flex justify-content-between align-items-center rounded-top-4">
+      <div className="card-header d-flex justify-content-between align-items-center rounded-top-4"
+         style={{
+        background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
+      }}
+      >
         <h5 className="mb-0 fw-semibold text-light d-flex align-items-center gap-2">
           <GiTakeMyMoney />
           My Charges
@@ -344,11 +348,7 @@ const ProfessionalProfile = () => {
       </div>
     </div>
   )}
-</div>
-
-        <hr />
-        {/* ================= MY SKILLS ================= */}
-{ProfessionalDetails?.selectedSkills && (
+  {ProfessionalDetails?.selectedSkills && (
   <div className="card border-0 shadow-sm rounded-4 mb-3">
 
     {/* ===== HEADER ===== */}
@@ -437,6 +437,11 @@ const ProfessionalProfile = () => {
     </div>
   </div>
 )}
+</div>
+
+        <hr />
+        {/* ================= MY SKILLS ================= */}
+
 
 
 
