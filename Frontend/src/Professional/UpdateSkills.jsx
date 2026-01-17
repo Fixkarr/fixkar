@@ -4,11 +4,13 @@ import { server_url } from "../App";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { FaTools, FaSave } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 
 const UpdateSkills = ({ professional }) => {
   const [allSkills, setAllSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
 
   /* ✅ Init skills from props */
   useEffect(() => {
@@ -46,12 +48,12 @@ const UpdateSkills = ({ professional }) => {
     try {
       setLoading(true);
 
-      await axios.post(
+      const result = await axios.post(
         `${server_url}/api/user/professional/update-skills`,
         { selectedSkills },
         { withCredentials: true }
       );
-
+       dispatch(setCurrentUserData(result.data));
       toast.success("Skills updated successfully");
     } catch (err) {
       toast.error(
