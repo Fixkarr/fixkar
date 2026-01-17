@@ -24,6 +24,7 @@ import UpdateCharges from "./UpdateCharges";
 import MyGallery from "./MyGallery";
 import ProReviews from "./ProReviews";
 import { FaTools } from "react-icons/fa";
+import UpdateSkills from "./UpdateSkills";
 
 const ProfessionalProfile = () => {
   const [profilePicture, setProfilePicture] = useState(null);
@@ -394,7 +395,7 @@ const ProfessionalProfile = () => {
           </div>
 
           {/* 👇 Yahan tum future mein component inject karoge */}
-          {/* <UpdateSkills /> */}
+          <UpdateSkills professional={ProfessionalDetails}/>
         </div>
       </div>
     </div>
