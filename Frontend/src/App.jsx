@@ -343,6 +343,8 @@ const App = () => {
           <Route path={`${adminpath}/manage-services`} element={currentAdmin?.role === "super_admin" ? <AdminServices/> : (<Navigate to={`${adminpath}/home`}/>)}/>
 
           <Route path={`${adminpath}/manage-users`} element={currentAdmin?.role === "super_admin" ? <AdminUsers/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+          
+          <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin?.role === "super_admin" ? <UpdateServiceForm/> : <Navigate to={`${adminpath}/home`}/>}/>
 
       </Route>
 
@@ -381,7 +383,6 @@ const App = () => {
 
           <Route path={`${adminpath}/login`} element={ !currentUserData && !currentAdmin ? <AdminLogin/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 
-          <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin ? <UpdateServiceForm/> : <Navigate to="/"/>}/>
 
           {/* footer links */}
 
