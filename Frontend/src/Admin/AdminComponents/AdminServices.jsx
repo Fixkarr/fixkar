@@ -111,7 +111,7 @@ const AdminServices = () => {
                       {service.professionalCount} Pros
                     </span>
 
-                     <button className="badge btn-outline-primary px-3 py-2 rounded-pill"
+                     <button className="btn-outline-primary px-3 py-2 rounded-pill"
             data-bs-toggle="modal"
             data-bs-target="#UpdateServiceModal"
           >
