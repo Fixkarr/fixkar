@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { setServices } from "../../../redux/service.Slice";
 
 const UpdateServiceForm = ({ service, onClose }) => {
+    console.log(service)
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
