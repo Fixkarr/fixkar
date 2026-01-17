@@ -116,7 +116,11 @@ const UpdateServiceForm = ({ service, onClose }) => {
 
   return (
     <div className="container py-3">
-      <div className="card border-0 shadow-lg rounded-4">
+      <div className="card border-0 shadow-lg rounded-4"
+       style={{
+          background: "linear-gradient(135deg, #0f2027, #2c5364)",
+        }}
+      >
         {/* ===== Header ===== */}
         <div className="card-body border-bottom">
           <h5 className="fw-bold mb-1">
