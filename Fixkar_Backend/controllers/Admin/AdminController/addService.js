@@ -63,6 +63,8 @@ export const addService = async (req,res)=>{
     service.skills = skillIds;
     await service.save();
 
+  
+
     // 7️⃣ Send populated response
     const populatedServices = await Service.find()
       .populate("skills")

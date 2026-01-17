@@ -4,10 +4,12 @@ import {
   FaPlus,
   FaUsers,
   FaInfoCircle,
+  FaPen,
 } from "react-icons/fa";
 import AddServiceForm from "./Utils/AddServiceForm";
 import useGetServices from "../../hooks/useGetServices";
 import { useSelector } from "react-redux";
+import UpdateServiceForm from "./Utils/UpdateServiceForm";
 
 const AdminServices = () => {
 
@@ -109,10 +111,27 @@ const AdminServices = () => {
                       {service.professionalCount} Pros
                     </span>
 
-                    <button className="btn btn-sm btn-outline-info rounded-pill px-3">
-                      <FaInfoCircle className="me-1" />
-                      View
-                    </button>
+                     <button className="btn btn-warning fw-semibold px-4 rounded-pill shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#UpdateServiceModal"
+          >
+            <FaPen className="me-2" />
+            Update Service
+          </button>
+             <div className="modal fade" id="UpdateServiceModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="exampleModalLabel">Update Service</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        <UpdateServiceForm service={service}/>
+      </div>
+    </div>
+  </div>
+</div>
+
                   </div>
                 </div>
               </div>
