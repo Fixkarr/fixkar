@@ -368,7 +368,7 @@ const ProfessionalProfile = () => {
       <span
         className="btn btn-sm text-light"
         data-bs-toggle="modal"
-        data-bs-target="#UpdateSkillsModal"
+        data-bs-target="#UpdateSkillsModal1"
       >
         <FaPencil />
       </span>
@@ -377,7 +377,7 @@ const ProfessionalProfile = () => {
     {/* ===== MODAL ===== */}
     <div
       className="modal fade"
-      id="UpdateSkillsModal"
+      id="UpdateSkillsModal1"
       tabIndex="-1"
       aria-hidden="true"
     >
@@ -396,7 +396,7 @@ const ProfessionalProfile = () => {
       <div className="modal-body">
         <UpdateSkills professional={ProfessionalDetails}/>
       </div>
-          {/* 👇 Yahan tum future mein component inject karoge */}
+          
           
         </div>
       </div>
