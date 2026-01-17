@@ -12,6 +12,7 @@ import { server_url } from "../App";
 const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange }) => {
   useGetServices()
   const {services} = useSelector(state => state.services)
+ 
   const googleLoaded = useLoadGoogleMaps();
   const inputRef = useRef(null);
 

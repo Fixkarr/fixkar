@@ -12,11 +12,19 @@ import {
 import { server_url } from "../../../App";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setServices } from "../../../redux/service.Slice";
+import useGetServices from "../../../hooks/useGetServices";
 
-const UpdateServiceForm = ({ service, onClose }) => {
-    console.log(service)
+
+const UpdateServiceForm = ({ serviceId, onClose }) => {
+     useGetServices()
+  const {services} = useSelector(state => state.services)
+   const service = services?.find(
+    (s) => s._id === serviceId
+    );
+
+    console.log(service);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
