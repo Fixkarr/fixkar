@@ -11,10 +11,13 @@ import useGetServices from "../../hooks/useGetServices";
 import { useSelector } from "react-redux";
 import UpdateServiceForm from "./Utils/UpdateServiceForm";
 
-const AdminServices = () => {
+  import { useNavigate } from "react-router-dom";
 
+const AdminServices = () => {
+  const adminPath = import.meta.env.VITE_ADMIN_PATH
   useGetServices()
   const {services} = useSelector(state => state.services);
+  const navigate = useNavigate()
   return (
     <div className="container-fluid py-4"
        style={{
@@ -112,25 +115,12 @@ const AdminServices = () => {
                     </span>
 
                      <button className="btn btn-outline-primary rounded-pill"
-            data-bs-toggle="modal"
-            data-bs-target="#UpdateServiceModal"
+                        onClick={()=> navigate(`${adminPath}/update-service/${service._id}`)}
           >
             <FaPen className="me-2" />
             Update Service
           </button>
-             <div className="modal fade" id="UpdateServiceModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Update Service</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <UpdateServiceForm serviceId={service._id}/>
-      </div>
-    </div>
-  </div>
-</div>
+  
 
                   </div>
                 </div>

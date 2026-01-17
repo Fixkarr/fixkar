@@ -60,6 +60,7 @@ import Notification from "./Components/Notification.jsx";
 import { addNotification } from "./redux/notification.slice.js";
 import { addMessageToChat, markAllMessagesSeenInChat, updateConversationOnNewMessage, updateMessageStatus } from "./redux/chatMessages.slice.js";
 import { setOnlineUsers } from "./redux/presence.slice.js";
+import UpdateServiceForm from "./Admin/AdminComponents/Utils/UpdateServiceForm.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -376,10 +377,11 @@ const App = () => {
       </Route> 
       {/* Admin Pannel starts here */}
 
- <Route path={`${adminpath}`} element={ !currentUserData && !currentAdmin ? <AdminLanding/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
+       <Route path={`${adminpath}`} element={ !currentUserData && !currentAdmin ? <AdminLanding/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 
           <Route path={`${adminpath}/login`} element={ !currentUserData && !currentAdmin ? <AdminLogin/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 
+          <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin ? <UpdateServiceForm/> : <Navigate to="/"/>}/>
 
           {/* footer links */}
 

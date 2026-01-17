@@ -15,16 +15,18 @@ import { ClipLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 import { setServices } from "../../../redux/service.Slice";
 import useGetServices from "../../../hooks/useGetServices";
+import { useParams } from "react-router-dom";
 
 
-const UpdateServiceForm = ({ serviceId, onClose }) => {
+const UpdateServiceForm = () => {
      useGetServices()
-  const {services} = useSelector(state => state.services)
+     const {services} = useSelector(state => state.services)
+     const {serviceId} = useParams();
    const service = services?.find(
     (s) => s._id === serviceId
     );
 
-    console.log(service);
+
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
