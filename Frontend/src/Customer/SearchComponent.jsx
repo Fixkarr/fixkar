@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaCrosshairs, FaMapMarkerAlt } from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/customerhome.css";
+import { FaCrosshairs, FaMapMarkerAlt, FaCheck } from "react-icons/fa";
+// import "../css/customerhome.css";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedLocation, setSelectedService } from "../redux/location.slice";
@@ -25,7 +24,6 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange }) =>
 
 
   const dispatch = useDispatch();
-  const [service, setService] = useState("");
 
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [serviceSkills, setServiceSkills] = useState([]);
@@ -133,137 +131,107 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange }) =>
 
 
   return (
-    <div className="container">
-      <div className="p-lg-4 p-2 rounded-4 shadow-sm bg-white bg-opacity-75">
+    <div className="container my-3">
+      <div className="p-lg-4 p-3 rounded-4 shadow" style={{ background: "rgba(255,255,255,0.9)" }}>
         {/* Location Input */}
-        <div className="mb-2">
-          <label className="form-label fw-semibold">Your Location</label>
-         <div className="input-group">
-  {/* Left icon */}
-  <span className="input-group-text bg-white border-end-0">
-    <FaMapMarkerAlt />
-  </span>
+         <label className="fw-semibold mb-1">
+          <FaMapMarkerAlt className="me-1 text-primary" />
+          Your Location
+        </label>
 
-  {/* Input */}
-  <input
-    ref={inputRef}
-    type="text"
-    className="form-control border-start-0 border-end-0"
-    placeholder="Enter your location"
-  />
+        <div className="input-group shadow-sm rounded-pill overflow-hidden">
+          <span className="input-group-text bg-white border-0">
+            <FaMapMarkerAlt className="text-primary" />
+          </span>
 
-  {/* Use current location button */}
-  <button
-    type="button"
-    className="btn btn-primary input-group-text"
-    onClick={handleUseCurrentLocation}
-    title="Use current location"
-  >
-    <FaCrosshairs /> Detect 
-  </button>
-</div>
+          <input
+            ref={inputRef}
+            type="text"
+            className="form-control border-0"
+            placeholder="Enter your location"
+          />
 
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleUseCurrentLocation}
+          >
+            <FaCrosshairs className="me-1" />
+            Detect
+          </button>
         </div>
 
         {/* Map + Confirm */}
-        {coords.lat && coords.lng && (
+       {coords.lat && coords.lng && (
           <>
             <MapPinDrop coords={coords} setCoords={setCoords} />
 
-            <div className="mt-2 small text-muted">
+            <div className="small text-muted mt-2">
               📍 {coords.address || "Updating address..."}
             </div>
 
             <button
-              className="btn btn-primary w-100 mt-3"
+              className="btn btn-success w-100 mt-3 rounded-pill"
               onClick={() => {
                 const finalLocation = {
                   lat: Number(coords.lat),
                   lng: Number(coords.lng),
                   address: coords.address,
                 };
-
                 dispatch(setSelectedLocation(finalLocation));
                 if (onLocationSelect) onLocationSelect(finalLocation);
-
               }}
             >
-              📍 Confirm Exact Location
+              Confirm Exact Location
             </button>
           </>
         )}
-
         {/* Services */}
-        <div className="d-flex flex-wrap gap-2 mt-3">
+          <div className="d-flex flex-wrap gap-3 justify-content-center mt-4">
           {services?.map((srv) => (
             <button
               key={srv._id}
               onClick={() => handleServiceChange(srv)}
-              className="border-0 bg-transparent p-0"
-              style={{ outline: "none" }}
+              className={`btn p-2 rounded-4 shadow-sm ${
+                selectedServiceId === srv._id
+                  ? "btn-primary text-white"
+                  : "btn-light"
+              }`}
+              style={{ width: 90 }}
             >
-               <div
-        className="card border-0 bg-primary-subtle text-primary shadow-sm rounded-4 text-center px-2"
-        style={{ 
-          cursor: "pointer",
-          transition: "all 0.25s ease",
-        }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.transform = "translateY(-4px)")
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.transform = "translateY(0)")
-        }
-      >
-        {/* Image */}
-        <div className="p-1">
-          <img
-            src={srv.image}
-            alt={srv.name}
-            className="img-fluid rounded-circle"
-            style={{
-              width: "20px",
-              height: "20px",
-              objectFit: "cover",
-            }}
-          />
-        </div>
-
-        {/* Name */}
-        <div>
-          <small className="fw-semibold text-primary" style={{fontSize : "0.5vmax"}}>
-            {srv.name}
-          </small>
-        </div>
-      </div>
+              <img
+                src={srv.image}
+                alt={srv.name}
+                className="rounded-circle mb-1"
+                style={{ width: 32, height: 32, objectFit: "cover" }}
+              />
+              <div className="small fw-semibold">{srv.name}</div>
             </button>
           ))}
         </div>
             {/* 🔥 SKILLS CHECKBOXES */}
-        {serviceSkills.length > 0 && (
-          <div className="mt-3">
-            <h6 className="fw-semibold">Filter by Skills</h6>
+  {serviceSkills.length > 0 && (
+          <div className="mt-4">
+            <h6 className="fw-semibold mb-2">Filter by Skills</h6>
 
-            <div className="row">
-              {serviceSkills.map((skill) => (
-                <div key={skill._id} className="col-6">
-                  <div className="form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      checked={selectedSkills.includes(skill._id)}
-                      onChange={() => handleSkillToggle(skill._id)}
-                      id={`skill-${skill._id}`}
-                    />
-                    <label
-                      htmlFor={`skill-${skill._id}`}
-                      className="form-check-label"
-                    >
-                      {skill.name}
-                    </label>
-                  </div>
-                </div>
-              ))}
+            <div className="d-flex flex-wrap gap-2">
+              {serviceSkills.map((skill) => {
+                const active = selectedSkills.includes(skill._id);
+
+                return (
+                  <button
+                    key={skill._id}
+                    type="button"
+                    onClick={() => handleSkillToggle(skill._id)}
+                    className={`btn btn-sm rounded-pill d-flex align-items-center gap-1 ${
+                      active ? "btn-success" : "btn-outline-secondary"
+                    }`}
+                  >
+                    {active && <FaCheck />}
+                    {skill.name}
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
