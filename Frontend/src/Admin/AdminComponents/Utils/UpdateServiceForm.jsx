@@ -123,11 +123,11 @@ const UpdateServiceForm = ({ service, onClose }) => {
       >
         {/* ===== Header ===== */}
         <div className="card-body border-bottom">
-          <h5 className="fw-bold mb-1">
+          <h5 className="fw-bold text-light mb-1">
             <FaEdit className="me-2 text-primary" />
             Update Service
           </h5>
-          <small className="text-muted">
+          <small className="text-light">
             Editing <strong>{service.name}</strong>
           </small>
         </div>
