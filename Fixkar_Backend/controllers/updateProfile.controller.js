@@ -335,3 +335,75 @@ export const uploadMedia = async (req,res)=>{
     });
   }
 }
+
+export const updateSkills = async (req, res) => {
+  try {
+    const { selectedSkills } = req.body;
+    const userId = req.userId;
+
+    // 1️⃣ Validation
+    if (!Array.isArray(selectedSkills)) {
+      return res.status(400).json({
+        message: "Selected skills must be an array",
+      });
+    }
+
+    // 2️⃣ Find professional
+    const professional = await Professional.findOne({ userId });
+
+    if (!professional) {
+      return res.status(404).json({
+        message: "Professional not found!",
+      });
+    }
+
+    // 3️⃣ OPTIONAL: allow empty array (skill reset)
+    professional.selectedSkills = selectedSkills;
+    await professional.save();
+
+    // 4️⃣ Re-fetch populated professional (🔥 SAME PATTERN)
+    const populatedProfessional = await Professional.findById(
+      professional._id
+    )
+      .select("-poi -dob")
+      .populate("userId", "-password")
+      .populate({
+        path: "reviews",
+        options: {
+          sort: { createdAt: -1 },
+          limit: 10,
+        },
+      })
+      .populate({
+        path: "gallery",
+        options: {
+          sort: { createdAt: -1 },
+          limit: 20,
+        },
+      })
+      .populate({
+        path: "profession",
+        select: "name image skills",
+        populate: {
+          path: "skills",
+          select: "name",
+        },
+      })
+      .populate({
+        path: "selectedSkills",
+        select: "name",
+      });
+
+    // 5️⃣ Response
+    return res.status(200).json({
+      message: "Skills updated successfully!",
+      user: populatedProfessional,
+    });
+
+  } catch (error) {
+    console.error("Update Skills Error:", error);
+    return res.status(500).json({
+      message: "Internal server error!",
+    });
+  }
+};
