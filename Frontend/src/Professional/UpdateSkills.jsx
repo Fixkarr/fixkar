@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { FaTools, FaSave } from "react-icons/fa";
 import { useDispatch } from "react-redux";
+import { setCurrentUserData } from "../redux/user.slice";
 
 const UpdateSkills = ({ professional }) => {
   const [allSkills, setAllSkills] = useState([]);
