@@ -126,7 +126,7 @@ const AdminServices = () => {
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
-        <UpdateServiceForm/>
+        <UpdateServiceForm serviceId={service._id}/>
       </div>
     </div>
   </div>
