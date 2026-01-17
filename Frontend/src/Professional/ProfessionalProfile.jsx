@@ -350,63 +350,94 @@ const ProfessionalProfile = () => {
         {/* ================= MY SKILLS ================= */}
 {ProfessionalDetails?.selectedSkills && (
   <div className="card border-0 shadow-sm rounded-4 mb-3">
+
+    {/* ===== HEADER ===== */}
+    <div
+      className="card-header d-flex justify-content-between align-items-center rounded-top-4 text-light"
+      style={{
+        background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
+      }}
+    >
+      <h5 className="mb-0 fw-semibold d-flex align-items-center gap-2">
+        <FaTools />
+        My Skills
+      </h5>
+
+      {/* 🔥 UPDATE BUTTON */}
+      <span
+        className="btn btn-sm text-light"
+        data-bs-toggle="modal"
+        data-bs-target="#UpdateSkillsModal"
+      >
+        <FaPencil />
+      </span>
+    </div>
+
+    {/* ===== MODAL ===== */}
+    <div
+      className="modal fade"
+      id="UpdateSkillsModal"
+      tabIndex="-1"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog modal-dialog-centered modal-lg">
+        <div className="modal-content rounded-4">
+          <div className="modal-header">
+            <h5 className="modal-title fw-semibold">
+              Update Your Skills
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          {/* 👇 Yahan tum future mein component inject karoge */}
+          {/* <UpdateSkills /> */}
+        </div>
+      </div>
+    </div>
+
+    {/* ===== BODY ===== */}
     <div className="card-body">
 
-      {/* ===== Header ===== */}
-      <div className="d-flex align-items-center justify-content-between mb-3">
-        <div className="d-flex align-items-center gap-2">
-          <FaTools className="text-primary fs-5" />
-          <h6 className="mb-0 fw-semibold">My Skills</h6>
+      {/* EMPTY STATE */}
+      {ProfessionalDetails.selectedSkills.length === 0 && (
+        <div className="alert alert-warning small py-2 d-flex align-items-center gap-2">
+          ⚠️ You have not selected any skills yet.  
+          Update your skills to improve profile visibility.
         </div>
+      )}
 
-        {/* 🔥 UPDATE BUTTON */}
-        <button
-          className="btn btn-outline-primary btn-sm rounded-pill px-3"
-          onClick={() => {
-            // 👉 yahan modal / navigate logic aayega
-            // example:
-            // setShowSkillModal(true)
-            // navigate("/professional/update-skills")
-          }}
-        >
-          Update Skills
-        </button>
-      </div>
-
-      {/* ===== Skills List ===== */}
-      {ProfessionalDetails.selectedSkills.length > 0 ? (
+      {/* SKILLS LIST */}
+      {ProfessionalDetails.selectedSkills.length > 0 && (
         <div className="d-flex flex-wrap gap-2">
           {ProfessionalDetails.selectedSkills.map((skill) => (
             <span
               key={skill._id}
-              className="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-semibold"
-              style={{ fontSize: "0.85rem" }}
+              className="badge px-3 py-2 rounded-pill fw-semibold"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(13,110,253,0.15), rgba(110,168,254,0.15))",
+                color: "#0d6efd",
+                fontSize: "0.85rem",
+              }}
             >
               {skill.name}
             </span>
           ))}
         </div>
-      ) : (
-        <div className="alert alert-warning small mb-0 d-flex justify-content-between align-items-center">
-          <span>
-            You haven’t selected any skills yet.  
-            <br />
-            <strong>Add skills</strong> to improve your profile visibility.
-          </span>
-
-          <button
-            className="btn btn-warning btn-sm rounded-pill"
-            onClick={() => {
-              // 👉 same update skills action
-            }}
-          >
-            Add Skills
-          </button>
-        </div>
       )}
+
+      {/* FOOTER HINT */}
+      <div className="mt-3 small text-muted">
+        💡 Keeping your skills updated helps customers find you faster.
+      </div>
     </div>
   </div>
 )}
+
 
 
         <div className="profile-lower p-2">
