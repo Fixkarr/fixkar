@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { server_url } from "../../App";
+import { server_url } from "../App";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { FaTools, FaSave } from "react-icons/fa";
