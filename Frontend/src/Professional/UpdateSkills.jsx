@@ -63,69 +63,98 @@ const UpdateSkills = ({ professional }) => {
   };
 
   return (
-    <div className="p-3">
+ <div className="p-3">
 
-      {/* HEADER */}
-      <div
-        className="d-flex align-items-center gap-2 mb-3 p-2 rounded-3"
-        style={{
-          background:
-            "linear-gradient(135deg, #0d6efd, #6ea8fe)",
-        }}
-      >
-        <FaTools className="text-white" />
-        <h6 className="fw-semibold mb-0 text-white">
-          Update Your Skills
-        </h6>
-      </div>
+  {/* ===== HEADER ===== */}
+  <div
+    className="d-flex align-items-center gap-2 mb-3 px-3 py-2 rounded-4 shadow-sm"
+    style={{
+      background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
+    }}
+  >
+    <FaTools className="text-white" />
+    <h6 className="fw-semibold mb-0 text-white">
+      Update Your Skills
+    </h6>
+  </div>
 
-      {/* SKILLS */}
-      {allSkills.length > 0 ? (
-        <div className="row">
-          {allSkills.map((skill) => (
-            <div key={skill._id} className="col-md-6 mb-2">
-              <div className="form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id={`skill-${skill._id}`}
-                  checked={selectedSkills.includes(skill._id)}
-                  onChange={() => toggleSkill(skill._id)}
-                />
-                <label
-                  htmlFor={`skill-${skill._id}`}
-                  className="form-check-label fw-semibold"
-                >
-                  {skill.name}
-                </label>
+  {/* ===== SKILLS GRID ===== */}
+  {allSkills.length > 0 ? (
+    <div className="row g-2">
+      {allSkills.map((skill) => {
+        const isSelected = selectedSkills.includes(skill._id);
+
+        return (
+          <div key={skill._id} className="col-6 col-md-4">
+            <div
+              role="button"
+              onClick={() => toggleSkill(skill._id)}
+              className={`card border-0 rounded-4 shadow-sm text-center px-2 py-3 h-100`}
+              style={{
+                cursor: "pointer",
+                transition: "all 0.25s ease",
+                background: isSelected
+                  ? "linear-gradient(135deg, #0d6efd, #6ea8fe)"
+                  : "#f8f9fa",
+                color: isSelected ? "#fff" : "#212529",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "translateY(-4px)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
+            >
+              <FaTools
+                className={`mb-2 ${
+                  isSelected ? "text-white" : "text-primary"
+                }`}
+                size={18}
+              />
+
+              <div
+                className="fw-semibold"
+                style={{ fontSize: "0.85rem" }}
+              >
+                {skill.name}
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="alert alert-warning small">
-          No skills available under this profession.
-        </div>
-      )}
 
-      {/* ACTION */}
-      <div className="mt-4 text-end">
-        <button
-          className="btn btn-primary rounded-pill px-4"
-          onClick={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? (
-            <ClipLoader size={18} color="#fff" />
-          ) : (
-            <>
-              <FaSave className="me-2" />
-              Save Skills
-            </>
-          )}
-        </button>
-      </div>
+              {/* Selected indicator */}
+              {isSelected && (
+                <small className="opacity-75">
+                  ✓ Selected
+                </small>
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
+  ) : (
+    <div className="alert alert-warning small">
+      No skills available under this profession.
+    </div>
+  )}
+
+  {/* ===== ACTION ===== */}
+  <div className="mt-4 text-end">
+    <button
+      className="btn btn-primary rounded-pill px-4 fw-semibold"
+      onClick={handleSubmit}
+      disabled={loading}
+    >
+      {loading ? (
+        <ClipLoader size={18} color="#fff" />
+      ) : (
+        <>
+          <FaSave className="me-2" />
+          Save Skills
+        </>
+      )}
+    </button>
+  </div>
+</div>
+
   );
 };
 
