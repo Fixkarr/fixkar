@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 import { server_url } from "../App";
+import { MdPersonSearch } from "react-icons/md";
 
 
 const HireProfessionals = () => {
@@ -110,12 +111,16 @@ const HireProfessionals = () => {
   {!selectedLocation?.lat ? (
     /* EMPTY STATE */
     <div className="text-center py-5">
-      <img
-        src="/Images/searchPlaceholder.png"
-        alt="Search"
-        className="mb-3"
-        style={{ maxWidth: 180, opacity: 0.9, width: "100%" }}
-      />
+     <div
+                className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
+                style={{
+                  width: "70px",
+                  height: "70px",
+                  background: "rgba(13,110,253,0.1)",
+                }}
+              >
+                <MdPersonSearch size={30} className="text-primary" />
+              </div>
       <h4 className="fw-semibold mb-1">Find Professionals Near You</h4>
       <p className="text-muted">
         Enter your location to see available professionals
