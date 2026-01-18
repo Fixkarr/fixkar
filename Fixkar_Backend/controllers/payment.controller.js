@@ -169,22 +169,15 @@ export const verifyPayment = async (req,res)=>{
   .populate({
     path: "professionalId",
     select: "profilePicture address userId",
-    populate: {
+     populate: [{
       path: "userId",
       model: "User",
       select: "fullName",
     },
-  }).populate({
-    path : "profession",
-    select : "name image skills",
-    populate : {
-      path : "skills",
-      select : "name"
-    }
-  }).populate({
-    path : "selectedSkills",
-    select : "name"
-  });
+  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+    {path : "selectedSkills", select : "name"}
+]
+  }).populate('review')
 
         if(paymentType === "FINAL"){
             booking.status = 'completed'
@@ -215,8 +208,8 @@ export const verifyPayment = async (req,res)=>{
         await wallet.save();
 
         let notificationTitle = "";
-let notificationMessage = "";
-let type = "";
+        let notificationMessage = "";
+        let type = "";
 
 if (paymentType === "FINAL") {
   notificationTitle = "Work Completed & Payment Received";

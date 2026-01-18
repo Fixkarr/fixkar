@@ -25,7 +25,9 @@ export const sendQuoteAmount = async (req,res)=>{
       model: "User",
       select: "fullName",
     },
-  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } }],
+  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+      {path : "selectedSkills", select : "name"}
+],
   }).populate('review');
 
   if(!booking){

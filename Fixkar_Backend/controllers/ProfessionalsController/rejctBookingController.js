@@ -27,20 +27,16 @@ export const rejectBooking = async (req,res)=>{
   .populate({
     path: "professionalId",
     select: "profilePicture address userId",
-    populate: {
+      populate: [{
       path: "userId",
       model: "User",
       select: "fullName",
     },
-  }).populate('review').populate({
-    path : "profession",
-    select : "name image skills",
-    populate : {
-      path : "skills",
-      select : "name"
-    }
-  });
-  
+  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+    {path : "selectedSkills", select : "name"}
+]
+  }).populate('review')
+
    if (!updatedBooking) { 
       return res.status(404).json({
         message: "Booking not found",
