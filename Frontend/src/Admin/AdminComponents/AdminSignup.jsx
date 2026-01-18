@@ -91,7 +91,7 @@ const AdminSignup = () => {
               background: "linear-gradient(135deg,#00c6ff,#0072ff)",
             }}
           >
-            <FaUserShield size={30} />
+            <FaUserShield size={30} className="text-light"/>
           </div>
           <h4 className="fw-bold">Create a new Admin</h4>
           <p className="text-muted small mb-0">

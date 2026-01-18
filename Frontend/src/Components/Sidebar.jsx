@@ -14,6 +14,7 @@ import { server_url } from "../App";
 import { markAllAsRead } from "../redux/notification.slice";
 import { toast } from "react-toastify";
 import useGetMyConversations from "../hooks/useGetMyConversations";
+import { LuNotebookPen } from "react-icons/lu";
 
 
 const Sidebar = () => {
@@ -123,6 +124,19 @@ const dispatch = useDispatch()
           >
             <FaUserShield />
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Manage Users</span>
+          </NavLink>
+        </li>
+        <li className="nav-item" style={{fontSize : "0.5vmax"}}>
+          <NavLink
+            to={`${adminpath}/manage-bookings`}
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <LuNotebookPen  />
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Manage Bookings</span>
           </NavLink>
         </li>
 
