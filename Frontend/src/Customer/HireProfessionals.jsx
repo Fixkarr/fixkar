@@ -114,12 +114,12 @@ const HireProfessionals = () => {
      <div
                 className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
                 style={{
-                  width: "70px",
-                  height: "70px",
+                  width: "100px",
+                  height: "100px",
                   background: "rgba(13,110,253,0.1)",
                 }}
               >
-                <MdPersonSearch size={30} className="text-primary" />
+                <MdPersonSearch size={40} className="text-primary" />
               </div>
       <h4 className="fw-semibold mb-1">Find Professionals Near You</h4>
       <p className="text-muted">
