@@ -22,13 +22,14 @@ import { toast } from "react-toastify";
 
 const AdminBookingDetail = () => {
 
-const {booking, setBooking} = useState(null);
+const {booking, setBooking} = useState({});
 const {bookingId} = useParams();
 
 useEffect(()=>{
     const fetchBooking = async ()=>{
         try {
             const result = await axios.get(`${server_url}/api/admin/get-admin-booking/${bookingId}`, {withCredentials : true});
+            console.log(result.data.booking)
             setBooking(result.data.booking)
             toast.success(result.data.message);
         } catch (error) {
