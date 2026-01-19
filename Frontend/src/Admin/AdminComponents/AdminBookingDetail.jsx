@@ -37,7 +37,7 @@ useEffect(()=>{
     }
 
     fetchBooking();
-},[])
+},[booking])
 
   if (!booking) {
     return (
