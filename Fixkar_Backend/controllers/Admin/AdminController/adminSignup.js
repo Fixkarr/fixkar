@@ -88,13 +88,6 @@ export const adminSignup = async (req, res) => {
 
         return res.status(200).json({
             message: "New Admin registered!",
-            // admin: {
-            //     _id: newAdmin._id,
-            //     adminName: newAdmin.adminName,
-            //     username: newAdmin.username,
-            //     role: newAdmin.role,
-            //     permissions: newAdmin.permissions
-            // }
         })
 
     } catch (error) {
