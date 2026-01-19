@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import StatCard from "./Utils/StatCard";
 import useGetAllBookings from "../../hooks/useGetAllBookings";
+import { GetStatusBadge } from "../../utils/GetStatusBadge";
 
 const AdminBookings = () => {
   const bookings = useGetAllBookings()
@@ -177,22 +178,7 @@ const AdminBookings = () => {
                       Professional: {b.professionalId?._id}
                     </div>
                   </div>
-
-                  <span
-                    className={`badge px-3 py-2 ${
-                      b.status === "completed"
-                        ? "bg-success"
-                        : b.status === "pending"
-                        ? "bg-warning text-dark"
-                        : b.status === "ongoing"
-                        ? "bg-info"
-                        : b.status === "cancelled"
-                        ? "bg-secondary"
-                        : "bg-danger"
-                    }`}
-                  >
-                    {b.status}
-                  </span>
+                    {GetStatusBadge(b.status)}
                 </div>
               </div>
             ))
