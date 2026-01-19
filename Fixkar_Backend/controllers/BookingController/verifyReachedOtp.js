@@ -60,9 +60,10 @@ export const verifyReachedOtp = async (req,res)=>{
         message : "Invalid OTP!"
     })
   }
- 
-  
+
     booking.status = 'in-progress'
+    booking.startedAt = Date.now()
+
     await booking.save();
 
     io.to(booking.customerId.userId._id.toString()).emit(  

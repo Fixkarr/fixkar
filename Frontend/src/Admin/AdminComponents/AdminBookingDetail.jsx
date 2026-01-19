@@ -14,11 +14,21 @@ import {
   FaIdCard,
   FaUserTie,
   FaBriefcase,
+  FaToolbox,
+  FaBan,
+  FaUserCheck,
+  FaFileContract,
+  FaAddressCard,
+  FaClipboardCheck,
 } from "react-icons/fa";
 import {useParams} from "react-router-dom"
 import axios from 'axios'
 import {server_url} from '../../App'
 import { toast } from "react-toastify";
+import { GetStatusBadge } from "../../utils/GetStatusBadge";
+import { formatDate, formatTime } from "../../utils/formatTime&Date";
+import { FaIdCardClip, FaLocationPin, FaPerson } from "react-icons/fa6";
+import { FcAlarmClock } from "react-icons/fc";
 
 const AdminBookingDetail = () => {
 
@@ -32,7 +42,7 @@ useEffect(()=>{
             setBooking(result.data.booking)
             toast.success(result.data.message);
         } catch (error) {
-            console.log(error)
+            
         }
     }
 
@@ -59,14 +69,24 @@ useEffect(()=>{
     distanceInKm,
     createdAt,
     customerName,
-    mobileNumber,
+    startedAt,
     customerId,
     professionalId,
+    quoteAmount,
+    quoteSentAt,
+    currentPaymentId,
+    review
   } = booking;
 
-  const customerUser = customerId?.userId;
-  const professionalUser = professionalId?.userId;
+
   const profession = professionalId?.profession;
+  const paymentReason = currentPaymentId?.reason;
+  const paidAmount =    currentPaymentId?.amount;
+  const paidAt =    currentPaymentId?.paidAt;
+  const razorpayOrderId =    currentPaymentId?.razorpayOrderId;
+  const razorpayPaymentId =    currentPaymentId?.razorpayPaymentId;
+  const reviewDesc = review?.review
+  const reviewRating = review?.rating
 
   return (
     <div
@@ -93,57 +113,21 @@ useEffect(()=>{
             <span>
               <strong>ID:</strong> {_id || "N/A"}
             </span>
-            <span
-              className={`badge px-3 py-2 ${
-                status === "approved"
-                  ? "bg-success"
-                  : status === "pending"
-                  ? "bg-warning text-dark"
-                  : "bg-secondary"
-              }`}
-            >
-              {status || "N/A"}
-            </span>
+            {<GetStatusBadge status={status}/>}
             <span>
               <FaCalendarAlt className="me-1" />
-              {createdAt
-                ? new Date(createdAt).toLocaleString()
-                : "N/A"}
+              {formatDate(createdAt)}
             </span>
           </div>
         </div>
       </div>
 
-      {/* ================= CUSTOMER ================= */}
-      <Section title="Customer Details" icon={<FaUser />}>
-        <Info label="Name" value={customerName || customerUser?.fullName} />
-        <Info label="Email" value={customerUser?.email} />
-        <Info label="Mobile" value={mobileNumber || customerUser?.mobile} />
-        <Info label="User ID" value={customerUser?._id} />
-        <Info label="Customer ID" value={customerId?._id} />
-        <Info
-          label="Mobile Verified"
-          value={customerUser?.isMobileVerified ? "Yes" : "No"}
-        />
-      </Section>
-
-      {/* ================= PROFESSIONAL ================= */}
-      <Section title="Professional Details" icon={<FaUserTie />}>
-        <Info label="Name" value={professionalUser?.fullName} />
-        <Info label="Email" value={professionalUser?.email} />
-        <Info label="Mobile" value={professionalUser?.mobile} />
-        <Info label="Professional ID" value={professionalId?._id} />
-        <Info label="Status" value={professionalId?.status} />
-        <Info label="Rejection Count" value={professionalId?.rejectionCount} />
-        <Info label="Onboarded" value={professionalId?.onBoarded ? "Yes" : "No"} />
-      </Section>
-
       {/* ================= PROFESSION ================= */}
       <Section title="Profession & Skills" icon={<FaBriefcase />}>
-        <Info label="Profession" value={profession?.name} />
-        <Info label="Description" value={profession?.description} />
+        <Info label="Profession" value={profession?.name} icon={<FaToolbox className="me-2 text-primary"/>}/>
+        <Info label="Description" value={profession?.description} icon={<FaRegStickyNote className="me-2 text-primary"/>}/>
         <div className="d-flex flex-wrap gap-2 mt-2">
-          {(booking.selectedSkills || []).map((s) => (
+          {(professionalId.selectedSkills || []).map((s) => (
             <span
               key={s._id}
               className="badge bg-dark text-white"
@@ -157,12 +141,14 @@ useEffect(()=>{
 
       {/* ================= WORK DETAILS ================= */}
       <Section title="Work Details" icon={<FaClock />}>
-        <Info label="Problem" value={problemDescription} />
-        <Info label="Work Date" value={workDate} />
-        <Info label="Work Time" value={workTime} />
-        <Info label="Address" value={workAddress} />
-        <Info label="Distance (km)" value={distanceInKm} />
-        <Info label="Charge Type" value={chargeType} />
+        <Info label="Problem" value={problemDescription} icon={<FaRegStickyNote className="me-2 text-primary"/>}/>
+        <Info label="Customer Id" value={customerId} icon={<FaIdCardClip className="me-2 text-primary"/>}/>
+        <Info label="Customer Name" value={customerName} icon={<FaPerson className="me-2 text-primary"/>}/>
+        <Info label="Work Date" value={formatDate(workDate)} icon={<FaCalendarAlt className="me-2 text-primary"/>}/>
+        <Info label="Work Time" value={formatTime(workTime)} icon={<FcAlarmClock className="me-2 text-primary"/>}/>
+        <Info label="Address" value={workAddress} icon={<FaMapMarkerAlt className="me-2 text-primary"/>}/>
+        <Info label="Distance (km)" value={distanceInKm} icon={<FaRoute className="me-2 text-primary"/>}/>
+        <Info label="Charge Type" value={chargeType} icon={<FaFileContract className="me-2 text-primary"/>}/>
       </Section>
 
       {/* ================= CHARGES ================= */}
@@ -175,6 +161,35 @@ useEffect(()=>{
           value={`${professionalId?.charges?.contract?.minAmount || "N/A"} - ${professionalId?.charges?.contract?.maxAmount || "N/A"}`}
         />
       </Section>
+
+      <Section title="Booking Progess & Payment Details" icon={<FaClipboardCheck/> }>
+           <Info label="Work Started At" value={formatTime(startedAt)} />
+           <Info label="Quote Amount" value={quoteAmount} />
+           <Info label="Quote Sent At" value={quoteSentAt} />
+           <Info label="Payment Type" value={paymentReason} />
+           <Info label="Paid Amount" value={paidAmount} />
+           <Info label="Amount Paid At" value={formatTime(paidAt)} />
+           <Info label="Razorpay OrderId" value={razorpayOrderId} />
+           <Info label="Razorpay PaymentId" value={razorpayPaymentId} />
+      </Section>
+        
+        <div
+                         className="p-3 mb-3 rounded-3 text-white shadow"
+                          style={{
+                            background: "linear-gradient(135deg, #1e293b, #334155)",
+                          }}
+                        >
+                          <div className="d-flex justify-content-between">
+                            <strong>{customerName}</strong>
+                            <span className="text-warning">
+                              {Array.from({ length: reviewRating }).map((_, i) => (
+                                <FaStar key={i} />
+                              ))}
+                            </span>
+                          </div>
+                          <p className="small">{reviewDesc}</p>
+                        </div>
+
     </div>
   );
 };
@@ -197,9 +212,9 @@ const Section = ({ title, icon, children }) => (
   </div>
 );
 
-const Info = ({ label, value }) => (
+const Info = ({ label, value, icon }) => (
   <div className="col-md-6">
-    <div className="small text-muted">{label}</div>
+    <div className="small text-muted">{icon} {label}</div>
     <div className="fw-semibold">
       {value ?? "N/A"}
     </div>

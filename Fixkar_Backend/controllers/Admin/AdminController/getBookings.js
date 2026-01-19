@@ -44,20 +44,10 @@ export const getAdminBookingById = async (req, res) => {
         }
 
         const booking = await Booking.findById(bookingId).populate({
-            path: 'customerId', populate: {
-                path: 'userId'
-            }
-        }).populate({
             path: "professionalId",
-            populate: [{
-                path: "userId",
-                model: "User",
-            },
+            populate: [
             { path: "profession", populate: { path: "skills" } },
             { path: "selectedSkills" },
-            { path: 'reviews' },
-            { path: 'gallery' },
-            { path: 'acceptedBy' },
             ],
         }).populate('currentPaymentId').populate('review');
 
