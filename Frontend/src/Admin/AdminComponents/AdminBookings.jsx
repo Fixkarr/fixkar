@@ -12,11 +12,14 @@ import StatCard from "./Utils/StatCard";
 import useGetAllBookings from "../../hooks/useGetAllBookings";
 import { GetStatusBadge } from "../../utils/GetStatusBadge";
 import { getBookingCountByStatus } from "../AdminFunctions/getBookingCountByStatus";
+import { useNavigate } from "react-router-dom";
+
+const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const AdminBookings = () => {
   const bookings = useGetAllBookings()
     console.log(bookings);
-
+    const navigate = useNavigate();
   const [bookingId, setBookingId] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [professionalId, setProfessionalId] = useState("");
@@ -173,6 +176,8 @@ const AdminBookings = () => {
               <div
                 key={b._id}
                 className="card border-0 shadow-sm rounded-3 mb-3"
+                role="button"
+                onClick={()=>navigate(`${adminpath}/manage-bookings/:bookingId`)}
               >
                 <div className="card-body d-flex justify-content-between align-items-center">
                   <div>

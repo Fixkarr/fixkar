@@ -62,6 +62,7 @@ import { addMessageToChat, markAllMessagesSeenInChat, updateConversationOnNewMes
 import { setOnlineUsers } from "./redux/presence.slice.js";
 import UpdateServiceForm from "./Admin/AdminComponents/Utils/UpdateServiceForm.jsx";
 import AdminBookings from "./Admin/AdminComponents/AdminBookings.jsx";
+import AdminBookingDetail from "./Admin/AdminComponents/AdminBookingDetail.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -345,6 +346,7 @@ const App = () => {
 
           <Route path={`${adminpath}/manage-users`} element={currentAdmin?.role === "super_admin" ? <AdminUsers/> : (<Navigate to={`${adminpath}/home`}/>)}/>
           <Route path={`${adminpath}/manage-bookings`} element={currentAdmin?.role === "super_admin" ? <AdminBookings/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+          <Route path={`${adminpath}/manage-bookings/:bookingId`} element={currentAdmin?.role === "super_admin" ? <AdminBookingDetail/> : (<Navigate to={`${adminpath}/home`}/>)}/>
           
           <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin?.role === "super_admin" ? <UpdateServiceForm/> : <Navigate to={`${adminpath}/home`}/>}/>
 

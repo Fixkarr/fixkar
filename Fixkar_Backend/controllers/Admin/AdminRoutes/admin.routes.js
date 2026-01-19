@@ -11,7 +11,7 @@ import { getAllProfessionals } from '../../ProfessionalsController/getAllProfess
 import { acceptApplication } from '../AdminController/acceptProApplication.js';
 import { rejectApplication } from '../AdminController/rejectProApplication.js';
 import { updateService } from '../AdminController/updateService.js';
-import { getBookings } from '../AdminController/getBookings.js';
+import { getAdminBookingById, getBookings } from '../AdminController/getBookings.js';
 
 const adminRouter = express.Router()
 
@@ -26,6 +26,7 @@ adminRouter.get('/get-all-customers', isAdmin, adminPermission('super_admin', 'p
 adminRouter.get('/get-all-professionals', isAdmin, adminPermission('super_admin', 'professional_admin'), getAllProfessionals)
 
 adminRouter.get('/get-all-bookings', isAdmin, adminPermission('super_admin', 'booking_admin'),getBookings)
+adminRouter.get('/get-admin-booking/:bookingId', isAdmin, adminPermission('super_admin', 'booking_admin'),getAdminBookingById)
 
 
 adminRouter.post('/accept-professional-application', isAdmin, adminPermission('super_admin', 'professional_admin'), acceptApplication);
