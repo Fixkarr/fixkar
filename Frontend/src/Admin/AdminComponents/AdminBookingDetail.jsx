@@ -134,12 +134,12 @@ useEffect(()=>{
       </Section>
 
       <Section title="Booking Progess & Payment Details" icon={<FaClipboardCheck/> }>
-           <Info label="Work Started At" value={formatTime(startedAt)} />
+           <Info label="Work Started At" value={startedAt} />
            <Info label="Quote Amount" value={quoteAmount} />
            <Info label="Quote Sent At" value={quoteSentAt} />
            <Info label="Payment Type" value={paymentReason} />
            <Info label="Paid Amount" value={paidAmount} />
-           <Info label="Amount Paid At" value={formatTime(paidAt)} />
+           <Info label="Amount Paid At" value={paidAt} />
            <Info label="Razorpay OrderId" value={razorpayOrderId} />
            <Info label="Razorpay PaymentId" value={razorpayPaymentId} />
       </Section>
