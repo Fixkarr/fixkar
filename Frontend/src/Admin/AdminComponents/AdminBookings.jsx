@@ -9,148 +9,16 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import StatCard from "./Utils/StatCard";
-
-/**
- * bookings[] expected shape:
- * {
- *   _id,
- *   status: "pending" | "ongoing" | "completed" | "cancelled" | "rejected",
- *   customerId: {_id},
- *   professionalId: {_id}
- * }
- */
+import useGetAllBookings from "../../hooks/useGetAllBookings";
 
 const AdminBookings = () => {
-    const bookings = [
-  {
-    _id: "BK1001",
-    status: "pending",
-    customerId: {
-      _id: "CUST001",
-    },
-    professionalId: {
-      _id: "PROF001",
-    },
-  },
-  {
-    _id: "BK1002",
-    status: "ongoing",
-    customerId: {
-      _id: "CUST002",
-    },
-    professionalId: {
-      _id: "PROF002",
-    },
-  },
-  {
-    _id: "BK1003",
-    status: "completed",
-    customerId: {
-      _id: "CUST003",
-    },
-    professionalId: {
-      _id: "PROF001",
-    },
-  },
-  {
-    _id: "BK1004",
-    status: "cancelled",
-    customerId: {
-      _id: "CUST004",
-    },
-    professionalId: {
-      _id: "PROF003",
-    },
-  },
-  {
-    _id: "BK1005",
-    status: "rejected",
-    customerId: {
-      _id: "CUST005",
-    },
-    professionalId: {
-      _id: "PROF004",
-    },
-  },
-  {
-    _id: "BK1006",
-    status: "pending",
-    customerId: {
-      _id: "CUST002",
-    },
-    professionalId: {
-      _id: "PROF003",
-    },
-  },
-  {
-    _id: "BK1007",
-    status: "ongoing",
-    customerId: {
-      _id: "CUST001",
-    },
-    professionalId: {
-      _id: "PROF004",
-    },
-  },
-  {
-    _id: "BK1008",
-    status: "completed",
-    customerId: {
-      _id: "CUST006",
-    },
-    professionalId: {
-      _id: "PROF002",
-    },
-  },
-  {
-    _id: "BK1009",
-    status: "cancelled",
-    customerId: {
-      _id: "CUST003",
-    },
-    professionalId: {
-      _id: "PROF005",
-    },
-  },
-  {
-    _id: "BK1010",
-    status: "completed",
-    customerId: {
-      _id: "CUST004",
-    },
-    professionalId: {
-      _id: "PROF001",
-    },
-  },
-];
-
-
+  const bookings = useGetAllBookings()
+    console.log(bookings);
 
   const [bookingId, setBookingId] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [professionalId, setProfessionalId] = useState("");
 
-  /* ================= STATS ================= */
-  const stats = useMemo(() => {
-    const base = {
-      total: bookings.length,
-      pending: 0,
-      ongoing: 0,
-      completed: 0,
-      cancelled: 0,
-      rejected: 0,
-    };
-
-    bookings.forEach((b) => {
-      if (b.status === "pending") base.pending++;
-      if (b.status === "ongoing") base.ongoing++;
-      if (b.status === "completed") base.completed++;
-      if (b.status === "cancelled") base.cancelled++;
-      if (b.status === "rejected") base.rejected++;
-    });
-
-    return base;
-  }, [bookings]);
 
   /* ================= FILTER ================= */
   const filteredBookings = useMemo(() => {
@@ -176,7 +44,12 @@ const AdminBookings = () => {
   }, [bookings, bookingId, customerId, professionalId]);
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid"
+     style={{
+        background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
+        minHeight: "100vh",
+      }}
+    >
 
       {/* ================= HEADER ================= */}
       <div className="card border-0 shadow-lg rounded-4 mb-4 bg-dark text-white">
@@ -198,12 +71,48 @@ const AdminBookings = () => {
 
       {/* ================= STATS CARDS ================= */}
       <div className="row g-4 mb-4">
-        <StatCard title="Total Bookings" value={stats.total} icon={<FaClipboardList />} color="primary" />
-        <StatCard title="Pending" value={stats.pending} icon={<FaClock />} color="warning" />
-        <StatCard title="Ongoing" value={stats.ongoing} icon={<FaSpinner />} color="info" />
-        <StatCard title="Completed" value={stats.completed} icon={<FaCheckCircle />} color="success" />
-        <StatCard title="Cancelled" value={stats.cancelled} icon={<FaTimesCircle />} color="secondary" />
-        <StatCard title="Rejected" value={stats.rejected} icon={<FaBan />} color="danger" />
+        <StatCard
+          title="Total Bookings"
+          value={bookings?.length}
+          icon={<FaUsers />}
+          color="primary"
+        />
+        <StatCard
+          title="Total Customers"
+          value="1,780"
+          icon={<FaUsers />}
+          color="success"
+        />
+        <StatCard
+          title="Total Professionals"
+          value="670"
+          icon={<FaUserTie />}
+          color="warning"
+        />
+        <StatCard
+          title="Total Earnings"
+          value="₹ 3,45,000"
+          icon={<FaRupeeSign />}
+          color="info"
+        />
+         <StatCard
+          title="Pending Applications"
+          value="110"
+          icon={<FaUserClock />}
+          color="warning"
+        />
+         <StatCard
+          title="Total Bookings"
+          value="4,820"
+          icon={<FaClipboardList />}
+          color="primary"
+        />
+         <StatCard
+          title="Total Services"
+          value="10"
+          icon={<FaClipboardList />}
+          color="warning"
+        />
       </div>
 
       {/* ================= SEARCH PANEL ================= */}
