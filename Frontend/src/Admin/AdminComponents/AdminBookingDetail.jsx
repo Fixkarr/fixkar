@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   FaMapMarkerAlt,
-  FaTools,
   FaMoneyBillWave,
   FaClock,
   FaCalendarAlt,
@@ -20,7 +19,7 @@ import {server_url} from '../../App'
 import { toast } from "react-toastify";
 import { GetStatusBadge } from "../../utils/GetStatusBadge";
 import { formatDate, formatTime } from "../../utils/formatTime&Date";
-import { FaIdCardClip, FaLocationPin, FaPerson } from "react-icons/fa6";
+import { FaIdCardClip, FaPerson } from "react-icons/fa6";
 import { FcAlarmClock } from "react-icons/fc";
 
 const AdminBookingDetail = () => {
