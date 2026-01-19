@@ -33,13 +33,13 @@ const AdminBookings = () => {
         : true;
 
       const matchCustomerId = customerId
-        ? b.customerId?._id
+        ? b.customerId
             ?.toLowerCase()
             .includes(customerId.toLowerCase())
         : true;
 
       const matchProfessionalId = professionalId
-        ? b.professionalId?._id
+        ? b.professionalId
             ?.toLowerCase()
             .includes(professionalId.toLowerCase())
         : true;
@@ -184,10 +184,10 @@ const AdminBookings = () => {
                     <div className="fw-bold">Booking ID</div>
                     <div className="text-muted small">{b._id}</div>
                     <div className="small text-muted">
-                      Customer: {b.customerId?._id}
+                      Customer: {b.customerId}
                     </div>
                     <div className="small text-muted">
-                      Professional: {b.professionalId?._id}
+                      Professional: {b.professionalId}
                     </div>
                   </div>
                     {<GetStatusBadge status={b.status}/>}
