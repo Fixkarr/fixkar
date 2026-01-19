@@ -18,6 +18,7 @@ import {
 import {useParams} from "react-router-dom"
 import axios from 'axios'
 import {server_url} from '../../App'
+import { toast } from "react-toastify";
 
 const AdminBookingDetail = () => {
 
@@ -29,7 +30,7 @@ useEffect(()=>{
         try {
             const result = await axios.get(`${server_url}/api/admin/get-admin-booking/${bookingId}`, {withCredentials : true});
             setBooking(result.data.booking)
-            console.log(result.data)
+            toast.success(result.data.message);
         } catch (error) {
             console.log(error)
         }
