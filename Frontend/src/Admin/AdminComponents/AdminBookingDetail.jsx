@@ -126,7 +126,7 @@ useEffect(()=>{
         <Info label="Customer Id" value={customerId} icon={<FaIdCardClip className="me-2 text-primary"/>}/>
         <Info label="Customer Name" value={customerName} icon={<FaPerson className="me-2 text-primary"/>}/>
         <Info label="Work Date" value={formatDate(workDate)} icon={<FaCalendarAlt className="me-2 text-primary"/>}/>
-        <Info label="Work Time" value={formatTime(workTime)} icon={<FcAlarmClock className="me-2 text-primary"/>}/>
+        <Info label="Work Time" value={workTime} icon={<FcAlarmClock className="me-2 text-primary"/>}/>
         <Info label="Address" value={workAddress} icon={<FaMapMarkerAlt className="me-2 text-primary"/>}/>
         <Info label="Distance (km)" value={distanceInKm} icon={<FaRoute className="me-2 text-primary"/>}/>
         <Info label="Charge Type" value={chargeType} icon={<FaFileContract className="me-2 text-primary"/>}/>
