@@ -22,7 +22,7 @@ import { toast } from "react-toastify";
 
 const AdminBookingDetail = () => {
 
-const {booking, setBooking} = useState({});
+const [booking, setBooking] = useState({});
 const {bookingId} = useParams();
 
 useEffect(()=>{
