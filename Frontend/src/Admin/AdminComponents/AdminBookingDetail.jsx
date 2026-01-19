@@ -149,17 +149,7 @@ useEffect(()=>{
         <Info label="Address" value={workAddress} icon={<FaMapMarkerAlt className="me-2 text-primary"/>}/>
         <Info label="Distance (km)" value={distanceInKm} icon={<FaRoute className="me-2 text-primary"/>}/>
         <Info label="Charge Type" value={chargeType} icon={<FaFileContract className="me-2 text-primary"/>}/>
-      </Section>
-
-      {/* ================= CHARGES ================= */}
-      <Section title="Charges" icon={<FaMoneyBillWave />}>
-        <Info label="Visiting Charge" value={`₹ ${visitingCharge || 0}`} />
-        <Info label="Daily Charge" value={`₹ ${professionalId?.charges?.daily?.amount || "N/A"}`} />
-        <Info label="Hourly Charge" value={`₹ ${professionalId?.charges?.hourly?.amount || "N/A"}`} />
-        <Info
-          label="Contract Range"
-          value={`${professionalId?.charges?.contract?.minAmount || "N/A"} - ${professionalId?.charges?.contract?.maxAmount || "N/A"}`}
-        />
+         <Info label="Visiting Charge" value={`₹ ${visitingCharge || 0}`} icon={<FaMoneyBillWave className="me-2 text-primary"/>}/>
       </Section>
 
       <Section title="Booking Progess & Payment Details" icon={<FaClipboardCheck/> }>
