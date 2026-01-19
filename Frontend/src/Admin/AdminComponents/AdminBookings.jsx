@@ -177,7 +177,7 @@ const AdminBookings = () => {
                 key={b._id}
                 className="card border-0 shadow-sm rounded-3 mb-3"
                 role="button"
-                onClick={()=>navigate(`${adminpath}/manage-bookings/:bookingId`)}
+                onClick={()=>navigate(`${adminpath}/manage-bookings/${b._id}`)}
               >
                 <div className="card-body d-flex justify-content-between align-items-center">
                   <div>
