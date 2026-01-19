@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaUser,
   FaPhone,
@@ -15,158 +15,27 @@ import {
   FaUserTie,
   FaBriefcase,
 } from "react-icons/fa";
+import {useParams} from "react-router-dom"
+import axios from 'axios'
+import {server_url} from '../../App'
 
 const AdminBookingDetail = () => {
 
-    const booking = {
-  _id: "696b2c726050846ac9751205",
-  status: "pending",
-  chargeType: "daily",
-  problemDescription: "Fan kharab hai",
-  workDate: "2026-01-17",
-  workTime: "11:59",
-  workAddress: "Kanpur, Uttar Pradesh, India",
-  visitingCharge: 25,
-  distanceInKm: 1,
-  customerName: "Himanshu Gupta",
-  mobileNumber: "+918840039506",
-  reachedAt: null,
-  currentPaymentId: null,
+const {booking, setBooking} = useState(null);
+const {bookingId} = useParams();
 
-  createdAt: "2026-01-17T06:30:10.913Z",
-  updatedAt: "2026-01-17T11:59:23.322Z",
-  __v: 0,
+useEffect(()=>{
+    const fetchBooking = async ()=>{
+        try {
+            const result = await axios.get(`${server_url}/api/admin/get-admin-booking/${bookingId}`, {withCredentials : true});
+            setBooking(result.data.booking)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-  /* ================= CUSTOMER ================= */
-  customerId: {
-    _id: "696b259e6050846ac975112f",
-    totalBookings: 0,
-    createdAt: "2026-01-17T06:01:02.618Z",
-    updatedAt: "2026-01-17T06:01:02.618Z",
-    __v: 0,
-
-    userId: {
-      _id: "696b259e6050846ac9751131",
-      fullName: "Hima Gupta",
-      email: "himgiru6292@gmail.com",
-      mobile: "+918840039506",
-      role: "customer",
-      isEmailVerified: false,
-      isMobileVerified: true,
-      createdAt: "2026-01-17T06:01:02.373Z",
-      updatedAt: "2026-01-17T07:42:30.268Z",
-      __v: 0,
-    },
-  },
-
-  /* ================= PROFESSIONAL ================= */
-  professionalId: {
-    _id: "696a1760b6a2c9aa89550b9f",
-    status: "approved",
-    rejectionCount: 0,
-    onBoarded: true,
-    busyDays: [],
-    reviews: [],
-    gallery: [],
-    poi:
-      "https://res.cloudinary.com/dopfy7csv/image/upload/v1768560581/professionals/poi_documents/sample.jpg",
-    profilePicture:
-      "https://res.cloudinary.com/dopfy7csv/image/upload/v1768560581/professionals/profile_pictures/sample.png",
-    public_id:
-      "professionals/profile_pictures/sample.png",
-
-    dob: "2008-01-16T00:00:00.000Z",
-    description:
-      "Vj kuch toofani ki nh hm man mt aaj tb tk kha se in n",
-
-    createdAt: "2026-01-16T10:48:00.514Z",
-    updatedAt: "2026-01-19T03:37:04.795Z",
-    __v: 1,
-
-    /* ===== ACCEPTED BY ADMIN ===== */
-    acceptedBy: {
-      _id: "6958b84f417069abcc61f17b",
-      username: "prince@123",
-      adminName: "Prince maurya",
-      role: "super_admin",
-      permissions: [
-        "manage_users",
-        "manage_content",
-        "manage_bookings",
-        "manage_professionals",
-        "manage_support",
-      ],
-      createdAt: "2026-01-03T06:33:51.926Z",
-      updatedAt: "2026-01-03T06:33:51.926Z",
-      __v: 0,
-    },
-
-    /* ===== ADDRESS ===== */
-    address: {
-      addressLine: "Kanpur, Uttar Pradesh, India",
-      lat: 26.449923,
-      lng: 80.3318736,
-    },
-
-    /* ===== USER ===== */
-    userId: {
-      _id: "696a175fb6a2c9aa89550b9c",
-      fullName: "Himanshu Gupta",
-      email: "himanshugupta111214@gmail.com",
-      mobile: "+918840039506",
-      role: "professional",
-      isEmailVerified: false,
-      isMobileVerified: true,
-      createdAt: "2026-01-16T10:47:59.952Z",
-      updatedAt: "2026-01-17T11:57:20.426Z",
-      __v: 0,
-    },
-
-    /* ===== CHARGES ===== */
-    charges: {
-      amountType: "multiple",
-      amountDesc: "Flux",
-      daily: { amount: "400" },
-      hourly: { amount: "100" },
-      contract: {
-        minAmount: "5000",
-        maxAmount: "99999",
-      },
-    },
-
-    /* ===== PROFESSION ===== */
-    profession: {
-      _id: "6968aae2601ee76da2591370",
-      name: "Plumber",
-      image:
-        "https://res.cloudinary.com/dopfy7csv/image/upload/v1768467169/services/plumber.png",
-      description:
-        "प्लंबर पानी की पाइपलाइन, नल, सिंक, शौचालय और ड्रेनेज सिस्टम से जुड़ा काम करता है।",
-      professionalCount: 2,
-      createdAt: "2026-01-15T08:52:50.198Z",
-      updatedAt: "2026-01-17T09:58:27.757Z",
-      __v: 2,
-
-      skills: [
-        { _id: "s1", name: "Pipe Leakage Repair" },
-        { _id: "s2", name: "Bathroom–Toilet ka Kaam" },
-        { _id: "s3", name: "Sink / Nali Choke Kholna" },
-        { _id: "s4", name: "Emergency Paani Leakage Service" },
-      ],
-    },
-  },
-
-  /* ================= SELECTED SKILLS ================= */
-  selectedSkills: [
-    { _id: "s1", name: "Pipe Leakage Repair" },
-    { _id: "s2", name: "Bathroom–Toilet ka Kaam" },
-    { _id: "s3", name: "Sink / Nali Choke Kholna" },
-    { _id: "s4", name: "Emergency Paani Leakage Service" },
-  ],
-};
-
-
-
+    fetchBooking();
+},[])
 
 
   if (!booking) {

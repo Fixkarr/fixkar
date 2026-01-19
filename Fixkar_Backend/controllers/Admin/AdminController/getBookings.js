@@ -68,7 +68,8 @@ export const getAdminBookingById = async (req, res) => {
         }
 
         return res.status(200).json({
-            message: "Ye lo booking aa gayi!"
+            message: "Ye lo booking aa gayi!",
+            booking
         })
 
     } catch (error) {
