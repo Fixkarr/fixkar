@@ -178,7 +178,7 @@ const AdminBookings = () => {
                       Professional: {b.professionalId?._id}
                     </div>
                   </div>
-                    {GetStatusBadge(b.status)}
+                    {<GetStatusBadge status={b.status}/>}
                 </div>
               </div>
             ))
