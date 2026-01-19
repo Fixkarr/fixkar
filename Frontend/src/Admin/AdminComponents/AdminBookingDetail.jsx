@@ -14,12 +14,14 @@ import {
   FaIdCard,
   FaUserTie,
   FaBriefcase,
+
   FaToolbox,
   FaBan,
   FaUserCheck,
   FaFileContract,
   FaAddressCard,
   FaClipboardCheck,
+  FaRegStickyNote,
 } from "react-icons/fa";
 import {useParams} from "react-router-dom"
 import axios from 'axios'
