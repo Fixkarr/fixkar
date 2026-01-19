@@ -11,6 +11,7 @@ import {
 import StatCard from "./Utils/StatCard";
 import useGetAllBookings from "../../hooks/useGetAllBookings";
 import { GetStatusBadge } from "../../utils/GetStatusBadge";
+import { getBookingCountByStatus } from "../AdminFunctions/getBookingCountByStatus";
 
 const AdminBookings = () => {
   const bookings = useGetAllBookings()
@@ -79,26 +80,32 @@ const AdminBookings = () => {
           color="primary"
         />
         <StatCard
-          title="Total Customers"
-          value="1,780"
+          title="Cancelled Bookings"
+          value={getBookingCountByStatus(bookings, 'cancelled')}
           icon={<FaSpinner />}
           color="success"
         />
         <StatCard
-          title="Total Professionals"
-          value="670"
+          title="Rejected Bookings"
+          value={getBookingCountByStatus(bookings, 'rejected')}
           icon={<FaTimesCircle />}
           color="warning"
         />
         <StatCard
-          title="Total Earnings"
-          value="₹ 3,45,000"
+          title="Pending Bookings"
+          value={getBookingCountByStatus(bookings, 'pending')}
           icon={<FaBan />}
           color="info"
         />
          <StatCard
-          title="Pending Applications"
-          value="110"
+          title="Accepted Bookings"
+          value={getBookingCountByStatus(bookings, 'accepted')}
+          icon={<FaCheckCircle />}
+          color="warning"
+        />
+         <StatCard
+          title="Completed Bookings"
+          value={getBookingCountByStatus(bookings, 'completed')}
           icon={<FaCheckCircle />}
           color="warning"
         />
