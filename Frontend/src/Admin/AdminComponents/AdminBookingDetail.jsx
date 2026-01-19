@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
-  FaUser,
-  FaPhone,
-  FaEnvelope,
   FaMapMarkerAlt,
   FaTools,
   FaMoneyBillWave,
   FaClock,
   FaCalendarAlt,
   FaRoute,
-  FaCheckCircle,
-  FaHourglassHalf,
   FaIdCard,
-  FaUserTie,
   FaBriefcase,
 
   FaToolbox,
-  FaBan,
-  FaUserCheck,
   FaFileContract,
-  FaAddressCard,
   FaClipboardCheck,
   FaRegStickyNote,
 } from "react-icons/fa";
@@ -128,17 +119,6 @@ useEffect(()=>{
       <Section title="Profession & Skills" icon={<FaBriefcase />}>
         <Info label="Profession" value={profession?.name} icon={<FaToolbox className="me-2 text-primary"/>}/>
         <Info label="Description" value={profession?.description} icon={<FaRegStickyNote className="me-2 text-primary"/>}/>
-        <div className="d-flex flex-wrap gap-2 mt-2">
-          {(professionalId.selectedSkills || []).map((s) => (
-            <span
-              key={s._id}
-              className="badge bg-dark text-white"
-            >
-              <FaTools className="me-1" />
-              {s.name}
-            </span>
-          ))}
-        </div>
       </Section>
 
       {/* ================= WORK DETAILS ================= */}
