@@ -29,6 +29,7 @@ useEffect(()=>{
         try {
             const result = await axios.get(`${server_url}/api/admin/get-admin-booking/${bookingId}`, {withCredentials : true});
             setBooking(result.data.booking)
+            console.log(result.data)
         } catch (error) {
             console.log(error)
         }
@@ -37,7 +38,7 @@ useEffect(()=>{
     fetchBooking();
 },[])
 
-
+console.log(booking)
   if (!booking) {
     return (
       <div className="text-center py-5 text-muted">
