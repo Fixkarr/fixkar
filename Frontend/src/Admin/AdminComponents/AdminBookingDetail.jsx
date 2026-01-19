@@ -12,6 +12,7 @@ import {
   FaFileContract,
   FaClipboardCheck,
   FaRegStickyNote,
+  FaStar,
 } from "react-icons/fa";
 import {useParams} from "react-router-dom"
 import axios from 'axios'

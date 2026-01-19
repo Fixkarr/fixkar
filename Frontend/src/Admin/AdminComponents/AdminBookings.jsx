@@ -18,7 +18,6 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const AdminBookings = () => {
   const bookings = useGetAllBookings()
-    console.log(bookings);
     const navigate = useNavigate();
   const [bookingId, setBookingId] = useState("");
   const [customerId, setCustomerId] = useState("");
