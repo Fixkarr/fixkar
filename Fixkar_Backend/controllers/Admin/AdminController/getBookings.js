@@ -37,7 +37,7 @@ export const getAdminBookingById = async (req, res) => {
             })
         }
 
-        if (bookingId) {
+        if (!bookingId) {
             return res.status(400).json({
                 message: "bookingId is requied!"
             })
