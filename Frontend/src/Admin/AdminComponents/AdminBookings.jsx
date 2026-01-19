@@ -74,43 +74,31 @@ const AdminBookings = () => {
         <StatCard
           title="Total Bookings"
           value={bookings?.length}
-          icon={<FaUsers />}
+          icon={<FaClock />}
           color="primary"
         />
         <StatCard
           title="Total Customers"
           value="1,780"
-          icon={<FaUsers />}
+          icon={<FaSpinner />}
           color="success"
         />
         <StatCard
           title="Total Professionals"
           value="670"
-          icon={<FaUserTie />}
+          icon={<FaTimesCircle />}
           color="warning"
         />
         <StatCard
           title="Total Earnings"
           value="₹ 3,45,000"
-          icon={<FaRupeeSign />}
+          icon={<FaBan />}
           color="info"
         />
          <StatCard
           title="Pending Applications"
           value="110"
-          icon={<FaUserClock />}
-          color="warning"
-        />
-         <StatCard
-          title="Total Bookings"
-          value="4,820"
-          icon={<FaClipboardList />}
-          color="primary"
-        />
-         <StatCard
-          title="Total Services"
-          value="10"
-          icon={<FaClipboardList />}
+          icon={<FaCheckCircle />}
           color="warning"
         />
       </div>
