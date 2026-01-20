@@ -6,7 +6,16 @@ export const getAllProfessionals = async (req,res)=>{
         const professionals = await Professional.find().populate({
           path : "userId",
           model : "User",
-          select : "+termsAcceptance +professionalAcceptance"
+          select : `
+      +termsAcceptance.accepted
+      +termsAcceptance.acceptedAt
+      +termsAcceptance.acceptedIP
+      +termsAcceptance.policyVersion
+      +professionalAcceptance.accepted
+      +professionalAcceptance.acceptedAt
+      +professionalAcceptance.acceptedIP
+      +professionalAcceptance.policyVersion
+      `
         }).populate({
     path: "reviews",
     options: {

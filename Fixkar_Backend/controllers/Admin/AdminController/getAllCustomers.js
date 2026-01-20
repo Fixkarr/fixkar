@@ -5,7 +5,10 @@ export const getAllCustomers = async (req,res)=>{
         const customers = await Customer.find().populate({
           path : "userId",
           model : "User",
-          select : "+termsAcceptance"
+          select : `+termsAcceptance.accepted
+      +termsAcceptance.acceptedAt
+      +termsAcceptance.acceptedIP
+      +termsAcceptance.policyVersion`
         });
         return res.status(200).json({
             message : "Customers fetched successfully",
