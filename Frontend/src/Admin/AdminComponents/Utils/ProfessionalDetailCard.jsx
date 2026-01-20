@@ -143,13 +143,18 @@ const ProfessionalDetailCard = ({ p }) => {
         icon={p.onBoarded ? <FaCheckCircle /> : <FaTimesCircle />}
       />
     </Section>
-
-      {p.selectedSkills && <Section title="Skills" icon={<FaTools/>}>
-          {p.selectedSkills?.map((s)=>{
-              return <Info label="" value={s.name} icon={<FaToolbox/>} key={s._id}/>
-          })}
-        
-        </Section>}
+{Array.isArray(p.selectedSkills) && p.selectedSkills.length > 0 && (
+  <Section title="Skills" icon={<FaTools />}>
+    {p.selectedSkills.map((s) => (
+      <Info
+        key={s._id}
+        label="Skill"
+        value={s.name}
+        icon={<FaToolbox />}
+      />
+    ))}
+  </Section>
+)}
         {/* ================= ACTION BUTTONS ================= */}
             {p.onBoarded === true && p.status === "pending" && (
       <Section title="Admin Actions" icon={<FaGavel />}>
