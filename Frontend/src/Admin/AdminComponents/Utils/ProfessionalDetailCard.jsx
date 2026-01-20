@@ -125,7 +125,7 @@ const ProfessionalDetailCard = ({ p }) => {
       <Info label="Full Name" value={p.userId?.fullName} icon={<FaUser />} />
       <Info label="Email" value={p.userId?.email} icon={<FaEnvelope />} />
       <Info label="Address" value={p.address.addressLine} icon={<FaLocationPin />} />
-      <Info label="Mobile Number" value={p.userId?.mobileNumber} icon={<FaLocationPin />} />
+      <Info label="Mobile Number" value={p.userId?.mobile} icon={<FaLocationPin />} />
 
       <Info
         label="Date of Birth"
