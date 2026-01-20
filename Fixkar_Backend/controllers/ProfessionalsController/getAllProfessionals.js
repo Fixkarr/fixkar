@@ -3,7 +3,11 @@ import { Professional } from "../../models/userModel.js";
 
 export const getAllProfessionals = async (req,res)=>{
     try {
-        const professionals = await Professional.find().populate("userId", '+termsAcceptance +professionalAcceptance').populate({
+        const professionals = await Professional.find().populate({
+          path : "userId",
+          model : "User",
+          select : "+termsAcceptance +professionalAcceptance"
+        }).populate({
     path: "reviews",
     options: {
       sort: { createdAt: -1 },
