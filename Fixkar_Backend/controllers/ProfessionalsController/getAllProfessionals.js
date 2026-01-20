@@ -3,7 +3,7 @@ import { Professional } from "../../models/userModel.js";
 
 export const getAllProfessionals = async (req,res)=>{
     try {
-        const professionals = await Professional.find().populate("userId", '-password').populate({
+        const professionals = await Professional.find().populate("userId", '+termsAcceptance +professionalAcceptance').populate({
     path: "reviews",
     options: {
       sort: { createdAt: -1 },
@@ -23,6 +23,9 @@ export const getAllProfessionals = async (req,res)=>{
       path : "skills",
       select : "name"
     }
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
   });
   
         res.status(200).json({

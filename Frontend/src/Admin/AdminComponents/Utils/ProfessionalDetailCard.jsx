@@ -21,8 +21,11 @@ import {
   FaDownload,
   FaEye,
   FaIdCard,
+  FaPhone,
+  FaSkiing,
+  FaTools,
 } from "react-icons/fa";
-import { FaLocationPin, FaUserTie } from "react-icons/fa6";
+import { FaLocationPin, FaToolbox, FaUserTie } from "react-icons/fa6";
 import DayCard from "../../../Professional/DayCard";
 import axios from "axios";
 import { server_url } from "../../../App";
@@ -123,9 +126,10 @@ const ProfessionalDetailCard = ({ p }) => {
       </div>
 
       <Info label="Full Name" value={p.userId?.fullName} icon={<FaUser />} />
+      <Info label="Rejection Count" value={p.rejectionCount} icon={<FaPhone />} />
       <Info label="Email" value={p.userId?.email} icon={<FaEnvelope />} />
       <Info label="Address" value={p.address.addressLine} icon={<FaLocationPin />} />
-      <Info label="Mobile Number" value={p.userId?.mobile} icon={<FaLocationPin />} />
+      <Info label="Mobile Number" value={p.userId?.mobile} icon={<FaPhone />} />
 
       <Info
         label="Date of Birth"
@@ -140,6 +144,12 @@ const ProfessionalDetailCard = ({ p }) => {
       />
     </Section>
 
+      {p.selectedSkills && <Section title="Skills" icon={<FaTools/>}>
+          {p.selectedSkills?.map((s)=>{
+              <Info label="" value={s.name} icon={<FaToolbox/>} key={s._id}/>
+          })}
+        
+        </Section>}
         {/* ================= ACTION BUTTONS ================= */}
             {p.onBoarded === true && p.status === "pending" && (
       <Section title="Admin Actions" icon={<FaGavel />}>
