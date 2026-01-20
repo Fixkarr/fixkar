@@ -26,6 +26,7 @@ import {
   FaTools,
   FaPlay,
   FaImages,
+  FaBan,
 } from "react-icons/fa";
 import { FaLocationPin, FaToolbox, FaUserTie } from "react-icons/fa6";
 import DayCard from "../../../Professional/DayCard";
@@ -128,7 +129,7 @@ const ProfessionalDetailCard = ({ p }) => {
       </div>
 
       <Info label="Full Name" value={p.userId?.fullName} icon={<FaUser />} />
-      <Info label="Rejection Count" value={p.rejectionCount} icon={<FaPhone />} />
+      <Info label="Rejection Count" value={p.rejectionCount} icon={<FaBan />} />
       <Info label="Email" value={p.userId?.email} icon={<FaEnvelope />} />
       <Info label="Address" value={p.address.addressLine} icon={<FaLocationPin />} />
       <Info label="Mobile Number" value={p.userId?.mobile} icon={<FaPhone />} />
@@ -345,16 +346,18 @@ const ProfessionalDetailCard = ({ p }) => {
         {/* ================= BUSY DAYS ================= */}
        <Section title="Busy Days" icon={<FaCalendarAlt />}>
       {p.busyDays?.length === 0 ? (
-        <div className="col-12 text-muted small">No busy days</div>
+        <div className="text-muted small">No busy days</div>
       ) : (
-        p.busyDays?.map((day) => (
+       <div>
+         {p.busyDays?.map((day) => (
           <DayCard
             key={day}
             year={new Date(day).getFullYear()}
             day={String(new Date(day).getDate()).padStart(2, "0")}
             month={new Date(day).toLocaleString("default", { month: "short" })}
           />
-        ))
+        ))}
+       </div>
       )}
     </Section>
 
