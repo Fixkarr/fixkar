@@ -22,7 +22,7 @@ import {
   FaEye,
   FaIdCard,
 } from "react-icons/fa";
-import { FaUserTie } from "react-icons/fa6";
+import { FaLocationPin, FaUserTie } from "react-icons/fa6";
 import DayCard from "../../../Professional/DayCard";
 import axios from "axios";
 import { server_url } from "../../../App";
@@ -124,6 +124,8 @@ const ProfessionalDetailCard = ({ p }) => {
 
       <Info label="Full Name" value={p.userId?.fullName} icon={<FaUser />} />
       <Info label="Email" value={p.userId?.email} icon={<FaEnvelope />} />
+      <Info label="Address" value={p.address.addressLine} icon={<FaLocationPin />} />
+      <Info label="Mobile Number" value={p.userId?.mobileNumber} icon={<FaLocationPin />} />
 
       <Info
         label="Date of Birth"
