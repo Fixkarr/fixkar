@@ -348,7 +348,7 @@ const ProfessionalDetailCard = ({ p }) => {
       {p.busyDays?.length === 0 ? (
         <div className="text-muted small">No busy days</div>
       ) : (
-       <div>
+       <div className="d-flex gap-3">
          {p.busyDays?.map((day) => (
           <DayCard
             key={day}
