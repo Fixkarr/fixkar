@@ -146,7 +146,7 @@ const ProfessionalDetailCard = ({ p }) => {
 
       {p.selectedSkills && <Section title="Skills" icon={<FaTools/>}>
           {p.selectedSkills?.map((s)=>{
-              <Info label="" value={s.name} icon={<FaToolbox/>} key={s._id}/>
+              return <Info label="" value={s.name} icon={<FaToolbox/>} key={s._id}/>
           })}
         
         </Section>}
