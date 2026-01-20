@@ -22,6 +22,8 @@ import { GetStatusBadge } from "../../utils/GetStatusBadge";
 import { formatDate, formatTime } from "../../utils/formatTime&Date";
 import { FaIdCardClip, FaPerson } from "react-icons/fa6";
 import { FcAlarmClock } from "react-icons/fc";
+import Section from "./Utils/Section";
+import Info from "./Utils/Info";
 
 const AdminBookingDetail = () => {
 
@@ -168,29 +170,6 @@ useEffect(()=>{
 
 /* ================= REUSABLE UI ================= */
 
-const Section = ({ title, icon, children }) => (
-  <div
-    className="card border-0 shadow-lg rounded-4 mb-4"
-    style={{
-      background:
-        "linear-gradient(135deg, #ffffff, #f1f1f1)",
-    }}
-  >
-    <div className="card-header fw-bold d-flex align-items-center gap-2">
-      <span className="text-primary fs-5">{icon}</span>
-      {title}
-    </div>
-    <div className="card-body row g-3">{children}</div>
-  </div>
-);
 
-const Info = ({ label, value, icon }) => (
-  <div className="col-md-6">
-    <div className="small text-muted">{icon} {label}</div>
-    <div className="fw-semibold">
-      {value ?? "N/A"}
-    </div>
-  </div>
-);
 
 export default AdminBookingDetail;
