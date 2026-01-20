@@ -127,6 +127,7 @@ useEffect(()=>{
       <Section title="Work Details" icon={<FaClock />}>
         <Info label="Problem" value={problemDescription} icon={<FaRegStickyNote className="me-2 text-primary"/>}/>
         <Info label="Customer Id" value={customerId} icon={<FaIdCardClip className="me-2 text-primary"/>}/>
+        <Info label="Professional Id" value={professionalId} icon={<FaIdCardClip className="me-2 text-primary"/>}/>
         <Info label="Customer Name" value={customerName} icon={<FaPerson className="me-2 text-primary"/>}/>
         <Info label="Work Date" value={formatDate(workDate)} icon={<FaCalendarAlt className="me-2 text-primary"/>}/>
         <Info label="Work Time" value={workTime} icon={<FcAlarmClock className="me-2 text-primary"/>}/>
