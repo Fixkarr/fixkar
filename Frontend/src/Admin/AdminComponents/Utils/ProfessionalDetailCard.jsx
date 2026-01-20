@@ -24,6 +24,8 @@ import {
   FaPhone,
   FaSkiing,
   FaTools,
+  FaPlay,
+  FaImages,
 } from "react-icons/fa";
 import { FaLocationPin, FaToolbox, FaUserTie } from "react-icons/fa6";
 import DayCard from "../../../Professional/DayCard";
@@ -136,6 +138,10 @@ const ProfessionalDetailCard = ({ p }) => {
         value={p.dob && new Date(p.dob).toLocaleDateString()}
         icon={<FaBirthdayCake />}
       />
+         {p.description && (
+          <Info label="Description" value={p.description} icon={<FaInfoCircle/>}/>
+          )}
+
 
       <Info
         label="Onboarding Status"
@@ -143,7 +149,8 @@ const ProfessionalDetailCard = ({ p }) => {
         icon={p.onBoarded ? <FaCheckCircle /> : <FaTimesCircle />}
       />
     </Section>
-{Array.isArray(p.selectedSkills) && p.selectedSkills.length > 0 && (
+
+  {Array.isArray(p.selectedSkills) && p.selectedSkills.length > 0 && (
   <Section title="Skills" icon={<FaTools />}>
     {p.selectedSkills.map((s) => (
       <Info
@@ -155,6 +162,69 @@ const ProfessionalDetailCard = ({ p }) => {
     ))}
   </Section>
 )}
+
+
+          {/* =====================Gallery======================== */}
+          {Array.isArray(p.gallery) && p.gallery.length > 0 && (
+  <Section title="Gallery" icon={<FaImages />}>
+    <div className="col-12 d-flex flex-wrap gap-3">
+      {p.gallery.map((item, index) => {
+        const { mediaUrl, mediaType } = item;
+
+        if (!mediaUrl) return null;
+
+        return (
+          <div
+            key={index}
+            className="position-relative rounded-3 overflow-hidden shadow-sm"
+            style={{
+              width: 120,
+              height: 120,
+              cursor: "pointer",
+              background: "#f1f5f9",
+            }}
+          >
+            {/* IMAGE */}
+            {mediaType === "image" && (
+              <a href={mediaUrl} target="_blank" rel="noreferrer">
+                <img
+                  src={mediaUrl}
+                  alt="gallery"
+                  className="w-100 h-100"
+                  style={{ objectFit: "cover" }}
+                />
+              </a>
+            )}
+
+            {/* VIDEO */}
+            {mediaType === "video" && (
+              <a href={mediaUrl} target="_blank" rel="noreferrer">
+                <video
+                  className="w-100 h-100"
+                  style={{ objectFit: "cover" }}
+                  muted
+                />
+                <div
+                  className="position-absolute top-50 start-50 translate-middle text-white"
+                  style={{
+                    fontSize: 28,
+                    background: "rgba(0,0,0,0.5)",
+                    borderRadius: "50%",
+                    padding: "6px 10px",
+                  }}
+                >
+                  <FaPlay />
+                </div>
+              </a>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+)}
+
+
         {/* ================= ACTION BUTTONS ================= */}
             {p.onBoarded === true && p.status === "pending" && (
       <Section title="Admin Actions" icon={<FaGavel />}>
@@ -226,12 +296,8 @@ const ProfessionalDetailCard = ({ p }) => {
       </Section>
     )}
 
-        {/* ================= DESCRIPTION ================= */}
-         {p.description && (
-      <Section title="Professional Description" icon={<FaInfoCircle />}>
-        <div className="col-12 text-muted small">{p.description}</div>
-      </Section>
-    )}
+      
+      
 
         {/* ================= CHARGES ================= */}
         {p.charges && (
