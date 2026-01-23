@@ -138,10 +138,10 @@ const AdminSearch = ({ customers, professionals }) => {
 
                           {/* Center  */}
                           <div className="col-md-4 text-center">
-                            <h3 className="fw-bold mb-1">
+                            <div className="fw-muted mb-1">
                               Terms Accepted At : {c.userId.termsAcceptance.acceptedAt} 
-                            </h3>
-                             <div className="text-primary-subtle small">
+                            </div>
+                             <div className="text-primary-emphasis small">
                               {c.userId.termsAcceptance.acceptedIP}
                             </div>
                              <div className="text-muted small">
