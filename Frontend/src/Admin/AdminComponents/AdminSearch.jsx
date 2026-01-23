@@ -40,8 +40,7 @@ const AdminSearch = ({ customers, professionals }) => {
     <div className="container-fluid">
       {/* ================= SEARCH PANEL ================= */}
       <div className="card shadow-sm border-0 rounded-4 mb-4">
-        <div className="card-body  shadow-lg bg-light rounded-3"
-        >
+        <div className="card-body  shadow-lg bg-light rounded-3">
           <div className="row g-3 align-items-end">
             <div className="col-md-3">
               <label className="form-label fw-semibold">User ID</label>
@@ -96,12 +95,10 @@ const AdminSearch = ({ customers, professionals }) => {
       </div>
 
       {/* ================= CUSTOMER TABLE ================= */}
-      <div className="row"> 
+      <div className="row">
         {selectedType === "customer" && (
           <div className="col-12">
-            <div
-              className="card border-0 shadow-lg rounded-4 d-flex flex-column mb-4"
-            >
+            <div className="card border-0 shadow-lg rounded-4 d-flex flex-column mb-4">
               <div className="card-header bg-dark text-white fw-semibold">
                 <FaUsers className="me-2 text-success" />
                 Customers
@@ -139,17 +136,20 @@ const AdminSearch = ({ customers, professionals }) => {
                           {/* Center  */}
                           <div className="col-md-4 text-center">
                             <div className="fw-muted mb-1">
-                              Terms Accepted At : {c.userId.termsAcceptance.acceptedAt} 
+                              Terms Accepted At :{" "}
+                              {c.userId.termsAcceptance.acceptedAt
+                                ? new Date(
+                                    p.userId.termsAcceptance.acceptedAt,
+                                  ).toLocaleString()
+                                : "—"}
                             </div>
-                             <div className="text-primary-emphasis small">
+                            <div className="text-primary-emphasis small">
                               {c.userId.termsAcceptance.acceptedIP}
                             </div>
-                             <div className="text-muted small">
+                            <div className="text-muted small">
                               {c.userId.termsAcceptance.policyVersion}
                             </div>
-
                           </div>
-
 
                           {/* Right */}
                           <div className="col-md-4 text-center">
@@ -184,9 +184,7 @@ const AdminSearch = ({ customers, professionals }) => {
         {/* ================= PROFESSIONAL TABLE ================= */}
         {selectedType === "professional" && (
           <div className="col-12">
-            <div
-              className="card border-0 shadow-lg rounded-4 d-flex flex-column mb-4"
-            >
+            <div className="card border-0 shadow-lg rounded-4 d-flex flex-column mb-4">
               <div className="card-header bg-dark text-white fw-semibold">
                 <FaUserTie className="me-2 text-warning" />
                 Professionals
@@ -232,8 +230,8 @@ const AdminSearch = ({ customers, professionals }) => {
                                 p.status === "approved"
                                   ? "bg-success"
                                   : p.status === "pending"
-                                  ? "bg-warning text-dark"
-                                  : "bg-danger"
+                                    ? "bg-warning text-dark"
+                                    : "bg-danger"
                               }`}
                             >
                               {p.status}
@@ -279,7 +277,7 @@ const AdminSearch = ({ customers, professionals }) => {
                         tabindex="-1"
                         id={`collapse-${p._id}`}
                         aria-labelledby="offcanvasTopLabel"
-                        style={{height : '100vh'}}
+                        style={{ height: "100vh" }}
                       >
                         <div className="offcanvas-header">
                           <button
@@ -300,7 +298,6 @@ const AdminSearch = ({ customers, professionals }) => {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
