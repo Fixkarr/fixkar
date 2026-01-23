@@ -139,7 +139,7 @@ const AdminSearch = ({ customers, professionals }) => {
                               Terms Accepted At :{" "}
                               {c.userId.termsAcceptance.acceptedAt
                                 ? new Date(
-                                    p.userId.termsAcceptance.acceptedAt,
+                                    c.userId.termsAcceptance.acceptedAt,
                                   ).toLocaleString()
                                 : "—"}
                             </div>
