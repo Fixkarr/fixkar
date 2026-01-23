@@ -121,7 +121,7 @@ const AdminSearch = ({ customers, professionals }) => {
                       <div className="card-body">
                         <div className="row align-items-center">
                           {/* LEFT */}
-                          <div className="col-md-6">
+                          <div className="col-md-4">
                             <h6 className="fw-bold mb-1">
                               {c.userId.fullName}
                             </h6>
@@ -136,8 +136,23 @@ const AdminSearch = ({ customers, professionals }) => {
                             </div>
                           </div>
 
-                          {/* CENTER */}
-                          <div className="col-md-6 text-center">
+                          {/* Center  */}
+                          <div className="col-md-4 text-center">
+                            <h3 className="fw-bold mb-1">
+                              Terms Accepted At : {c.userId.termsAcceptance.acceptedAt} 
+                            </h3>
+                             <div className="text-primary-subtle small">
+                              {c.userId.termsAcceptance.acceptedIP}
+                            </div>
+                             <div className="text-muted small">
+                              {c.userId.termsAcceptance.policyVersion}
+                            </div>
+
+                          </div>
+
+
+                          {/* Right */}
+                          <div className="col-md-4 text-center">
                             {c.userId.isMobileVerified ? (
                               <span className="badge bg-success">
                                 <FaCheckCircle className="me-1" />

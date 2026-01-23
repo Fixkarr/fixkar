@@ -151,6 +151,90 @@ const ProfessionalDetailCard = ({ p }) => {
       />
     </Section>
 
+    {/* ================= Terms Acceptance And Professional Acceptance ================= */}
+    {p.userId?.termsAcceptance && p.userId?.professionalAcceptance && (
+  <Section title="Acceptance Details" icon={<FaCheckCircle />}>
+    {/* ===== TERMS ACCEPTANCE ===== */}
+    <Info
+      label="Terms Accepted"
+      value={
+        p.userId.termsAcceptance.accepted ? "Yes" : "No"
+      }
+      icon={
+        p.userId.termsAcceptance.accepted ? (
+          <FaCheckCircle className="text-success" />
+        ) : (
+          <FaTimesCircle className="text-danger" />
+        )
+      }
+    />
+
+    <Info
+      label="Terms Accepted At"
+      value={
+        p.userId.termsAcceptance.acceptedAt
+          ? new Date(
+              p.userId.termsAcceptance.acceptedAt
+            ).toLocaleString()
+          : "—"
+      }
+      icon={<FaCalendarAlt />}
+    />
+
+    <Info
+      label="Terms Accepted IP"
+      value={p.userId.termsAcceptance.acceptedIP || "—"}
+      icon={<FaLocationPin />}
+    />
+
+    <Info
+      label="Terms Policy Version"
+      value={p.userId.termsAcceptance.policyVersion || "—"}
+      icon={<FaFilePdf />}
+    />
+
+    {/* ===== PROFESSIONAL ACCEPTANCE ===== */}
+    <Info
+      label="Professional Accepted"
+      value={
+        p.userId.professionalAcceptance.accepted ? "Yes" : "No"
+      }
+      icon={
+        p.userId.professionalAcceptance.accepted ? (
+          <FaCheckCircle className="text-success" />
+        ) : (
+          <FaTimesCircle className="text-danger" />
+        )
+      }
+    />
+
+    <Info
+      label="Professional Accepted At"
+      value={
+        p.userId.professionalAcceptance.acceptedAt
+          ? new Date(
+              p.userId.professionalAcceptance.acceptedAt
+            ).toLocaleString()
+          : "—"
+      }
+      icon={<FaCalendarAlt />}
+    />
+
+    <Info
+      label="Professional Accepted IP"
+      value={p.userId.professionalAcceptance.acceptedIP || "—"}
+      icon={<FaLocationPin />}
+    />
+
+    <Info
+      label="Professional Policy Version"
+      value={p.userId.professionalAcceptance.policyVersion || "—"}
+      icon={<FaFilePdf />}
+    />
+  </Section>
+)}
+
+
   {Array.isArray(p.selectedSkills) && p.selectedSkills.length > 0 && (
   <Section title="Skills" icon={<FaTools />}>
     {p.selectedSkills.map((s) => (
