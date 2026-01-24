@@ -27,6 +27,7 @@ import {
   FaPlay,
   FaImages,
   FaBan,
+  FaUniversity,
 } from "react-icons/fa";
 import { FaLocationPin, FaToolbox, FaUserTie } from "react-icons/fa6";
 import DayCard from "../../../Professional/DayCard";
@@ -230,6 +231,95 @@ const ProfessionalDetailCard = ({ p }) => {
       label="Professional Policy Version"
       value={p.userId.professionalAcceptance.policyVersion || "—"}
       icon={<FaFilePdf />}
+    />
+  </Section>
+)}
+
+{/* Bank details  */}
+
+{p.bankDetails && (
+  <Section title="Bank Details" icon={<FaUniversity />}>
+    <Info
+      label="Bank Name"
+      value={p.bankDetails.bankName || "—"}
+      icon={<FaUniversity />}
+    />
+
+    <Info
+      label="Account Holder Name"
+      value={p.bankDetails.holderName || "—"}
+      icon={<FaUser />}
+    />
+
+    <Info
+      label="Account Number"
+      value={
+        p.bankDetails.accountNumber
+          ? p.bankDetails.accountNumber
+          : "—"
+      }
+      icon={<FaIdCard />}
+    />
+
+    <Info
+      label="IFSC Code"
+      value={p.bankDetails.ifsc || "—"}
+      icon={<FaTools />}
+    />
+
+    <Info
+      label="UPI ID"
+      value={p.bankDetails.upi || "Not Provided"}
+      icon={<FaPhone />}
+    />
+
+    <Info
+      label="PAN Number"
+      value={p.bankDetails.panNumber || "—"}
+      icon={<FaIdCard />}
+    />
+
+    {/* ===== Passbook / Cheque Image ===== */}
+    {p.bankDetails.docPicUrl && (
+      <div className="col-12">
+        <label className="fw-semibold text-muted small mb-2 d-block">
+          Bank Proof (Passbook / Cancelled Cheque)
+        </label>
+
+        <div className="d-flex flex-column gap-2">
+          <img
+            src={p.bankDetails.docPicUrl}
+            alt="Bank Proof"
+            className="img-fluid rounded-3 shadow"
+            style={{ maxWidth: 280 }}
+          />
+
+          <a
+            href={p.bankDetails.docPicUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-2"
+          >
+            <FaEye />
+            View Full Image
+          </a>
+        </div>
+      </div>
+    )}
+
+    {/* ===== Verification Status ===== */}
+    <Info
+      label="Bank Verification Status"
+      value={p.bankVerificationStatus || "N/A"}
+      icon={
+        p.bankVerificationStatus === "approved" ? (
+          <FaCheckCircle className="text-success" />
+        ) : p.bankVerificationStatus === "pending" ? (
+          <FaClock className="text-warning" />
+        ) : (
+          <FaTimesCircle className="text-danger" />
+        )
+      }
     />
   </Section>
 )}

@@ -27,51 +27,49 @@ const userSchema = new mongoose.Schema({
         required : true,
         enum : ['customer', 'professional'],
     },
-termsAcceptance: {
-  accepted: {
-    type: Boolean,
-    default: false,
-    select: false
-  },
-  acceptedAt: {
-    type: Date,
-    select: false
-  },
-  acceptedIP: {
-    type: String,
-    select: false
-  },
-  policyVersion: {
-    type: String,
-    select: false
-  }
-},
-
-professionalAcceptance: {
-  accepted: {
-    type: Boolean,
-    default: false,
-    select: false
-  },
-  acceptedAt: {
-    type: Date,
-    select: false
-  },
-  acceptedIP: {
-    type: String,
-    select: false
-  },
-  policyVersion: {
-    type: String,
-    select: false
-  }
-},
-fcmTokens : {
-    type : [String], 
-    default : [],
-    select : false
-}
-
+    termsAcceptance: {
+        accepted: {
+            type: Boolean,
+            default: false,
+            select: false
+        },
+        acceptedAt: {
+            type: Date,
+            select: false
+        },
+        acceptedIP: {
+            type: String,
+            select: false
+        },
+        policyVersion: {
+            type: String,
+            select: false
+        }
+    },
+    professionalAcceptance: {
+    accepted: {
+        type: Boolean,
+        default: false,
+        select: false
+    },
+    acceptedAt: {
+        type: Date,
+        select: false
+    },
+    acceptedIP: {
+        type: String,
+        select: false
+    },
+    policyVersion: {
+        type: String,
+        select: false
+    }
+    },
+    fcmTokens : {
+        type : [String], 
+        default : [],
+        select : false
+    }
 },{timestamps:true});   
 
 export const User = mongoose.model("User", userSchema);
