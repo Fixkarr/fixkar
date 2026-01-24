@@ -3,7 +3,15 @@ import { Professional } from "../../models/userModel.js";
 
 export const getAllProfessionals = async (req,res)=>{
     try {
-        const professionals = await Professional.find().populate({
+      const admin = req.admin;
+
+      if(!admin){
+        return res.status(400).json({
+          message : "Admin not found!"
+        })
+      }
+
+        const professionals = await Professional.find().select(`+bankDetails.bankName +bankDetails.holderName +bankDetails.accountNumber +bankDetails.ifsc +bankDetails.upi +bankDetails.panNumber +bankDetails.docPicUrl`).populate({
           path : "userId",
           model : "User",
           select : `

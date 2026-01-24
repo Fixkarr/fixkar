@@ -15,13 +15,14 @@ import { deleteMedia } from '../controllers/ProfessionalsController/deleteMedia.
 import { getServices } from '../controllers/getServices.controller.js';
 import { getServiceSkills } from '../controllers/getServiceSkills.controller.js';
 import { bankDetails } from '../controllers/ProfessionalsController/bankDetails.controller.js';
+import { isAdmin } from '../middlewares/isAdmin.js';
 const userRoute = express.Router();
 
 // /api/user
 
 userRoute.get("/current", isAuth ,getCurrentUser);
-userRoute.get("/professionals", isAuth ,getAllProfessionals);
-userRoute.get("/verifiedProfessionals", getAllVerifiedProfessionals);
+userRoute.get("/professionals", isAuth, isAdmin, getAllProfessionals);
+userRoute.get("/verifiedProfessionals", isAuth, getAllVerifiedProfessionals);
 userRoute.get("/getUserById/:userId", getUserById);
 userRoute.get("/professionals/search", searchProfessionals);
 userRoute.get("/get-service-skills/:serviceId", isAuth, getServiceSkills)
