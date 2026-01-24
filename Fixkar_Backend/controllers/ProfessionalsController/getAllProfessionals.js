@@ -11,15 +11,7 @@ export const getAllProfessionals = async (req,res)=>{
         })
       }
 
-        const professionals = await Professional.find().select({
-    "bankDetails.bankName": 1,
-    "bankDetails.holderName": 1,
-    "bankDetails.accountNumber": 1,
-    "bankDetails.ifsc": 1,
-    "bankDetails.upi": 1,
-    "bankDetails.panNumber": 1,
-    "bankDetails.docPicUrl": 1,
-  }).populate({
+        const professionals = await Professional.find().select(`+bankDetails.bankName +bankDetails.holderName +bankDetails.accountNumber +bankDetails.ifsc +bankDetails.upi +bankDetails.panNumber +bankDetails.docPicUrl`).populate({
           path : "userId",
           model : "User",
           select : `
