@@ -11,7 +11,7 @@ export const acceptApplication = async (req,res)=>{
             })
         }
         const admin = req.admin;
-        const professional = await Professional.findOne({userId : proUserId}).populate('userId', '-password');
+        const professional = await Professional.findOne({userId : proUserId}).populate('userId').populate('profession');
         if(!professional){
             return res.status(404).json({
                 message : "Professional not found"
@@ -84,7 +84,7 @@ export const acceptApplication = async (req,res)=>{
     >
       <p style="margin:0; font-size:14px;">
         <strong>Name:</strong> ${professional.userId.fullName} <br />
-        <strong>Profession:</strong> ${professional.profession}
+        <strong>Profession:</strong> ${professional.profession.name}
       </p>
     </div>
 
