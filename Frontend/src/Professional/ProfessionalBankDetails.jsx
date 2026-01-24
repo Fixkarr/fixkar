@@ -3,10 +3,13 @@ import { FaUniversity, FaIdCard, FaFileUpload, FaLock } from "react-icons/fa";
 import axios from 'axios'
 import {server_url} from '../App'
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setCurrentUserData } from "../redux/user.slice";
 
 const ProfessionalBankDetails = () => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     accountHolderName: "",
@@ -63,7 +66,7 @@ const ProfessionalBankDetails = () => {
       );
 
         toast.success(response.data.message);
-      console.log("Response:", response.data);
+        dispatch(setCurrentUserData(response.data));
 
       setShowForm(false);
     } catch (error) {
