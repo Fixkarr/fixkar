@@ -14,6 +14,7 @@ import { getCloudinarySignature } from '../controllers/ProfessionalsController/g
 import { deleteMedia } from '../controllers/ProfessionalsController/deleteMedia.js';
 import { getServices } from '../controllers/getServices.controller.js';
 import { getServiceSkills } from '../controllers/getServiceSkills.controller.js';
+import { bankDetails } from '../controllers/ProfessionalsController/bankDetails.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -37,6 +38,7 @@ userRoute.post("/onboard",   upload.fields([
 
  userRoute.post("/professional/complete-profile", isAuth, completeProfile);
  userRoute.post("/professional/set-busy-days", isAuth, setBusyDays)
+ userRoute.post('/professional/bank-details', isAuth, upload.single("passbookImage"), multerErrorHandler, bankDetails)
 
 
 // update profile

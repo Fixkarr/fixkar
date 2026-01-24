@@ -23,7 +23,7 @@ const ProfessionalHome = () => {
   const { currentUserData } = useSelector((state) => state.user);
   const user = currentUserData?.user;
   const userId = currentUserData?.user?.userId;
-  const isBankVerified = user?.bankVerified;
+  const bankVerificationStatus = user?.bankVerificationStatus;
   const isProfileComplete = Boolean(user?.charges);
    const [showSelectedDays, setShowSelectedDays] = useState([]);
 
@@ -185,7 +185,7 @@ const ProfessionalHome = () => {
   )}
 
   {/* Bank not verified component  */}
-  {!isBankVerified && <ProfessionalBankDetails/>}
+  {bankVerificationStatus === "N/A" && <ProfessionalBankDetails/>}
 
   {/* ===== WALLET ===== */}
   <ProfessionalWallet />

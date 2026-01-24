@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { FaUniversity, FaIdCard, FaFileUpload, FaLock } from "react-icons/fa";
+import axios from 'axios'
+import {server_url} from '../App'
+import { toast } from "react-toastify";
 
 const ProfessionalBankDetails = () => {
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const [formData, setFormData] = useState({
     accountHolderName: "",
@@ -23,17 +27,56 @@ const ProfessionalBankDetails = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.accountNumber !== formData.confirmAccountNumber) {
-      alert("Account number and Confirm account number do not match");
+     toast.warning("Account Number not match!");
       return;
     }
 
-    console.log("Bank Details Submitted:", formData);
-    alert("Bank details submitted successfully (Check console)");
+    try {
+      setLoading(true);
+
+      const data = new FormData();
+
+
+      data.append("holderName", formData.accountHolderName);
+      data.append("accountNumber", formData.accountNumber);
+      data.append("ifsc", formData.ifsc);
+      data.append("bankName", formData.bankName);
+      data.append("panNumber", formData.panNumber);
+
+      if (formData.upiId) {
+        data.append("upi", formData.upiId);
+      }
+
+
+      data.append("passbookImage", formData.passbookPhoto);
+
+      const response = await axios.post(
+        `${server_url}/api/user/professional/bank-details`,
+        data,
+        {
+          withCredentials: true, // 🔐 COOKIE AUTH
+        }
+      );
+
+        toast.success(response.data.message);
+      console.log("Response:", response.data);
+
+      setShowForm(false);
+    } catch (error) {
+      console.error(error);
+     toast.error(
+        error?.response?.data?.message ||
+          "Failed to submit bank details"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div className="container mt-4">
@@ -56,7 +99,7 @@ const ProfessionalBankDetails = () => {
             </p>
             <p className="mb-0 d-flex align-items-center gap-2">
               <FaLock />
-              Your information will remain <b>secure and encrypted</b>.
+              Your information will remain <b>secure</b>.
             </p>
           </div>
 
@@ -176,9 +219,13 @@ const ProfessionalBankDetails = () => {
               </div>
 
               <div className="mt-4 d-flex gap-2">
-                <button type="submit" className="btn btn-success px-4">
+                <button
+                  type="submit"
+                  className="btn btn-success px-4"
+                  disabled={loading}
+                >
                   <FaFileUpload className="me-2" />
-                  Submit for Verification
+                  {loading ? "Submitting..." : "Submit for Verification"}
                 </button>
 
                 <button

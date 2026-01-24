@@ -131,7 +131,17 @@ const professionalSchema = new mongoose.Schema({
     rejectionCount : {type : Number, default : 0},
     acceptedBy : {type : mongoose.Schema.Types.ObjectId, ref : "Admin"},
     rejectedBy : {type : mongoose.Schema.Types.ObjectId, ref : "Admin"},
-    bankVerified : {type : Boolean, default : false}
+    bankVerified : {type : Boolean, default : false},
+    bankDetails : {
+        bankName : {type : String, select : false},
+        holderName : {type : String, select : false},
+        accountNumber : {type : String, select : false},
+        ifsc : {type : String, select : false},
+        upi : {type : String, select : false},
+        panNumber : {type : String, select : false},
+        docPicUrl : {type : String, select : false}
+    },
+    bankVerificationStatus : {type : String, default : 'N/A', enum : ['pending', 'approved', 'N/A'],}
 
 },{timestamps : true});
 
