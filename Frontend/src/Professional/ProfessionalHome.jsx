@@ -11,6 +11,7 @@ import useGetMyBookings from "../hooks/useGetMyBookings";
 import useGetNotifications from "../hooks/useGetNotifications";
 import { generateFCMToken } from "../utils/generateFCMToken";
 import EnableNotificationModal from "../Components/EnableNotificationModal";
+import ProfessionalBankDetails from "./ProfessionalBankDetails";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -22,6 +23,7 @@ const ProfessionalHome = () => {
   const { currentUserData } = useSelector((state) => state.user);
   const user = currentUserData?.user;
   const userId = currentUserData?.user?.userId;
+  const isBankVerified = user?.bankVerified;
   const isProfileComplete = Boolean(user?.charges);
    const [showSelectedDays, setShowSelectedDays] = useState([]);
 
@@ -181,6 +183,9 @@ const ProfessionalHome = () => {
       </div>
     </>
   )}
+
+  {/* Bank not verified component  */}
+  {!isBankVerified && <ProfessionalBankDetails/>}
 
   {/* ===== WALLET ===== */}
   <ProfessionalWallet />

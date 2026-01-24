@@ -131,6 +131,7 @@ const professionalSchema = new mongoose.Schema({
     rejectionCount : {type : Number, default : 0},
     acceptedBy : {type : mongoose.Schema.Types.ObjectId, ref : "Admin"},
     rejectedBy : {type : mongoose.Schema.Types.ObjectId, ref : "Admin"},
+    bankVerified : {type : Boolean, default : false}
 
 },{timestamps : true});
 
