@@ -185,7 +185,7 @@ const ProfessionalHome = () => {
   )}
 
   {/* Bank not verified component  */}
-  {bankVerificationStatus === "N/A" && <ProfessionalBankDetails/>}
+  {!bankVerificationStatus === "N/A" && <ProfessionalBankDetails/>}
 
   {/* ===== WALLET ===== */}
   <ProfessionalWallet />
