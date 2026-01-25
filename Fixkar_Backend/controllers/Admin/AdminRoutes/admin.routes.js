@@ -17,6 +17,8 @@ import { rejectBankDetail } from '../AdminController/rejectBankDetail.js';
 
 const adminRouter = express.Router()
 
+// /api/admin 
+
 adminRouter.post('/signup', adminSignup)
 adminRouter.post('/login', adminLogin)
 adminRouter.get('/get-current-admin', isAdmin, getCurrentAdmin);
