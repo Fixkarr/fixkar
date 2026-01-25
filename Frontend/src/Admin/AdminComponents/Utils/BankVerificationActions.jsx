@@ -13,8 +13,6 @@ const BankVerificationActions = ({ proId}) => {
       );
 
       toast.success(res.data.message || "Bank details approved successfully");
-
-      // optional callback to refetch data
       
     } catch (error) {
       toast.error(
