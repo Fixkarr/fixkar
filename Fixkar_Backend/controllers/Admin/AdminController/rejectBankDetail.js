@@ -75,22 +75,6 @@ export const rejectBankDetail = async (req, res) => {
       time.
     </p>
 
-    <!-- INFO CARD -->
-    <div
-      style="
-        margin:18px 0;
-        padding:16px;
-        background:#fdecea;
-        border-left:5px solid #dc3545;
-        border-radius:8px;
-      "
-    >
-      <p style="margin:0; font-size:14px;">
-        <strong>Account Holder:</strong> ${professional.bankDetails.holderName} <br />
-        <strong>Status:</strong>
-        <span style="color:#dc3545; font-weight:600;">Verification Failed</span>
-      </p>
-    </div>
 
     <p style="font-size:15px; line-height:1.6;">
       This may happen due to incorrect bank information, mismatch in account

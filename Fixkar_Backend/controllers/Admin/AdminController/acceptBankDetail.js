@@ -63,23 +63,6 @@ export const acceptBankDetail = async (req,res)=>{
       <strong style="color:#198754;">successfully verified</strong>.
     </p>
 
-    <!-- INFO CARD -->
-    <div
-      style="
-        margin:18px 0;
-        padding:16px;
-        background:#e9f7ef;
-        border-left:5px solid #198754;
-        border-radius:8px;
-      "
-    >
-      <p style="margin:0; font-size:14px;">
-        <strong>Account Holder:</strong> ${professional.bankDetails.holderName} <br />
-        <strong>Verification Status:</strong>
-        <span style="color:#198754; font-weight:600;">Verified</span>
-      </p>
-    </div>
-
     <p style="font-size:15px; line-height:1.6;">
       You can now
       <strong>request withdrawal</strong> of your earnings directly into your
@@ -137,7 +120,7 @@ export const acceptBankDetail = async (req,res)=>{
 </div>
 `  
       await  sendEmail(professional.userId.email, 'Your bank details on fixkar have been verified!', htmlContent);
-      
+
         return res.status(200).json({
             messgae : "Bank verify ho gya!"
         })
