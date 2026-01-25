@@ -136,7 +136,7 @@ export const rejectBankDetail = async (req, res) => {
         await sendEmail(professional.userId.email, 'Your Bank Details missmatch!', htmlContent);
 
         return res.status(200).json({
-            messgae: "Bank details reject kiya gya!"
+            message: "Bank details reject kiya gya!"
         })
 
 

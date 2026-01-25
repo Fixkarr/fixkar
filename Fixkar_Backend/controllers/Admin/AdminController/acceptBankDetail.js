@@ -122,7 +122,7 @@ export const acceptBankDetail = async (req,res)=>{
       await  sendEmail(professional.userId.email, 'Your bank details on fixkar have been verified!', htmlContent);
 
         return res.status(200).json({
-            messgae : "Bank verify ho gya!"
+            message : "Bank verify ho gya!"
         })
     } catch (error) {
         return res.status(500).json({
