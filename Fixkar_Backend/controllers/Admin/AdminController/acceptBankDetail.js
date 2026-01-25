@@ -125,10 +125,11 @@ export const acceptBankDetail = async (req,res)=>{
             message : "Bank verify ho gya!"
         })
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             message : "Internal server error!"
            
         })
-         console.log(error);
+         
     }
 }
