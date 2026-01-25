@@ -12,6 +12,8 @@ import { acceptApplication } from '../AdminController/acceptProApplication.js';
 import { rejectApplication } from '../AdminController/rejectProApplication.js';
 import { updateService } from '../AdminController/updateService.js';
 import { getAdminBookingById, getBookings } from '../AdminController/getBookings.js';
+import { acceptBankDetail } from '../AdminController/acceptBankDetail.js';
+import { rejectBankDetail } from '../AdminController/rejectBankDetail.js';
 
 const adminRouter = express.Router()
 
@@ -31,4 +33,7 @@ adminRouter.get('/get-admin-booking/:bookingId', isAdmin, adminPermission('super
 
 adminRouter.post('/accept-professional-application', isAdmin, adminPermission('super_admin', 'professional_admin'), acceptApplication);
 adminRouter.post('/reject-professional-application', isAdmin, adminPermission('super_admin', 'professional_admin'), rejectApplication);
+
+adminRouter.post('/approve-bank/:proId', isAdmin, adminPermission('super_admin', 'professional_admin'), acceptBankDetail);
+adminRouter.post('/reject-bank/:proId', isAdmin, adminPermission('super_admin', 'professional_admin'), rejectBankDetail);
 export default adminRouter;

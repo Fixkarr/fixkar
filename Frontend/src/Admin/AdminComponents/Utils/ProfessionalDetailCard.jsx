@@ -37,6 +37,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import Section from "./Section";
 import Info from "./Info";
+import BankVerificationActions from "./BankVerificationActions";
 
 const ProfessionalDetailCard = ({ p }) => {
   const [reason, setReason] = useState("");
@@ -235,7 +236,7 @@ const ProfessionalDetailCard = ({ p }) => {
   </Section>
 )}
 
-{/* Bank details  */}
+{/* ===================Bank details======================  */}
 
 {p.bankDetails && (
   <Section title="Bank Details" icon={<FaUniversity />}>
@@ -321,6 +322,14 @@ const ProfessionalDetailCard = ({ p }) => {
         )
       }
     />
+
+   {p.bankVerificationStatus === "pending" && (
+      <BankVerificationActions
+        proId={p._id}
+      />
+    )}
+
+  
   </Section>
 )}
 
