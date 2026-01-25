@@ -4,7 +4,7 @@ import { sendEmail } from "../../../utils/mailer.js";
 export const acceptBankDetail = async (req,res)=>{
     try {
         const admin = req.admin;
-        const proId = req.params;
+        const {proId} = req.params;
         if(!admin){
             return res.status(404).json({
                 message : "Unauthorized!"
