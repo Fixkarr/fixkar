@@ -12,6 +12,7 @@ import useGetNotifications from "../hooks/useGetNotifications";
 import { generateFCMToken } from "../utils/generateFCMToken";
 import EnableNotificationModal from "../Components/EnableNotificationModal";
 import ProfessionalBankDetails from "./ProfessionalBankDetails";
+import PendingBankReview from "../Components/PendingBankReview";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -186,6 +187,7 @@ const ProfessionalHome = () => {
 
   {/* Bank not verified component  */}
   {bankVerificationStatus === "N/A" && <ProfessionalBankDetails/>}
+  {bankVerificationStatus === "pending" && <PendingBankReview/>}
 
   {/* ===== WALLET ===== */}
   <ProfessionalWallet />
