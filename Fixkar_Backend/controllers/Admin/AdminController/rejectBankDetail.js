@@ -12,7 +12,7 @@ export const rejectBankDetail = async (req, res) => {
         }
 
         const { proId } = req.params;
-        if (!proId || !reason) {
+        if (!proId) {
             return res.status(400).json({
                 message: "Please Provide Reason!"
             })
