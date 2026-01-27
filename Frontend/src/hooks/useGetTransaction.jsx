@@ -1,24 +1,38 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { server_url } from '../App';
-import { toast } from 'react-toastify';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { server_url } from "../App";
+import { toast } from "react-toastify";
 
 const useGetTransaction = (proId) => {
-    const [transaction, setTransation] = useState([]);
- useEffect(()=>{
-    const getTransactions = async ()=>{
-        try {
-            const result = await axios.get(`${server_url}/api/user/professional/get-transactions/${proId}`);
-            setTransation(result.data.transaction);
-        } catch (error){
-            toast.error(error.response.data.message)
-        }
-    }
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    getTransactions()
- },[transaction])
+  useEffect(() => {
+    if (!proId) return;
 
- return transaction
-}
+    const getTransactions = async () => {
+      try {
+        setLoading(true);
 
-export default useGetTransaction
+        const { data } = await axios.get(
+          `${server_url}/api/user/professional/get-transactions/${proId}`,
+          { withCredentials: true }
+        );
+
+        setTransactions(data.transaction || []);
+      } catch (error) {
+        toast.error(
+          error?.response?.data?.message || "Failed to fetch transactions"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getTransactions();
+  }, [proId]);
+
+  return { transactions, loading };
+};
+
+export default useGetTransaction;
