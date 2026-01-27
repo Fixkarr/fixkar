@@ -12,7 +12,7 @@
 }
 
 .sidebar.open {
-  width: 240px;
+  width: auto;
 }
 
 .sidebar.closed {
