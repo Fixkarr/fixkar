@@ -93,9 +93,8 @@ const [withdrawAmount, setWithdrawAmount] = useState('');
           <hr className="my-4" />
 
           {/* Action */}
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-center align-items-center">
                <div className="card border-0 shadow-sm rounded-4">
-        
 
           <h5 className="fw-bold mb-3">
             <FaWallet /> Request Withdrawal
