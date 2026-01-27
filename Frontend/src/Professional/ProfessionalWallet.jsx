@@ -144,7 +144,8 @@ const ProfessionalWallet = () => {
             </div>
 
             {withdrawnRequest?.pending && (
-              <center
+             <center style={{width : '100%'}}>
+               <div
                 className="d-flex align-items-start w-100 gap-2 mt-3 p-2 rounded-3 shadow-sm"
                 style={{
                   background: "#f5f9ff",
@@ -169,7 +170,8 @@ const ProfessionalWallet = () => {
                     It may take a few hours to complete the transaction.
                   </div>
                 </div>
-              </center>
+              </div>
+             </center>
             )}
           </div>
         </div>
