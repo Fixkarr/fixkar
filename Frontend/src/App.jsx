@@ -63,6 +63,7 @@ import { setOnlineUsers } from "./redux/presence.slice.js";
 import UpdateServiceForm from "./Admin/AdminComponents/Utils/UpdateServiceForm.jsx";
 import AdminBookings from "./Admin/AdminComponents/AdminBookings.jsx";
 import AdminBookingDetail from "./Admin/AdminComponents/AdminBookingDetail.jsx";
+import TransactionHistory from "./Professional/TransactionHistory.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -334,6 +335,12 @@ const App = () => {
           path="/professional/chat/:id"
           element={
             role === "professional" ? <ChatSection /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/professional/transaction-history"
+          element={
+            role === "professional" ? <TransactionHistory /> : <Navigate to="/" />
           }
         />
 

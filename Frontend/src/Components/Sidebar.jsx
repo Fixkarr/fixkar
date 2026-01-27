@@ -6,7 +6,7 @@ import { IoConstructOutline } from "react-icons/io5";
 import { FaHeadset, FaRegBell, FaTools } from "react-icons/fa";
 import { FiBell, FiMessageSquare } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineEngineering } from "react-icons/md";
+import { MdOutlineEngineering, MdWorkHistory } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -333,7 +333,21 @@ const dispatch = useDispatch()
           <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
             {totalUnreadMessages}
           </span>
-        )}
+                )}
+        </li>
+
+        <li className="nav-item position-relative" style={{fontSize : "0.5vmax"}}>
+          <NavLink
+            to="/professional/transaction-history"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <MdWorkHistory />
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Transaction History</span>
+          </NavLink>
         </li>
       </>
     )}
