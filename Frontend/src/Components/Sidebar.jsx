@@ -49,7 +49,7 @@ const dispatch = useDispatch()
 
   return (
     <aside
-  className={`d-flex flex-column text-white sidebar ${isOpen ? "open" : "closed"}`}
+  className={`d-flex flex-column p-2 p-md-3 text-white sidebar ${isOpen ? "open" : "closed"}`}
   style={{
     // width: "100px", // mobile slim
     minHeight: "100vh",
