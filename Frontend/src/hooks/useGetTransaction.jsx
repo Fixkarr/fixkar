@@ -16,7 +16,7 @@ const useGetTransaction = (proId) => {
     }
 
     getTransactions()
- },[])
+ },[transaction])
 
  return transaction
 }
