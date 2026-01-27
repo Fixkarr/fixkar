@@ -5,28 +5,44 @@ import {
   FaMoneyCheckAlt,
   FaCoins,
 } from "react-icons/fa";
+import { FaClock, FaCheckCircle } from "react-icons/fa";
 import { FaRupeeSign } from "react-icons/fa";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import useGetProfessionalWallet from "../hooks/useGetProfessionalWallet";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { server_url } from "../App";
+import { toast } from "react-toastify";
+import { refreshWallet } from "../redux/wallet.slice";
 
 const ProfessionalWallet = () => {
-   useGetProfessionalWallet()
-const {wallet} = useSelector(state=> state.wallet);
-const [withdrawAmount, setWithdrawAmount] = useState('');
+  useGetProfessionalWallet();
+  const { wallet } = useSelector((state) => state.wallet);
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [loading, setLoading] = useState(false);
   const {
     pendingBalance = 0,
     totalWithdrawn = 0,
     totalEarned = 0,
+    withdrawnRequest = {},
   } = wallet || {};
 
-  const handleWithdrawRequest = async ()=>{
+  const handleWithdrawRequest = async () => {
     try {
-      console.log(withdrawAmount);
+      setLoading(true);
+      const result = await axios.post(
+        `${server_url}/api/user/professional/send-withdrawn-request`,
+        { amount },
+        { withCredentials: true },
+      );
+      toast.success(result.data.message);
+      setLoading(false);
+      refreshWallet()
     } catch (error) {
-      
+      toast.error(error.response.data.message || "Something went wrong!");
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="container py-4">
@@ -47,9 +63,7 @@ const [withdrawAmount, setWithdrawAmount] = useState('');
                   <FaHourglassHalf className="text-primary me-2" size={18} />
                   <span className="fw-semibold">Pending Amount</span>
                 </div>
-                <h4 className="fw-bold text-primary mb-1">
-                  ₹{pendingBalance}
-                </h4>
+                <h4 className="fw-bold text-primary mb-1">₹{pendingBalance}</h4>
                 <small className="text-muted">
                   Available after job completion
                 </small>
@@ -63,12 +77,8 @@ const [withdrawAmount, setWithdrawAmount] = useState('');
                   <FaMoneyCheckAlt className="text-primary me-2" size={18} />
                   <span className="fw-semibold">Withdrawn</span>
                 </div>
-                <h4 className="fw-bold text-primary mb-1">
-                  ₹{totalWithdrawn}
-                </h4>
-                <small className="text-muted">
-                  Transferred to bank
-                </small>
+                <h4 className="fw-bold text-primary mb-1">₹{totalWithdrawn}</h4>
+                <small className="text-muted">Transferred to bank</small>
               </div>
             </div>
 
@@ -79,12 +89,8 @@ const [withdrawAmount, setWithdrawAmount] = useState('');
                   <FaCoins className="text-primary me-2" size={18} />
                   <span className="fw-semibold">Total Earned</span>
                 </div>
-                <h4 className="fw-bold text-primary mb-1">
-                  ₹{totalEarned}
-                </h4>
-                <small className="text-muted">
-                  Lifetime earnings
-                </small>
+                <h4 className="fw-bold text-primary mb-1">₹{totalEarned}</h4>
+                <small className="text-muted">Lifetime earnings</small>
               </div>
             </div>
           </div>
@@ -93,47 +99,75 @@ const [withdrawAmount, setWithdrawAmount] = useState('');
           <hr className="my-4" />
 
           {/* Action */}
-        
-               <div className="card border-0 shadow-sm rounded-4">
-        <div className="card-body">
 
-          <h5 className="fw-bold mb-3 text-primary">
-            <FaWallet /> Request Withdrawal
-          </h5>
+          <div className="card border-0 shadow-sm rounded-4">
+            <div className="card-body">
+              <h5 className="fw-bold mb-3 text-primary">
+                <FaWallet /> Request Withdrawal
+              </h5>
 
-          {/* Amount Input */}
-          <div className="input-group mb-3">
-            <span className="input-group-text bg-light">
-              <FaRupeeSign />
-            </span>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Enter amount to withdraw"
-              value={withdrawAmount}
-              onChange={(e) => setWithdrawAmount(e.target.value)}
-            />
-          </div>
+              {/* Amount Input */}
+              <div className="input-group mb-3">
+                <span className="input-group-text bg-light">
+                  <FaRupeeSign />
+                </span>
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Enter amount to withdraw"
+                  value={withdrawAmount}
+                  onChange={(e) => setWithdrawAmount(e.target.value)}
+                />
+              </div>
 
-          {/* Available Info */}
-          <p className="text-muted small mb-3">
-            Available for withdrawal: ₹ {pendingBalance}
-          </p>
+              {/* Available Info */}
+              <p className="text-muted small mb-3">
+                Available for withdrawal: ₹ {pendingBalance}
+              </p>
 
-          {/* Request Button */}
-          <button
-            className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
-            style={{
-              background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
-              border: "none",
-            }}
-            onClick={handleWithdrawRequest}
-          >
-            <BiMoneyWithdraw size={20} />
-            Request Withdrawal
-          </button>
+              {/* Request Button */}
+              <button
+                className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
+                style={{
+                  background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
+                  border: "none",
+                }}
+                onClick={handleWithdrawRequest}
+                disabled={loading}
+              >
+                <BiMoneyWithdraw size={20} />
+                Request Withdrawal
+              </button>
+            </div>
 
-        </div>
+            {withdrawnRequest?.pending && (
+              <div
+                className="d-flex align-items-start gap-2 mt-3 p-2 rounded-3 shadow-sm"
+                style={{
+                  background: "#f5f9ff",
+                  border: "1px solid #d6e4ff",
+                  maxWidth: "520px",
+                }}
+              >
+                <FaClock className="text-primary mt-1" size={16} />
+
+                <div className="small">
+                  <div className="fw-semibold text-primary">
+                    Payment is processing
+                  </div>
+
+                  <div className="text-muted">
+                    Your withdrawal request of{" "}
+                    <span className="fw-semibold text-dark">₹{withdrawnRequest?.amount}</span> has
+                    been submitted.
+                  </div>
+
+                  <div className="text-muted">
+                    It may take a few hours to complete the transaction.
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

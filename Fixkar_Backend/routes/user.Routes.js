@@ -17,6 +17,7 @@ import { getServiceSkills } from '../controllers/getServiceSkills.controller.js'
 import { bankDetails } from '../controllers/ProfessionalsController/bankDetails.controller.js';
 import { isAdmin } from '../middlewares/isAdmin.js';
 import { getTransaction } from '../controllers/ProfessionalsController/getTransactions.controller.js';
+import { sendWithDrawRequest } from '../controllers/ProfessionalsController/sendWithdrawRequest.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -42,6 +43,7 @@ userRoute.post("/onboard",   upload.fields([
  userRoute.post("/professional/set-busy-days", isAuth, setBusyDays)
  userRoute.post('/professional/bank-details', isAuth, upload.single("passbookImage"), multerErrorHandler, bankDetails)
  userRoute.get('/professional/get-transactions/:proId', isAuth, getTransaction)
+ userRoute.post('/professional/send-withdrawn-request', isAuth, sendWithDrawRequest);
 
 
 // update profile

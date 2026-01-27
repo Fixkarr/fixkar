@@ -16,9 +16,7 @@ const walletSlice = createSlice({
         },
         setWalletTransaction : (state, action) =>{
             state.walletTransaction = action.payload
-        }
-
-
+        },
     }
 })
 
