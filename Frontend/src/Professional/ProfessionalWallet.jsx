@@ -95,7 +95,7 @@ const [withdrawAmount, setWithdrawAmount] = useState('');
           {/* Action */}
           <div className="d-flex justify-content-between align-items-center">
                <div className="card border-0 shadow-sm rounded-4">
-        <div className="card-body">
+        
 
           <h5 className="fw-bold mb-3">
             <FaWallet /> Request Withdrawal
@@ -133,7 +133,7 @@ const [withdrawAmount, setWithdrawAmount] = useState('');
             Request Withdrawal
           </button>
 
-        </div>
+       
         </div>
           </div>
         </div>
