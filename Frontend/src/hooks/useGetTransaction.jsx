@@ -19,7 +19,7 @@ const useGetTransaction = (proId) => {
           { withCredentials: true }
         );
 
-        setTransactions(data.transaction || []);
+        setTransactions(data.transactions || []);
       } catch (error) {
         toast.error(
           error?.response?.data?.message || "Failed to fetch transactions"
