@@ -9,6 +9,7 @@ export const getTransaction = async (req,res)=>{
                 message : "Professional Id required!"
             })
         }
+        console.log(proId)
         const wallet = await Wallet.findOne({professionalId : proId});
         
         if(!wallet){
@@ -16,6 +17,8 @@ export const getTransaction = async (req,res)=>{
                 message : "wallet not found!"
             })
         }
+
+        console.log(wallet);
 
         const transactions = await WalletTransaction.find({walletId : wallet._id});
         
