@@ -39,7 +39,8 @@ const ProfessionalTransactions = () => {
         className="card border-0 shadow rounded-4 mb-4 text-white"
         style={{
           background:
-            "linear-gradient(135deg, #0f2027, #2c5364)",
+            "linear-gradient(135deg, #0d6efd, #4f9cff)",
+          color: "#fff",
         }}
       >
         <div className="card-body d-flex justify-content-between align-items-center flex-wrap">
