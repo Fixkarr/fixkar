@@ -1,0 +1,34 @@
+.dashboardLayout {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: #0f2027;
+  color: white;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar.open {
+  width: 240px;
+}
+
+.sidebar.closed {
+  width: 0;
+}
+
+/* Main content */
+.main-content {
+  transition: margin-left 0.3s ease;
+  width: 100%;
+}
+
+.sidebar-open {
+  margin-left: 0;
+}
+
+.sidebar-closed {
+  margin-left: 0;
+}

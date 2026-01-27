@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "../Components/Sidebar";
 import { Outlet } from "react-router-dom";
 import "../css/dashboardLayout.css";
+import "../css/sidebar.css";
 import { MdEmail } from "react-icons/md";
 import { IoCall } from "react-icons/io5";
 import { RiLogoutCircleRLine } from "react-icons/ri";
@@ -12,8 +13,10 @@ import { useNavigate } from "react-router-dom";
 import { server_url } from "../App";
 import axios from "axios";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const DashboardLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {currentAdmin} = useSelector(state=>state.admin);
@@ -35,8 +38,7 @@ const DashboardLayout = () => {
     <div className="dashboardLayout d-flex">
 
       {/* Sidebar */}
-
-        <Sidebar />
+      <Sidebar isOpen={isSidebarOpen} />
 
 
       {/* Main Area */}
@@ -54,6 +56,13 @@ const DashboardLayout = () => {
               fontSize : "1vmax" 
             }}  
           >
+
+            <GiHamburgerMenu
+            size={22}
+            role="button"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          />
+
             {/* Back Button */}
            
 

@@ -17,7 +17,7 @@ import useGetMyConversations from "../hooks/useGetMyConversations";
 import { LuNotebookPen } from "react-icons/lu";
 
 
-const Sidebar = () => {
+const Sidebar = ({isOpen}) => {
   useGetMyConversations();
   const { currentUserData } = useSelector((state) => state.user);
   const {currentAdmin} = useSelector(state=> state.admin)
@@ -49,7 +49,7 @@ const dispatch = useDispatch()
 
   return (
     <aside
-  className="d-flex flex-column p-2 p-md-3 text-white"
+  className={`d-flex flex-column p-2 p-md-3 text-white sidebar ${isOpen ? "open" : "closed"}`}
   style={{
     // width: "100px", // mobile slim
     minHeight: "100vh",
