@@ -153,10 +153,11 @@ const ProfessionalWallet = () => {
                   maxWidth: "520px",
                 }}
               >
-                <FaClock className="text-primary mt-1" size={16} />
+                
 
                 <div className="small">
                   <div className="fw-semibold text-primary">
+                    <FaClock className="text-primary mt-1" size={16} />
                     Payment is processing
                   </div>
 
