@@ -35,6 +35,7 @@ const ProfessionalWallet = () => {
         { amount },
         { withCredentials: true },
       );
+      console.log(result);
       toast.success(result.data.message);
       setLoading(false);
       refreshWallet()
