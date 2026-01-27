@@ -80,6 +80,7 @@ const App = () => {
   const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
   const status = currentUserData?.user?.status;
   const userId = currentUserData?.user?.userId?._id;
+  const id = currentUserData?.user?._id
 
   useEffect(() => {
     document.body.classList.remove("modal-open");
@@ -340,7 +341,7 @@ const App = () => {
         <Route
           path="/professional/transaction-history"
           element={
-            role === "professional" ? <TransactionHistory /> : <Navigate to="/" />
+            role === "professional" ? <TransactionHistory proId={id}/> : <Navigate to="/" />
           }
         />
 
