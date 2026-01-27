@@ -38,8 +38,6 @@ const dispatch = useDispatch()
         `${server_url}/api/notification/mark-all-as-read`,
         { withCredentials: true }
       );
-
-      // 🔹 Redux update
       dispatch(markAllAsRead());
 
     } catch (error) {

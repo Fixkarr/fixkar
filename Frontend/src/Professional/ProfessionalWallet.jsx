@@ -5,7 +5,7 @@ import {
   FaMoneyCheckAlt,
   FaCoins,
 } from "react-icons/fa";
-import { FaClock, FaCheckCircle } from "react-icons/fa";
+import { FaClock} from "react-icons/fa";
 import { FaRupeeSign } from "react-icons/fa";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import useGetProfessionalWallet from "../hooks/useGetProfessionalWallet";

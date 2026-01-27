@@ -15,7 +15,7 @@ const useGetMyConversations = () => {
             }
         }
         fetchMyConversations();
-    },{dispatch})
+    },[dispatch])
 }
 
 export default useGetMyConversations
