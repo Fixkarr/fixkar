@@ -33,7 +33,7 @@ export const sendWithDrawRequest = async(req,res)=>{
         const {pendingBalance} = proWallet;
         if(amount < 100){
             return res.status(400).json({
-                message : "Minimum withdrawal amount is ₹100.6"
+                message : "Minimum withdrawal amount is ₹100"
             })
         }
         
