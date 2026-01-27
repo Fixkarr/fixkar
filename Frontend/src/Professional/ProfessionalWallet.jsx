@@ -103,7 +103,7 @@ const ProfessionalWallet = () => {
 
           {/* Action */}
 
-          <div className="card border-0 shadow-sm rounded-4">
+          <div className="d-flex flex-column justify-content-center card border-0 shadow-sm rounded-4">
             <div className="card-body">
               <h5 className="fw-bold mb-3 text-primary">
                 <FaWallet /> Request Withdrawal
