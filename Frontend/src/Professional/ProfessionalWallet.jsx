@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaWallet,
   FaHourglassHalf,
   FaMoneyCheckAlt,
   FaCoins,
 } from "react-icons/fa";
+import { FaRupeeSign } from "react-icons/fa";
+import { BiMoneyWithdraw } from "react-icons/bi";
 import useGetProfessionalWallet from "../hooks/useGetProfessionalWallet";
 import { useSelector } from "react-redux";
 
 const ProfessionalWallet = () => {
    useGetProfessionalWallet()
 const {wallet} = useSelector(state=> state.wallet);
+const [withdrawAmount, setWithdrawAmount] = useState('');
   const {
     pendingBalance = 0,
     totalWithdrawn = 0,
     totalEarned = 0,
   } = wallet || {};
+
+  const handleWithdrawRequest = async ()=>{
+    try {
+      console.log(withdrawAmount);
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <div className="container py-4">
@@ -83,12 +94,47 @@ const {wallet} = useSelector(state=> state.wallet);
 
           {/* Action */}
           <div className="d-flex justify-content-between align-items-center">
-            <small className="text-muted">
-              Minimum withdrawal amount ₹500
-            </small>
-            <button className="btn btn-primary px-4">
-              Request Withdrawal
-            </button>
+               <div className="card border-0 shadow-sm rounded-4">
+        <div className="card-body">
+
+          <h5 className="fw-bold mb-3">
+            <FaWallet /> Request Withdrawal
+          </h5>
+
+          {/* Amount Input */}
+          <div className="input-group mb-3">
+            <span className="input-group-text bg-light">
+              <FaRupeeSign />
+            </span>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Enter amount to withdraw"
+              value={withdrawAmount}
+              onChange={(e) => setWithdrawAmount(e.target.value)}
+            />
+          </div>
+
+          {/* Available Info */}
+          <p className="text-muted small mb-3">
+            Available for withdrawal: ₹ {pendingBalance}
+          </p>
+
+          {/* Request Button */}
+          <button
+            className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
+            style={{
+              background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
+              border: "none",
+            }}
+            onClick={handleWithdrawRequest}
+          >
+            <BiMoneyWithdraw size={20} />
+            Request Withdrawal
+          </button>
+
+        </div>
+        </div>
           </div>
         </div>
       </div>

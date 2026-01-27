@@ -262,7 +262,6 @@ io.to(booking.professionalId.userId._id.toString()).emit(
           professionalAmount,
           reason : payment.reason,
           bookingId : booking._id,
-          status : "pending"
         })
 
          io.to(booking.customerId.userId._id.toString()).emit(

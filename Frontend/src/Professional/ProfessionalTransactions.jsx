@@ -7,7 +7,6 @@ import useGetTransaction from "../hooks/useGetTransaction";
 
 
 const ProfessionalTransactionHistory = ({proId}) => {
-  console.log(proId)
   const { transactions, loading } = useGetTransaction(proId);
   console.log(transactions);
   return (
