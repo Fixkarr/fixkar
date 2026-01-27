@@ -32,10 +32,10 @@ const ProfessionalWallet = () => {
       setLoading(true);
       const result = await axios.post(
         `${server_url}/api/user/professional/send-withdrawn-request`,
-        { amount },
+        { amount : withdrawAmount },
         { withCredentials: true },
       );
-      console.log(result);
+     
       toast.success(result.data.message);
       setLoading(false);
       refreshWallet()
