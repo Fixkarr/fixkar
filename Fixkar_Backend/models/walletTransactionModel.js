@@ -8,7 +8,7 @@ const walletTransationSchema = new mongoose.Schema({
     reason : {type : String},
     professionalAmount : {type : Number, default : 0},
     commission : {type : Number, default : 0},
-    status : {type : String, enum : ["pending", "comleted"], default : "pending"}
+    status : {type : String, enum : ["pending", "completed"], default : "pending"}
 }, {timestamps : true})
 
 export const WalletTransaction = mongoose.model("WalletTransaction", walletTransationSchema)
