@@ -103,7 +103,7 @@ const ProfessionalWallet = () => {
 
           {/* Action */}
 
-          <div className="d-flex flex-column justify-content-center align-items-center card border-0 shadow-sm rounded-4">
+          <div className="card border-0 shadow-sm rounded-4">
             <div className="card-body">
               <h5 className="fw-bold mb-3 text-primary">
                 <FaWallet /> Request Withdrawal
@@ -145,7 +145,7 @@ const ProfessionalWallet = () => {
 
             {withdrawnRequest?.pending && (
               <div
-                className="d-flex align-items-start gap-2 mt-3 p-2 rounded-3 shadow-sm"
+                className="d-flex align-items-center w-100 gap-2 mt-3 p-2 rounded-3 shadow-sm"
                 style={{
                   background: "#f5f9ff",
                   border: "1px solid #d6e4ff",
