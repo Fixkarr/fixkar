@@ -9,7 +9,7 @@ import { FaClock} from "react-icons/fa";
 import { FaRupeeSign } from "react-icons/fa";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import useGetProfessionalWallet from "../hooks/useGetProfessionalWallet";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { server_url } from "../App";
 import { toast } from "react-toastify";
@@ -17,6 +17,7 @@ import { refreshWallet } from "../redux/wallet.slice";
 
 const ProfessionalWallet = () => {
   useGetProfessionalWallet();
+  const dispatch = useDispatch()
   const { wallet } = useSelector((state) => state.wallet);
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,7 +39,7 @@ const ProfessionalWallet = () => {
      
       toast.success(result.data.message);
       setLoading(false);
-      refreshWallet()
+      dispatch(refreshWallet());
     } catch (error) {
       toast.error(error.response.data.message || "Something went wrong!");
       setLoading(false);
