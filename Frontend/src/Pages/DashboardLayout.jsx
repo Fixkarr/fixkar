@@ -58,7 +58,7 @@ const DashboardLayout = () => {
           >
 
             <GiHamburgerMenu
-            size={22}
+            size={18}
             role="button"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           />
