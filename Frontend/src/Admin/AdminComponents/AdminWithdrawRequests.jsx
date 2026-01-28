@@ -46,11 +46,11 @@ const AdminWithdrawRequests = () => {
       </div>
 
       {/* ===== Table ===== */}
-      <div className="card bg-dark text-white border-0 shadow rounded-4">
+      <div className="card bg-light text-dark border-0 shadow rounded-4">
         <div className="table-responsive">
-          <table className="table table-dark table-hover align-middle mb-0">
+          <table className="table table-light table-hover align-middle mb-0">
             <thead>
-              <tr className="text-secondary">
+              <tr className="text-muted">
                 <th>#</th>
                 <th>Professional</th>
                 <th>Requested</th>
