@@ -16,6 +16,7 @@ import { MdPendingActions } from "react-icons/md";
 import { useSelector } from "react-redux";
 import StatCard from "./Utils/StatCard";
 import AdminServices from "./AdminServices";
+import AdminWithdrawRequests from "./AdminWithdrawRequests";
 
 
 const AdminHome = () => {
@@ -83,6 +84,8 @@ const AdminHome = () => {
           color="warning"
         />
       </div>
+
+      <AdminWithdrawRequests/>
     </div>
   );
 };
