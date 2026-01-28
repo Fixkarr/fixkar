@@ -18,9 +18,13 @@ export const manualPay = async (req, res) => {
     }
 
     const proWallet = await Wallet.findOne({ professionalId: proId }).populate({
-      path: "professionalId",
-      populate: { path: "userId", select: "fullName email" }
-    });
+  path: "professionalId",
+  select: "+bankDetails.accountNumber +bankDetails.holderName",
+  populate: {
+    path: "userId",
+    select: "fullName email"
+  }
+});
 
     if (!proWallet) {
       return res.status(404).json({ message: "Wallet not found" });
