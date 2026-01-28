@@ -7,30 +7,17 @@ import { useEffect } from "react";
 import axios from 'axios';
 import { server_url } from "../../App";
 import { toast } from "react-toastify";
+import PayWithdrawButton from "./Utils/PayWithdrawButton";
 
-// const withdrawRequests = [
-//   {
-//     id: 1,
-//     professionalId: "PRO-10231",
-//     name: "Rahul Sharma",
-//     requestedAmount: 5000,
-//     totalWithdrawn: 22000,
-//     date: "27 Jan 2026",
-//     status: "pending",
-//   },
-//   {
-//     id: 2,
-//     professionalId: "PRO-10218",
-//     name: "Amit Verma",
-//     requestedAmount: 3000,
-//     totalWithdrawn: 18000,
-//     date: "26 Jan 2026",
-//     status: "pending",
-//   },
-// ];
 
 const AdminWithdrawRequests = () => {
     const [withdrawRequests, setWithdrawRequests] = useState([]);
+
+    const handlePaymentSuccess = (professionalId) => {
+  setWithdrawRequests(prev =>
+    prev.filter(req => req.professionalId !== professionalId)
+  );
+};
 
     useEffect(()=>{
         const getRequests = async ()=>{
@@ -125,11 +112,10 @@ const AdminWithdrawRequests = () => {
                   </td>
 
                   <td>
-                    <div className="d-flex gap-2">
-                      <button className="btn btn-success btn-sm">
-                        <BiCheckCircle /> Pay
-                      </button>
-                    </div>
+                    <PayWithdrawButton
+                      request={item}
+                      onSuccess={handlePaymentSuccess}
+                    />
                   </td>
                 </tr>
               ))}
