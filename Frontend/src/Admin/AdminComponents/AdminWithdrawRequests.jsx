@@ -2,29 +2,54 @@ import React from "react";
 import { FaUserTie, FaRupeeSign } from "react-icons/fa";
 import { MdOutlinePayments, MdWorkHistory } from "react-icons/md";
 import { BiCheckCircle, BiXCircle } from "react-icons/bi";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from 'axios';
+import { server_url } from "../../App";
+import { toast } from "react-toastify";
 
-const withdrawRequests = [
-  {
-    id: 1,
-    professionalId: "PRO-10231",
-    name: "Rahul Sharma",
-    requestedAmount: 5000,
-    totalWithdrawn: 22000,
-    date: "27 Jan 2026",
-    status: "pending",
-  },
-  {
-    id: 2,
-    professionalId: "PRO-10218",
-    name: "Amit Verma",
-    requestedAmount: 3000,
-    totalWithdrawn: 18000,
-    date: "26 Jan 2026",
-    status: "pending",
-  },
-];
+// const withdrawRequests = [
+//   {
+//     id: 1,
+//     professionalId: "PRO-10231",
+//     name: "Rahul Sharma",
+//     requestedAmount: 5000,
+//     totalWithdrawn: 22000,
+//     date: "27 Jan 2026",
+//     status: "pending",
+//   },
+//   {
+//     id: 2,
+//     professionalId: "PRO-10218",
+//     name: "Amit Verma",
+//     requestedAmount: 3000,
+//     totalWithdrawn: 18000,
+//     date: "26 Jan 2026",
+//     status: "pending",
+//   },
+// ];
 
 const AdminWithdrawRequests = () => {
+    const [withdrawRequests, setWithdrawRequests] = useState([]);
+
+    useEffect(()=>{
+        const getRequests = async ()=>{
+            try {
+                const result = await axios.get(`${server_url}/api/admin/get-withdrawn-requests`, {
+                    withCredentials : true
+                });
+
+                setWithdrawRequests(result.data.requests)
+
+            } catch (error) {
+                toast.error(error.response.data.message || "Something went wrong!")
+            }
+        }
+        getRequests()
+    },[])
+
+    console.log(withdrawRequests);
+
   return (
     <div className="container-fluid p-3">
 
@@ -55,7 +80,8 @@ const AdminWithdrawRequests = () => {
                 <th>Professional</th>
                 <th>Requested</th>
                 <th>Total Withdrawn</th>
-                <th>Date</th>
+                <th>Pending Balance</th>
+                <th>Requested At</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -63,13 +89,13 @@ const AdminWithdrawRequests = () => {
 
             <tbody>
               {withdrawRequests.map((item, index) => (
-                <tr key={item.id}>
+                <tr key={index}>
                   <td>{index + 1}</td>
 
                   <td>
                     <div className="d-flex flex-column">
                       <span className="fw-semibold">
-                        <FaUserTie /> {item.name}
+                        <FaUserTie /> {item.professionalName}
                       </span>
                       <small className="text-muted">
                         ID: {item.professionalId}
@@ -84,9 +110,12 @@ const AdminWithdrawRequests = () => {
                   <td className="text-info">
                     <MdWorkHistory /> ₹{item.totalWithdrawn}
                   </td>
+                  <td className="text-info">
+                    <MdWorkHistory /> ₹{item.pendingBalance}
+                  </td>
 
                   <td className="text-muted">
-                    {item.date}
+                    {item.requestedAt}
                   </td>
 
                   <td>
@@ -98,10 +127,7 @@ const AdminWithdrawRequests = () => {
                   <td>
                     <div className="d-flex gap-2">
                       <button className="btn btn-success btn-sm">
-                        <BiCheckCircle /> Approve
-                      </button>
-                      <button className="btn btn-danger btn-sm">
-                        <BiXCircle /> Reject
+                        <BiCheckCircle /> Pay
                       </button>
                     </div>
                   </td>

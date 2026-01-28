@@ -14,6 +14,7 @@ import { updateService } from '../AdminController/updateService.js';
 import { getAdminBookingById, getBookings } from '../AdminController/getBookings.js';
 import { acceptBankDetail } from '../AdminController/acceptBankDetail.js';
 import { rejectBankDetail } from '../AdminController/rejectBankDetail.js';
+import { getWithdrawnRequests } from '../AdminController/getWithdrawnRequests.js';
 
 const adminRouter = express.Router()
 
@@ -38,4 +39,9 @@ adminRouter.post('/reject-professional-application', isAdmin, adminPermission('s
 
 adminRouter.post('/approve-bank/:proId', isAdmin, adminPermission('super_admin', 'professional_admin'), acceptBankDetail);
 adminRouter.post('/reject-bank/:proId', isAdmin, adminPermission('super_admin', 'professional_admin'), rejectBankDetail);
+
+
+adminRouter.get('/get-withdrawn-requests', isAdmin, adminPermission('super_admin', 'professional_admin'), getWithdrawnRequests);
+
+
 export default adminRouter;
