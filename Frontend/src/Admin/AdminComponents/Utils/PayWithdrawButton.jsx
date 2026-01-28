@@ -3,6 +3,8 @@ import { BiCheckCircle } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { server_url } from "../../App";
+import { createPortal } from "react-dom";
+
 
 const PayWithdrawButton = ({ request, onSuccess }) => {
   const [showModal, setShowModal] = useState(false);
@@ -45,13 +47,14 @@ const PayWithdrawButton = ({ request, onSuccess }) => {
       {/* PAY BUTTON */}
       <button
         className="btn btn-success btn-sm"
+        disabled={showModal}
         onClick={() => setShowModal(true)}
       >
         <BiCheckCircle /> Pay
       </button>
 
       {/* MODAL */}
-      {showModal && (
+      {showModal && createPortal(
         <div
           className="modal fade show d-block"
           style={{ background: "rgba(0,0,0,0.5)" }}
@@ -115,7 +118,7 @@ const PayWithdrawButton = ({ request, onSuccess }) => {
 
             </div>
           </div>
-        </div>
+        </div>, document.body
       )}
     </>
   );
