@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BiCheckCircle } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { server_url } from "../../App";
+import { server_url } from "../../../App";
 import { createPortal } from "react-dom";
 
 
