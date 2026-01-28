@@ -56,8 +56,12 @@ const PayWithdrawButton = ({ request, onSuccess }) => {
       {/* MODAL */}
       {showModal && createPortal(
         <div
-          className="modal fade show d-block"
-          style={{ background: "rgba(0,0,0,0.5)" }}
+           className="modal show"
+      style={{
+        display: "block",
+        background: "rgba(0,0,0,0.5)",
+        zIndex: 1055
+      }}
         >
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content rounded-4">
