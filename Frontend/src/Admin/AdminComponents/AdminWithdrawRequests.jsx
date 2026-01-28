@@ -95,7 +95,7 @@ const AdminWithdrawRequests = () => {
                   <td>
                     <div className="d-flex flex-column">
                       <span className="fw-semibold">
-                        <FaUserTie /> {item.professionalName}
+                        <FaUserTie /> {item.professonalName}
                       </span>
                       <small className="text-muted">
                         ID: {item.professionalId}
