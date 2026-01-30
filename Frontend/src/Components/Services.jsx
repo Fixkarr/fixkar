@@ -16,6 +16,7 @@ import {
   FaHandshake
 } from "react-icons/fa";
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const Services = () => {
   const location = useLocation();

@@ -1,6 +1,7 @@
 import React from 'react'
 import HireProfessionals from '../Customer/HireProfessionals'
 import { useLocation, useParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async';
 
 const Explore = () => {
      const location = useLocation();
