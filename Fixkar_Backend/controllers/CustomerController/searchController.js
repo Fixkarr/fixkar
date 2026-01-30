@@ -19,10 +19,11 @@ export const searchProfessionals = async (req, res) => {
     //   });
     // }
 
-    const hasLocation = lat && lng;
-
     lat = parseFloat(lat);
     lng = parseFloat(lng);
+    const hasLocation =
+    Number.isFinite(lat) && Number.isFinite(lng);
+    
     page = parseInt(page);
     limit = parseInt(limit);
 
