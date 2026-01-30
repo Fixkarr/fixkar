@@ -3,6 +3,6 @@ import { getProfessionalInfo } from '../controllers/CustomerController/getProfes
 import { isAuth } from '../middlewares/isAuth.js';
 const customerRouter = express.Router();
 
-customerRouter.get('/get-professional-info/:id', isAuth,  getProfessionalInfo);
+customerRouter.get('/get-professional-info/:id', getProfessionalInfo);
 
 export default customerRouter;
