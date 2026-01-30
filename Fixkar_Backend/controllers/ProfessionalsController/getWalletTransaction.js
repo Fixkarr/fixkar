@@ -4,18 +4,19 @@
 
     export const getWalletTransaction = async (req, res) => {
         try {
-            const professionalId = req.userId;
-            const professional = await Professional.findOne({ userId: professionalId })
+            const bookingId = req.params;
+           
+            if(!bookingId){
+                return res.status(400).json({
+                    message : "BookingId not found!"
+                })
+            }
 
-            const wallet = await Wallet.findOne({ professionalId : professional._id});
-            if (!wallet) return res.json([]);
+            const transaction = await WalletTransaction.findOne({
+                bookingId,
+            }).populate("bookingId", "profession customerName status");
 
-            const transactions = await WalletTransaction.find({
-                walletId: wallet._id,
-            }).sort({ createdAt: -1, _id: -1 })
-                .populate("bookingId", "profession customerName status");
-
-            res.json({transactions});
+            res.json({transaction});
         } catch (error) {
             res.status(500).json({ message: "Failed to fetch transactions" });
         }

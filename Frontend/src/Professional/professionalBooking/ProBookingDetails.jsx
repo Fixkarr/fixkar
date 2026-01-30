@@ -25,12 +25,11 @@ import { reachedToLocationAPI } from './reachedToLocationAPI';
 import useGetWalletTransaction from '../../hooks/useGetWalletTransaction';
 
 const ProBookingDetails = () => {
-    useGetWalletTransaction();
-    const {bookingId} = useParams()
+  const {bookingId} = useParams()
+  useGetWalletTransaction(bookingId);
     const {walletTransaction} = useSelector(state => state.wallet);
     const {myBookings} = useSelector(state=> state.bookings)
     const booking = myBookings.find(book => book._id == bookingId)
-    const transaction = walletTransaction?.find(tx => tx.bookingId?._id == bookingId)
      const isReachedEnabled = (booking)=>{
     if (booking.status !== "accepted") return false;
 
@@ -143,7 +142,7 @@ const ProBookingDetails = () => {
         {booking.rejectMessage && <p className="bg-danger-subtle text-danger p-2">Booking has been rejected with the message '{booking.rejectMessage}'</p>}
           {booking.status == "accepted" && <ProAcceptBooking booking={booking}/>}
           {booking.status == "reached" && <ProReached booking={booking}/>}
-          {booking.status == "cancelled" && <ProCancelBooking booking={booking} transaction={transaction}/>}
+          {booking.status == "cancelled" && <ProCancelBooking booking={booking} transaction={walletTransaction}/>}
           {booking.status == "in-progress" && <ProInprogress booking={booking}/>}
           {booking.quoteAmount && booking.status !== "completed" && (
        <div className="alert alert-info rounded-4 shadow-sm mt-4">
@@ -168,7 +167,7 @@ const ProBookingDetails = () => {
     </small>
   </div>
   )}
-          {booking.status == "completed" && <ProCompleteBooking booking={booking} transaction={transaction}/>}
+          {booking.status == "completed" && <ProCompleteBooking booking={booking} transaction={walletTransaction}/>}
 
           {isReachedEnabled(booking) && (
               <SwipeToConfirm

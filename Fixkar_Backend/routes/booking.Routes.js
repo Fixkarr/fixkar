@@ -34,7 +34,7 @@ bookingRouter.get('/get-reached-otp/:bookingId', isAuth, getReachedOtp);
 bookingRouter.post('/create-order', createOrder);
 bookingRouter.post('/verify-payment', verifyPayment)
 bookingRouter.get('/get-professional-wallet', isAuth, getProfessionalWallet)
-bookingRouter.get('/get-wallet-transaction', isAuth, getWalletTransaction)
+bookingRouter.get('/get-wallet-transaction/:bookingId', isAuth, getWalletTransaction)
 
 
 

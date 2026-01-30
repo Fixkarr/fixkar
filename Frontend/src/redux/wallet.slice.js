@@ -5,7 +5,7 @@ const walletSlice = createSlice({
     initialState : {
         refresh : false,
         wallet : null,
-        walletTransaction : [],
+        walletTransaction : null,
     },
     reducers : {
         refreshWallet(state){
