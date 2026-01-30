@@ -341,7 +341,7 @@ const App = () => {
         <Route
           path="/professional/transaction-history"
           element={
-            role === "professional" ? <TransactionHistory proId={id}/> : <Navigate to="/" />
+            role === "professional" ? <ProfessionalTransactions proId={id}/> : <Navigate to="/" />
           }
         />
 
