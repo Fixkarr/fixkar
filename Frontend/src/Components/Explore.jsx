@@ -2,6 +2,8 @@ import React from 'react'
 import HireProfessionals from '../Customer/HireProfessionals'
 import { useLocation, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 const Explore = () => {
      const location = useLocation();

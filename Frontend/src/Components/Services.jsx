@@ -17,6 +17,8 @@ import {
 } from "react-icons/fa";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 const Services = () => {
   const location = useLocation();
