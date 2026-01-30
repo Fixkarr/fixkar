@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-import "../css/forgetPass.css";
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios'
 import { server_url } from "../App";
