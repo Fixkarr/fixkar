@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import "../css/forgetPass.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import Countdown from "react-countdown";
