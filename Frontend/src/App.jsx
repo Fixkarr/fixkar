@@ -397,7 +397,7 @@ const App = () => {
           <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicy/>}/>
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/about" element={<About/>}/>
-          <Route path="/service" element={<HireProfessionals/>}/>
+          <Route path="/services" element={<HireProfessionals/>}/>
           <Route path="/professional-policy" element={<ProfessionalOnboardingPolicy/>}/>
 
         
