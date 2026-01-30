@@ -89,7 +89,7 @@ const Login = () => {
     <>
     
       <Navbar/>
-   <div className="container-fluid d-flex align-items-center justify-content-center bg-light">
+   <div className="container-fluid d-flex align-items-center my-5 justify-content-center bg-light">
   <div className="col-11 col-sm-9 col-md-6 col-lg-4">
 
     <div className="card border-0 shadow-lg rounded-4 p-4 p-md-5">
