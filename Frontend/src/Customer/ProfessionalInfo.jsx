@@ -13,8 +13,12 @@ import { toast } from "react-toastify";
 import ProReviews from "../Professional/ProReviews";
 import ProfessionalGallerySection from "./ProfessionalGallerySection";
 import SearchSection from "./SearchComponent";
+import { setDistance } from "../redux/distance.slice";
+import { getDistanceMatrixData } from "../utils/getDistanceMatrixData";
+import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 
 const ProfessionalInfo = () => {
+  const mapsLoaded = useLoadGoogleMaps();
   const [loading, setLoading] = useState(false);
   const [professionalInfo, setProfessionalInfo] = useState(null);
   const isProfessionalInfo = Boolean(professionalInfo);
@@ -39,6 +43,40 @@ const ProfessionalInfo = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+useEffect(() => {
+   if (!professionalInfo?.address) return;
+  const calculateDistance = async () => {
+    if (
+      !mapsLoaded ||
+      !selectedLocation?.lat ||
+      !selectedLocation?.lng ||
+      !professionalInfo?.address?.lat ||
+      !professionalInfo?.address?.lng
+    ) {
+      return;
+    }
+
+    try {
+      const result = await getDistanceMatrixData({
+        customerLat: selectedLocation.lat,
+        customerLng: selectedLocation.lng,
+        professionalLat: professionalInfo.address.lat,
+        professionalLng: professionalInfo.address.lng,
+      });
+
+      dispatch(setDistance(result));
+    } catch (err) {
+      toast.error("Failed to calculate distance");
+    }
+  };
+
+  calculateDistance();
+}, [  mapsLoaded,
+  selectedLocation?.lat,
+  selectedLocation?.lng,
+  professionalInfo?.address?.lat,
+  professionalInfo?.address?.lng]);
 
   useEffect(() => {
     const fetchProfessionalInfo = async () => {
