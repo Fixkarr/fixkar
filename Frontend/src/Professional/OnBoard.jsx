@@ -1,6 +1,5 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import "../css/dashboardLayout.css";
 import { MdEmail } from "react-icons/md";
 import { IoCall } from "react-icons/io5";
 import { RiLogoutCircleRLine } from "react-icons/ri";

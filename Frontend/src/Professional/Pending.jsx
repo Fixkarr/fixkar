@@ -1,5 +1,4 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { FaClock, FaShieldAlt } from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";
 
