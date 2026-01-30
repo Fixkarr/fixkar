@@ -386,7 +386,7 @@ const App = () => {
 
        <Route path={`${adminpath}`} element={ !currentUserData && !currentAdmin ? <AdminLanding/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 
-          <Route path={`${adminpath}/login`} element={ !currentUserData && !currentAdmin ? <AdminLogin/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
+        <Route path={`${adminpath}/login`} element={ !currentUserData && !currentAdmin ? <AdminLogin/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 
 
           {/* footer links */}
@@ -397,6 +397,7 @@ const App = () => {
           <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicy/>}/>
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/about" element={<About/>}/>
+          <Route path="/service" element={<HireProfessionals/>}/>
           <Route path="/professional-policy" element={<ProfessionalOnboardingPolicy/>}/>
 
         
