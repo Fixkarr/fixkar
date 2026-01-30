@@ -8,6 +8,8 @@ import { ClipLoader } from "react-spinners";
 import { server_url } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
+import { FaCalendarAlt, FaExclamationTriangle, FaSave, FaCheckCircle } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 
 export default function Availability() {
   const { currentUserData } = useSelector(state => state.user);
@@ -75,32 +77,106 @@ export default function Availability() {
 
   return (
     <>
-      <div className="p-3 w-full d-flex justify-content-center flex-column relative">
-        <center>
-          <h3 className="text-primary mb-3">Mark Days You Are Not Available</h3>
-          <DayPicker
-            mode="multiple"
-            selected={selectedDays}
-            onDayClick={handleDayClick}
-            modifiers={modifiers}
-            modifiersStyles={modifiersStyles}
-            disabled={{ before: new Date()}||confirm }
-          />
-        </center>
-        {
-          confirm && (
-            <div className="text-dark p-4 confirm">
-              <button className="close btn border border-danger text-danger" onClick={()=>setConfirm(false)}>close</button>
-              <h4>Confirm to save changes</h4>
-              <p className="text-danger">Once you click confirm, you cannot change it later, so make the selection carefully.</p>
-              <button className="btn btn-primary" onClick={handleSave} disabled={loading}>{loading ? <ClipLoader size={20} /> : "Confirm"}</button>
-            </div>
-          )
-        }
-        <button className="btn btn-primary w-100 mt-3" disabled={confirm} onClick={()=>setConfirm(true)}>
-          {loading ? <ClipLoader size={20} /> : "Save"}
+      <div className="container-fluid d-flex justify-content-center">
+  <div
+    className="card border-0 shadow-lg rounded-4 p-3 p-md-4 w-100"
+    style={{ maxWidth: "520px" }}
+  >
+
+    {/* ===== Header ===== */}
+    <div
+      className="text-white rounded-4 p-3 mb-3"
+      style={{
+        background: "linear-gradient(135deg,#0d6efd,#4f9cff)",
+      }}
+    >
+      <div className="d-flex align-items-center gap-2">
+        <FaCalendarAlt size={20} />
+        <h5 className="mb-0 fw-bold">Availability Settings</h5>
+      </div>
+      <small className="opacity-75">
+        Mark days when you are not available
+      </small>
+    </div>
+
+    {/* ===== Calendar ===== */}
+    <div className="text-center mb-3">
+      <DayPicker
+        mode="multiple"
+        selected={selectedDays}
+        onDayClick={handleDayClick}
+        modifiers={modifiers}
+        modifiersStyles={modifiersStyles}
+        disabled={{ before: new Date() } || confirm}
+      />
+    </div>
+
+    {/* ===== Confirm Box ===== */}
+    {confirm && (
+      <div
+        className="p-3 rounded-4 mb-3"
+        style={{
+          background: "rgba(255, 193, 7, 0.08)",
+          border: "1px solid rgba(255,193,7,0.4)",
+        }}
+      >
+        <div className="d-flex justify-content-between align-items-start mb-2">
+          <div className="d-flex align-items-center gap-2 text-warning fw-semibold">
+            <FaExclamationTriangle />
+            Confirm Changes
+          </div>
+
+          <button
+            className="btn btn-sm btn-outline-danger"
+            onClick={() => setConfirm(false)}
+          >
+            <IoClose />
+          </button>
+        </div>
+
+        <p className="small text-muted mb-3">
+          Once you confirm, these unavailable days cannot be changed later.
+          Please review your selection carefully.
+        </p>
+
+        <button
+          className="btn btn-warning w-100 fw-semibold d-flex align-items-center justify-content-center gap-2"
+          onClick={handleSave}
+          disabled={loading}
+        >
+          {loading ? (
+            <ClipLoader size={18} color="#000" />
+          ) : (
+            <>
+              <FaCheckCircle />
+              Confirm & Save
+            </>
+          )}
         </button>
       </div>
+    )}
+
+    {/* ===== Save Button ===== */}
+    <button
+      className="btn btn-primary w-100 fw-semibold d-flex align-items-center justify-content-center gap-2"
+      style={{
+        background: "linear-gradient(135deg,#0d6efd,#4f9cff)",
+        border: "none",
+      }}
+      disabled={confirm}
+      onClick={() => setConfirm(true)}
+    >
+      {loading ? (
+        <ClipLoader size={18} color="#fff" />
+      ) : (
+        <>
+          <FaSave />
+          Save Selection
+        </>
+      )}
+    </button>
+  </div>
+</div>
     </>
   );
 }
