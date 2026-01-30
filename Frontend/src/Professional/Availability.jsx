@@ -77,7 +77,6 @@ export default function Availability() {
 
   return (
     <>
-      <div className="container-fluid d-flex justify-content-center">
   <div
     className="card border-0 shadow-lg rounded-4 p-3 p-md-4 w-100"
     style={{ maxWidth: "520px" }}
@@ -176,7 +175,7 @@ export default function Availability() {
       )}
     </button>
   </div>
-</div>
+
     </>
   );
 }
