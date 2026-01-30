@@ -17,6 +17,8 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { currentUserData } = useSelector(state => state.user);
+  const isAuthenticated = Boolean(currentUserData?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {currentAdmin} = useSelector(state=>state.admin);
@@ -35,17 +37,19 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="dashboardLayout d-flex">
+    <>
+       {!isAuthenticated && <Navbar />}
+      <div className="dashboardLayout d-flex">
 
       {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} />
+      {isAuthenticated && <Sidebar isOpen={isSidebarOpen} />}
 
 
       {/* Main Area */}
       <main className="flex-grow-1 p-1 bg-light">
 
         {/* ===== Top Bar ===== */}
-        <section
+       {isAuthenticated &&  <section
           className="card border-0 shadow-sm rounded-4 mb-3 overflow-hidden"
         >
           {/* Gradient Header */}
@@ -97,7 +101,7 @@ const DashboardLayout = () => {
               </span>
             </div>
           </div>
-        </section>
+        </section>}
 
         {/* ===== Page Content ===== */}
         <div className="card border-0 shadow-sm rounded-4 p-1">
@@ -106,6 +110,7 @@ const DashboardLayout = () => {
 
       </main>
     </div>
+    </>
   );
 };
 
