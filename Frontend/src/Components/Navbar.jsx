@@ -25,7 +25,15 @@ const Navbar = () => {
   <div className="container-fluid px-2">
 
     {/* LOGO */}
-    <NavLink className="navbar-brand me-2" to="/">
+   
+
+    <div className="d-flex align-items-center flex-nowrap w-100 overflow-auto navbar-scroll">
+
+      {/* LEFT MENU */}
+      <ul className="navbar-nav flex-row fixkar-gap me-auto">
+
+        <li className="nav-item">
+         <NavLink className="navbar-brand me-2" to="/">
       <img
         src="/Images/logo2.png"
         alt="Fixkar logo"
@@ -33,10 +41,7 @@ const Navbar = () => {
       />
     </NavLink>
 
-    <div className="d-flex align-items-center flex-nowrap w-100 overflow-auto navbar-scroll">
-
-      {/* LEFT MENU */}
-      <ul className="navbar-nav flex-row fixkar-gap me-auto">
+        </li>
 
         <li className="nav-item">
           <NavLink className="nav-link fixkar-link" to="/">
