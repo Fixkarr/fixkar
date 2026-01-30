@@ -143,9 +143,8 @@ const ProfessionalInfo = () => {
           <SearchSection
             onlyLocation
             onLocationSelect={() => {
-
               setShowLocationGate(false);
-              setShowHireModal(true);
+              toast.success("Location confirmed. You can now hire.");
             }}
           />
         </div>
