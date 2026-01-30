@@ -249,7 +249,7 @@ const App = () => {
         <Route
           path="professional/profile/visit/:id"
           element={
-            role === "customer" ? <ProfessionalInfo /> : <Navigate to="/" />
+            <ProfessionalInfo />
           }
         />
         <Route
