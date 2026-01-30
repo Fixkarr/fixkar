@@ -35,8 +35,6 @@ const AdminWithdrawRequests = () => {
         getRequests()
     },[])
 
-    console.log(withdrawRequests);
-
   return (
     <div className="container-fluid p-3">
 

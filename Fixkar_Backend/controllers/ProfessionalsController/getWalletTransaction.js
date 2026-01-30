@@ -4,10 +4,10 @@ import { WalletTransaction } from "../../models/walletTransactionModel.js";
 
 export const getWalletTransaction = async (req, res) => {
     try {
-        const professional = req.userId;
-        const professionalId = await Professional.findOne({ userId: professional })
+        const professionalId = req.userId;
+        const professional = await Professional.findOne({ userId: professionalId })
 
-        const wallet = await Wallet.findOne({ professionalId : professionalId._id});
+        const wallet = await Wallet.findOne({ professionalId : professional._id});
         if (!wallet) return res.json([]);
 
         const transactions = await WalletTransaction.find({
