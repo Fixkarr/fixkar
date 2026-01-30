@@ -21,98 +21,87 @@ const Navbar = () => {
   const navigate = useNavigate()
   return (
     <>
-   <nav className="navbar fixed-top shadow-sm fixkar-navbar">
-  <div className="container-fluid px-2">
+   <nav className="navbar fixed-top fixkar-navbar shadow-sm">
+      <div className="container-fluid px-2 fixkar-nav-wrapper">
 
-    {/* LOGO */}
-   
+        {/* LOGO */}
+        <NavLink to="/" className="navbar-brand me-2">
+          <img
+            src="/Images/logo2.png"
+            alt="Fixkar"
+            className="fixkar-logo"
+          />
+        </NavLink>
 
-    <div className="d-flex align-items-center flex-nowrap w-100 overflow-auto navbar-scroll">
+        {/* MENUS */}
+        <ul className="navbar-nav flex-row fixkar-nav me-auto">
+          <li className="nav-item">
+            <NavLink to="/" className="nav-link fixkar-link">
+              <FaHome />
+              <span>Home</span>
+            </NavLink>
+          </li>
 
-      {/* LEFT MENU */}
-      <ul className="navbar-nav flex-row fixkar-gap me-auto">
+          <li className="nav-item">
+            <NavLink to="/about" className="nav-link fixkar-link">
+              <FaInfoCircle />
+              <span>About</span>
+            </NavLink>
+          </li>
 
-        <li className="nav-item">
-         <NavLink className="navbar-brand me-2" to="/">
-      <img
-        src="/Images/logo2.png"
-        alt="Fixkar logo"
-        className="fixkar-logo"
-      />
-    </NavLink>
+          <li className="nav-item">
+            <NavLink to="/services" className="nav-link fixkar-link">
+              <FaTools />
+              <span>Services</span>
+            </NavLink>
+          </li>
 
-        </li>
+          <li className="nav-item">
+            <NavLink to="/contact" className="nav-link fixkar-link">
+              <FaPhoneAlt />
+              <span>Contact</span>
+            </NavLink>
+          </li>
+        </ul>
 
-        <li className="nav-item">
-          <NavLink className="nav-link fixkar-link" to="/">
-            <FaHome />
-            <span>Home</span>
-          </NavLink>
-        </li>
+        {/* ACTION BUTTONS */}
+        <ul className="navbar-nav flex-row fixkar-nav">
+          <li className="nav-item">
+            <button
+              className="btn btn-outline-primary fixkar-btn"
+              onClick={() => navigate("/login")}
+            >
+              <MdLogin />
+              <span>Login</span>
+            </button>
+          </li>
 
-        <li className="nav-item">
-          <NavLink className="nav-link fixkar-link" to="/about">
-            <FaInfoCircle />
-            <span>About</span>
-          </NavLink>
-        </li>
+          <li className="nav-item dropdown">
+            <button
+              className="btn btn-primary fixkar-btn dropdown-toggle"
+              data-bs-toggle="dropdown"
+            >
+              <FaUserPlus />
+              <span>Signup</span>
+            </button>
 
-        <li className="nav-item">
-          <NavLink className="nav-link fixkar-link" to="/services">
-            <FaTools />
-            <span>Services</span>
-          </NavLink>
-        </li>
+            <ul className="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+              <li>
+                <NavLink className="dropdown-item" to="/signup?role=customer">
+                  Customer
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="dropdown-item" to="/signup?role=professional">
+                  Professional
+                </NavLink>
+              </li>
+            </ul>
+          </li>
+        </ul>
 
-        <li className="nav-item">
-          <NavLink className="nav-link fixkar-link" to="/contact">
-            <FaPhoneAlt />
-            <span>Contact</span>
-          </NavLink>
-        </li>
-
-      </ul>
-
-      {/* RIGHT ACTIONS */}
-      <ul className="navbar-nav flex-row gap-2 ms-2">
-
-        <li className="nav-item">
-          <button
-            className="btn btn-outline-primary fixkar-btn"
-            onClick={() => navigate("/login")}
-          >
-            <MdLogin />
-            <span>Login</span>
-          </button>
-        </li>
-
-        <li className="nav-item dropdown">
-          <button
-            className="btn btn-primary fixkar-btn dropdown-toggle"
-            data-bs-toggle="dropdown"
-          >
-            <FaUserPlus />
-            <span>Signup</span>
-          </button>
-
-          <ul className="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
-            <li>
-              <NavLink className="dropdown-item" to="/signup?role=customer">
-                Customer
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="dropdown-item" to="/signup?role=professional">
-                Professional
-              </NavLink>
-            </li>
-          </ul>
-        </li>
-
-      </ul>
-    </div>
-  </div>
-</nav>
+      </div>
+    </nav>
 
 
 
