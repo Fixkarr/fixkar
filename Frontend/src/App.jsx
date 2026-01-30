@@ -63,6 +63,8 @@ import UpdateServiceForm from "./Admin/AdminComponents/Utils/UpdateServiceForm.j
 import AdminBookings from "./Admin/AdminComponents/AdminBookings.jsx";
 import AdminBookingDetail from "./Admin/AdminComponents/AdminBookingDetail.jsx";
 import ProfessionalTransactions from "./Professional/ProfessionalTransactions.jsx";
+import Services from "./Components/Services.jsx";
+import Explore from "./Components/Explore.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -397,7 +399,8 @@ const App = () => {
           <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicy/>}/>
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/about" element={<About/>}/>
-          <Route path="/services" element={<HireProfessionals/>}/>
+          <Route path="/services" element={<Services/>}/>
+          <Route path="/explore/:profession" element={<Explore/>}/>
           <Route path="/professional-policy" element={<ProfessionalOnboardingPolicy/>}/>
 
         

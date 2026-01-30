@@ -15,14 +15,31 @@ import {
   FaClipboardCheck,
   FaHandshake
 } from "react-icons/fa";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Services = () => {
+  const location = useLocation();
+  const { pathname } = location;
+  const navigate = useNavigate();
+
   useGetServices()
   const {services} = useSelector(state => state.services)
 
   return (
     <>
-
+   {pathname !== '/' &&
+         <>
+          <Helmet>
+    <title>Fixkar Services - Explore Fixkar Services</title>
+    <meta
+      name="description"
+      content="Contact Fixkar for support, service queries, or assistance. Our team is available to help you connect with skilled professionals efficiently."
+    />
+  </Helmet>
+  
+        <Navbar/>
+        </>
+        }
     <div className="Services py-5"
   style={{
     background: "linear-gradient(180deg, #f8f9ff 0%, #eef3ff 100%)",
@@ -74,7 +91,11 @@ const Services = () => {
        {item.description?.slice(0, 70)}...
       </p>
 
-      <button className="btn btn-outline-primary btn-sm px-3 py-1 rounded-pill d-inline-flex align-items-center gap-1">
+      <button className="btn btn-outline-primary btn-sm px-3 py-1 rounded-pill d-inline-flex align-items-center gap-1"
+      onClick={()=>{
+        navigate(`/explore/${item.name}`)
+      }}
+      >
         Explore <FaArrowRight size={11} />
       </button>
     </div>
@@ -211,7 +232,7 @@ const Services = () => {
 
 </div>
 
-
+ {pathname !== '/' && <Footer/>}
     </>
   )
 }
