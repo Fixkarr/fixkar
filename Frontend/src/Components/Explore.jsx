@@ -24,8 +24,11 @@ const Explore = () => {
         <Navbar/>
         </>
         }
-    Search {profession} near!
+    <div style={{paddingTop : "5vh"}}>
+
+        Search {profession} near!
     <HireProfessionals/>
+    </div>
 
     {pathname !== '/' && <Footer/>}
    </>

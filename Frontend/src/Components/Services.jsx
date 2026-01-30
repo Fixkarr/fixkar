@@ -46,6 +46,7 @@ const Services = () => {
     <div className="Services py-5"
   style={{
     background: "linear-gradient(180deg, #f8f9ff 0%, #eef3ff 100%)",
+    paddingTop : "5vh"
   }}
 >
 
