@@ -1,10 +1,9 @@
-   import { Professional } from "../../models/userModel.js"
-    import { Wallet } from "../../models/walletModel.js";
+
     import { WalletTransaction } from "../../models/walletTransactionModel.js";
 
     export const getWalletTransaction = async (req, res) => {
         try {
-            const bookingId = req.params;
+            const {bookingId} = req.params;
            
             if(!bookingId){
                 return res.status(400).json({
