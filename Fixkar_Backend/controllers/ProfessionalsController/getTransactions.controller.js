@@ -19,7 +19,7 @@ export const getTransaction = async (req,res)=>{
         }
 
 
-        const transactions = await WalletTransaction.find({walletId : wallet._id});
+        const transactions = await WalletTransaction.find({walletId : wallet._id}).sort({ createdAt: -1});
         
         
         return res.status(200).json({
