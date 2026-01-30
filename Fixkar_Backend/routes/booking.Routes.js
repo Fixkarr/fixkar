@@ -10,6 +10,7 @@ import { verifyReachedOtp } from '../controllers/BookingController/verifyReached
 import { sendQuoteAmount } from '../controllers/BookingController/sendQuoteAmount.js';
 import { createOrder, verifyPayment } from '../controllers/payment.controller.js';
 import { getProfessionalWallet } from '../controllers/ProfessionalsController/getProfessionalWallet.js';
+import { getWalletTransaction } from '../controllers/ProfessionalsController/getWalletTransaction.js';
 import { getBookingById } from '../controllers/BookingController/getBookingById.js';
 import { postReview } from '../controllers/review.controller.js';
 import { getReachedOtp } from '../controllers/BookingController/getReachedOtp.js';
@@ -33,7 +34,7 @@ bookingRouter.get('/get-reached-otp/:bookingId', isAuth, getReachedOtp);
 bookingRouter.post('/create-order', createOrder);
 bookingRouter.post('/verify-payment', verifyPayment)
 bookingRouter.get('/get-professional-wallet', isAuth, getProfessionalWallet)
-
+bookingRouter.get('/get-wallet-transaction', isAuth, getWalletTransaction)
 
 
 
