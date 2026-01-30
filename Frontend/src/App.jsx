@@ -21,7 +21,6 @@ import DashboardLayout from "./Pages/DashboardLayout";
 import CustomerHome from "./Customer/CustomerHome";
 import CustomerBookings from "./Customer/CustomerBookings";
 import HireProfessionals from "./Customer/HireProfessionals";
-import CustomerContact from "./Customer/CustomerContact";
 
 
 // Professional
@@ -245,12 +244,6 @@ const App = () => {
           path="/customer/hire-professionals"
           element={
             role === "customer" ? <HireProfessionals /> : <Navigate to="/" />
-          }
-        />
-        <Route
-          path="/customer/contact"
-          element={
-            role === "customer" ? <CustomerContact /> : <Navigate to="/" />
           }
         />
         <Route
