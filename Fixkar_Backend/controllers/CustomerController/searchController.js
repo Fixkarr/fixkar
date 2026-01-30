@@ -12,12 +12,14 @@ export const searchProfessionals = async (req, res) => {
       limit = 20,
     } = req.query;
 
-    if (!lat || !lng) {
-      return res.status(400).json({
-        success: false,
-        message: "Latitude and Longitude are required",
-      });
-    }
+    // if (!lat || !lng) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Latitude and Longitude are required",
+    //   });
+    // }
+
+    const hasLocation = lat && lng;
 
     lat = parseFloat(lat);
     lng = parseFloat(lng);
@@ -31,8 +33,10 @@ export const searchProfessionals = async (req, res) => {
       skills = skills.split(",");
     }
 
-    let pipeline = [
-      {
+    let pipeline = [];
+
+    if(hasLocation){
+      pipeline.push({
         $geoNear: {
           near: {
             type: "Point",
@@ -46,8 +50,15 @@ export const searchProfessionals = async (req, res) => {
             onBoarded: true,
           },
         },
-      },
-    ];
+      },)
+    }else{
+        pipeline.push({
+        $match: {
+          status: "approved",
+          onBoarded: true,
+        },
+  });
+    }
 
     // 🔍 Populate profession
     pipeline.push(

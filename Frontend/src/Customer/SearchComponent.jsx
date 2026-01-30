@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaCrosshairs, FaMapMarkerAlt, FaCheck } from "react-icons/fa";
-// import "../css/customerhome.css";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedLocation, setSelectedService } from "../redux/location.slice";

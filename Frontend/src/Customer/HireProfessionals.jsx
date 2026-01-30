@@ -24,18 +24,20 @@ const HireProfessionals = () => {
   const [hasMore, setHasMore] = useState(true);
   
  const fetchProfessionals = async (pageNo = 1, reset = false) => {
-    if (!selectedLocation?.lat || !selectedLocation?.lng) return;
-
+  const hasLocation = selectedLocation?.lat && selectedLocation?.lng;
     try {
       setLoading(true);
 
       const params = {
-        lat: selectedLocation.lat,
-        lng: selectedLocation.lng,
         service: selectedService || "",
         page: pageNo,
         limit: 20,
       };
+
+        if (hasLocation) {
+      params.lat = selectedLocation.lat;
+      params.lng = selectedLocation.lng;
+    }
 
       // 🔥 OPTIONAL skills
       if (selectedSkills.length > 0) {
@@ -64,7 +66,7 @@ const HireProfessionals = () => {
 
   // 🔁 Re-search when location / service / skills change
   useEffect(() => {
-    if (selectedLocation?.lat && selectedLocation?.lng) {
+    if (selectedService) {
       fetchProfessionals(1, true);
     }
   }, [selectedLocation, selectedService, selectedSkills]);
@@ -87,16 +89,19 @@ const HireProfessionals = () => {
   </div>
 
   {/* Search summary */}
-  {selectedLocation?.address && (
+  {selectedService && ( 
     <div
       className="alert alert-light border rounded-4 shadow-sm mb-4"
       style={{ background: "rgba(255,255,255,0.9)" }}
     >
       <h6 className="fw-semibold mb-1">Search results for</h6>
+     {selectedLocation?.address && (
       <p className="mb-0 small">
         <span className="badge bg-primary me-2">Location</span>
         {selectedLocation.address}
       </p>
+    )}
+
 
       {selectedService && (
         <p className="mb-0 small mt-1">
@@ -108,7 +113,7 @@ const HireProfessionals = () => {
   )}
 
   {/* STATES */}
-  {!selectedLocation?.lat ? (
+  {!selectedService ? (
     /* EMPTY STATE */
     <div className="text-center py-5">
      <div
