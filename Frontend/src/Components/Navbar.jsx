@@ -20,8 +20,8 @@ const Navbar = () => {
   const navigate = useNavigate()
   return (
     <>
-    <nav
-  className="navbar navbar-expand-lg fixed-top shadow-sm"
+   <nav
+  className="navbar fixed-top shadow-sm"
   style={{
     background: "rgba(255,255,255,0.75)",
     backdropFilter: "blur(12px)",
@@ -29,48 +29,40 @@ const Navbar = () => {
     borderBottom: "1px solid rgba(0,0,0,0.05)",
   }}
 >
-  <div className="container-fluid px-md-4">
+  <div className="container-fluid px-3">
 
     {/* BRAND */}
-    <NavLink className="navbar-brand fw-bold fs-4 text-primary" to="/">
-       <img src="/Images/logo2.png" className="img-fluid" alt="fixkar logo" style={{
-     height : "30px", width : "108px",
-    }}/>
+    <NavLink className="navbar-brand fw-bold text-primary me-3" to="/">
+      <img
+        src="/Images/logo2.png"
+        alt="fixkar logo"
+        style={{ height: "30px", width: "108px" }}
+      />
     </NavLink>
 
-    {/* TOGGLER */}
-    <button
-      className="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span className="navbar-toggler-icon"></span>
-    </button>
-
-    {/* CONTENT */}
-    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+    {/* ALL MENUS – SINGLE LINE */}
+    <div className="d-flex align-items-center flex-nowrap w-100 overflow-auto navbar-scroll">
 
       {/* LEFT LINKS */}
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
+      <ul className="navbar-nav flex-row gap-3 me-auto">
         <li className="nav-item">
           <NavLink className="nav-link fw-semibold" to="/">
             <FaHome className="me-1 text-primary" /> Home
           </NavLink>
         </li>
+
         <li className="nav-item">
           <NavLink className="nav-link fw-semibold" to="/about">
             <FaInfoCircle className="me-1 text-info" /> About
           </NavLink>
         </li>
+
         <li className="nav-item">
-          <NavLink className="nav-link fw-semibold" to="#">
+          <NavLink className="nav-link fw-semibold" to="/services">
             <FaTools className="me-1 text-warning" /> Services
           </NavLink>
         </li>
+
         <li className="nav-item">
           <NavLink className="nav-link fw-semibold" to="/contact">
             <FaPhoneAlt className="me-1 text-success" /> Contact
@@ -79,12 +71,11 @@ const Navbar = () => {
       </ul>
 
       {/* RIGHT ACTIONS */}
-      <ul className="navbar-nav mb-2 mb-lg-0 gap-2 align-items-lg-center">
+      <ul className="navbar-nav flex-row gap-2 ms-3">
 
-        {/* LOGIN */}
         <li className="nav-item">
           <button
-            className="btn btn-outline-primary rounded-pill px-4 fw-semibold"
+            className="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold"
             onClick={() => navigate("/login")}
           >
             <MdLogin className="me-1" />
@@ -92,13 +83,10 @@ const Navbar = () => {
           </button>
         </li>
 
-        {/* SIGNUP */}
         <li className="nav-item dropdown">
           <button
-            className="btn btn-primary rounded-pill px-4 fw-semibold dropdown-toggle"
-            type="button"
+            className="btn btn-primary btn-sm rounded-pill px-3 fw-semibold dropdown-toggle"
             data-bs-toggle="dropdown"
-            aria-expanded="false"
           >
             <FaUserPlus className="me-1" />
             Signup
@@ -107,12 +95,12 @@ const Navbar = () => {
           <ul className="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
             <li>
               <NavLink className="dropdown-item" to="/signup?role=customer">
-                Signup as Customer
+                Customer
               </NavLink>
             </li>
             <li>
               <NavLink className="dropdown-item" to="/signup?role=professional">
-                Signup as Professional
+                Professional
               </NavLink>
             </li>
           </ul>
@@ -122,6 +110,7 @@ const Navbar = () => {
     </div>
   </div>
 </nav>
+
 
     </>
   );

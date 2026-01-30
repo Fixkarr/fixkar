@@ -27,7 +27,7 @@ userRoute.get("/professionals", isAuth, isAdmin, getAllProfessionals);
 userRoute.get("/verifiedProfessionals", isAuth, getAllVerifiedProfessionals);
 userRoute.get("/getUserById/:userId", getUserById);
 userRoute.get("/professionals/search", searchProfessionals);
-userRoute.get("/get-service-skills/:serviceId", isAuth, getServiceSkills)
+userRoute.get("/get-service-skills/:serviceId", getServiceSkills)
 
 
 // professionals routes
