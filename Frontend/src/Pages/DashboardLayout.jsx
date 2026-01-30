@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import { Outlet } from "react-router-dom";
-import "../css/dashboardLayout.css";
+
 import "../css/sidebar.css";
 import { MdEmail } from "react-icons/md";
 import { IoCall } from "react-icons/io5";

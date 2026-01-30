@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
-import "../css/forgetPass.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";

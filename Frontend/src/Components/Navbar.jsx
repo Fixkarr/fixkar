@@ -3,7 +3,6 @@ import { NavLink, Link, } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FaHome, FaInfoCircle, FaTools, FaPhoneAlt, FaUserPlus } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
-import "../css/navbar.css";
 const Navbar = () => {
   useEffect(() => {
   const handleScroll = () => {

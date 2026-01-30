@@ -1,7 +1,0 @@
-.value-card {
-  transition: all 0.35s ease;
-}
-.value-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 18px 40px rgba(13,110,253,0.25);
-}

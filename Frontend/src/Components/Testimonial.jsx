@@ -3,7 +3,6 @@ import {Swiper, SwiperSlide} from 'swiper/react'
 import {Pagination, Autoplay} from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import '../css/testimonial.css'
 import { FaQuoteLeft } from "react-icons/fa";
 import { IoIosStar, IoIosStarHalf } from "react-icons/io";
 

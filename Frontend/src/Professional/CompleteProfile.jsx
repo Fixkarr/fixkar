@@ -1,7 +1,6 @@
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "../css/customerhome.css";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";

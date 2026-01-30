@@ -1,6 +1,5 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
-import '../css/home.css'
 import Services from '../Components/Services'
 import Values from '../Components/Values'
 import Testimonial from '../Components/Testimonial'

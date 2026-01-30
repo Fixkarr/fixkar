@@ -8,7 +8,6 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import axios from 'axios';
 import { FaArrowLeft } from "react-icons/fa6";
 import {ClipLoader} from "react-spinners"
-import '../css/login.css'
 import { server_url } from '../App';
 import { useDispatch } from 'react-redux';
 import { setCurrentUserData } from '../redux/user.slice';

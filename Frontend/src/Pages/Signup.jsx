@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../css/customersignup.css";
 import { FaCheck, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useFormik } from "formik";

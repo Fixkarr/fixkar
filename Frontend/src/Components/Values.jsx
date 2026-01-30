@@ -1,5 +1,5 @@
 import React from 'react'
-import '../css/values.css'
+
 import {
   FaUserShield,
   FaRupeeSign,

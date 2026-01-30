@@ -8,7 +8,6 @@ import { ClipLoader } from "react-spinners";
 import { server_url } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
-import '../css/availability.css'
 
 export default function Availability() {
   const { currentUserData } = useSelector(state => state.user);

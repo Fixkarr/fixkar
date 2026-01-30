@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import '../css/customerhome.css'
 import SearchSection from './SearchComponent'
 import { useDispatch } from 'react-redux'
 import { setSelectedLocation, setSelectedService } from '../redux/location.slice'
