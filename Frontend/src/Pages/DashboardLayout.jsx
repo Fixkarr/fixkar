@@ -14,6 +14,7 @@ import { server_url } from "../App";
 import axios from "axios";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
+import Navbar from "../Components/Navbar";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
