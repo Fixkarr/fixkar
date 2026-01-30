@@ -12,8 +12,17 @@
 
             const transactions = await WalletTransaction.find({
                 walletId: wallet._id,
-            }).sort({ createdAt: -1, _id: -1 })
+            })
                 .populate("bookingId", "profession customerName status");
+
+                            console.log(
+            transactions.map(t => ({
+                id: t._id,
+                createdAt: t.createdAt,
+                transferedAt: t.paymentProof?.transferedAt,
+                type: t.type
+            }))
+            );
 
             res.json({transactions});
         } catch (error) {
