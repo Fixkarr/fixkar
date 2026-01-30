@@ -27,7 +27,7 @@ const ProfessionalTransactions = ({ proId }) => {
 
       {/* ===== Transactions ===== */}
       <div className="row g-3">
-        {transactions.map((tx) => {
+        {transactions?.map((tx) => {
           const isCredit = tx.type === "CREDIT";
           const isDebit = tx.type === "DEBIT";
 
