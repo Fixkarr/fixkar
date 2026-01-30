@@ -18,6 +18,7 @@
 
             res.json({transaction});
         } catch (error) {
-            res.status(500).json({ message: "Failed to fetch transactions" });
+            console.log(error);
+            res.status(500).json({ message: "Failed to fetch transaction" });
         }
     }
