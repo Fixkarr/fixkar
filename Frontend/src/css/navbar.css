@@ -1,0 +1,45 @@
+.fixkar-navbar {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.fixkar-logo {
+  height: clamp(24px, 4vw, 32px);
+  width: auto;
+}
+
+.fixkar-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+  padding: 4px 6px;
+  white-space: nowrap;
+}
+
+.fixkar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.fixkar-gap {
+  gap: clamp(6px, 2vw, 16px);
+}
+
+.fixkar-link svg,
+.fixkar-btn svg {
+  font-size: clamp(14px, 3vw, 16px);
+}
+
+.navbar-scroll {
+  scrollbar-width: none;
+}
+.navbar-scroll::-webkit-scrollbar {
+  display: none;
+}

@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import { NavLink, Link, } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import '../css/navbar.css'
 import { FaHome, FaInfoCircle, FaTools, FaPhoneAlt, FaUserPlus } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 const Navbar = () => {
@@ -20,76 +21,73 @@ const Navbar = () => {
   const navigate = useNavigate()
   return (
     <>
-   <nav
-  className="navbar fixed-top shadow-sm"
-  style={{
-    background: "rgba(255,255,255,0.75)",
-    backdropFilter: "blur(12px)",
-    WebkitBackdropFilter: "blur(12px)",
-    borderBottom: "1px solid rgba(0,0,0,0.05)",
-  }}
->
-  <div className="container-fluid px-3">
+   <nav className="navbar fixed-top shadow-sm fixkar-navbar">
+  <div className="container-fluid px-2">
 
-    {/* BRAND */}
-    <NavLink className="navbar-brand fw-bold text-primary me-3" to="/">
+    {/* LOGO */}
+    <NavLink className="navbar-brand me-2" to="/">
       <img
         src="/Images/logo2.png"
-        alt="fixkar logo"
-        style={{ height: "30px", width: "108px" }}
+        alt="Fixkar logo"
+        className="fixkar-logo"
       />
     </NavLink>
 
-    {/* ALL MENUS – SINGLE LINE */}
     <div className="d-flex align-items-center flex-nowrap w-100 overflow-auto navbar-scroll">
 
-      {/* LEFT LINKS */}
-      <ul className="navbar-nav flex-row gap-3 me-auto">
+      {/* LEFT MENU */}
+      <ul className="navbar-nav flex-row fixkar-gap me-auto">
+
         <li className="nav-item">
-          <NavLink className="nav-link fw-semibold" to="/">
-            <FaHome className="me-1 text-primary" /> Home
+          <NavLink className="nav-link fixkar-link" to="/">
+            <FaHome />
+            <span>Home</span>
           </NavLink>
         </li>
 
         <li className="nav-item">
-          <NavLink className="nav-link fw-semibold" to="/about">
-            <FaInfoCircle className="me-1 text-info" /> About
+          <NavLink className="nav-link fixkar-link" to="/about">
+            <FaInfoCircle />
+            <span>About</span>
           </NavLink>
         </li>
 
         <li className="nav-item">
-          <NavLink className="nav-link fw-semibold" to="/services">
-            <FaTools className="me-1 text-warning" /> Services
+          <NavLink className="nav-link fixkar-link" to="/services">
+            <FaTools />
+            <span>Services</span>
           </NavLink>
         </li>
 
         <li className="nav-item">
-          <NavLink className="nav-link fw-semibold" to="/contact">
-            <FaPhoneAlt className="me-1 text-success" /> Contact
+          <NavLink className="nav-link fixkar-link" to="/contact">
+            <FaPhoneAlt />
+            <span>Contact</span>
           </NavLink>
         </li>
+
       </ul>
 
       {/* RIGHT ACTIONS */}
-      <ul className="navbar-nav flex-row gap-2 ms-3">
+      <ul className="navbar-nav flex-row gap-2 ms-2">
 
         <li className="nav-item">
           <button
-            className="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold"
+            className="btn btn-outline-primary fixkar-btn"
             onClick={() => navigate("/login")}
           >
-            <MdLogin className="me-1" />
-            Login
+            <MdLogin />
+            <span>Login</span>
           </button>
         </li>
 
         <li className="nav-item dropdown">
           <button
-            className="btn btn-primary btn-sm rounded-pill px-3 fw-semibold dropdown-toggle"
+            className="btn btn-primary fixkar-btn dropdown-toggle"
             data-bs-toggle="dropdown"
           >
-            <FaUserPlus className="me-1" />
-            Signup
+            <FaUserPlus />
+            <span>Signup</span>
           </button>
 
           <ul className="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
@@ -110,6 +108,7 @@ const Navbar = () => {
     </div>
   </div>
 </nav>
+
 
 
     </>
