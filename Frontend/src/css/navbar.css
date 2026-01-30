@@ -1,45 +1,81 @@
+/* ===== BASE NAVBAR ===== */
 .fixkar-navbar {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
+/* ===== LOGO ===== */
 .fixkar-logo {
-  height: clamp(24px, 4vw, 32px);
+  height: 26px; /* desktop default */
   width: auto;
 }
 
+/* ===== LINKS ===== */
 .fixkar-link {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   font-weight: 600;
-  font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+  font-size: 0.9rem;
   padding: 4px 6px;
   white-space: nowrap;
 }
 
+/* ===== BUTTONS ===== */
 .fixkar-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+  gap: 4px;
+  font-size: 0.85rem;
   padding: 4px 10px;
   border-radius: 999px;
 }
 
-.fixkar-gap {
-  gap: clamp(6px, 2vw, 16px);
-}
-
+/* ===== ICON SIZE ===== */
 .fixkar-link svg,
 .fixkar-btn svg {
-  font-size: clamp(14px, 3vw, 16px);
+  font-size: 16px;
 }
 
-.navbar-scroll {
-  scrollbar-width: none;
+/* ================= MOBILE COMPACT ================= */
+@media (max-width: 576px) {
+
+  .fixkar-logo {
+    height: 20px;
+  }
+
+  .fixkar-link {
+    font-size: 0.68rem;
+    gap: 2px;
+    padding: 2px 4px;
+  }
+
+  .fixkar-btn {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+  }
+
+  .fixkar-link svg,
+  .fixkar-btn svg {
+    font-size: 12px;
+  }
+
+  .fixkar-gap {
+    gap: 6px;
+  }
 }
-.navbar-scroll::-webkit-scrollbar {
-  display: none;
+
+/* ================= VERY SMALL DEVICES ================= */
+@media (max-width: 360px) {
+
+  .fixkar-link span,
+  .fixkar-btn span {
+    display: none; /* ONLY icons */
+  }
+
+  .fixkar-link,
+  .fixkar-btn {
+    padding: 2px 4px;
+  }
 }
