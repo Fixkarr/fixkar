@@ -163,7 +163,7 @@ const Signup = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light mt-5">
+      <div className="container-fluid d-flex align-items-center justify-content-center bg-light mt-5">
   <div className="col-11 col-sm-9 col-md-6 col-lg-4">
 
     <div className="card border-0 shadow-lg rounded-4 p-4">
