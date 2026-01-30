@@ -59,7 +59,7 @@ const ProfessionalTransactions = ({ proId }) => {
           const isDebit = tx.type === "DEBIT";
 
           return (
-            <div className="col-md-6 col-lg-4" key={tx._id}>
+            <div className="col-12" key={tx._id}>
               <div className="card border-0 shadow-sm rounded-4 h-100">
                 <div className="card-body">
 
