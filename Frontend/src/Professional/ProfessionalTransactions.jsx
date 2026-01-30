@@ -7,8 +7,8 @@ import { FaFileInvoice } from "react-icons/fa6";
 import useGetTransaction from "../hooks/useGetTransaction";
 
 const ProfessionalTransactions = ({ proId }) => {
-  const transactions = useGetTransaction(proId);
-
+  const {transactions, loading} = useGetTransaction(proId);
+  
   return (
     <div className="container-fluid p-3">
 
@@ -135,6 +135,7 @@ const ProfessionalTransactions = ({ proId }) => {
         })}
       </div>
     </div>
+    
   );
 };
 
