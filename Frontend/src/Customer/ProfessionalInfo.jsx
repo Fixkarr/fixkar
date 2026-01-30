@@ -7,16 +7,24 @@ import { CiLocationOn } from "react-icons/ci";
 import { IoChatbubbleEllipsesOutline, IoCallOutline } from "react-icons/io5";
 import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools } from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProfessional } from "../redux/professionalInfo.slice";
 import { toast } from "react-toastify";
 import ProReviews from "../Professional/ProReviews";
 import ProfessionalGallerySection from "./ProfessionalGallerySection";
+import SearchSection from "./SearchComponent";
 
 const ProfessionalInfo = () => {
   const [loading, setLoading] = useState(false);
   const [professionalInfo, setProfessionalInfo] = useState(null);
   const isProfessionalInfo = Boolean(professionalInfo);
+  const { selectedLocation } = useSelector(state => state.location);
+  const { currentUserData } = useSelector(state => state.user);
+
+  
+    const [showHireModal, setShowHireModal] = useState(false);
+    const [showLocationGate, setShowLocationGate] = useState(false);
+
 
   const ChargesNotDefined =
     !professionalInfo?.charges ||
@@ -51,6 +59,33 @@ const ProfessionalInfo = () => {
     fetchProfessionalInfo();
   }, []);
 
+  useEffect(() => {
+  if (!showHireModal && !showLocationGate) {
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = "auto";
+  }
+}, [showHireModal, showLocationGate]);
+
+  const handleHireClick = () => {
+  // 1️⃣ Not authenticated
+  if (!currentUserData?.user?.userId) {
+    toast.info("Please login to continue");
+    navigate("/login");
+    return;
+  }
+
+  // 2️⃣ Auth but location missing
+  if (!selectedLocation?.lat || !selectedLocation?.lng) {
+    toast.warn("Please select your location to calculate visiting charges");
+    setShowLocationGate(true);
+    return;
+  }
+
+  // 3️⃣ All good
+  setShowHireModal(true);
+};
+
+
   /* ================= LOADER ================= */
   if (loading) {
     return (
@@ -84,6 +119,40 @@ const ProfessionalInfo = () => {
 
   return (
     <div className="container my-4">
+      {showLocationGate && (
+  <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
+    <div className="modal-dialog modal-dialog-centered modal-lg">
+      <div className="modal-content rounded-4">
+
+        <div className="modal-header">
+          <h5 className="modal-title fw-semibold">
+            📍 Select Your Location
+          </h5>
+          <button
+            className="btn-close"
+            onClick={() => setShowLocationGate(false)}
+          />
+        </div>
+
+        <div className="modal-body">
+          <p className="text-muted small mb-3">
+            We need your exact location to calculate visiting charges
+          </p>
+
+          {/* 🔥 ONLY LOCATION PICKER */}
+          <SearchSection
+            onlyLocation
+            onLocationSelect={() => {
+
+              setShowLocationGate(false);
+              setShowHireModal(true);
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* ================= HEADER CARD ================= */}
       <div className="card border-0 shadow-sm rounded-4 mb-4">
@@ -117,14 +186,20 @@ const ProfessionalInfo = () => {
             <div className="col-md-4 mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
               <button
                 className="btn btn-outline-light btn-sm"
-                onClick={() => navigate(`/customer/chat/${id}`)}
+                onClick={() => {
+                if (!currentUserData?.user?.userId) {
+                  toast.info("Please login to chat");
+                  navigate("/login");
+                } else {
+                  navigate(`/customer/chat/${id}`);
+                }
+              }}
               >
                 <IoChatbubbleEllipsesOutline /> Chat
               </button>
               <button
                 className="btn btn-light btn-sm fw-semibold"
-                data-bs-toggle="modal"
-                data-bs-target="#hireFormModal"
+                onClick={handleHireClick}
               >
                 Hire
               </button>
@@ -348,24 +423,30 @@ const ProfessionalInfo = () => {
       {professionalInfo?.gallery.length !==0 && <ProfessionalGallerySection professionalInfo={professionalInfo}/>}
 
       {/* ================= MODAL ================= */}
-      <div
-        className="modal fade"
-        id="hireFormModal"
-        tabIndex="-1"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content rounded-4">
-            <div className="modal-header">
-              <h5 className="modal-title fw-semibold">Request Hiring</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div className="modal-body">
-              <RequestHireForm proInfo={professionalInfo} />
-            </div>
-          </div>
+     {showHireModal && (
+  <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content rounded-4">
+
+        <div className="modal-header">
+          <h5 className="modal-title fw-semibold">
+            Request Hiring
+          </h5>
+          <button
+            className="btn-close"
+            onClick={() => setShowHireModal(false)}
+          />
         </div>
+
+        <div className="modal-body">
+          <RequestHireForm proInfo={professionalInfo} />
+        </div>
+
       </div>
+    </div>
+  </div>
+)}
+
 
     </div>
   );

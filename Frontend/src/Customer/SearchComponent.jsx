@@ -8,7 +8,7 @@ import useGetServices from "../hooks/useGetServices";
 import axios from 'axios'
 import { server_url } from "../App";
 
-const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange }) => {
+const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onlyLocation = false,}) => {
   useGetServices()
   const {services} = useSelector(state => state.services)
  
@@ -187,54 +187,54 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange }) =>
           </>
         )}
         {/* Services */}
-          <div className="d-flex flex-wrap gap-3 justify-content-center mt-4">
-          {services?.map((srv) => (
-            <button
-              key={srv._id}
-              onClick={() => handleServiceChange(srv)}
-              className={`btn p-2 rounded-4 shadow-sm ${
-                selectedServiceId === srv._id
-                  ? "btn-primary text-white"
-                  : "btn-light"
-              }`}
-              style={{ width: 90 }}
-            >
-              <img
-                src={srv.image}
-                alt={srv.name}
-                className="rounded-circle mb-1"
-                style={{ width: 32, height: 32, objectFit: "cover" }}
-              />
-              <div className="small fw-semibold">{srv.name}</div>
-            </button>
-          ))}
-        </div>
+         {!onlyLocation && (
+  <div className="d-flex flex-wrap gap-3 justify-content-center mt-4">
+    {services?.map((srv) => (
+      <button
+        key={srv._id}
+        onClick={() => handleServiceChange(srv)}
+        className={`btn p-2 rounded-4 shadow-sm ${
+          selectedServiceId === srv._id
+            ? "btn-primary text-white"
+            : "btn-light"
+        }`}
+        style={{ width: 90 }}
+      >
+        <img
+          src={srv.image}
+          alt={srv.name}
+          className="rounded-circle mb-1"
+          style={{ width: 32, height: 32, objectFit: "cover" }}
+        />
+        <div className="small fw-semibold">{srv.name}</div>
+      </button>
+    ))}
+  </div>
+)}
             {/* 🔥 SKILLS CHECKBOXES */}
-  {serviceSkills.length > 0 && (
-          <div className="mt-4">
-            <h6 className="fw-semibold mb-2">Filter by Skills</h6>
-
-            <div className="d-flex flex-wrap gap-2">
-              {serviceSkills.map((skill) => {
-                const active = selectedSkills.includes(skill._id);
-
-                return (
-                  <button
-                    key={skill._id}
-                    type="button"
-                    onClick={() => handleSkillToggle(skill._id)}
-                    className={`btn btn-sm rounded-pill d-flex align-items-center gap-1 ${
-                      active ? "btn-success" : "btn-outline-secondary"
-                    }`}
-                  >
-                    {active && <FaCheck />}
-                    {skill.name}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
+{!onlyLocation && serviceSkills.length > 0 && (
+  <div className="mt-4">
+    <h6 className="fw-semibold mb-2">Filter by Skills</h6>
+    <div className="d-flex flex-wrap gap-2">
+      {serviceSkills.map((skill) => {
+        const active = selectedSkills.includes(skill._id);
+        return (
+          <button
+            key={skill._id}
+            type="button"
+            onClick={() => handleSkillToggle(skill._id)}
+            className={`btn btn-sm rounded-pill d-flex align-items-center gap-1 ${
+              active ? "btn-success" : "btn-outline-secondary"
+            }`}
+          >
+            {active && <FaCheck />}
+            {skill.name}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+)}
 
 
       </div>

@@ -5,7 +5,7 @@ import {io} from '../../server.js'
 import { pushNotification } from "../../services/pushNotification.js";
 export const sendHireRequest = async (req, res)=>{
     try {
-        const {professionalId, profession, workDate, workTime, mobileNumber, problemDescription, visitingCharge, workAddress, distanceInKm, chargeType, customerName} = req.body;
+        const {professionalId, workDate, workTime, mobileNumber, problemDescription, visitingCharge, workAddress, distanceInKm, chargeType, customerName} = req.body;
 
         const myId = req.userId;
         const customerId = await Customer.findOne({userId : myId}).select('_id');
