@@ -107,7 +107,7 @@ const handleShareProfile = () => {
       <div className="profile p-2">
        <div className="profile-upper position-relative d-flex flex-column gap-4">
           <button
-        className="btn position-absolute top-0 start-50 btn-outline-primary rounded-pill d-flex align-items-center gap-2"
+        className="btn position-absolute top-50 start-0 btn-outline-primary rounded-pill d-flex align-items-center gap-2"
         onClick={handleShareProfile}
       >
         <FaShareAlt />
