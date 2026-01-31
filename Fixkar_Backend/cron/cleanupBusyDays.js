@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { Professional } from "../models/userModel";
+import { Professional } from "../models/userModel.js";
 
 
 cron.schedule("1 0 * * *", async () => {
