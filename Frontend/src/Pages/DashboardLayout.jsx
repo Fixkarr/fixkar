@@ -17,7 +17,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import Navbar from "../Components/Navbar";
 
 const DashboardLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { currentUserData } = useSelector(state => state.user);
   const isAuthenticated = Boolean(currentUserData?.user);
   const dispatch = useDispatch();
@@ -42,16 +42,23 @@ const DashboardLayout = () => {
        {!isAuthenticated && <Navbar />}
       <div className="dashboardLayout d-flex">
 
+           {isAuthenticated && isSidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      {isAuthenticated && <Sidebar isOpen={isSidebarOpen} />}
+      {isAuthenticated && <Sidebar isOpen={isSidebarOpen}  onClose={() => setIsSidebarOpen(false)}/>}
 
 
       {/* Main Area */}
-      <main className="flex-grow-1 p-1 bg-light">
+      <main className="dashboard-main bg-light">
 
         {/* ===== Top Bar ===== */}
        {isAuthenticated &&  <section
-          className="card border-0 shadow-sm rounded-4 mb-3 overflow-hidden"
+          className="dashboard-topbar"
         >
           {/* Gradient Header */}
           <div
@@ -65,7 +72,7 @@ const DashboardLayout = () => {
             <GiHamburgerMenu
             size={18}
             role="button"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+           onClick={() => setIsSidebarOpen(true)}
           />
 
             {/* Back Button */}

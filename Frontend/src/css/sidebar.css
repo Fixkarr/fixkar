@@ -1,10 +1,41 @@
 
-
-.sidebar.open {
-  width: auto;
+/* MAIN CONTENT */
+.dashboard-main {
+  min-height: 100vh;
+  width: 100%;
 }
 
-.sidebar.closed {
-  width: 0;
-  padding: 0px !important;
+/* TOP BAR */
+.dashboard-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #0d6efd, #4f9cff);
+  color: white;
+}
+
+/* SIDEBAR */
+.fixkar-sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100vh;
+  background: #fff;
+  z-index: 1050;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+  transition: left 0.3s ease;
+}
+
+.fixkar-sidebar.open {
+  left: 0;
+}
+
+/* OVERLAY */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1040;
 }

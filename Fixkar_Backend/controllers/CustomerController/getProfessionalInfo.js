@@ -39,7 +39,6 @@ export const getProfessionalInfo = async (req,res)=>{
         return res.status(200).json({professionalInfo});
 
     } catch (error) {
-        console.log("Error in getProfessionalInfo ",error.message);
         return res.status(500).json({message: "Server Error"});
     }
 }

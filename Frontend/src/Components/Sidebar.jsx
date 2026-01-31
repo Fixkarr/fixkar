@@ -17,7 +17,7 @@ import useGetMyConversations from "../hooks/useGetMyConversations";
 import { LuNotebookPen } from "react-icons/lu";
 
 
-const Sidebar = ({isOpen}) => {
+const Sidebar = ({isOpen, onClose}) => {
   useGetMyConversations();
   const { currentUserData } = useSelector((state) => state.user);
   const {currentAdmin} = useSelector(state=> state.admin)
@@ -47,7 +47,7 @@ const dispatch = useDispatch()
 
   return (
     <aside
-  className={`d-flex flex-column p-2 p-md-3 text-white sidebar ${isOpen ? "open" : "closed"}`}
+  className={`d-flex flex-column p-2 p-md-3 text-white sidebar ${isOpen ? "open" : ""}`}
   style={{
     // width: "100px", // mobile slim
     minHeight: "100vh",
@@ -59,8 +59,9 @@ const dispatch = useDispatch()
     <img src="/Images/logo1.png" className="img-fluid" alt="fixkar logo" style={{
       maxHeight : "25px", maxWidth : "100px",
     }}/>
-    <small className="opacity-75 d-block">
+    <small className="opacity-75 d-block sidebar-header">
       Service Dashboard
+       <button onClick={onClose}>✕</button>
     </small>
   </div>
 
