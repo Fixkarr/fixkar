@@ -36,13 +36,6 @@ const Navbar = () => {
         {/* MENUS */}
         <ul className="navbar-nav flex-row fixkar-nav me-auto">
           <li className="nav-item">
-            <NavLink to="/" className="nav-link fixkar-link">
-              <FaHome />
-              <span>Home</span>
-            </NavLink>
-          </li>
-
-          <li className="nav-item">
             <NavLink to="/about" className="nav-link fixkar-link">
               <FaInfoCircle />
               <span>About</span>
