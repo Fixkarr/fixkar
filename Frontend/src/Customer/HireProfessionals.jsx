@@ -3,7 +3,6 @@ import SearchSection from "./SearchComponent";
 import ProfessionalCard from "./ProfessionalCard";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
 import { server_url } from "../App";
 import { MdPersonSearch } from "react-icons/md";
 

@@ -136,7 +136,7 @@ useEffect(() => {
   /* ================= ERROR STATE ================= */
   if (!isProfessionalInfo) {
     return (
-      <div className="d-flex justify-content-center min-vh-100 bg-light">
+      <div className="d-flex justify-content-center mt-5 pt-5 min-vh-100 bg-light">
         <div className="card shadow border-0 rounded-4 p-4 text-center" style={{ maxWidth: 420 }}>
           <h5 className="fw-bold text-danger mb-2">Oops! Something went wrong</h5>
           <p className="text-muted small">
