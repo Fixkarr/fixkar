@@ -61,7 +61,6 @@ const dispatch = useDispatch()
     }}/>
     <small className="opacity-75 d-block sidebar-header">
       Service Dashboard
-       <button onClick={onClose}>✕</button>
     </small>
   </div>
 
