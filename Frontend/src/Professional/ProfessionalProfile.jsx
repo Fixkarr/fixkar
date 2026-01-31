@@ -88,7 +88,7 @@ const ProfessionalProfile = () => {
 
   
 const handleShareProfile = () => {
-  const profileUrl = `https://fixkar.netlify.app/professional/profile/visit/${ProfessionalDetails._id}`;
+  const profileUrl = `https://fixkar.netlify.app/professional/profile/visit/${ProfessionalDetails.userId._id}`;
 
   if (navigator.share) {
     navigator.share({
