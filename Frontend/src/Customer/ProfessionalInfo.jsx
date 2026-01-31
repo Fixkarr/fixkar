@@ -136,7 +136,7 @@ useEffect(() => {
   /* ================= ERROR STATE ================= */
   if (!isProfessionalInfo) {
     return (
-      <div className="d-flex justify-content-center mt-5 pt-5 min-vh-100 bg-light">
+      <div className="d-flex justify-content-center min-vh-100 bg-light">
         <div className="card shadow border-0 rounded-4 p-4 text-center" style={{ maxWidth: 420 }}>
           <h5 className="fw-bold text-danger mb-2">Oops! Something went wrong</h5>
           <p className="text-muted small">
@@ -156,7 +156,7 @@ useEffect(() => {
   }
 
   return (
-    <div className="container my-4">
+    <div className="container mt-5 pt-5">
       {showLocationGate && (
   <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
     <div className="modal-dialog modal-dialog-centered modal-lg">
