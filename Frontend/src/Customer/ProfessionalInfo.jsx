@@ -198,7 +198,7 @@ useEffect(() => {
           style={{ background: "linear-gradient(135deg, #0d6efd, #4f9cff)" }}
         >
           <div className="row align-items-center">
-            <div className="col-md-8 d-flex align-items-center gap-3">
+            <div className="col-7 d-flex align-items-center gap-3">
               <img
                 src={professionalInfo?.profilePicture}
                 alt="Profile"
@@ -220,7 +220,7 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="col-md-4 mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
+            <div className="col-5 mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
               <button
                 className="btn btn-outline-light btn-sm"
                 onClick={() => {
