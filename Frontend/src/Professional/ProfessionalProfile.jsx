@@ -23,7 +23,7 @@ import CompleteProfileToast from "./CompleteProfileToast";
 import UpdateCharges from "./UpdateCharges";
 import MyGallery from "./MyGallery";
 import ProReviews from "./ProReviews";
-import { FaTools } from "react-icons/fa";
+import { FaShareAlt, FaTools } from "react-icons/fa";
 import UpdateSkills from "./UpdateSkills";
 
 const ProfessionalProfile = () => {
@@ -85,10 +85,34 @@ const ProfessionalProfile = () => {
       </>
     );
   }
+
+  
+const handleShareProfile = () => {
+  const profileUrl = window.location.href;
+
+  if (navigator.share) {
+    navigator.share({
+      title: "Check my Fixkar Professional Profile",
+      text: "Hire me on Fixkar – trusted professional services",
+      url: profileUrl,
+    }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(profileUrl);
+    toast.success("Profile link copied to clipboard");
+  }
+};
+
   return (
     <>
       <div className="profile p-2">
-       <div className="profile-upper d-flex flex-column gap-4">
+       <div className="profile-upper position-relative d-flex flex-column gap-4">
+          <button
+        className="btn position-absolute top-0 start-100 btn-outline-primary rounded-pill d-flex align-items-center gap-2"
+        onClick={handleShareProfile}
+      >
+        <FaShareAlt />
+        Share Profile
+      </button>
 
   {/* ===== Top Card ===== */}
   <div className="card border-0 shadow-sm rounded-4 p-4">
