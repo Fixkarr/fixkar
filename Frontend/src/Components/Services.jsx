@@ -43,7 +43,7 @@ const Services = () => {
         <Navbar/>
         </>
         }
-    <div className="Services py-5"
+    <div className="Services py-5 mt-5"
   style={{
     background: "linear-gradient(180deg, #f8f9ff 0%, #eef3ff 100%)",
     paddingTop : "5vh"
