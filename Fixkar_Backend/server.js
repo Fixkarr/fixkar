@@ -5,6 +5,7 @@ import router from './routes/otpRoutes.js';
 import authRouter from './routes/authRoutes.js';
 import cors from 'cors';
 import dns from "dns";
+import './cron/cleanupBusyDays.js'
 dns.setDefaultResultOrder("ipv4first");
 
 import http from 'http';
