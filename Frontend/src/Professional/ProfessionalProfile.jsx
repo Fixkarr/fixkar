@@ -113,7 +113,7 @@ const handleShareProfile = () => {
     <div className="row align-items-start g-4">
 
       {/* ===== Left : Profile Picture ===== */}
-      <div className="col-md-3 text-center">
+      <div className="text-center">
         <div className="position-relative d-inline-block">
 
           {/* Loader */}
@@ -166,7 +166,7 @@ const handleShareProfile = () => {
       </button>
 
       {/* ===== Right : Profile Info ===== */}
-      <div className="col-md-9">
+      <div >
 
         {/* Header */}
         <div className="d-flex justify-content-between align-items-start">
