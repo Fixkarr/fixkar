@@ -25,8 +25,7 @@ const Explore = () => {
         </>
         }
     <div style={{paddingTop : "5vh"}}>
-
-        Search {profession} near!
+        
     <HireProfessionals/>
     </div>
 

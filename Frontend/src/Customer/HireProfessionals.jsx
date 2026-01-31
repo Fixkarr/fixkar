@@ -66,9 +66,8 @@ const HireProfessionals = () => {
 
   // 🔁 Re-search when location / service / skills change
   useEffect(() => {
-    if (selectedService) {
+      setPage(1)
       fetchProfessionals(1, true);
-    }
   }, [selectedLocation, selectedService, selectedSkills]);
 
 
@@ -112,26 +111,13 @@ const HireProfessionals = () => {
     </div>
   )}
 
-  {/* STATES */}
-  {!selectedService ? (
-    /* EMPTY STATE */
-    <div className="text-center py-5">
-     <div
-                className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  background: "rgba(13,110,253,0.1)",
-                }}
-              >
-                <MdPersonSearch size={40} className="text-primary" />
-              </div>
-      <h4 className="fw-semibold mb-1">Find Professionals Near You</h4>
-      <p className="text-muted">
-        Enter your location to see available professionals
-      </p>
-    </div>
-  ) : loading ? (
+  {!selectedLocation && !selectedService && !loading && (
+  <p className="text-center text-muted small">
+    Select location or service to start searching professionals
+  </p>
+)}
+
+  {loading ? (
     /* LOADING */
     <div className="text-center py-5">
       <div
@@ -151,7 +137,7 @@ const HireProfessionals = () => {
         Try another service or change your location
       </p>
     </div>
-  ) : (
+  ) :  (
     <>
       {/* GRID */}
       <div className="row g-4 mt-2">
