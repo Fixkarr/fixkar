@@ -48,34 +48,19 @@ export const postReview = async(req,res)=>{
       model: "User",
       select: "fullName",
     },
-  }).populate({
+  })
+  .populate({
     path: "professionalId",
     select: "profilePicture address userId",
-    populate: {
+     populate: [{
       path: "userId",
       model: "User",
       select: "fullName",
     },
-  }).populate({
-    path: "review",
-    populate: {
-      path: "customerId",
-      populate: {
-        path: "userId",
-        select: "fullName",
-      },
-    },
-  }).populate({
-    path : "profession",
-    select : "name image skills",
-    populate : {
-      path : "skills",
-      select : "name"
-    }
-  }).populate({
-    path : "selectedSkills",
-    select : "name"
-  });
+  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+    {path : "selectedSkills", select : "name"}
+]
+  }).populate('review')
   
         io.to(populatedBooking.customerId.userId._id.toString()).emit(
             "bookingUpdated",
