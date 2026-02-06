@@ -59,6 +59,10 @@ const DashboardLayout = () => {
         {/* ===== Top Bar ===== */}
        {(isAuthenticated || currentAdmin) &&  <section
           className="dashboard-topbar"
+           style={{
+              background: `linear-gradient(135deg, ${currentAdmin ? '#0f2027' : '#0d6efd'}, ${currentAdmin ? '#2c5364' : '#4f9cff'})`,
+              fontSize : "1vmax" 
+            }}  
         >
           {/* Gradient Header */}
           <div
