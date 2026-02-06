@@ -99,10 +99,10 @@ export const confirmCashPayment = async (req, res) => {
       });
     }
 
-    const COMMISSION_PERCENT = Number(process.env.COMMISSION_PERCENT) || 5;
+    const COMMISSION_PERCENT = Number(process.env.COMMISSION_PERCENT);
     const commission = Math.round((amount * COMMISSION_PERCENT) / 100);
     const professionalAmount = amount - commission;
-
+    wallet.pendingBalance -= commission;
     wallet.totalEarned += professionalAmount;
 
     await wallet.save();
