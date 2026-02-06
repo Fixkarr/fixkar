@@ -1,55 +1,55 @@
 import { Booking } from "../../models/bookingModel.js";
 import { Notification } from "../../models/notificationModel.js";
-import {io} from '../../server.js'
+import { io } from '../../server.js'
 import { pushNotification } from "../../services/pushNotification.js";
 export const cancelCustomerBooking = async (req, res) => {
-    try {
-        const { bookingId } = req.body;
+  try {
+    const { bookingId } = req.body;
 
-        const booking = await Booking.findById(bookingId).populate({
-    path: "customerId",
-    populate: {
-      path: "userId",
-      model: "User",
-      select: "fullName",
-    },
-  })
-  .populate({
-    path: "professionalId",
-    select: "profilePicture address userId profession",
-    populate: [{
-      path: "userId",
-      model: "User",
-      select: "fullName",
-    },
-  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
-     {path : "selectedSkills", select : "name"}
-],
-  }).populate('review');
+    const booking = await Booking.findById(bookingId).populate({
+      path: "customerId",
+      populate: {
+        path: "userId",
+        model: "User",
+        select: "fullName",
+      },
+    })
+      .populate({
+        path: "professionalId",
+        select: "profilePicture address userId profession",
+        populate: [{
+          path: "userId",
+          model: "User",
+          select: "fullName",
+        },
+        { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+        { path: "selectedSkills", select: "name" }
+        ],
+      }).populate('review');
 
-        if (!booking) {
-            return res.status(404).json({
-                message: "Booking not Found"
-            })
-        }
+    if (!booking) {
+      return res.status(404).json({
+        message: "Booking not Found"
+      })
+    }
 
-        if (booking.status === "in-progress" || booking.status === "rejected" || booking.status === "completed") {
-            return res.status(400).json({
-                message: "Booking cannot be cancelled!"
-            })
-        }
+    if (booking.status === "in-progress" || booking.status === "rejected" || booking.status === "completed") {
+      return res.status(400).json({
+        message: "Booking cannot be cancelled!"
+      })
+    }
 
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-        const workDate = new Date(booking.workDate);
-        workDate.setHours(0, 0, 0, 0);
+    const workDate = new Date(booking.workDate);
+    workDate.setHours(0, 0, 0, 0);
 
-        if (workDate > today || booking.status === "pending") {
-            booking.status = "cancelled";
-            await booking.save();
+    if (workDate > today || booking.status === "pending") {
+      booking.status = "cancelled";
+      await booking.save();
 
-         const notification =   await Notification.create({
+      const notification = await Notification.create({
         userId: booking.professionalId.userId._id,
         title: "Booking Cancelled",
         message: `Customer has cancelled the booking. Customer Name : ${booking.customerName}`,
@@ -59,18 +59,18 @@ export const cancelCustomerBooking = async (req, res) => {
       });
 
 
-      
-          const notificationPayload = {
+
+      const notificationPayload = {
         userId: notification.userId,
         title: notification.title,
         message: notification.message,
         redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
       };
-      
-        await pushNotification(notificationPayload);
+
+      await pushNotification(notificationPayload);
 
 
-        io.to(booking.professionalId.userId._id.toString()).emit(
+      io.to(booking.professionalId.userId._id.toString()).emit(
         "notification",
         {
           title: notification.title,
@@ -82,7 +82,7 @@ export const cancelCustomerBooking = async (req, res) => {
         }
       );
 
-              io.to(booking.customerId.userId._id.toString()).emit(
+      io.to(booking.customerId.userId._id.toString()).emit(
         "bookingUpdated",
         booking
       );
@@ -92,30 +92,30 @@ export const cancelCustomerBooking = async (req, res) => {
         booking
       );
 
-            return res.json({
-                success: true,
-                type: "FREE_CANCEL",
-                message:
-                    "Booking has been cancelled successfully without any cancellation charges.",
-            });
-        }
+      return res.json({
+        success: true,
+        type: "FREE_CANCEL",
+        message:
+          "Booking has been cancelled successfully without any cancellation charges.",
+      });
+    }
 
-            return res.json({
-            success: false,
-            type: "PAYMENT_REQUIRED",
-            message:
-                "Late cancellation detected. Visiting charge and ₹50 cancellation fee are applicable.",
-            charges: {
-                visitingCharge: booking.visitingCharge,
-                cancellationFee: 50,
-                total: booking.visitingCharge + 50,
-            },
+    return res.json({
+      success: false,
+      type: "PAYMENT_REQUIRED",
+      message:
+        "Late cancellation detected. Visiting charge and ₹50 cancellation fee are applicable.",
+      charges: {
+        visitingCharge: booking.visitingCharge,
+        cancellationFee: 50,
+        total: booking.visitingCharge + 50,
+      },
     });
 
-    } catch (error) {
-        console.log(error.message)
-        return res.status(500).json({
-            message : "Internal server error!"
-        })
-    }
+  } catch (error) {
+    console.log(error.message)
+    return res.status(500).json({
+      message: "Internal server error!"
+    })
+  }
 }

@@ -154,7 +154,7 @@ export const verifyPayment = async (req,res)=>{
     }
 
         payment.status = 'paid'
-          payment.razorpayPaymentId = razorpay_payment_id;
+        payment.razorpayPaymentId = razorpay_payment_id;
         payment.paidAt = new Date();
         await payment.save();
 

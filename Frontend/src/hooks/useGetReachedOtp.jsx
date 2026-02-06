@@ -12,7 +12,6 @@ const useGetReachedOtp = (bookingId) => {
             const result = await axios.get(`${server_url}/api/booking/get-reached-otp/${bookingId}`, {withCredentials : true})
             setOtp(result.data.otp);
         } catch (error) {
-            toast.error(error.response.data.message)
         }
     }
 
