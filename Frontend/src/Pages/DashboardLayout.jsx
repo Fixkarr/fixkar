@@ -50,14 +50,14 @@ const DashboardLayout = () => {
       )}
 
       {/* Sidebar */}
-      {isAuthenticated && <Sidebar isOpen={isSidebarOpen}  onClose={() => setIsSidebarOpen(false)}/>}
+      {isAuthenticated || currentAdmin && <Sidebar isOpen={isSidebarOpen}  onClose={() => setIsSidebarOpen(false)}/>}
 
 
       {/* Main Area */}
       <main className="dashboard-main bg-light">
 
         {/* ===== Top Bar ===== */}
-       {isAuthenticated &&  <section
+       {isAuthenticated || currentAdmin &&  <section
           className="dashboard-topbar"
         >
           {/* Gradient Header */}
