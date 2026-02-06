@@ -12,7 +12,7 @@ const CashConfirmationBox = ({ amount}) => {
 
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div className="d-flex justify-content-center align-items-center bg-light">
       <div
         className="card shadow-lg border-0"
         style={{ maxWidth: "420px", width: "100%", borderRadius: "16px" }}
