@@ -28,6 +28,7 @@ import CashConfirmationBox from '../../Components/CashConfirmationBox';
 const ProBookingDetails = () => {
   const {bookingId} = useParams()
   useGetWalletTransaction(bookingId);
+    const [showCashModal, setShowCashModal] = useState(false);
     const {walletTransaction} = useSelector(state => state.wallet);
     const {myBookings} = useSelector(state=> state.bookings)
     const booking = myBookings.find(book => book._id == bookingId)
@@ -165,23 +166,41 @@ const ProBookingDetails = () => {
 
      <button
         className="mt-2 btn btn-outline-primary w-100 fw-semibold"
-        data-bs-toggle="modal" data-bs-target="#cashModal"
+        onClick={() => setShowCashModal(true)}
       >
        ₹{booking.quoteAmount + booking.visitingCharge} Cash Recieved?
       </button>
       
-          <div className="modal fade" id="cashModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <CashConfirmationBox amount={booking.quoteAmount + booking.visitingCharge} bookingId={booking._id}/>
+       {showCashModal && (
+  <>
+    <div className="modal fade show d-block" tabIndex="-1">
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content border-0 rounded-4">
+
+          <div className="modal-header border-0">
+            <button
+              className="btn-close"
+              onClick={() => setShowCashModal(false)}
+            />
+          </div>
+
+          <div className="modal-body">
+            <CashConfirmationBox
+              amount={booking.quoteAmount + booking.visitingCharge}
+              bookingId={booking._id}
+              onSuccess={() => setShowCashModal(false)}
+            />
+          </div>
+
+        </div>
       </div>
     </div>
-  </div>
-</div>
+
+    {/* Backdrop */}
+    <div className="modal-backdrop fade show"></div>
+  </>
+)}
+
 
   </div>
   )}

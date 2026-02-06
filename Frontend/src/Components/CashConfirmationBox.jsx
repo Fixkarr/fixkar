@@ -3,12 +3,13 @@ import { FaMoneyBillWave, FaCheckCircle } from "react-icons/fa";
 import { server_url } from "../App";
 import { toast } from "react-toastify";
 
-const CashConfirmationBox = ({ amount, bookingId}) => {
+const CashConfirmationBox = ({ amount, bookingId, onSuccess}) => {
 
     const handleOnConfirm = async()=>{
         try {
             const result = await axios.post(`${server_url}/api/booking/confirm-cash-payment`, {bookingId}, {withCredentials : true})
             toast.success(result.data.message);
+             onSuccess(); 
         } catch (error) {
             console.log(error);
         }
