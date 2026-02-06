@@ -73,7 +73,7 @@ const AdminWithdrawRequests = () => {
             </thead>
 
             <tbody>
-              {withdrawRequests.map((item, index) => (
+              {withdrawRequests?.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
 
