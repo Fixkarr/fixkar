@@ -162,9 +162,11 @@ const ProBookingDetails = () => {
       </div>
     </div>
 
-    <small className="text-muted d-block mt-2">
-      You will be notified once the payment is completed.
-    </small>
+     <button
+        className="btn btn-outline-primary w-100 fw-semibold"
+      >
+       ₹{booking.quoteAmount} Cash Recieved?
+      </button>
   </div>
   )}
           {booking.status == "completed" && <ProCompleteBooking booking={booking} transaction={walletTransaction}/>}
