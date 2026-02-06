@@ -23,6 +23,7 @@ import ProCompleteBooking from './ProCompleteBooking';
 import SwipeToConfirm from '../SwipeToConfirm';
 import { reachedToLocationAPI } from './reachedToLocationAPI';
 import useGetWalletTransaction from '../../hooks/useGetWalletTransaction';
+import CashConfirmationBox from '../../Components/CashConfirmationBox';
 
 const ProBookingDetails = () => {
   const {bookingId} = useParams()
@@ -163,10 +164,25 @@ const ProBookingDetails = () => {
     </div>
 
      <button
-        className="btn btn-outline-primary w-100 fw-semibold"
+        className="mt-2 btn btn-outline-primary w-100 fw-semibold"
+        data-bs-toggle="modal" data-bs-target="#cashModal"
       >
        ₹{booking.quoteAmount} Cash Recieved?
       </button>
+      
+          <div className="modal fade" id="cashModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        <CashConfirmationBox amount={booking.quoteAmount}/>
+      </div>
+    </div>
+  </div>
+</div>
+
   </div>
   )}
           {booking.status == "completed" && <ProCompleteBooking booking={booking} transaction={walletTransaction}/>}
