@@ -13,7 +13,8 @@ const walletTransationSchema = new mongoose.Schema({
         mode : {type : String},
         amount : {type : Number},
         transferedAt : {type : Date}
-    }
+    },
+    paymentMode : {type : String, enum : ["ONLINE", "CASH"]}
 }, {timestamps : true})
 
 export const WalletTransaction = mongoose.model("WalletTransaction", walletTransationSchema)

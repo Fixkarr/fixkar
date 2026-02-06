@@ -14,7 +14,8 @@ const paymentSchema = new mongoose.Schema({
     razorpayOrderId : {type : String, },
     razorpayPaymentId : {type : String},
     status : {type : String, enum : ["created", "paid", "failed", "cancelled", "refunded"], default : 'created'},
-    paidAt : {type : Date} 
+    paidAt : {type : Date},
+    paymentMode : {type : String, enum : ["ONLINE", "CASH"]} 
 },{timestamps : true})
 
 export const Payment = mongoose.model("Payment", paymentSchema);

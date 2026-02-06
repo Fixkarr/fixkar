@@ -156,6 +156,7 @@ export const verifyPayment = async (req,res)=>{
         payment.status = 'paid'
         payment.razorpayPaymentId = razorpay_payment_id;
         payment.paidAt = new Date();
+        payment.paymentMode = 'ONLINE'
         await payment.save();
 
         const booking = await Booking.findById(bookingId).populate({
@@ -262,6 +263,7 @@ io.to(booking.professionalId.userId._id.toString()).emit(
           professionalAmount,
           reason : payment.reason,
           bookingId : booking._id,
+          paymentMode : "ONLINE"
         })
 
          io.to(booking.customerId.userId._id.toString()).emit(

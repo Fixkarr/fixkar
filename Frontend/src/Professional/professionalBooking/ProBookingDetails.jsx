@@ -146,7 +146,7 @@ const ProBookingDetails = () => {
           {booking.status == "cancelled" && <ProCancelBooking booking={booking} transaction={walletTransaction}/>}
           {booking.status == "in-progress" && <ProInprogress booking={booking}/>}
           {booking.quoteAmount && booking.status !== "completed" && (
-       <div className="alert alert-info rounded-4 shadow-sm mt-4">
+       <div className="alert alert-warning rounded-4 shadow-sm mt-4">
     <h6 className="fw-bold mb-2">
       Quote Sent Successfully
     </h6>
@@ -177,7 +177,7 @@ const ProBookingDetails = () => {
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
-        <CashConfirmationBox amount={booking.quoteAmount}/>
+        <CashConfirmationBox amount={booking.quoteAmount} bookingId={booking._id}/>
       </div>
     </div>
   </div>

@@ -14,8 +14,11 @@ import { getBookingById } from '../controllers/BookingController/getBookingById.
 import { postReview } from '../controllers/review.controller.js';
 import { getReachedOtp } from '../controllers/BookingController/getReachedOtp.js';
 import { getWalletTransaction } from '../controllers/ProfessionalsController/getWalletTransaction.js';
+import { confirmCashPayment } from '../controllers/BookingController/cashPayment.controller.js';
 
 const bookingRouter = express.Router();
+
+// /api/booking
 
 bookingRouter.post('/create-booking', isAuth, sendHireRequest);
 bookingRouter.get('/my-bookings', isAuth, getMyBookings);
@@ -33,6 +36,7 @@ bookingRouter.get('/get-reached-otp/:bookingId', isAuth, getReachedOtp);
 
 bookingRouter.post('/create-order', createOrder);
 bookingRouter.post('/verify-payment', verifyPayment)
+bookingRouter.post('/confirm-cash-payment', isAuth, confirmCashPayment)
 bookingRouter.get('/get-professional-wallet', isAuth, getProfessionalWallet)
 bookingRouter.get('/get-wallet-transaction/:bookingId', isAuth, getWalletTransaction)
 
