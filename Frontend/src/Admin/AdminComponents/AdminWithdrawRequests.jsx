@@ -50,7 +50,7 @@ const AdminWithdrawRequests = () => {
             <MdOutlinePayments /> Withdraw Requests
           </h5>
           <span className="badge bg-warning text-dark px-3 py-2 rounded-pill">
-            Pending: {withdrawRequests.length}
+            Pending: {withdrawRequests?.length}
           </span>
         </div>
       </div>

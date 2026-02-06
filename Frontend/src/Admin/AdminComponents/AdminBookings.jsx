@@ -166,7 +166,7 @@ const AdminBookings = () => {
           Filtered Bookings
         </div>
         <div className="p-3">
-          {filteredBookings.length === 0 ? (
+          {filteredBookings?.length === 0 ? (
             <div className="text-center text-muted py-5">
               No bookings found
             </div>
