@@ -45,7 +45,7 @@ export const cancelCustomerBooking = async (req, res) => {
         const workDate = new Date(booking.workDate);
         workDate.setHours(0, 0, 0, 0);
 
-        if (workDate > today) {
+        if (workDate > today || booking.status === "pending") {
             booking.status = "cancelled";
             await booking.save();
 
