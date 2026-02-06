@@ -118,9 +118,7 @@ const ProfessionalTransactions = ({ proId }) => {
                           <span>₹{tx.professionalAmount}</span>
                         </li>
 
-                        <span className="text-warning fw-bold p-2 bg-primary text-uppercase">
-                          {tx.paymentMode || 'Online'}
-                        </span>
+                        <span class="badge text-bg-light">{tx.paymentMode || 'Online'}</span>
                       </>
                     )}
 
