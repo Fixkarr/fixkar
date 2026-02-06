@@ -39,7 +39,7 @@ const DashboardLayout = () => {
 
   return (
     <>
-       {!isAuthenticated || !currentAdmin && <Navbar />}
+       {(!isAuthenticated || !currentAdmin) && <Navbar />}
       <div className="dashboardLayout d-flex">
 
            {isAuthenticated && isSidebarOpen && (
@@ -50,14 +50,14 @@ const DashboardLayout = () => {
       )}
 
       {/* Sidebar */}
-      {isAuthenticated || currentAdmin && <Sidebar isOpen={isSidebarOpen}  onClose={() => setIsSidebarOpen(false)}/>}
+      {(isAuthenticated || currentAdmin) && <Sidebar isOpen={isSidebarOpen}  onClose={() => setIsSidebarOpen(false)}/>}
 
 
       {/* Main Area */}
       <main className="dashboard-main bg-light">
 
         {/* ===== Top Bar ===== */}
-       {isAuthenticated || currentAdmin &&  <section
+       {(isAuthenticated || currentAdmin) &&  <section
           className="dashboard-topbar"
         >
           {/* Gradient Header */}
