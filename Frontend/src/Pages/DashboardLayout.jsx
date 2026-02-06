@@ -39,7 +39,7 @@ const DashboardLayout = () => {
 
   return (
     <>
-       {!isAuthenticated && <Navbar />}
+       {!isAuthenticated || !currentAdmin && <Navbar />}
       <div className="dashboardLayout d-flex">
 
            {isAuthenticated && isSidebarOpen && (
