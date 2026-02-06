@@ -167,7 +167,7 @@ const ProBookingDetails = () => {
         className="mt-2 btn btn-outline-primary w-100 fw-semibold"
         data-bs-toggle="modal" data-bs-target="#cashModal"
       >
-       ₹{booking.quoteAmount} Cash Recieved?
+       ₹{booking.quoteAmount + booking.visitingCharge} Cash Recieved?
       </button>
       
           <div className="modal fade" id="cashModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -177,7 +177,7 @@ const ProBookingDetails = () => {
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
-        <CashConfirmationBox amount={booking.quoteAmount} bookingId={booking._id}/>
+        <CashConfirmationBox amount={booking.quoteAmount + booking.visitingCharge} bookingId={booking._id}/>
       </div>
     </div>
   </div>
