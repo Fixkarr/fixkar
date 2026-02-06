@@ -336,7 +336,7 @@ const ProfessionalDetailCard = ({ p }) => {
 
   {Array.isArray(p.selectedSkills) && p.selectedSkills.length > 0 && (
   <Section title="Skills" icon={<FaTools />}>
-    {p.selectedSkills.map((s) => (
+    {p.selectedSkills?.map((s) => (
       <Info
         key={s._id}
         label="Skill"
