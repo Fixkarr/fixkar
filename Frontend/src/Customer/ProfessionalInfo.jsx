@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, href } from "react-router-dom";
 import axios from "axios";
 import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
@@ -16,6 +16,7 @@ import SearchSection from "./SearchComponent";
 import { setDistance } from "../redux/distance.slice";
 import { getDistanceMatrixData } from "../utils/getDistanceMatrixData";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
+import CallButton from "../Components/CallButton";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -136,7 +137,7 @@ useEffect(() => {
   /* ================= ERROR STATE ================= */
   if (!isProfessionalInfo) {
     return (
-      <div className="d-flex justify-content-center min-vh-100 bg-light">
+      <div className="d-flex justify-content-center bg-light">
         <div className="card shadow border-0 rounded-4 p-4 text-center" style={{ maxWidth: 420 }}>
           <h5 className="fw-bold text-danger mb-2">Oops! Something went wrong</h5>
           <p className="text-muted small">
@@ -234,6 +235,9 @@ useEffect(() => {
               >
                 <IoChatbubbleEllipsesOutline /> Chat
               </button>
+              
+              <CallButton currentUserData={currentUserData} professionalInfo={professionalInfo}/>
+
               <button
                 className="btn btn-light btn-sm fw-semibold"
                 onClick={handleHireClick}

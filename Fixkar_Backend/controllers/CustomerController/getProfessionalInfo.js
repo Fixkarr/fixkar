@@ -8,7 +8,7 @@ export const getProfessionalInfo = async (req,res)=>{
             return res.status(400).json({message: "Professional ID not found"});
         }
 
-        const professionalInfo = await Professional.findOne({userId : id}).select('-poi -dob').populate("userId", 'fullName').populate({
+        const professionalInfo = await Professional.findOne({userId : id}).select('-poi -dob').populate("userId", 'fullName mobile').populate({
     path: "reviews",
     options: {
       sort: { createdAt: -1 },
