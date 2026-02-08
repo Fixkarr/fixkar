@@ -4,7 +4,7 @@ import axios from "axios";
 import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
 import { CiLocationOn } from "react-icons/ci";
-import { IoChatbubbleEllipsesOutline, IoCallOutline } from "react-icons/io5";
+import { IoChatbubbleEllipsesOutline} from "react-icons/io5";
 import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools } from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
 import { useDispatch, useSelector } from "react-redux";
@@ -235,7 +235,7 @@ useEffect(() => {
               >
                 <IoChatbubbleEllipsesOutline /> Chat
               </button>
-              
+
               <CallButton currentUserData={currentUserData} professionalInfo={professionalInfo}/>
 
               <button

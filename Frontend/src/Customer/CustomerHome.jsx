@@ -37,20 +37,66 @@ const CustomerHome = () => {
     navigate("/customer/hire-professionals");
   };
 
-   useEffect(() => {
-    const alreadyAsked = localStorage.getItem(`notif${currentUserData?.user?.userId?._id}`);
+ useEffect(() => {
+  const alreadyAsked = localStorage.getItem(
+    `notif${currentUserData?.user?.userId?._id}`
+  );
 
-    if (!alreadyAsked || Notification.permission === "default" || Notification.permission === "denied") {
-      setShowNotificationModal(true);
-    }
-  }, []);
+  const isApp = !!(window.ReactNativeWebView || window.Android);
+
+  if (!alreadyAsked) {
+    setShowNotificationModal(true);
+    return;
+  }
+
+  // Browser case ONLY
+  if (!isApp && Notification.permission !== "granted") {
+    setShowNotificationModal(true);
+  }
+}, [currentUserData?.user?.userId?._id]);
+
+useEffect(() => {
+  const handleMessage = (event) => {
+    try {
+      const data = JSON.parse(event.data);
+
+      if (data.type === "NOTIFICATION_ENABLED") {
+        localStorage.setItem(
+          `notif${currentUserData?.user?.userId?._id}`,
+          "true"
+        );
+        setShowNotificationModal(false);
+      }
+
+      if (data.type === "NOTIFICATION_DENIED") {
+        // optional: future me retry dikha sakta hai
+        console.log("User denied notifications");
+      }
+    } catch (e) {}
+  };
+
+  window.addEventListener("message", handleMessage);
+  return () => window.removeEventListener("message", handleMessage);
+}, [currentUserData?.user?.userId?._id]);
 
   const handleEnableNotifications = async () => {
   try {
     setNotifLoading(true);
-    await generateFCMToken(); // 🔔 permission popup yahin aayega
+const isReactNative = !!window.ReactNativeWebView;
+const isAndroid = !!window.Android?.enableNotifications;
+
+if (isReactNative) {
+  window.ReactNativeWebView.postMessage(
+    JSON.stringify({ type: "ENABLE_NOTIFICATION" })
+  );
+} else if (isAndroid) {
+  window.Android.enableNotifications();
+}else {
+    // 👉 Browser case
+    await generateFCMToken();
     localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
     setShowNotificationModal(false);
+  }
   } catch (err) {
     console.log(err);
   } finally {
