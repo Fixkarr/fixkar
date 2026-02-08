@@ -6,7 +6,6 @@ import { setSelectedLocation, setSelectedService } from '../redux/location.slice
 import { useNavigate } from 'react-router-dom'
 
 import MobileNotVerified from './MobileNotVerified'
-import Messages from '../Professional/Messages'
 import { FaSearchLocation, FaUserCheck, FaTools } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { IoSparkles } from "react-icons/io5";
@@ -17,6 +16,10 @@ import EnableNotificationModal from '../Components/EnableNotificationModal'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
+const isApp = () => {
+  return !!(window.ReactNativeWebView || window.Android);
+};
+
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [notifLoading, setNotifLoading] = useState(false);
@@ -26,6 +29,8 @@ const CustomerHome = () => {
   const {currentUserData} = useSelector((state)=>state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const userId = currentUserData?.user?.userId?._id;
 
   const handleLocationSelect = (location)=>{
     dispatch(setSelectedLocation(location));
@@ -38,66 +43,27 @@ const CustomerHome = () => {
   };
 
  useEffect(() => {
-  const alreadyAsked = localStorage.getItem(
-    `notif${currentUserData?.user?.userId?._id}`
-  );
+   if (isApp()) return;
 
-  const isApp = !!(window.ReactNativeWebView || window.Android);
+  const alreadyAsked = localStorage.getItem(`notif${userId}`);
 
-  if (!alreadyAsked) {
-    setShowNotificationModal(true);
-    return;
-  }
-
-  // Browser case ONLY
-  if (!isApp && Notification.permission !== "granted") {
-    setShowNotificationModal(true);
-  }
-}, [currentUserData?.user?.userId?._id]);
-
-useEffect(() => {
-  const handleMessage = (event) => {
-    try {
-      const data = JSON.parse(event.data);
-
-      if (data.type === "NOTIFICATION_ENABLED") {
-        localStorage.setItem(
-          `notif${currentUserData?.user?.userId?._id}`,
-          "true"
-        );
-        setShowNotificationModal(false);
+  if (!alreadyAsked  && window.Notification) {
+     if (Notification.permission !== "granted") {
+        setShowNotificationModal(true);
       }
+  }
+}, [userId]);
 
-      if (data.type === "NOTIFICATION_DENIED") {
-        // optional: future me retry dikha sakta hai
-        console.log("User denied notifications");
-      }
-    } catch (e) {}
-  };
-
-  window.addEventListener("message", handleMessage);
-  return () => window.removeEventListener("message", handleMessage);
-}, [currentUserData?.user?.userId?._id]);
 
   const handleEnableNotifications = async () => {
   try {
     setNotifLoading(true);
-const isReactNative = !!window.ReactNativeWebView;
-const isAndroid = !!window.Android?.enableNotifications;
-
-if (isReactNative) {
-  window.ReactNativeWebView.postMessage(
-    JSON.stringify({ type: "ENABLE_NOTIFICATION" })
-  );
-} else if (isAndroid) {
-  window.Android.enableNotifications();
-}else {
     // 👉 Browser case
     await generateFCMToken();
     localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
     setShowNotificationModal(false);
   }
-  } catch (err) {
+   catch (err) {
     console.log(err);
   } finally {
     setNotifLoading(false);
@@ -112,12 +78,15 @@ if (isReactNative) {
   
   return (
     <>
-    <EnableNotificationModal
-  show={showNotificationModal}
-  onClose={handleCloseModal}
-  onEnable={handleEnableNotifications}
-  loading={notifLoading}
-/>
+     {!isApp() && (
+        <EnableNotificationModal
+          show={showNotificationModal}
+          onClose={handleCloseModal}
+          onEnable={handleEnableNotifications}
+          loading={notifLoading}
+        />
+      )}
+      
     <div className="container-fluid p-3 bg-light">
 
   {/* ===== HERO SECTION ===== */}
