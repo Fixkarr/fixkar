@@ -84,24 +84,10 @@ const ManageForms = () => {
               No forms created yet
             </div>
           ) : (
-            <div className="table-responsive">
-              <table className="table align-middle table-hover">
-                <thead>
-                  <tr>
-                    <th>Form</th>
-                    <th>Purpose</th>
-                    <th>Version</th>
-                    <th>Status</th>
-                    <th className="text-end">Action</th>
-                  </tr>
-                </thead>
-
-                <tbody>
+            <div className="container">
                   {forms.map((form) => (
                    <DynamicForm form={form}/>
                   ))}
-                </tbody>
-              </table>
             </div>
           )}
         </div>
