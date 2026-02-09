@@ -12,6 +12,7 @@ import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { server_url } from "../../App";
+import DynamicForm from "./Utils/DynamicForm";
 const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const ManageForms = () => {
@@ -42,7 +43,7 @@ const ManageForms = () => {
   }, []);
 
   console.log(forms);
-  
+
   return (
     <div className="container py-3">
       <div
@@ -97,55 +98,7 @@ const ManageForms = () => {
 
                 <tbody>
                   {forms.map((form) => (
-                    <tr key={form._id}>
-                      <td>
-                        <div className="fw-semibold">
-                          <FaLayerGroup className="me-2 text-primary" />
-                          {form.title}
-                        </div>
-                        <small className="text-muted">
-                          {form.key}
-                        </small>
-                      </td>
-
-                      <td>
-                        <span className="badge bg-info text-dark px-3 py-2">
-                          {form.purpose}
-                        </span>
-                      </td>
-
-                      <td>
-                        <span className="badge bg-secondary">
-                          v{form.version}
-                        </span>
-                      </td>
-
-                      <td>
-                        {form.isActive ? (
-                          <span className="text-success fw-semibold">
-                            <FaToggleOn className="me-1" />
-                            Active
-                          </span>
-                        ) : (
-                          <span className="text-danger fw-semibold">
-                            <FaToggleOff className="me-1" />
-                            Inactive
-                          </span>
-                        )}
-                      </td>
-
-                      <td className="text-end">
-                        <button
-                          className="btn btn-outline-primary btn-sm rounded-pill"
-                          onClick={() =>
-                            navigate(`/admin/forms/edit/${form._id}`)
-                          }
-                        >
-                          <FaEdit className="me-1" />
-                          Manage
-                        </button>
-                      </td>
-                    </tr>
+                   <DynamicForm form={form}/>
                   ))}
                 </tbody>
               </table>
