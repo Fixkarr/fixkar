@@ -14,6 +14,11 @@ const DynamicForm = ({ form }) => {
     }));
   };
 
+  const getDefaultValue = (type) => {
+  if (type === "checkbox") return [];
+  if (type === "table") return [];
+  return "";
+};
   /* =========================
      VALIDATION
      ========================= */
