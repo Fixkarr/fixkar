@@ -13,6 +13,7 @@ import { MdDescription } from "react-icons/md";
 import { useSelector } from "react-redux"; 
 import { useEffect } from "react";
 import DynamicForm from "../Admin/AdminComponents/Utils/DynamicForm";
+import useGetForm from "../hooks/useGetForm";
 
 export default function CompleteProfile() {
   const navigate = useNavigate();
@@ -22,21 +23,11 @@ export default function CompleteProfile() {
   const availableSkills = currentUserData?.user?.profession?.skills || [];
   const serviceId = currentUserData?.user?.profession._id;
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [form, setForm]= useState(null);
+ 
   const isProfileComplete = currentUserData?.user?.description
    const ChargesDefined = currentUserData?.user?.isChargesDefined
 
-  useEffect(()=>{
-    const fetchForm = async()=>{
-      try {
-        const result = await axios.get(`${server_url}/api/admin/get-form-by-service/${serviceId}`, {withCredentials : true});
-        setForm(result?.data.form)
-      } catch (error) {
-        console.log(error.response.data.message)
-      }
-    }
-    fetchForm()
-  },[])
+ const form = useGetForm(serviceId);
 
   const handleSkillChange = (skillId) => {
   setSelectedSkills((prev) =>

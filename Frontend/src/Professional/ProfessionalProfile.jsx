@@ -25,11 +25,14 @@ import MyGallery from "./MyGallery";
 import ProReviews from "./ProReviews";
 import { FaShareAlt, FaTools } from "react-icons/fa";
 import UpdateSkills from "./UpdateSkills";
+import DynamicForm from "../Admin/AdminComponents/Utils/DynamicForm";
+import useGetForm from "../hooks/useGetForm";
 
 const ProfessionalProfile = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (profilePicture) {
       const updatePicture = async () => {
@@ -66,6 +69,8 @@ const ProfessionalProfile = () => {
 
   const reviews = ProfessionalDetails?.reviews
   const navigate = useNavigate();
+
+  const form = useGetForm(ProfessionalDetails?.profession._id);
 
   if (!ProfessionalDetails) {
     return (
@@ -292,7 +297,7 @@ const handleShareProfile = () => {
                 data-bs-dismiss="modal"
               ></button>
             </div>
-            <UpdateCharges />
+            <DynamicForm form={form}/>
           </div>
         </div>
       </div>
