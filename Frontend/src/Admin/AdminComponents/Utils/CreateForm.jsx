@@ -1,226 +1,303 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import {
-  FaWpforms,
-  FaInfoCircle,
-  FaBullseye,
-  FaTag,
-  FaToggleOn,
-  FaPlusCircle
-} from "react-icons/fa";
-import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import {
+  FaPlus,
+  FaTrash,
+  FaWpforms,
+  FaLayerGroup
+} from "react-icons/fa";
 import { server_url } from "../../../App";
 
+/* =========================
+   CREATE FORM (FULL BUILDER)
+   ========================= */
 const CreateForm = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
+  /* ===== FORM BASIC ===== */
+  const [form, setForm] = useState({
     key: "",
     purpose: "",
     title: "",
     description: "",
-    targetEntity: "",
-    isActive: true
+    sections: []
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value
-    }));
+  /* =========================
+     HANDLERS – FORM
+     ========================= */
+  const updateForm = (name, value) => {
+    setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  /* =========================
+     SECTION HANDLERS
+     ========================= */
+  const addSection = () => {
+    setForm({
+      ...form,
+      sections: [
+        ...form.sections,
+        {
+          sectionId: `section_${Date.now()}`,
+          title: "",
+          description: "",
+          fields: []
+        }
+      ]
+    });
+  };
 
-    if (!formData.key || !formData.purpose || !formData.title) {
-      toast.error("Key, Purpose and Title are required");
+  const updateSection = (index, key, value) => {
+    const sections = [...form.sections];
+    sections[index][key] = value;
+    setForm({ ...form, sections });
+  };
+
+  const removeSection = (index) => {
+    const sections = [...form.sections];
+    sections.splice(index, 1);
+    setForm({ ...form, sections });
+  };
+
+  /* =========================
+     FIELD HANDLERS
+     ========================= */
+  const addField = (sectionIndex) => {
+    const sections = [...form.sections];
+    sections[sectionIndex].fields.push({
+      fieldId: `field_${Date.now()}`,
+      label: "",
+      type: "text",
+      required: false,
+      visibilityScope: ["professional"],
+      summary: {
+        showToCustomer: false,
+        template: "",
+        whenTrue: "",
+        whenFalse: "",
+        group: "details"
+      }
+    });
+    setForm({ ...form, sections });
+  };
+
+  const updateField = (sIdx, fIdx, key, value) => {
+    const sections = [...form.sections];
+    sections[sIdx].fields[fIdx][key] = value;
+    setForm({ ...form, sections });
+  };
+
+  const removeField = (sIdx, fIdx) => {
+    const sections = [...form.sections];
+    sections[sIdx].fields.splice(fIdx, 1);
+    setForm({ ...form, sections });
+  };
+
+  /* =========================
+     SUBMIT
+     ========================= */
+  const handleSubmit = async () => {
+    if (!form.key || !form.title || !form.purpose) {
+      toast.error("Form key, title and purpose are required");
+      return;
+    }
+
+    if (form.sections.length === 0) {
+      toast.error("Add at least one section");
       return;
     }
 
     try {
       setLoading(true);
 
-      const payload = {
-        key: formData.key.trim(),
-        purpose: formData.purpose,
-        title: formData.title,
-        description: formData.description,
-        isActive: formData.isActive,
-        target: {
-          entity: formData.targetEntity || undefined
-        }
-      };
-
       await axios.post(
         `${server_url}/api/admin/forms`,
-        payload,
+        form,
         { withCredentials: true }
       );
 
       toast.success("Form created successfully");
-      navigate("/admin/forms");
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message || "Failed to create form");
+      toast.error("Failed to create form");
     } finally {
       setLoading(false);
     }
   };
 
+  /* =========================
+     UI
+     ========================= */
   return (
     <div className="container py-3">
-      <div
-        className="card border-0 shadow-lg rounded-4"
-        style={{
-          background: "linear-gradient(135deg, #0f2027, #2c5364)"
-        }}
-      >
-        {/* ===== HEADER ===== */}
+      <div className="card shadow-lg rounded-4 border-0">
         <div className="card-body border-bottom">
-          <h5 className="fw-bold text-light mb-1">
+          <h5 className="fw-bold">
             <FaWpforms className="me-2 text-primary" />
-            Create New Form
+            Create Dynamic Form
           </h5>
-          <small className="text-light opacity-75">
-            Define basic structure before adding sections & fields
-          </small>
         </div>
 
-        {/* ===== FORM BODY ===== */}
-        <div className="card-body bg-light">
-          <form onSubmit={handleSubmit}>
-            {/* Form Title */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">
-                <FaInfoCircle className="me-2" />
-                Form Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                className="form-control rounded-3"
-                placeholder="Electrician Pricing Form"
-                value={formData.title}
-                onChange={handleChange}
-                required
-              />
-            </div>
+        <div className="card-body">
+          {/* ===== BASIC INFO ===== */}
+          <h6 className="fw-semibold mb-3">Form Details</h6>
 
-            {/* Form Key */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">
-                <FaTag className="me-2" />
-                Form Key (unique)
-              </label>
-              <input
-                type="text"
-                name="key"
-                className="form-control rounded-3"
-                placeholder="electrician_pricing_v1"
-                value={formData.key}
-                onChange={handleChange}
-                required
-              />
-              <small className="text-muted">
-                Use snake_case and versioning (v1, v2…)
-              </small>
-            </div>
+          <input
+            className="form-control mb-2"
+            placeholder="Form Key (electrician_pricing_v1)"
+            value={form.key}
+            onChange={(e) => updateForm("key", e.target.value)}
+          />
 
-            {/* Purpose */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">
-                <FaBullseye className="me-2" />
-                Purpose
-              </label>
-              <select
-                name="purpose"
-                className="form-select rounded-3"
-                value={formData.purpose}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select purpose</option>
-                <option value="pricing">Pricing</option>
-                <option value="onboarding">Onboarding</option>
-                <option value="kyc">KYC</option>
-                <option value="profile">Profile</option>
-                <option value="survey">Survey</option>
-                <option value="settings">Settings</option>
-              </select>
-            </div>
+          <input
+            className="form-control mb-2"
+            placeholder="Form Title"
+            value={form.title}
+            onChange={(e) => updateForm("title", e.target.value)}
+          />
 
-            {/* Target Entity */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">
-                <FaBullseye className="me-2" />
-                Target Entity (optional)
-              </label>
-              <select
-                name="targetEntity"
-                className="form-select rounded-3"
-                value={formData.targetEntity}
-                onChange={handleChange}
-              >
-                <option value="">None</option>
-                <option value="service">Service</option>
-                <option value="professional">Professional</option>
-                <option value="booking">Booking</option>
-                <option value="user">User</option>
-              </select>
-            </div>
+          <input
+            className="form-control mb-2"
+            placeholder="Purpose (pricing / onboarding / kyc)"
+            value={form.purpose}
+            onChange={(e) => updateForm("purpose", e.target.value)}
+          />
 
-            {/* Description */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">
-                Description
-              </label>
-              <textarea
-                name="description"
-                rows="3"
-                className="form-control rounded-3"
-                placeholder="This form is used to define electrician service charges"
-                value={formData.description}
-                onChange={handleChange}
-              />
-            </div>
+          <textarea
+            className="form-control mb-4"
+            placeholder="Form Description"
+            value={form.description}
+            onChange={(e) => updateForm("description", e.target.value)}
+          />
 
-            {/* Active Toggle */}
-            <div className="form-check form-switch mb-4">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                name="isActive"
-                checked={formData.isActive}
-                onChange={handleChange}
-              />
-              <label className="form-check-label fw-semibold">
-                <FaToggleOn className="me-2 text-success" />
-                Form is Active
-              </label>
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              className="btn btn-primary w-100 rounded-pill fw-semibold"
-              disabled={loading}
-            >
-              {loading ? (
-                <ClipLoader size={20} />
-              ) : (
-                <>
-                  <FaPlusCircle className="me-2" />
-                  Create Form
-                </>
-              )}
+          {/* ===== SECTIONS ===== */}
+          <div className="d-flex justify-content-between align-items-center mb-2">
+            <h6 className="fw-semibold">
+              <FaLayerGroup className="me-2" />
+              Sections
+            </h6>
+            <button className="btn btn-sm btn-success" onClick={addSection}>
+              <FaPlus /> Add Section
             </button>
-          </form>
+          </div>
+
+          {form.sections.map((section, sIdx) => (
+            <div
+              key={section.sectionId}
+              className="border rounded-3 p-3 mb-3"
+            >
+              <div className="d-flex justify-content-between">
+                <input
+                  className="form-control me-2"
+                  placeholder="Section Title"
+                  value={section.title}
+                  onChange={(e) =>
+                    updateSection(sIdx, "title", e.target.value)
+                  }
+                />
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => removeSection(sIdx)}
+                >
+                  <FaTrash />
+                </button>
+              </div>
+
+              <textarea
+                className="form-control mt-2"
+                placeholder="Section Description"
+                value={section.description}
+                onChange={(e) =>
+                  updateSection(sIdx, "description", e.target.value)
+                }
+              />
+
+              {/* ===== FIELDS ===== */}
+              <div className="mt-3">
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => addField(sIdx)}
+                >
+                  <FaPlus /> Add Field
+                </button>
+
+                {section.fields.map((field, fIdx) => (
+                  <div
+                    key={field.fieldId}
+                    className="border rounded-3 p-3 mt-2 bg-light"
+                  >
+                    <div className="d-flex justify-content-between">
+                      <input
+                        className="form-control me-2"
+                        placeholder="Field Label"
+                        value={field.label}
+                        onChange={(e) =>
+                          updateField(sIdx, fIdx, "label", e.target.value)
+                        }
+                      />
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => removeField(sIdx, fIdx)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+
+                    <select
+                      className="form-select mt-2"
+                      value={field.type}
+                      onChange={(e) =>
+                        updateField(sIdx, fIdx, "type", e.target.value)
+                      }
+                    >
+                      <option value="text">Text</option>
+                      <option value="number">Number</option>
+                      <option value="textarea">Textarea</option>
+                      <option value="yesno">Yes / No</option>
+                      <option value="select">Select</option>
+                      <option value="table">Table</option>
+                    </select>
+
+                    {/* ===== SUMMARY CONFIG ===== */}
+                    <div className="mt-3">
+                      <label className="fw-semibold">
+                        Summary (Customer View)
+                      </label>
+
+                      <input
+                        className="form-control mt-1"
+                        placeholder="Template (e.g. Visiting fee: ₹{{value}})"
+                        value={field.summary.template}
+                        onChange={(e) =>
+                          updateField(
+                            sIdx,
+                            fIdx,
+                            "summary",
+                            {
+                              ...field.summary,
+                              template: e.target.value
+                            }
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {/* ===== SUBMIT ===== */}
+          <button
+            className="btn btn-primary w-100 mt-4"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? <ClipLoader size={20} /> : "Create Form"}
+          </button>
         </div>
       </div>
     </div>
