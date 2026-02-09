@@ -13,22 +13,26 @@ import FieldAdvancedSettings from "./FieldAdvancedSettings";
 import FieldBasicSettings from "./FieldBasicSettings";
 
 /* =========================
-   CREATE FORM (FULL BUILDER)
+   CREATE FORM (CONTROLLER SAFE)
    ========================= */
 const CreateForm = () => {
   const [loading, setLoading] = useState(false);
 
-  /* ===== FORM BASIC ===== */
+  /* ===== FORM STATE ===== */
   const [form, setForm] = useState({
     key: "",
     purpose: "",
     title: "",
     description: "",
+    target: {
+      entity: "",     // professional | service | user | booking
+      entityId: null
+    },
     sections: []
   });
 
   /* =========================
-     HANDLERS – FORM
+     FORM HANDLERS
      ========================= */
   const updateForm = (name, value) => {
     setForm({ ...form, [name]: value });
@@ -46,6 +50,7 @@ const CreateForm = () => {
           sectionId: `section_${Date.now()}`,
           title: "",
           description: "",
+          order: form.sections.length,
           fields: []
         }
       ]
@@ -67,51 +72,60 @@ const CreateForm = () => {
   /* =========================
      FIELD HANDLERS
      ========================= */
-const addField = (sectionIndex) => {
-  const sections = [...form.sections];
-  sections[sectionIndex].fields.push({
-    fieldId: `field_${Date.now()}`,
-    label: "",
-    type: "text",
-    required: false,
+  const addField = (sectionIndex) => {
+    const sections = [...form.sections];
 
-    visibilityScope: ["professional"],
+    sections[sectionIndex].fields.push({
+      fieldId: `field_${Date.now()}`,
+      label: "",
+      helperText: "",
+      type: "text",
+      required: false,
 
-    validation: {
-      min: null,
-      max: null,
-      regex: ""
-    },
+      options: [],
 
-    editable: {
-      afterSubmit: false
-    },
+      validation: {
+        min: null,
+        max: null,
+        regex: ""
+      },
 
-    summary: {
-      showToCustomer: false,
-      showToProfessional: false,
-      template: "",
-      whenTrue: "",
-      whenFalse: "",
-      group: "details"
+      ui: {
+        placeholder: "",
+        unit: "",
+        order: sections[sectionIndex].fields.length
+      },
+
+      visibilityScope: ["professional"],
+
+      editable: {
+        afterSubmit: false
+      },
+
+      summary: {
+        showToCustomer: false,
+        showToProfessional: false,
+        template: "",
+        whenTrue: "",
+        whenFalse: "",
+        group: "details"
+      }
+    });
+
+    setForm({ ...form, sections });
+  };
+
+  const updateField = (sIdx, fIdx, key, value) => {
+    const sections = [...form.sections];
+
+    if (key === null) {
+      sections[sIdx].fields[fIdx] = value;
+    } else {
+      sections[sIdx].fields[fIdx][key] = value;
     }
-  });
 
-  setForm({ ...form, sections });
-};
-
-
-const updateField = (sIdx, fIdx, key, value) => {
-  const sections = [...form.sections];
-
-  if (key === null) {
-    sections[sIdx].fields[fIdx] = value;
-  } else {
-    sections[sIdx].fields[fIdx][key] = value;
-  }
-
-  setForm({ ...form, sections });
-};
+    setForm({ ...form, sections });
+  };
 
   const removeField = (sIdx, fIdx) => {
     const sections = [...form.sections];
@@ -120,7 +134,7 @@ const updateField = (sIdx, fIdx, key, value) => {
   };
 
   /* =========================
-     SUBMIT
+     SUBMIT (STRICT VALIDATION)
      ========================= */
   const handleSubmit = async () => {
     if (!form.key || !form.title || !form.purpose) {
@@ -128,8 +142,22 @@ const updateField = (sIdx, fIdx, key, value) => {
       return;
     }
 
+    if (!form.target.entity) {
+      toast.error("Form target (who should see this form) is required");
+      return;
+    }
+
     if (form.sections.length === 0) {
       toast.error("Add at least one section");
+      return;
+    }
+
+    const invalidField = form.sections.some((sec) =>
+      sec.fields.some((f) => !f.label || !f.type)
+    );
+
+    if (invalidField) {
+      toast.error("Every field must have a label and type");
       return;
     }
 
@@ -145,7 +173,7 @@ const updateField = (sIdx, fIdx, key, value) => {
       toast.success("Form created successfully");
     } catch (err) {
       console.error(err);
-      toast.error("Failed to create form");
+      toast.error(err.response?.data?.message || "Failed to create form");
     } finally {
       setLoading(false);
     }
@@ -165,7 +193,7 @@ const updateField = (sIdx, fIdx, key, value) => {
         </div>
 
         <div className="card-body">
-          {/* ===== BASIC INFO ===== */}
+          {/* ===== FORM INFO ===== */}
           <h6 className="fw-semibold mb-3">Form Details</h6>
 
           <input
@@ -182,11 +210,11 @@ const updateField = (sIdx, fIdx, key, value) => {
             onChange={(e) => updateForm("title", e.target.value)}
           />
 
-                    <select
-                    className="form-select mb-2"
-                    value={form.purpose}
-                    onChange={(e) => updateForm("purpose", e.target.value)}
-                    >
+          <select
+            className="form-select mb-2"
+            value={form.purpose}
+            onChange={(e) => updateForm("purpose", e.target.value)}
+          >
             <option value="">Select purpose</option>
             <option value="pricing">Pricing</option>
             <option value="onboarding">Onboarding</option>
@@ -194,7 +222,24 @@ const updateField = (sIdx, fIdx, key, value) => {
             <option value="profile">Profile</option>
             <option value="survey">Survey</option>
             <option value="settings">Settings</option>
-            </select>
+          </select>
+
+          <select
+            className="form-select mb-3"
+            value={form.target.entity}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                target: { ...form.target, entity: e.target.value }
+              })
+            }
+          >
+            <option value="">Who should fill this form?</option>
+            <option value="professional">Professional</option>
+            <option value="service">Service</option>
+            <option value="user">User</option>
+            <option value="booking">Booking</option>
+          </select>
 
           <textarea
             className="form-control mb-4"
@@ -215,10 +260,7 @@ const updateField = (sIdx, fIdx, key, value) => {
           </div>
 
           {form.sections.map((section, sIdx) => (
-            <div
-              key={section.sectionId}
-              className="border rounded-3 p-3 mb-3"
-            >
+            <div key={section.sectionId} className="border rounded-3 p-3 mb-3">
               <div className="d-flex justify-content-between">
                 <input
                   className="form-control me-2"
@@ -254,28 +296,28 @@ const updateField = (sIdx, fIdx, key, value) => {
                   <FaPlus /> Add Field
                 </button>
 
-               {section.fields.map((field, fIdx) => (
-  <div key={field.fieldId} className="mt-3">
-    <FieldBasicSettings
-      field={field}
-      onChange={(updatedField) =>
-        updateField(sIdx, fIdx, null, updatedField)
-      }
-      onRemove={() => {
-        if (window.confirm("Remove this field?")) {
-          removeField(sIdx, fIdx);
-        }
-      }}
-    />
+                {section.fields.map((field, fIdx) => (
+                  <div key={field.fieldId} className="mt-3">
+                    <FieldBasicSettings
+                      field={field}
+                      onChange={(updatedField) =>
+                        updateField(sIdx, fIdx, null, updatedField)
+                      }
+                      onRemove={() => {
+                        if (window.confirm("Remove this field?")) {
+                          removeField(sIdx, fIdx);
+                        }
+                      }}
+                    />
 
-    <FieldAdvancedSettings
-      field={field}
-      onChange={(updatedField) =>
-        updateField(sIdx, fIdx, null, updatedField)
-      }
-    />
-  </div>
-))}
+                    <FieldAdvancedSettings
+                      field={field}
+                      onChange={(updatedField) =>
+                        updateField(sIdx, fIdx, null, updatedField)
+                      }
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           ))}
