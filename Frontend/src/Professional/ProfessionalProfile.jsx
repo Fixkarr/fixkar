@@ -20,7 +20,6 @@ import { ClipLoader } from "react-spinners";
 import { toast, ToastContainer } from "react-toastify";
 import UpdateProfileInfoForm from "./UpdateProfileInfoForm";
 import CompleteProfileToast from "./CompleteProfileToast";
-import UpdateCharges from "./UpdateCharges";
 import MyGallery from "./MyGallery";
 import ProReviews from "./ProReviews";
 import { FaShareAlt, FaTools } from "react-icons/fa";
