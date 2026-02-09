@@ -9,6 +9,8 @@ import {
   FaLayerGroup
 } from "react-icons/fa";
 import { server_url } from "../../../App";
+import FieldAdvancedSettings from "./FieldAdvancedSettings";
+import FieldBasicSettings from "./FieldBasicSettings";
 
 /* =========================
    CREATE FORM (FULL BUILDER)
@@ -65,30 +67,51 @@ const CreateForm = () => {
   /* =========================
      FIELD HANDLERS
      ========================= */
-  const addField = (sectionIndex) => {
-    const sections = [...form.sections];
-    sections[sectionIndex].fields.push({
-      fieldId: `field_${Date.now()}`,
-      label: "",
-      type: "text",
-      required: false,
-      visibilityScope: ["professional"],
-      summary: {
-        showToCustomer: false,
-        template: "",
-        whenTrue: "",
-        whenFalse: "",
-        group: "details"
-      }
-    });
-    setForm({ ...form, sections });
-  };
+const addField = (sectionIndex) => {
+  const sections = [...form.sections];
+  sections[sectionIndex].fields.push({
+    fieldId: `field_${Date.now()}`,
+    label: "",
+    type: "text",
+    required: false,
 
-  const updateField = (sIdx, fIdx, key, value) => {
-    const sections = [...form.sections];
+    visibilityScope: ["professional"],
+
+    validation: {
+      min: null,
+      max: null,
+      regex: ""
+    },
+
+    editable: {
+      afterSubmit: false
+    },
+
+    summary: {
+      showToCustomer: false,
+      showToProfessional: false,
+      template: "",
+      whenTrue: "",
+      whenFalse: "",
+      group: "details"
+    }
+  });
+
+  setForm({ ...form, sections });
+};
+
+
+const updateField = (sIdx, fIdx, key, value) => {
+  const sections = [...form.sections];
+
+  if (key === null) {
+    sections[sIdx].fields[fIdx] = value;
+  } else {
     sections[sIdx].fields[fIdx][key] = value;
-    setForm({ ...form, sections });
-  };
+  }
+
+  setForm({ ...form, sections });
+};
 
   const removeField = (sIdx, fIdx) => {
     const sections = [...form.sections];
@@ -159,12 +182,19 @@ const CreateForm = () => {
             onChange={(e) => updateForm("title", e.target.value)}
           />
 
-          <input
-            className="form-control mb-2"
-            placeholder="Purpose (pricing / onboarding / kyc)"
-            value={form.purpose}
-            onChange={(e) => updateForm("purpose", e.target.value)}
-          />
+                    <select
+                    className="form-select mb-2"
+                    value={form.purpose}
+                    onChange={(e) => updateForm("purpose", e.target.value)}
+                    >
+            <option value="">Select purpose</option>
+            <option value="pricing">Pricing</option>
+            <option value="onboarding">Onboarding</option>
+            <option value="kyc">KYC</option>
+            <option value="profile">Profile</option>
+            <option value="survey">Survey</option>
+            <option value="settings">Settings</option>
+            </select>
 
           <textarea
             className="form-control mb-4"
@@ -224,68 +254,28 @@ const CreateForm = () => {
                   <FaPlus /> Add Field
                 </button>
 
-                {section.fields.map((field, fIdx) => (
-                  <div
-                    key={field.fieldId}
-                    className="border rounded-3 p-3 mt-2 bg-light"
-                  >
-                    <div className="d-flex justify-content-between">
-                      <input
-                        className="form-control me-2"
-                        placeholder="Field Label"
-                        value={field.label}
-                        onChange={(e) =>
-                          updateField(sIdx, fIdx, "label", e.target.value)
-                        }
-                      />
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => removeField(sIdx, fIdx)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
+               {section.fields.map((field, fIdx) => (
+  <div key={field.fieldId} className="mt-3">
+    <FieldBasicSettings
+      field={field}
+      onChange={(updatedField) =>
+        updateField(sIdx, fIdx, null, updatedField)
+      }
+      onRemove={() => {
+        if (window.confirm("Remove this field?")) {
+          removeField(sIdx, fIdx);
+        }
+      }}
+    />
 
-                    <select
-                      className="form-select mt-2"
-                      value={field.type}
-                      onChange={(e) =>
-                        updateField(sIdx, fIdx, "type", e.target.value)
-                      }
-                    >
-                      <option value="text">Text</option>
-                      <option value="number">Number</option>
-                      <option value="textarea">Textarea</option>
-                      <option value="yesno">Yes / No</option>
-                      <option value="select">Select</option>
-                      <option value="table">Table</option>
-                    </select>
-
-                    {/* ===== SUMMARY CONFIG ===== */}
-                    <div className="mt-3">
-                      <label className="fw-semibold">
-                        Summary (Customer View)
-                      </label>
-
-                      <input
-                        className="form-control mt-1"
-                        placeholder="Template (e.g. Visiting fee: ₹{{value}})"
-                        value={field.summary.template}
-                        onChange={(e) =>
-                          updateField(
-                            sIdx,
-                            fIdx,
-                            "summary",
-                            {
-                              ...field.summary,
-                              template: e.target.value
-                            }
-                          )
-                        }
-                      />
-                    </div>
-                  </div>
-                ))}
+    <FieldAdvancedSettings
+      field={field}
+      onChange={(updatedField) =>
+        updateField(sIdx, fIdx, null, updatedField)
+      }
+    />
+  </div>
+))}
               </div>
             </div>
           ))}
