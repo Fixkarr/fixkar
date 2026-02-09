@@ -1,6 +1,6 @@
 // import { Form } from "../AdminModels/form.model.js";
 import mongoose from "mongoose";
-import Form from '../AdminModels/form.model.js'
+import {Form} from '../AdminModels/form.model.js'
 /* =========================
    GET FORM BY SERVICE
    ========================= */
