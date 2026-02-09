@@ -60,8 +60,8 @@ const ProfessionalProfile = () => {
 
   const { currentUserData } = useSelector((state) => state.user);
   const ProfessionalDetails = currentUserData?.user;
-  const isProfileComplete = ProfessionalDetails?.isChargesDefined && ProfessionalDetails?.description;
-  const ChargesNotDefined = ProfessionalDetails?.isChargesDefined
+  const isProfileComplete =  ProfessionalDetails?.description;
+  const ChargesDefined = ProfessionalDetails?.isChargesDefined
 
 
   const reviews = ProfessionalDetails?.reviews
@@ -299,7 +299,7 @@ const handleShareProfile = () => {
 
       <div className="card-body">
 
-        {ChargesNotDefined && (
+        {!ChargesDefined && (
           <div className="alert alert-warning small py-2">
             ⚠️ Charges are not defined. Please update.
           </div>

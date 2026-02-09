@@ -23,6 +23,8 @@ export default function CompleteProfile() {
   const serviceId = currentUserData?.user?.profession._id;
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [form, setForm]= useState(null);
+  const isProfileComplete = currentUserData?.user?.description
+   const ChargesDefined = currentUserData?.user?.isChargesDefined
 
   useEffect(()=>{
     const fetchForm = async()=>{
@@ -69,7 +71,6 @@ export default function CompleteProfile() {
           { withCredentials: true }
         );
         dispatch(setCurrentUserData(result.data));
-        navigate("/");
       } catch (err) {
         console.log(err);
       } finally {
@@ -109,7 +110,7 @@ export default function CompleteProfile() {
         {/* ===== Body ===== */}
         <div className="card-body p-4 bg-light">
 
-          <form onSubmit={formik.handleSubmit}>
+          {!isProfileComplete && <form onSubmit={formik.handleSubmit}>
 
             {/* DESCRIPTION */}
             <div className="mb-3">
@@ -176,10 +177,10 @@ export default function CompleteProfile() {
               {loading ? <ClipLoader size={20} /> : "Save Profile"}
             </button>
 
-          </form>
-              <div className="container mt-2">
+          </form>}
+              {!ChargesDefined && <div className="container mt-2">
                 <DynamicForm form={form}/>
-              </div>
+              </div>}
         </div>
       </div>
     </div>
