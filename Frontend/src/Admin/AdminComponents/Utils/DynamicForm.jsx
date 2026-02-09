@@ -1,4 +1,15 @@
 import React, { useState } from "react";
+import {
+  FaPaperPlane,
+  FaFont,
+  FaHashtag,
+  FaListUl,
+  FaCheckSquare,
+  FaDotCircle,
+  FaCalendarAlt,
+  FaTable,
+  FaUpload
+} from "react-icons/fa";
 
 const DynamicForm = ({ form }) => {
   const [formData, setFormData] = useState({});
@@ -15,10 +26,11 @@ const DynamicForm = ({ form }) => {
   };
 
   const getDefaultValue = (type) => {
-  if (type === "checkbox") return [];
-  if (type === "table") return [];
-  return "";
-};
+    if (type === "checkbox") return [];
+    if (type === "table") return [];
+    return "";
+  };
+
   /* =========================
      VALIDATION
      ========================= */
@@ -30,14 +42,13 @@ const DynamicForm = ({ form }) => {
         const value =
           formData[field.fieldId] ?? getDefaultValue(field.type);
 
-        if (field.required) {
-          if (
-            value === "" ||
+        if (
+          field.required &&
+          (value === "" ||
             value === null ||
-            (Array.isArray(value) && value.length === 0)
-          ) {
-            newErrors[field.fieldId] = "Required field";
-          }
+            (Array.isArray(value) && value.length === 0))
+        ) {
+          newErrors[field.fieldId] = "Required field";
         }
 
         if (field.validation?.regex && value) {
@@ -90,7 +101,35 @@ const DynamicForm = ({ form }) => {
   };
 
   /* =========================
-     FIELD RENDERER
+     ICON BY FIELD TYPE
+     ========================= */
+  const fieldIcon = (type) => {
+    switch (type) {
+      case "text":
+      case "textarea":
+        return <FaFont className="me-2 text-primary" />;
+      case "number":
+        return <FaHashtag className="me-2 text-primary" />;
+      case "checkbox":
+        return <FaCheckSquare className="me-2 text-primary" />;
+      case "radio":
+        return <FaDotCircle className="me-2 text-primary" />;
+      case "select":
+      case "yesno":
+        return <FaListUl className="me-2 text-primary" />;
+      case "date":
+        return <FaCalendarAlt className="me-2 text-primary" />;
+      case "table":
+        return <FaTable className="me-2 text-primary" />;
+      case "file":
+        return <FaUpload className="me-2 text-primary" />;
+      default:
+        return null;
+    }
+  };
+
+  /* =========================
+     FIELD RENDERER (LOGIC SAME)
      ========================= */
   const renderField = (field) => {
     const value =
@@ -102,7 +141,7 @@ const DynamicForm = ({ form }) => {
         return (
           <input
             type={field.type}
-            className="form-control"
+            className="form-control rounded-3"
             placeholder={field.ui?.placeholder || ""}
             value={value}
             onChange={(e) => updateValue(field, e.target.value)}
@@ -112,7 +151,8 @@ const DynamicForm = ({ form }) => {
       case "textarea":
         return (
           <textarea
-            className="form-control"
+            className="form-control rounded-3"
+            rows={3}
             placeholder={field.ui?.placeholder || ""}
             value={value}
             onChange={(e) => updateValue(field, e.target.value)}
@@ -123,7 +163,7 @@ const DynamicForm = ({ form }) => {
         return (
           <input
             type="date"
-            className="form-control"
+            className="form-control rounded-3"
             value={value}
             onChange={(e) => updateValue(field, e.target.value)}
           />
@@ -165,14 +205,15 @@ const DynamicForm = ({ form }) => {
         ));
 
       case "select":
+      case "yesno":
         return (
           <select
-            className="form-select"
+            className="form-select rounded-3"
             value={value}
             onChange={(e) => updateValue(field, e.target.value)}
           >
             <option value="">Select</option>
-            {field.options.map((opt) => (
+            {field.options?.map((opt) => (
               <option key={opt._id} value={opt.value}>
                 {opt.label}
               </option>
@@ -180,42 +221,26 @@ const DynamicForm = ({ form }) => {
           </select>
         );
 
-      case "yesno":
-        return (
-          <select
-            className="form-select"
-            value={value}
-            onChange={(e) => updateValue(field, e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        );
-
       case "file":
         return (
           <input
             type="file"
-            className="form-control"
+            className="form-control rounded-3"
             onChange={(e) =>
               updateValue(field, e.target.files[0])
             }
           />
         );
 
-      /* =========================
-         TABLE (LABEL + CHARGE)
-         ========================= */
       case "table":
         return (
           <>
-            <table className="table table-bordered mt-2">
-              <thead>
+            <table className="table table-bordered table-hover align-middle mt-2">
+              <thead className="table-light">
                 <tr>
                   <th>Work / Label</th>
                   <th>Charge</th>
-                  <th></th>
+                  <th width="60"></th>
                 </tr>
               </thead>
               <tbody>
@@ -252,7 +277,7 @@ const DynamicForm = ({ form }) => {
                     </td>
                     <td>
                       <button
-                        className="btn btn-sm btn-danger"
+                        className="btn btn-sm btn-outline-danger"
                         onClick={() =>
                           removeTableRow(field, idx)
                         }
@@ -283,48 +308,83 @@ const DynamicForm = ({ form }) => {
      UI
      ========================= */
   return (
-    <div className="card p-4 shadow rounded-4">
-      <h4 className="fw-bold">{form.title}</h4>
-      <p className="text-muted">{form.description}</p>
+    <div className="container my-4">
+      <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
 
-      {form.sections
-        .sort((a, b) => a.order - b.order)
-        .map((section) => (
-          <div key={section.sectionId} className="mb-4">
-            <h5>{section.title}</h5>
-            <p className="text-muted small">
-              {section.description}
-            </p>
+        {/* HEADER */}
+        <div
+          className="p-4 text-white"
+          style={{
+            background:
+              "linear-gradient(135deg, #0d6efd, #6610f2)"
+          }}
+        >
+          <h4 className="fw-bold mb-1">{form.title}</h4>
+          <p className="mb-0 opacity-75">{form.description}</p>
+        </div>
 
-            {section.fields
-              .sort((a, b) => a.ui.order - b.ui.order)
-              .map((field) => (
-                <div key={field.fieldId} className="mb-3">
-                  <label className="fw-semibold">
-                    {field.label}
-                    {field.required && (
-                      <span className="text-danger"> *</span>
-                    )}
-                  </label>
-
-                  {renderField(field)}
-
-                  {errors[field.fieldId] && (
-                    <div className="text-danger small">
-                      {errors[field.fieldId]}
-                    </div>
-                  )}
+        {/* BODY */}
+        <div className="card-body bg-light">
+          {form.sections
+            .sort((a, b) => a.order - b.order)
+            .map((section) => (
+              <div
+                key={section.sectionId}
+                className="card mb-4 border-0 shadow-sm rounded-4"
+              >
+                <div
+                  className="p-3 text-white rounded-top-4"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #198754, #20c997)"
+                  }}
+                >
+                  <h6 className="fw-bold mb-0">
+                    {section.title}
+                  </h6>
+                  <small className="opacity-75">
+                    {section.description}
+                  </small>
                 </div>
-              ))}
-          </div>
-        ))}
 
-      <button
-        className="btn btn-primary w-100"
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+                <div className="card-body bg-white">
+                  {section.fields
+                    .sort((a, b) => a.ui.order - b.ui.order)
+                    .map((field) => (
+                      <div key={field.fieldId} className="mb-4">
+                        <label className="fw-semibold d-flex align-items-center mb-1">
+                          {fieldIcon(field.type)}
+                          {field.label}
+                          {field.required && (
+                            <span className="text-danger ms-1">*</span>
+                          )}
+                        </label>
+
+                        {renderField(field)}
+
+                        {errors[field.fieldId] && (
+                          <div className="text-danger small mt-1">
+                            {errors[field.fieldId]}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+            ))}
+        </div>
+
+        {/* FOOTER */}
+        <div className="p-3 bg-white border-top">
+          <button
+            className="btn btn-primary btn-lg w-100 rounded-pill fw-semibold d-flex align-items-center justify-content-center gap-2"
+            onClick={handleSubmit}
+          >
+            <FaPaperPlane />
+            Submit Form
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
