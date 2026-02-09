@@ -1,5 +1,8 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
+/* =========================
+   FIELD SCHEMA
+   ========================= */
 const FieldSchema = new mongoose.Schema({
   fieldId: {
     type: String,
@@ -16,8 +19,16 @@ const FieldSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: [
-      "text", "number", "textarea", "radio", "checkbox",
-      "select", "date", "yesno", "table", "file"
+      "text",
+      "number",
+      "textarea",
+      "radio",
+      "checkbox",
+      "select",
+      "date",
+      "yesno",
+      "table",
+      "file"
     ],
     required: true
   },
@@ -27,6 +38,7 @@ const FieldSchema = new mongoose.Schema({
     default: false
   },
 
+  /* ===== Options for select / radio / checkbox ===== */
   options: [
     {
       label: String,
@@ -34,32 +46,74 @@ const FieldSchema = new mongoose.Schema({
     }
   ],
 
+  /* ===== Validation Rules ===== */
   validation: {
     min: Number,
     max: Number,
     regex: String
   },
 
+  /* ===== UI Behaviour ===== */
   ui: {
     placeholder: String,
-    unit: String,
+    unit: String,   // ₹, per hour, per sq ft, etc
     order: Number
   },
 
-    visibilityScope: {
-      type: [String],
-      enum: ["admin", "professional", "customer"],
-      default: ["professional"]
+  /* ===== WHO CAN SEE THIS FIELD ===== */
+  visibilityScope: {
+    type: [String],
+    enum: ["admin", "professional", "customer"],
+    default: ["professional"]
+  },
+
+  /* ===== SUMMARY CONFIG (OPTIONAL, GENERIC) ===== */
+  summary: {
+    showToCustomer: {
+      type: Boolean,
+      default: false
     },
 
+    showToProfessional: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Template based summary
+     * Examples:
+     * "Visiting fee: ₹{{value}}"
+     * "{{work}} – ₹{{rate}} / {{unit}}"
+     */
+    template: String,
+
+    /* For yes/no fields */
+    whenTrue: String,
+    whenFalse: String,
+
+    /**
+     * Grouping for summary
+     * NOT pricing-specific
+     */
+    group: {
+      type: String,
+      enum: ["primary", "details", "terms", "extras"],
+      default: "details"
+    }
+  },
+
+  /* ===== EDIT RULES ===== */
   editable: {
     afterSubmit: {
       type: Boolean,
       default: false
-    },
+    }
   }
-})
+});
 
+/* =========================
+   SECTION SCHEMA
+   ========================= */
 const SectionSchema = new mongoose.Schema({
   sectionId: {
     type: String,
@@ -71,56 +125,64 @@ const SectionSchema = new mongoose.Schema({
     required: true
   },
 
-  description: {type: String},
+  description: String,
 
-  order: {type: Number},
+  order: Number,
 
   fields: [FieldSchema]
-})
+});
 
-
-const FormSchema = new mongoose.Schema({
-  key: {
-    type: String,
-    required: true,
-    unique: true           // electrician_pricing_v1
-  },
-
-  purpose: {
-    type: String,
-    required: true
-  },
-
-  title: {
-    type: String,
-    required: true
-  },
-
-  description: {type: String},
-
-  target: {
-    entity: {
+/* =========================
+   FORM SCHEMA
+   ========================= */
+const FormSchema = new mongoose.Schema(
+  {
+    key: {
       type: String,
+      required: true,
+      unique: true // electrician_pricing_v1, professional_kyc_v1
     },
 
-    entityId: {
-      type: mongoose.Schema.Types.ObjectId,
-      refPath: "target.entity"
-    }
+    purpose: {
+      type: String,
+      required: true
+      // pricing | onboarding | kyc | profile | survey | settings
+    },
+
+    title: {
+      type: String,
+      required: true
+    },
+
+    description: String,
+
+    target: {
+      entity: {
+        type: String
+        // service | professional | booking | user | admin
+      },
+      entityId: {
+        type: mongoose.Schema.Types.ObjectId,
+        refPath: "target.entity"
+      }
+    },
+
+    version: {
+      type: Number,
+      default: 1
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true
+    },
+
+    sections: [SectionSchema]
   },
+  { timestamps: true }
+);
 
-  version: {
-    type: Number,
-    default: 1
-  },
+export const Form = mongoose.model("Form", FormSchema);
 
-  isActive: {
-    type: Boolean,
-    default: true
-  },
 
-  sections: [SectionSchema]
 
-}, { timestamps: true })
-
-export const Form = mongoose.model('Form', FormSchema);

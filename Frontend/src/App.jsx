@@ -65,6 +65,7 @@ import AdminBookingDetail from "./Admin/AdminComponents/AdminBookingDetail.jsx";
 import ProfessionalTransactions from "./Professional/ProfessionalTransactions.jsx";
 import Services from "./Components/Services.jsx";
 import Explore from "./Components/Explore.jsx";
+import ManageForms from "./Admin/AdminComponents/ManageForms.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -352,6 +353,7 @@ const App = () => {
           <Route path={`${adminpath}/manage-bookings/:bookingId`} element={currentAdmin?.role === "super_admin" ? <AdminBookingDetail/> : (<Navigate to={`${adminpath}/home`}/>)}/>
           
           <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin?.role === "super_admin" ? <UpdateServiceForm/> : <Navigate to={`${adminpath}/home`}/>}/>
+          <Route path={`${adminpath}/manage-forms`} element={currentAdmin?.role === "super_admin" ? <ManageForms/> : <Navigate to={`${adminpath}/home`}/>}/>
 
       </Route>
 

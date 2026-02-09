@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/sidebar.css";
 import { GoHome } from "react-icons/go";
-import { FaRegAddressBook, FaUserShield } from "react-icons/fa6";
+import { FaRegAddressBook, FaUserShield, FaWpforms } from "react-icons/fa6";
 import { IoConstructOutline } from "react-icons/io5";
 import { FaHeadset, FaRegBell, FaTools } from "react-icons/fa";
 import { FiBell, FiMessageSquare } from "react-icons/fi";
@@ -135,6 +135,19 @@ const dispatch = useDispatch()
           >
             <LuNotebookPen  />
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Manage Bookings</span>
+          </NavLink>
+        </li>
+        <li className="nav-item" style={{fontSize : "0.5vmax"}}>
+          <NavLink
+            to={`${adminpath}/manage-forms`}
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FaWpforms />
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Create Forms</span>
           </NavLink>
         </li>
 
