@@ -205,21 +205,51 @@ const DynamicForm = ({ form }) => {
         ));
 
       case "select":
-      case "yesno":
-        return (
-          <select
-            className="form-select rounded-3"
-            value={value}
-            onChange={(e) => updateValue(field, e.target.value)}
-          >
-            <option value="">Select</option>
-            {field.options?.map((opt) => (
-              <option key={opt._id} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        );
+  return (
+    <select
+      className="form-select rounded-3"
+      value={value}
+      onChange={(e) => updateValue(field, e.target.value)}
+    >
+      <option value="">Select</option>
+      {field.options?.map((opt) => (
+        <option key={opt._id} value={opt.value}>
+          {opt.label}
+        </option>
+      ))}
+    </select>
+  );
+
+case "yesno":
+  return (
+    <div className="d-flex gap-4 mt-1">
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="radio"
+          name={field.fieldId}
+          checked={value === "yes"}
+          onChange={() => updateValue(field, "yes")}
+        />
+        <label className="form-check-label fw-semibold">
+          Yes
+        </label>
+      </div>
+
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="radio"
+          name={field.fieldId}
+          checked={value === "no"}
+          onChange={() => updateValue(field, "no")}
+        />
+        <label className="form-check-label fw-semibold">
+          No
+        </label>
+      </div>
+    </div>
+  );
 
       case "file":
         return (
