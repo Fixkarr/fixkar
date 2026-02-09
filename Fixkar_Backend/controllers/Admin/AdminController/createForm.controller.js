@@ -14,6 +14,12 @@ export const createForm = async (req, res) => {
       target
     } = req.body;
 
+    if (target?.entity === "service" && !target?.entityId) {
+  return res.status(400).json({
+    message: "Service ID is required when target entity is service"
+  });
+}
+
     /* ===== BASIC VALIDATION ===== */
     if (!key || !purpose || !title) {
       return res.status(400).json({
@@ -69,18 +75,7 @@ export const createForm = async (req, res) => {
             },
 
             ui: field.ui || {},
-
-            visibilityScope: field.visibilityScope || ["professional"],
-
-            summary: {
-              showToCustomer: !!field.summary?.showToCustomer,
-              showToProfessional: !!field.summary?.showToProfessional,
-              template: field.summary?.template || "",
-              whenTrue: field.summary?.whenTrue || "",
-              whenFalse: field.summary?.whenFalse || "",
-              group: field.summary?.group || "details"
-            },
-
+            summary: field.summary,
             editable: {
               afterSubmit: !!field.editable?.afterSubmit
             }

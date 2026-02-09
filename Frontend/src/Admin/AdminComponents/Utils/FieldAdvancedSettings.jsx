@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  FaChevronDown,
-  FaChevronUp,
-  FaEye,
-  FaListAlt
-} from "react-icons/fa";
+import { FaChevronDown, FaChevronUp, FaListAlt } from "react-icons/fa";
 
 const FieldAdvancedSettings = ({ field, onChange }) => {
   const [open, setOpen] = useState(false);
@@ -23,20 +18,6 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
     });
   };
 
-  const toggleVisibility = (role, checked) => {
-    let updated = checked
-      ? [...(field.visibilityScope || []), role]
-      : field.visibilityScope.filter((r) => r !== role);
-
-    // ❗ safeguard – at least one role must exist
-    if (updated.length === 0) {
-      alert("At least one visibility role is required");
-      return;
-    }
-
-    update("visibilityScope", updated);
-  };
-
   return (
     <div className="mt-3 border rounded-3 bg-white">
       {/* HEADER */}
@@ -53,29 +34,6 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
 
       {open && (
         <div className="p-3 border-top">
-          {/* ===== VISIBILITY ===== */}
-          <div className="mb-3">
-            <label className="fw-semibold">
-              <FaEye className="me-2" />
-              Visibility
-            </label>
-
-            {["admin", "professional", "customer"].map((role) => (
-              <div className="form-check" key={role}>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  checked={field.visibilityScope?.includes(role)}
-                  onChange={(e) =>
-                    toggleVisibility(role, e.target.checked)
-                  }
-                />
-                <label className="form-check-label text-capitalize">
-                  {role}
-                </label>
-              </div>
-            ))}
-          </div>
 
           {/* ===== VALIDATION ===== */}
           <div className="mb-3">
@@ -145,14 +103,13 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
             </div>
           </div>
 
-          {/* ===== SUMMARY CONFIG ===== */}
+          {/* ===== SUMMARY ===== */}
           <div className="border-top pt-3">
             <label className="fw-semibold">
               <FaListAlt className="me-2" />
               Summary Display
             </label>
 
-            {/* CUSTOMER */}
             <div className="form-check mt-2">
               <input
                 className="form-check-input"
@@ -167,7 +124,6 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
               </label>
             </div>
 
-            {/* PROFESSIONAL */}
             <div className="form-check mt-1">
               <input
                 className="form-check-input"
@@ -185,7 +141,6 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
             {(field.summary?.showToCustomer ||
               field.summary?.showToProfessional) && (
               <>
-                {/* TEMPLATE (NON YES/NO) */}
                 {field.type !== "yesno" && (
                   <input
                     className="form-control mt-2"
@@ -197,7 +152,6 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
                   />
                 )}
 
-                {/* YES / NO */}
                 {field.type === "yesno" && (
                   <div className="row g-2 mt-2">
                     <div className="col">
@@ -223,7 +177,6 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
                   </div>
                 )}
 
-                {/* GROUP */}
                 <select
                   className="form-select mt-2"
                   value={field.summary.group || "details"}

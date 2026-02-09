@@ -2,21 +2,20 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import {
-  FaPlus,
-  FaTrash,
-  FaWpforms,
-  FaLayerGroup
-} from "react-icons/fa";
+import { FaPlus, FaTrash, FaWpforms, FaLayerGroup } from "react-icons/fa";
 import { server_url } from "../../../App";
 import FieldAdvancedSettings from "./FieldAdvancedSettings";
 import FieldBasicSettings from "./FieldBasicSettings";
+import useGetServices from "../../../hooks/useGetServices";
+import { useSelector } from "react-redux";
 
 /* =========================
    CREATE FORM (CONTROLLER SAFE)
    ========================= */
 const CreateForm = () => {
   const [loading, setLoading] = useState(false);
+  useGetServices();
+  const { services } = useSelector((state) => state.services);
 
   /* ===== FORM STATE ===== */
   const [form, setForm] = useState({
@@ -25,10 +24,10 @@ const CreateForm = () => {
     title: "",
     description: "",
     target: {
-      entity: "",     // professional | service | user | booking
-      entityId: null
+      entity: "", // professional | service | user | booking
+      entityId: null,
     },
-    sections: []
+    sections: [],
   });
 
   /* =========================
@@ -51,9 +50,9 @@ const CreateForm = () => {
           title: "",
           description: "",
           order: form.sections.length,
-          fields: []
-        }
-      ]
+          fields: [],
+        },
+      ],
     });
   };
 
@@ -87,29 +86,22 @@ const CreateForm = () => {
       validation: {
         min: null,
         max: null,
-        regex: ""
+        regex: "",
       },
 
       ui: {
         placeholder: "",
         unit: "",
-        order: sections[sectionIndex].fields.length
+        order: sections[sectionIndex].fields.length,
       },
 
       visibilityScope: ["professional"],
 
       editable: {
-        afterSubmit: false
+        afterSubmit: false,
       },
 
-      summary: {
-        showToCustomer: false,
-        showToProfessional: false,
-        template: "",
-        whenTrue: "",
-        whenFalse: "",
-        group: "details"
-      }
+      summary: ""
     });
 
     setForm({ ...form, sections });
@@ -142,6 +134,11 @@ const CreateForm = () => {
       return;
     }
 
+if (form.target.entity === "service" && !form.target.entityId) {
+  toast.error("Please select a service for service-based form");
+  return;
+}
+
     if (!form.target.entity) {
       toast.error("Form target (who should see this form) is required");
       return;
@@ -153,7 +150,7 @@ const CreateForm = () => {
     }
 
     const invalidField = form.sections.some((sec) =>
-      sec.fields.some((f) => !f.label || !f.type)
+      sec.fields.some((f) => !f.label || !f.type),
     );
 
     if (invalidField) {
@@ -164,11 +161,9 @@ const CreateForm = () => {
     try {
       setLoading(true);
 
-      await axios.post(
-        `${server_url}/api/admin/forms`,
-        form,
-        { withCredentials: true }
-      );
+      await axios.post(`${server_url}/api/admin/forms`, form, {
+        withCredentials: true,
+      });
 
       toast.success("Form created successfully");
     } catch (err) {
@@ -210,6 +205,13 @@ const CreateForm = () => {
             onChange={(e) => updateForm("title", e.target.value)}
           />
 
+        <textarea
+            className="form-control mb-4"
+            placeholder="Form Description"
+            value={form.description}
+            onChange={(e) => updateForm("description", e.target.value)}
+          />
+
           <select
             className="form-select mb-2"
             value={form.purpose}
@@ -230,23 +232,44 @@ const CreateForm = () => {
             onChange={(e) =>
               setForm({
                 ...form,
-                target: { ...form.target, entity: e.target.value }
+                target: {
+                  entity: e.target.value,
+                  entityId: null,
+                },
               })
             }
           >
-            <option value="">Who should fill this form?</option>
+            <option value="">What is the target?</option>
             <option value="professional">Professional</option>
             <option value="service">Service</option>
             <option value="user">User</option>
             <option value="booking">Booking</option>
           </select>
 
-          <textarea
-            className="form-control mb-4"
-            placeholder="Form Description"
-            value={form.description}
-            onChange={(e) => updateForm("description", e.target.value)}
-          />
+          {form.target.entity === "service" && (
+  <select
+    className="form-select mb-3"
+    value={form.target.entityId || ""}
+    onChange={(e) =>
+      setForm({
+        ...form,
+        target: {
+          ...form.target,
+          entityId: e.target.value
+        }
+      })
+    }
+  >
+    <option value="">Select Service</option>
+    {services?.map((service) => (
+      <option key={service._id} value={service._id}>
+        {service.name}
+      </option>
+    ))}
+  </select>
+)}
+
+        
 
           {/* ===== SECTIONS ===== */}
           <div className="d-flex justify-content-between align-items-center mb-2">
@@ -266,9 +289,7 @@ const CreateForm = () => {
                   className="form-control me-2"
                   placeholder="Section Title"
                   value={section.title}
-                  onChange={(e) =>
-                    updateSection(sIdx, "title", e.target.value)
-                  }
+                  onChange={(e) => updateSection(sIdx, "title", e.target.value)}
                 />
                 <button
                   className="btn btn-danger btn-sm"

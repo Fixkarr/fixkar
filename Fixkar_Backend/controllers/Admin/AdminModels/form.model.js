@@ -60,47 +60,7 @@ const FieldSchema = new mongoose.Schema({
     order: Number
   },
 
-  /* ===== WHO CAN SEE THIS FIELD ===== */
-  visibilityScope: {
-    type: [String],
-    enum: ["admin", "professional", "customer"],
-    default: ["professional"]
-  },
-
-  /* ===== SUMMARY CONFIG (OPTIONAL, GENERIC) ===== */
-  summary: {
-    showToCustomer: {
-      type: Boolean,
-      default: false
-    },
-
-    showToProfessional: {
-      type: Boolean,
-      default: false
-    },
-
-    /**
-     * Template based summary
-     * Examples:
-     * "Visiting fee: ₹{{value}}"
-     * "{{work}} – ₹{{rate}} / {{unit}}"
-     */
-    template: String,
-
-    /* For yes/no fields */
-    whenTrue: String,
-    whenFalse: String,
-
-    /**
-     * Grouping for summary
-     * NOT pricing-specific
-     */
-    group: {
-      type: String,
-      enum: ["primary", "details", "terms", "extras"],
-      default: "details"
-    }
-  },
+  summary: {type : String},
 
   /* ===== EDIT RULES ===== */
   editable: {
