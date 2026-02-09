@@ -307,7 +307,7 @@ const DynamicForm = ({ form }) => {
   /* =========================
      UI
      ========================= */
-  return (
+  return form && (
     <div className="container my-4">
       <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
 
@@ -319,8 +319,8 @@ const DynamicForm = ({ form }) => {
               "linear-gradient(135deg, #0d6efd, #6610f2)"
           }}
         >
-          <h4 className="fw-bold mb-1">{form.title}</h4>
-          <p className="mb-0 opacity-75">{form.description}</p>
+          <h4 className="fw-bold mb-1">{form?.title}</h4>
+          <p className="mb-0 opacity-75">{form?.description}</p>
         </div>
 
         {/* BODY */}
