@@ -354,6 +354,7 @@ const App = () => {
           
           <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin?.role === "super_admin" ? <UpdateServiceForm/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-forms`} element={currentAdmin?.role === "super_admin" ? <ManageForms/> : <Navigate to={`${adminpath}/home`}/>}/>
+          <Route path={`${adminpath}/manage-forms/create`} element={currentAdmin?.role === "super_admin" ? <CreateForm/> : <Navigate to={`${adminpath}/home`}/>}/>
 
       </Route>
 

@@ -12,7 +12,7 @@ import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { server_url } from "../../App";
-
+const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const ManageForms = () => {
   const [forms, setForms] = useState([]);
@@ -63,7 +63,7 @@ const ManageForms = () => {
 
           <button
             className="btn btn-success rounded-pill fw-semibold"
-            onClick={() => navigate("/admin/forms/create")}
+            onClick={() => navigate(`${adminpath}/manage-forms/create`)}
           >
             <FaPlusCircle className="me-2" />
             Create Form
