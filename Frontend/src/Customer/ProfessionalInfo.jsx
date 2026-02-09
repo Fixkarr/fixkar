@@ -31,16 +31,6 @@ const ProfessionalInfo = () => {
     const [showLocationGate, setShowLocationGate] = useState(false);
 
 
-  const ChargesNotDefined =
-    !professionalInfo?.charges ||
-    (
-      !professionalInfo?.charges?.hourly?.amount &&
-      !professionalInfo?.charges?.daily?.amount &&
-      !professionalInfo?.charges?.contract?.minAmount &&
-      !professionalInfo?.charges?.contract?.maxAmount &&
-      !professionalInfo?.charges?.amountDesc
-    );
-
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -348,111 +338,7 @@ useEffect(() => {
 
 
       {/* ================= CHARGES ================= */}
-    <div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
-  
-  {/* Header */}
-  <div
-    className="px-4 py-3 text-white"
-    style={{
-      background: "linear-gradient(135deg, #198754, #20c997)",
-    }}
-  >
-    <div className="d-flex align-items-center gap-2">
-      <FaMoneyBillWave size={20} />
-      <h6 className="mb-0 fw-semibold">Service Charges</h6>
-    </div>
-    <small className="opacity-75">
-      Transparent pricing provided by the professional
-    </small>
-  </div>
-
-  {/* Body */}
-  <div className="card-body bg-light">
-
-    {!ChargesNotDefined ? (
-      <>
-        {/* Charges Cards */}
-        <div className="row g-3">
-
-          {professionalInfo?.charges?.hourly?.amount && (
-            <div className="col-md-4">
-              <div className="card border-0 shadow-sm h-100 rounded-4">
-                <div className="card-body text-center">
-                  <div className="mb-2 text-success">
-                    <FaMoneyBillWave size={22} />
-                  </div>
-                  <small className="text-muted d-block">Hourly Charge</small>
-                  <h5 className="fw-bold text-dark mb-0">
-                    ₹ {professionalInfo.charges.hourly.amount}
-                    <span className="text-muted fs-6"> / hr</span>
-                  </h5>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {professionalInfo?.charges?.daily?.amount && (
-            <div className="col-md-4">
-              <div className="card border-0 shadow-sm h-100 rounded-4">
-                <div className="card-body text-center">
-                  <div className="mb-2 text-primary">
-                    <FaMoneyBillWave size={22} />
-                  </div>
-                  <small className="text-muted d-block">Daily Charge</small>
-                  <h5 className="fw-bold text-dark mb-0">
-                    ₹ {professionalInfo.charges.daily.amount}
-                    <span className="text-muted fs-6"> / day</span>
-                  </h5>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {(professionalInfo?.charges?.contract?.minAmount ||
-            professionalInfo?.charges?.contract?.maxAmount) && (
-            <div className="col-md-4">
-              <div className="card border-0 shadow-sm h-100 rounded-4">
-                <div className="card-body text-center">
-                  <div className="mb-2 text-warning">
-                    <FaMoneyBillWave size={22} />
-                  </div>
-                  <small className="text-muted d-block">Contract Charge</small>
-                  <h6 className="fw-bold text-dark mb-0">
-                    ₹ {professionalInfo.charges.contract.minAmount}
-                    {professionalInfo.charges.contract.maxAmount && (
-                      <> – ₹ {professionalInfo.charges.contract.maxAmount}</>
-                    )}
-                  </h6>
-                </div>
-              </div>
-            </div>
-          )}
-
-        </div>
-
-        {/* Charge Description */}
-        {professionalInfo?.charges?.amountDesc && (
-          <div className="mt-4">
-            <div className="alert alert-success bg-success bg-opacity-10 border-0 rounded-4">
-              <h6 className="fw-semibold text-success mb-1">
-                Charge Details
-              </h6>
-              <p className="mb-0 small text-dark">
-                {professionalInfo.charges.amountDesc}
-              </p>
-            </div>
-          </div>
-        )}
-      </>
-    ) : (
-      <div className="alert alert-warning border-0 rounded-4 mb-0">
-        <strong>Charges not available.</strong><br />
-        Please contact the professional directly to know the pricing details.
-      </div>
-    )}
-
-  </div>
-</div>
+   
 
       {/* {=======================Reviews=============} */}
 

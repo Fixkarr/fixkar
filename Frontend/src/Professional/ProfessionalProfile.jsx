@@ -60,13 +60,8 @@ const ProfessionalProfile = () => {
 
   const { currentUserData } = useSelector((state) => state.user);
   const ProfessionalDetails = currentUserData?.user;
-  const isProfileComplete = Boolean(ProfessionalDetails?.charges);
-  const ChargesNotDefined = Boolean(
-    !ProfessionalDetails?.charges?.hourly?.amount &&
-      !ProfessionalDetails?.charges?.daily?.amount &&
-      !ProfessionalDetails?.charges?.contract?.minAmount &&
-      !ProfessionalDetails?.charges?.amountDesc
-  );
+  const isProfileComplete = ProfessionalDetails?.isChargesDefined && ProfessionalDetails?.description;
+  const ChargesNotDefined = ProfessionalDetails?.isChargesDefined
 
 
   const reviews = ProfessionalDetails?.reviews
@@ -312,65 +307,9 @@ const handleShareProfile = () => {
 
         <div className="row g-3">
 
-          {ProfessionalDetails?.charges?.hourly?.amount && (
-            <div className="col-md-4">
-              <div className="border rounded-3 p-3">
-                <small className="text-muted">Hourly</small>
-                <h6 className="fw-bold text-success mb-0">
-                  <MdOutlineCurrencyRupee />
-                  {ProfessionalDetails.charges.hourly.amount}
-                  <span className="text-muted fs-6"> / hr</span>
-                </h6>
-              </div>
-            </div>
-          )}
-
-          {ProfessionalDetails?.charges?.daily?.amount && (
-            <div className="col-md-4">
-              <div className="border rounded-3 p-3">
-                <small className="text-muted">Daily</small>
-                <h6 className="fw-bold text-primary mb-0">
-                  <MdOutlineCurrencyRupee />
-                  {ProfessionalDetails.charges.daily.amount}
-                  <span className="text-muted fs-6"> / day</span>
-                </h6>
-              </div>
-            </div>
-          )}
-
-          {ProfessionalDetails?.charges?.contract?.minAmount && (
-            <div className="col-md-4">
-              <div className="border rounded-3 p-3">
-                <small className="text-muted">Contract</small>
-                <h6 className="fw-bold mb-0">
-                  <MdOutlineCurrencyRupee />
-                  {ProfessionalDetails.charges.contract.minAmount}
-                  {ProfessionalDetails.charges.contract.maxAmount !== "0" && (
-                    <>
-                      {" "}–{" "}
-                      <MdOutlineCurrencyRupee />
-                      {ProfessionalDetails.charges.contract.maxAmount}
-                    </>
-                  )}
-                </h6>
-              </div>
-            </div>
-          )}
+         {/* Charges  */}
 
         </div>
-
-        {ProfessionalDetails?.charges?.amountDesc && (
-          <div className="mt-3">
-            <small className="text-muted fw-semibold">
-              Charge Description
-            </small>
-            <p className="small mb-0">
-              <ReadMoreText
-                text={ProfessionalDetails?.charges?.amountDesc}
-              />
-            </p>
-          </div>
-        )}
 
       </div>
     </div>

@@ -8,10 +8,11 @@ import { server_url } from "../App";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
 import { useNavigate } from "react-router-dom";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { FaUserEdit, FaMoneyBillWave, FaClock, FaCalendarDay, FaFileContract, FaTools } from "react-icons/fa";
+import { FaUserEdit , FaTools } from "react-icons/fa";
 import { MdDescription } from "react-icons/md";
 import { useSelector } from "react-redux"; 
+import { useEffect } from "react";
+import DynamicForm from "../Admin/AdminComponents/Utils/DynamicForm";
 
 export default function CompleteProfile() {
   const navigate = useNavigate();
@@ -19,8 +20,21 @@ export default function CompleteProfile() {
   const [loading, setLoading] = useState(false);
   const {currentUserData} = useSelector(state=> state.user);
   const availableSkills = currentUserData?.user?.profession?.skills || [];
-  
+  const serviceId = currentUserData?.user?.profession._id;
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [form, setForm]= useState(null);
+
+  useEffect(()=>{
+    const fetchForm = async()=>{
+      try {
+        const result = await axios.get(`${server_url}/api/admin/get-form-by-service/${serviceId}`, {withCredentials : true});
+        setForm(result?.data.form)
+      } catch (error) {
+        console.log(error.response.data.message)
+      }
+    }
+    fetchForm()
+  },[])
 
   const handleSkillChange = (skillId) => {
   setSelectedSkills((prev) =>
@@ -34,45 +48,17 @@ export default function CompleteProfile() {
   const formik = useFormik({
     initialValues: {
       description: "",
-      pricingType: "multiple",
-      hourly: "",
-      daily: "",
       skills: selectedSkills, 
-      contractMin: "",
-      contractMax: "",
-      amountDesc: "",
     },
     validationSchema: Yup.object({
       description: Yup.string()
         .min(20, "Description must be at least 20 characters.")
         .required("Description is required."),
-      hourly: Yup.number().nullable().min(0),
-      daily: Yup.number().nullable().min(0),
-      contractMin: Yup.number().nullable().min(0),
-      contractMax: Yup.number()
-        .nullable()
-        .min(0)
-        .when("contractMin", (contractMin, schema) =>
-          contractMin
-            ? schema.min(contractMin, "Max must be ≥ Min")
-            : schema
-        ),
     }),
     onSubmit: async (values, { resetForm }) => {
       const payload = {
         description: values.description,
-        amountDesc: values.amountDesc,
-        pricingType: values.pricingType,
-        skills: selectedSkills,  
-        hourly: values.hourly ? { amount: Number(values.hourly) } : undefined,
-        daily: values.daily ? { amount: Number(values.daily) } : undefined,
-        contract:
-          values.contractMin || values.contractMax
-            ? {
-                minPrice: Number(values.contractMin),
-                maxPrice: Number(values.contractMax),
-              }
-            : undefined,
+        skills: selectedSkills,
       };
 
       try {
@@ -108,11 +94,6 @@ export default function CompleteProfile() {
           }}
         >
           <div className="d-flex align-items-center gap-3">
-            <IoMdArrowRoundBack
-              role="button"
-              size={24}
-              onClick={() => navigate("/")}
-            />
             <div>
               <h4 className="mb-0 fw-bold">
                 <FaUserEdit className="me-2" />
@@ -185,111 +166,7 @@ export default function CompleteProfile() {
       </small>
     )}
   </div>
-)}
-
-            {/* PRICING TYPE */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold text-primary">
-                <FaMoneyBillWave className="me-2" />
-                Pricing Method
-              </label>
-              <select
-                className="form-select rounded-3"
-                {...formik.getFieldProps("pricingType")}
-              >
-                <option value="hourly">Hourly</option>
-                <option value="daily">Daily</option>
-                <option value="contract">Contract</option>
-                <option value="multiple">Multiple</option>
-              </select>
-            </div>
-
-            {/* HOURLY */}
-            {(formik.values.pricingType === "hourly" ||
-              formik.values.pricingType === "multiple") && (
-              <div className="mb-3">
-                <label className="form-label fw-semibold">
-                  <FaClock className="me-2 text-success" />
-                  Hourly Rate (₹)
-                </label>
-                <input
-                  type="number"
-                  className="form-control rounded-3"
-                  {...formik.getFieldProps("hourly")}
-                />
-                {formik.touched.hourly && formik.errors.hourly && (
-                  <small className="text-danger">
-                    {formik.errors.hourly}
-                  </small>
-                )}
-              </div>
-            )}
-
-            {/* DAILY */}
-            {(formik.values.pricingType === "daily" ||
-              formik.values.pricingType === "multiple") && (
-              <div className="mb-3">
-                <label className="form-label fw-semibold">
-                  <FaCalendarDay className="me-2 text-primary" />
-                  Daily Rate (₹)
-                </label>
-                <input
-                  type="number"
-                  className="form-control rounded-3"
-                  {...formik.getFieldProps("daily")}
-                />
-              </div>
-            )}
-
-            {/* CONTRACT */}
-            {(formik.values.pricingType === "contract" ||
-              formik.values.pricingType === "multiple") && (
-              <div className="mb-3">
-                <label className="form-label fw-semibold">
-                  <FaFileContract className="me-2 text-warning" />
-                  Contract Rate (₹)
-                </label>
-                <div className="row g-2">
-                  <div className="col">
-                    <input
-                      type="number"
-                      className="form-control rounded-3"
-                      placeholder="Min"
-                      {...formik.getFieldProps("contractMin")}
-                    />
-                  </div>
-                  <div className="col">
-                    <input
-                      type="number"
-                      className="form-control rounded-3"
-                      placeholder="Max"
-                      {...formik.getFieldProps("contractMax")}
-                    />
-                  </div>
-                </div>
-                {(formik.errors.contractMin ||
-                  formik.errors.contractMax) && (
-                  <small className="text-danger">
-                    {formik.errors.contractMin ||
-                      formik.errors.contractMax}
-                  </small>
-                )}
-              </div>
-            )}
-
-            {/* AMOUNT DESC */}
-            <div className="mb-4">
-              <label className="form-label fw-semibold text-primary">
-                <MdDescription className="me-2" />
-                About your pricing
-              </label>
-              <textarea
-                rows="3"
-                className="form-control rounded-3"
-                {...formik.getFieldProps("amountDesc")}
-              />
-            </div>
-
+              )}
             {/* SUBMIT */}
             <button
               type="submit"
@@ -300,6 +177,9 @@ export default function CompleteProfile() {
             </button>
 
           </form>
+              <div className="container mt-2">
+                <DynamicForm form={form}/>
+              </div>
         </div>
       </div>
     </div>

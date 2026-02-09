@@ -89,12 +89,6 @@ const CusBookingDetail = () => {
         </div>
       </div>
 
-      <div className="col-md-4">
-        <div className="p-3 border rounded-3 h-100">
-          <small className="text-muted"><FaTools className="text-primary" /> Charge Type</small>
-          <p className="fw-semibold mb-0">{booking.chargeType}</p>
-        </div>
-      </div>
     </div>
 
     {/* Important Date & Time */}

@@ -94,10 +94,6 @@ const ProBookingDetails = () => {
         <div className="row g-3 mb-4">
           <div className="col-md-6">
             <div className="border rounded-4 p-3 h-100">
-              <p className="mb-2 d-flex align-items-center gap-2">
-                <FaTools className="text-primary" />
-                <strong>Charge Type:</strong>{booking.chargeType}
-              </p>
 
               <p className="mb-2 d-flex align-items-center gap-2">
                 <FaRupeeSign className="text-success" />

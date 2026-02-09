@@ -12,7 +12,6 @@ import {
   FaCalendarAlt,
   FaClock,
   FaTools,
-  FaMoneyBillWave,
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaInfoCircle,
@@ -39,7 +38,6 @@ const RequestHireForm = ({ proInfo }) => {
     workDate: "",
     workTime: "",
     problemDesc: "",
-    chargeType: "",
     workAddress: `${selectedLocation?.address}`,
   });
 
@@ -90,7 +88,6 @@ const RequestHireForm = ({ proInfo }) => {
       workAddress: formData.workAddress,
       problemDescription: formData.problemDesc,
       distanceInKm: parseFloat(distance?.distance.text),
-      chargeType: formData.chargeType,
       mobileNumber,
     };
 
@@ -239,24 +236,7 @@ const RequestHireForm = ({ proInfo }) => {
             />
           </div>
 
-          {/* Charge Type */}
-          <div className="mb-3">
-            <label className="form-label fw-semibold">
-              <FaMoneyBillWave className="me-1 text-primary" /> Preferred Charge Type
-            </label>
-            <select
-              className="form-select"
-              name="chargeType"
-              value={formData.chargeType}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select charge type</option>
-              <option value="hourly">Hourly</option>
-              <option value="daily">Daily</option>
-              <option value="contract">Contract</option>
-            </select>
-          </div>
+      
 
           {/* Mobile */}
           {isMobileVerified && (

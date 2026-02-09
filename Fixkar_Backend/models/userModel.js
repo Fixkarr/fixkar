@@ -84,6 +84,7 @@ const professionalSchema = new mongoose.Schema({
         lat : Number,
         lng : Number
     },
+    isChargesDefined : {type : Boolean, default : false},
     location : {
         type : {
             type : String,
@@ -97,25 +98,6 @@ const professionalSchema = new mongoose.Schema({
     },
     profilePicture : {type : String},
     public_id : {type : String},
-    charges : {
-        amountType : {
-            type : String,
-            enum : ["hourly", "daily", "contract", "multiple"],
-        },
-        hourly : {
-            amount : String,
-        },
-        daily : {
-            amount : String,
-        },
-        contract : {
-            minAmount : String,
-            maxAmount : String,
-        },
-        amountDesc : {
-            type : String,
-        }
-    },
     gallery : [{type : mongoose.Schema.Types.ObjectId, ref : 'Gallery'}],
     poi : {type : String},
     status : {

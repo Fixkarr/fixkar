@@ -99,7 +99,6 @@ export const createForm = async (req, res) => {
 
     return res.status(201).json({
       message: "Form created successfully",
-      form
     });
   } catch (err) {
     console.error("CREATE FORM ERROR:", err);

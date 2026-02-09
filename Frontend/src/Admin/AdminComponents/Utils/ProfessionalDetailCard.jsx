@@ -484,47 +484,7 @@ const ProfessionalDetailCard = ({ p }) => {
       
 
         {/* ================= CHARGES ================= */}
-        {p.charges && (
-      <Section title="Charges" icon={<FaMoneyBillWave />}>
-        {p.charges.hourly && (
-          <Info
-            label="Hourly Charge"
-            value={`₹${p.charges.hourly.amount}`}
-            icon={<FaClock />}
-          />
-        )}
-
-        {p.charges.daily && (
-          <Info
-            label="Daily Charge"
-            value={`₹${p.charges.daily.amount}`}
-            icon={<FaCalendarDay />}
-          />
-        )}
-
-        {p.charges.contract?.minAmount && (
-          <Info
-            label="Min Contract"
-            value={`₹${p.charges.contract.minAmount}`}
-            icon={<FaArrowDown />}
-          />
-        )}
-
-        {p.charges.contract?.maxAmount && (
-          <Info
-            label="Max Contract"
-            value={`₹${p.charges.contract.maxAmount}`}
-            icon={<FaArrowUp />}
-          />
-        )}
-
-        {p.charges.amountDesc && (
-          <div className="col-12 text-muted small">
-            {p.charges.amountDesc}
-          </div>
-        )}
-      </Section>
-    )}
+       
 
         {/* ================= BUSY DAYS ================= */}
        <Section title="Busy Days" icon={<FaCalendarAlt />}>

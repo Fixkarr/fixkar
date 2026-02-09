@@ -25,7 +25,7 @@ const ProfessionalHome = () => {
   const user = currentUserData?.user;
   const userId = currentUserData?.user?.userId;
   const bankVerificationStatus = user?.bankVerificationStatus;
-  const isProfileComplete = Boolean(user?.charges);
+  const isProfileComplete = (user?.isChargesDefined);
    const [showSelectedDays, setShowSelectedDays] = useState([]);
 
    useEffect(() => {

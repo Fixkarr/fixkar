@@ -69,15 +69,6 @@ const CusBookingCard = ({ booking }) => {
           </span>
         </div>
 
-        <div className="col-6">
-          <small className="text-muted d-block">
-            <MdWork className="me-1 text-primary" />
-            Charge Type
-          </small>
-          <span className="fw-semibold text-capitalize">
-            {booking?.chargeType}
-          </span>
-        </div>
 
         <div className="col-6">
           <small className="text-muted d-block">

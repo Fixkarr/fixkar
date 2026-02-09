@@ -55,7 +55,6 @@ useEffect(()=>{
   const {
     _id,
     status,
-    chargeType,
     problemDescription,
     workDate,
     workTime,
@@ -133,7 +132,6 @@ useEffect(()=>{
         <Info label="Work Time" value={workTime} icon={<FcAlarmClock className="me-2 text-primary"/>}/>
         <Info label="Address" value={workAddress} icon={<FaMapMarkerAlt className="me-2 text-primary"/>}/>
         <Info label="Distance (km)" value={distanceInKm} icon={<FaRoute className="me-2 text-primary"/>}/>
-        <Info label="Charge Type" value={chargeType} icon={<FaFileContract className="me-2 text-primary"/>}/>
          <Info label="Visiting Charge" value={`₹ ${visitingCharge || 0}`} icon={<FaMoneyBillWave className="me-2 text-primary"/>}/>
       </Section>
 

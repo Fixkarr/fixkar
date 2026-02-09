@@ -4,10 +4,10 @@ import { Professional } from "../../models/userModel.js";
 
 export const completeProfile =async (req,res)=>{
     try {
-        const {description,pricingType,hourly,daily,contract,amountDesc, skills} = req.body;
-       if(!description || !pricingType){
+        const {description, skills} = req.body;
+       if(!description){
        return res.status(400).json({
-            message  : "Description and Amount type is required"
+            message  : "Description is required"
         })
        }
 
@@ -44,16 +44,6 @@ export const completeProfile =async (req,res)=>{
         await Professional.findByIdAndUpdate(professional._id, {
         description,
         selectedSkills: validatedSkills,
-        charges : {
-            amountType : pricingType,
-            hourly,
-            daily,
-            contract :{
-                minAmount : contract?.minPrice,
-                maxAmount : contract?.maxPrice
-            },
-            amountDesc
-        }
        },{new : true})
 
 
