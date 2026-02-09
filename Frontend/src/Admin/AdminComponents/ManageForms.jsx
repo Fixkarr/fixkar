@@ -24,7 +24,7 @@ const ManageForms = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${server_url}/api/admin/forms`,
+        `${server_url}/api/admin/get-all-forms`,
         { withCredentials: true }
       );
       setForms(res.data.forms || []);
@@ -41,6 +41,8 @@ const ManageForms = () => {
     fetchForms();
   }, []);
 
+  console.log(forms);
+  
   return (
     <div className="container py-3">
       <div

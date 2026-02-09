@@ -17,6 +17,7 @@ import { rejectBankDetail } from '../AdminController/rejectBankDetail.js';
 import { getWithdrawnRequests } from '../AdminController/getWithdrawnRequests.js';
 import { manualPay } from '../AdminController/manualPay.controller.js';
 import { createForm } from '../AdminController/createForm.controller.js';
+import { getAllForms } from '../AdminController/fetchAllForm.js';
 
 const adminRouter = express.Router()
 
@@ -47,6 +48,7 @@ adminRouter.get('/get-withdrawn-requests', isAdmin, adminPermission('super_admin
 adminRouter.post('/manual-pay', isAdmin, adminPermission('super_admin'), manualPay)
 
 
-adminRouter.post('/forms', isAdmin, adminPermission('super_admin', 'content_admin'), createForm)
+adminRouter.post('/forms', isAdmin, adminPermission('super_admin', 'content_admin'), createForm);
+adminRouter.get('/get-all-forms', isAdmin, adminPermission('super_admin', 'content_admin'), getAllForms);
 
 export default adminRouter;
