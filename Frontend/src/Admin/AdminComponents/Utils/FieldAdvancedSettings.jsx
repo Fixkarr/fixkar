@@ -11,13 +11,6 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
     });
   };
 
-  const updateSummary = (key, value) => {
-    update("summary", {
-      ...field.summary,
-      [key]: value
-    });
-  };
-
   return (
     <div className="mt-3 border rounded-3 bg-white">
       {/* HEADER */}
@@ -107,91 +100,19 @@ const FieldAdvancedSettings = ({ field, onChange }) => {
           <div className="border-top pt-3">
             <label className="fw-semibold">
               <FaListAlt className="me-2" />
-              Summary Display
+              Summary (Required)
             </label>
 
-            <div className="form-check mt-2">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={field.summary?.showToCustomer}
-                onChange={(e) =>
-                  updateSummary("showToCustomer", e.target.checked)
-                }
-              />
-              <label className="form-check-label">
-                Show to Customer
-              </label>
-            </div>
-
-            <div className="form-check mt-1">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={field.summary?.showToProfessional}
-                onChange={(e) =>
-                  updateSummary("showToProfessional", e.target.checked)
-                }
-              />
-              <label className="form-check-label">
-                Show to Professional
-              </label>
-            </div>
-
-            {(field.summary?.showToCustomer ||
-              field.summary?.showToProfessional) && (
-              <>
-                {field.type !== "yesno" && (
-                  <input
-                    className="form-control mt-2"
-                    placeholder="Template (e.g. Visiting fee: ₹{{value}})"
-                    value={field.summary.template || ""}
-                    onChange={(e) =>
-                      updateSummary("template", e.target.value)
-                    }
-                  />
-                )}
-
-                {field.type === "yesno" && (
-                  <div className="row g-2 mt-2">
-                    <div className="col">
-                      <input
-                        className="form-control"
-                        placeholder="When YES"
-                        value={field.summary.whenTrue || ""}
-                        onChange={(e) =>
-                          updateSummary("whenTrue", e.target.value)
-                        }
-                      />
-                    </div>
-                    <div className="col">
-                      <input
-                        className="form-control"
-                        placeholder="When NO"
-                        value={field.summary.whenFalse || ""}
-                        onChange={(e) =>
-                          updateSummary("whenFalse", e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <select
-                  className="form-select mt-2"
-                  value={field.summary.group || "details"}
-                  onChange={(e) =>
-                    updateSummary("group", e.target.value)
-                  }
-                >
-                  <option value="primary">Primary</option>
-                  <option value="details">Details</option>
-                  <option value="terms">Terms</option>
-                  <option value="extras">Extras</option>
-                </select>
-              </>
-            )}
+            <input
+              className="form-control mt-2"
+              placeholder="e.g. Visiting fee will be charged as per distance"
+              value={field.summary || ""}
+              onChange={(e) =>
+                update("summary", e.target.value)
+              }
+            />
           </div>
+
         </div>
       )}
     </div>
