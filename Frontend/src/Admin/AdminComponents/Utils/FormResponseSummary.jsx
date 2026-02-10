@@ -40,8 +40,7 @@ const FormResponseSummary = ({ summary = [] }) => {
                 <div
                   className="p-3 text-white rounded-top-4"
                   style={{
-                    background:
-                      "linear-gradient(135deg, #198754, #20c997)"
+                  background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
                   }}
                 >
                   <h6 className="fw-bold mb-0">
