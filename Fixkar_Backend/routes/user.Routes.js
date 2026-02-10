@@ -18,6 +18,7 @@ import { bankDetails } from '../controllers/ProfessionalsController/bankDetails.
 import { isAdmin } from '../middlewares/isAdmin.js';
 import { getTransaction } from '../controllers/ProfessionalsController/getTransactions.controller.js';
 import { sendWithDrawRequest } from '../controllers/ProfessionalsController/sendWithdrawRequest.js';
+import { saveFormResponse } from '../controllers/saveFormResponse.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -64,6 +65,8 @@ userRoute.delete('/delete-media/:mediaId', isAuth, deleteMedia)
 //service
 
 userRoute.get('/get-services', getServices)
+
+userRoute.post('/save-form-response', isAuth, saveFormResponse);
 
 
 

@@ -28,7 +28,6 @@ const FieldSchema = new mongoose.Schema({
       "date",
       "yesno",
       "table",
-      "file"
     ],
     required: true
   },

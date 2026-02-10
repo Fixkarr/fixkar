@@ -101,7 +101,6 @@ const FieldBasicSettings = ({ field, onChange, onRemove }) => {
         <option value="checkbox">Checkbox</option>
         <option value="radio">Radio</option>
         <option value="table">Table</option>
-        <option value="file">File</option>
         <option value="date">Date</option>
       </select>
 

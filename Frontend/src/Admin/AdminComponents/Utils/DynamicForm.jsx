@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import axios from "axios";
 import {
   FaPaperPlane,
   FaFont,
@@ -10,11 +10,15 @@ import {
   FaTable,
   FaUpload
 } from "react-icons/fa";
+import { server_url } from "../../../App";
+import { useDispatch } from "react-redux";
+import { setCurrentUserData } from "../../../redux/user.slice";
+import { toast } from "react-toastify";
 
 const DynamicForm = ({ form }) => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
-
+  const dispatch = useDispatch();
   /* =========================
      UPDATE VALUE
      ========================= */
@@ -67,7 +71,7 @@ const DynamicForm = ({ form }) => {
   /* =========================
      SUBMIT
      ========================= */
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
 
     const payload = {
@@ -76,7 +80,25 @@ const DynamicForm = ({ form }) => {
     };
 
     console.log("FINAL PAYLOAD", payload);
-    alert("Form submitted (check console)");
+     try {
+    const { data } = await axios.post(
+      `${server_url}/api/user/save-form-response`,
+      payload,
+      {
+        withCredentials: true
+      }
+    );
+
+    dispatch(setCurrentUserData(data));
+    toast.success(data?.message);
+
+  } catch (err) {
+    console.error(err);
+    toast.error(
+      err.response?.data?.message || "Form submission failed"
+    );
+  }
+
   };
 
   /* =========================
@@ -121,8 +143,6 @@ const DynamicForm = ({ form }) => {
         return <FaCalendarAlt className="me-2 text-primary" />;
       case "table":
         return <FaTable className="me-2 text-primary" />;
-      case "file":
-        return <FaUpload className="me-2 text-primary" />;
       default:
         return null;
     }
@@ -250,17 +270,6 @@ case "yesno":
       </div>
     </div>
   );
-
-      case "file":
-        return (
-          <input
-            type="file"
-            className="form-control rounded-3"
-            onChange={(e) =>
-              updateValue(field, e.target.files[0])
-            }
-          />
-        );
 
       case "table":
         return (

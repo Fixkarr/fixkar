@@ -84,6 +84,7 @@ const professionalSchema = new mongoose.Schema({
         lat : Number,
         lng : Number
     },
+    charges : {type : mongoose.Schema.Types.ObjectId, ref : 'FormResponse'},
     isChargesDefined : {type : Boolean, default : false},
     location : {
         type : {

@@ -1,66 +1,59 @@
 import mongoose from "mongoose";
 
 /* =========================
-   FORM RESPONSE
+   FORM RESPONSE SCHEMA
    ========================= */
 const FormResponseSchema = new mongoose.Schema(
   {
-    form: {
+    /* ===== FORM INFO ===== */
+    formId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Form",
       required: true
     },
 
-    responder: {
-      entity: {
-        type: String,
-        required: true
-        // professional | user | admin
-      },
-      entityId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        refPath: "responder.entity"
-      }
+    formKey: {
+      type: String,
+      required: true // electrician_pricing
     },
 
-    /* ===== RAW ANSWERS ===== */
-    answers: [
+    purpose: {
+      type: String,
+      required: true // pricing | onboarding | kyc
+    },
+
+    /* ===== WHO FILLED ===== */
+    filledBy: {type : mongoose.Types.ObjectId, ref : "User", required : true},
+
+    /* ===== RAW RESPONSES ===== */
+    responses: {
+      type: Map,
+      of: mongoose.Schema.Types.Mixed,
+      required: true
+    },
+
+    /* ===== GENERATED SUMMARY (SNAPSHOT) ===== */
+    summary: [
       {
-        fieldId: {
-          type: String,
+        label: {
+          type: String, // admin-defined summary string
           required: true
         },
 
-        value: mongoose.Schema.Types.Mixed
-        // text | number | boolean | array | object
+        value: {
+          type: String, // formatted value
+          required: true
+        },
+
+        group: {
+          type: String, // section title
+          required: true
+        }
       }
     ],
 
-    /* ===== COMPUTED / DERIVED DATA ===== */
-    computed: {
-      summary: {
-        customer: {
-          type: Map,
-          of: [String]
-          /*
-            Example:
-            {
-              primary: ["Visiting fee: ₹150"],
-              details: ["Normal Point – ₹120 / point"],
-              terms: ["Material charged separately"]
-            }
-          */
-        },
-
-        professional: {
-          type: Map,
-          of: [String]
-        }
-      }
-    },
-
-    isSubmitted: {
+    /* ===== STATUS ===== */
+    isEditable: {
       type: Boolean,
       default: false
     }
