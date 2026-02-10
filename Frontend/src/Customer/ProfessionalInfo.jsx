@@ -17,6 +17,7 @@ import { setDistance } from "../redux/distance.slice";
 import { getDistanceMatrixData } from "../utils/getDistanceMatrixData";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import CallButton from "../Components/CallButton";
+import FormResponseSummary from "../Admin/AdminComponents/Utils/FormResponseSummary";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -338,7 +339,7 @@ useEffect(() => {
 
 
       {/* ================= CHARGES ================= */}
-   
+   <FormResponseSummary summary={professionalInfo?.charges?.summary}/>
 
       {/* {=======================Reviews=============} */}
 
