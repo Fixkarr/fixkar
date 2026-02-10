@@ -46,7 +46,7 @@ export const getCurrentUser = async (req, res)=>{
   }).populate({
     path : "selectedSkills",
     select : "name"
-  });
+  }).populate('charges');
 
 
             return res.status(200).json(

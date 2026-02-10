@@ -165,7 +165,7 @@ export const updateProfileInfo = async (req, res) => {
   }).populate({
     path : "selectedSkills",
     select : "name"
-  });
+  }).populate('charges');
 
     return res.status(200).json({
       message: "Professional info updated successfully",
@@ -234,7 +234,7 @@ export const uploadMedia = async (req,res)=>{
   }).populate({
     path : "selectedSkills",
     select : "name"
-  });
+  }).populate('charges');
   
 
     return res.status(200).json({
@@ -307,7 +307,7 @@ export const updateSkills = async (req, res) => {
       .populate({
         path: "selectedSkills",
         select: "name",
-      });
+      }).populate('charges');
 
     // 5️⃣ Response
     return res.status(200).json({

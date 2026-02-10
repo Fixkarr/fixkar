@@ -43,7 +43,7 @@ export const getUserById = async (req,res)=>{
   }).populate({
     path : "selectedSkills",
     select : "name"
-  });
+  }).populate('charges');
   
                     return res.status(200).json(
                        { message : "user fetched successfully",
