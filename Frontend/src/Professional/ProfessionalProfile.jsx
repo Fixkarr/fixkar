@@ -26,6 +26,7 @@ import { FaShareAlt, FaTools } from "react-icons/fa";
 import UpdateSkills from "./UpdateSkills";
 import DynamicForm from "../Admin/AdminComponents/Utils/DynamicForm";
 import useGetForm from "../hooks/useGetForm";
+import FormResponseSummary from "../Admin/AdminComponents/Utils/FormResponseSummary";
 
 const ProfessionalProfile = () => {
   const [profilePicture, setProfilePicture] = useState(null);
@@ -310,8 +311,9 @@ const handleShareProfile = () => {
         )}
 
         <div className="row g-3">
-
-         {/* Charges  */}
+        {ChargesDefined && (
+          <FormResponseSummary summary={ProfessionalDetails?.charges?.summary}/>
+        )}
 
         </div>
 
