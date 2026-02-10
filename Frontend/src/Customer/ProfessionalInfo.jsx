@@ -300,7 +300,7 @@ useEffect(() => {
   <div
     className="px-4 py-3 text-white"
     style={{
-      background: "linear-gradient(135deg, #6f42c1, #9b6dff)",
+     background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
     }}
   >
     <div className="d-flex align-items-center gap-2">

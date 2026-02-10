@@ -358,8 +358,7 @@ case "yesno":
         <div
           className="p-4 text-white"
           style={{
-            background:
-              "linear-gradient(135deg, #0d6efd, #6610f2)"
+           background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
           }}
         >
           <h4 className="fw-bold mb-1">{form?.title}</h4>
@@ -378,9 +377,7 @@ case "yesno":
                 <div
                   className="p-3 text-white rounded-top-4"
                   style={{
-                    background:
-                      "linear-gradient(135deg, #198754, #20c997)"
-                  }}
+                    background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",                  }}
                 >
                   <h6 className="fw-bold mb-0">
                     {section.title}
