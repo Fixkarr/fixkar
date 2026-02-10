@@ -24,7 +24,7 @@ export default function CompleteProfile() {
   const serviceId = currentUserData?.user?.profession._id;
   const [selectedSkills, setSelectedSkills] = useState([]);
  
-  const isProfileComplete = currentUserData?.user?.description
+  const isProfileComplete = currentUserData?.user?.description 
    const ChargesDefined = currentUserData?.user?.isChargesDefined
 
  const form = useGetForm(serviceId);
@@ -71,7 +71,7 @@ export default function CompleteProfile() {
     },
   });
 
-  return (
+  return (!isProfileComplete || !ChargesDefined) ? (
     <div className="container py-4">
   <div className="row justify-content-center">
     <div className="col-lg-7 col-md-9">
@@ -178,5 +178,5 @@ export default function CompleteProfile() {
   </div>
 </div>
 
-  );
+  ) : navigate('/');
 }
