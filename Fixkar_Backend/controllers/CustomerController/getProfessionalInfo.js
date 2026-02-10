@@ -31,7 +31,7 @@ export const getProfessionalInfo = async (req,res)=>{
   }).populate({
     path : "selectedSkills",
     select : "name"
-  });
+  }).populate('charges');
 
         if(!professionalInfo){
             return res.status(404).json({message: "Professional not found"});
