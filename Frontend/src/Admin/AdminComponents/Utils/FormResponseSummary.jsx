@@ -28,24 +28,6 @@ const FormResponseSummary = ({ summary = [] }) => {
   return (
     <div className="container my-4">
       <div className="card border-0 shadow-lg rounded-4">
-
-        {/* HEADER */}
-        <div
-          className="p-4 text-white rounded-top-4"
-          style={{
-            background:
-              "linear-gradient(135deg, #0d6efd, #6610f2)"
-          }}
-        >
-          <h5 className="fw-bold mb-0 d-flex align-items-center gap-2">
-            <FaClipboardList />
-            Summary
-          </h5>
-          <small className="opacity-75">
-            Overview of submitted details
-          </small>
-        </div>
-
         {/* BODY */}
         <div className="card-body bg-light">
           {Object.entries(grouped).map(
