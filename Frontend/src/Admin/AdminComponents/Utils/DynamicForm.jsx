@@ -21,6 +21,7 @@ const DynamicForm = ({ form }) => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   /* =========================
      UPDATE VALUE
@@ -82,8 +83,8 @@ const DynamicForm = ({ form }) => {
       responses: formData
     };
 
-    console.log("FINAL PAYLOAD", payload);
      try {
+      setLoading(true)
     const { data } = await axios.post(
       `${server_url}/api/user/save-form-response`,
       payload,
@@ -94,19 +95,19 @@ const DynamicForm = ({ form }) => {
 
     dispatch(setCurrentUserData(data));
     toast.success(data?.message);
-
+    setLoading(false);
   } catch (err) {
     console.error(err);
     toast.error(
       err.response?.data?.message || "Form submission failed"
     );
+
+    setLoading(false);
+
   }
 
   };
 
-  /* =========================
-     TABLE HANDLER
-     ========================= */
   const updateTable = (field, index, key, value) => {
     const rows = [...(formData[field.fieldId] || [])];
     rows[index] = { ...rows[index], [key]: value };
@@ -421,6 +422,7 @@ case "yesno":
           <button
             className="btn btn-primary btn-lg w-100 rounded-pill fw-semibold d-flex align-items-center justify-content-center gap-2"
             onClick={handleSubmit}
+            disabled={loading}
           >
             <FaPaperPlane />
             Submit Form
