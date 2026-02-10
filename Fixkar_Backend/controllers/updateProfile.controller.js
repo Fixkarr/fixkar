@@ -63,7 +63,7 @@ export const updateProfilePicture = async (req,res)=>{
   }).populate({
     path : "selectedSkills",
     select : "name"
-  });
+  }).populate('charges');
 
         if(!updatedPicture){
            return res.status(400).json({
