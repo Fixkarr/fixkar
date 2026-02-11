@@ -18,7 +18,7 @@ const useGetProfessionalWallet = () => {
           `${server_url}/api/booking/get-professional-wallet`,
           { withCredentials: true }
         );
-        dispatch(setWallet(res.data.wallet))
+        dispatch(setWallet(res.data))
       } catch (error) {
         console.error(error);
         toast.error(error?.response?.data?.message || "Failed to load wallet");

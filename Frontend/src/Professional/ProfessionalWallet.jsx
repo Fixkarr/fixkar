@@ -31,7 +31,7 @@ const ProfessionalWallet = () => {
     bankDetails = {}
   } = wallet || {};
 
-  console.log(bankDetails);
+  console.log(bankDetails)
 
   const handleWithdrawRequest = async () => {
     try {
