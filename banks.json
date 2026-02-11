@@ -1,0 +1,7552 @@
+[
+  {
+    "code": "AACX",
+    "name": "Akhand Anand Co.op Bank",
+    "isActive": true
+  },
+  {
+    "code": "ABBL",
+    "name": "AB Bank",
+    "isActive": true
+  },
+  {
+    "code": "ABCX",
+    "name": "Aurangabad District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ABDX",
+    "name": "Dr. Ambedkar Nagrik Sahakari Bank Mydt Gwalior",
+    "isActive": true
+  },
+  {
+    "code": "ABEX",
+    "name": "Andhra Bank Employees Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ABHY",
+    "name": "Abhyudaya Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ABNA",
+    "name": "Royal Bank of Scotland N.V.",
+    "isActive": true
+  },
+  {
+    "code": "ABPB",
+    "name": "Aditya Birla Idea Payments Bank",
+    "isActive": true
+  },
+  {
+    "code": "ABSB",
+    "name": "Abhinav Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ABUX",
+    "name": "Abhinandan Urban Co-operative Bank Amravati",
+    "isActive": true
+  },
+  {
+    "code": "ACAX",
+    "name": "Assam Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "ACBX",
+    "name": "Adarsh Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ACCX",
+    "name": "Ace Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ACKX",
+    "name": "Annasaheb Chougule Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ACOX",
+    "name": "Amarnath Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ACUB",
+    "name": "Aryapuram Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "ACUX",
+    "name": "Adarsh Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "ADBX",
+    "name": "Ahmedabad District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ADCB",
+    "name": "Abu Dhabi Commercial Bank",
+    "isActive": true
+  },
+  {
+    "code": "ADCC",
+    "name": "Akola District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ADCX",
+    "name": "Shri Adinath Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ADDX",
+    "name": "Adilabad District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "AGCX",
+    "name": "Agrasen Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "AGDX",
+    "name": "Agra District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AGRX",
+    "name": "Agroha Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "AGSX",
+    "name": "Agrasen Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "AGUX",
+    "name": "Agartala Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "AGVX",
+    "name": "Assam Gramin Vikash Bank",
+    "isActive": true
+  },
+  {
+    "code": "AHDC",
+    "name": "Ahmednagar District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AHMX",
+    "name": "Ahmednagar District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AHUX",
+    "name": "Ahilyadevi Urban Co-operative Bank Solapur",
+    "isActive": true
+  },
+  {
+    "code": "AIRP",
+    "name": "Airtel Payments Bank",
+    "isActive": true
+  },
+  {
+    "code": "AJAR",
+    "name": "Ajara Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AJHC",
+    "name": "Ambarnath Jai-hind Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AJKB",
+    "name": "Akola Janata Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AJMX",
+    "name": "Ajmer Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AJNX",
+    "name": "Ajantha Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AJPX",
+    "name": "Ambajogai Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AJSX",
+    "name": "Ambarnath Jai-hind Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AJUX",
+    "name": "Ajara Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AKJB",
+    "name": "Akola Janata Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AKKB",
+    "name": "Akkamahadevi Mahila Sahakari Bank Niyamit",
+    "isActive": true
+  },
+  {
+    "code": "AKMX",
+    "name": "Akola Merchant Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AKOX",
+    "name": "Akola Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ALAX",
+    "name": "Alavi Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ALIX",
+    "name": "Aligarh District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ALLA",
+    "name": "Allahabad Bank",
+    "isActive": true
+  },
+  {
+    "code": "ALLX",
+    "name": "Allahabad District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ALWX",
+    "name": "Alwar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMAX",
+    "name": "Aman Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMBX",
+    "name": "Ambala Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMCB",
+    "name": "Ahmedabad Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMCX",
+    "name": "Amritsar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMDN",
+    "name": "Ahmednagar Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMMX",
+    "name": "Adarsh Mahila Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMNX",
+    "name": "Astha Mahila Nagrik Sahakari Bank Maryadit",
+    "isActive": true
+  },
+  {
+    "code": "AMRX",
+    "name": "Amreli Jilla Madhyastha Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMSB",
+    "name": "Annasaheb Magar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "AMSX",
+    "name": "Ambika Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ANBX",
+    "name": "Amreli Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ANDB",
+    "name": "Andhra Bank",
+    "isActive": true
+  },
+  {
+    "code": "ANDX",
+    "name": "Andarsul Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ANMX",
+    "name": "Ahmednagar Merchant's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ANSX",
+    "name": "Andaman & Nicobar State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ANUX",
+    "name": "Anuradha Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ANZB",
+    "name": "Australia and New Zealand Banking Group",
+    "isActive": true
+  },
+  {
+    "code": "APBL",
+    "name": "Andhra Pradesh State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "APCX",
+    "name": "Alappuzha District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "APGB",
+    "name": "Andhra Pragathi Grameena Bank",
+    "isActive": true
+  },
+  {
+    "code": "APGV",
+    "name": "Andhra Pradesh Grameena Vikas Bank",
+    "isActive": true
+  },
+  {
+    "code": "APGX",
+    "name": "Andhra Pradesh Grameena Vikas Bank",
+    "isActive": true
+  },
+  {
+    "code": "APJX",
+    "name": "Ap Janata Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "APMC",
+    "name": "A.P. Mahesh Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "APMX",
+    "name": "Ap Mahajan's Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "APNX",
+    "name": "Apani Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "APRR",
+    "name": "A.P. Raja Rajeswari Mahila Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "APRX",
+    "name": "Arunachal Pradesh Rural Bank",
+    "isActive": true
+  },
+  {
+    "code": "APSX",
+    "name": "P. D. Patilsaheb Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ARBL",
+    "name": "Arvind Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ARCX",
+    "name": "Arunachal Pradesh State Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "ARMX",
+    "name": "510 Army Base W/s Credit Co-operative Primary Bank",
+    "isActive": true
+  },
+  {
+    "code": "ARYX",
+    "name": "Gramin Bank of Aryavart",
+    "isActive": true
+  },
+  {
+    "code": "ASBL",
+    "name": "Apna Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ASBX",
+    "name": "Ahmednagar Shahar Sahakari Bank Maryadit",
+    "isActive": true
+  },
+  {
+    "code": "ASHX",
+    "name": "Ashta People's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ASKX",
+    "name": "Arvind Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ASNX",
+    "name": "Ashoknagar Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ASOX",
+    "name": "Associate Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ASSX",
+    "name": "Ashok Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "AUBL",
+    "name": "AU Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "AUBX",
+    "name": "Angul United Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AUCB",
+    "name": "Almora Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AUCX",
+    "name": "Ajara Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AUGX",
+    "name": "Allahabad Up Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "AURX",
+    "name": "Aurangabad District Central Co-operative Bank. Bihar",
+    "isActive": true
+  },
+  {
+    "code": "AVDX",
+    "name": "Amravati District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AWCX",
+    "name": "Alwaye Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AWUX",
+    "name": "Alwar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AZAX",
+    "name": "Azad Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "AZPX",
+    "name": "Amravati Zilla Parishad Shikshak Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "AZSX",
+    "name": "Almora Zila d Bank",
+    "isActive": true
+  },
+  {
+    "code": "AZUX",
+    "name": "Azad Urban Co-operative Bank Hubli",
+    "isActive": true
+  },
+  {
+    "code": "BACB",
+    "name": "Bassein Catholic Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BACX",
+    "name": "Bihar Awami Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BADX",
+    "name": "Bankura District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BAGX",
+    "name": "Balangir District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BALB",
+    "name": "Bally Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BALX",
+    "name": "Balasinor Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BANX",
+    "name": "Banaras Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BARA",
+    "name": "Baramati Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BARB",
+    "name": "Bank of Baroda",
+    "isActive": true
+  },
+  {
+    "code": "BARC",
+    "name": "Barclays Bank",
+    "isActive": true
+  },
+  {
+    "code": "BARX",
+    "name": "Baroda City Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BASX",
+    "name": "Shri Basaveshwar Sahakari Bank Nyt.bagalkot",
+    "isActive": true
+  },
+  {
+    "code": "BAUX",
+    "name": "Badagara Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "BAVX",
+    "name": "Bavla Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BAWX",
+    "name": "Bhawanipatna Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BBDX",
+    "name": "Birbhum District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BBKM",
+    "name": "Bank of Bahrein and Kuwait",
+    "isActive": true
+  },
+  {
+    "code": "BBLX",
+    "name": "Bhingar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BBRX",
+    "name": "Bangalore  Bangalore Rural&ramanagara Dccb",
+    "isActive": true
+  },
+  {
+    "code": "BBSX",
+    "name": "Balasore Bhadrak Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BBUX",
+    "name": "Bellad Bagewadi Urban Souharada Sahakari Bank Nyt",
+    "isActive": true
+  },
+  {
+    "code": "BBVX",
+    "name": "Bhabhar Vibhag Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BCBM",
+    "name": "Bharat Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BCBX",
+    "name": "Bantra Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BCCB",
+    "name": "Bangalore City Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BCCX",
+    "name": "Bathinda Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BCEX",
+    "name": "Banswara Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BCEY",
+    "name": "Bank of Ceylon",
+    "isActive": true
+  },
+  {
+    "code": "BCOX",
+    "name": "Bapuji Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BCUB",
+    "name": "Bicholim Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BCUX",
+    "name": "Baghat Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BDBB",
+    "name": "Bahraich District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BDBL",
+    "name": "Bandhan Bank",
+    "isActive": true
+  },
+  {
+    "code": "BDBX",
+    "name": "Bellary District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "BDCX",
+    "name": "Bijapur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BDDX",
+    "name": "Bhadradri Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "BDIX",
+    "name": "Bhandara District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BDNX",
+    "name": "Bhind Nagrik Sahakari Bank Mydt",
+    "isActive": true
+  },
+  {
+    "code": "BDOX",
+    "name": "Banda District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BDUX",
+    "name": "Banda Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BEDX",
+    "name": "Beed District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BELX",
+    "name": "Belgaum District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BERX",
+    "name": "Berhampore Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "BFUX",
+    "name": "Bhagyodaya Friends Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BGBX",
+    "name": "Dakshin Bihar Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "BGCX",
+    "name": "Balageria Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BGGX",
+    "name": "Baroda Gujarat Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "BGUX",
+    "name": "Begusarai Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BGVX",
+    "name": "Bangiya Gramin Vikash Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHAX",
+    "name": "Bhagyodaya Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHBX",
+    "name": "Bhilai Nagarik Sahakari Bank Maryadit",
+    "isActive": true
+  },
+  {
+    "code": "BHCX",
+    "name": "Bhuj Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHDX",
+    "name": "Bhadohi Urban Co-operative Bank Gyanpur",
+    "isActive": true
+  },
+  {
+    "code": "BHEX",
+    "name": "Bhel Employees Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHGX",
+    "name": "Bhagalpur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHIX",
+    "name": "Bhilwara Mahila Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHJX",
+    "name": "Bhuj Mercentile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHMX",
+    "name": "Brahmadeodada Mane Sahakari Bank Solapur",
+    "isActive": true
+  },
+  {
+    "code": "BHOX",
+    "name": "Bhopal Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHRX",
+    "name": "Bharatpur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHSX",
+    "name": "Bharati Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHTX",
+    "name": "Bhatkal Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHUX",
+    "name": "Bhilwara Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BHWX",
+    "name": "Bhiwani Central Co-operative Bank Bhiwani",
+    "isActive": true
+  },
+  {
+    "code": "BJUX",
+    "name": "Bijnor Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BKCX",
+    "name": "Bhavasara Kshatriya Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BKDN",
+    "name": "Dena Bank",
+    "isActive": true
+  },
+  {
+    "code": "BKDX",
+    "name": "Banaskantha District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BKID",
+    "name": "Bank of India",
+    "isActive": true
+  },
+  {
+    "code": "BKSX",
+    "name": "Baran Kendriya Sahakari Bank Baran",
+    "isActive": true
+  },
+  {
+    "code": "BLGX",
+    "name": "Shree Basaveshwar Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BMBL",
+    "name": "Bharatiya Mahila Bank",
+    "isActive": true
+  },
+  {
+    "code": "BMCB",
+    "name": "Bombay Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BMCX",
+    "name": "Barmer Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BMPX",
+    "name": "Banaskantha Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BMSX",
+    "name": "Bhagyalakshmi Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BNBX",
+    "name": "Betul Nagrik Sahakari Bank Mydt",
+    "isActive": true
+  },
+  {
+    "code": "BNCX",
+    "name": "Bhatpara Naihati Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BNKX",
+    "name": "Banki Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BNPA",
+    "name": "BNP Paribas Bank",
+    "isActive": true
+  },
+  {
+    "code": "BNSB",
+    "name": "Bhagini Nivedita Sahakari Bank Pune",
+    "isActive": true
+  },
+  {
+    "code": "BNSX",
+    "name": "Bhagini Nivedita Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BOCX",
+    "name": "Boudh Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "BODX",
+    "name": "Bagalkot District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BOFA",
+    "name": "Bank of America",
+    "isActive": true
+  },
+  {
+    "code": "BORX",
+    "name": "Boral Union Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BOTM",
+    "name": "MUFG Bank",
+    "isActive": true
+  },
+  {
+    "code": "BOTX",
+    "name": "Shree Botad Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BPCX",
+    "name": "Bhadgaon People's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BPSX",
+    "name": "Bilagi Pattana Sahakari Bank Niyamit",
+    "isActive": true
+  },
+  {
+    "code": "BRCX",
+    "name": "Bhavana Rishi Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "BRDX",
+    "name": "Baroda Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BRGX",
+    "name": "Baroda Rajasthan Kshetriya Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "BRMX",
+    "name": "Bramhapuri Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BRSX",
+    "name": "Baran Nagrik Bank",
+    "isActive": true
+  },
+  {
+    "code": "BRUX",
+    "name": "Bharuch District Central Co-operative Bank Bharuc",
+    "isActive": true
+  },
+  {
+    "code": "BSBX",
+    "name": "Baramati Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BSCX",
+    "name": "Baidyabati Sheoraphuli Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BTCX",
+    "name": "Balitikuri Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BTUX",
+    "name": "Balotra Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BUBX",
+    "name": "Bhandara Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BUCB",
+    "name": "THE BURDWAN CENTRAL CO OPERATIVE BANK LTD",
+    "isActive": true
+  },
+  {
+    "code": "BUCL",
+    "name": "Belur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BUCX",
+    "name": "Beawar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BUGX",
+    "name": "Baroda Uttar Pradesh Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "BUNX",
+    "name": "Bundi Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BURX",
+    "name": "Burdwan Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BUSX",
+    "name": "Business Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BUZX",
+    "name": "Badaun Zila d Bank",
+    "isActive": true
+  },
+  {
+    "code": "BVNX",
+    "name": "Bhavnagar District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "BVSX",
+    "name": "Bhavani Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "BWCX",
+    "name": "Brahmawart Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CALX",
+    "name": "Calicut Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "CBHX",
+    "name": "Central Co-operative Bank  Bhilwara",
+    "isActive": true
+  },
+  {
+    "code": "CBIN",
+    "name": "Central Bank of India",
+    "isActive": true
+  },
+  {
+    "code": "CCBL",
+    "name": "Citizen Credit Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CCBX",
+    "name": "Citizen Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CCCX",
+    "name": "Chennai Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CCMX",
+    "name": "Chanasma Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CCOB",
+    "name": "City Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CCUX",
+    "name": "Chengelpattu Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "CDCX",
+    "name": "Cuddalore District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CEBX",
+    "name": "Central Co-operative Bank Bikaner",
+    "isActive": true
+  },
+  {
+    "code": "CGBX",
+    "name": "Chhattisgarh Rajya Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "CGGX",
+    "name": "Chaitanya Godavari Grameena Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHAS",
+    "name": "JP Morgan Chase Bank NA",
+    "isActive": true
+  },
+  {
+    "code": "CHAX",
+    "name": "Chamoli Zila d Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHBX",
+    "name": "Chamba Urban Co-operative Bank Chamba",
+    "isActive": true
+  },
+  {
+    "code": "CHCX",
+    "name": "Churu Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHDX",
+    "name": "Chittoor District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHIX",
+    "name": "Chikhli Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHKX",
+    "name": "Chittorgarh Kendriya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHPX",
+    "name": "Chopda Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHRX",
+    "name": "Cherpalcheri Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHSX",
+    "name": "Chandigarh State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CHTX",
+    "name": "Chitnavispura Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "CIDX",
+    "name": "Chikmagalur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CITI",
+    "name": "CITI Bank",
+    "isActive": true
+  },
+  {
+    "code": "CITX",
+    "name": "Chitradurga District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "CIUB",
+    "name": "City Union Bank",
+    "isActive": true
+  },
+  {
+    "code": "CJAX",
+    "name": "Citizens' Co-operative Bank Jammu",
+    "isActive": true
+  },
+  {
+    "code": "CJMX",
+    "name": "Karnataka Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "CLBL",
+    "name": "Capital Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "CMCB",
+    "name": "Colour Merchant's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CMCX",
+    "name": "Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CMDX",
+    "name": "Coimbatore District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CMLX",
+    "name": "Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CMPX",
+    "name": "Central Madhya Pradesh Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "CMSV",
+    "name": "Chaitanya Mahila Sahakari Bank, Vijayapur",
+    "isActive": true
+  },
+  {
+    "code": "CNRB",
+    "name": "Canara Bank",
+    "isActive": true
+  },
+  {
+    "code": "CNSX",
+    "name": "Chembur Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "COAS",
+    "name": "Coastal Local Area Bank",
+    "isActive": true
+  },
+  {
+    "code": "COCX",
+    "name": "Co-operative City Bank",
+    "isActive": true
+  },
+  {
+    "code": "COLX",
+    "name": "Coastal Local Area Bank",
+    "isActive": true
+  },
+  {
+    "code": "COMX",
+    "name": "Co-operative Bank of Mehsana",
+    "isActive": true
+  },
+  {
+    "code": "CONX",
+    "name": "Contai Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CORP",
+    "name": "Corporation Bank",
+    "isActive": true
+  },
+  {
+    "code": "COSB",
+    "name": "Cosmos Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CPDX",
+    "name": "Chandrapur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CPSN",
+    "name": "Chikmagalur Pattana Sahakara Bank Niyamitha",
+    "isActive": true
+  },
+  {
+    "code": "CRBX",
+    "name": "Central Co-operative Bank Ara",
+    "isActive": true
+  },
+  {
+    "code": "CRES",
+    "name": "Credit Suisse AG",
+    "isActive": true
+  },
+  {
+    "code": "CRGB",
+    "name": "Chhattisgarh Rajya Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "CRLY",
+    "name": "Credit Agricole Corporate and Investment Bank",
+    "isActive": true
+  },
+  {
+    "code": "CRSX",
+    "name": "Chhattisgarh Rajya Sahakari Bank Mydt",
+    "isActive": true
+  },
+  {
+    "code": "CRUB",
+    "name": "Shri Chhatrapati Rajashri Shahu Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CSBK",
+    "name": "Catholic Syrian Bank",
+    "isActive": true
+  },
+  {
+    "code": "CSBX",
+    "name": "Chartered Sahakari Bank Niyamitha",
+    "isActive": true
+  },
+  {
+    "code": "CTBA",
+    "name": "Commonwealth Bank of Australia",
+    "isActive": true
+  },
+  {
+    "code": "CTBX",
+    "name": "Citizens Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CTCB",
+    "name": "Chinatrust Commercial Bank",
+    "isActive": true
+  },
+  {
+    "code": "CTOX",
+    "name": "Central Co-operative Bank Tonk",
+    "isActive": true
+  },
+  {
+    "code": "CTUX",
+    "name": "Chittorgarh Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CUBX",
+    "name": "Catholic Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "CUCX",
+    "name": "Chiplun Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CURX",
+    "name": "Citizens Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CUTX",
+    "name": "Cuttack Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CZCX",
+    "name": "Citizen Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "CZUX",
+    "name": "Churu Zila Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DAAX",
+    "name": "Defence Accounts Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DAHX",
+    "name": "Dahod Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DAUX",
+    "name": "Dausa Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DBAX",
+    "name": "Dr Babasaheb Ambedkar Sahakari Bank Nasik",
+    "isActive": true
+  },
+  {
+    "code": "DBSS",
+    "name": "Development Bank of Singapore",
+    "isActive": true
+  },
+  {
+    "code": "DCBL",
+    "name": "DCB Bank",
+    "isActive": true
+  },
+  {
+    "code": "DCBX",
+    "name": "Dindigul Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DCCX",
+    "name": "District Co-operative Central Bank Mahabubnagar",
+    "isActive": true
+  },
+  {
+    "code": "DCDX",
+    "name": "District Central Co-operative Bank Elluru",
+    "isActive": true
+  },
+  {
+    "code": "DCEX",
+    "name": "District Central Co-operative Bank Khammam",
+    "isActive": true
+  },
+  {
+    "code": "DCKX",
+    "name": "District Co-operative Central Bank Kurnool",
+    "isActive": true
+  },
+  {
+    "code": "DCMX",
+    "name": "District Co-operative Bank Mainpuri",
+    "isActive": true
+  },
+  {
+    "code": "DCNX",
+    "name": "Deccan Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "DCPX",
+    "name": "District Co-operative Bank Pilibhit",
+    "isActive": true
+  },
+  {
+    "code": "DCSX",
+    "name": "District Co-operative Bank Shahjahanpur",
+    "isActive": true
+  },
+  {
+    "code": "DCTX",
+    "name": "District Co-operative Bank Teliyabagh",
+    "isActive": true
+  },
+  {
+    "code": "DCUB",
+    "name": "Darussalam Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "DCUX",
+    "name": "Darussalam Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "DDBX",
+    "name": "Dharmapuri District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DDCX",
+    "name": "Darjeeling District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DDDX",
+    "name": "Dakshin Dinajpur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DDHX",
+    "name": "Dehradun District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DEGX",
+    "name": "Dena Gujarat Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "DENS",
+    "name": "Delhi Nagrik Sehkari Bank",
+    "isActive": true
+  },
+  {
+    "code": "DEOB",
+    "name": "Deogiri Nagari Sahakari Bank Aurangabad",
+    "isActive": true
+  },
+  {
+    "code": "DEOX",
+    "name": "Deogiri Sahakari Bank Aurangabad",
+    "isActive": true
+  },
+  {
+    "code": "DEUT",
+    "name": "Deutsche Bank",
+    "isActive": true
+  },
+  {
+    "code": "DEUX",
+    "name": "Devika Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DEVX",
+    "name": "Development Co-operative Bank Kanpur",
+    "isActive": true
+  },
+  {
+    "code": "DHBX",
+    "name": "Dhanbad Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DHKX",
+    "name": "Dhakuria Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DHUX",
+    "name": "Dahod Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DIBX",
+    "name": "District Co-operative Bank Barabanki",
+    "isActive": true
+  },
+  {
+    "code": "DICG",
+    "name": "Deposit Insurance and Credit Guarantee Corporation",
+    "isActive": true
+  },
+  {
+    "code": "DICX",
+    "name": "District Co-operative Central Bank Visakhapatnam",
+    "isActive": true
+  },
+  {
+    "code": "DISX",
+    "name": "District Co-operative Bank, Sitapur",
+    "isActive": true
+  },
+  {
+    "code": "DIUX",
+    "name": "Dilip Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DJCX",
+    "name": "Deoghar Jamtara Central Co-operative Bank Deoghar",
+    "isActive": true
+  },
+  {
+    "code": "DKCL",
+    "name": "Deoria Kasia District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DKSX",
+    "name": "Dausa Kendriya Bank",
+    "isActive": true
+  },
+  {
+    "code": "DLSC",
+    "name": "Delhi State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DLXB",
+    "name": "Dhanlaxmi Bank",
+    "isActive": true
+  },
+  {
+    "code": "DMCB",
+    "name": "Deccan Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DMCX",
+    "name": "Durgapur Mahila Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DMKB",
+    "name": "Dattatraya Maharaj Kalambe Jaoli Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "DMKJ",
+    "name": "Dmk Jaoli Bank",
+    "isActive": true
+  },
+  {
+    "code": "DNDC",
+    "name": "Dhule And Nandurbar District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DNSB",
+    "name": "Dombivli Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "DNSX",
+    "name": "Deendayal Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "DOBX",
+    "name": "Dapoli Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DOHB",
+    "name": "Doha Bank QSC",
+    "isActive": true
+  },
+  {
+    "code": "DRGX",
+    "name": "Durg Rajnandgaon Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "DSAX",
+    "name": "District Central Co-operative Bank, Supaul",
+    "isActive": true
+  },
+  {
+    "code": "DSBX",
+    "name": "Daivadnya Sahakara Bank Niyamit",
+    "isActive": true
+  },
+  {
+    "code": "DSCB",
+    "name": "Delhi State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DSHX",
+    "name": "District Co-operative Bank Saharanpur",
+    "isActive": true
+  },
+  {
+    "code": "DSPX",
+    "name": "Durgapur Steel Peoples' Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DSUX",
+    "name": "Dharamvir Sambhaji Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DTCX",
+    "name": "District Co-operative Bank Rae Bareli",
+    "isActive": true
+  },
+  {
+    "code": "DTPX",
+    "name": "District Co-operative Bank Pratapgarh",
+    "isActive": true
+  },
+  {
+    "code": "DUCX",
+    "name": "Daund Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DUMX",
+    "name": "Dumka Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DUNX",
+    "name": "Dungarpur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DURG",
+    "name": "Durgapur Steel Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DVDX",
+    "name": "Davanagere District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "DYPX",
+    "name": "D.y.patil Sahakari Bank Kolhapur",
+    "isActive": true
+  },
+  {
+    "code": "EBIL",
+    "name": "Emirates NBD Bank",
+    "isActive": true
+  },
+  {
+    "code": "ECBL",
+    "name": "Excellent Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "EDBX",
+    "name": "Ellaquai Dehati Bank",
+    "isActive": true
+  },
+  {
+    "code": "EDCX",
+    "name": "Erode District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "EDSX",
+    "name": "Ernakulam District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "EIBI",
+    "name": "Export Import Bank of India",
+    "isActive": true
+  },
+  {
+    "code": "ESAF",
+    "name": "ESAF Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "ESFB",
+    "name": "Equitas Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "ESMF",
+    "name": "Esaf Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "ETCX",
+    "name": "Etawah District Co-operative Bank Etwah",
+    "isActive": true
+  },
+  {
+    "code": "ETDX",
+    "name": "Etah District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "EUCX",
+    "name": "Etah Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "EWCX",
+    "name": "Etawah Urban Co-operative Bank Etawah",
+    "isActive": true
+  },
+  {
+    "code": "FCBX",
+    "name": "Fazilka Central Co-operative. Bank",
+    "isActive": true
+  },
+  {
+    "code": "FCCX",
+    "name": "Faridkot Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "FCOX",
+    "name": "District Co-operative Bank Faizabad",
+    "isActive": true
+  },
+  {
+    "code": "FDFX",
+    "name": "Farrukhabad District Co-operative Bank Fatehgarh",
+    "isActive": true
+  },
+  {
+    "code": "FDRL",
+    "name": "Federal Bank",
+    "isActive": true
+  },
+  {
+    "code": "FEKX",
+    "name": "Feroke Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "FGCB",
+    "name": "Fingrowth Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "FINF",
+    "name": "Fincare Small Finance Bank ",
+    "isActive": true
+  },
+  {
+    "code": "FINO",
+    "name": "Fino Payments Bank",
+    "isActive": true
+  },
+  {
+    "code": "FINX",
+    "name": "Financial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "FIRN",
+    "name": "Firstrand Bank",
+    "isActive": true
+  },
+  {
+    "code": "FIRX",
+    "name": "Firstrand Bank",
+    "isActive": true
+  },
+  {
+    "code": "FMCX",
+    "name": "Faiz Mercantile Co-operative Bank, Nasik",
+    "isActive": true
+  },
+  {
+    "code": "FRIX",
+    "name": "Faridabad Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "FSCX",
+    "name": "Fatehgrah Sahib Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "FSFB",
+    "name": "Fincare Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "FZCX",
+    "name": "Ferozepur Central Co-operative. Bank",
+    "isActive": true
+  },
+  {
+    "code": "FZSX",
+    "name": "Firozabad Zila d Bank",
+    "isActive": true
+  },
+  {
+    "code": "GACX",
+    "name": "Gujarat Ambuja Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GADX",
+    "name": "Gadhinglaj Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GAMX",
+    "name": "Ganga Mercantile Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GANX",
+    "name": "Gandhidham Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GBCB",
+    "name": "Greater Bombay Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GCBX",
+    "name": "Guruvayur Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "GCCX",
+    "name": "Gurdaspur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GCUL",
+    "name": "Gauhati Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "GCUX",
+    "name": "Gayatri Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "GDCB",
+    "name": "Gadchiroli District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GDCX",
+    "name": "Guntur District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "GDDX",
+    "name": "Giridih Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GDUX",
+    "name": "Godhra Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GGBK",
+    "name": "Gurgaon Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "GGCX",
+    "name": "Gopalganj Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GHPX",
+    "name": "Ghatal Peoples' Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GKNX",
+    "name": "Ganganagar Kendriya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "GMBX",
+    "name": "Gandhidham Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GMCX",
+    "name": "Gujarat Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GMUX",
+    "name": "Gulshan Mercantile Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GNCX",
+    "name": "Gandhi Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "GNSX",
+    "name": "Gozaria Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "GODX",
+    "name": "Godavari Urban Co-operative Bank Nashik",
+    "isActive": true
+  },
+  {
+    "code": "GOSX",
+    "name": "Gondal Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "GPCX",
+    "name": "Gandevi People's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GPOX",
+    "name": "General Post Office",
+    "isActive": true
+  },
+  {
+    "code": "GRAX",
+    "name": "Grain Merchants' Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GSBL",
+    "name": "Goa State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GSBX",
+    "name": "Gandhibag Sahakari Bank  Nagpur",
+    "isActive": true
+  },
+  {
+    "code": "GSCB",
+    "name": "Gujarat State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GSCX",
+    "name": "Gumla Simdega Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GSSX",
+    "name": "Guardian Souharda Sahakari Bank Niyamita",
+    "isActive": true
+  },
+  {
+    "code": "GTCX",
+    "name": "George Town Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GUBX",
+    "name": "Godavari Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GUCX",
+    "name": "Goa Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "GUNX",
+    "name": "Guntur Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "GUOX",
+    "name": "Gurgaon Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HAMX",
+    "name": "Hamirpur District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HANX",
+    "name": "Hanumangarh Kendriya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "HARC",
+    "name": "Haryana State Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "HCBL",
+    "name": "HASTI Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HCBX",
+    "name": "Hasti Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HCCX",
+    "name": "Hazaribag Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HCLX",
+    "name": "HCBL Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HDCL",
+    "name": "Hardoi District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HDCX",
+    "name": "Hyderabad District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HDFC",
+    "name": "HDFC Bank",
+    "isActive": true
+  },
+  {
+    "code": "HGBX",
+    "name": "Sarva Haryana Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "HINX",
+    "name": "Hindu Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HISX",
+    "name": "Hisar Central Co-operative Bank Hisar",
+    "isActive": true
+  },
+  {
+    "code": "HMBX",
+    "name": "Himachal Pradesh Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "HMNX",
+    "name": "Himatnagar Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "HOCX",
+    "name": "Hoshiarpur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HOOX",
+    "name": "Hooghly District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HPCX",
+    "name": "Shree Parswanath Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HPSC",
+    "name": "Himachal Pradesh State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HPSX",
+    "name": "Himachal Pradesh State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HSBC",
+    "name": "Hongkong & Shanghai Banking Corporation",
+    "isActive": true
+  },
+  {
+    "code": "HSBM",
+    "name": "Haveli Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "HSBX",
+    "name": "Harihareshwar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "HSCX",
+    "name": "Haryana State Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "HSDX",
+    "name": "Hassan District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "HSSX",
+    "name": "Hindustan Shipyard Staff Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HUBX",
+    "name": "Hubli Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HUCB",
+    "name": "Hadagali Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HUCH",
+    "name": "Hanamasagar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HUCX",
+    "name": "Hissar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "HUSB",
+    "name": "Hutatma Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "HUTX",
+    "name": "Hutatma Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "HVBK",
+    "name": "Woori Bank",
+    "isActive": true
+  },
+  {
+    "code": "IBBK",
+    "name": "PT Bank Maybank Indonesia TBK",
+    "isActive": true
+  },
+  {
+    "code": "IBKL",
+    "name": "IDBI",
+    "isActive": true
+  },
+  {
+    "code": "IBKO",
+    "name": "Industrial Bank of Korea",
+    "isActive": true
+  },
+  {
+    "code": "ICBK",
+    "name": "Industrial and Commercial Bank of China",
+    "isActive": true
+  },
+  {
+    "code": "ICBL",
+    "name": "Industrial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ICHX",
+    "name": "Ichalkaranji Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ICIC",
+    "name": "ICICI Bank",
+    "isActive": true
+  },
+  {
+    "code": "ICLL",
+    "name": "Indian Clearing Corporation",
+    "isActive": true
+  },
+  {
+    "code": "ICMX",
+    "name": "Indore Cloth Market Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "IDFB",
+    "name": "IDFC FIRST Bank",
+    "isActive": true
+  },
+  {
+    "code": "IDIB",
+    "name": "Indian Bank",
+    "isActive": true
+  },
+  {
+    "code": "IDUK",
+    "name": "Idukki District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "IDUX",
+    "name": "Idukki District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ILCB",
+    "name": "Ilkal Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "IMCX",
+    "name": "Imperial Urban Co-operative Bank Jalandhar",
+    "isActive": true
+  },
+  {
+    "code": "IMPX",
+    "name": "Imphal Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "INCX",
+    "name": "Indapur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "INDB",
+    "name": "Indusind Bank",
+    "isActive": true
+  },
+  {
+    "code": "INDX",
+    "name": "Independence Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "IOBA",
+    "name": "Indian Overseas Bank",
+    "isActive": true
+  },
+  {
+    "code": "IPCX",
+    "name": "Indore Premier Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "IPOS",
+    "name": "India Post Payments Bank",
+    "isActive": true
+  },
+  {
+    "code": "IPPB",
+    "name": "India Post Payments Bank",
+    "isActive": true
+  },
+  {
+    "code": "IPSX",
+    "name": "Indore Paraspar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ISBX",
+    "name": "Indraprastha Sehkari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ISMX",
+    "name": "Indore Swayam Mahila Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ITBL",
+    "name": "Irinjalakuda Town Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ITCX",
+    "name": "Irinjalakuda Town Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ITDX",
+    "name": "Income Tax Dept Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "IUCB",
+    "name": "Integral Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "IUCX",
+    "name": "Imperial Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "IXXX",
+    "name": "Indrayani Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JACX",
+    "name": "Jain Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JAKA",
+    "name": "Jammu and Kashmir Bank",
+    "isActive": true
+  },
+  {
+    "code": "JALX",
+    "name": "Janalaxmi Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JAMX",
+    "name": "Jamia Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JANA",
+    "name": "Janaseva Sahakari Bank, Pune",
+    "isActive": true
+  },
+  {
+    "code": "JANX",
+    "name": "Janata Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JASB",
+    "name": "Janaseva Sahakari Bank (Borivli)",
+    "isActive": true
+  },
+  {
+    "code": "JASX",
+    "name": "Janatha Seva Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JAUX",
+    "name": "Jaihind Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JBHX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Bhind",
+    "isActive": true
+  },
+  {
+    "code": "JBIX",
+    "name": "Jila d Kendriya Bank Maryadit Bilaspur",
+    "isActive": true
+  },
+  {
+    "code": "JBMX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Sagar",
+    "isActive": true
+  },
+  {
+    "code": "JCBX",
+    "name": "Janata Co-operative Bank Malegaon.",
+    "isActive": true
+  },
+  {
+    "code": "JCCB",
+    "name": "Jaipur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JCCX",
+    "name": "Jalandhar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JCDX",
+    "name": "Jamnagar District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JCHX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Chhatarpur",
+    "isActive": true
+  },
+  {
+    "code": "JCPX",
+    "name": "Janata Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JCUX",
+    "name": "Jagruti Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "JDCX",
+    "name": "Jalaun District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JDEX",
+    "name": "Jila Sahakari Kendriya Bank Mydtt Dewas",
+    "isActive": true
+  },
+  {
+    "code": "JGBX",
+    "name": "Jharkand Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "JGCX",
+    "name": "Jogindra Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JGWX",
+    "name": "Jila Sahakari Bank Mydt. Gwalior",
+    "isActive": true
+  },
+  {
+    "code": "JHAX",
+    "name": "Jharneshwar Nagrik Sahakari Bank Maryadit",
+    "isActive": true
+  },
+  {
+    "code": "JHSX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Hoshangabad",
+    "isActive": true
+  },
+  {
+    "code": "JHUX",
+    "name": "Jhunjhunu Kenddriya Sahakari Bak",
+    "isActive": true
+  },
+  {
+    "code": "JIBX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Balaghat",
+    "isActive": true
+  },
+  {
+    "code": "JICX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Chhindwara",
+    "isActive": true
+  },
+  {
+    "code": "JIDX",
+    "name": "Jila d Kendriya Bank Mydt Damoh",
+    "isActive": true
+  },
+  {
+    "code": "JIGX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Guna",
+    "isActive": true
+  },
+  {
+    "code": "JIKX",
+    "name": "Jila Sahakari Kendariya Bank Mydt Khandwa",
+    "isActive": true
+  },
+  {
+    "code": "JIMX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Mandla",
+    "isActive": true
+  },
+  {
+    "code": "JINX",
+    "name": "Jind Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JIOP",
+    "name": "Jio Payments Bank",
+    "isActive": true
+  },
+  {
+    "code": "JIOX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Shahdol",
+    "isActive": true
+  },
+  {
+    "code": "JIRX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Rajgarh",
+    "isActive": true
+  },
+  {
+    "code": "JISX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Sidhi",
+    "isActive": true
+  },
+  {
+    "code": "JIVX",
+    "name": "Jivaji Sahakari Bank  Ichalkaranji",
+    "isActive": true
+  },
+  {
+    "code": "JJCX",
+    "name": "Jhajjar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JJHX",
+    "name": "Jila d Kendriya Bank Mydt Jhabua",
+    "isActive": true
+  },
+  {
+    "code": "JJSB",
+    "name": "Jalgaon Janata Bank",
+    "isActive": true
+  },
+  {
+    "code": "JKAX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Ambikapur",
+    "isActive": true
+  },
+  {
+    "code": "JKCX",
+    "name": "Janakalyan Co-operative Bank Nashik",
+    "isActive": true
+  },
+  {
+    "code": "JKDX",
+    "name": "Jila Sahakari Kendriya Bank Mydt. Jabalpur",
+    "isActive": true
+  },
+  {
+    "code": "JKEX",
+    "name": "Jhalawar Kendriya Bank",
+    "isActive": true
+  },
+  {
+    "code": "JKHX",
+    "name": "Jila Kendriya Bank Maryadit Khargone",
+    "isActive": true
+  },
+  {
+    "code": "JKMX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Jagdalpur",
+    "isActive": true
+  },
+  {
+    "code": "JKRX",
+    "name": "Jilla Sahakari Kendriya Bank Mydt Raisen",
+    "isActive": true
+  },
+  {
+    "code": "JKSX",
+    "name": "J&k State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JLCX",
+    "name": "Jalore Central Co-operative Bank Jalore",
+    "isActive": true
+  },
+  {
+    "code": "JLDX",
+    "name": "Jalna District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JLNX",
+    "name": "Jalna Peoples Co-operative Bank Jalna",
+    "isActive": true
+  },
+  {
+    "code": "JLSX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Vidisha",
+    "isActive": true
+  },
+  {
+    "code": "JLWX",
+    "name": "Jhalawar Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "JMAX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Mandsaur",
+    "isActive": true
+  },
+  {
+    "code": "JMBX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Betul",
+    "isActive": true
+  },
+  {
+    "code": "JMCX",
+    "name": "Jalna Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JMDX",
+    "name": "Jila d Kendriya Bank Mydt Datia",
+    "isActive": true
+  },
+  {
+    "code": "JMHX",
+    "name": "Jamshedpur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JMMX",
+    "name": "Jammu Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JMOX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Morena",
+    "isActive": true
+  },
+  {
+    "code": "JMPX",
+    "name": "Jamnagar Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JMSX",
+    "name": "Jijamata Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "JMYX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Durg",
+    "isActive": true
+  },
+  {
+    "code": "JNAX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Narsinghpur",
+    "isActive": true
+  },
+  {
+    "code": "JNDX",
+    "name": "Junagadh Jilla Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "JNSX",
+    "name": "Janseva Nagari Sahakari Bank Marydit",
+    "isActive": true
+  },
+  {
+    "code": "JODX",
+    "name": "Jodhpur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JONX",
+    "name": "Jodhpur Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "JOWX",
+    "name": "Jowai Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "JPAX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Panna",
+    "isActive": true
+  },
+  {
+    "code": "JPCB",
+    "name": "Jalgaon Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JPCX",
+    "name": "Jalpaiguri Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JRAX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Ratlam",
+    "isActive": true
+  },
+  {
+    "code": "JRKX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Ujjain",
+    "isActive": true
+  },
+  {
+    "code": "JRNX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Rajnandgaon",
+    "isActive": true
+  },
+  {
+    "code": "JRSX",
+    "name": "Jalore Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "JSAB",
+    "name": "Jain Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "JSAX",
+    "name": "Janata Sahakari Bank Ajara",
+    "isActive": true
+  },
+  {
+    "code": "JSBL",
+    "name": "Janakalyan Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "JSBP",
+    "name": "Janata Sahakari Bank (Pune)",
+    "isActive": true
+  },
+  {
+    "code": "JSBX",
+    "name": "Janaseva Co-operative Bank (Nashik)",
+    "isActive": true
+  },
+  {
+    "code": "JSCX",
+    "name": "Jharkhand State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JSDX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Dhar",
+    "isActive": true
+  },
+  {
+    "code": "JSEX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Sehore",
+    "isActive": true
+  },
+  {
+    "code": "JSFB",
+    "name": "Jana Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "JSHX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Shajapur",
+    "isActive": true
+  },
+  {
+    "code": "JSKX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Raipur",
+    "isActive": true
+  },
+  {
+    "code": "JSMX",
+    "name": "Janata Sahakari Bank Amravati",
+    "isActive": true
+  },
+  {
+    "code": "JSOX",
+    "name": "Jila Sahakari Kendriya Bank Myt Seoni",
+    "isActive": true
+  },
+  {
+    "code": "JSRX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Rewa",
+    "isActive": true
+  },
+  {
+    "code": "JSTX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Satna",
+    "isActive": true
+  },
+  {
+    "code": "JSVX",
+    "name": "Jila Sahakari Kendriya Bank Maryadit Shivpuri",
+    "isActive": true
+  },
+  {
+    "code": "JSWX",
+    "name": "Jansewa Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JTIX",
+    "name": "Jila Sahakari Kendriya Bank Mydt Tikamgarh",
+    "isActive": true
+  },
+  {
+    "code": "JTSC",
+    "name": "Janatha Seva Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JTSX",
+    "name": "Jugalkishor Tapdiya Shree Mahesh Ucb Aurangabadltd",
+    "isActive": true
+  },
+  {
+    "code": "JUCX",
+    "name": "Junagadh Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JUSX",
+    "name": "Jaysingpur Udgaon Sahakari Bank Jaysingpur",
+    "isActive": true
+  },
+  {
+    "code": "JVCX",
+    "name": "Jivan Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "JXXX",
+    "name": "Jampeta Co-Operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "KAAX",
+    "name": "Kadappa District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "KACE",
+    "name": "Kangra Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KACX",
+    "name": "Kachchh District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KADX",
+    "name": "Kasaragod District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KAGX",
+    "name": "Kagal Co-operative Bank Kagal",
+    "isActive": true
+  },
+  {
+    "code": "KAIJ",
+    "name": "Kallappanna Awade Ichalkaranji Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KALX",
+    "name": "Kalna Town Credit Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KAMX",
+    "name": "Kamala Co-operative Bank Solapur",
+    "isActive": true
+  },
+  {
+    "code": "KANG",
+    "name": "Kangra Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KANX",
+    "name": "Kanara District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KARB",
+    "name": "Karnataka Bank",
+    "isActive": true
+  },
+  {
+    "code": "KARX",
+    "name": "Kaira District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KASX",
+    "name": "Kashmir Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KATX",
+    "name": "Kattappana Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KAYX",
+    "name": "Kanyakumari District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KBCX",
+    "name": "Kanakamahalakshmi Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KBHB",
+    "name": "KEB Hana Bank",
+    "isActive": true
+  },
+  {
+    "code": "KBKB",
+    "name": "Kookmin Bank",
+    "isActive": true
+  },
+  {
+    "code": "KBNX",
+    "name": "Khambhat Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KBSX",
+    "name": "Krishna Bhima Samruddhi Local Area Bank",
+    "isActive": true
+  },
+  {
+    "code": "KCBL",
+    "name": "Kapol Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KCBX",
+    "name": "Kutch Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KCCB",
+    "name": "Kalupur Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KCCX",
+    "name": "Kancheepuram Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KCDX",
+    "name": "Karnatak Central Co-operative Bank Dharwad",
+    "isActive": true
+  },
+  {
+    "code": "KCEX",
+    "name": "Kota Central Co-operative Bank Kota",
+    "isActive": true
+  },
+  {
+    "code": "KCOB",
+    "name": "Kangra Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KCUB",
+    "name": "Khattri Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "KCUX",
+    "name": "Kannur Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "KDBX",
+    "name": "Karimnagar District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "KDCB",
+    "name": "Kozhikode District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KDCX",
+    "name": "Kozhikode District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KDIX",
+    "name": "Shree Kadi Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KDNX",
+    "name": "Kodinar Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KDUX",
+    "name": "Kodagu District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "KEJX",
+    "name": "Keonjhar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KEMX",
+    "name": "Kerala Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KESX",
+    "name": "Keshav Sehkari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KGBX",
+    "name": "Kaveri Grameena Bank",
+    "isActive": true
+  },
+  {
+    "code": "KGDX",
+    "name": "Khagaria District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KGRB",
+    "name": "Kaveri Grameena Bank",
+    "isActive": true
+  },
+  {
+    "code": "KGSX",
+    "name": "Kashi Gomti Samyut Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "KHAX",
+    "name": "Khalilabad Nagar d Bank",
+    "isActive": true
+  },
+  {
+    "code": "KHCX",
+    "name": "Khardah Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KHDX",
+    "name": "Kheda People's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KHNX",
+    "name": "Kohinoor Sahakari Bank Ichalkaranji",
+    "isActive": true
+  },
+  {
+    "code": "KHTX",
+    "name": "Khurda Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KHUX",
+    "name": "Khamgaon Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KICX",
+    "name": "Kaithal Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KJSB",
+    "name": "Kalyan Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KJSX",
+    "name": "Karad Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KKBK",
+    "name": "Kotak Mahindra Bank",
+    "isActive": true
+  },
+  {
+    "code": "KKMX",
+    "name": "Kankaria Mainagar Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KKSX",
+    "name": "Kumbhi Kasari Bank Kuditre",
+    "isActive": true
+  },
+  {
+    "code": "KLGB",
+    "name": "Kerala Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "KLMX",
+    "name": "Kollam District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KMCB",
+    "name": "Kokan Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KMCX",
+    "name": "Krishna Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KMNX",
+    "name": "Kota Mahila Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KMSX",
+    "name": "Kolhapur Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KNBX",
+    "name": "Kalol Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KNCX",
+    "name": "Karnal Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KNNX",
+    "name": "Sri Kannikaparameswari Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KNPX",
+    "name": "Karnala Nagari Sahakari Bank Panvel",
+    "isActive": true
+  },
+  {
+    "code": "KNSB",
+    "name": "Kurla Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KNSX",
+    "name": "Kisan Nagari Sahakari Bank Maryadit Parbhani",
+    "isActive": true
+  },
+  {
+    "code": "KOBX",
+    "name": "Kopargaon Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KOCX",
+    "name": "Konoklota Mahila Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KODX",
+    "name": "Kodungallur Town Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KOEX",
+    "name": "KEB Hana Bank",
+    "isActive": true
+  },
+  {
+    "code": "KOLH",
+    "name": "Kolhapur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KORX",
+    "name": "Koraput Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KOSX",
+    "name": "Kota Nagrik d Bank Kota",
+    "isActive": true
+  },
+  {
+    "code": "KOTX",
+    "name": "Kodinar Taluka Co-operative Banking Union",
+    "isActive": true
+  },
+  {
+    "code": "KOYX",
+    "name": "Koylanchal Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KPCX",
+    "name": "Kolhapur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KRCX",
+    "name": "Kolar And Chickballapur Dt Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "KRDX",
+    "name": "Krishna District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KRIX",
+    "name": "Krishnagar City Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KRMX",
+    "name": "Karamana Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "KRNX",
+    "name": "Karnavati Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KRTH",
+    "name": "Krungthai Bank",
+    "isActive": true
+  },
+  {
+    "code": "KRTX",
+    "name": "Kranthi Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "KSBK",
+    "name": "Kerala State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KSBX",
+    "name": "Krishna Sahakari Bank Rethare Bk",
+    "isActive": true
+  },
+  {
+    "code": "KSCB",
+    "name": "Karnataka State Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "KSCX",
+    "name": "Kerala State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KSMX",
+    "name": "Kosamba Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KSNX",
+    "name": "Koteshwara Sahakari Bank Niyamitha",
+    "isActive": true
+  },
+  {
+    "code": "KSTX",
+    "name": "Kasaragod Co-operative Town Bank No 970",
+    "isActive": true
+  },
+  {
+    "code": "KSUX",
+    "name": "Kashipur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KTBX",
+    "name": "Kottayam District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KTCX",
+    "name": "Kapurthala Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KTDX",
+    "name": "Katihar District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KTTX",
+    "name": "Tumkur District Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "KUBX",
+    "name": "Kaduthuruthy Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KUCB",
+    "name": "Karad Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KUCX",
+    "name": "Kolhapur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KUKX",
+    "name": "Kukarwada Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KULX",
+    "name": "Kodoli Urban Co-operative Bank Kodoli",
+    "isActive": true
+  },
+  {
+    "code": "KUMX",
+    "name": "Kumbakonam Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KUNS",
+    "name": "Kurmanchal Nagar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "KUOB",
+    "name": "Konark Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KURX",
+    "name": "Kurukshetra Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KUTX",
+    "name": "Kuttiady Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "KVBL",
+    "name": "Karur Vysya Bank",
+    "isActive": true
+  },
+  {
+    "code": "KVCX",
+    "name": "Kavita Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "KVGB",
+    "name": "Karnataka Vikas Grameena Bank",
+    "isActive": true
+  },
+  {
+    "code": "KYDX",
+    "name": "Kalaburagi and Yadgir District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "LACX",
+    "name": "Laxmi Co-operative Bank Solapur",
+    "isActive": true
+  },
+  {
+    "code": "LATX",
+    "name": "Latur Urban Co-operative Bank Latur",
+    "isActive": true
+  },
+  {
+    "code": "LAVB",
+    "name": "Laxmi Vilas Bank",
+    "isActive": true
+  },
+  {
+    "code": "LBMX",
+    "name": "Laxmibai Mahila Nagrik Sahakari Bank Maradit",
+    "isActive": true
+  },
+  {
+    "code": "LCBX",
+    "name": "Lalbaug Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "LCCX",
+    "name": "Ludhiana Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "LDCX",
+    "name": "Latur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "LDPX",
+    "name": "Loknete Dattaji Patil Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "LDRX",
+    "name": "Langpi Dehangi Rural Bank",
+    "isActive": true
+  },
+  {
+    "code": "LECX",
+    "name": "LIC Employees Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "LICB",
+    "name": "Liluah Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "LKBL",
+    "name": "Lord Krishna Bank",
+    "isActive": true
+  },
+  {
+    "code": "LKCX",
+    "name": "Little Kancheepuram Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "LKHX",
+    "name": "Lakhimpur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "LKMX",
+    "name": "Lokmangal Co-operative Bank Solapur",
+    "isActive": true
+  },
+  {
+    "code": "LMNX",
+    "name": "Laxmi Mahila Nagrik Sahakari Bank Maryadit",
+    "isActive": true
+  },
+  {
+    "code": "LNSX",
+    "name": "Lunawada Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "LOKX",
+    "name": "Lokvikas Nagari Sahakari Bank Aurangabad",
+    "isActive": true
+  },
+  {
+    "code": "LONX",
+    "name": "Lonavala Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "LUCX",
+    "name": "Lucknow Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "LULX",
+    "name": "Laxmi Urban Co-operative Bank Latur",
+    "isActive": true
+  },
+  {
+    "code": "MABL",
+    "name": "Malleshwaram Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MACX",
+    "name": "Mahabhairab Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "MADX",
+    "name": "Madhyanchal Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAGX",
+    "name": "Mewar Aanchalik Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAHB",
+    "name": "Bank of Maharashtra",
+    "isActive": true
+  },
+  {
+    "code": "MAHG",
+    "name": "Maharashtra Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAHX",
+    "name": "Shree Mahalaxmi Urban Co-operative Credit Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAJX",
+    "name": "Manjeri Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAKX",
+    "name": "Makarpura Industrial Estate Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MALX",
+    "name": "Malviya Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAMX",
+    "name": "Mandvi Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MANX",
+    "name": "Mansa Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAPX",
+    "name": "Maharana Pratap Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "MASX",
+    "name": "Mahesh Urban Co-operative Bank Solapur",
+    "isActive": true
+  },
+  {
+    "code": "MAUX",
+    "name": "Mantha Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAVX",
+    "name": "Shree Mahavir Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAWX",
+    "name": "Manipur Womens Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MAYX",
+    "name": "Mayani Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MBCX",
+    "name": "Mugberia Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MBGX",
+    "name": "Dakshin Bihar Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "MBLX",
+    "name": "Manmandir Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCAB",
+    "name": "Meghalaya Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCAX",
+    "name": "Mahesh Urban Co-operative Bank Ahmedpur",
+    "isActive": true
+  },
+  {
+    "code": "MCBL",
+    "name": "Mahanagar Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCBX",
+    "name": "Modern Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCCX",
+    "name": "Muktsar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCDX",
+    "name": "Muzaffarnagar District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCLX",
+    "name": "Mahendragarh Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCOX",
+    "name": "Mahesh Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCSX",
+    "name": "Mattancherry Sarvajanik Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MCUX",
+    "name": "Mahaveer Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "MDBK",
+    "name": "Model Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MDCB",
+    "name": "Mumbai District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MDCX",
+    "name": "Madurai District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MDEX",
+    "name": "Model Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MDGX",
+    "name": "Rajasthan Marudhara Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "MDIX",
+    "name": "Mandya District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "MDMX",
+    "name": "Mann Deshi Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "MDPX",
+    "name": "Md Pawar Peoples Co-operative Bank Urun Islampur",
+    "isActive": true
+  },
+  {
+    "code": "MEDX",
+    "name": "District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "MERX",
+    "name": "Meghalaya Rural Bank",
+    "isActive": true
+  },
+  {
+    "code": "MEUX",
+    "name": "Meenachil East Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MFCX",
+    "name": "Muzaffarpur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MFUX",
+    "name": "Mahatma Fule Urban Co-operative Bank,amravati",
+    "isActive": true
+  },
+  {
+    "code": "MGBX",
+    "name": "Maharashtra Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "MGCB",
+    "name": "Mogaveera Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MGCX",
+    "name": "Mansing Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MGDX",
+    "name": "Magadh Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MGRB",
+    "name": "Malwa Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "MGSX",
+    "name": "Mangaldai Nagar Samabai Bank",
+    "isActive": true
+  },
+  {
+    "code": "MGUX",
+    "name": "Madgaum Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MHCB",
+    "name": "Mizuho Bank",
+    "isActive": true
+  },
+  {
+    "code": "MHCX",
+    "name": "Mahoba Urban Co-operative Bank Mahoba",
+    "isActive": true
+  },
+  {
+    "code": "MHEX",
+    "name": "Mahamedha Urban Co-operative Bank ( Under Rbi Direction)",
+    "isActive": true
+  },
+  {
+    "code": "MHLX",
+    "name": "Mahila Co-operative Bak",
+    "isActive": true
+  },
+  {
+    "code": "MHMX",
+    "name": "Shri Mahalaxmi Co-operative Bank Kolhapur",
+    "isActive": true
+  },
+  {
+    "code": "MHNX",
+    "name": "Mahanagar Nagrik Sahakari Bank Maryadit",
+    "isActive": true
+  },
+  {
+    "code": "MHSX",
+    "name": "Mahesh Sahakari Bank Pune",
+    "isActive": true
+  },
+  {
+    "code": "MHUX",
+    "name": "Mahesh Urbank Co-operative Bank Parli V.",
+    "isActive": true
+  },
+  {
+    "code": "MIZX",
+    "name": "Mizoram Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "MJCX",
+    "name": "Monghyr Jamui Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MKPB",
+    "name": "Malkapur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MKUX",
+    "name": "Malkapur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MKYX",
+    "name": "Marketyard Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MLCG",
+    "name": "Merchants Liberal Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MLDX",
+    "name": "Malda District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MMCX",
+    "name": "Mattancherry Mahajanik Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "MMMX",
+    "name": "Mahila Nagrik Sahakari Bank Maryadit Mahasamund",
+    "isActive": true
+  },
+  {
+    "code": "MNBX",
+    "name": "Mahila Co-operative Nagarik Bank,bharuch",
+    "isActive": true
+  },
+  {
+    "code": "MNCX",
+    "name": "Mansa Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MNSX",
+    "name": "Mehsana Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "MOGX",
+    "name": "Moga Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MOUX",
+    "name": "Mohol Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MPCX",
+    "name": "Moirang Primary Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MPDX",
+    "name": "Malappuram District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MPRX",
+    "name": "Madhya Pradesh Rajya Sahakari Bank Maryadit",
+    "isActive": true
+  },
+  {
+    "code": "MRBX",
+    "name": "Manipur Rural Bank",
+    "isActive": true
+  },
+  {
+    "code": "MRTX",
+    "name": "Maratha Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSAX",
+    "name": "Mansarovar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSBL",
+    "name": "Malad Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSBX",
+    "name": "M.s.Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSCI",
+    "name": "Maharashtra State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSCX",
+    "name": "Manipur State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSHQ",
+    "name": "Mashreq Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSLM",
+    "name": "Muslim Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSNU",
+    "name": "Mehsana Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSNX",
+    "name": "Mehsana District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MSOX",
+    "name": "Manorama Co-operative Bank Solapur",
+    "isActive": true
+  },
+  {
+    "code": "MSSX",
+    "name": "Merchants Souharda Sahakara Bank Niyamitha",
+    "isActive": true
+  },
+  {
+    "code": "MUBL",
+    "name": "Municipal Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MUBX",
+    "name": "Maharaja Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "MUCG",
+    "name": "Merchants Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MUCX",
+    "name": "Mapusa Urban Co-operative Bank of Goa",
+    "isActive": true
+  },
+  {
+    "code": "MUDX",
+    "name": "Madheshwari Urban Development Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MUNX",
+    "name": "Mahudha Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "MUPX",
+    "name": "Mehmadabad Urban Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MURX",
+    "name": "Murshidabad District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MUSX",
+    "name": "Muslim Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MVCB",
+    "name": "Sir M Visvesvaraya Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MVCX",
+    "name": "Mahaveer Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MVIX",
+    "name": "Manvi Pattana Souharda Sahakari Bank Ni",
+    "isActive": true
+  },
+  {
+    "code": "MXXX",
+    "name": "Maharashtra Mantralaya & Allied Offices Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MYAX",
+    "name": "Meghalaya Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "MYCX",
+    "name": "Mayurbhanj Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MYSX",
+    "name": "Mysore Chamarajanagar District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "MZCX",
+    "name": "Mizoram Urban Co-operative Development Bank",
+    "isActive": true
+  },
+  {
+    "code": "MZRX",
+    "name": "Mizoram Rural Bank",
+    "isActive": true
+  },
+  {
+    "code": "NABX",
+    "name": "Nandani Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NACX",
+    "name": "Nalanda Central Co-operative Bank Nalanda",
+    "isActive": true
+  },
+  {
+    "code": "NADX",
+    "name": "Nadapuram Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NAGX",
+    "name": "Nagaland Rural Bank",
+    "isActive": true
+  },
+  {
+    "code": "NAIX",
+    "name": "Nainital District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NALX",
+    "name": "National Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NANX",
+    "name": "Nanded District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NASX",
+    "name": "Nasik District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NATA",
+    "name": "National Australia Bank",
+    "isActive": true
+  },
+  {
+    "code": "NAUX",
+    "name": "Nagaur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NAVX",
+    "name": "Navnirman Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NAWX",
+    "name": "Nawanagar Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NBAD",
+    "name": "National Bank of Abu Dhabi PJSC",
+    "isActive": true
+  },
+  {
+    "code": "NBBX",
+    "name": "National Co-operative Bank Bangalore",
+    "isActive": true
+  },
+  {
+    "code": "NBCX",
+    "name": "Nalbari Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NBMX",
+    "name": "Nagrik Sahakari Bank, Vidisha",
+    "isActive": true
+  },
+  {
+    "code": "NBRD",
+    "name": "National Bank for Agriculture and Development",
+    "isActive": true
+  },
+  {
+    "code": "NCBL",
+    "name": "National Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NCBX",
+    "name": "Nawanshahr Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NCCX",
+    "name": "Nabadwip Co-operative Credit Bank",
+    "isActive": true
+  },
+  {
+    "code": "NCOX",
+    "name": "Nagnath Urban Co-operative Bank Hingoli",
+    "isActive": true
+  },
+  {
+    "code": "NCUB",
+    "name": "Nilambur Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "NCUX",
+    "name": "Nilambur Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "NDCB",
+    "name": "Naval Dockyard Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NDCX",
+    "name": "Nilgiris District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NDDX",
+    "name": "Nadia District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NDGX",
+    "name": "Nashik District Girna Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NDIX",
+    "name": "Nashik District Industrial & Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NDOX",
+    "name": "Nayagarh District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NESF",
+    "name": "North East Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "NEYX",
+    "name": "Neyyattinkara Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "NGBX",
+    "name": "Nagar Sahakari Bank Maharajganj",
+    "isActive": true
+  },
+  {
+    "code": "NGKX",
+    "name": "Nagrik Sahakari Bank Maryadit Gwalior",
+    "isActive": true
+  },
+  {
+    "code": "NGNX",
+    "name": "Nagina Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NGRX",
+    "name": "Nagar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NGSB",
+    "name": "Nagpur Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NGSX",
+    "name": "Nagarik Sahakari Bank Maryadit Durg",
+    "isActive": true
+  },
+  {
+    "code": "NGUX",
+    "name": "Nagaur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NICB",
+    "name": "New India Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NIDX",
+    "name": "Nidhi Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NILX",
+    "name": "Nilkanth Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NIRX",
+    "name": "Nirmal Urban Co-operative Bank Nagpur",
+    "isActive": true
+  },
+  {
+    "code": "NIUX",
+    "name": "Nileshwar Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "NJBK",
+    "name": "Nav Jeevan Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NJCX",
+    "name": "Nav Jeevan Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NJGX",
+    "name": "Narmada Jhabua Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "NJMX",
+    "name": "Nashik Zila Mahila Vikas Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NJSX",
+    "name": "Nasik Zila Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NKGS",
+    "name": "NKGSB Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NLGX",
+    "name": "Nalgonda Dist. Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "NLUX",
+    "name": "National Urban Co-operative Bank,bahraich",
+    "isActive": true
+  },
+  {
+    "code": "NMCB",
+    "name": "Nasik Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NMCX",
+    "name": "Navi Mumbai Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NMGB",
+    "name": "North Malabar Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "NNCX",
+    "name": "Naroda Nagrik Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NNSB",
+    "name": "Nutan Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NNSX",
+    "name": "Nutan Nagari Sahakari Bank Ichalkaranji",
+    "isActive": true
+  },
+  {
+    "code": "NOBX",
+    "name": "Noble Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NOIX",
+    "name": "Noida Commercial Co-operative Bak",
+    "isActive": true
+  },
+  {
+    "code": "NOSC",
+    "name": "Bank of Nova Scotia",
+    "isActive": true
+  },
+  {
+    "code": "NPCX",
+    "name": "Nadiad Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NPKX",
+    "name": "Nashik Zilha Sarkari & Parishad Karmachari Sb Nmt",
+    "isActive": true
+  },
+  {
+    "code": "NPPX",
+    "name": "Nabagram Peoples' Co-operative Credit Bank",
+    "isActive": true
+  },
+  {
+    "code": "NRDX",
+    "name": "Nasik Road Deolali Vyapari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NRMX",
+    "name": "Northern Railway Multi State Primary Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NSBB",
+    "name": "Nagarik Sahakari Bank Bhiwandi",
+    "isActive": true
+  },
+  {
+    "code": "NSBX",
+    "name": "Nagrik Sahakari Bank Lucknow",
+    "isActive": true
+  },
+  {
+    "code": "NSCX",
+    "name": "Nagaland State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NSGX",
+    "name": "Nagar Sahakari Bank Gorakhpur",
+    "isActive": true
+  },
+  {
+    "code": "NSIX",
+    "name": "Nagrik Sahakari Bank Indore",
+    "isActive": true
+  },
+  {
+    "code": "NSJX",
+    "name": "Nagarik Sahakari Bank Maryadit,jagdalpur",
+    "isActive": true
+  },
+  {
+    "code": "NSMX",
+    "name": "Nagarik Samabay Bank",
+    "isActive": true
+  },
+  {
+    "code": "NSPB",
+    "name": "NSDL Payments Bank",
+    "isActive": true
+  },
+  {
+    "code": "NSPX",
+    "name": "Nishigandha Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NSRX",
+    "name": "Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NTBL",
+    "name": "Nainital Bank",
+    "isActive": true
+  },
+  {
+    "code": "NUBX",
+    "name": "New Urban Co-operative Bank Rampur",
+    "isActive": true
+  },
+  {
+    "code": "NUCB",
+    "name": "Nagar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NUCX",
+    "name": "Navabharat Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "NULX",
+    "name": "National Urban Co-operative Bank, Pratapgarh",
+    "isActive": true
+  },
+  {
+    "code": "NVCX",
+    "name": "Navanagara Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NVNM",
+    "name": "Navnirman Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "NVSX",
+    "name": "Nagar Vikas Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "NWCX",
+    "name": "Nawada Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ODCX",
+    "name": "Osmanabad District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ODGB",
+    "name": "Odisha Gramya Bank",
+    "isActive": true
+  },
+  {
+    "code": "OIBA",
+    "name": "HSBC Bank Oman S.A.O.G",
+    "isActive": true
+  },
+  {
+    "code": "OMCX",
+    "name": "Ojhar Merchant's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ONSX",
+    "name": "Omkar Nagreeya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ORBC",
+    "name": "Oriental Bank of Commerce",
+    "isActive": true
+  },
+  {
+    "code": "ORCB",
+    "name": "Odisha State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "OSMX",
+    "name": "Osmanabad Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PABX",
+    "name": "Pallavan Grama Bank",
+    "isActive": true
+  },
+  {
+    "code": "PACX",
+    "name": "Pali Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PADX",
+    "name": "Padra Nagar Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PALX",
+    "name": "Pali Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PANX",
+    "name": "Panchmahal District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PARX",
+    "name": "Parbhani District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PASX",
+    "name": "Paschim Banga Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "PATX",
+    "name": "Pathanmthitta District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PAYX",
+    "name": "Payangadi Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PBGX",
+    "name": "Puduvai Bharathiar Grama Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCBL",
+    "name": "Patan Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCBX",
+    "name": "Parshwanath Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCCB",
+    "name": "Purulia Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCCX",
+    "name": "Panchkula Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCLX",
+    "name": "Pragathi Co-operative Bank, Bangalore",
+    "isActive": true
+  },
+  {
+    "code": "PCMX",
+    "name": "Panchsheel Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCOX",
+    "name": "Peoples' Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCPX",
+    "name": "Pimpri Chinchwad Sahakari Bank Maryadit,pimpri",
+    "isActive": true
+  },
+  {
+    "code": "PCSX",
+    "name": "Pondicherry State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCTX",
+    "name": "Pune Cantonment Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PCUX",
+    "name": "Pochampally Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "PDBX",
+    "name": "Purnea District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PDCX",
+    "name": "Pune District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PDNX",
+    "name": "Pandyan Grama Bank",
+    "isActive": true
+  },
+  {
+    "code": "PDSX",
+    "name": "Priyadarshani Nagari Sahakari Bank Jalna.",
+    "isActive": true
+  },
+  {
+    "code": "PDUX",
+    "name": "Pandharpur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PGBX",
+    "name": "Pragathi Krishna Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "PGCX",
+    "name": "Progressive Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PGRX",
+    "name": "Progressive Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PGTX",
+    "name": "Pragati Co-operative Bank, Thara",
+    "isActive": true
+  },
+  {
+    "code": "PHIX",
+    "name": "Panihati Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PITX",
+    "name": "Pithoragarh Zila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PJSB",
+    "name": "Gopinath Patil Parsik Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PKBX",
+    "name": "Panchkula Urban Co-operative Bank Lmited",
+    "isActive": true
+  },
+  {
+    "code": "PKDX",
+    "name": "Palakkad District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PKGB",
+    "name": "Karnataka Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "PLOX",
+    "name": "Palamoor Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "PLUX",
+    "name": "Palus Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PMCB",
+    "name": "Punjab & Maharashtra Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PMCX",
+    "name": "Pimpalgaon Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PMEC",
+    "name": "Prime Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PMNX",
+    "name": "Pragati Mahila Nagrik Sahakari Bank Bhilai",
+    "isActive": true
+  },
+  {
+    "code": "PNCX",
+    "name": "Panipat Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PNMX",
+    "name": "Pune Merchant's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PNPX",
+    "name": "Panipat Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PNSX",
+    "name": "Poornawadi Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PPBX",
+    "name": "Pune People's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PPCX",
+    "name": "Pachora Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PRCX",
+    "name": "Proddatur Co-operative Town Bank",
+    "isActive": true
+  },
+  {
+    "code": "PREX",
+    "name": "Prerana Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PROX",
+    "name": "Progressive Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PRPX",
+    "name": "Paraspar Sahayak Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PRSX",
+    "name": "Pravara Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PRTH",
+    "name": "Prathama Bank",
+    "isActive": true
+  },
+  {
+    "code": "PRUX",
+    "name": "Priyadarshani Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PSBL",
+    "name": "Pavana Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PSBX",
+    "name": "Pragati Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PSCX",
+    "name": "Punjab State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PSIB",
+    "name": "Punjab & Sind Bank",
+    "isActive": true
+  },
+  {
+    "code": "PSRX",
+    "name": "Sri Potti Sriramulu Nellore Dccb",
+    "isActive": true
+  },
+  {
+    "code": "PSSX",
+    "name": "Prathamik Shikshak Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PTCX",
+    "name": "Patiala Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PTNX",
+    "name": "Patan Urban Co-operative Bank Patan",
+    "isActive": true
+  },
+  {
+    "code": "PTSX",
+    "name": "Patan Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUBX",
+    "name": "People's Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUCB",
+    "name": "Pandharpur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUCX",
+    "name": "Pusad Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUDX",
+    "name": "Pudukottai District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUGX",
+    "name": "Punjab Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUNB",
+    "name": "Punjab National Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUNX",
+    "name": "Pune Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PURX",
+    "name": "Purvanchal Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUSD",
+    "name": "Pusad Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUSX",
+    "name": "Purasawalkam Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PUUX",
+    "name": "Puri Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PVAX",
+    "name": "Pavana Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "PVCX",
+    "name": "Purvanchal Co-operative Bank Gazipur",
+    "isActive": true
+  },
+  {
+    "code": "PVVX",
+    "name": "Padmashri Dr. Vitthalrao Vikhe Patil Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PWUX",
+    "name": "Parwanoo Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "PYCX",
+    "name": "Payyoli Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "PYTM",
+    "name": "Paytm Payments Bank",
+    "isActive": true
+  },
+  {
+    "code": "QNBA",
+    "name": "Qatar National Bank",
+    "isActive": true
+  },
+  {
+    "code": "QNBX",
+    "name": "Qatar National Bank",
+    "isActive": true
+  },
+  {
+    "code": "QUCX",
+    "name": "Quilon Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "RABO",
+    "name": "Rabobank International",
+    "isActive": true
+  },
+  {
+    "code": "RACX",
+    "name": "Rajkot Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RAEX",
+    "name": "Railway Employees Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RAJX",
+    "name": "Rajsamand Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RAKX",
+    "name": "Rajkot Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RAMX",
+    "name": "Rajputana Mahila Urban Co-operative Bak",
+    "isActive": true
+  },
+  {
+    "code": "RANX",
+    "name": "Rander Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RATN",
+    "name": "RBL Bank",
+    "isActive": true
+  },
+  {
+    "code": "RAUX",
+    "name": "Rajlaxmi Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RBBX",
+    "name": "Rajarambapu Sahakari Bank Peth",
+    "isActive": true
+  },
+  {
+    "code": "RBCX",
+    "name": "Reserve Bank Employees Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RBIH",
+    "name": "IDRBT",
+    "isActive": true
+  },
+  {
+    "code": "RBIN",
+    "name": "Reserve Bank Of India",
+    "isActive": true
+  },
+  {
+    "code": "RBIP",
+    "name": "Reserve Bank of India",
+    "isActive": true
+  },
+  {
+    "code": "RBIS",
+    "name": "Reserve Bank of India",
+    "isActive": true
+  },
+  {
+    "code": "RCBX",
+    "name": "Raniganj Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RCCX",
+    "name": "Ropar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RCDX",
+    "name": "Ramanathapuram District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RCMX",
+    "name": "Ravi Commercial Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RCUX",
+    "name": "Rajadhani Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "RDCB",
+    "name": "Rajnandgaon District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RDCX",
+    "name": "Raigad District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RDNX",
+    "name": "Col Rd Nikam Sainik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "REBX",
+    "name": "Rendal Sahakari Bank Rendal",
+    "isActive": true
+  },
+  {
+    "code": "RECX",
+    "name": "Railway Employees Co-operative Banking Society",
+    "isActive": true
+  },
+  {
+    "code": "REWX",
+    "name": "Rewari Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RGCX",
+    "name": "Ramgarhia Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RGSX",
+    "name": "Rajgurunagar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RHMX",
+    "name": "Raj Laxmi Mahila Urban Co-operative Bank Jaipur",
+    "isActive": true
+  },
+  {
+    "code": "RJCX",
+    "name": "Raiganj Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RJJX",
+    "name": "Rajajinagar Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RJNX",
+    "name": "Rajpipla Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RJTX",
+    "name": "Shri Rajkot District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RKCX",
+    "name": "Ranchi Khunti Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RLUX",
+    "name": "Ranilaxmibai Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RMGB",
+    "name": "Rajasthan Marudhara Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "RNBX",
+    "name": "Ranuj Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RNDX",
+    "name": "Ratnagiri District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RNGX",
+    "name": "Ranga Reddy Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "RNSB",
+    "name": "Rajkot Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RNSX",
+    "name": "Rajdhani Nagar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ROCX",
+    "name": "Rohika Central Co-operative Bank Madhubani",
+    "isActive": true
+  },
+  {
+    "code": "ROHX",
+    "name": "Rohtak Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RPUX",
+    "name": "Rajapur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RRBP",
+    "name": "Rajarambapu Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RRSX",
+    "name": "Ramrajya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RSBL",
+    "name": "Rajgurunagar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RSBX",
+    "name": "Raigad Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RSCB",
+    "name": "Rajasthan State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RSSB",
+    "name": "Rajarshi Shahu Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RSSX",
+    "name": "Rajarshi Shahu Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RSUX",
+    "name": "Radhasoami Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RSVX",
+    "name": "Rajarshi Shahu Govt Servants Co-operative Bank Kolh",
+    "isActive": true
+  },
+  {
+    "code": "RUCX",
+    "name": "Rajasthan Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RUKX",
+    "name": "Shri Rukmini Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "RUMX",
+    "name": "Raipur Urban Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "RZSX",
+    "name": "Rampur Zila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SABR",
+    "name": "SBER Bank",
+    "isActive": true
+  },
+  {
+    "code": "SABX",
+    "name": "Saraswati Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SACB",
+    "name": "Shri Arihant Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SACX",
+    "name": "Sarvodaya Co-operative Bank Mumbai",
+    "isActive": true
+  },
+  {
+    "code": "SADX",
+    "name": "Sabarkantha District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAGX",
+    "name": "Saurashtra Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAHE",
+    "name": "Sahebrao Deshmukh Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAHX",
+    "name": "Sadhana Sahakari Bank Pune",
+    "isActive": true
+  },
+  {
+    "code": "SAIX",
+    "name": "Sanmitra Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SALX",
+    "name": "Salal Sarvodaya Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAMX",
+    "name": "Samata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SANT",
+    "name": "Sant Sopankaka Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SANX",
+    "name": "Saibaba Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAOX",
+    "name": "Shimoga Arecanut Mandy Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAPX",
+    "name": "Shrimant Malojiraje Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SARX",
+    "name": "Sardarganj Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SASA",
+    "name": "Sahyadri Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SASX",
+    "name": "S.A.S Nagar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SATX",
+    "name": "Adv. Shamraoji Shinde Satyashodhak Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAUX",
+    "name": "Saidapet Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAVX",
+    "name": "Sardar Vallabhbhai Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SAWX",
+    "name": "Sawai Madhopur Kendriya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBBJ",
+    "name": "State Bank of Bikaner and Jaipur",
+    "isActive": true
+  },
+  {
+    "code": "SBCR",
+    "name": "Shree Basaveshwar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBCX",
+    "name": "Sultan's Bathery Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBHY",
+    "name": "State Bank of Hyderabad",
+    "isActive": true
+  },
+  {
+    "code": "SBIN",
+    "name": "State Bank of India",
+    "isActive": true
+  },
+  {
+    "code": "SBKX",
+    "name": "Sri Channabasavaswamy Souhardha Pattana Sahak Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBLD",
+    "name": "Sonali Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBLS",
+    "name": "Samarth Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBLX",
+    "name": "Shubhalakshmi Mahila Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBMX",
+    "name": "Sri Banashankari Mahila Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBMY",
+    "name": "State Bank of Mysore",
+    "isActive": true
+  },
+  {
+    "code": "SBNX",
+    "name": "Shree Bhavnagar Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBPS",
+    "name": "Sri Basaveshwar Pattana Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBPX",
+    "name": "Sardar Bhiladwala Pardi People's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBSX",
+    "name": "Shivajirao Bhosale Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SBTR",
+    "name": "State Bank of Travancore",
+    "isActive": true
+  },
+  {
+    "code": "SBUJ",
+    "name": "Shri Bharat Urban Co-operative Bank Jaysingpur",
+    "isActive": true
+  },
+  {
+    "code": "SBUX",
+    "name": "Shree Balaji Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCBL",
+    "name": "Standard Chartered Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCBX",
+    "name": "Sirohi Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCCX",
+    "name": "Salem District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCDX",
+    "name": "South Canara District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCIX",
+    "name": "Social Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCNX",
+    "name": "Shri Chhani Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCOB",
+    "name": "Samruddhi Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCOX",
+    "name": "Shimoga District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCPX",
+    "name": "Sangrur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCSX",
+    "name": "Sree Charan Souhardha Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SCUX",
+    "name": "Sudha Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDBX",
+    "name": "Samata Co-operative Development Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDCB",
+    "name": "Surat District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDCE",
+    "name": "Satara District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDCX",
+    "name": "Sindhudurg District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDHX",
+    "name": "Solapur Siddheshwar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDSX",
+    "name": "Satara District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDTC",
+    "name": "Shri D T Patil Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDTX",
+    "name": "Sambalpur District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "SDUX",
+    "name": "Sri Sudha Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SECB",
+    "name": "Sree Charan Souhardha Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SEMX",
+    "name": "Secunderabad Mercantile Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SENX",
+    "name": "Sehore Nagrik Sahakari Bank Sehore",
+    "isActive": true
+  },
+  {
+    "code": "SEUX",
+    "name": "Sevalia Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SEWX",
+    "name": "Shri Mahila Sewa Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SGBA",
+    "name": "Saurashtra Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "SGCX",
+    "name": "Sangli District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SGDX",
+    "name": "Sundargarh District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SGLX",
+    "name": "Sangli Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SGSX",
+    "name": "Sadguru Nagrik Sahakari Bank Maryadit",
+    "isActive": true
+  },
+  {
+    "code": "SGUX",
+    "name": "Sadguru Gahininath Urban Co-operative Bank Akluj",
+    "isActive": true
+  },
+  {
+    "code": "SHAX",
+    "name": "Shankar Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHBK",
+    "name": "Shinhan Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHBX",
+    "name": "Shriram Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHCX",
+    "name": "Shimla Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHEX",
+    "name": "Shree Samarth Sahakari Bank Nashik",
+    "isActive": true
+  },
+  {
+    "code": "SHGX",
+    "name": "Shri Ganesh Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHIX",
+    "name": "Shivalik Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHKX",
+    "name": "Shikshak Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHMX",
+    "name": "Sanghamitra Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHNX",
+    "name": "Shri Kanyaka Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHOX",
+    "name": "Sihor Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHRX",
+    "name": "Shree Mahesh Co-operative Bank Nashik",
+    "isActive": true
+  },
+  {
+    "code": "SHSX",
+    "name": "Sharad Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHUB",
+    "name": "Shiggaon Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SHUX",
+    "name": "Shushruti Souharda Sahakara Bank Niyamita",
+    "isActive": true
+  },
+  {
+    "code": "SIBL",
+    "name": "South Indian Bank",
+    "isActive": true
+  },
+  {
+    "code": "SIBX",
+    "name": "Sikar Kendriya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SICX",
+    "name": "Sirsa Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SIDB",
+    "name": "Small Industries Development Bank Of India",
+    "isActive": true
+  },
+  {
+    "code": "SIDC",
+    "name": "Sindhudurg District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SIDX",
+    "name": "Siddhi Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SIGX",
+    "name": "Singhbhum District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SIHX",
+    "name": "Sihor Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SIKX",
+    "name": "Sikar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SINX",
+    "name": "Shihori Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SIRX",
+    "name": "Sircilla Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SISX",
+    "name": "Sanmati Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SITX",
+    "name": "Sitamarhi Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SIWX",
+    "name": "Siwan Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SJGX",
+    "name": "Sutlej Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "SJSB",
+    "name": "Solapur Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SJSX",
+    "name": "Solapur Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SKCX",
+    "name": "Shrikrishna Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SKKX",
+    "name": "Sikkim State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SKNB",
+    "name": "Shree Kadi Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SKNX",
+    "name": "Sankheda Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SKSB",
+    "name": "Shikshak Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SKUX",
+    "name": "S S L S A Kurundwad Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SLAX",
+    "name": "Subhadra Local Area Bank",
+    "isActive": true
+  },
+  {
+    "code": "SLCX",
+    "name": "Shree Laxmi Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMBC",
+    "name": "Sumitomo Mitsui Banking Corporation",
+    "isActive": true
+  },
+  {
+    "code": "SMBX",
+    "name": "Sampada Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMCB",
+    "name": "Shivalik Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMCX",
+    "name": "Sangamner Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMEX",
+    "name": "Sumerpur Mercantile Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMMX",
+    "name": "Shree Mahalaxmi Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMNB",
+    "name": "Smriti Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMNX",
+    "name": "Shree Mahuva Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMPX",
+    "name": "Shankarrao Mohite Patil Sahakri Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMSX",
+    "name": "Soubhagya Mahila Souhardha Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMTX",
+    "name": "Sanmitra Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMUX",
+    "name": "Shri Mahavir Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMVC",
+    "name": "Sir M Visvesvaraya Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SMWX",
+    "name": "Sree Subramanyeswara Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNAX",
+    "name": "Saraspur Nagarik Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNBK",
+    "name": "Saraspur Nagrik Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNBX",
+    "name": "Sarvodaya Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNCX",
+    "name": "Sonepat Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNDX",
+    "name": "Sind Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNGX",
+    "name": "Sarangpur Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNKX",
+    "name": "Shramik Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNLX",
+    "name": "Sarjeraodada Naik Shirala Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNPX",
+    "name": "Sonepat Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SNSV",
+    "name": "Sarakari Naukarara Sahakari Bank Niyamt Vijayapura",
+    "isActive": true
+  },
+  {
+    "code": "SNSX",
+    "name": "Smriti Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SOBX",
+    "name": "Secunderabad Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "SOGE",
+    "name": "Societe Generale",
+    "isActive": true
+  },
+  {
+    "code": "SOLX",
+    "name": "Solapur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SONX",
+    "name": "Sonbhadra Nagar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SPBX",
+    "name": "Saptagiri Grameena Bank",
+    "isActive": true
+  },
+  {
+    "code": "SPCB",
+    "name": "Surat People's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SPCX",
+    "name": "Shirpur Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SPNX",
+    "name": "Shree Panchganga Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SPSX",
+    "name": "Sandur Pattana Souharda Sahakari Bank Niyamitha",
+    "isActive": true
+  },
+  {
+    "code": "SPTX",
+    "name": "Shripatraodada Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SRCB",
+    "name": "Saraswat Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SRCX",
+    "name": "Shree Bharat Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SREX",
+    "name": "Shree Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SRGX",
+    "name": "Sree Narayana Guru Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SRHX",
+    "name": "Shree Dharati Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SRSX",
+    "name": "Sharad Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSBL",
+    "name": "Satara Shakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSBX",
+    "name": "Shivdaulat Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSDX",
+    "name": "Suco Souharda Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSHX",
+    "name": "Shree Sharada Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSKX",
+    "name": "Sadhana Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSLX",
+    "name": "Solapur Social Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSNX",
+    "name": "Sreenidhi Souharda Sahakari Bank Niyamitha",
+    "isActive": true
+  },
+  {
+    "code": "SSOX",
+    "name": "Samarth Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSSX",
+    "name": "Sant Sopankaka Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SSWX",
+    "name": "Sundarlal Sawaji Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "STBP",
+    "name": "State Bank of Patiala",
+    "isActive": true
+  },
+  {
+    "code": "STCB",
+    "name": "SBM Bank",
+    "isActive": true
+  },
+  {
+    "code": "STCX",
+    "name": "State Transport Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "STDX",
+    "name": "Samastipur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "STRX",
+    "name": "Sterling Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUBX",
+    "name": "Prathama UP Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUCX",
+    "name": "Sangli Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUDX",
+    "name": "Surendranagar District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SULX",
+    "name": "Sulaimani Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUMX",
+    "name": "Surat Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUNB",
+    "name": "Surat National Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SURX",
+    "name": "Siddheshwar Urban Co-operative Bank Maryadit Sillod",
+    "isActive": true
+  },
+  {
+    "code": "SURY",
+    "name": "Suryoday Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUSB",
+    "name": "Suco Souharda Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUSX",
+    "name": "Sirsi Urban Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUTB",
+    "name": "Sutex Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SUVX",
+    "name": "Suvarnayug Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVAX",
+    "name": "Sri Vasavamba Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVBL",
+    "name": "Seva Vikas Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVCB",
+    "name": "SVC Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVCX",
+    "name": "Sarvodaya Commerical Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVGX",
+    "name": "Sivagangai District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVMC",
+    "name": "Shri Vijay Mahantesh Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVNX",
+    "name": "Shivaji Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVOX",
+    "name": "Sarvodaya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVRX",
+    "name": "Shree Vardhaman Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVSH",
+    "name": "Shree Veershaiv Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SVSX",
+    "name": "Shri Vinayak Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SWMX",
+    "name": "Sawai Madhopur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SWSX",
+    "name": "Shree Warana Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "SXXX",
+    "name": "Sri Rama Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "SYNB",
+    "name": "Syndicate Bank",
+    "isActive": true
+  },
+  {
+    "code": "TACX",
+    "name": "Adinath Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TADX",
+    "name": "Anantapur District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "TAMX",
+    "name": "Anand Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TAPX",
+    "name": "Tapindu Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TASX",
+    "name": "Annasaheb Savant Co-operative Urban Bank Mahad",
+    "isActive": true
+  },
+  {
+    "code": "TAUB",
+    "name": "Ankola Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBCX",
+    "name": "Bharath Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBDX",
+    "name": "Buldana District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBHX",
+    "name": "Bhadran People's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBMC",
+    "name": "Banaskantha Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBMX",
+    "name": "Bapunagar Mahila Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBNS",
+    "name": "Becharaji Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBPX",
+    "name": "Botad Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBSB",
+    "name": "Thane Bharat Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBSX",
+    "name": "Bihar State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBTX",
+    "name": "Baroda Traders Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TBUX",
+    "name": "Balusseri Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TCBX",
+    "name": "Co-operative Bank of Rajkot",
+    "isActive": true
+  },
+  {
+    "code": "TCCX",
+    "name": "Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TCHX",
+    "name": "Town Co-operative Bank Hoskote",
+    "isActive": true
+  },
+  {
+    "code": "TCPX",
+    "name": "Tamilnadu Circle Postal Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TCUB",
+    "name": "Trivandrum Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TCUX",
+    "name": "Tiruvallur Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TDBX",
+    "name": "District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "TDCB",
+    "name": "Thane District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TDCX",
+    "name": "Thrissur District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TDIX",
+    "name": "District Co-operative Central Bank Kakinada",
+    "isActive": true
+  },
+  {
+    "code": "TDMX",
+    "name": "Dhanera Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TDPX",
+    "name": "Thodupuzha Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TDSX",
+    "name": "Nizamabad District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "TECX",
+    "name": "Eenadu Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TEHX",
+    "name": "Tehri Garhwal Zila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TEMX",
+    "name": "Textile Manufacturers Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TESX",
+    "name": "Textile Co-operative Bank of Surat",
+    "isActive": true
+  },
+  {
+    "code": "TETX",
+    "name": "Textile Traders Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TFCX",
+    "name": "Fatehabad Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TGBX",
+    "name": "Tripura Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "TGCG",
+    "name": "Gokak Urban Co-operative Credit Bank",
+    "isActive": true
+  },
+  {
+    "code": "TGCX",
+    "name": "Tamluk-ghatal Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TGDX",
+    "name": "Gondia District Central Co-operative Bank Gondia",
+    "isActive": true
+  },
+  {
+    "code": "TGMB",
+    "name": "Tumkur Grain Merchant's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TGNX",
+    "name": "Gandhinagar Nagrik Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TGRB",
+    "name": "TELANGANA GRAMEENA BANK",
+    "isActive": true
+  },
+  {
+    "code": "TGUX",
+    "name": "Gandhinagar Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "THCX",
+    "name": "Hooghly Co-operative Credit Bank",
+    "isActive": true
+  },
+  {
+    "code": "THMX",
+    "name": "Halol Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "THOX",
+    "name": "Thoothukudi District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "THRS",
+    "name": "Thrissur District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "THRX",
+    "name": "Raichur District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "THWX",
+    "name": "Howrah District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TIDX",
+    "name": "Thiruvannamalai District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TIRX",
+    "name": "Tirunelveli District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TJAX",
+    "name": "Jaisalmer Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TJBX",
+    "name": "Janata Co-operative Bank Sadalga",
+    "isActive": true
+  },
+  {
+    "code": "TJCX",
+    "name": "Thanjavur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TJDX",
+    "name": "Jalgaon District Central Co-operative Bank Jalgaon",
+    "isActive": true
+  },
+  {
+    "code": "TJMX",
+    "name": "Jaynagar Mozilpur Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TJNX",
+    "name": "Jamnagar Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TJSB",
+    "name": "TJSB Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TKAX",
+    "name": "Karjan Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TKCX",
+    "name": "Kakatiya Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TKDX",
+    "name": "Kannur District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TKTX",
+    "name": "Kottakkal Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TKUX",
+    "name": "Karan Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TLPX",
+    "name": "Lunawada Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMAX",
+    "name": "Madanapalle Co-operative Town Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMBL",
+    "name": "Tamilnad Mercantile Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMBX",
+    "name": "Mangalore Catholic Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMCX",
+    "name": "Motihari Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMNX",
+    "name": "Mahanagar Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMPX",
+    "name": "Midnapore Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMSB",
+    "name": "The Malad Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMSC",
+    "name": "Mysore Silk Cloth Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMSX",
+    "name": "Modasa Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMTX",
+    "name": "Mangalore Co-operative Town Bank",
+    "isActive": true
+  },
+  {
+    "code": "TMUX",
+    "name": "Mahila Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNBX",
+    "name": "Meghraj Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNCB",
+    "name": "Nawanagar Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNCX",
+    "name": "National Central Co-operative Bank Bettiah",
+    "isActive": true
+  },
+  {
+    "code": "TNDC",
+    "name": "Thiruvananthapuram District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNEX",
+    "name": "Nehrunagar Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNHX",
+    "name": "Nakodar Hindu Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNIX",
+    "name": "Tamilnadu Industrial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNKX",
+    "name": "Neela Krishna Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNMX",
+    "name": "Nanded Merchants Co-operative Bank Nanded",
+    "isActive": true
+  },
+  {
+    "code": "TNSC",
+    "name": "Tamilnadu State Apex Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TNUX",
+    "name": "Nandura Urban Co-operative Bank Nandura",
+    "isActive": true
+  },
+  {
+    "code": "TOCX",
+    "name": "Ottapalam Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TPCX",
+    "name": "Patliputra Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TPDX",
+    "name": "Prakasam District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "TPSC",
+    "name": "Punjab State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TPSX",
+    "name": "Tripura State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TPUX",
+    "name": "Urban Co-operative Bank No 1758 Perinthalmanna",
+    "isActive": true
+  },
+  {
+    "code": "TRAX",
+    "name": "Transport Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TRDX",
+    "name": "Tiruchirapalli Dist. Cent Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSAB",
+    "name": "Telangana State Co-operative Apex Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSAX",
+    "name": "Satana Merchants Co-operative Bank, Satana",
+    "isActive": true
+  },
+  {
+    "code": "TSBX",
+    "name": "Sasaram Bhabhua Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSCX",
+    "name": "Santragachi Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSDX",
+    "name": "District Co-operative Central Bank Srikakul",
+    "isActive": true
+  },
+  {
+    "code": "TSIX",
+    "name": "Shillong Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSKX",
+    "name": "Aska Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSMX",
+    "name": "Sardargunj Mercantile Co-operative Bank Patan",
+    "isActive": true
+  },
+  {
+    "code": "TSNX",
+    "name": "Shoranur Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSPX",
+    "name": "Sathamba Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSSB",
+    "name": "Satara Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSSX",
+    "name": "S.S.K Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TSUX",
+    "name": "Saurashtra Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TTBX",
+    "name": "Taliparamba Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "TTCB",
+    "name": "Textile Traders Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TTCX",
+    "name": "Tarn Taran Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TTGX",
+    "name": "Tasgaon Urban Co-operative Banktasgaon",
+    "isActive": true
+  },
+  {
+    "code": "TTLX",
+    "name": "Textile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TTUX",
+    "name": "Tirur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TUBX",
+    "name": "Trichur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TUCL",
+    "name": "The Union Co-operative Bank Mahinagar",
+    "isActive": true
+  },
+  {
+    "code": "TUCX",
+    "name": "Tirupati Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TUDX",
+    "name": "Urban Co-operative Bank Dharangaon",
+    "isActive": true
+  },
+  {
+    "code": "TUMX",
+    "name": "Udaipur Mahila Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TUNX",
+    "name": "Union Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TUOX",
+    "name": "Urban Co-operative Bank Saharanpur",
+    "isActive": true
+  },
+  {
+    "code": "TUPX",
+    "name": "Uttarsanda Peoples Co-operative Bank Uttarsanda",
+    "isActive": true
+  },
+  {
+    "code": "TURX",
+    "name": "Tura Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TVBX",
+    "name": "Vellala Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TVDX",
+    "name": "District Co-operative Central Bank Vizianagaram",
+    "isActive": true
+  },
+  {
+    "code": "TVPX",
+    "name": "Veraval Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TVUX",
+    "name": "Vita Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "TYCX",
+    "name": "Shree Thyagaraja Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UBBX",
+    "name": "Urban Co-operative Bank Basti",
+    "isActive": true
+  },
+  {
+    "code": "UBGX",
+    "name": "Uttar Bihar Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "UBIN",
+    "name": "Union Bank of India",
+    "isActive": true
+  },
+  {
+    "code": "UCBA",
+    "name": "UCO Bank",
+    "isActive": true
+  },
+  {
+    "code": "UCBS",
+    "name": "Utkal Co-operative Banking Society",
+    "isActive": true
+  },
+  {
+    "code": "UCBX",
+    "name": "Urban Co-operative Bank Bareilly",
+    "isActive": true
+  },
+  {
+    "code": "UCCX",
+    "name": "Udaipur Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UCDX",
+    "name": "Urban Co-operative Bank Dehradun",
+    "isActive": true
+  },
+  {
+    "code": "UCUX",
+    "name": "Universal Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "UGBX",
+    "name": "Utkal Grameen Bank",
+    "isActive": true
+  },
+  {
+    "code": "UICX",
+    "name": "United India Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UJSX",
+    "name": "Unjha Nagarik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "UJVN",
+    "name": "Ujjivan Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "UKGX",
+    "name": "Uttarbanga Kshetriya Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "UMAX",
+    "name": "Uma Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UMCX",
+    "name": "Umreth Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UMSX",
+    "name": "Udaipur Mahila Samridhi Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UMUX",
+    "name": "Umiya Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UNAX",
+    "name": "Una Peoples Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UNBA",
+    "name": "Unity Small finance Bank Limited",
+    "isActive": true
+  },
+  {
+    "code": "UNIX",
+    "name": "United Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UNMX",
+    "name": "United Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UNSX",
+    "name": "Unava Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "UOVB",
+    "name": "United Overseas Bank",
+    "isActive": true
+  },
+  {
+    "code": "UPCB",
+    "name": "Uttar Pradesh Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UPCX",
+    "name": "Uttar Pradesh Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UPNX",
+    "name": "United Puri Nimapara Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "URBN",
+    "name": "Urban Co-operative Bank Perinthalmanna",
+    "isActive": true
+  },
+  {
+    "code": "URCX",
+    "name": "Urban Co-operative Bank Siddharthnagar",
+    "isActive": true
+  },
+  {
+    "code": "URDX",
+    "name": "Urban Co-operative Bank Budaun",
+    "isActive": true
+  },
+  {
+    "code": "URMX",
+    "name": "Urban Co-operative Bank Mainpuri",
+    "isActive": true
+  },
+  {
+    "code": "UROX",
+    "name": "Urban Co-operative Bank Rourkela",
+    "isActive": true
+  },
+  {
+    "code": "USCB",
+    "name": "UTTARAKHAND STATE COOPERATIVE BANK LIMITED",
+    "isActive": true
+  },
+  {
+    "code": "USFB",
+    "name": "Ujjivan Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "USNX",
+    "name": "Udham Singh Nagar District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UTBI",
+    "name": "United Bank of India",
+    "isActive": true
+  },
+  {
+    "code": "UTBX",
+    "name": "Uttarpara Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UTCX",
+    "name": "Uttrakhand Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UTGX",
+    "name": "Uttarakhand Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "UTIB",
+    "name": "Axis Bank",
+    "isActive": true
+  },
+  {
+    "code": "UTKS",
+    "name": "Utkarsh Small Finance Bank",
+    "isActive": true
+  },
+  {
+    "code": "UTKX",
+    "name": "Uttarakhand State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UTZX",
+    "name": "Uttarkashi Zila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "UUCB",
+    "name": "Udaipur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UUCX",
+    "name": "Udaipur Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "UXXX",
+    "name": "Udupi Co-operative Town Bank",
+    "isActive": true
+  },
+  {
+    "code": "VADX",
+    "name": "Valsad District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VAIX",
+    "name": "Vaishya Sahakari Bank Mumbai",
+    "isActive": true
+  },
+  {
+    "code": "VANX",
+    "name": "Vaishya Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VARA",
+    "name": "Varachha Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VASJ",
+    "name": "Vasai Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VASX",
+    "name": "Vyaparik Audhyogik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VAUX",
+    "name": "Valmiki Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VCAX",
+    "name": "Vaish Co-operative Adarsh Bank",
+    "isActive": true
+  },
+  {
+    "code": "VCBX",
+    "name": "Vishwas Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VCCX",
+    "name": "Shri Veershaiv Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VCNB",
+    "name": "Vaish Co-operative New Bank",
+    "isActive": true
+  },
+  {
+    "code": "VCOB",
+    "name": "The Vijay Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VCOX",
+    "name": "Vita Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VDCX",
+    "name": "Villupuram District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VDYX",
+    "name": "Vidyanand Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VEDX",
+    "name": "Vellore District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VERX",
+    "name": "Veraval Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VGBX",
+    "name": "Jharkhand Rajya Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "VHDX",
+    "name": "Vaishali District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VICX",
+    "name": "Vijay Commercial Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VIDX",
+    "name": "Vidyasagar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VIJB",
+    "name": "Vijaya Bank",
+    "isActive": true
+  },
+  {
+    "code": "VIJX",
+    "name": "Vijay Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VIKX",
+    "name": "Vikramaditya Nagrik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VIMX",
+    "name": "Viramgam Mercantile Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VIRX",
+    "name": "Virudhunagar District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VISX",
+    "name": "Visakhapatnam Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VJSX",
+    "name": "Vasai Janata Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VKCX",
+    "name": "Vima Kamgar Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VKSX",
+    "name": "Vikas Sahakari Bank Solapur",
+    "isActive": true
+  },
+  {
+    "code": "VMCX",
+    "name": "Vardhaman (mahila) Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "VMMX",
+    "name": "Vaijapur Merchants Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VMUX",
+    "name": "Vidarbha Merchants Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VNSX",
+    "name": "Vivekanand Nagrik Sahakari Bank Mydt",
+    "isActive": true
+  },
+  {
+    "code": "VRDX",
+    "name": "Vardhaman Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VSBL",
+    "name": "Vishweshwar Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VSBX",
+    "name": "Vidya Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VSCX",
+    "name": "Vikas Souharda Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VSSX",
+    "name": "Veerashaiva Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VSVX",
+    "name": "Vaishali Shahari Vikas Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VUCX",
+    "name": "Vaidyanath Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "VVCX",
+    "name": "Vallabh Vidyanagar Commercial Bank",
+    "isActive": true
+  },
+  {
+    "code": "VVSB",
+    "name": "Vasai Vikas Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VYAX",
+    "name": "Vyavsayak Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "VYPX",
+    "name": "Vyapari Sahakari Bank Maryadit Solapur",
+    "isActive": true
+  },
+  {
+    "code": "VYSA",
+    "name": "ING Vysya Bank",
+    "isActive": true
+  },
+  {
+    "code": "WACX",
+    "name": "Waghodia Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "WAIX",
+    "name": "Wai Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "WARX",
+    "name": "Warangal District Co-operative Central Bank",
+    "isActive": true
+  },
+  {
+    "code": "WAUX",
+    "name": "Wardhaman Urban Co-operative Bank Nagpur",
+    "isActive": true
+  },
+  {
+    "code": "WBSC",
+    "name": "West Bengal State Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "WCBX",
+    "name": "Women's Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "WDCX",
+    "name": "Wayanad District Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "WKGX",
+    "name": "Vidharbha Kokan Gramin Bank",
+    "isActive": true
+  },
+  {
+    "code": "WNBX",
+    "name": "Wana Nagirik Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "WPAC",
+    "name": "Westpac Banking Corporation",
+    "isActive": true
+  },
+  {
+    "code": "WRCX",
+    "name": "Warangal Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "WUCX",
+    "name": "Washim Urban Co-operative Bank.",
+    "isActive": true
+  },
+  {
+    "code": "WZUX",
+    "name": "Wardha Zilla Parishad Emp Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "XJKG",
+    "name": "J&K Grameen Bank",
+    "isActive": true
+  },
+  {
+    "code": "XNSE",
+    "name": "NSE Clearing Limited",
+    "isActive": true
+  },
+  {
+    "code": "YADX",
+    "name": "Yavatmal District Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "YAVX",
+    "name": "Yavatmal Urban Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "YCBX",
+    "name": "Yashwant Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "YDCX",
+    "name": "Youth Development Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "YESB",
+    "name": "Yes Bank",
+    "isActive": true
+  },
+  {
+    "code": "YLNX",
+    "name": "Yadagiri Lakshmi Narsimha Swamy Co-operative Urban Bank",
+    "isActive": true
+  },
+  {
+    "code": "YMSX",
+    "name": "Yavatmal Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "YNCX",
+    "name": "Yamuna Nagar Central Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "YNSX",
+    "name": "Yeshwant Nagari Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ZBBX",
+    "name": "Zila Sahakari Bank Bulandshahar",
+    "isActive": true
+  },
+  {
+    "code": "ZBSX",
+    "name": "Zila Sahakari Bank Mathura",
+    "isActive": true
+  },
+  {
+    "code": "ZCBL",
+    "name": "Zoroastrian Co-operative Bank",
+    "isActive": true
+  },
+  {
+    "code": "ZIBX",
+    "name": "Zila Sahakari Bank Bareilly",
+    "isActive": true
+  },
+  {
+    "code": "ZILX",
+    "name": "Zila Sahakari Bank Unnao",
+    "isActive": true
+  },
+  {
+    "code": "ZIMX",
+    "name": "Zila Sahakari Bank Mirzapur",
+    "isActive": true
+  },
+  {
+    "code": "ZISX",
+    "name": "Zila Sahakari Bank Lucknow",
+    "isActive": true
+  },
+  {
+    "code": "ZLLX",
+    "name": "Zila Sahakari Bank Lalitpur",
+    "isActive": true
+  },
+  {
+    "code": "ZMMX",
+    "name": "Zila Sahakari Bank Moradabad",
+    "isActive": true
+  },
+  {
+    "code": "ZRNB",
+    "name": "Rani Channamma Mahila Sahakari Bank",
+    "isActive": true
+  },
+  {
+    "code": "ZSAX",
+    "name": "Zila Sahakari Bank Mau",
+    "isActive": true
+  },
+  {
+    "code": "ZSBG",
+    "name": "Zila Sahakari Bank Gorakhpur",
+    "isActive": true
+  },
+  {
+    "code": "ZSBL",
+    "name": "Zila Sahakari Bank Ghaziabad",
+    "isActive": true
+  },
+  {
+    "code": "ZSBX",
+    "name": "Zila Sahakari Bank Bijnor",
+    "isActive": true
+  },
+  {
+    "code": "ZSGX",
+    "name": "Zila Sahakari Bank Garhwal Kotdwar",
+    "isActive": true
+  },
+  {
+    "code": "ZSHX",
+    "name": "Zila Sahakari Bank Haridwar",
+    "isActive": true
+  },
+  {
+    "code": "ZSJX",
+    "name": "Zila Sahakari Bank Jhansi",
+    "isActive": true
+  },
+  {
+    "code": "ZSKX",
+    "name": "Zila Sahakari Bank Kanpur",
+    "isActive": true
+  },
+  {
+    "code": "ZSLX",
+    "name": "Zila Sahakari Bank Lakhimpur Kheri",
+    "isActive": true
+  },
+  {
+    "code": "ZSMX",
+    "name": "Zila Sahakari Bank Meerut",
+    "isActive": true
+  }
+]

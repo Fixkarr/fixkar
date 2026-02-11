@@ -9,16 +9,45 @@ export const bankDetails = async (req, res)=> {
                 messgage : "Unauthorized Access!"
             })
         }
-        const {bankName,holderName,accountNumber,ifsc,upi,panNumber} = req.body
-        if( !bankName ||
+      const {
+  bankName,
+  holderName,
+  accountNumber,
+  ifsc,
+  upi,
+  panNumber,
+  branch
+} = req.body;
+
+      if (
+  !bankName ||
+  !branch ||
   !holderName ||
   !accountNumber ||
   !ifsc ||
-  !panNumber){
-            return res.status(400).json({
-                message : "All Fields are required!"
-            })
-        }
+  !panNumber
+) {
+  return res.status(400).json({
+    message: "All Fields are required!"
+  });
+}
+
+const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+const normalizedPan = panNumber.toUpperCase();
+
+    if (!panRegex.test(normalizedPan)) {
+      return res.status(400).json({
+        message: "Invalid PAN number format"
+      });
+    }
+
+    const normalizedIfsc = ifsc.toUpperCase();
+
+      if (normalizedIfsc.length !== 11) {
+    return res.status(400).json({
+      message: "Invalid IFSC code"
+    });
+  }
 
          const passbookImage = req.file;
          if(!passbookImage){
@@ -47,15 +76,16 @@ export const bankDetails = async (req, res)=> {
             })
         }
 
-         professional.bankDetails = {
-            bankName,
-            holderName,
-            accountNumber,
-            ifsc,
-            upi,
-            panNumber,
-            docPicUrl : imageResult.secure_url
-         }
+        professional.bankDetails = {
+          bankName,
+          branch,
+          holderName,
+          accountNumber,
+          ifsc : normalizedIfsc,
+          upi,
+          panNumber : normalizedPan,
+          docPicUrl: imageResult.secure_url
+        };
          professional.bankVerificationStatus = "pending"
          await professional.save();
 
