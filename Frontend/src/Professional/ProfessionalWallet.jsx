@@ -20,12 +20,14 @@ const ProfessionalWallet = () => {
   const dispatch = useDispatch()
   const { wallet } = useSelector((state) => state.wallet);
   const [withdrawAmount, setWithdrawAmount] = useState("");
+  const {currentUserData} = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const {
     pendingBalance = 0,
     totalWithdrawn = 0,
     totalEarned = 0,
     withdrawnRequest = {},
+    bankDetails = {}
   } = wallet || {};
 
   const handleWithdrawRequest = async () => {
@@ -100,6 +102,40 @@ const ProfessionalWallet = () => {
 
           {/* Divider */}
           <hr className="my-4" />
+
+          {/* Bank Details Section */}
+{(bankDetails &&  currentUserData?.user?.bankVerified) &&(
+  <div className="card border-0 shadow-sm rounded-4 mb-4">
+    <div className="card-body">
+      <h6 className="fw-bold text-primary mb-3">
+        <FaUniversity className="me-2" />
+        Your Bank Details
+      </h6>
+
+      <div className="small text-muted">
+        <div className="mb-1">
+          <strong>Account Holder:</strong>{" "}
+          {bankDetails.holderName}
+        </div>
+
+        <div className="mb-1">
+          <strong>Account Number:</strong>{" "}
+          {bankDetails.accountNumber}
+        </div>
+
+        <div>
+          <strong>IFSC Code:</strong>{" "}
+          {bankDetails.ifsc}
+        </div>
+      </div>
+
+      <div className="mt-2 text-muted small">
+        All withdrawals will be transferred to this bank account.
+      </div>
+    </div>
+  </div>
+)}
+
 
           {/* Action */}
 
