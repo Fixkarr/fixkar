@@ -6,7 +6,7 @@ cron.schedule("*/10 * * * *", async () => {
   try {
     const today = new Date().toISOString().split("T")[0];
 
-    const result = await Professional.updateMany(
+    await Professional.updateMany(
       {},
       {
         $pull: {
