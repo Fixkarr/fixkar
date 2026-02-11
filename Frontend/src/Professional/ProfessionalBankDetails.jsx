@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaUniversity, FaIdCard, FaFileUpload, FaLock } from "react-icons/fa";
+import { FaUniversity,  FaFileUpload, FaLock } from "react-icons/fa";
 import axios from "axios";
 import { server_url } from "../App";
 import { toast } from "react-toastify";
@@ -212,6 +212,7 @@ const ProfessionalBankDetails = () => {
                     className="form-control"
                     name="branch"
                     onChange={handleChange}
+                    value={formData.branch} 
                     required
                   />
                 </div>
