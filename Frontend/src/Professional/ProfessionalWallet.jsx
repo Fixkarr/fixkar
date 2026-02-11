@@ -31,6 +31,8 @@ const ProfessionalWallet = () => {
     bankDetails = {}
   } = wallet || {};
 
+  console.log(bankDetails);
+
   const handleWithdrawRequest = async () => {
     try {
       setLoading(true);
