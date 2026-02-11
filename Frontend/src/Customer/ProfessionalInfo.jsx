@@ -315,7 +315,8 @@ useEffect(() => {
   </div>
 
    {professionalInfo.busyDays?.map((date, idx)=>{
-     return <DayCard  
+     <div>
+      <DayCard  
             key={idx}
             year={new Date(date).getFullYear()}
             day={String(new Date(date).getDate()).padStart(2, "0")}
@@ -324,6 +325,8 @@ useEffect(() => {
             })}
             
             />
+
+     </div> 
     })}
 
   </div>
