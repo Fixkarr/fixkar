@@ -24,8 +24,6 @@ const ProfessionalWallet = () => {
   const {currentUserData} = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
 
-  console.log(wallet);
-
   const {
     pendingBalance = 0,
     totalWithdrawn = 0,
@@ -33,8 +31,6 @@ const ProfessionalWallet = () => {
     withdrawnRequest = {},
     bankDetails = {}
   } = wallet || {};
-
-
 
   const handleWithdrawRequest = async () => {
     try {
@@ -59,7 +55,12 @@ const ProfessionalWallet = () => {
     <div className="container py-4">
       <div className="card shadow border-0">
         {/* Card Header */}
-        <div className="card-header bg-primary text-white d-flex align-items-center">
+        <div className="card-header text-white d-flex align-items-center"
+            style={{
+                  background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
+                  border: "none",
+                }}
+        >
           <FaWallet size={22} className="me-2" />
           <h5 className="mb-0 fw-semibold">My Wallet</h5>
         </div>

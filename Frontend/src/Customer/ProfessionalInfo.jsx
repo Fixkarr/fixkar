@@ -5,7 +5,7 @@ import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
 import { CiLocationOn } from "react-icons/ci";
 import { IoChatbubbleEllipsesOutline} from "react-icons/io5";
-import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools } from "react-icons/fa";
+import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools, FaCalendar } from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProfessional } from "../redux/professionalInfo.slice";
@@ -18,6 +18,7 @@ import { getDistanceMatrixData } from "../utils/getDistanceMatrixData";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import CallButton from "../Components/CallButton";
 import FormResponseSummary from "../Admin/AdminComponents/Utils/FormResponseSummary";
+import DayCard from "../Professional/DayCard";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -292,6 +293,36 @@ useEffect(() => {
 
   </div>
 </div>
+
+{ professionalInfo.busyDays?.length !== 0 && <div
+    className="px-4 py-3 text-white"
+    style={{
+     background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
+    }}
+  >
+    <div className="d-flex align-items-center gap-2">
+      <FaCalendar size={18} />
+      <h6 className="mb-0 fw-semibold">Not Available on these dates</h6>
+    </div>
+     <small className="opacity-75">
+      Dates this professional is not Available
+    </small>
+
+    {professionalInfo.busyDays?.map((date, idx)=>{
+      <DayCard  
+            key={idx}
+            year={new Date(date).getFullYear()}
+            day={String(new Date(date).getDate()).padStart(2, "0")}
+            month={new Date(date).toLocaleString("default", {
+              month: "short",
+            })}
+            
+            />
+    })}
+
+  </div>}
+
+
 
 {/* ================= SKILLS & EXPERTISE ================= */}
 <div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
