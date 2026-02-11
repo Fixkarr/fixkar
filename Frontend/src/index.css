@@ -180,3 +180,18 @@ hr{
   transform: scale(1.01);
   box-shadow: 0 12px 28px rgba(13, 110, 253, 0.25); /* primary shadow */
 }
+
+.message-bubble {
+  animation: fadeInUp 0.25s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

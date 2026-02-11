@@ -18,6 +18,7 @@ const ChatSection = () => {
   const { id: recieverId } = useParams();
   useGetUserById(recieverId);
   const {onlineUsers} = useSelector(state => state.presence)
+  const [previewMedia, setPreviewMedia] = useState(null);
     /* ================= FETCH MESSAGES ================= */
   useGetMyMessages(recieverId);
 
@@ -123,6 +124,8 @@ const ChatSection = () => {
           width="45"
           height="45"
           alt="profile"
+          role="button"
+          
         />
 
         <div>
@@ -158,7 +161,14 @@ const ChatSection = () => {
   return (
     <React.Fragment key={msg._id}>
       {showDate && (
-        <div className="text-center my-3">
+        <div
+          className="text-center my-3"
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 1,
+          }}
+        >
           <span
             className="px-3 py-1 rounded-pill shadow-sm"
             style={{
@@ -180,7 +190,7 @@ const ChatSection = () => {
         }`}
       >
         <div
-          className={`px-3 py-2 shadow-sm ${
+          className={`message-bubble px-3 py-2 shadow-sm ${
             msg.sender === myId
               ? "bg-primary text-white"
               : "bg-white border"
@@ -205,6 +215,7 @@ const ChatSection = () => {
                 src={media.url}
                 className="img-fluid rounded mb-2"
                 style={{ maxHeight: 250 }}
+                onClick={() => setPreviewMedia({ type: "image", url: media.url })}
               />
             ) : (
               <video
@@ -212,6 +223,7 @@ const ChatSection = () => {
                 controls
                 className="img-fluid rounded mb-2"
                 style={{ maxHeight: 250 }}
+                onClick={() => setPreviewMedia({ type: "video", url: media.url })}
               >
                 <source src={media.url} />
               </video>
@@ -322,6 +334,47 @@ const ChatSection = () => {
           </button>
         </div>
       </div>
+
+      {previewMedia && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0,0,0,0.9)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 9999,
+    }}
+    onClick={() => setPreviewMedia(null)}
+  >
+    {previewMedia.type === "image" ? (
+      <img
+        src={previewMedia.url}
+        style={{
+          maxWidth: "90%",
+          maxHeight: "90%",
+          borderRadius: "10px",
+        }}
+      />
+    ) : (
+      <video
+        src={previewMedia.url}
+        controls
+        autoPlay
+        style={{
+          maxWidth: "90%",
+          maxHeight: "90%",
+          borderRadius: "10px",
+        }}
+      />
+    )}
+  </div>
+)}
+
     </div>
   );
 };
