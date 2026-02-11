@@ -5,8 +5,8 @@ import { server_url } from "../App";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
-import Select from "react-select";
-import { banks } from "../utils/bank.js";
+import AsyncSelect from "react-select/async";
+
 
 const ProfessionalBankDetails = () => {
   const [showForm, setShowForm] = useState(false);
@@ -25,6 +25,25 @@ const ProfessionalBankDetails = () => {
     passbookPhoto: null,
   });
 
+  const loadBanks = async (inputValue) => {
+  if (!inputValue || inputValue.length < 3) return [];
+
+  try {
+    const res = await axios.get(
+      `${server_url}/api/user/get-banks?search=${inputValue}`,
+      { withCredentials: true }
+    );
+
+    return res.data.map((b) => ({
+      label: b.name,
+      value: b.name,
+    }));
+  } catch {
+    return [];
+  }
+};
+
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({
@@ -40,6 +59,11 @@ const ProfessionalBankDetails = () => {
       toast.warning("Account Number does not match");
       return;
     }
+
+    if (!formData.bankName) {
+  toast.error("Please select your bank");
+  return;
+}
 
     if (!formData.ifsc || formData.ifsc.length !== 11) {
       toast.error("Please enter a valid 11-character IFSC code");
@@ -115,17 +139,26 @@ const ProfessionalBankDetails = () => {
 
                 <div className="col-md-6">
                   <label>Bank Name</label>
-                  <Select
-                    options={banks}
-                    value={banks.find(b => b.value === formData.bankName)}
-                    placeholder="Search & select your bank"
-                    onChange={(opt) =>
-                      setFormData(prev => ({
-                        ...prev,
-                        bankName: opt.value
-                      }))
-                    }
-                  />
+                <AsyncSelect
+  cacheOptions
+  isClearable
+  defaultOptions={false}
+  loadOptions={loadBanks}
+  placeholder="Type at least 3 letters..."
+  loadingMessage={() => "Searching banks..."}
+  noOptionsMessage={({ inputValue }) =>
+    inputValue.length < 3
+      ? "Type at least 3 letters"
+      : "No banks found"
+  }
+ onChange={(opt) =>
+  setFormData((prev) => ({
+    ...prev,
+    bankName: opt ? opt.value : "",
+    branch: "",
+  }))
+}
+/>
                 </div>
 
                 <div className="col-md-6">

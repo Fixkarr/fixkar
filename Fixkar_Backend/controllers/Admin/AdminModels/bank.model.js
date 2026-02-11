@@ -21,6 +21,6 @@ const bankSchema = new mongoose.Schema(
     },
   },
   { timestamps: true }
-);
+).index({ name: 1 });;
 
 export const Bank = mongoose.model("Bank", bankSchema);
