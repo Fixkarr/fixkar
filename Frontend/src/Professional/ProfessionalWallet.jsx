@@ -4,6 +4,7 @@ import {
   FaHourglassHalf,
   FaMoneyCheckAlt,
   FaCoins,
+  FaUniversity,
 } from "react-icons/fa";
 import { FaClock} from "react-icons/fa";
 import { FaRupeeSign } from "react-icons/fa";
