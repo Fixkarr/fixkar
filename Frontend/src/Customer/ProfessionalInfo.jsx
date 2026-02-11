@@ -309,14 +309,11 @@ useEffect(() => {
      <small className="opacity-75">
       Dates this professional is not Available
     </small>
-
-   
-
   </div>
 
    {professionalInfo.busyDays?.map((date, idx) => {
   return (
-    <div key={idx}>
+    <div key={idx} className="d-flex gap-3">
       <DayCard  
         year={new Date(date).getFullYear()}
         day={String(new Date(date).getDate()).padStart(2, "0")}
