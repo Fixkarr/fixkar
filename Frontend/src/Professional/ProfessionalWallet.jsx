@@ -19,18 +19,22 @@ import { refreshWallet } from "../redux/wallet.slice";
 const ProfessionalWallet = () => {
   useGetProfessionalWallet();
   const dispatch = useDispatch()
-  const { wallet, bankDetails } = useSelector((state) => state.wallet);
+  const { data } = useSelector((state) => state.wallet);
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const {currentUserData} = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
+
+  console.log(data);
   const {
     pendingBalance = 0,
     totalWithdrawn = 0,
     totalEarned = 0,
     withdrawnRequest = {},
-  } = wallet || {};
+    wallet = {},
+    bankDetails = {}
+  } = data || {};
 
-  console.log(bankDetails)
+  
 
   const handleWithdrawRequest = async () => {
     try {
