@@ -38,12 +38,12 @@ export const getProfessionalWallet = async (req,res)=>{
       });
     }
 
-    res.json({
-      wallet,
+    const data = { wallet,
       bankDetails: safeBankDetails,
-    });
+    }
 
-    
+    res.json(data);
+
     } catch (error) {
         res.status(500).json({ message: "Internal server error!" });
     }
