@@ -223,6 +223,7 @@ const ProfessionalBankDetails = () => {
                     className="form-control"
                     name="accountNumber"
                     onChange={handleChange}
+                    value={formData.accountNumber}
                     required
                   />
                 </div>
@@ -233,6 +234,7 @@ const ProfessionalBankDetails = () => {
                     className="form-control"
                     name="confirmAccountNumber"
                     onChange={handleChange}
+                    value={formData.confirmAccountNumber}
                     required
                   />
                 </div>
@@ -258,6 +260,7 @@ const ProfessionalBankDetails = () => {
                     className="form-control"
                     name="panNumber"
                     onChange={handleChange}
+                    value={formData.panNumber}
                     required
                   />
                 </div>
@@ -268,6 +271,7 @@ const ProfessionalBankDetails = () => {
                     className="form-control"
                     name="upiId"
                     onChange={handleChange}
+                    value={formData.upiId}
                   />
                 </div>
 
