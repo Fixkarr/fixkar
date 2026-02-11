@@ -124,7 +124,7 @@ const ChatSection = () => {
   return (
    <div
   className="card border-0 shadow rounded-4 overflow-hidden d-flex flex-column"
-  // style={{ height: "80vh" }}
+  style={{ height: "100vh" }}
 >
 
       {/* ===== HEADER ===== */}
@@ -338,7 +338,7 @@ const ChatSection = () => {
 
       {/* ===== FOOTER ===== */}
       <div className="card-footer bg-white flex-shrink-0"
-     style={{ position: "sticky", bottom: 0 }}>
+       style={{ position: "sticky", bottom: 0 }}>
         <div className="d-flex gap-2 align-items-center">
 
           {role === "customer" && (
