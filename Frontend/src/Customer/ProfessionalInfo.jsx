@@ -310,10 +310,11 @@ useEffect(() => {
       Dates this professional is not Available
     </small>
   </div>
-
+  
+    <div key={idx} className="d-flex gap-3">
    {professionalInfo.busyDays?.map((date, idx) => {
   return (
-    <div key={idx} className="d-flex gap-3">
+    
       <DayCard  
         year={new Date(date).getFullYear()}
         day={String(new Date(date).getDate()).padStart(2, "0")}
@@ -321,9 +322,10 @@ useEffect(() => {
           month: "short",
         })}
       />
-    </div>
+    
   );
 })}
+</div>
 
   </div>
   }
