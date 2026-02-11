@@ -314,20 +314,19 @@ useEffect(() => {
 
   </div>
 
-   {professionalInfo.busyDays?.map((date, idx)=>{
-     <div>
+   {professionalInfo.busyDays?.map((date, idx) => {
+  return (
+    <div key={idx}>
       <DayCard  
-            key={idx}
-            year={new Date(date).getFullYear()}
-            day={String(new Date(date).getDate()).padStart(2, "0")}
-            month={new Date(date).toLocaleString("default", {
-              month: "short",
-            })}
-            
-            />
-
-     </div> 
-    })}
+        year={new Date(date).getFullYear()}
+        day={String(new Date(date).getDate()).padStart(2, "0")}
+        month={new Date(date).toLocaleString("default", {
+          month: "short",
+        })}
+      />
+    </div>
+  );
+})}
 
   </div>
   }
