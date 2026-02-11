@@ -19,6 +19,8 @@ const ChatSection = () => {
   useGetUserById(recieverId);
   const {onlineUsers} = useSelector(state => state.presence)
   const [previewMedia, setPreviewMedia] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
     /* ================= FETCH MESSAGES ================= */
   useGetMyMessages(recieverId);
 
@@ -81,10 +83,22 @@ const ChatSection = () => {
 
     try {
       setLoading(true);
+       setIsUploading(true);
+        setUploadProgress(0);
       await axios.post(
         `${server_url}/api/messages/send/${recieverId}`,
         formData,
-        { withCredentials: true }
+        { withCredentials: true,
+            onUploadProgress: (progressEvent) => {
+          const percent = Math.round(
+            (progressEvent.loaded * 100) /
+              progressEvent.total
+          );
+
+           setUploadProgress(percent);
+
+         }
+        }
       );
 
       setMessage("");
@@ -93,6 +107,8 @@ const ChatSection = () => {
       toast.error("Failed to send message");
     } finally {
       setLoading(false);
+      setIsUploading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -301,6 +317,24 @@ const ChatSection = () => {
         </div>
       )}
 
+      {isUploading && (
+  <div className="px-3 pb-2">
+    <div
+      className="progress"
+      style={{ height: "6px", borderRadius: "10px" }}
+    >
+      <div
+        className="progress-bar"
+        role="progressbar"
+        style={{ width: `${uploadProgress}%` }}
+      ></div>
+    </div>
+    <small className="text-muted">
+      Uploading... {uploadProgress}%
+    </small>
+  </div>
+)}
+
       {/* ===== FOOTER ===== */}
       <div className="card-footer bg-white">
         <div className="d-flex gap-2 align-items-center">
@@ -330,7 +364,7 @@ const ChatSection = () => {
             onClick={handleSend}
             disabled={loading}
           >
-            {loading ? <ClipLoader size={18} /> : <IoMdSend />}
+           <IoMdSend />
           </button>
         </div>
       </div>
