@@ -31,6 +31,7 @@ const ProfessionalWallet = () => {
     totalWithdrawn = 0,
     totalEarned = 0,
     withdrawnRequest = {},
+    bankDetails = {}
   } = wallet || {};
 
 
