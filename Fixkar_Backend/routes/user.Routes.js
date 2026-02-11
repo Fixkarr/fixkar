@@ -19,7 +19,6 @@ import { isAdmin } from '../middlewares/isAdmin.js';
 import { getTransaction } from '../controllers/ProfessionalsController/getTransactions.controller.js';
 import { sendWithDrawRequest } from '../controllers/ProfessionalsController/sendWithdrawRequest.js';
 import { saveFormResponse } from '../controllers/saveFormResponse.controller.js';
-import { getIFSC } from '../controllers/Admin/AdminController/getIfsc.js';
 import { getBanks } from '../controllers/Admin/AdminController/bank.controller.js';
 const userRoute = express.Router();
 
