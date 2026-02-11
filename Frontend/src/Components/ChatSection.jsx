@@ -12,6 +12,7 @@ import { formatTime } from "../utils/formatTime";
 import useGetMyMessages from "../hooks/useGetChatMessages";
 // redux
 import useGetUserById from "../hooks/useGetUserById";
+import { formatChatDate } from "../utils/formatChatDate";
 
 const ChatSection = () => {
   const { id: recieverId } = useParams();
@@ -63,10 +64,11 @@ const ChatSection = () => {
   ).catch(err => {
   });
 
-}, [recieverId]);
+}, [recieverId, messages]);
 
   /* ================= SEND MESSAGE ================= */
   const handleSend = async () => {
+    if (loading) return
     if (!message.trim() && selectedFiles.length === 0) return;
 
     const formData = new FormData();
@@ -125,16 +127,16 @@ const ChatSection = () => {
 
         <div>
           <h6 className="mb-0 fw-semibold">
-            {selectedConversationUser?.userId.fullName}
+            {selectedConversationUser?.userId?.fullName}
           </h6>
           <small
             className={`fw-semibold ${
-              onlineUsers.includes(recieverId)
+              onlineUsers?.includes(recieverId)
                 ? "text-warning"
                 : "text-light opacity-75"
             }`}
           >
-            ● {onlineUsers.includes(recieverId) ? "Online" : "Offline"}
+            ● {onlineUsers?.includes(recieverId) ? "Online" : "Offline"}
           </small>
         </div>
       </div>
@@ -144,73 +146,107 @@ const ChatSection = () => {
         className="card-body bg-light"
         style={{ overflowY: "auto" }}
       >
-        {messages?.map((msg) => (
-          <div
-            key={msg._id}
-            className={`d-flex mb-3 ${
-              msg.sender === myId
-                ? "justify-content-end"
-                : "justify-content-start"
-            }`}
+       {messages?.map((msg, index) => {
+  const currentDate = new Date(msg.createdAt).toDateString();
+  const prevDate =
+    index > 0
+      ? new Date(messages[index - 1].createdAt).toDateString()
+      : null;
+
+  const showDate = currentDate !== prevDate;
+
+  return (
+    <React.Fragment key={msg._id}>
+      {showDate && (
+        <div className="text-center my-3">
+          <span
+            className="px-3 py-1 rounded-pill shadow-sm"
+            style={{
+              fontSize: "12px",
+              backgroundColor: "#e9ecef",
+              color: "#555",
+            }}
           >
-            <div
-              className={`p-2 px-3 rounded-4 shadow-sm ${
-                msg.sender === myId
-                  ? "bg-primary bg-opacity-10"
-                  : "bg-white"
-              }`}
-              style={{ maxWidth: "75%" }}
+            {formatChatDate(msg.createdAt)}
+          </span>
+        </div>
+      )}
+
+      <div
+        className={`d-flex mb-3 ${
+          msg.sender === myId
+            ? "justify-content-end"
+            : "justify-content-start"
+        }`}
+      >
+        <div
+          className={`px-3 py-2 shadow-sm ${
+            msg.sender === myId
+              ? "bg-primary text-white"
+              : "bg-white border"
+          }`}
+          style={{
+            maxWidth: "75%",
+            borderRadius: "18px",
+            borderTopRightRadius:
+              msg.sender === myId ? "4px" : "18px",
+            borderTopLeftRadius:
+              msg.sender !== myId ? "4px" : "18px",
+          }}
+        >
+          {msg.message && (
+            <p className="mb-1 fw-semibold">{msg.message}</p>
+          )}
+
+          {msg.attachments?.map((media, idx) =>
+            media.fileType === "image" ? (
+              <img
+                key={media.url + idx}
+                src={media.url}
+                className="img-fluid rounded mb-2"
+                style={{ maxHeight: 250 }}
+              />
+            ) : (
+              <video
+                key={media.url + idx}
+                controls
+                className="img-fluid rounded mb-2"
+                style={{ maxHeight: 250 }}
+              >
+                <source src={media.url} />
+              </video>
+            )
+          )}
+
+          <div className="d-flex justify-content-between align-items-center">
+            <small className="text-muted">
+              {formatTime(
+                msg.status === "seen"
+                  ? msg.seenAt
+                  : msg.status === "delivered"
+                  ? msg.deliveredAt
+                  : msg.createdAt
+              )}
+            </small>
+
+            <span
+              className={
+                msg.status === "seen"
+                  ? "text-info"
+                  : "text-muted"
+              }
             >
-              {msg.message && (
-                <p className="mb-1 fw-semibold">{msg.message}</p>
-              )}
-
-              {msg.attachments?.map((media) =>
-                media.fileType === "image" ? (
-                  <img
-                    key={media.url}
-                    src={media.url}
-                    className="img-fluid rounded mb-2"
-                    style={{ maxHeight: 250 }}
-                  />
-                ) : (
-                  <video
-                    key={media.url}
-                    controls
-                    className="img-fluid rounded mb-2"
-                    style={{ maxHeight: 250 }}
-                  >
-                    <source src={media.url} />
-                  </video>
-                )
-              )}
-
-              <div className="d-flex justify-content-between align-items-center">
-                <small className="text-muted">
-                  {formatTime(
-                    msg.status === "seen"
-                      ? msg.seenAt
-                      : msg.status === "delivered"
-                      ? msg.deliveredAt
-                      : msg.createdAt
-                  )}
-                </small>
-
-                <span
-                  className={
-                    msg.status === "seen"
-                      ? "text-primary"
-                      : "text-muted"
-                  }
-                >
-                  {msg.status === "sent" && <BsCheck />}
-                  {(msg.status === "delivered" ||
-                    msg.status === "seen") && <BsCheckAll />}
-                </span>
-              </div>
-            </div>
+              {msg.status === "sent" && <BsCheck />}
+              {(msg.status === "delivered" ||
+                msg.status === "seen") && <BsCheckAll />}
+            </span>
           </div>
-        ))}
+        </div>
+      </div>
+    </React.Fragment>
+  );
+})}
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -238,10 +274,12 @@ const ChatSection = () => {
 
               <button
                 className="btn btn-danger btn-sm position-absolute top-0 end-0"
-                onClick={() =>
+                onClick={() =>{
+                  URL.revokeObjectURL(item.preview);
                   setSelectedFiles((p) =>
                     p.filter((_, idx) => idx !== i)
                   )
+                }
                 }
               >
                 ×
