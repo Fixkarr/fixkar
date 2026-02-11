@@ -337,7 +337,8 @@ const ChatSection = () => {
 )}
 
       {/* ===== FOOTER ===== */}
-      <div className="card-footer bg-white flex-shrink-0">
+      <div className="card-footer bg-white flex-shrink-0"
+     style={{ position: "sticky", bottom: 0 }}>
         <div className="d-flex gap-2 align-items-center">
 
           {role === "customer" && (
