@@ -122,9 +122,10 @@ const ChatSection = () => {
   }, [selectedFiles]);
 
   return (
-    <div className="card border-0 shadow rounded-4 overflow-hidden "
-    style={{ height: "80vh", display: "flex", flexDirection: "column" }}
-    >
+   <div
+  className="card border-0 shadow rounded-4 overflow-hidden d-flex flex-column"
+  style={{ height: "80vh" }}
+>
 
       {/* ===== HEADER ===== */}
       <div
@@ -162,9 +163,9 @@ const ChatSection = () => {
 
       {/* ===== BODY ===== */}
       <div
-        className="card-body bg-light"
-        style={{ overflowY: "auto" }}
-      >
+  className="card-body bg-light flex-grow-1"
+  style={{ overflowY: "auto", minHeight: 0 }}
+>
        {messages?.map((msg, index) => {
   const currentDate = new Date(msg.createdAt).toDateString();
   const prevDate =
@@ -336,7 +337,7 @@ const ChatSection = () => {
 )}
 
       {/* ===== FOOTER ===== */}
-      <div className="card-footer bg-white">
+      <div className="card-footer bg-white flex-shrink-0">
         <div className="d-flex gap-2 align-items-center">
 
           {role === "customer" && (
