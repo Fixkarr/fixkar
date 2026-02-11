@@ -310,7 +310,11 @@ useEffect(() => {
       Dates this professional is not Available
     </small>
 
-    {professionalInfo.busyDays?.map((date, idx)=>{
+   
+
+  </div>
+
+   {professionalInfo.busyDays?.map((date, idx)=>{
       <DayCard  
             key={idx}
             year={new Date(date).getFullYear()}
@@ -321,8 +325,7 @@ useEffect(() => {
             
             />
     })}
-
-  </div>
+    
   </div>
   }
 
