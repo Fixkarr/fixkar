@@ -294,7 +294,9 @@ useEffect(() => {
   </div>
 </div>
 
-{ professionalInfo.busyDays?.length !== 0 && <div
+{ professionalInfo.busyDays?.length !== 0 &&
+<div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
+ <div
     className="px-4 py-3 text-white"
     style={{
      background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
@@ -320,7 +322,9 @@ useEffect(() => {
             />
     })}
 
-  </div>}
+  </div>
+  </div>
+  }
 
 
 
