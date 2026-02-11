@@ -25,8 +25,47 @@ const ProfessionalBankDetails = () => {
     passbookPhoto: null,
   });
 
+  const handleIFSCChange = async (e) => {
+  const value = e.target.value.toUpperCase();
+
+  setFormData((prev) => ({
+    ...prev,
+    ifsc: value,
+  }));
+
+  // IFSC 11 characters ka hota hai
+  if (value.length === 11 && /^[A-Z]{4}0[A-Z0-9]{6}$/.test(value)) {
+    try {
+      const res = await axios.get(
+        `https://ifsc.razorpay.com/${value}`
+      );
+
+      // API se data mil gaya
+      setFormData((prev) => ({
+        ...prev,
+        bankName: res.data.BANK,
+        branch: res.data.BRANCH,
+      }));
+
+      toast.success("IFSC verified successfully");
+
+    } catch (error) {
+       setFormData(prev => ({
+        ...prev,
+        bankName: "",
+        branch: ""
+      }));
+      toast.error("Invalid IFSC code");
+    }
+  }
+};
+
+
   const loadBanks = async (inputValue) => {
   if (!inputValue || inputValue.length < 3) return [];
+
+  
+
 
   try {
     const res = await axios.get(
@@ -139,26 +178,32 @@ const ProfessionalBankDetails = () => {
 
                 <div className="col-md-6">
                   <label>Bank Name</label>
-                <AsyncSelect
+ <AsyncSelect
   cacheOptions
   isClearable
   defaultOptions={false}
   loadOptions={loadBanks}
   placeholder="Type at least 3 letters..."
+  value={
+    formData.bankName
+      ? { label: formData.bankName, value: formData.bankName }
+      : null
+  }
   loadingMessage={() => "Searching banks..."}
   noOptionsMessage={({ inputValue }) =>
     inputValue.length < 3
       ? "Type at least 3 letters"
       : "No banks found"
   }
- onChange={(opt) =>
-  setFormData((prev) => ({
-    ...prev,
-    bankName: opt ? opt.value : "",
-    branch: "",
-  }))
-}
+  onChange={(opt) =>
+    setFormData((prev) => ({
+      ...prev,
+      bankName: opt ? opt.value : "",
+      branch: "",
+    }))
+  }
 />
+
                 </div>
 
                 <div className="col-md-6">
@@ -194,13 +239,14 @@ const ProfessionalBankDetails = () => {
                 <div className="col-md-6">
                   <label>IFSC Code</label>
                   <input
-                    className="form-control"
-                    name="ifsc"
-                    placeholder="Enter IFSC from passbook"
-                    onChange={handleChange}
-                    required
-                  />
-                  <small className="text-muted">
+                      className="form-control"
+                      name="ifsc"
+                      value={formData.ifsc}
+                      onChange={handleIFSCChange}
+                      placeholder="Enter IFSC from passbook"
+                      required
+                    />
+                      <small className="text-muted">
                     Please verify IFSC from your passbook or cheque
                   </small>
                 </div>
