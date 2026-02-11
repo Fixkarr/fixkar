@@ -311,10 +311,9 @@ useEffect(() => {
     </small>
   </div>
 
-    <div  className="d-flex gap-3">
+    <div  className="d-flex p-3 gap-3">
    {professionalInfo.busyDays?.map((date, idx) => {
   return (
-    
       <DayCard  
         key={idx}
         year={new Date(date).getFullYear()}
