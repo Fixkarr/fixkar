@@ -190,8 +190,6 @@ const CusBookingDetail = () => {
     </div>
   </div>
 )}
-
-
     <div className="g-3 mt-2">
               {(booking.status == "pending" ||
                 booking.status == "accepted" ||
