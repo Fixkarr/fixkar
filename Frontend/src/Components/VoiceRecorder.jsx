@@ -6,59 +6,95 @@ const VoiceRecorder = ({ onAudioReady }) => {
 
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const streamRef = useRef(null);
   const timerRef = useRef(null);
 
   useEffect(() => {
     return () => {
       clearInterval(timerRef.current);
+      stopStream();
     };
   }, []);
 
+  const stopStream = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+  };
+
   const startRecording = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    if (isRecording) return;
 
-    const mediaRecorder = new MediaRecorder(stream);
-    mediaRecorderRef.current = mediaRecorder;
-    audioChunksRef.current = [];
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
 
-    mediaRecorder.ondataavailable = (event) => {
-      audioChunksRef.current.push(event.data);
-    };
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
 
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(audioChunksRef.current, {
-        type: "audio/webm",
-      });
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
 
-      onAudioReady(blob); // 👈 parent ko bhej diya
-      setRecordingTime(0);
-    };
+      mediaRecorder.onstop = () => {
+        clearInterval(timerRef.current);
 
-    mediaRecorder.start();
-    setIsRecording(true);
+        if (audioChunksRef.current.length === 0) {
+          stopStream();
+          setIsRecording(false);
+          return;
+        }
 
-    timerRef.current = setInterval(() => {
-      setRecordingTime((prev) => prev + 1);
-    }, 1000);
+        const blob = new Blob(audioChunksRef.current, {
+          type: "audio/webm",
+        });
+
+        onAudioReady(blob);
+
+        setRecordingTime(0);
+        setIsRecording(false);
+        stopStream();
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+
+      timerRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+
+    } catch (err) {
+      alert("Microphone permission denied");
+    }
   };
 
   const stopRecording = () => {
+    if (!mediaRecorderRef.current || !isRecording) return;
+
     mediaRecorderRef.current.stop();
-    setIsRecording(false);
-    clearInterval(timerRef.current);
   };
 
   return (
-    <div>
-      <button
-        className={`btn ${isRecording ? "btn-danger" : "btn-outline-primary"} rounded-circle`}
-        onMouseDown={startRecording}
-        onMouseUp={stopRecording}
-        onTouchStart={startRecording}
-        onTouchEnd={stopRecording}
-      >
-        🎙️
-      </button>
+    <div className="d-flex align-items-center">
+      {!isRecording ? (
+        <button
+          className="btn btn-outline-primary rounded-circle"
+          onClick={startRecording}
+        >
+          🎤
+        </button>
+      ) : (
+        <button
+          className="btn btn-danger rounded-circle"
+          onClick={stopRecording}
+        >
+          ⏹
+        </button>
+      )}
 
       {isRecording && (
         <small className="text-danger ms-2">

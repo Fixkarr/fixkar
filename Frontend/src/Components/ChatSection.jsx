@@ -84,7 +84,11 @@ const ChatSection = () => {
   /* ================= SEND MESSAGE ================= */
   const handleSend = async () => {
     if (loading) return
-    if (!message.trim() && selectedFiles.length === 0) return;
+   if (
+  !message.trim() &&
+  selectedFiles.length === 0 &&
+  !voiceBlob
+) return;
 
    
 
