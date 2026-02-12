@@ -484,7 +484,7 @@ const scrollToMessage = (id) => {
 
       {/* ===== FOOTER ===== */}
       <div className="card-footer bg-white flex-shrink-0"
-       style={{ position: "sticky", bottom: 0 }}>
+       style={{ position: "sticky", bottom: 0, height : '20vh' }}>
         <div className="d-flex gap-2 align-items-center">
 
           {role === "customer" && (
