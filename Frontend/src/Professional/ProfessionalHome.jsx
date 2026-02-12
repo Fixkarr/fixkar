@@ -41,28 +41,36 @@ const ProfessionalHome = () => {
   }, [currentUserData]);
 
   useEffect(() => {
-    const alreadyAsked = localStorage.getItem(`notif${currentUserData?.user?.userId?._id}`);
-
-    if (!alreadyAsked || Notification.permission === "default" || Notification.permission === "denied") {
-      setShowNotificationModal(true);
-    }
+     if (Notification.permission !== "granted") {
+    setShowNotificationModal(true);
+  } else {
+    setShowNotificationModal(false);
+  }
   }, []);
 
    const handleEnableNotifications = async () => {
     try {
-      setNotifLoading(true);
+        if (Notification.permission === "denied") {
+      alert(
+        "Notifications are blocked. Please enable them manually from your browser settings."
+      );
+      return;
+    }
+
+    // CASE 2: Ask for permission (first time)
+    const permission = await Notification.requestPermission();
+
+      if (permission === "granted") {
       await generateFCMToken();
-      localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
       setShowNotificationModal(false);
+    }
     } catch (err) {
-      console.log(err);
     } finally {
       setNotifLoading(false);
     }
   };
 
     const handleCloseModal = () => {
-    localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "false");
     setShowNotificationModal(false);
   };
 
