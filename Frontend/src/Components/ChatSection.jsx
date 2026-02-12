@@ -19,6 +19,7 @@ const ChatSection = () => {
   useGetUserById(recieverId);
   const {onlineUsers} = useSelector(state => state.presence)
   const [previewMedia, setPreviewMedia] = useState(null);
+  const [replyingTo, setReplyingTo] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [contextMenu, setContextMenu] = useState(null);
@@ -77,12 +78,19 @@ const ChatSection = () => {
     if (loading) return
     if (!message.trim() && selectedFiles.length === 0) return;
 
+   
+
     const formData = new FormData();
     formData.append("message", message);
+
 
     selectedFiles.forEach((item) =>
       formData.append("attachments", item.file)
     );
+
+     if (replyingTo) {
+  formData.append("replyTo", replyingTo._id);
+    }
 
     try {
       setLoading(true);
@@ -106,6 +114,7 @@ const ChatSection = () => {
 
       setMessage("");
       setSelectedFiles([]);
+      setReplyingTo(null);
     } catch (error) {
       toast.error("Failed to send message");
     } finally {
@@ -152,9 +161,9 @@ const handleDeleteForEveryone = () => {
 };
 
 const handleReply = () => {
-  console.log("Reply to", selectedMsg._id);
+  setReplyingTo(selectedMsg);
   setContextMenu(null);
-};
+}; 
 
 
   /* ================= CLEANUP PREVIEWS ================= */
@@ -281,6 +290,32 @@ const handleReply = () => {
               msg.sender !== myId ? "4px" : "18px",
           }}
         >
+          {msg.replyTo && (
+  <div
+    className="mb-2 p-2 rounded"
+    style={{
+      backgroundColor: msg.sender === myId ? "rgba(255,255,255,0.2)" : "#f1f3f5",
+      borderLeft: "3px solid #0d6efd"
+    }}
+  >
+    <small className="fw-semibold text-muted">
+     {msg.replyTo.sender?.toString() === myId ? "You" : selectedConversationUser?.userId?.fullName}
+
+    </small>
+
+    <div className="small text-truncate">
+      {msg.replyTo.message
+        ? msg.replyTo.message
+        : msg.replyTo.attachments?.length > 0
+        ? msg.replyTo.attachments[0].fileType === "video"
+          ? "🎥 Video"
+          : "📷 Photo"
+        : ""}
+    </div>
+  </div>
+)}
+
+
           {msg.message && (
             <p className="mb-1 fw-semibold">{msg.message}</p>
           )}
@@ -396,6 +431,39 @@ const handleReply = () => {
   </div>
 )}
 
+      {replyingTo && (
+  <div
+    className="px-3 py-2 border-top bg-light"
+    style={{
+      borderLeft: "4px solid #0d6efd"
+    }}
+  >
+    <div className="d-flex justify-content-between align-items-start">
+      <div>
+        <small className="text-primary fw-semibold">
+          Replying to {replyingTo.sender === myId ? "You" : selectedConversationUser?.userId?.fullName}
+        </small>
+
+        <div className="small text-muted text-truncate">
+          {replyingTo.message
+            ? replyingTo.message
+            : replyingTo.attachments?.length > 0
+            ? replyingTo.attachments[0].fileType === "video"
+              ? "🎥 Video"
+              : "📷 Photo"
+            : ""}
+        </div>
+      </div>
+
+      <button
+        className="btn-close btn-sm"
+        onClick={() => setReplyingTo(null)}
+      ></button>
+    </div>
+  </div>
+)}
+
+
       {/* ===== FOOTER ===== */}
       <div className="card-footer bg-white flex-shrink-0"
        style={{ position: "sticky", bottom: 0 }}>
@@ -494,7 +562,6 @@ const handleReply = () => {
     )}
   </div>
 )}
-
 
       {previewMedia && (
   <div

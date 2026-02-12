@@ -17,7 +17,7 @@ export const getMessages = async (req, res) => {
     { sender: recieverId, reciever: senderId }
   ],
   deleteFor: { $ne: senderId } 
-}).sort({ createdAt: 1 });
+}).sort({ createdAt: 1 }).populate({path: "replyTo", select: "message attachments sender"});
 
 await Message.updateMany(
   {
@@ -67,7 +67,7 @@ if (senderSocketId) {
 
 export const sendMessage = async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message , replyTo} = req.body;
     const { recieverId } = req.params;
     const senderId = req.userId;
 
@@ -117,6 +117,7 @@ export const sendMessage = async (req, res) => {
       reciever: recieverId,
       message: message || "",
       attachments: attachmentsArray,
+        replyTo: replyTo || null,
         status: isReceiverOnline ? "delivered" : "sent",
         deliveredAt: isReceiverOnline ? new Date() : null,
     });

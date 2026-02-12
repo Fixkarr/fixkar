@@ -11,6 +11,7 @@ const messageSchema = new mongoose.Schema({
         enum : ["pending", "sent", "delivered", "seen"],
         default : "pending"
     },
+    replyTo : {type : mongoose.Schema.Types.ObjectId, ref : 'Message', default : null}, 
     deliveredAt : {type : Date, },
     seenAt : {type : Date},
     deleteFor : [{type : mongoose.Schema.Types.ObjectId, ref : 'User'}], 
