@@ -483,39 +483,41 @@ const scrollToMessage = (id) => {
 
 
       {/* ===== FOOTER ===== */}
-      <div className="card-footer bg-white flex-shrink-0"
-       style={{ position: "sticky", bottom: 0, height : '20vh' }}>
-        <div className="d-flex gap-2 align-items-center">
+     <div
+  className="chat-footer bg-white flex-shrink-0 px-2 py-2"
+>
+  <div className="d-flex align-items-center gap-2">
 
-          {role === "customer" && (
-            <label className="btn btn-light rounded-circle shadow-sm mb-0">
-              <ImAttachment />
-              <input
-                type="file"
-                hidden
-                multiple
-                accept="image/*,video/*"
-                onChange={handleFileSelect}
-              />
-            </label>
-          )}
+    {role === "customer" && (
+      <label className="attach-btn d-flex align-items-center justify-content-center">
+        <ImAttachment size={22} />
+        <input
+          type="file"
+          hidden
+          multiple
+          accept="image/*,video/*"
+          onChange={handleFileSelect}
+        />
+      </label>
+    )}
 
-          <input
-            className="form-control rounded-pill"
-            placeholder="Type a message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
+    <input
+      className="form-control chat-input"
+      placeholder="Type a message..."
+      value={message}
+      onChange={(e) => setMessage(e.target.value)}
+    />
 
-          <button
-            className="btn btn-primary rounded-circle px-3"
-            onClick={handleSend}
-            disabled={loading}
-          >
-           <IoMdSend />
-          </button>
-        </div>
-      </div>
+    <button
+      className="send-btn d-flex align-items-center justify-content-center"
+      onClick={handleSend}
+      disabled={loading}
+    >
+      <IoMdSend size={22} />
+    </button>
+  </div>
+</div>
+
 
       {contextMenu && (
   <div
