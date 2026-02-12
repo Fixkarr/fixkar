@@ -195,7 +195,7 @@ const scrollToMessage = (id) => {
 
   return (
    <div
-  className="card border-0 shadow rounded-4 d-flex flex-column"
+  className="card border-0 shadow rounded-46 d-flex flex-column"
   style={{ height: "100vh" }}
 >
       {/* ===== HEADER ===== */}
@@ -233,10 +233,32 @@ const scrollToMessage = (id) => {
       </div>
 
       {/* ===== BODY ===== */}
+   
+
+
       <div
   className="card-body bg-light flex-grow-1"
   style={{ overflowY: "auto", minHeight: 0 }}
 >
+
+           {messages?.length === 0 && (
+  <div className="empty-chat-container">
+    <div className="empty-card text-center p-4">
+      <div className="mb-3" style={{ fontSize: "70px" }}>
+        🚀
+      </div>
+      <h5 className="fw-bold">
+        No messages yet
+      </h5>
+      <p className="text-muted small">
+        Send a message to start chatting with{" "}
+        {selectedConversationUser?.userId?.fullName}
+      </p>
+    </div>
+  </div>
+)}
+
+
        {messages?.map((msg, index) => {
   const currentDate = new Date(msg.createdAt).toDateString();
   const prevDate =
