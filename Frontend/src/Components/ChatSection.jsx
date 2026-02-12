@@ -125,11 +125,16 @@ const ChatSection = () => {
   };
 
 
-  useEffect(() => {
-  const handleClick = () => setContextMenu(null);
+ useEffect(() => {
+  const handleClick = (e) => {
+    if (e.target.closest(".custom-context-menu")) return;
+    setContextMenu(null);
+  };
+
   window.addEventListener("click", handleClick);
   return () => window.removeEventListener("click", handleClick);
 }, []);
+
 
 const handleCopy = () => {
   if (selectedMsg?.message) {
