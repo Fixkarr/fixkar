@@ -24,6 +24,9 @@ const ChatSection = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [contextMenu, setContextMenu] = useState(null);
   const [selectedMsg, setSelectedMsg] = useState(null);
+  const messageRefs = useRef({});
+  const [highlightedId, setHighlightedId] = useState(null);
+
 
     /* ================= FETCH MESSAGES ================= */
   useGetMyMessages(recieverId);
@@ -155,20 +158,28 @@ const handleDownload = () => {
   setContextMenu(null);
 };
 
-const handleDeleteForMe = () => {
-  console.log("Delete for me", selectedMsg._id);
-  setContextMenu(null);
-};
-
-const handleDeleteForEveryone = () => {
-  console.log("Delete for everyone", selectedMsg._id);
-  setContextMenu(null);
-};
 
 const handleReply = () => {
   setReplyingTo(selectedMsg);
   setContextMenu(null);
 }; 
+
+
+const scrollToMessage = (id) => {
+  const element = messageRefs.current[id];
+  if (element) {
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    setHighlightedId(id);
+
+    setTimeout(() => {
+      setHighlightedId(null);
+    }, 2000);
+  }
+};
 
 
   /* ================= CLEANUP PREVIEWS ================= */
@@ -285,7 +296,8 @@ const handleReply = () => {
             msg.sender === myId
               ? "bg-primary text-white"
               : "bg-white border"
-          }`}
+          } ${highlightedId === msg._id ? "highlight-message" : ""}`}
+
           style={{
             maxWidth: "75%",
             borderRadius: "18px",
@@ -300,8 +312,10 @@ const handleReply = () => {
     className="mb-2 p-2 rounded"
     style={{
       backgroundColor: msg.sender === myId ? "rgba(255,255,255,0.2)" : "#f1f3f5",
-      borderLeft: "3px solid #0d6efd"
+      borderLeft: "3px solid #0d6efd",
+      cursor : "pointer"
     }}
+    onClick={() => scrollToMessage(msg.replyTo._id)}
   >
     <small className="fw-semibold text-muted">
      {msg.replyTo.sender?.toString() === myId ? "You" : selectedConversationUser?.userId?.fullName}
@@ -535,24 +549,6 @@ const handleReply = () => {
     >
       Reply
     </div>
-
-    <div
-      className="px-3 py-2 text-danger"
-      onClick={handleDeleteForMe}
-      style={{ cursor: "pointer" }}
-    >
-      Delete for me
-    </div>
-
-    {selectedMsg?.sender === myId && (
-      <div
-        className="px-3 py-2 text-danger"
-        onClick={handleDeleteForEveryone}
-        style={{ cursor: "pointer" }}
-      >
-        Delete for everyone
-      </div>
-    )}
 
     {/* MEDIA DOWNLOAD */}
     {selectedMsg?.attachments?.length > 0 && (

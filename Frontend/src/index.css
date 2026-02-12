@@ -195,3 +195,20 @@ hr{
     transform: translateY(0);
   }
 }
+
+
+.highlight-message {
+  animation: highlightFlash 2s ease;
+  background-color: #fff3cd !important;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.4);
+  transition: 0.3s;
+}
+
+@keyframes highlightFlash {
+  0% {
+    background-color: #ffeeba;
+  }
+  100% {
+    background-color: inherit;
+  }
+}
