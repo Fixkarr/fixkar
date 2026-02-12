@@ -298,8 +298,6 @@ const RequestHireForm = ({ proInfo }) => {
   </div>
 </div>
 
-      
-
           {/* Mobile */}
           {isMobileVerified && (
             <div className="mb-3">

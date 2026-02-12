@@ -83,6 +83,7 @@ const VoiceRecorder = ({ onAudioReady }) => {
     <div className="d-flex align-items-center">
       {!isRecording ? (
         <button
+        type="button"
           className="attach-btn btn btn-outline-primary rounded-circle"
           onClick={startRecording}
         >
@@ -90,6 +91,7 @@ const VoiceRecorder = ({ onAudioReady }) => {
         </button>
       ) : (
         <button
+            type="button"
           className="btn btn-danger rounded-circle"
           onClick={stopRecording}
         >

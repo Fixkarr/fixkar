@@ -3,6 +3,7 @@ import { Notification } from "../../models/notificationModel.js";
 import { Customer } from "../../models/userModel.js";
 import {io} from '../../server.js'
 import { pushNotification } from "../../services/pushNotification.js";
+import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
 export const sendHireRequest = async (req, res)=>{
     try {
         const {professionalId, workDate, workTime, mobileNumber, problemDescription, visitingCharge, workAddress, distanceInKm, customerName} = req.body;
