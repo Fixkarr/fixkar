@@ -305,7 +305,6 @@ const handleReply = () => {
   >
     <small className="fw-semibold text-muted">
      {msg.replyTo.sender?.toString() === myId ? "You" : selectedConversationUser?.userId?.fullName}
-
     </small>
 
     <div className="small text-truncate">

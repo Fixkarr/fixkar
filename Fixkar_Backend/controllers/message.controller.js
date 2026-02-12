@@ -112,7 +112,7 @@ export const sendMessage = async (req, res) => {
     }
     const isReceiverOnline = Boolean(userSocketMap[recieverId]);
 
-    const newMessage = await Message.create({
+    let newMessage = await Message.create({
       sender: senderId,
       reciever: recieverId,
       message: message || "",
@@ -120,6 +120,11 @@ export const sendMessage = async (req, res) => {
         replyTo: replyTo || null,
         status: isReceiverOnline ? "delivered" : "sent",
         deliveredAt: isReceiverOnline ? new Date() : null,
+    });
+
+    newMessage = await newMessage.populate({
+      path: "replyTo",
+      select: "message attachments sender",
     });
 
     let notificationMessage = "";
