@@ -13,6 +13,7 @@ import useGetMyMessages from "../hooks/useGetChatMessages";
 // redux
 import useGetUserById from "../hooks/useGetUserById";
 import { formatChatDate } from "../utils/formatChatDate";
+import VoiceRecorder from "./VoiceRecorder";
 
 const ChatSection = () => {
   const { id: recieverId } = useParams();
@@ -27,6 +28,8 @@ const ChatSection = () => {
   const messageRefs = useRef({});
   const [highlightedId, setHighlightedId] = useState(null);
   const longPressTimer = useRef(null);
+  const [voiceBlob, setVoiceBlob] = useState(null);
+
 
 
 
@@ -97,6 +100,10 @@ const ChatSection = () => {
   formData.append("replyTo", replyingTo._id);
     }
 
+    if (voiceBlob) {
+  formData.append("attachments", voiceBlob, "voice.webm");
+}
+
     try {
       setLoading(true);
        setIsUploading(true);
@@ -120,6 +127,7 @@ const ChatSection = () => {
       setMessage("");
       setSelectedFiles([]);
       setReplyingTo(null);
+      setVoiceBlob(null);
     } catch (error) {
       toast.error("Failed to send message");
     } finally {
@@ -362,6 +370,8 @@ onTouchMove={() => {
         : msg.replyTo.attachments?.length > 0
         ? msg.replyTo.attachments[0].fileType === "video"
           ? "🎥 Video"
+          : msg.replyTo.attachments[0].fileType === "audio"
+          ? "🎤 Voice message"
           : "📷 Photo"
         : ""}
     </div>
@@ -374,15 +384,17 @@ onTouchMove={() => {
           )}
 
           {msg.attachments?.map((media, idx) =>
-            media.fileType === "image" ? (
-              <img
+           { if(media.fileType === "image") {
+             return ( <img
                 key={media.url + idx}
                 src={media.url}
                 className="img-fluid rounded mb-2"
                 style={{ maxHeight: 250 }}
                 onClick={() => setPreviewMedia({ type: "image", url: media.url })}
-              />
-            ) : (
+              />)
+            } 
+            if(media.fileType === "video"){
+               return (
               <video
                 key={media.url + idx}
                 controls
@@ -393,6 +405,18 @@ onTouchMove={() => {
                 <source src={media.url} />
               </video>
             )
+            }
+            if(media.fileType === 'audio'){
+               return (
+      <div key={media.url + idx} className="audio-bubble">
+          Voice Message
+        <audio controls src={media.url} />
+      </div>
+    );
+            }
+              
+          } 
+            
           )}
 
           <div className="d-flex justify-content-between align-items-center">
@@ -543,6 +567,9 @@ onTouchMove={() => {
       onChange={(e) => setMessage(e.target.value)}
     />
 
+    <VoiceRecorder onAudioReady={(blob) => setVoiceBlob(blob)} />
+
+
     <button
       className="send-btn d-flex align-items-center justify-content-center"
       onClick={handleSend}
@@ -569,7 +596,7 @@ onTouchMove={() => {
     }}
   >
     {/* TEXT MESSAGE OPTIONS */}
-    {selectedMsg?.message && (
+    {selectedMsg?.message && !selectedMsg?.attachments?.length && (
       <div
         className="px-3 py-2 hover-bg"
         onClick={handleCopy}

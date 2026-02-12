@@ -78,18 +78,29 @@ export const sendMessage = async (req, res) => {
         // allow only image & video
         if (
           !file.mimetype.startsWith("image/") &&
-          !file.mimetype.startsWith("video/")
+          !file.mimetype.startsWith("video/")&&
+          !file.mimetype.startsWith("audio/")
         ) {
           return res.status(400).json({
-            message: "Only image and video files are allowed",
+            message: "Only image, video and audio files are allowed",
           });
         }
 
-        const isVideo = file.mimetype.startsWith("video/");
-        const resourceType = isVideo ? "video" : "image";
-        const folder = isVideo
-          ? "chat_attachments/videos"
-          : "chat_attachments/images";
+         let resourceType = "image";
+    let folder = "chat_attachments/images";
+    let fileType = "image";
+
+    if (file.mimetype.startsWith("video/")) {
+      resourceType = "video";
+      folder = "chat_attachments/videos";
+      fileType = "video";
+    }
+
+    if (file.mimetype.startsWith("audio/")) {
+      resourceType = "video"; // cloudinary rule
+      folder = "chat_attachments/audios";
+      fileType = "audio";
+    }
 
         const uploadResult = await uploadToCloudinary(
           file,
@@ -100,7 +111,7 @@ export const sendMessage = async (req, res) => {
         attachmentsArray.push({
           url: uploadResult.secure_url,
           publicId: uploadResult.public_id,
-          fileType: resourceType,
+          fileType: fileType,
         });
       }
     }
@@ -139,18 +150,25 @@ if (message && message.trim() !== "") {
 
 // ONLY MEDIA
 else if (attachmentsArray.length > 0) {
+    const hasAudio = attachmentsArray.some(
+        (att) => att.fileType === "audio"
+      );
+
   const hasVideo = attachmentsArray.some(
     (att) => att.fileType === "video"
   );
 
-  if (hasVideo) {
-    notificationMessage = "🎥 Video";
-  } else if (attachmentsArray.length === 1) {
-    notificationMessage = "📷 Photo";
-  } else {
-    notificationMessage = "📎 Media";
-  }
-}
+   if (hasAudio) {
+        notificationMessage = "🎤 Voice message";
+      } else if (hasVideo) {
+        notificationMessage = "🎥 Video";
+      } else if (attachmentsArray.length === 1) {
+        notificationMessage = "📷 Photo";
+      } else {
+        notificationMessage = "📎 Media";
+      }
+    }
+
 
     await pushNotification({
     userId: recieverId,

@@ -312,3 +312,13 @@ border-radius: 25px;
   max-width: 320px;
   animation: fadeIn 0.5s ease;
 }
+
+.audio-bubble {
+  background: #f1f3f5;
+  padding: 8px 12px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 220px;
+}
