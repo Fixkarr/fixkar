@@ -195,23 +195,53 @@ hr{
     transform: translateY(0);
   }
 }
-
-
 .highlight-message {
-  animation: highlightFlash 2s ease;
-  background-color: #fff3cd !important;
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.4);
-  transition: 0.3s;
+  position: relative;
+  animation: highlightSmooth 1.6s ease forwards;
+  border-radius: 18px;
 }
 
-@keyframes highlightFlash {
+/* Soft glow ring effect */
+.highlight-message::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 22px;
+  border: 2px solid rgba(13, 110, 253, 0.5);
+  animation: glowPulse 1.6s ease forwards;
+  pointer-events: none;
+}
+
+/* Background fade + slight scale */
+@keyframes highlightSmooth {
   0% {
-    background-color: #ffeeba;
+    background-color: rgba(13, 110, 253, 0.15);
+    transform: scale(1.02);
+  }
+  60% {
+    background-color: rgba(13, 110, 253, 0.08);
   }
   100% {
-    background-color: inherit;
+    background-color: transparent;
+    transform: scale(1);
   }
 }
+
+/* Outer glow pulse */
+@keyframes glowPulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  60% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
 
 .chat-footer {
   border-top: 1px solid #e9ecef;
