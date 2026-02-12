@@ -34,7 +34,7 @@ export const saveFCMToken = async (req,res)=>{
       });
     }
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("+fcmTokens");;
     if(!user){
         return res.status(404).json({
         success: false,
@@ -42,7 +42,7 @@ export const saveFCMToken = async (req,res)=>{
     })
     }
 
-    if (user.fcmTokens.includes(fcmToken)) {
+    if (user.fcmTokens?.includes(fcmToken)) {
       return res.status(200).json({
         success: true,
         message: "FCM token already saved",
