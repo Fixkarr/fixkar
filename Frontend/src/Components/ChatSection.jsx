@@ -29,6 +29,7 @@ const ChatSection = () => {
   const [highlightedId, setHighlightedId] = useState(null);
   const longPressTimer = useRef(null);
   const [voiceBlob, setVoiceBlob] = useState(null);
+  const [voicePreviewUrl, setVoicePreviewUrl] = useState(null);
 
 
 
@@ -40,6 +41,21 @@ const ChatSection = () => {
   const { selectedConversationUser, messages } = useSelector(
   (state) => state.chatMessages
 );
+
+useEffect(() => {
+  if (voiceBlob) {
+    const url = URL.createObjectURL(voiceBlob);
+    setVoicePreviewUrl(url);
+  }
+}, [voiceBlob]);
+
+useEffect(() => {
+  return () => {
+    if (voicePreviewUrl) {
+      URL.revokeObjectURL(voicePreviewUrl);
+    }
+  };
+}, [voicePreviewUrl]);
 
 
   const { currentUserData } = useSelector((state) => state.user);
@@ -541,6 +557,29 @@ onTouchMove={() => {
         onClick={() => setReplyingTo(null)}
       ></button>
     </div>
+  </div>
+)}
+
+{voiceBlob && voicePreviewUrl && (
+  <div className="p-2 border-top bg-light d-flex align-items-center justify-content-between">
+    
+    <div className="d-flex align-items-center gap-2">
+      🎤 <span className="small">Voice message ready</span>
+    </div>
+
+    <audio controls src={voicePreviewUrl} />
+
+    <button
+      className="btn btn-sm btn-danger"
+      onClick={() => {
+        URL.revokeObjectURL(voicePreviewUrl);
+        setVoiceBlob(null);
+        setVoicePreviewUrl(null);
+      }}
+    >
+      ✕
+    </button>
+
   </div>
 )}
 
