@@ -21,6 +21,9 @@ const ChatSection = () => {
   const [previewMedia, setPreviewMedia] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [contextMenu, setContextMenu] = useState(null);
+  const [selectedMsg, setSelectedMsg] = useState(null);
+
     /* ================= FETCH MESSAGES ================= */
   useGetMyMessages(recieverId);
 
@@ -112,6 +115,48 @@ const ChatSection = () => {
     }
   };
 
+
+  useEffect(() => {
+  const handleClick = () => setContextMenu(null);
+  window.addEventListener("click", handleClick);
+  return () => window.removeEventListener("click", handleClick);
+}, []);
+
+const handleCopy = () => {
+  if (selectedMsg?.message) {
+    navigator.clipboard.writeText(selectedMsg.message);
+    toast.success("Copied");
+  }
+  setContextMenu(null);
+};
+
+const handleDownload = () => {
+  const media = selectedMsg?.attachments?.[0];
+  if (media?.url) {
+    const link = document.createElement("a");
+    link.href = media.url;
+    link.download = "file";
+    link.click();
+  }
+  setContextMenu(null);
+};
+
+const handleDeleteForMe = () => {
+  console.log("Delete for me", selectedMsg._id);
+  setContextMenu(null);
+};
+
+const handleDeleteForEveryone = () => {
+  console.log("Delete for everyone", selectedMsg._id);
+  setContextMenu(null);
+};
+
+const handleReply = () => {
+  console.log("Reply to", selectedMsg._id);
+  setContextMenu(null);
+};
+
+
   /* ================= CLEANUP PREVIEWS ================= */
   useEffect(() => {
     return () => {
@@ -126,7 +171,6 @@ const ChatSection = () => {
   className="card border-0 shadow rounded-4 overflow-hidden d-flex flex-column"
   style={{ height: "100vh" }}
 >
-
       {/* ===== HEADER ===== */}
       <div
         className="card-header d-flex align-items-center gap-3 text-white"
@@ -207,6 +251,22 @@ const ChatSection = () => {
         }`}
       >
         <div
+            onTouchStart={(e) => {
+            const touch = e.touches[0];
+            setSelectedMsg(msg);
+            setContextMenu({
+              mouseX: touch.clientX,
+              mouseY: touch.clientY,
+            });
+          }}
+             onContextMenu={(e) => {
+              e.preventDefault();
+              setSelectedMsg(msg);
+              setContextMenu({
+                mouseX: e.clientX,
+                mouseY: e.clientY,
+              });
+            }}
           className={`message-bubble px-3 py-2 shadow-sm ${
             msg.sender === myId
               ? "bg-primary text-white"
@@ -370,6 +430,71 @@ const ChatSection = () => {
           </button>
         </div>
       </div>
+
+      {contextMenu && (
+  <div
+    style={{
+      position: "fixed",
+      top: contextMenu.mouseY,
+      left: contextMenu.mouseX,
+      background: "white",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+      borderRadius: "8px",
+      padding: "8px 0",
+      zIndex: 9999,
+      minWidth: "180px",
+    }}
+  >
+    {/* TEXT MESSAGE OPTIONS */}
+    {selectedMsg?.message && (
+      <div
+        className="px-3 py-2 hover-bg"
+        onClick={handleCopy}
+        style={{ cursor: "pointer" }}
+      >
+        Copy
+      </div>
+    )}
+
+    <div
+      className="px-3 py-2"
+      onClick={handleReply}
+      style={{ cursor: "pointer" }}
+    >
+      Reply
+    </div>
+
+    <div
+      className="px-3 py-2 text-danger"
+      onClick={handleDeleteForMe}
+      style={{ cursor: "pointer" }}
+    >
+      Delete for me
+    </div>
+
+    {selectedMsg?.sender === myId && (
+      <div
+        className="px-3 py-2 text-danger"
+        onClick={handleDeleteForEveryone}
+        style={{ cursor: "pointer" }}
+      >
+        Delete for everyone
+      </div>
+    )}
+
+    {/* MEDIA DOWNLOAD */}
+    {selectedMsg?.attachments?.length > 0 && (
+      <div
+        className="px-3 py-2"
+        onClick={handleDownload}
+        style={{ cursor: "pointer" }}
+      >
+        Download
+      </div>
+    )}
+  </div>
+)}
+
 
       {previewMedia && (
   <div
