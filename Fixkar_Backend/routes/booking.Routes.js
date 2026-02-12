@@ -15,12 +15,14 @@ import { postReview } from '../controllers/review.controller.js';
 import { getReachedOtp } from '../controllers/BookingController/getReachedOtp.js';
 import { getWalletTransaction } from '../controllers/ProfessionalsController/getWalletTransaction.js';
 import { confirmCashPayment } from '../controllers/BookingController/cashPayment.controller.js';
+import upload from '../middlewares/multer.js';
+import multerErrorHandler from '../middlewares/multerErrorHandler.js';
 
 const bookingRouter = express.Router();
 
 // /api/booking
 
-bookingRouter.post('/create-booking', isAuth, sendHireRequest);
+bookingRouter.post('/create-booking', isAuth,  upload.array("audioMessages", 5),  multerErrorHandler, sendHireRequest);
 bookingRouter.get('/my-bookings', isAuth, getMyBookings);
 bookingRouter.get('/get-booking', getBookingById)
 bookingRouter.post('/reject-booking', rejectBooking)

@@ -9,6 +9,27 @@ export const sendHireRequest = async (req, res)=>{
 
         const myId = req.userId;
         const customerId = await Customer.findOne({userId : myId}).select('_id');
+
+        let audioMessages = [];
+         if (req.files && req.files.length > 0) {
+      for (let file of req.files) {
+
+        if (!file.mimetype.startsWith("audio/")) {
+          return res.status(400).json({
+            message: "Only audio files allowed for voice description",
+          });
+        }
+
+        const uploadResult = await uploadToCloudinary(
+          file,
+          "booking_audio_messages"
+        );
+
+        audioMessages.push({
+          url: uploadResult.secure_url,
+        });
+      }
+    }
      
         const newBooking = new Booking({
             customerId ,
@@ -20,7 +41,8 @@ export const sendHireRequest = async (req, res)=>{
             visitingCharge,
             workAddress,
             distanceInKm,
-            mobileNumber
+            mobileNumber,
+            audioMessages, 
         })
 
         const savedBooking = await newBooking.save()

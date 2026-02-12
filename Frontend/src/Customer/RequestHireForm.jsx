@@ -15,12 +15,16 @@ import {
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaInfoCircle,
+  FaMicrophone,
 } from "react-icons/fa";
+import VoiceRecorder from "../Components/VoiceRecorder";
+import CustomAudioPlayer from "../Components/CustomAudioPlayer";
 
 const RequestHireForm = ({ proInfo }) => {
   const { selectedLocation } = useSelector((state) => state.location);
   const { currentUserData } = useSelector((state) => state.user);
   const { distance } = useSelector((state) => state.distance);
+  const [audioMessages, setAudioMessages] = useState([]);
   const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
   const mobileNumber = currentUserData?.user?.userId?.mobile;
   const navigate = useNavigate();
@@ -29,6 +33,15 @@ const RequestHireForm = ({ proInfo }) => {
   const visitingCharge = calculateVisitingCharge(
     parseFloat(distance?.distance.text)
   );
+  const handleAudioReady = (blob) => {
+  const audioUrl = URL.createObjectURL(blob);
+
+  setAudioMessages((prev) => [
+    ...prev,
+    { blob, preview: audioUrl }
+  ]);
+};
+
   const busyDays = proInfo?.busyDays;
 
   const today = new Date().toISOString().split("T")[0];
@@ -78,18 +91,24 @@ const RequestHireForm = ({ proInfo }) => {
       }
     }
 
-    const payload = {
-      customerName: formData.customerName,
-      professionalId: proInfo._id,
-      visitingCharge,
-      profession: proInfo.profession,
-      workDate: formData.workDate,
-      workTime: formData.workTime,
-      workAddress: formData.workAddress,
-      problemDescription: formData.problemDesc,
-      distanceInKm: parseFloat(distance?.distance.text),
-      mobileNumber,
-    };
+      const formDataToSend = new FormData();
+
+  formDataToSend.append("customerName", formData.customerName);
+  formDataToSend.append("professionalId", proInfo._id);
+  formDataToSend.append("visitingCharge", visitingCharge);
+  formDataToSend.append("profession", proInfo.profession);
+  formDataToSend.append("workDate", formData.workDate);
+  formDataToSend.append("workTime", formData.workTime);
+  formDataToSend.append("workAddress", formData.workAddress);
+  formDataToSend.append("problemDescription", formData.problemDesc);
+  formDataToSend.append("distanceInKm", parseFloat(distance?.distance.text));
+  formDataToSend.append("mobileNumber", mobileNumber);
+
+  // 🔥 AUDIO FILES
+  audioMessages.forEach((audio, index) => {
+    formDataToSend.append("audioMessages", audio.blob, `voice_${index}.webm`);
+  });
+
 
     if (busyDays.includes(formData.workDate)) {
       toast.info("This date is not available. Please select another date.");
@@ -124,7 +143,7 @@ const RequestHireForm = ({ proInfo }) => {
       setLoading(true);
       const result = await axios.post(
         `${server_url}/api/booking/create-booking`,
-        payload,
+        formDataToSend,
         { withCredentials: true }
       );
       toast.success(result.data.message);
@@ -234,7 +253,50 @@ const RequestHireForm = ({ proInfo }) => {
               placeholder="Explain the work you want to get done"
               required
             />
+            {/* Audio Preview */}
+{audioMessages.length > 0 && (
+  <div className="mb-3">
+    <label className="fw-semibold small">Voice Preview</label>
+
+    {audioMessages?.map((audio, index) => (
+      <div key={index} className="d-flex align-items-center gap-2 mb-2">
+        
+        <CustomAudioPlayer src={audio.preview} />
+
+        <button
+          type="button"
+          className="btn btn-sm btn-outline-danger"
+          onClick={() => {
+            URL.revokeObjectURL(audio.preview);
+            setAudioMessages((prev) =>
+              prev.filter((_, i) => i !== index)
+            );
+          }}
+        >
+          ✕
+        </button>
+
+      </div>
+    ))}
+  </div>
+)}
+
+
           </div>
+
+          {/* Voice Message Section */}
+<div className="mb-3">
+  <label className="form-label fw-semibold">
+    <FaMicrophone/> Add Voice Description (Optional)
+  </label>
+
+  <div className="d-flex align-items-center gap-2 flex-wrap">
+    <VoiceRecorder onAudioReady={handleAudioReady} />
+    <small className="text-muted">
+      Press & hold to record
+    </small>
+  </div>
+</div>
 
       
 
