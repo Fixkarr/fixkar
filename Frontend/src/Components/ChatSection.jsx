@@ -26,6 +26,8 @@ const ChatSection = () => {
   const [selectedMsg, setSelectedMsg] = useState(null);
   const messageRefs = useRef({});
   const [highlightedId, setHighlightedId] = useState(null);
+  const longPressTimer = useRef(null);
+
 
 
     /* ================= FETCH MESSAGES ================= */
@@ -193,7 +195,7 @@ const scrollToMessage = (id) => {
 
   return (
    <div
-  className="card border-0 shadow rounded-4 overflow-hidden d-flex flex-column"
+  className="card border-0 shadow rounded-4 d-flex flex-column"
   style={{ height: "100vh" }}
 >
       {/* ===== HEADER ===== */}
@@ -276,14 +278,22 @@ const scrollToMessage = (id) => {
         }`}
       >
         <div
-            onTouchStart={(e) => {
-            const touch = e.touches[0];
-            setSelectedMsg(msg);
-            setContextMenu({
-              mouseX: touch.clientX,
-              mouseY: touch.clientY,
-            });
-          }}
+           onTouchStart={(e) => {
+  longPressTimer.current = setTimeout(() => {
+    const touch = e.touches[0];
+    setSelectedMsg(msg);
+    setContextMenu({
+      mouseX: touch.clientX,
+      mouseY: touch.clientY,
+    });
+  }, 600); // 600ms hold
+}}
+onTouchEnd={() => {
+  clearTimeout(longPressTimer.current);
+}}
+onTouchMove={() => {
+  clearTimeout(longPressTimer.current);
+}}
              onContextMenu={(e) => {
               e.preventDefault();
               setSelectedMsg(msg);
@@ -291,6 +301,9 @@ const scrollToMessage = (id) => {
                 mouseX: e.clientX,
                 mouseY: e.clientY,
               });
+            }}
+             ref={(el) => {
+              if (el) messageRefs.current[msg._id] = el;
             }}
           className={`message-bubble px-3 py-2 shadow-sm ${
             msg.sender === myId
