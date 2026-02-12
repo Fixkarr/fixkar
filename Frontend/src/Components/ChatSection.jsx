@@ -14,6 +14,7 @@ import useGetMyMessages from "../hooks/useGetChatMessages";
 import useGetUserById from "../hooks/useGetUserById";
 import { formatChatDate } from "../utils/formatChatDate";
 import VoiceRecorder from "./VoiceRecorder";
+import CustomAudioPlayer from "./CustomAudioPlayer";
 
 const ChatSection = () => {
   const { id: recieverId } = useParams();
@@ -430,7 +431,11 @@ onTouchMove={() => {
                return (
       <div key={media.url + idx} className="audio-bubble">
           Voice Message
-        <audio controls src={media.url} />
+            <CustomAudioPlayer
+              src={media.url}
+              isMine={msg.sender === myId}
+            />
+
       </div>
     );
             }
@@ -567,7 +572,10 @@ onTouchMove={() => {
       🎤 <span className="small">Voice message ready</span>
     </div>
 
-    <audio controls src={voicePreviewUrl} />
+        <CustomAudioPlayer
+      src={voicePreviewUrl}
+    />
+
 
     <button
       className="btn btn-sm btn-danger"
