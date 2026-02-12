@@ -7,7 +7,6 @@ const bookingSchema = new mongoose.Schema({
     professionalId : {type : mongoose.Schema.Types.ObjectId, ref : "Professional", required : true},
     workDate : {type : String, required : true},
     workTime : {type : String, required : true},
-    chargeType : {type : String, required : true},
     problemDescription : {type : String, required : true},
     audioMessages : [{url : {type : String}}],
     visitingCharge : {type : Number, required : true},
