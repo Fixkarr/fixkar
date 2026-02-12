@@ -16,9 +16,18 @@ export const uploadToCloudinary = (file, folder) => {
       resourceType = "video";
     }
 
+        else if (file.mimetype.startsWith("audio/")) {
+      resourceType = "video"; // Cloudinary rule
+    }
+
+
     // 🖼️ Image → default image
     else if (file.mimetype.startsWith("image/")) {
       resourceType = "image";
+    }
+
+     else {
+      return reject(new Error("Unsupported file type"));
     }
 
     const stream = cloudinary.uploader.upload_stream(
