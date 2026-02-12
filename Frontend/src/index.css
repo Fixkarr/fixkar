@@ -220,9 +220,10 @@ hr{
 }
 
 .chat-input {
-  border-radius: 25px;
-  padding: 10px 15px;
-  font-size: 15px;
+border-radius: 25px;
+  padding: 14px 18px;      /* height increase */
+  font-size: 16px;
+  min-height: 48px; 
 }
 
 .attach-btn,

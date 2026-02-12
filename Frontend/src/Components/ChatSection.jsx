@@ -486,7 +486,7 @@ const scrollToMessage = (id) => {
      <div
   className="chat-footer bg-white flex-shrink-0 px-2 py-2"
 >
-  <div className="d-flex align-items-center gap-2">
+  <div className="d-flex align-items-center gap-2 w-100">
 
     {role === "customer" && (
       <label className="attach-btn d-flex align-items-center justify-content-center">
