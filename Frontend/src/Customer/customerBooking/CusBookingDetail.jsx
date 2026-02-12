@@ -19,7 +19,9 @@ import {
   FaClock,
   FaTools,
   FaRupeeSign,
-  FaMapMarkerAlt
+  FaMapMarkerAlt,
+  FaMicrophone,
+  FaDownload
 } from "react-icons/fa";
 import { useSelector } from 'react-redux';
 import { GetStatusBadge } from '../../utils/GetStatusBadge';
@@ -31,6 +33,7 @@ import PayButton from '../PayButton';
 import CusCancelBooking from './CusCancelBooking';
 import CusCompleteBooking from './CusCompleteBooking';
 import useGetReachedOtp from '../../hooks/useGetReachedOtp'
+import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
 
 
 
@@ -135,6 +138,59 @@ const CusBookingDetail = () => {
       </p>
      </div>
     </div>
+
+    {/* Voice Descriptions */}
+{booking.audioMessages && booking.audioMessages.length > 0 && (
+  <div className="mb-4">
+    <div className="bg-white rounded-4 shadow-sm border p-3">
+
+      {/* Header */}
+      <div className="d-flex align-items-center justify-content-between mb-3">
+        <h6 className="fw-bold mb-0 d-flex align-items-center gap-2">
+          <FaMicrophone/> Voice Descriptions
+        </h6>
+
+        <span className="badge bg-primary-subtle text-primary">
+          {booking.audioMessages.length}
+        </span>
+      </div>
+
+      {/* Audio List */}
+      <div className="d-flex flex-column gap-3">
+        {booking.audioMessages?.map((audio, index) => (
+          <div
+            key={index}
+            className="bg-light rounded-3 p-2 d-flex align-items-center gap-3 border"
+          >
+            {/* Icon */}
+            <div
+              className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+              style={{ width: 36, height: 36, fontSize: "14px" }}
+            >
+              <FaMicrophone/>
+            </div>
+
+            {/* Audio Player */}
+            <div className="flex-grow-1">
+              <CustomAudioPlayer src={audio.url} />
+            </div>
+
+            {/* Download */}
+            <a
+              href={audio.url}
+              download
+              className="btn btn-sm btn-outline-secondary"
+            >
+              <FaDownload/>
+            </a>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+)}
+
 
     <div className="g-3 mt-2">
               {(booking.status == "pending" ||
