@@ -7,7 +7,7 @@ export const generateFCMToken = async () => {
     if(permission !== 'granted'){
         return null;
     }
-    
+
     const token = await getToken(messaging, {
         vapidKey : import.meta.env.VITE_VAPID_PUBLIC_KEY
     });
@@ -16,7 +16,7 @@ export const generateFCMToken = async () => {
         try{
            await axios.post(`${server_url}/api/notification/save-fcm-token`, {fcmToken : token}, {withCredentials : true});
         }catch{
-
+            
         }
     }
 }

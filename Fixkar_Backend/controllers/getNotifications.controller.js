@@ -58,6 +58,7 @@ export const saveFCMToken = async (req,res)=>{
     });
 
     } catch (error) {
+      console.log("save FCM token error", error);
           return res.status(500).json({
       success: false,
       message: "Internal server error",
