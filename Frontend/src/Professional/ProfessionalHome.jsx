@@ -62,7 +62,7 @@ const ProfessionalHome = () => {
   };
 
     const handleCloseModal = () => {
-    localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
+    localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "false");
     setShowNotificationModal(false);
   };
 
