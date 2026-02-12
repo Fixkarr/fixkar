@@ -626,7 +626,7 @@ onTouchMove={() => {
       onClick={handleSend}
       disabled={loading}
     >
-      <IoMdSend size={22} />
+      <IoMdSend size={20} />
     </button>
   </div>
 </div>

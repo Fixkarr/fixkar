@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { FaMicrophone } from "react-icons/fa";
 
 const VoiceRecorder = ({ onAudioReady }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -82,10 +83,10 @@ const VoiceRecorder = ({ onAudioReady }) => {
     <div className="d-flex align-items-center">
       {!isRecording ? (
         <button
-          className="btn btn-outline-primary rounded-circle"
+          className="attach-btn btn btn-outline-primary rounded-circle"
           onClick={startRecording}
         >
-          🎤
+          <FaMicrophone size={20}/>
         </button>
       ) : (
         <button
