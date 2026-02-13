@@ -106,6 +106,10 @@ export const saveFormResponse = async (req,res)=>{
         });
     }
 
+    if(form.target?.entity === 'offer'){
+      
+    }
+
 
     } catch (error) {
     console.error("FORM RESPONSE ERROR:", err);
