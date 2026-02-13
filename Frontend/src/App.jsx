@@ -76,6 +76,18 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const App = () => {
     const [backendReady, setBackendReady] = useState(false);
+      useGetCurrentUser();
+  useGetCurrentAdmin()
+  const { currentUserData } = useSelector((state) => state.user);
+  const {currentAdmin} = useSelector(state => state.admin);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const role = currentUserData?.user?.userId?.role;
+  const isOnboarded = currentUserData?.user?.onBoarded;
+  const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
+  const status = currentUserData?.user?.status;
+  const userId = currentUserData?.user?.userId?._id;
+  const id = currentUserData?.user?._id
 
   useEffect(() => {
     const checkBackend = async () => {
@@ -97,18 +109,7 @@ const App = () => {
     return <FixkarLoader />;
   }
 
-  useGetCurrentUser();
-  useGetCurrentAdmin()
-  const { currentUserData } = useSelector((state) => state.user);
-  const {currentAdmin} = useSelector(state => state.admin);
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const role = currentUserData?.user?.userId?.role;
-  const isOnboarded = currentUserData?.user?.onBoarded;
-  const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
-  const status = currentUserData?.user?.status;
-  const userId = currentUserData?.user?.userId?._id;
-  const id = currentUserData?.user?._id
+
 
   useEffect(() => {
     document.body.classList.remove("modal-open");
