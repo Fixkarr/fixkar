@@ -42,6 +42,14 @@ app.use("/api/messages", messageRouter);
 app.use("/api/booking", bookingRouter);
 app.use('/api/admin', adminRouter)
 app.use('/api/notification', notificationRouter)
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    message: "Fixkar backend is running"
+  });
+});
+
 const server = http.createServer(app);
 
 //initialize socket.io server

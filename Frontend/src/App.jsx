@@ -67,11 +67,34 @@ import Services from "./Components/Services.jsx";
 import Explore from "./Components/Explore.jsx";
 import ManageForms from "./Admin/AdminComponents/ManageForms.jsx";
 import CreateForm from "./Admin/AdminComponents/Utils/CreateForm.jsx";
+import axios from 'axios'
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const App = () => {
+    const [backendReady, setBackendReady] = useState(false);
+
+  useEffect(() => {
+    const checkBackend = async () => {
+      try {
+        const res = await axios.get(`${server_url}/api/health`);
+        
+        if (res.data.status === "ok") {
+          setBackendReady(true);
+        }
+      } catch (error) {
+        console.log("Backend not ready...");
+      }
+    };
+
+    checkBackend();
+  }, []);
+
+  if (!backendReady) {
+    return <FixkarLoader />;
+  }
+
   useGetCurrentUser();
   useGetCurrentAdmin()
   const { currentUserData } = useSelector((state) => state.user);
