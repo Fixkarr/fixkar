@@ -105,9 +105,7 @@ const App = () => {
     checkBackend();
   }, []);
 
-  if (!backendReady) {
-    return <FixkarLoader />;
-  }
+
 
 
 
@@ -221,6 +219,10 @@ const App = () => {
 
     return <Home />;
   };
+
+   if (!backendReady) {
+    return <FixkarLoader />;
+  }
 
   return (
     <Routes>
