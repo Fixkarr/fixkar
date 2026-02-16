@@ -4,6 +4,13 @@ import { Form } from "../AdminModels/form.model.js";
    CREATE FORM (ADMIN)
    ========================= */
 export const createForm = async (req, res) => {
+const generateFieldKey = (label) => {
+  return label
+    .toLowerCase()
+    .replace(/\s+/g, "")        // remove spaces
+    .replace(/[^a-z0-9]/g, ""); // remove special chars
+};
+
   try {
     const {
       key,
@@ -13,6 +20,7 @@ export const createForm = async (req, res) => {
       sections,
       target
     } = req.body;
+
 
     if (target?.entity === "service" && !target?.entityId) {
   return res.status(400).json({
@@ -58,10 +66,12 @@ export const createForm = async (req, res) => {
               `Invalid field at section ${sIdx}, field ${fIdx}`
             );
           }
+          const autoKey = generateFieldKey(field.label);
 
           return {
             fieldId: field.fieldId,
             label: field.label,
+            key : autoKey,
             helperText: field.helperText || "",
             type: field.type,
             required: !!field.required,

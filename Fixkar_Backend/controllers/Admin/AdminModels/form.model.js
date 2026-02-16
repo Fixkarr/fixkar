@@ -14,6 +14,10 @@ const FieldSchema = new mongoose.Schema({
     required: true
   },
 
+  key : {
+    type : String,
+  },
+
   helperText: String,
 
   type: {
