@@ -106,7 +106,7 @@ export const saveFormResponse = async (req,res)=>{
         });
     }
 
-    if(form.target?.entity === 'offer'){
+    if(form.purpose === 'offer'){
       const responses = responseDoc.responses;
 
       const serviceIds = responses.get("services");
