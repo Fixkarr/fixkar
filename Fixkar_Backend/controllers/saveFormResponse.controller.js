@@ -119,9 +119,9 @@ export const saveFormResponse = async (req,res)=>{
       const maxDiscount = responses.get("maxDiscount");
       const usageLimit = responses.get("usageLimit");
       const perUserLimit = responses.get("perUserLimit") || 1;
-    }
 
-      if (!serviceIds || !discountType || !discountValue || !startDate || !endDate) {
+
+            if (!serviceIds || !discountType || !discountValue || !startDate || !endDate) {
       return res.status(400).json({
         message: "Missing required offer fields"
       });
@@ -153,6 +153,9 @@ export const saveFormResponse = async (req,res)=>{
       message: "Offer created successfully",
       offer
     });
+
+    }
+
 
     } catch (error) {
     console.error("FORM RESPONSE ERROR:", error);
