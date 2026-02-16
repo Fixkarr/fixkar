@@ -20,6 +20,7 @@ import { createForm } from '../AdminController/createForm.controller.js';
 import { getAllForms } from '../AdminController/fetchAllForm.js';
 import {isAuth} from '../../../middlewares/isAuth.js'
 import { getFormByService } from '../AdminController/getFormByService.js';
+import { getOfferForm } from '../AdminController/getOfferForms.controller.js';
 const adminRouter = express.Router()
 
 // /api/admin 
@@ -52,4 +53,6 @@ adminRouter.post('/manual-pay', isAdmin, adminPermission('super_admin'), manualP
 adminRouter.post('/forms', isAdmin, adminPermission('super_admin', 'content_admin'), createForm);
 adminRouter.get('/get-all-forms', isAdmin, adminPermission('super_admin', 'content_admin'), getAllForms);
 adminRouter.get('/get-form-by-service/:serviceId', isAuth, getFormByService);
+
+adminRouter.get('/get-offer-forms', isAdmin, adminPermission('super_admin'), getOfferForm);
 export default adminRouter;

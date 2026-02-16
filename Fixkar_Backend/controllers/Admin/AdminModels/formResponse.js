@@ -23,7 +23,7 @@ const FormResponseSchema = new mongoose.Schema(
     },
 
     /* ===== WHO FILLED ===== */
-    filledBy: {type : mongoose.Types.ObjectId, ref : "User", required : true},
+    filledBy: {type : mongoose.Types.ObjectId},
 
     /* ===== RAW RESPONSES ===== */
     responses: {

@@ -15,6 +15,7 @@ import { markAllAsRead } from "../redux/notification.slice";
 import { toast } from "react-toastify";
 import useGetMyConversations from "../hooks/useGetMyConversations";
 import { LuNotebookPen } from "react-icons/lu";
+import { BiSolidOffer } from "react-icons/bi";
 
 
 const Sidebar = ({isOpen, onClose}) => {
@@ -135,6 +136,19 @@ const dispatch = useDispatch()
           >
             <LuNotebookPen  />
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Manage Bookings</span>
+          </NavLink>
+        </li>
+        <li className="nav-item" style={{fontSize : "0.5vmax"}}>
+          <NavLink
+            to={`${adminpath}/manage-offers`}
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <BiSolidOffer  />
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Manage Offers</span>
           </NavLink>
         </li>
         <li className="nav-item" style={{fontSize : "0.5vmax"}}>

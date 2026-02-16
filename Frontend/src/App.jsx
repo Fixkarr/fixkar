@@ -70,6 +70,7 @@ import CreateForm from "./Admin/AdminComponents/Utils/CreateForm.jsx";
 import axios from 'axios'
 import { useState } from "react";
 import FixkarLoader from "./Components/FixkarLoader.jsx";
+import ManageOffers from "./Admin/AdminComponents/ManageOffers.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -383,6 +384,7 @@ const App = () => {
           
           <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin?.role === "super_admin" ? <UpdateServiceForm/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-forms`} element={currentAdmin?.role === "super_admin" ? <ManageForms/> : <Navigate to={`${adminpath}/home`}/>}/>
+          <Route path={`${adminpath}/manage-offers`} element={currentAdmin?.role === "super_admin" ? <ManageOffers/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-forms/create`} element={currentAdmin?.role === "super_admin" ? <CreateForm/> : <Navigate to={`${adminpath}/home`}/>}/>
 
       </Route>

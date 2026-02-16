@@ -1,6 +1,7 @@
 import { Professional } from "../models/userModel.js";
 import { Form } from "./Admin/AdminModels/form.model.js";
 import { FormResponse } from "./Admin/AdminModels/formResponse.js";
+import { Offer } from "./Admin/AdminModels/offer.model.js";
 
 export const saveFormResponse = async (req,res)=>{
     try {
@@ -55,8 +56,7 @@ export const saveFormResponse = async (req,res)=>{
       formId: form._id,
       formKey: form.key,
       purpose: form.purpose,
-
-      filledBy: req.userId,
+      filledBy : req.userId || req.admin._id,
       responses,
       summary
     });
@@ -107,12 +107,55 @@ export const saveFormResponse = async (req,res)=>{
     }
 
     if(form.target?.entity === 'offer'){
-      
+      const responses = responseDoc.responses;
+
+      const serviceIds = responses.get("services");
+      const discountType = responses.get("discountType");
+      const discountValue = responses.get("discountValue");
+      const minBookingAmount = responses.get("minBookingAmount");
+      const startDate = responses.get("startDate");
+      const endDate = responses.get("endDate");
+      const offerTitle = responses.get("offerTitle");
+      const maxDiscount = responses.get("maxDiscount");
+      const usageLimit = responses.get("usageLimit");
+      const perUserLimit = responses.get("perUserLimit") || 1;
     }
 
+      if (!serviceIds || !discountType || !discountValue || !startDate || !endDate) {
+      return res.status(400).json({
+        message: "Missing required offer fields"
+      });
+    }
+
+    if (new Date(startDate) > new Date(endDate)) {
+      return res.status(400).json({
+        message: "Start date cannot be after end date"
+      });
+    }
+
+      const offer = await Offer.create({
+      serviceId: serviceIds,
+      offerTitle,
+      discountType,
+      discountValue,
+      minBookingAmount,
+      maxDiscount,
+      startDate,
+      endDate,
+      usageLimit,
+      perUserLimit,
+      usedCount: 0,  // always start from 0
+      isActive: true,
+      offerResponse: responseDoc._id
+    });
+
+      return res.status(201).json({
+      message: "Offer created successfully",
+      offer
+    });
 
     } catch (error) {
-    console.error("FORM RESPONSE ERROR:", err);
+    console.error("FORM RESPONSE ERROR:", error);
     res.status(500).json({ message: "Failed to save form response" });
     }
 }

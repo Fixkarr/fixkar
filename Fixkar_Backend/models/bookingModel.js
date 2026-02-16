@@ -40,7 +40,8 @@ const bookingSchema = new mongoose.Schema({
     completedAt : {
         type : Date
     },
-    review : {type : mongoose.Schema.Types.ObjectId, ref : 'Review'}
+    review : {type : mongoose.Schema.Types.ObjectId, ref : 'Review'},
+    walletTransaction : {type : mongoose.Schema.Types.ObjectId, ref : 'WalletTransaction'}
 },{timestamps : true})
 
 export const Booking = mongoose.model("Booking", bookingSchema);
