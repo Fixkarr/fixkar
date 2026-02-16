@@ -107,43 +107,57 @@ export const saveFormResponse = async (req,res)=>{
     }
 
     if(form.purpose === 'offer'){
-      const responses = responseDoc.responses;
+      const rawResponses = responseDoc.responses;
+const mappedResponses = {};
 
-      const serviceIds = responses.get("services");
-      const discountType = responses.get("discountType");
-      const discountValue = responses.get("discountValue");
-      const minBookingAmount = responses.get("minBookingAmount");
-      const startDate = responses.get("startDate");
-      const endDate = responses.get("endDate");
-      const offerTitle = responses.get("offerTitle");
-      const maxDiscount = responses.get("maxDiscount");
-      const usageLimit = responses.get("usageLimit");
-      const perUserLimit = responses.get("perUserLimit") || 1;
+// fieldId → key mapping
+form.sections.forEach((section) => {
+  section.fields.forEach((field) => {
+    const value = rawResponses[field.fieldId];
+
+    if (value !== undefined) {
+      mappedResponses[field.key] = value;
+    }
+  });
+});
+
+const {
+  serviceids,
+  discounttype,
+  discountvalue,
+  minimumbookingamount,
+  startdate,
+  enddate,
+  offertitle,
+  maximumdiscount,
+  usagelimit,
+  peruserlimit = 1
+} = mappedResponses;
 
 
-            if (!serviceIds || !discountType || !discountValue || !startDate || !endDate) {
+            if (!serviceids || !discounttype || !discountvalue || !startdate || !enddate) {
       return res.status(400).json({
         message: "Missing required offer fields"
       });
     }
 
-    if (new Date(startDate) > new Date(endDate)) {
+    if (new Date(startdate) > new Date(enddate)) {
       return res.status(400).json({
         message: "Start date cannot be after end date"
       });
     }
 
       const offer = await Offer.create({
-      serviceId: serviceIds,
-      offerTitle,
-      discountType,
-      discountValue,
-      minBookingAmount,
-      maxDiscount,
-      startDate,
-      endDate,
-      usageLimit,
-      perUserLimit,
+      serviceId: serviceids,
+      offerTitle : offertitle,
+      discountType : discounttype,
+      discountValue : discountvalue,
+      minBookingAmount : minimumbookingamount,
+      maxDiscount : maximumdiscount,
+      startDate : startdate,
+      endDate : enddate,
+      usageLimit : usagelimit,
+      perUserLimit : peruserlimit,
       usedCount: 0,  // always start from 0
       isActive: true,
       offerResponse: responseDoc._id
