@@ -120,7 +120,7 @@ form.sections.forEach((section) => {
     }
   });
 });
-
+console.log(mappedResponses);
 const {
   serviceids,
   discounttype,
