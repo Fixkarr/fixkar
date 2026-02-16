@@ -131,7 +131,7 @@ const {
   offertitle,
   maximumdiscount,
   usagelimit,
-  peruserlimit = 1
+  peruserlimit
 } = mappedResponses;
 
 
