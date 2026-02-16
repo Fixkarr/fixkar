@@ -113,7 +113,7 @@ const mappedResponses = {};
 // fieldId → key mapping
 form.sections.forEach((section) => {
   section.fields.forEach((field) => {
-    const value = rawResponses[field.fieldId];
+     const value = rawResponses.get(field.fieldId); 
 
     if (value !== undefined) {
       mappedResponses[field.key] = value;
