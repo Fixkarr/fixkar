@@ -19,7 +19,7 @@ const offerSchema = new mongoose.Schema({
   usedCount: { type: Number, default: 0 },
   perUserLimit: { type: Number, default: 1 },
 
-
+  newCustomerOnly : {type : Boolean, default  : false},
   isActive: { type: Boolean, default: true },
 
   offerResponse:{type : mongoose.Schema.Types.ObjectId, ref : 'FormResponse'}

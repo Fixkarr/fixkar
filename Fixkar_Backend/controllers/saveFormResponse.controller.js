@@ -120,7 +120,6 @@ form.sections.forEach((section) => {
     }
   });
 });
-console.log(mappedResponses);
 const {
   serviceids,
   discounttype,
@@ -131,21 +130,37 @@ const {
   offertitle,
   maximumdiscount,
   usagelimit,
-  peruserlimit
+  peruserlimit,
+  newcustomeronly
 } = mappedResponses;
 
+if (!Array.isArray(serviceids) || serviceids.length === 0) {
+   return res.status(400).json({
+      message: "At least one service must be selected"
+   });
+}
 
-            if (!serviceids || !discounttype || !discountvalue || !startdate || !enddate) {
+            if (!discounttype || !discountvalue || !startdate || !enddate) {
       return res.status(400).json({
         message: "Missing required offer fields"
       });
     }
+
+    if (discounttype === "percentage" && discountvalue > 100) {
+   return res.status(400).json({
+      message: "Percentage discount cannot exceed 100%"
+   });
+}
+
+  const newCustomerOnlyBoolean =  newcustomeronly === true || newcustomeronly === "true";
 
     if (new Date(startdate) > new Date(enddate)) {
       return res.status(400).json({
         message: "Start date cannot be after end date"
       });
     }
+
+
 
       const offer = await Offer.create({
       serviceId: serviceids,
@@ -160,6 +175,7 @@ const {
       perUserLimit : peruserlimit,
       usedCount: 0,  // always start from 0
       isActive: true,
+      newCustomerOnly : newCustomerOnlyBoolean,
       offerResponse: responseDoc._id
     });
 
