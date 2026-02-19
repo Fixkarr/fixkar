@@ -77,7 +77,7 @@ export const getEligibleOffers = async(req,res)=>{
         !offer.serviceId
           .map(id => id.toString())
           .includes(
-            booking.professionalId.profession._id.toString()
+            booking.professionalId.profession.toString()
           )
       ) {
         continue;
@@ -115,7 +115,7 @@ export const getEligibleOffers = async(req,res)=>{
 
       if (offer.discountType === "percentage") {
         discount =
-          (booking.quoteAmount * offer.discountValue) / 100;
+          ((booking.quoteAmount + booking.visitingCharge) * offer.discountValue) / 100;
 
         if (offer.maxDiscount) {
           discount = Math.min(discount, offer.maxDiscount);
@@ -130,7 +130,7 @@ export const getEligibleOffers = async(req,res)=>{
         offerId: offer._id,
         title: offer.offerTitle,
         discount,
-        finalPayable: booking.quoteAmount - discount
+        finalPayable:(booking.quoteAmount + booking.visitingCharge)   - discount
       });
 
       

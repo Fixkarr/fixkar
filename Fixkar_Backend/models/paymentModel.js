@@ -15,6 +15,8 @@ const paymentSchema = new mongoose.Schema({
     razorpayPaymentId : {type : String},
     status : {type : String, enum : ["created", "paid", "failed", "cancelled", "refunded"], default : 'created'},
     paidAt : {type : Date},
+    offerId : {type : mongoose.Schema.Types.ObjectId, ref : "Offer"},
+    discountAmount : {type : Number, default : 0},
     paymentMode : {type : String, enum : ["ONLINE", "CASH"]} 
 },{timestamps : true})
 
