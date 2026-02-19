@@ -59,7 +59,7 @@ const fetchOffers = async () => {
   try {
     setLoadingOffers(true);
     const res = await axios.get(
-      `${server_url}/api/customer/get-elligible-offers/${booking._id}`,
+      `${server_url}/api/customer/get-elligible-offers/${bookingId}`,
       { withCredentials: true }
     );
     setOffers(res.data.offers || []);
