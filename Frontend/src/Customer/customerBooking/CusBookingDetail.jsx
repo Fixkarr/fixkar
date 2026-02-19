@@ -289,7 +289,46 @@ const finalPayable = originalTotal - discountAmount;
         <span>₹{finalPayable}</span>
       </div>
 
-        <PayButton bookingId={booking._id} paymentType={"FINAL"} label={`Pay ₹${booking.quoteAmount + booking.visitingCharge}`}/>
+     {loadingOffers ? (
+      <p className="mt-2 small text-muted">Loading offers...</p>
+    ) : offers.length > 0 ? (
+      <div className="mt-3">
+        <h6 className="fw-bold">Available Offers</h6>
+
+        {offers.map((offer) => (
+          <div
+            key={offer.offerId}
+            className={`border rounded p-2 mb-2 ${
+              selectedOffer?.offerId === offer.offerId
+                ? "border-success bg-success-subtle"
+                : ""
+            }`}
+            style={{ cursor: "pointer" }}
+            onClick={() => setSelectedOffer(offer)}
+          >
+            <div className="d-flex justify-content-between">
+              <span>{offer.title}</span>
+              <strong>Save ₹{offer.discount}</strong>
+            </div>
+          </div>
+        ))}
+
+        {selectedOffer && (
+          <button
+            className="btn btn-sm btn-outline-danger mt-2"
+            onClick={() => setSelectedOffer(null)}
+          >
+            Remove Offer
+          </button>
+        )}
+      </div>
+    ) : null}
+
+        <PayButton bookingId={booking._id}  
+        selectedOffer={selectedOffer}
+        amount={finalPayable} 
+        paymentType={"FINAL"} 
+        label={`Pay ₹${finalPayable}`}/>
     </div>
              )}
 

@@ -2,10 +2,10 @@ import React from 'react'
 import axios from 'axios'
 import {server_url} from '../App'
 import { toast } from 'react-toastify'
-const PayButton = ({bookingId, paymentType, label}) => {
+const PayButton = ({bookingId, paymentType, label, selectedOffer}) => {
     const handlePayment = async ()=>{
         try {
-            const res = await axios.post(`${server_url}/api/booking/create-order`, {bookingId, paymentType});
+            const res = await axios.post(`${server_url}/api/booking/create-order`, {bookingId, paymentType, offerId: selectedOffer?.offerId || null});
 
             const {order, key}  = res.data;
 
