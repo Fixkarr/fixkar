@@ -3,21 +3,19 @@ import { useParams } from 'react-router-dom';
 
 import {
   MdHomeRepairService,
-  MdLocationOn,
-  MdAccessTime,
-  MdCalendarToday,
   MdPayment
 } from "react-icons/md";
 
+import { FaGift, FaTag, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { MdLocalOffer } from "react-icons/md";
+
 import {
-  FaUserCircle,
-  FaMoneyBillWave,
-  FaExclamationTriangle,
+
   FaUser,
   FaIdBadge,
   FaCalendarAlt,
   FaClock,
-  FaTools,
+
   FaRupeeSign,
   FaMapMarkerAlt,
   FaMicrophone,
@@ -289,40 +287,87 @@ const finalPayable = originalTotal - discountAmount;
         <span>₹{finalPayable}</span>
       </div>
 
-     {loadingOffers ? (
-      <p className="mt-2 small text-muted">Loading offers...</p>
-    ) : offers.length > 0 ? (
-      <div className="mt-3">
-        <h6 className="fw-bold">Available Offers</h6>
+   {loadingOffers ? (
+  <div className="text-center mt-3">
+    <div className="spinner-border text-success spinner-border-sm"></div>
+    <small className="text-muted ms-2">Finding best offers for you...</small>
+  </div>
+) : offers.length > 0 ? (
+  <div className="mt-4">
 
-        {offers.map((offer) => (
-          <div
-            key={offer.offerId}
-            className={`border rounded p-2 mb-2 ${
-              selectedOffer?.offerId === offer.offerId
-                ? "border-success bg-success-subtle"
-                : ""
-            }`}
-            style={{ cursor: "pointer" }}
-            onClick={() => setSelectedOffer(offer)}
-          >
-            <div className="d-flex justify-content-between">
-              <span>{offer.title}</span>
-              <strong>Save ₹{offer.discount}</strong>
+    <div className="d-flex align-items-center mb-3">
+      <FaGift className="text-warning me-2 fs-5" />
+      <h6 className="fw-bold mb-0">Exclusive Offers For You</h6>
+    </div>
+
+    {offers.map((offer) => {
+      const isSelected = selectedOffer?.offerId === offer.offerId;
+
+      return (
+        <div
+          key={offer.offerId}
+          className={`rounded-4 p-3 mb-3 shadow-sm border ${
+            isSelected
+              ? "border-success bg-success-subtle"
+              : "border-light bg-white"
+          }`}
+          style={{
+            transition: "all 0.2s ease",
+            cursor: "pointer"
+          }}
+        >
+
+          {/* Top Row */}
+          <div className="d-flex justify-content-between align-items-center">
+
+            <div className="d-flex align-items-center gap-2">
+              <MdLocalOffer className="text-danger fs-5" />
+              <span className="fw-semibold">{offer.title}</span>
             </div>
-          </div>
-        ))}
 
-        {selectedOffer && (
-          <button
-            className="btn btn-sm btn-outline-danger mt-2"
-            onClick={() => setSelectedOffer(null)}
-          >
-            Remove Offer
-          </button>
-        )}
-      </div>
-    ) : null}
+            <span className="badge bg-danger-subtle text-danger fw-bold px-3 py-2 rounded-pill">
+              <FaTag className="me-1" />
+              Save ₹{offer.discount}
+            </span>
+
+          </div>
+
+          {/* Divider */}
+          <hr className="my-2" />
+
+          {/* Action Row */}
+          <div className="d-flex justify-content-between align-items-center">
+
+            <small className="text-muted">
+              New Total: <strong>₹{originalTotal - offer.discount}</strong>
+            </small>
+
+            {!isSelected ? (
+              <button
+                className="btn btn-sm btn-success rounded-pill px-3 fw-semibold"
+                onClick={() => setSelectedOffer(offer)}
+              >
+                <FaCheckCircle className="me-1" />
+                Apply
+              </button>
+            ) : (
+              <button
+                className="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold"
+                onClick={() => setSelectedOffer(null)}
+              >
+                <FaTimesCircle className="me-1" />
+                Remove
+              </button>
+            )}
+
+          </div>
+
+        </div>
+      );
+    })}
+
+  </div>
+) : null}
 
         <PayButton bookingId={booking._id}  
         selectedOffer={selectedOffer}
