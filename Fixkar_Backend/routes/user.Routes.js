@@ -20,6 +20,7 @@ import { getTransaction } from '../controllers/ProfessionalsController/getTransa
 import { sendWithDrawRequest } from '../controllers/ProfessionalsController/sendWithdrawRequest.js';
 import { saveFormResponse } from '../controllers/saveFormResponse.controller.js';
 import { getBanks } from '../controllers/Admin/AdminController/bank.controller.js';
+import { getEligibleOffers } from '../controllers/CustomerController/getEligibleOffers.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -70,6 +71,7 @@ userRoute.get('/get-services', getServices)
 userRoute.post('/save-form-response', isAuth, saveFormResponse);
 userRoute.get('/get-banks', isAuth, getBanks);
 
+userRoute.get('/get-elligible-offers/:bookingId', isAuth, getEligibleOffers)
 
 
  export default userRoute;
