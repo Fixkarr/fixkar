@@ -258,122 +258,155 @@ const finalPayable = originalTotal - discountAmount;
     )}
 
      {booking.quoteAmount && booking.status !== "completed" && (
-               <div className="bg-success-subtle border border-success rounded-3 p-3 mt-3">
-      <p className="mb-1 fw-semibold text-success">
-        <MdPayment/> Service Cost Shared
-      </p>
+               <div   className="mt-4 p-4 rounded-4 shadow-lg position-relative"
+    style={{
+      background: "linear-gradient(135deg, #1f2937, #111827)",
+      color: "#fff",
+      overflow: "hidden"
+    }}>
 
-      <div className="d-flex justify-content-between">
-        <span>Service Charge</span>
+        <div className="d-flex align-items-center justify-content-between mb-4">
+      <div className="d-flex align-items-center gap-2">
+        <MdPayment size={22} className="text-success" />
+        <h5 className="fw-bold mb-0">Payment Summary</h5>
+      </div>
+
+      <span className="badge bg-success px-3 py-2 rounded-pill">
+        Secure Payment
+      </span>
+    </div>
+      <div className="bg-white bg-opacity-10 rounded-4 p-3 mb-3">
+      <div className="d-flex justify-content-between mb-2">
+        <span className="text-light opacity-75">Service Charge</span>
         <strong>₹{booking.quoteAmount}</strong>
       </div>
 
-      <div className="d-flex justify-content-between">
-        <span>Visiting Charge</span>
+      <div className="d-flex justify-content-between mb-2">
+        <span className="text-light opacity-75">Visiting Charge</span>
         <strong>₹{booking.visitingCharge}</strong>
       </div>
 
-         {selectedOffer && (
-      <div className="d-flex justify-content-between text-success">
-        <span>Discount</span>
-        <strong>-₹{discountAmount}</strong>
-      </div>
-    )}
+      {selectedOffer && (
+        <div className="d-flex justify-content-between text-success fw-semibold">
+          <span>Discount Applied</span>
+          <span>- ₹{discountAmount}</span>
+        </div>
+      )}
 
-      <hr className="my-2" />
+      <hr className="border-light opacity-25 my-3" />
+
+      <div className="d-flex justify-content-between fs-5 fw-bold">
+        <span>Total Payable</span>
+        <span className="text-success">₹{finalPayable}</span>
+      </div>
+    </div>
 
       <div className="d-flex justify-content-between fw-bold">
         <span>Total Payable</span>
         <span>₹{finalPayable}</span>
       </div>
 
-   {loadingOffers ? (
-  <div className="text-center mt-3">
-    <div className="spinner-border text-success spinner-border-sm"></div>
-    <small className="text-muted ms-2">Finding best offers for you...</small>
-  </div>
-) : offers.length > 0 ? (
-  <div className="mt-4">
+  
+    {/* OFFERS SECTION */}
+    {loadingOffers ? (
+      <div className="text-center py-3">
+        <div className="spinner-border text-success spinner-border-sm"></div>
+        <small className="ms-2 text-light opacity-75">
+          Finding best offers...
+        </small>
+      </div>
+    ) : offers.length > 0 ? (
+      <div className="mt-4">
 
-    <div className="d-flex align-items-center mb-3">
-      <FaGift className="text-warning me-2 fs-5" />
-      <h6 className="fw-bold mb-0">Exclusive Offers For You</h6>
-    </div>
-
-    {offers.map((offer) => {
-      const isSelected = selectedOffer?.offerId === offer.offerId;
-
-      return (
-        <div
-          key={offer.offerId}
-          className={`rounded-4 p-3 mb-3 shadow-sm border ${
-            isSelected
-              ? "border-success bg-success-subtle"
-              : "border-light bg-white"
-          }`}
-          style={{
-            transition: "all 0.2s ease",
-            cursor: "pointer"
-          }}
-        >
-
-          {/* Top Row */}
-          <div className="d-flex justify-content-between align-items-center">
-
-            <div className="d-flex align-items-center gap-2">
-              <MdLocalOffer className="text-danger fs-5" />
-              <span className="fw-semibold">{offer.title}</span>
-            </div>
-
-            <span className="badge bg-danger-subtle text-danger fw-bold px-3 py-2 rounded-pill">
-              <FaTag className="me-1" />
-              Save ₹{offer.discount}
-            </span>
-
-          </div>
-
-          {/* Divider */}
-          <hr className="my-2" />
-
-          {/* Action Row */}
-          <div className="d-flex justify-content-between align-items-center">
-
-            <small className="text-muted">
-              New Total: <strong>₹{originalTotal - offer.discount}</strong>
-            </small>
-
-            {!isSelected ? (
-              <button
-                className="btn btn-sm btn-success rounded-pill px-3 fw-semibold"
-                onClick={() => setSelectedOffer(offer)}
-              >
-                <FaCheckCircle className="me-1" />
-                Apply
-              </button>
-            ) : (
-              <button
-                className="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold"
-                onClick={() => setSelectedOffer(null)}
-              >
-                <FaTimesCircle className="me-1" />
-                Remove
-              </button>
-            )}
-
-          </div>
-
+        <div className="d-flex align-items-center mb-3">
+          <FaGift className="text-warning me-2 fs-5" />
+          <h6 className="fw-bold mb-0 text-light">
+            Special Offers
+          </h6>
         </div>
-      );
-    })}
 
-  </div>
-) : null}
+        {offers.map((offer) => {
+          const isSelected =
+            selectedOffer?.offerId === offer.offerId;
 
-        <PayButton bookingId={booking._id}  
-        selectedOffer={selectedOffer}
-        amount={finalPayable} 
-        paymentType={"FINAL"} 
-        label={`Pay ₹${finalPayable}`}/>
+          return (
+            <div
+              key={offer.offerId}
+              className="position-relative rounded-4 p-3 mb-3"
+              style={{
+                background: isSelected
+                  ? "linear-gradient(135deg, #16a34a, #22c55e)"
+                  : "rgba(255,255,255,0.08)",
+                border: isSelected
+                  ? "1px solid #22c55e"
+                  : "1px solid rgba(255,255,255,0.1)",
+                transition: "all 0.3s ease",
+                cursor: "pointer"
+              }}
+            >
+
+              {/* Ribbon */}
+              <div
+                className="position-absolute top-0 end-0 px-3 py-1 rounded-bottom-start fw-semibold"
+                style={{
+                  background: "#f59e0b",
+                  fontSize: "12px"
+                }}
+              >
+                SAVE ₹{offer.discount}
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+
+                <div>
+                  <h6 className="fw-semibold mb-1">
+                    <MdLocalOffer className="me-1" />
+                    {offer.title}
+                  </h6>
+
+                  <small className="opacity-75">
+                    Pay only ₹{originalTotal - offer.discount}
+                  </small>
+                </div>
+
+                {!isSelected ? (
+                  <button
+                    className="btn btn-light btn-sm rounded-pill fw-semibold px-3"
+                    onClick={() => setSelectedOffer(offer)}
+                  >
+                    Apply
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-dark btn-sm rounded-pill fw-semibold px-3"
+                    onClick={() => setSelectedOffer(null)}
+                  >
+                    Remove
+                  </button>
+                )}
+
+              </div>
+            </div>
+          );
+        })}
+
+      </div>
+    ) : null}
+
+         <div className="mt-4">
+      <button
+        className="btn w-100 rounded-pill py-3 fw-bold fs-5"
+        style={{
+          background: "linear-gradient(135deg, #22c55e, #16a34a)",
+          border: "none",
+          color: "#fff",
+          boxShadow: "0 8px 20px rgba(34,197,94,0.3)"
+        }}
+      >
+        Pay ₹{finalPayable}
+      </button>
+    </div>
+        
     </div>
              )}
 
