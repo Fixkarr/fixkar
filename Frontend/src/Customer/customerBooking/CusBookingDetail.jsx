@@ -34,16 +34,51 @@ import CusCancelBooking from './CusCancelBooking';
 import CusCompleteBooking from './CusCompleteBooking';
 import useGetReachedOtp from '../../hooks/useGetReachedOtp'
 import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
-
-
+import { server_url } from '../../App';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const CusBookingDetail = () => {
     const [loading, setLoading] = useState(false)
-    const {myBookings} = useSelector(state=> state.bookings)
+    const [offers, setOffers] = useState([]);
+    const [selectedOffer, setSelectedOffer] = useState(null);
+    const [loadingOffers, setLoadingOffers] = useState(false);
+     const {myBookings} = useSelector(state=> state.bookings)
 
     const {bookingId} = useParams();
     const otp = useGetReachedOtp(bookingId)
      const booking = myBookings.find(book => book._id == bookingId)
+
+    useEffect(() => {
+  if (booking.quoteAmount && booking.status !== "completed") {
+    fetchOffers();
+  }
+}, [booking.quoteAmount]);
+
+const fetchOffers = async () => {
+  try {
+    setLoadingOffers(true);
+    const res = await axios.get(
+      `${server_url}/api/customer/get-elligible-offers/${booking._id}`,
+      { withCredentials: true }
+    );
+    setOffers(res.data.offers || []);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoadingOffers(false);
+  }
+};
+
+const originalTotal =
+  booking?.quoteAmount + booking?.visitingCharge;
+
+const discountAmount = selectedOffer
+  ? selectedOffer.discount
+  : 0;
+
+const finalPayable = originalTotal - discountAmount;
+
 
   return (
     <div className="card border-0 shadow-sm rounded-4 my-4">
@@ -240,11 +275,18 @@ const CusBookingDetail = () => {
         <strong>₹{booking.visitingCharge}</strong>
       </div>
 
+         {selectedOffer && (
+      <div className="d-flex justify-content-between text-success">
+        <span>Discount</span>
+        <strong>-₹{discountAmount}</strong>
+      </div>
+    )}
+
       <hr className="my-2" />
 
       <div className="d-flex justify-content-between fw-bold">
         <span>Total Payable</span>
-        <span>₹{booking.quoteAmount + booking.visitingCharge}</span>
+        <span>₹{finalPayable}</span>
       </div>
 
         <PayButton bookingId={booking._id} paymentType={"FINAL"} label={`Pay ₹${booking.quoteAmount + booking.visitingCharge}`}/>
