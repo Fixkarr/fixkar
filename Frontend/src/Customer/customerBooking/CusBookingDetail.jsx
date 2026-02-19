@@ -258,156 +258,190 @@ const finalPayable = originalTotal - discountAmount;
     )}
 
      {booking.quoteAmount && booking.status !== "completed" && (
-               <div   className="mt-4 p-4 rounded-4 shadow-lg position-relative"
-    style={{
-      background: "linear-gradient(135deg, #1f2937, #111827)",
-      color: "#fff",
-      overflow: "hidden"
-    }}>
-
-        <div className="d-flex align-items-center justify-content-between mb-4">
-      <div className="d-flex align-items-center gap-2">
-        <MdPayment size={22} className="text-success" />
-        <h5 className="fw-bold mb-0">Payment Summary</h5>
-      </div>
-
-      <span className="badge bg-success px-3 py-2 rounded-pill">
-        Secure Payment
-      </span>
-    </div>
-      <div className="bg-white bg-opacity-10 rounded-4 p-3 mb-3">
-      <div className="d-flex justify-content-between mb-2">
-        <span className="text-light opacity-75">Service Charge</span>
-        <strong>₹{booking.quoteAmount}</strong>
-      </div>
-
-      <div className="d-flex justify-content-between mb-2">
-        <span className="text-light opacity-75">Visiting Charge</span>
-        <strong>₹{booking.visitingCharge}</strong>
-      </div>
-
-      {selectedOffer && (
-        <div className="d-flex justify-content-between text-success fw-semibold">
-          <span>Discount Applied</span>
-          <span>- ₹{discountAmount}</span>
-        </div>
-      )}
-
-      <hr className="border-light opacity-25 my-3" />
-
-      <div className="d-flex justify-content-between fs-5 fw-bold">
-        <span>Total Payable</span>
-        <span className="text-success">₹{finalPayable}</span>
-      </div>
-    </div>
-
-      <div className="d-flex justify-content-between fw-bold">
-        <span>Total Payable</span>
-        <span>₹{finalPayable}</span>
-      </div>
-
-  
-    {/* OFFERS SECTION */}
-    {loadingOffers ? (
-      <div className="text-center py-3">
-        <div className="spinner-border text-success spinner-border-sm"></div>
-        <small className="ms-2 text-light opacity-75">
-          Finding best offers...
-        </small>
-      </div>
-    ) : offers.length > 0 ? (
-      <div className="mt-4">
-
-        <div className="d-flex align-items-center mb-3">
-          <FaGift className="text-warning me-2 fs-5" />
-          <h6 className="fw-bold mb-0 text-light">
-            Special Offers
-          </h6>
-        </div>
-
-        {offers.map((offer) => {
-          const isSelected =
-            selectedOffer?.offerId === offer.offerId;
-
-          return (
             <div
-              key={offer.offerId}
-              className="position-relative rounded-4 p-3 mb-3"
-              style={{
-                background: isSelected
-                  ? "linear-gradient(135deg, #16a34a, #22c55e)"
-                  : "rgba(255,255,255,0.08)",
-                border: isSelected
-                  ? "1px solid #22c55e"
-                  : "1px solid rgba(255,255,255,0.1)",
-                transition: "all 0.3s ease",
-                cursor: "pointer"
-              }}
-            >
+  className="mt-4 p-4 rounded-4 shadow-sm"
+  style={{
+    background: "linear-gradient(145deg, #ffffff, #f8fafc)",
+    border: "1px solid #e5e7eb"
+  }}
+>
 
-              {/* Ribbon */}
-              <div
-                className="position-absolute top-0 end-0 px-3 py-1 rounded-bottom-start fw-semibold"
-                style={{
-                  background: "#f59e0b",
-                  fontSize: "12px"
-                }}
-              >
-                SAVE ₹{offer.discount}
-              </div>
-
-              <div className="d-flex justify-content-between align-items-center">
-
-                <div>
-                  <h6 className="fw-semibold mb-1">
-                    <MdLocalOffer className="me-1" />
-                    {offer.title}
-                  </h6>
-
-                  <small className="opacity-75">
-                    Pay only ₹{originalTotal - offer.discount}
-                  </small>
-                </div>
-
-                {!isSelected ? (
-                  <button
-                    className="btn btn-light btn-sm rounded-pill fw-semibold px-3"
-                    onClick={() => setSelectedOffer(offer)}
-                  >
-                    Apply
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-dark btn-sm rounded-pill fw-semibold px-3"
-                    onClick={() => setSelectedOffer(null)}
-                  >
-                    Remove
-                  </button>
-                )}
-
-              </div>
-            </div>
-          );
-        })}
-
-      </div>
-    ) : null}
-
-         <div className="mt-4">
-      <button
-        className="btn w-100 rounded-pill py-3 fw-bold fs-5"
+  {/* HEADER */}
+  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="d-flex align-items-center gap-2">
+      <div
+        className="p-2 rounded-circle"
         style={{
-          background: "linear-gradient(135deg, #22c55e, #16a34a)",
-          border: "none",
-          color: "#fff",
-          boxShadow: "0 8px 20px rgba(34,197,94,0.3)"
+          background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
+          color: "white"
         }}
       >
-        Pay ₹{finalPayable}
-      </button>
+        <MdPayment size={18} />
+      </div>
+      <h5 className="fw-bold mb-0 text-dark">
+        Payment Summary
+      </h5>
     </div>
-        
+
+    <span className="badge bg-light text-success border border-success-subtle px-3 py-2 rounded-pill">
+      🔒 Secure
+    </span>
+  </div>
+
+  {/* PRICE CARD */}
+  <div
+    className="rounded-4 p-4 mb-4"
+    style={{
+      background: "#f9fafb",
+      border: "1px solid #eef2f7"
+    }}
+  >
+    <div className="d-flex justify-content-between mb-2 text-muted">
+      <span>Service Charge</span>
+      <span className="fw-semibold text-dark">
+        ₹{booking.quoteAmount}
+      </span>
     </div>
+
+    <div className="d-flex justify-content-between mb-2 text-muted">
+      <span>Visiting Charge</span>
+      <span className="fw-semibold text-dark">
+        ₹{booking.visitingCharge}
+      </span>
+    </div>
+
+    {selectedOffer && (
+      <div className="d-flex justify-content-between mb-2 text-success fw-semibold">
+        <span>Discount</span>
+        <span>- ₹{discountAmount}</span>
+      </div>
+    )}
+
+    <hr />
+
+    <div className="d-flex justify-content-between align-items-center">
+      <span className="fw-bold fs-5 text-dark">
+        Total Payable
+      </span>
+      <span
+        className="fw-bold fs-4"
+        style={{
+          color: "#16a34a"
+        }}
+      >
+        ₹{finalPayable}
+      </span>
+    </div>
+  </div>
+
+  {/* OFFERS */}
+  {loadingOffers ? (
+    <div className="text-center py-3">
+      <div className="spinner-border spinner-border-sm text-primary"></div>
+      <small className="text-muted ms-2">
+        Checking best offers...
+      </small>
+    </div>
+  ) : offers.length > 0 ? (
+    <div className="mb-4">
+
+      <div className="d-flex align-items-center mb-3">
+        <FaGift className="text-danger me-2" />
+        <h6 className="fw-bold mb-0 text-dark">
+          Available Offers
+        </h6>
+      </div>
+
+      {offers.map((offer) => {
+        const isSelected =
+          selectedOffer?.offerId === offer.offerId;
+
+        return (
+          <div
+            key={offer.offerId}
+            className="rounded-4 p-3 mb-3 position-relative"
+            style={{
+              background: isSelected
+                ? "linear-gradient(135deg,#ecfdf5,#d1fae5)"
+                : "#ffffff",
+              border: isSelected
+                ? "1px solid #16a34a"
+                : "1px solid #e5e7eb",
+              boxShadow: isSelected
+                ? "0 8px 20px rgba(22,163,74,0.08)"
+                : "0 4px 12px rgba(0,0,0,0.03)",
+              transition: "all 0.25s ease",
+              cursor: "pointer"
+            }}
+          >
+
+            {/* LEFT SIDE */}
+            <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+              <div>
+                <div className="fw-semibold text-dark d-flex align-items-center gap-2">
+                  <MdLocalOffer className="text-danger" />
+                  {offer.title}
+                </div>
+
+                <small className="text-muted">
+                  You save ₹{offer.discount}
+                </small>
+              </div>
+
+              {!isSelected ? (
+                <button
+                  className="btn btn-sm rounded-pill fw-semibold px-4"
+                  style={{
+                    background:
+                      "linear-gradient(135deg,#6366f1,#8b5cf6)",
+                    color: "#fff",
+                    border: "none"
+                  }}
+                  onClick={() =>
+                    setSelectedOffer(offer)
+                  }
+                >
+                  Apply
+                </button>
+              ) : (
+                <button
+                  className="btn btn-sm btn-outline-danger rounded-pill px-4 fw-semibold"
+                  onClick={() =>
+                    setSelectedOffer(null)
+                  }
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+  ) : null}
+
+  {/* PAY BUTTON */}
+  <div>
+    <button
+      className="btn w-100 py-3 fw-bold fs-5 rounded-pill"
+      style={{
+        background:
+          "linear-gradient(135deg,#16a34a,#22c55e)",
+        color: "#fff",
+        border: "none",
+        boxShadow:
+          "0 10px 25px rgba(22,163,74,0.25)",
+        transition: "all 0.2s ease"
+      }}
+    >
+      Pay ₹{finalPayable}
+    </button>
+  </div>
+
+</div>
+
              )}
 
     {booking.status == 'cancelled' && (
