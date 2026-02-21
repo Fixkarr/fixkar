@@ -39,7 +39,7 @@ import { useEffect } from 'react';
 const CusBookingDetail = () => {
     const [loading, setLoading] = useState(false)
     const [offers, setOffers] = useState([]);
-    const [selectedOffer, setSelectedOffer] = useState(null);
+    const [applyingOffer, setApplyingOffer] = useState(false);
     const [loadingOffers, setLoadingOffers] = useState(false);
      const {myBookings} = useSelector(state=> state.bookings)
 
@@ -71,12 +71,14 @@ const fetchOffers = async () => {
 const originalTotal =
   booking?.quoteAmount + booking?.visitingCharge;
 
-const discountAmount = selectedOffer
-  ? selectedOffer.discount
-  : 0;
+const discountAmount =
+  booking?.discountAmount || 0;
 
-const finalPayable = originalTotal - discountAmount;
-
+const finalPayable =
+  booking?.offerLocked
+    ? booking?.finalCustomerPayable
+    : originalTotal;
+    
 
   return (
     <div className="card border-0 shadow-sm rounded-4 my-4">

@@ -41,7 +41,26 @@ const bookingSchema = new mongoose.Schema({
         type : Date
     },
     review : {type : mongoose.Schema.Types.ObjectId, ref : 'Review'},
-    walletTransaction : {type : mongoose.Schema.Types.ObjectId, ref : 'WalletTransaction'}
+    walletTransaction : {type : mongoose.Schema.Types.ObjectId, ref : 'WalletTransaction'},
+    // 🔹 Offer freeze fields
+        offerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Offer",
+        default: null
+        },
+        discountAmount: {
+        type: Number,
+        default: 0
+        },
+        finalCustomerPayable: {
+        type: Number,
+        default: 0
+        },
+        offerLocked: {
+        type: Boolean,
+        default: false
+        }
+
 },{timestamps : true})
 
 export const Booking = mongoose.model("Booking", bookingSchema);
