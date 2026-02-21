@@ -49,6 +49,18 @@ const ProBookingDetails = () => {
   return now >= enableTime;
   }
 
+  const fullAmount =
+  (booking?.quoteAmount || 0) +
+  (booking?.visitingCharge || 0);
+
+const discountAmount =
+  booking?.discountAmount || 0;
+
+const cashReceivable =
+  booking?.offerLocked
+    ? booking?.finalCustomerPayable
+    : fullAmount;
+
   return (
     <div className="card border-0 shadow rounded-4 mb-4">
       <div className="card-body p-4">
@@ -145,7 +157,7 @@ const ProBookingDetails = () => {
           {booking.quoteAmount && booking.status !== "completed" && (
        <div className="alert alert-warning rounded-4 shadow-sm mt-4">
     <h6 className="fw-bold mb-2">
-      Quote Sent Successfully
+      Quote Sent Successfully, Awaiting Payment
     </h6>
 
     <p className="mb-2">
@@ -155,16 +167,40 @@ const ProBookingDetails = () => {
 
     <div className="border rounded p-3 bg-light">
       <div className="d-flex justify-content-between">
-        <span>Work Charge</span>
+        <span>Service Charge</span>
         <span className="fw-semibold">₹{booking.quoteAmount}</span>
       </div>
+        <div className="d-flex justify-content-between">
+            <span>Visiting Charge</span>
+            <span>₹{booking.visitingCharge}</span>
+        </div>
+         {discountAmount > 0 && (
+                  <div className="d-flex justify-content-between text-success">
+                    <span>Fixkar Discount</span>
+                    <span>- ₹{discountAmount}</span>
+                  </div>
+         )}
+
+           <hr />
+
+                <div className="d-flex justify-content-between fw-bold">
+                  <span>Customer Pays (Cash)</span>
+                  <span>₹{cashReceivable}</span>
+                </div>
     </div>
+
+       {booking.offerLocked && (
+                <div className="alert alert-success mt-3 p-2">
+                  Customer applied ₹{discountAmount} discount.
+                  Platform will top-up this amount.
+                </div>
+              )}
 
      <button
         className="mt-2 btn btn-outline-primary w-100 fw-semibold"
         onClick={() => setShowCashModal(true)}
       >
-       ₹{booking.quoteAmount + booking.visitingCharge} Cash Recieved?
+         ₹{cashReceivable} Cash Received?
       </button>
       
        {showCashModal && (
@@ -182,7 +218,7 @@ const ProBookingDetails = () => {
 
           <div className="modal-body">
             <CashConfirmationBox
-              amount={booking.quoteAmount + booking.visitingCharge}
+              amount={cashReceivable}
               bookingId={booking._id}
               onSuccess={() => setShowCashModal(false)}
             />
