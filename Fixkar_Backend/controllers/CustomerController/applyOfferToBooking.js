@@ -89,7 +89,7 @@ export const applyOfferToBooking = async (req, res) => {
       offer.serviceId.length &&
       !offer.serviceId
         .map(id => id.toString())
-        .includes(booking.professionalId.profession.toString())
+        .includes(booking.professionalId.profession._id.toString())
     ) {
       return res.status(400).json({
         message: "Offer not valid for this service"
