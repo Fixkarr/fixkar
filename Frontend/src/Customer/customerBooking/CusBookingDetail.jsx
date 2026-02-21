@@ -35,6 +35,7 @@ import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
 import { server_url } from '../../App';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const CusBookingDetail = () => {
     const [loading, setLoading] = useState(false)
@@ -48,10 +49,14 @@ const CusBookingDetail = () => {
      const booking = myBookings.find(book => book._id == bookingId)
 
     useEffect(() => {
-  if (booking.quoteAmount && booking.status !== "completed") {
+  if (
+  booking?.quoteAmount &&
+  booking.status === "in-progress" &&
+  !booking.offerLocked
+){
     fetchOffers();
   }
-}, [booking.quoteAmount]);
+}, [booking?.quoteAmount, booking?.offerLocked]);
 
 const fetchOffers = async () => {
   try {
@@ -69,7 +74,8 @@ const fetchOffers = async () => {
 };
 
 const originalTotal =
-  booking?.quoteAmount + booking?.visitingCharge;
+  (booking?.quoteAmount || 0) +
+  (booking?.visitingCharge || 0);
 
 const discountAmount =
   booking?.discountAmount || 0;
@@ -78,7 +84,38 @@ const finalPayable =
   booking?.offerLocked
     ? booking?.finalCustomerPayable
     : originalTotal;
+
+const handleApplyOffer = async (offer) => {
+  const confirmApply = window.confirm(
+    "Are you sure you want to apply this offer? You cannot remove it later."
+  );
+
+  if (!confirmApply) return;
+
+  try {
+    setApplyingOffer(true);
+
+    await axios.post(
+      `${server_url}/api/user/apply-offer`,
+      {
+        bookingId,
+        offerId: offer.offerId,
+      },
+      { withCredentials: true }
+    );
     
+      toast.success("Offer applied successfully");
+
+  } catch (error) {
+   toast.error(
+  error?.response?.data?.message ||
+  "Failed to apply offer"
+);
+  } finally {
+    setApplyingOffer(false);
+  }
+};
+
 
   return (
     <div className="card border-0 shadow-sm rounded-4 my-4">
@@ -312,7 +349,7 @@ const finalPayable =
       </span>
     </div>
 
-    {selectedOffer && (
+    {booking.discountAmount > 0 && (
       <div className="d-flex justify-content-between mb-2 text-success fw-semibold">
         <span>Discount</span>
         <span>- ₹{discountAmount}</span>
@@ -334,6 +371,13 @@ const finalPayable =
         ₹{finalPayable}
       </span>
     </div>
+        
+     {booking.offerLocked && (
+              <div className="alert alert-success mt-3">
+                Offer applied successfully.
+              </div>
+            )}
+
   </div>
 
   {/* OFFERS */}
@@ -344,7 +388,7 @@ const finalPayable =
         Checking best offers...
       </small>
     </div>
-  ) : offers.length > 0 ? (
+  ) : !booking.offerLocked && offers.length > 0? (
     <div className="mb-4">
 
       <div className="d-flex align-items-center mb-3">
@@ -356,7 +400,7 @@ const finalPayable =
 
       {offers.map((offer) => {
         const isSelected =
-          selectedOffer?.offerId === offer.offerId;
+          booking.offerId === offer.offerId;
 
         return (
           <div
@@ -391,31 +435,21 @@ const finalPayable =
                 </small>
               </div>
 
-              {!isSelected ? (
-                <button
-                  className="btn btn-sm rounded-pill fw-semibold px-4"
-                  style={{
-                    background:
-                      "linear-gradient(135deg,#6366f1,#8b5cf6)",
-                    color: "#fff",
-                    border: "none"
-                  }}
-                  onClick={() =>
-                    setSelectedOffer(offer)
-                  }
-                >
-                  Apply
-                </button>
-              ) : (
-                <button
-                  className="btn btn-sm btn-outline-danger rounded-pill px-4 fw-semibold"
-                  onClick={() =>
-                    setSelectedOffer(null)
-                  }
-                >
-                  Remove
-                </button>
-              )}
+             {!booking.offerLocked && (
+              <button
+                disabled={applyingOffer}
+                className="btn btn-sm rounded-pill fw-semibold px-4"
+                style={{
+                  background:
+                    "linear-gradient(135deg,#6366f1,#8b5cf6)",
+                  color: "#fff",
+                  border: "none"
+                }}
+                onClick={() => handleApplyOffer(offer)}
+              >
+                {applyingOffer ? "Applying..." : "Apply"}
+              </button>
+            )}
             </div>
 
           </div>
