@@ -9,7 +9,9 @@ import { useParams } from 'react-router-dom';
   FaCalendarAlt,
   FaRupeeSign,
   FaPhoneAlt,
-  FaTools
+  FaTools,
+  FaDownload,
+  FaMicrophone
 } from "react-icons/fa";
 import { formatDate, formatTime } from '../../utils/formatTime&Date';
 import { GetStatusBadge } from '../../utils/GetStatusBadge';
@@ -24,6 +26,7 @@ import SwipeToConfirm from '../SwipeToConfirm';
 import { reachedToLocationAPI } from './reachedToLocationAPI';
 import useGetWalletTransaction from '../../hooks/useGetWalletTransaction';
 import CashConfirmationBox from '../../Components/CashConfirmationBox';
+import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
 
 const ProBookingDetails = () => {
   const {bookingId} = useParams()
@@ -146,6 +149,59 @@ const cashReceivable =
            {booking.problemDescription}
           </p>
         </div>
+
+        {booking.audioMessages && booking.audioMessages.length > 0 && (
+          <div className="mb-4">
+            <div className="bg-white rounded-4 shadow-sm border p-3">
+        
+              {/* Header */}
+              <div className="d-flex align-items-center justify-content-between mb-3">
+                <h6 className="fw-bold mb-0 d-flex align-items-center gap-2">
+                  <FaMicrophone/> Voice Descriptions
+                </h6>
+        
+                <span className="badge bg-primary-subtle text-primary">
+                  {booking.audioMessages.length}
+                </span>
+              </div>
+        
+              {/* Audio List */}
+              <div className="d-flex flex-column gap-3">
+                {booking.audioMessages?.map((audio, index) => (
+                  <div
+                    key={index}
+                    className="bg-light rounded-3 p-2 d-flex align-items-center gap-3 border"
+                  >
+                    {/* Icon */}
+                    <div
+                      className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                      style={{ width: 36, height: 36, fontSize: "14px" }}
+                    >
+                      <FaMicrophone/>
+                    </div>
+        
+                    {/* Audio Player */}
+                    <div className="flex-grow-1">
+                      <CustomAudioPlayer src={audio.url} />
+                    </div>
+        
+                    {/* Download */}
+                    <a
+                      href={audio.url}
+                      download
+                      className="btn btn-sm btn-outline-secondary"
+                    >
+                      <FaDownload/>
+                    </a>
+                  </div>
+                ))}
+              </div>
+        
+            </div>
+          </div>
+        )}
+
+
           <div className="actions m-2">
             {booking.status == "pending" && <ProPendingComponent booking={booking} />}
       
