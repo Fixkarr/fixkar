@@ -156,11 +156,6 @@ export const confirmCashPayment = async (req, res) => {
       booking
     );
 
-    io.to(booking.professionalId.userId._id.toString()).emit(
-      "notification",
-      notification
-    );
-
     return res.status(200).json({
       success: true,
       message: "Cash payment confirmed successfully",
