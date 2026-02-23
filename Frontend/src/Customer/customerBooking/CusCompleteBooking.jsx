@@ -23,6 +23,19 @@ const CusCompleteBooking = ({booking}) => {
         }
     }
 
+      const fullAmount =
+    (booking.quoteAmount || 0) +
+    (booking.visitingCharge || 0);
+
+  const discountAmount =
+    booking.discountAmount || 0;
+
+  const finalPaid =
+    booking.offerLocked && booking.finalCustomerPayable
+      ? booking.finalCustomerPayable
+      : fullAmount;
+
+
   return (
     <div className="card border-0 shadow-sm rounded-4 p-4 my-4">
 
@@ -42,18 +55,28 @@ const CusCompleteBooking = ({booking}) => {
       <span className="fw-semibold">₹{booking.visitingCharge}</span>
     </div>
 
+        {discountAmount > 0 && (
+          <div className="d-flex justify-content-between mb-2 text-success">
+            <span>Discount Applied</span>
+            <span>- ₹{discountAmount}</span>
+          </div>
+        )}
+
     <hr className="my-2" />
 
     <div className="d-flex justify-content-between">
       <span className="fw-bold">Total Paid Amount</span>
-      <span className="fw-bold text-success">₹{booking.visitingCharge + booking.quoteAmount}</span>
+      <span className="fw-bold text-success">₹{finalPaid}</span>
     </div>
   </div>
 
-  <div className="alert alert-success rounded-3 mb-4">
-    The total amount has been successfully transferred to the professional.
-  </div>
+   <div className="alert alert-success rounded-3 mb-4">
+        {discountAmount > 0
+          ? "Discount was successfully applied to your booking."
+          : "The total amount has been successfully transferred to the professional."}
+      </div>
 
+      
   {/* Thank You Message */}
   <div className="mb-4">
     <p className="fw-semibold mb-1">
