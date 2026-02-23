@@ -460,20 +460,13 @@ const handleApplyOffer = async (offer) => {
 
   {/* PAY BUTTON */}
   <div>
-    <button
-      className="btn w-100 py-3 fw-bold fs-5 rounded-pill"
-      style={{
-        background:
-          "linear-gradient(135deg,#16a34a,#22c55e)",
-        color: "#fff",
-        border: "none",
-        boxShadow:
-          "0 10px 25px rgba(22,163,74,0.25)",
-        transition: "all 0.2s ease"
-      }}
-    >
-      Pay ₹{finalPayable}
-    </button>
+   <PayButton 
+  bookingId={bookingId} 
+  paymentType="FINAL" 
+  label={`Pay ₹${finalPayable}`} 
+  selectedOffer={booking.offerLocked ? { offerId: booking.offerId } : null}
+/>
+
   </div>
 
 </div>

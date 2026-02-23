@@ -12,7 +12,7 @@ import { Offer } from './Admin/AdminModels/offer.model.js';
 import { OfferUsage } from './Admin/AdminModels/offerUsage.model.js';
 export const createOrder = async (req, res) => {
   try {
-    const { bookingId, paymentType, offerId } = req.body;
+    const { bookingId, paymentType} = req.body;
 
     // 1️⃣ Booking lao
     const booking = await Booking.findById(bookingId).populate({
@@ -23,10 +23,8 @@ export const createOrder = async (req, res) => {
       return res.status(404).json({ message: "Booking not found" });
     }
 
-    let baseAmount = 0;
     let discountAmount = 0;
     let amount = 0
-
     let paymentReason = "";
 
     // 2️⃣ Payment type ke hisaab se amount decide
@@ -37,106 +35,24 @@ export const createOrder = async (req, res) => {
       message: "Quote not sent yet"
     });
   }
+  const fullAmount =
+    booking.quoteAmount + booking.visitingCharge;
 
-    baseAmount = booking.quoteAmount + booking.visitingCharge
+  amount = booking.offerLocked && booking.finalCustomerPayable
+    ? booking.finalCustomerPayable
+    : fullAmount;
 
-    if(offerId){
-        const offer = await Offer.findById(offerId);
-         if (!offer || !offer.isActive) {
-      return res.status(400).json({ message: "Invalid offer" });
-    }
+  discountAmount = booking.offerLocked
+    ? booking.discountAmount
+    : 0;
 
-       const now = new Date();
-
-    if (offer.startDate > now || offer.endDate < now) {
-      return res.status(400).json({ message: "Offer expired" });
-    }
-
-       if (
-      offer.serviceId.length &&
-      !offer.serviceId
-        .map(id => id.toString())
-        .includes(
-          booking.professionalId.profession.toString()
-        )
-    ) {
-      return res.status(400).json({
-        message: "Offer not valid for this service"
-      });
-    }
-
-
-       if (
-      offer.minBookingAmount &&
-      booking.quoteAmount < offer.minBookingAmount
-    ) {
-      return res.status(400).json({
-        message: "Minimum booking amount not satisfied"
-      });
-    }
-
-      if (
-      offer.usageLimit &&
-      offer.usedCount >= offer.usageLimit
-    ) {
-      return res.status(400).json({
-        message: "Offer usage limit exceeded"
-      });
-    }
-
-    // ✅ Per user usage limit
-    const userUsageCount = await OfferUsage.countDocuments({
-      offerId,
-      userId: booking.customerId
-    });
-
-    if (
-      offer.perUserLimit &&
-      userUsageCount >= offer.perUserLimit
-    ) {
-      return res.status(400).json({
-        message: "You have already used this offer"
-      });
-    }
-
-    // ✅ New customer only validation
-    if (offer.newCustomerOnly) {
-      const completedCount = await Booking.countDocuments({
-        customerId: booking.customerId,
-        status: "completed"
-      });
-
-      if (completedCount > 0) {
-        return res.status(400).json({
-          message: "Offer valid for new customers only"
-        });
-      }
-    }
-       if (offer.discountType === "percentage") {
-      discountAmount = Math.round((baseAmount * offer.discountValue) / 100);
-
-      if (offer.maxDiscount) {
-        discountAmount = Math.min(discountAmount, offer.maxDiscount);
-      }
-
-    } else {
-      discountAmount = offer.discountValue;
-    }
-
-    baseAmount -= discountAmount;
-  }
-
-  amount = baseAmount;
   paymentReason = "SERVICE_PAYMENT";
 
 
 } else if (paymentType === "CANCEL") {
       // Late cancellation case
       const cancellationFee = 50;
-      const visitingCharge = booking.visitingCharge || 0;
-
-      baseAmount = cancellationFee + visitingCharge;
-     amount = baseAmount;
+     amount = cancellationFee + (booking.visitingCharge || 0);
       paymentReason = "LATE_CANCELLATION_FEE";
 
     } else {
@@ -187,7 +103,6 @@ if (
       status: "created",
       reason: paymentReason,
       paymentType,
-      offerId: offerId || null,
       discountAmount
     });
 
@@ -343,8 +258,7 @@ export const verifyPayment = async (req,res)=>{
 
         await wallet.save({ session });
 
-        if (payment.offerId) {
-
+        if (booking.offerLocked && booking.offerId) {
   await OfferUsage.create([{
     offerId: payment.offerId,
     userId: booking.customerId.userId,
@@ -354,7 +268,7 @@ export const verifyPayment = async (req,res)=>{
   }], { session });
 
   await Offer.findByIdAndUpdate(
-    payment.offerId,
+    booking.offerId,
     { $inc: { usedCount: 1 } },
     { session }
   );
