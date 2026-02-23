@@ -464,7 +464,6 @@ const handleApplyOffer = async (offer) => {
   bookingId={bookingId} 
   paymentType="FINAL" 
   label={`Pay ₹${finalPayable}`} 
-  selectedOffer={booking.offerLocked ? { offerId: booking.offerId } : null}
 />
 
   </div>
