@@ -5,6 +5,8 @@ import { Wallet } from "../../models/walletModel.js";
 import { WalletTransaction } from "../../models/walletTransactionModel.js";
 import { io } from "../../server.js";
 import { pushNotification } from "../../services/pushNotification.js";
+import { Offer } from "../Admin/AdminModels/offer.model.js";
+import { OfferUsage } from "../Admin/AdminModels/offerUsage.model.js";
 
 export const confirmCashPayment = async (req, res) => {
   try {
@@ -51,12 +53,19 @@ export const confirmCashPayment = async (req, res) => {
       });
     }
 
-    // 2️⃣ Amount calculate (FINAL CASH)
-    const amount = booking.quoteAmount + booking.visitingCharge;
+      const fullAmount =
+      booking.quoteAmount + booking.visitingCharge;
 
-    if (amount <= 0) {
-      return res.status(400).json({ message: "Invalid amount" });
+     if (!fullAmount || fullAmount <= 0) {
+      return res.status(400).json({
+        message: "Invalid amount",
+      });
     }
+
+     const discountAmount =
+      booking.offerLocked && booking.discountAmount
+        ? booking.discountAmount
+        : 0;
 
     // 3️⃣ Duplicate protection
     const alreadyPaid = await Payment.findOne({
@@ -75,17 +84,19 @@ export const confirmCashPayment = async (req, res) => {
       bookingId: booking._id,
       customerId: booking.customerId._id,
       professionalId: booking.professionalId._id,
-      amount,
+      amount : fullAmount,
       status: "paid",
       reason: "SERVICE_PAYMENT",
       paymentType: "FINAL",
       paymentMode: "CASH",
+      discountAmount,
       paidAt: new Date(),
     });
 
     // 5️⃣ Booking completed
     booking.status = "completed";
     booking.currentPaymentId = payment._id;
+    booking.completedAt = new Date();
     await booking.save();
 
     // 6️⃣ Wallet
@@ -100,10 +111,10 @@ export const confirmCashPayment = async (req, res) => {
     }
 
     const COMMISSION_PERCENT = Number(process.env.COMMISSION_PERCENT);
-    const commission = Math.round((amount * COMMISSION_PERCENT) / 100);
-    const professionalAmount = amount - commission;
-    wallet.pendingBalance -= commission;
-    wallet.totalEarned += professionalAmount;
+    const commission = Math.round((fullAmount * COMMISSION_PERCENT) / 100);
+    const professionalAmount = fullAmount - commission;
+    wallet.pendingBalance += (discountAmount - commission);
+    wallet.totalEarned += (fullAmount - commission);
 
     await wallet.save();
 
@@ -111,30 +122,28 @@ export const confirmCashPayment = async (req, res) => {
     await WalletTransaction.create({
       walletId: wallet._id,
       type: "CREDIT",
-      grossAmount: amount,
+      grossAmount: fullAmount,
       commission,
-      professionalAmount,
+      professionalAmount : fullAmount - commission,
       reason: "SERVICE_PAYMENT",
       bookingId: booking._id,
       paymentMode: "CASH",
     });
 
-    // 8️⃣ Notification
-    const notification = await Notification.create({
-      userId: booking.professionalId.userId._id,
-      title: "Cash Payment Confirmed",
-      message: `₹${professionalAmount} added to your wallet after cash payment confirmation.`,
-      type: "booking_completed",
-      relatedId: booking._id,
-      isRead: false,
-    });
+      if (booking.offerLocked && booking.offerId) {
+      await OfferUsage.create({
+        offerId: booking.offerId,
+        userId: booking.customerId._id,
+        bookingId: booking._id,
+        discountAmount,
+        paymentMode: "CASH",
+      });
 
-    await pushNotification({
-      userId: notification.userId,
-      title: notification.title,
-      message: notification.message,
-      redirectUrl: `/professional/bookings/${booking._id}`,
-    });
+      await Offer.findByIdAndUpdate(
+        booking.offerId,
+        { $inc: { usedCount: 1 } }
+      );
+    }
 
     // 9️⃣ Socket updates
     io.to(booking.customerId.userId._id.toString()).emit(
