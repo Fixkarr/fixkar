@@ -167,7 +167,7 @@ const ProfessionalWallet = () => {
 
               {/* Available Info */}
               <p className="text-muted small mb-3">
-                Available for withdrawal: ₹ {pendingBalance}
+                Available for withdrawal: ₹ {wallet?.pendingBalance}
               </p>
 
               {/* Request Button */}
@@ -185,7 +185,7 @@ const ProfessionalWallet = () => {
               </button>
             </div>
 
-            {withdrawnRequest?.pending && (
+            {wallet?.withdrawnRequest?.pending && (
              <center style={{width : '100%'}}>
                <div
                 className="d-flex align-items-start w-100 gap-2 mt-3 p-2 rounded-3 shadow-sm"
@@ -204,7 +204,7 @@ const ProfessionalWallet = () => {
 
                   <div className="text-muted">
                     Your withdrawal request of{" "}
-                    <span className="fw-semibold text-dark">₹{withdrawnRequest?.amount}</span> has
+                    <span className="fw-semibold text-dark">₹{wallet?.withdrawnRequest?.amount}</span> has
                     been submitted.
                   </div>
 
