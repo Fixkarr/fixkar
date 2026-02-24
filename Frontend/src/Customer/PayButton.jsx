@@ -41,10 +41,7 @@ const PayButton = ({bookingId, paymentType, label}) => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
             });
-
-            toast.success(res.data.message)
-                    
-
+            toast.success(res.data.message) 
             } catch (err) {
                 toast.error(err.response.data.message)
             }
