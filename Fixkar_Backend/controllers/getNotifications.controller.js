@@ -34,23 +34,11 @@ export const saveFCMToken = async (req,res)=>{
       });
     }
 
-    const user = await User.findById(userId).select("+fcmTokens");;
-    if(!user){
-        return res.status(404).json({
-        success: false,
-        message: "User not found",
-    })
-    }
-
-    if (user.fcmTokens?.includes(fcmToken)) {
-      return res.status(200).json({
-        success: true,
-        message: "FCM token already saved",
-      });
-    }
-
-    user.fcmTokens.push(fcmToken);
-    await user.save();
+    await User.findByIdAndUpdate(
+            userId,
+            { $addToSet: { fcmTokens: fcmToken } },
+            { new: true }
+        );
 
       return res.status(200).json({
       success: true,

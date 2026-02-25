@@ -79,14 +79,12 @@ const CustomerHome = () => {
   
   return (
     <>
-   
         <EnableNotificationModal
           show={showNotificationModal}
           onClose={handleCloseModal}
           onEnable={handleEnableNotifications}
           loading={notifLoading}
         />
-      
     <div className="container-fluid p-3 bg-light">
 
   {/* ===== HERO SECTION ===== */}
