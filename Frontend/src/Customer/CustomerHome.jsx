@@ -16,10 +16,6 @@ import EnableNotificationModal from '../Components/EnableNotificationModal'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
-const isApp = () => {
-  return !!(window.ReactNativeWebView || window.Android);
-};
-
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [notifLoading, setNotifLoading] = useState(false);
@@ -42,50 +38,54 @@ const CustomerHome = () => {
     navigate("/customer/hire-professionals");
   };
 
+
  useEffect(() => {
-   if (isApp()) return;
+     if(window.Notification){
+      if (Notification.permission !== "granted") {
+    setShowNotificationModal(true);
+  } else {
+    setShowNotificationModal(false);
+  }
+   }
+  }, []);
 
-  const alreadyAsked = localStorage.getItem(`notif${userId}`);
-
-  if (!alreadyAsked  && window.Notification) {
-     if (Notification.permission !== "granted") {
-        setShowNotificationModal(true);
+  
+     const handleEnableNotifications = async () => {
+      try {
+          if (Notification.permission === "denied") {
+        alert(
+          "Notifications are blocked. Please enable them manually from your browser settings."
+        );
+        return;
       }
-  }
-}, [userId]);
+  
+      // CASE 2: Ask for permission (first time)
+      const permission = await Notification.requestPermission();
+  
+        if (permission === "granted") {
+        await generateFCMToken();
+        setShowNotificationModal(false);
+      }
+      } catch (err) {
+      } finally {
+        setNotifLoading(false);
+      }
+    };
 
 
-  const handleEnableNotifications = async () => {
-  try {
-    setNotifLoading(true);
-    // 👉 Browser case
-    await generateFCMToken();
-    localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
-    setShowNotificationModal(false);
-  }
-   catch (err) {
-    console.log(err);
-  } finally {
-    setNotifLoading(false);
-  }
+ const handleCloseModal = () => {
+  setShowNotificationModal(false);
 };
-
-  const handleCloseModal = () => {
-    localStorage.setItem(`notif${currentUserData?.user?.userId?._id}`, "true");
-    setShowNotificationModal(false);
-  };
-
   
   return (
     <>
-     {!isApp() && (
+   
         <EnableNotificationModal
           show={showNotificationModal}
           onClose={handleCloseModal}
           onEnable={handleEnableNotifications}
           loading={notifLoading}
         />
-      )}
       
     <div className="container-fluid p-3 bg-light">
 

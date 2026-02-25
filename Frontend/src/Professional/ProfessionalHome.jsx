@@ -41,15 +41,18 @@ const ProfessionalHome = () => {
   }, [currentUserData]);
 
   useEffect(() => {
-     if (Notification.permission !== "granted") {
+   if(window.Notification){
+      if (Notification.permission !== "granted") {
     setShowNotificationModal(true);
   } else {
     setShowNotificationModal(false);
   }
+   }
   }, []);
 
    const handleEnableNotifications = async () => {
     try {
+       setNotifLoading(true);
         if (Notification.permission === "denied") {
       alert(
         "Notifications are blocked. Please enable them manually from your browser settings."
