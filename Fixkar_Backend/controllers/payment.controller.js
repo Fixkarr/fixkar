@@ -228,13 +228,13 @@ export const verifyPayment = async (req,res)=>{
         ? Number(process.env.COMMISSION_PERCENT)
         : 5;
 
-    const baseAmount = payment.amount;
+   const fullAmount = booking.quoteAmount + booking.visitingCharge;
      
     const commission = Math.round(
-      (baseAmount * COMMISSION_PERCENT) / 100
+      (fullAmount * COMMISSION_PERCENT) / 100
     );
 
-     const professionalAmount = baseAmount - commission;
+     const professionalAmount = fullAmount - commission; 
        
          let wallet = await Wallet.findOne({professionalId : booking.professionalId._id}).session(session);
 
@@ -291,7 +291,7 @@ if (paymentType === "CANCEL") {
       const walletTransaction =  await WalletTransaction.create([{
           walletId : wallet._id,
           type : "CREDIT",
-          grossAmount : payment.amount,
+          grossAmount : fullAmount,
           commission,
           professionalAmount,
           reason : payment.reason,
