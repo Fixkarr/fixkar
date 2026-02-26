@@ -65,91 +65,163 @@ const cashReceivable =
     : fullAmount;
 
   return (
-    <div className="card border-0 shadow rounded-4 mb-4">
-      <div className="card-body p-4">
+     <div
+    className="min-vh-100 py-4"
+    style={{
+      background: "linear-gradient(180deg,#f8fbff,#eef4ff)"
+    }}
+  >
+      <div className="container">
+          <div
+        className="rounded-4 shadow-lg overflow-hidden"
+        style={{
+          background: "#ffffff",
+          border: "1px solid #e6f0ff"
+        }}
+      >
 
         {/* HEADER */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <div>
-            <h5 className="fw-bold text-primary mb-1 d-flex align-items-center gap-2">
-              <FaUser /> {booking.customerName}
-            </h5>
-            <small className="text-muted d-flex align-items-center gap-2">
-              <FaIdBadge /> Booking ID: {booking._id}
-            </small>
-          </div>
+         <div
+          className="p-4"
+          style={{
+            background: "linear-gradient(135deg,#0d6efd,#3a86ff)"
+          }}
+        >
+          <div className="d-flex justify-content-between align-items-start flex-wrap gap-3">
 
-           <GetStatusBadge status={booking.status}/>
+            <div className="text-white">
+              <h4 className="fw-bold mb-1 d-flex align-items-center gap-2">
+                <FaUser />
+                {booking.customerName}
+              </h4>
+              <small className="opacity-75 d-block">
+                <FaIdBadge className="me-1" />
+                Booking ID: {booking._id}
+              </small>
+            </div>
+
+            <GetStatusBadge status={booking.status} />
+          </div>
         </div>
 
-        {/* DATE & TIME (IMPORTANT SECTION) */}
-        <div className="row g-3 mb-4">
-          <div className="col-md-6">
-            <div className="bg-primary bg-opacity-10 p-3 rounded-4 h-100">
-              <small className="text-muted d-block mb-1">
-                <FaCalendarAlt className="me-2 text-primary" />
-                Work Date
-              </small>
-              <h6 className="fw-bold mb-0">{formatDate(booking.workDate)}</h6>
-            </div>
-          </div>
 
+      <div className="p-4">
+          {/* DATE & TIME (IMPORTANT SECTION) */}
+         <div className="row g-3 mb-4">
           <div className="col-md-6">
-            <div className="bg-primary bg-opacity-10 p-3 rounded-4 h-100">
-              <small className="text-muted d-block mb-1">
-                <FaClock className="me-2 text-primary" />
-                Work Time
-              </small>
-              <h6 className="fw-bold mb-0">{formatTime(booking.workTime)}</h6>
+              <div
+                className="p-3 rounded-4 h-100"
+                style={{
+                  background: "#eef2ff",
+                  border: "1px solid #c7d2fe"
+                }}
+              >
+                <small className="text-muted d-block mb-1">
+                  <FaCalendarAlt className="me-2 text-primary" />
+                  Work Date
+                </small>
+                <h6 className="fw-bold mb-0">
+                  {formatDate(booking.workDate)}
+                </h6>
+              </div>
             </div>
-          </div>
+
+            <div className="col-md-6">
+              <div
+                className="p-3 rounded-4 h-100"
+                style={{
+                  background: "#fef9c3",
+                  border: "1px solid #fde68a"
+                }}
+              >
+                <small className="text-muted d-block mb-1">
+                  <FaClock className="me-2 text-warning" />
+                  Work Time
+                </small>
+                <h6 className="fw-bold mb-0">
+                  {formatTime(booking.workTime)}
+                </h6>
+              </div>
+            </div>
         </div>
 
         {/* DETAILS GRID */}
-        <div className="row g-3 mb-4">
-          <div className="col-md-6">
-            <div className="border rounded-4 p-3 h-100">
+         <div className="row g-3 mb-4">
 
-              <p className="mb-2 d-flex align-items-center gap-2">
-                <FaRupeeSign className="text-success" />
-                <strong>Visiting Charge:</strong> ₹{booking.visitingCharge}
-              </p>
+            <div className="col-md-6">
+              <div
+                className="p-3 rounded-4 h-100"
+                style={{
+                  background: "#ecfdf5",
+                  border: "1px solid #bbf7d0"
+                }}
+              >
+                <p className="mb-2 fw-semibold">
+                  <FaRupeeSign className="text-success me-2" />
+                  Visiting Charge
+                </p>
+                <h6 className="fw-bold text-success">
+                  ₹{booking.visitingCharge}
+                </h6>
 
-              <p className="mb-0 d-flex align-items-center gap-2">
-                <FaPhoneAlt className="text-primary" />
-                <strong>Mobile:</strong> {booking.mobileNumber}
-              </p>
+                <hr />
+
+                <p className="mb-1 fw-semibold">
+                  <FaPhoneAlt className="text-primary me-2" />
+                  Customer Mobile
+                </p>
+                <small className="text-muted">
+                  {booking.mobileNumber}
+                </small>
+              </div>
             </div>
+
+
+           <div className="col-md-6">
+              <div
+                className="p-3 rounded-4 h-100"
+                style={{
+                  background: "#fdf2f8",
+                  border: "1px solid #fbcfe8"
+                }}
+              >
+                <p className="fw-semibold mb-1">
+                  <FaMapMarkerAlt className="text-danger me-2" />
+                  Distance
+                </p>
+                <small className="text-muted d-block mb-3">
+                  {booking.distanceInKm} km
+                </small>
+
+                <p className="fw-semibold mb-1">
+                  Work Address
+                </p>
+                <small className="text-muted">
+                  {booking.workAddress}
+                </small>
+              </div>
+            </div>
+
           </div>
 
-          <div className="col-md-6">
-            <div className="border rounded-4 p-3 h-100">
-              <p className="mb-2 d-flex align-items-center gap-2">
-                <FaMapMarkerAlt className="text-danger" />
-                <strong>Distance:</strong>
-              </p>
-              <p className="text-muted mb-0 small">
-                {booking.distanceInKm} km
-              </p>
-               <p className="mb-2 d-flex align-items-center gap-2">
-                <FaMapMarkerAlt className="text-danger" />
-                <strong>Work Address:</strong>
-              </p>
-              <p className="text-muted mb-0 small">
-                {booking.workAddress}
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* PROBLEM DESCRIPTION */}
-        <div className="bg-light rounded-4 p-3">
-          <h6 className="fw-semibold mb-1">Problem Description</h6>
-          <p className="text-muted small mb-0">
-           {booking.problemDescription}
-          </p>
-        </div>
-
+         <div
+            className="p-3 rounded-4 mb-4"
+            style={{
+              background: "#f8fafc",
+              border: "1px solid #e2e8f0"
+            }}
+          >
+            <h6 className="fw-bold mb-1">
+              <FaTools className="me-2 text-primary" />
+              Problem Description
+            </h6>
+            <p className="text-muted small mb-0">
+              {booking.problemDescription}
+            </p>
+          </div>
+      </div>
         {booking.audioMessages && booking.audioMessages.length > 0 && (
           <div className="mb-4">
             <div className="bg-white rounded-4 shadow-sm border p-3">
@@ -301,6 +373,11 @@ const cashReceivable =
               />
             )}
       </div>
+       
+
+
+       
+      </div>
       </div>
      
      
@@ -308,3 +385,4 @@ const cashReceivable =
   );
 }
 export default ProBookingDetails
+ 
