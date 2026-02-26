@@ -71,6 +71,7 @@ import axios from 'axios'
 import { useState } from "react";
 import FixkarLoader from "./Components/FixkarLoader.jsx";
 import ManageOffers from "./Admin/AdminComponents/ManageOffers.jsx";
+import { generateFCMToken } from "./utils/generateFCMToken.js";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -107,7 +108,19 @@ const App = () => {
   }, []);
 
 
+    useEffect(() => {
+  const setupFCM = async () => {
+    if (
+      currentUserData?.user &&
+      window.Notification &&
+      Notification.permission === "granted"
+    ) {
+      await generateFCMToken();
+    }
+  };
 
+  setupFCM();
+}, [currentUserData]);
 
 
   useEffect(() => {
