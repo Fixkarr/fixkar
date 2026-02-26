@@ -110,12 +110,13 @@ const App = () => {
 
     useEffect(() => {
   const setupFCM = async () => {
+     console.log("Chal rha hai!")
     if (
       currentUserData?.user &&
       window.Notification &&
       Notification.permission === "granted"
     ) {
-      console.log("Chal rha hai!")
+     
       await generateFCMToken();
     }
   };
