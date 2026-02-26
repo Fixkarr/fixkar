@@ -115,6 +115,7 @@ const App = () => {
       window.Notification &&
       Notification.permission === "granted"
     ) {
+      console.log("Chal rha hai!")
       await generateFCMToken();
     }
   };
