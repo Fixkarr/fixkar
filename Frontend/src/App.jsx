@@ -116,16 +116,14 @@ const App = () => {
       "Notification" in window
     ) {
       console.log("Notification API exists");
-      console.log("Permission:", Notification.permission);
+      console.log("Permission:", window.Notification?.permission);
 
-      if (Notification.permission === "granted") {
+      if (window.Notification.permission === "granted") {
         console.log("Chal rha hai!");
         await generateFCMToken();
       }
     }
   };
-
-
   setupFCM();
 }, [currentUserData]);
 
