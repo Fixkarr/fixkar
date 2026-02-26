@@ -12,7 +12,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { LuCalendarCheck2 } from "react-icons/lu";
-import { MdOutlinePendingActions } from "react-icons/md";
+import { MdOutlineEngineering, MdOutlinePendingActions } from "react-icons/md";
 import { FaRegCalendarXmark } from "react-icons/fa6";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { formatDate } from "../utils/formatTime&Date";
@@ -64,10 +64,16 @@ const Notifications = () => {
           <h5 className="fw-bold mb-0">Notifications</h5>
 
           <div className="d-flex gap-3 fs-5">
-            <FaHome role="button" onClick={() => navigate("/customer/home")} />
+            <FaHome role="button" size={20} onClick={() => navigate("/customer/home")} />
             <FaClipboardList
               role="button"
+              size={20}
               onClick={() => navigate("/customer/bookings")}
+            />
+            <MdOutlineEngineering
+              size={20}
+              role="button"
+              onClick={() => navigate("/customer/hire-professionals")}
             />
           </div>
         </div>

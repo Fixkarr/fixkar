@@ -39,8 +39,8 @@ const CustomerBookings = () => {
           <h5 className="fw-bold mb-0">My Bookings</h5>
 
           <div className="d-flex gap-3 fs-5">
-            <FaHome role="button" onClick={() => navigate("/customer/home")} />
-            <FaBell role="button" onClick={() => navigate("/customer/notifications")} />
+            <FaHome role="button" size={20} onClick={() => navigate("/customer/home")} />
+            <FaBell role="button" size={20} onClick={() => navigate("/customer/notifications")} />
           </div>
         </div>
 
