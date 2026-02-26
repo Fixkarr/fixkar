@@ -93,9 +93,9 @@ return (
   }}
 >
 
-  {/* 🔵 PREMIUM HEADER */}
+  {/* 🔵 HEADER */}
   <div
-    className="px-4 pt-4 pb-5 position-relative"
+    className="px-4 pt-4 pb-4"
     style={{
       background: "linear-gradient(135deg,#0d6efd,#3a86ff)",
       borderBottomLeftRadius: "40px",
@@ -105,53 +105,51 @@ return (
     <div className="d-flex justify-content-between align-items-start">
 
       <div>
-        <h3 className="fw-bold text-white mb-1">
+        <h5 className="fw-semibold text-white mb-1">
           Welcome back,
-        </h3>
-        <h4 className="fw-bold text-warning">
+        </h5>
+        <h3 className="fw-bold text-warning mb-1">
           {userId?.fullName} 👋
-        </h4>
+        </h3>
         <small className="text-white opacity-75">
           Manage availability & earnings
         </small>
       </div>
 
-      <div className="d-flex gap-3 fs-5 text-white">
+      <div className="d-flex gap-3 fs-5 text-white mt-2">
         <FaCalendarCheck
           role="button"
-          className="opacity-75 hover-opacity"
           onClick={()=>navigate("/professional/bookings")}
         />
         <FaUserTie
           role="button"
-          className="opacity-75"
           onClick={()=>navigate("/professional/profile")}
         />
       </div>
     </div>
 
-    {/* Modern Action Button */}
+    {/* ✅ BUTTON CLEARLY VISIBLE */}
     <div className="mt-4">
       <button
-        className="btn fw-semibold rounded-pill px-4 py-2 shadow-lg"
+        className="btn fw-semibold rounded-pill px-4 py-2 shadow"
         style={{
-          background: "rgba(255,255,255,0.15)",
-          backdropFilter: "blur(8px)",
+          background: "rgba(255,255,255,0.2)",
+          backdropFilter: "blur(6px)",
           color: "#fff",
-          border: "1px solid rgba(255,255,255,0.3)"
+          border: "1px solid rgba(255,255,255,0.4)"
         }}
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
         <SlCalender className="me-2"/>
-        Manage Busy Days
+        Mark Busy Days
       </button>
     </div>
   </div>
 
 
-  {/* 🔵 CONTENT AREA */}
-  <div className="container" style={{ marginTop: "-50px" }}>
+  {/* 🔵 CONTENT AREA (NO NEGATIVE MARGIN NOW) */}
+  <div className="container py-4">
 
     {/* PROFILE WARNING */}
     {!isProfileComplete && (
@@ -196,18 +194,22 @@ return (
           </h6>
 
           <div className="d-flex flex-wrap gap-2">
-            {showSelectedDays.map((d) => (
-              <span
-                key={d}
-                className="px-3 py-2 rounded-pill text-white fw-semibold small shadow-sm"
-                style={{
-                  background: "linear-gradient(90deg,#ff416c,#ff4b2b)"
-                }}
-              >
-                {new Date(d).getDate()}{" "}
-                {new Date(d).toLocaleString("default",{month:"short"})}
-              </span>
-            ))}
+            {showSelectedDays.map((d) => {
+              const dateObj = new Date(d);
+              return (
+                <span
+                  key={d}
+                  className="px-3 py-2 rounded-pill text-white fw-semibold small shadow-sm"
+                  style={{
+                    background: "linear-gradient(90deg,#ff416c,#ff4b2b)"
+                  }}
+                >
+                  {dateObj.getDate()}{" "}
+                  {dateObj.toLocaleString("default",{month:"short"})}{" "}
+                  {dateObj.getFullYear()}
+                </span>
+              );
+            })}
           </div>
 
         </div>
