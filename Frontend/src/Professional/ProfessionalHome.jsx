@@ -77,52 +77,54 @@ const ProfessionalHome = () => {
     setShowNotificationModal(false);
   };
 
-  return (
- <>
-    <EnableNotificationModal
-        show={showNotificationModal}
-        onClose={handleCloseModal}
-        onEnable={handleEnableNotifications}
-        loading={notifLoading}
-      />
+ return (
+<>
+<EnableNotificationModal
+  show={showNotificationModal}
+  onClose={handleCloseModal}
+  onEnable={handleEnableNotifications}
+  loading={notifLoading}
+/>
 
-  <div className="container-fluid p-md-5 p-3 bg-light">
+<div className="container-fluid p-0 bg-light min-vh-100">
 
-  {/* ===== TOP BAR ===== */}
-  <div className="card border-0 shadow-lg rounded-4 mb-4 overflow-hidden">
-    <div
-      className="p-4 d-flex justify-content-between align-items-center flex-wrap gap-3 text-white"
-      style={{
-        background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
-      }}
-    >
+  {/* 🔵 Premium Gradient Header */}
+  <div
+    className="text-white p-4 pb-5"
+    style={{
+      background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
+      borderBottomLeftRadius: "30px",
+      borderBottomRightRadius: "30px"
+    }}
+  >
+    <div className="d-flex justify-content-between align-items-center mb-3">
+
       <div>
-        <h2 className="fw-bold mb-0">
-          Welcome,{" "}
-          <span className="text-warning fs-1">
-            {userId?.fullName}!
-          </span>
-        </h2>
+        <h4 className="fw-bold mb-1">
+          Welcome, {userId?.fullName} 👋
+        </h4>
         <small className="opacity-75">
-          Manage your availability & earnings
+          Manage availability & track earnings
         </small>
       </div>
 
-      <button
-        type="button"
-        className="btn btn-light rounded-pill px-4 fw-semibold d-flex align-items-center gap-2"
-        role="button"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        <SlCalender />
-        <span className="hide">Mark Busy Days</span>
-      </button>
+      <div className="d-flex gap-3 fs-5">
+        <FaCalendarCheck role="button" onClick={()=>navigate("/professional/bookings")} />
+        <FaUserTie role="button" onClick={()=>navigate("/professional/profile")} />
+      </div>
     </div>
-  </div>
 
-  {/* ===== MODAL ===== */}
-  <div
+    {/* Glass Button */}
+    <button
+      className="btn btn-light bg-white bg-opacity-25 border-0 text-white rounded-pill px-4 fw-semibold d-flex align-items-center gap-2"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      <SlCalender />
+      Mark Busy Days
+    </button>
+  </div>
+      <div
     className="modal fade"
     id="exampleModal"
     tabIndex="-1"
@@ -143,70 +145,85 @@ const ProfessionalHome = () => {
     </div>
   </div>
 
-  {/* ===== COMPLETE PROFILE WARNING ===== */}
-  {!isProfileComplete && (
-    <div className="alert alert-warning d-flex gap-3 flex-column flex-md-row align-items-center p-4 rounded-4 shadow-sm mb-4">
-      <div className="flex-grow-1">
-        <h5 className="fw-bold mb-2">
-          <FaExclamationTriangle className="me-2" />
-          Complete Your Profile!
-        </h5>
-        <p className="small mb-2">
-          Your profile is currently incomplete. Completing it will help
-          customers understand you better and increase your chances of
-          getting work.
-        </p>
+  {/* 🔵 Floating Content Container */}
+  <div className="container" style={{marginTop:"-40px"}}>
 
-        <ul className="small ps-3 mb-0">
-          <li>Profile description missing</li>
-          <li>Service charges not set</li>
-          <li>Profile looks incomplete to customers</li>
-        </ul>
+    {/* Profile Completion Card */}
+    {!isProfileComplete && (
+      <div className="card border-0 shadow-lg rounded-4 mb-4">
+        <div className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+
+          <div>
+            <h6 className="fw-bold text-warning">
+              <FaExclamationTriangle className="me-2"/>
+              Complete Your Profile
+            </h6>
+            <small className="text-muted">
+              Add charges & details to increase booking chances.
+            </small>
+          </div>
+
+          <button
+            onClick={() => navigate("/professional/complete-profile")}
+            className="btn btn-warning rounded-pill px-4 fw-semibold"
+          >
+            Complete Now
+          </button>
+
+        </div>
       </div>
+    )}
 
-      <button
-        onClick={() => navigate("/professional/complete-profile")}
-        className="btn btn-primary rounded-pill px-4 fw-semibold"
-      >
-        Complete Now
-      </button>
+
+    {/* Busy Days Section */}
+    {showSelectedDays.length > 0 && (
+      <div className="card border-0 shadow-sm rounded-4 mb-4">
+        <div className="card-body">
+          <h6 className="fw-bold mb-3 text-danger d-flex align-items-center gap-2">
+            <MdOutlineEventBusy />
+            Busy Dates
+          </h6>
+
+          <div className="d-flex flex-wrap gap-2">
+            {showSelectedDays.map((d) => (
+              <span
+                key={d}
+                className="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill shadow-sm"
+              >
+                {new Date(d).getDate()}{" "}
+                {new Date(d).toLocaleString("default",{month:"short"})}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    )}
+
+
+    {/* Bank Verification Cards */}
+    {bankVerificationStatus === "N/A" && (
+      <div className="card border-0 shadow-sm rounded-4 mb-4 p-3">
+        <ProfessionalBankDetails />
+      </div>
+    )}
+
+    {bankVerificationStatus === "pending" && (
+      <div className="card border-0 shadow-sm rounded-4 mb-4 p-3">
+        <PendingBankReview />
+      </div>
+    )}
+
+
+    {/* Wallet Section */}
+    <div className="card border-0 shadow-lg rounded-4 mb-5 p-3">
+      <ProfessionalWallet />
     </div>
-  )}
 
-  {/* ===== BUSY DAYS ===== */}
-  {!showSelectedDays.length <= 0 && (
-    <>
-      <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">
-        <MdOutlineEventBusy className="text-danger" />
-        You are busy on these dates
-      </h4>
-
-      <div className="d-flex flex-wrap gap-3 mb-4">
-        {showSelectedDays.map((d) => (
-          <DayCard
-            key={d}
-            year={new Date(d).getFullYear()}
-            day={String(new Date(d).getDate()).padStart(2, "0")}
-            month={new Date(d).toLocaleString("default", {
-              month: "short",
-            })}
-          />
-        ))}
-      </div>
-    </>
-  )}
-
-  {/* Bank not verified component  */}
-  {bankVerificationStatus === "N/A" && <ProfessionalBankDetails/>}
-  {bankVerificationStatus === "pending" && <PendingBankReview/>}
-
-  {/* ===== WALLET ===== */}
-  <ProfessionalWallet />
+  </div>
 
 </div>
- </>
-
-  );
+</>
+);
 };
 
 export default ProfessionalHome;
