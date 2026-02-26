@@ -115,11 +115,8 @@ const App = () => {
       typeof window !== "undefined" &&
       "Notification" in window
     ) {
-      console.log("Notification API exists");
-      console.log("Permission:", window.Notification?.permission);
-
       if (window.Notification.permission === "granted") {
-        console.log("Chal rha hai!");
+      
         await generateFCMToken();
       }
     }
