@@ -111,6 +111,9 @@ const App = () => {
     useEffect(() => {
   const setupFCM = async () => {
      console.log("Chal rha hai!")
+       console.log("User exists:", !!currentUserData?.user);
+  console.log("Notification object:", !!window.Notification);
+  console.log("Permission:", Notification.permission);
     if (
       currentUserData?.user &&
       window.Notification &&
