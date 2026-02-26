@@ -5,7 +5,7 @@ import { SlCalender } from "react-icons/sl";
 import Availability from "./Availability";
 import DayCard from "./DayCard";
 import ProfessionalWallet from "./ProfessionalWallet";
-import { FaUserTie, FaExclamationTriangle, FaCalendarCheck } from "react-icons/fa";
+import { FaUserTie, FaExclamationTriangle, FaCalendarCheck, FaBell } from "react-icons/fa";
 import { MdOutlineEventBusy } from "react-icons/md";
 import useGetMyBookings from "../hooks/useGetMyBookings";
 import useGetNotifications from "../hooks/useGetNotifications";
@@ -13,6 +13,7 @@ import { generateFCMToken } from "../utils/generateFCMToken";
 import EnableNotificationModal from "../Components/EnableNotificationModal";
 import ProfessionalBankDetails from "./ProfessionalBankDetails";
 import PendingBankReview from "../Components/PendingBankReview";
+import { FaMessage } from "react-icons/fa6";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -119,11 +120,23 @@ return (
       <div className="d-flex gap-3 fs-5 text-white mt-2">
         <FaCalendarCheck
           role="button"
+          size={20}
           onClick={()=>navigate("/professional/bookings")}
         />
         <FaUserTie
           role="button"
+          size={20}
           onClick={()=>navigate("/professional/profile")}
+        />
+        <FaBell
+          role="button"
+          size={20}
+          onClick={()=>navigate("/professional/notifications")}
+        />
+        <FaMessage
+          role="button"
+          size={20}
+          onClick={()=>navigate("/professional/messages")}
         />
       </div>
     </div>
