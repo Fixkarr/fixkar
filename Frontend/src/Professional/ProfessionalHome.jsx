@@ -77,7 +77,7 @@ const ProfessionalHome = () => {
     setShowNotificationModal(false);
   };
 
- return (
+return (
 <>
 <EnableNotificationModal
   show={showNotificationModal}
@@ -86,53 +86,172 @@ const ProfessionalHome = () => {
   loading={notifLoading}
 />
 
-<div className="container-fluid p-0 bg-light min-vh-100">
+<div
+  className="container-fluid p-0 min-vh-100"
+  style={{
+    background: "linear-gradient(180deg,#f8fbff 0%,#eef5ff 100%)"
+  }}
+>
 
-  {/* 🔵 Premium Gradient Header */}
+  {/* 🔵 PREMIUM HEADER */}
   <div
-    className="text-white p-4 pb-5"
+    className="px-4 pt-4 pb-5 position-relative"
     style={{
-      background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
-      borderBottomLeftRadius: "30px",
-      borderBottomRightRadius: "30px"
+      background: "linear-gradient(135deg,#0d6efd,#3a86ff)",
+      borderBottomLeftRadius: "40px",
+      borderBottomRightRadius: "40px"
     }}
   >
-    <div className="d-flex justify-content-between align-items-center mb-3">
+    <div className="d-flex justify-content-between align-items-start">
 
       <div>
-        <h4 className="fw-bold mb-1">
-          Welcome, {userId?.fullName} 👋
+        <h3 className="fw-bold text-white mb-1">
+          Welcome back,
+        </h3>
+        <h4 className="fw-bold text-warning">
+          {userId?.fullName} 👋
         </h4>
-        <small className="opacity-75">
-          Manage availability & track earnings
+        <small className="text-white opacity-75">
+          Manage availability & earnings
         </small>
       </div>
 
-      <div className="d-flex gap-3 fs-5">
-        <FaCalendarCheck role="button" onClick={()=>navigate("/professional/bookings")} />
-        <FaUserTie role="button" onClick={()=>navigate("/professional/profile")} />
+      <div className="d-flex gap-3 fs-5 text-white">
+        <FaCalendarCheck
+          role="button"
+          className="opacity-75 hover-opacity"
+          onClick={()=>navigate("/professional/bookings")}
+        />
+        <FaUserTie
+          role="button"
+          className="opacity-75"
+          onClick={()=>navigate("/professional/profile")}
+        />
       </div>
     </div>
 
-    {/* Glass Button */}
-    <button
-      className="btn btn-light bg-white bg-opacity-25 border-0 text-white rounded-pill px-4 fw-semibold d-flex align-items-center gap-2"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-    >
-      <SlCalender />
-      Mark Busy Days
-    </button>
+    {/* Modern Action Button */}
+    <div className="mt-4">
+      <button
+        className="btn fw-semibold rounded-pill px-4 py-2 shadow-lg"
+        style={{
+          background: "rgba(255,255,255,0.15)",
+          backdropFilter: "blur(8px)",
+          color: "#fff",
+          border: "1px solid rgba(255,255,255,0.3)"
+        }}
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        <SlCalender className="me-2"/>
+        Manage Busy Days
+      </button>
+    </div>
   </div>
+
+
+  {/* 🔵 CONTENT AREA */}
+  <div className="container" style={{ marginTop: "-50px" }}>
+
+    {/* PROFILE WARNING */}
+    {!isProfileComplete && (
       <div
+        className="card border-0 shadow-lg rounded-4 mb-4"
+        style={{
+          background: "linear-gradient(135deg,#fff8e1,#fff3cd)"
+        }}
+      >
+        <div className="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+
+          <div>
+            <h6 className="fw-bold text-dark mb-1">
+              <FaExclamationTriangle className="me-2 text-warning"/>
+              Profile Incomplete
+            </h6>
+            <small className="text-muted">
+              Add service charges and description to improve booking rate.
+            </small>
+          </div>
+
+          <button
+            onClick={() => navigate("/professional/complete-profile")}
+            className="btn btn-warning rounded-pill px-4 fw-semibold shadow-sm"
+          >
+            Complete Now
+          </button>
+
+        </div>
+      </div>
+    )}
+
+
+    {/* BUSY DAYS */}
+    {showSelectedDays.length > 0 && (
+      <div className="card border-0 shadow-sm rounded-4 mb-4">
+        <div className="card-body">
+
+          <h6 className="fw-bold mb-3 text-danger d-flex align-items-center gap-2">
+            <MdOutlineEventBusy />
+            Busy Schedule
+          </h6>
+
+          <div className="d-flex flex-wrap gap-2">
+            {showSelectedDays.map((d) => (
+              <span
+                key={d}
+                className="px-3 py-2 rounded-pill text-white fw-semibold small shadow-sm"
+                style={{
+                  background: "linear-gradient(90deg,#ff416c,#ff4b2b)"
+                }}
+              >
+                {new Date(d).getDate()}{" "}
+                {new Date(d).toLocaleString("default",{month:"short"})}
+              </span>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    )}
+
+
+    {/* BANK CARDS */}
+    {bankVerificationStatus === "N/A" && (
+      <div className="card border-0 shadow-sm rounded-4 mb-4 p-3 bg-white">
+        <ProfessionalBankDetails />
+      </div>
+    )}
+
+    {bankVerificationStatus === "pending" && (
+      <div className="card border-0 shadow-sm rounded-4 mb-4 p-3 bg-white">
+        <PendingBankReview />
+      </div>
+    )}
+
+
+    {/* WALLET SECTION */}
+    <div
+      className="card border-0 shadow-lg rounded-4 mb-5 p-4"
+      style={{
+        background: "linear-gradient(135deg,#e0f7fa,#ffffff)"
+      }}
+    >
+      <ProfessionalWallet />
+    </div>
+
+  </div>
+
+
+  {/* 🔵 MODAL (UNCHANGED LOGIC) */}
+  <div
     className="modal fade"
     id="exampleModal"
     tabIndex="-1"
     aria-hidden="true"
   >
     <div className="modal-dialog modal-dialog-centered">
-      <div className="modal-content border-0 rounded-4 shadow">
-        <div className="modal-body position-relative">
+      <div className="modal-content border-0 rounded-4 shadow-lg">
+        <div className="modal-body position-relative p-4">
           <button
             type="button"
             className="btn-close position-absolute top-0 end-0 m-3"
@@ -143,82 +262,6 @@ const ProfessionalHome = () => {
         </div>
       </div>
     </div>
-  </div>
-
-  {/* 🔵 Floating Content Container */}
-  <div className="container" style={{marginTop:"-40px"}}>
-
-    {/* Profile Completion Card */}
-    {!isProfileComplete && (
-      <div className="card border-0 shadow-lg rounded-4 mb-4">
-        <div className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
-
-          <div>
-            <h6 className="fw-bold text-warning">
-              <FaExclamationTriangle className="me-2"/>
-              Complete Your Profile
-            </h6>
-            <small className="text-muted">
-              Add charges & details to increase booking chances.
-            </small>
-          </div>
-
-          <button
-            onClick={() => navigate("/professional/complete-profile")}
-            className="btn btn-warning rounded-pill px-4 fw-semibold"
-          >
-            Complete Now
-          </button>
-
-        </div>
-      </div>
-    )}
-
-
-    {/* Busy Days Section */}
-    {showSelectedDays.length > 0 && (
-      <div className="card border-0 shadow-sm rounded-4 mb-4">
-        <div className="card-body">
-          <h6 className="fw-bold mb-3 text-danger d-flex align-items-center gap-2">
-            <MdOutlineEventBusy />
-            Busy Dates
-          </h6>
-
-          <div className="d-flex flex-wrap gap-2">
-            {showSelectedDays.map((d) => (
-              <span
-                key={d}
-                className="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill shadow-sm"
-              >
-                {new Date(d).getDate()}{" "}
-                {new Date(d).toLocaleString("default",{month:"short"})}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    )}
-
-
-    {/* Bank Verification Cards */}
-    {bankVerificationStatus === "N/A" && (
-      <div className="card border-0 shadow-sm rounded-4 mb-4 p-3">
-        <ProfessionalBankDetails />
-      </div>
-    )}
-
-    {bankVerificationStatus === "pending" && (
-      <div className="card border-0 shadow-sm rounded-4 mb-4 p-3">
-        <PendingBankReview />
-      </div>
-    )}
-
-
-    {/* Wallet Section */}
-    <div className="card border-0 shadow-lg rounded-4 mb-5 p-3">
-      <ProfessionalWallet />
-    </div>
-
   </div>
 
 </div>
