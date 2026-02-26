@@ -6,7 +6,7 @@ import { setSelectedLocation, setSelectedService } from '../redux/location.slice
 import { useNavigate } from 'react-router-dom'
 
 import MobileNotVerified from './MobileNotVerified'
-import { FaSearchLocation, FaUserCheck, FaTools } from "react-icons/fa";
+import { FaSearchLocation, FaUserCheck, FaTools, FaBook, FaBell } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { IoSparkles } from "react-icons/io5";
 import useGetMyBookings from '../hooks/useGetMyBookings'
@@ -15,6 +15,7 @@ import { generateFCMToken } from '../utils/generateFCMToken'
 import EnableNotificationModal from '../Components/EnableNotificationModal'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { FiMessageSquare } from 'react-icons/fi'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -102,9 +103,9 @@ const CustomerHome = () => {
       <h5 className="fw-bold mb-0">Fixkar</h5>
 
       <div className="d-flex gap-3 fs-5">
-        <FaSearchLocation role="button" onClick={()=>navigate("/customer/bookings")} />
-        <MdLocationOn role="button" onClick={()=>navigate("/customer/notifications")} />
-        <FaUserCheck role="button" onClick={()=>navigate("/customer/profile")} />
+        <FaBook role="button" size={20} onClick={()=>navigate("/customer/bookings")} />
+        <FaBell role="button" size={20} onClick={()=>navigate("/customer/notifications")}/>
+        <FiMessageSquare role="button" size={20} onClick={()=>navigate("/customer/messages")}/>
       </div>
     </div>
 
@@ -142,57 +143,6 @@ const CustomerHome = () => {
         onLocationSelect={handleLocationSelect}
         onServiceSelect={handleServiceSelect}
       />
-    </div>
-  </div>
-
-  {/* 🔵 Quick Actions Grid */}
-  <div className="container mt-4">
-    <div className="row g-3">
-
-      <div className="col-6">
-        <div 
-          className="card border-0 shadow-sm text-center rounded-4 p-3"
-          role="button"
-          onClick={()=>navigate("/customer/hire-professionals")}
-        >
-          <FaTools className="fs-4 text-primary mb-2"/>
-          <small className="fw-semibold">Hire Now</small>
-        </div>
-      </div>
-
-      <div className="col-6">
-        <div 
-          className="card border-0 shadow-sm text-center rounded-4 p-3"
-          role="button"
-          onClick={()=>navigate("/customer/bookings")}
-        >
-          <FaUserCheck className="fs-4 text-success mb-2"/>
-          <small className="fw-semibold">My Bookings</small>
-        </div>
-      </div>
-
-      <div className="col-6">
-        <div 
-          className="card border-0 shadow-sm text-center rounded-4 p-3"
-          role="button"
-          onClick={()=>navigate("/customer/notifications")}
-        >
-          <FaSearchLocation className="fs-4 text-warning mb-2"/>
-          <small className="fw-semibold">Notifications</small>
-        </div>
-      </div>
-
-      <div className="col-6">
-        <div 
-          className="card border-0 shadow-sm text-center rounded-4 p-3"
-          role="button"
-          onClick={()=>navigate("/customer/profile")}
-        >
-          <FaUserCheck className="fs-4 text-info mb-2"/>
-          <small className="fw-semibold">Profile</small>
-        </div>
-      </div>
-
     </div>
   </div>
 
