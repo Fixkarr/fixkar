@@ -29,7 +29,6 @@ const ProfessionalWallet = () => {
     bankDetails = {}
   } = wallets || {};
 
-  console.log(wallet);
 
   const handleWithdrawRequest = async () => {
     try {
@@ -74,7 +73,7 @@ const ProfessionalWallet = () => {
                   <FaHourglassHalf className="text-primary me-2" size={18} />
                   <span className="fw-semibold">Pending Amount</span>
                 </div>
-                <h4 className="fw-bold text-primary mb-1">₹{wallet?.pendingBalance}</h4>
+                <h4 className="fw-bold text-primary mb-1">₹{wallet?.pendingBalance || 0}</h4>
                 <small className="text-muted">
                   Available after job completion
                 </small>
@@ -88,7 +87,7 @@ const ProfessionalWallet = () => {
                   <FaMoneyCheckAlt className="text-primary me-2" size={18} />
                   <span className="fw-semibold">Withdrawn</span>
                 </div>
-                <h4 className="fw-bold text-primary mb-1">₹{wallet?.totalWithdrawn}</h4>
+                <h4 className="fw-bold text-primary mb-1">₹{wallet?.totalWithdrawn || 0}</h4>
                 <small className="text-muted">Transferred to bank</small>
               </div>
             </div>
@@ -100,7 +99,7 @@ const ProfessionalWallet = () => {
                   <FaCoins className="text-primary me-2" size={18} />
                   <span className="fw-semibold">Total Earned</span>
                 </div>
-                <h4 className="fw-bold text-primary mb-1">₹{wallet?.totalEarned}</h4>
+                <h4 className="fw-bold text-primary mb-1">₹{wallet?.totalEarned || 0}</h4>
                 <small className="text-muted">Lifetime earnings</small>
               </div>
             </div>
