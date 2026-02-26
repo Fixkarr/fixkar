@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   MdHomeRepairService,
@@ -43,6 +43,7 @@ const CusBookingDetail = () => {
     const [applyingOffer, setApplyingOffer] = useState(false);
     const [loadingOffers, setLoadingOffers] = useState(false);
      const {myBookings} = useSelector(state=> state.bookings)
+     const navigate = useNavigate()
 
     const {bookingId} = useParams();
     const otp = useGetReachedOtp(bookingId)
@@ -131,6 +132,7 @@ const handleApplyOffer = async (offer) => {
           className="rounded-circle border border-2"
           width="70"
           height="70"
+          onClick={()=>navigate(`/professional/profile/visit/${booking.professionalId._id}`)}
         />
 
         <div className="ms-3">
