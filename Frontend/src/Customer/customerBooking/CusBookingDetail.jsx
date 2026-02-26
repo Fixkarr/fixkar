@@ -118,102 +118,191 @@ const handleApplyOffer = async (offer) => {
 };
 
 
-  return (
-    <div className="card border-0 shadow-sm rounded-4 my-4">
+ return (
+  <div
+    className="min-vh-100 py-4"
+    style={{
+      background: "linear-gradient(180deg,#f8fbff 0%,#eef4ff 100%)"
+    }}
+  >
+    <div className="container">
 
-  <div className="card-body p-4">
+      {/* 🔵 FLOATING MAIN CARD */}
+      <div
+        className="rounded-4 shadow-lg overflow-hidden"
+        style={{
+          background: "#ffffff",
+          border: "1px solid #e6f0ff"
+        }}
+      >
 
-    {/* Top Section */}
-    <div className="d-flex align-items-center justify-content-between mb-4">
-      <div className="d-flex align-items-center">
-        <img
-          src={booking.professionalId.profilePicture}
-          alt="professional"
-          className="rounded-circle border border-2"
-          width="70"
-          height="70"
-          onClick={()=>navigate(`/professional/profile/visit/${booking.professionalId.userId._id}`)}
-        />
+        {/* ================= TOP PROFILE SECTION ================= */}
+        <div
+          className="p-4"
+          style={{
+            background: "linear-gradient(135deg,#0d6efd,#3a86ff)"
+          }}
+        >
+          <div className="d-flex justify-content-between align-items-start flex-wrap gap-3">
 
-        <div className="ms-3">
-          <h6 className="fw-bold text-primary mb-0">
-            <FaUser className='text-primary'/> {booking.professionalId.userId.fullName}
-          </h6>
-          <small className="text-muted d-block">
-            <MdHomeRepairService className='text-primary'/> {booking.professionalId.profession.name}
-          </small>
-          <small className="text-muted">
-            <FaMapMarkerAlt className='text-danger'/> {booking.professionalId.address.addressLine}
-          </small>
+            <div className="d-flex align-items-center gap-3">
+
+              <img
+                src={booking.professionalId.profilePicture}
+                alt="professional"
+                width="80"
+                height="80"
+                className="rounded-circle border border-3 border-white shadow"
+                style={{ objectFit: "cover", cursor: "pointer" }}
+                onClick={() =>
+                  navigate(
+                    `/professional/profile/visit/${booking.professionalId.userId._id}`
+                  )
+                }
+              />
+
+              <div className="text-white">
+                <h5 className="fw-bold mb-1">
+                  {booking.professionalId.userId.fullName}
+                </h5>
+
+                <small className="d-block opacity-75">
+                  <MdHomeRepairService className="me-1" />
+                  {booking.professionalId.profession.name}
+                </small>
+
+                <small className="opacity-75">
+                  <FaMapMarkerAlt className="me-1" />
+                  {booking.professionalId.address.addressLine}
+                </small>
+              </div>
+            </div>
+
+            <div>
+              <GetStatusBadge status={booking.status} />
+            </div>
+          </div>
         </div>
-      </div>
-         <GetStatusBadge status={booking.status}/>
-    </div>
 
-    {/* Booking Meta */}
-    <div className="row g-3 mb-4">
-      <div className="col-md-4">
-        <div className="p-3 border rounded-3 h-100">
-          <small className="text-muted"><FaIdBadge className='text-warning'/> Booking ID</small>
-          <p className="fw-semibold mb-0">{booking._id}</p>
-        </div>
-      </div>
+        {/* ================= BODY CONTENT ================= */}
+        <div className="p-4">
 
-      <div className="col-md-4">
-        <div className="p-3 border rounded-3 h-100">
-          <small className="text-muted"> <FaRupeeSign className="text-success" /> Visiting Charge</small>
-          <p className="fw-semibold mb-0">₹{booking.visitingCharge}</p>
-        </div>
-      </div>
+          {/* ---------- META GRID ---------- */}
+          <div className="row g-3 mb-4">
 
-    </div>
+            <div className="col-md-4">
+              <div
+                className="p-3 rounded-4 h-100"
+                style={{
+                  background: "#f1f5ff",
+                  border: "1px solid #e0e7ff"
+                }}
+              >
+                <small className="text-muted d-block">
+                  <FaIdBadge className="me-1 text-warning" />
+                  Booking ID
+                </small>
+                <span className="fw-bold">{booking._id}</span>
+              </div>
+            </div>
 
-    {/* Important Date & Time */}
-    <div className="row g-3 mb-4">
-      <div className="col-md-6">
-        <div className="bg-primary-subtle rounded-3 p-3 h-100">
-          <p className="mb-1 fw-semibold text-primary">
-            <FaCalendarAlt className="me-2 text-primary" /> Work Date
-          </p>
-          <h6 className="mb-0">{formatDate(booking.workDate)}</h6>
-        </div>
-      </div>
+            <div className="col-md-4">
+              <div
+                className="p-3 rounded-4 h-100"
+                style={{
+                  background: "#ecfdf5",
+                  border: "1px solid #bbf7d0"
+                }}
+              >
+                <small className="text-muted d-block">
+                  <FaRupeeSign className="text-success me-1" />
+                  Visiting Charge
+                </small>
+                <span className="fw-bold text-success">
+                  ₹{booking.visitingCharge}
+                </span>
+              </div>
+            </div>
+          </div>
 
-      <div className="col-md-6">
-        <div className="bg-primary-subtle rounded-3 p-3 h-100">
-          <p className="mb-1 fw-semibold text-primary">
-            <FaClock className="me-2 text-primary" /> Work Time
-          </p>
-          <h6 className="mb-0">{formatTime(booking.workTime)}</h6>
-        </div>
-      </div>
-    </div>
+          {/* ---------- DATE & TIME ---------- */}
+          <div className="row g-3 mb-4">
 
-    {/* Address */}
-    <div className="mb-4">
-      <div className="bg-light rounded-3 p-3">
-        <p className="fw-semibold mb-1">
-          <FaMapMarkerAlt className="text-danger" /> Work Address
-        </p>
-        <p className="mb-0 text-muted">
-          {booking.workAddress}
-        </p>
-      </div>
-    </div>
+            <div className="col-md-6">
+              <div
+                className="p-3 rounded-4 h-100"
+                style={{
+                  background: "#eef2ff",
+                  border: "1px solid #c7d2fe"
+                }}
+              >
+                <p className="fw-semibold mb-1 text-primary">
+                  <FaCalendarAlt className="me-2" />
+                  Work Date
+                </p>
+                <h6 className="mb-0">
+                  {formatDate(booking.workDate)}
+                </h6>
+              </div>
+            </div>
 
-    {/* Problem */}
-    <div className="mb-4">
-     <div className="bg-light rounded-3 p-3">
-         <p className="fw-semibold mb-1">
-         Problem Description
-      </p>
-      <p className="text-muted small mb-0">
-        {booking.problemDescription}
-      </p>
-     </div>
-    </div>
+            <div className="col-md-6">
+              <div
+                className="p-3 rounded-4 h-100"
+                style={{
+                  background: "#fef9c3",
+                  border: "1px solid #fde68a"
+                }}
+              >
+                <p className="fw-semibold mb-1 text-warning">
+                  <FaClock className="me-2" />
+                  Work Time
+                </p>
+                <h6 className="mb-0">
+                  {formatTime(booking.workTime)}
+                </h6>
+              </div>
+            </div>
+          </div>
 
-    {/* Voice Descriptions */}
+          {/* ---------- ADDRESS ---------- */}
+          <div className="mb-4">
+            <div
+              className="p-3 rounded-4"
+              style={{
+                background: "#fdf2f8",
+                border: "1px solid #fbcfe8"
+              }}
+            >
+              <p className="fw-semibold mb-1">
+                <FaMapMarkerAlt className="text-danger me-2" />
+                Work Address
+              </p>
+              <p className="mb-0 text-muted">
+                {booking.workAddress}
+              </p>
+            </div>
+          </div>
+
+          {/* ---------- PROBLEM ---------- */}
+          <div className="mb-4">
+            <div
+              className="p-3 rounded-4"
+              style={{
+                background: "#f8fafc",
+                border: "1px solid #e2e8f0"
+              }}
+            >
+              <p className="fw-semibold mb-1">
+                Problem Description
+              </p>
+              <p className="text-muted small mb-0">
+                {booking.problemDescription}
+              </p>
+            </div>
+          </div>
+
+         {/* Voice Descriptions */}
 {booking.audioMessages && booking.audioMessages.length > 0 && (
   <div className="mb-4">
     <div className="bg-white rounded-4 shadow-sm border p-3">
@@ -480,10 +569,15 @@ const handleApplyOffer = async (offer) => {
     {booking.status === "completed" && (
         <CusCompleteBooking booking={booking}/>
     )}
-  </div>
-</div>
 
-  )
+        </div>
+      </div>
+    </div>
+  </div>
+);
 }
 
 export default CusBookingDetail
+
+
+   
