@@ -132,7 +132,7 @@ const handleApplyOffer = async (offer) => {
           className="rounded-circle border border-2"
           width="70"
           height="70"
-          onClick={()=>navigate(`/professional/profile/visit/${booking.professionalId._id}`)}
+          onClick={()=>navigate(`/professional/profile/visit/${booking.professionalId.userId._id}`)}
         />
 
         <div className="ms-3">
