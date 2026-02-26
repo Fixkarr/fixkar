@@ -39,9 +39,9 @@ export default function ProfessionalBookings() {
           <h5 className="fw-bold mb-0">Professional Dashboard</h5>
 
           <div className="d-flex gap-3 fs-5">
-            <FaHome role="button" onClick={() => navigate("/professional/home")} />
-            <FaBell role="button" onClick={() => navigate("/professional/notifications")} />
-            <FaUserCircle role="button" onClick={() => navigate("/professional/profile")} />
+            <FaHome role="button" size={20} onClick={() => navigate("/professional/home")} />
+            <FaBell role="button" size={20} onClick={() => navigate("/professional/notifications")} />
+            <FaUserCircle role="button" size={20} onClick={() => navigate("/professional/profile")} />
           </div>
         </div>
 
