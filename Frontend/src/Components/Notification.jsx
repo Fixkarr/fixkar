@@ -47,6 +47,8 @@ const Notifications = () => {
   );
 
   const total = notifications?.length || 0;
+  const {currentUserData} = useSelector(state=>state.user);
+  const role = currentUserData?.user?.userId?.role;
 
   return (
     <div className="container-fluid p-0">
@@ -64,17 +66,17 @@ const Notifications = () => {
           <h5 className="fw-bold mb-0">Notifications</h5>
 
           <div className="d-flex gap-3 fs-5">
-            <FaHome role="button" size={20} onClick={() => navigate("/customer/home")} />
+            <FaHome role="button" size={20} onClick={() => navigate(`/${role}/home`)} />
             <FaClipboardList
               role="button"
               size={20}
-              onClick={() => navigate("/customer/bookings")}
+              onClick={() => navigate(`/${role}/bookings`)}
             />
-            <MdOutlineEngineering
+            {role === "customer" && <MdOutlineEngineering
               size={20}
               role="button"
               onClick={() => navigate("/customer/hire-professionals")}
-            />
+            />}
           </div>
         </div>
 
