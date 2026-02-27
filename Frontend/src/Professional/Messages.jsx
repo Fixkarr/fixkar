@@ -51,7 +51,7 @@ return (
          </div>
  
          <p className="mt-2 small opacity-75">
-           Stay updated with your Fixkar services
+          Your recent conversations
          </p>
        </div>
 
