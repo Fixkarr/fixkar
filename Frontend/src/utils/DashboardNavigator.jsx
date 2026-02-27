@@ -10,7 +10,7 @@ const DashboardNavigator = () => {
   const role = currentUserData?.user?.userId?.role;
   const navigate = useNavigate()
   return (
-    <div className="d-flex gap-3 fs-5">
+    <div className="d-flex gap-3 fs-5 text-light">
                  <FaHome role="button" size={20} onClick={() => navigate(`/${role}/home`)} />
                  <FaClipboardList
                    role="button"
