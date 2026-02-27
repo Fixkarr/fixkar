@@ -16,6 +16,7 @@ import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
 import CusBookingCard from "./customerBooking/CusBookingCard";
 import useGetMyBookings from "../hooks/useGetMyBookings";
 import FixkarLoader from "../Components/FixkarLoader";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 const CustomerBookings = () => {
   useGetMyBookings();
@@ -45,10 +46,7 @@ const CustomerBookings = () => {
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="fw-bold mb-0">My Bookings</h5>
 
-          <div className="d-flex gap-3 fs-5">
-            <FaHome role="button" size={20} onClick={() => navigate("/customer/home")} />
-            <FaBell role="button" size={20} onClick={() => navigate("/customer/notifications")} />
-          </div>
+          <DashboardNavigator/>
         </div>
 
         <p className="mt-2 small opacity-75">

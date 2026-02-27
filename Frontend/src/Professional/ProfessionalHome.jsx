@@ -14,6 +14,7 @@ import EnableNotificationModal from "../Components/EnableNotificationModal";
 import ProfessionalBankDetails from "./ProfessionalBankDetails";
 import PendingBankReview from "../Components/PendingBankReview";
 import { FaMessage } from "react-icons/fa6";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -116,29 +117,7 @@ return (
           Manage availability & earnings
         </small>
       </div>
-
-      <div className="d-flex gap-3 fs-5 text-white mt-2">
-        <FaCalendarCheck
-          role="button"
-          size={20}
-          onClick={()=>navigate("/professional/bookings")}
-        />
-        <FaUserTie
-          role="button"
-          size={20}
-          onClick={()=>navigate("/professional/profile")}
-        />
-        <FaBell
-          role="button"
-          size={20}
-          onClick={()=>navigate("/professional/notifications")}
-        />
-        <FaMessage
-          role="button"
-          size={20}
-          onClick={()=>navigate("/professional/messages")}
-        />
-      </div>
+      <DashboardNavigator/>
     </div>
 
     {/* ✅ BUTTON CLEARLY VISIBLE */}

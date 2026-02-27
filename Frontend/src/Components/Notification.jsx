@@ -17,6 +17,7 @@ import { FaRegCalendarXmark } from "react-icons/fa6";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { formatDate } from "../utils/formatTime&Date";
 import useGetNotifications from "../hooks/useGetNotifications";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 const getIcon = (type) => {
   switch (type) {
@@ -67,19 +68,7 @@ const Notifications = () => {
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="fw-bold mb-0">Notifications</h5>
 
-          <div className="d-flex gap-3 fs-5">
-            <FaHome role="button" size={20} onClick={() => navigate(`/${role}/home`)} />
-            <FaClipboardList
-              role="button"
-              size={20}
-              onClick={() => navigate(`/${role}/bookings`)}
-            />
-            {role === "customer" && <MdOutlineEngineering
-              size={20}
-              role="button"
-              onClick={() => navigate("/customer/hire-professionals")}
-            />}
-          </div>
+          <DashboardNavigator/>
         </div>
 
         <p className="mt-2 small opacity-75">

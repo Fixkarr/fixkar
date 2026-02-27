@@ -4,6 +4,7 @@ import { BsCheck2All } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineEngineering } from "react-icons/md";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 const Messages = () => {
   const navigate = useNavigate();
@@ -30,24 +31,7 @@ return (
          <div className="d-flex justify-content-between align-items-center">
            <h5 className="fw-bold mb-0">My Conversations</h5>
  
-           <div className="d-flex gap-3 fs-5">
-             <FaHome role="button" size={20} onClick={() => navigate(`/${role}/home`)} />
-             <FaClipboardList
-               role="button"
-               size={20}
-               onClick={() => navigate(`/${role}/bookings`)}
-             />
-             <FaBell
-               role="button"
-               size={20}
-               onClick={() => navigate(`/${role}/notifications`)}
-             />
-             {role === "customer" && <MdOutlineEngineering
-               size={20}
-               role="button"
-               onClick={() => navigate("/customer/hire-professionals")}
-             />}
-           </div>
+            <DashboardNavigator/>
          </div>
  
          <p className="mt-2 small opacity-75">

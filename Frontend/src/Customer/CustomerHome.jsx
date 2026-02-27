@@ -16,6 +16,7 @@ import EnableNotificationModal from '../Components/EnableNotificationModal'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
+import DashboardNavigator from '../utils/DashboardNavigator'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -102,11 +103,7 @@ const CustomerHome = () => {
     <div className="d-flex justify-content-between align-items-center mb-3">
       <h5 className="fw-bold mb-0">Fixkar</h5>
 
-      <div className="d-flex gap-3 fs-5">
-        <FaBook role="button" size={20} onClick={()=>navigate("/customer/bookings")} />
-        <FaBell role="button" size={20} onClick={()=>navigate("/customer/notifications")}/>
-        <FiMessageSquare role="button" size={20} onClick={()=>navigate("/customer/messages")}/>
-      </div>
+      <DashboardNavigator/>
     </div>
 
     <h4 className="fw-bold">

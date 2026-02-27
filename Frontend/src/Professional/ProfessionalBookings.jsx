@@ -13,6 +13,7 @@ import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
 import ProBookingCard from "./professionalBooking/ProBookingCard";
 import useGetMyBookings from "../hooks/useGetMyBookings";
 import FixkarLoader from "../Components/FixkarLoader";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 export default function ProfessionalBookings() {
   useGetMyBookings();
@@ -43,11 +44,7 @@ export default function ProfessionalBookings() {
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="fw-bold mb-0">Professional Dashboard</h5>
 
-          <div className="d-flex gap-3 fs-5">
-            <FaHome role="button" size={20} onClick={() => navigate("/professional/home")} />
-            <FaBell role="button" size={20} onClick={() => navigate("/professional/notifications")} />
-            <FaUserCircle role="button" size={20} onClick={() => navigate("/professional/profile")} />
-          </div>
+          <DashboardNavigator/>
         </div>
 
         <p className="mt-2 small opacity-75">
