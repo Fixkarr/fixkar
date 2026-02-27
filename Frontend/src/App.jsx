@@ -72,6 +72,7 @@ import { useState } from "react";
 import FixkarLoader from "./Components/FixkarLoader.jsx";
 import ManageOffers from "./Admin/AdminComponents/ManageOffers.jsx";
 import { generateFCMToken } from "./utils/generateFCMToken.js";
+import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -79,8 +80,9 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 const App = () => {
     const [backendReady, setBackendReady] = useState(false);
       useGetCurrentUser();
-  useGetCurrentAdmin()
-  const { currentUserData } = useSelector((state) => state.user);
+      useGetCurrentAdmin()
+  const { currentUserData , isAuthLoading} = useSelector((state) => state.user);
+  
   const {currentAdmin} = useSelector(state => state.admin);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -236,7 +238,7 @@ const App = () => {
     return <Home />;
   };
 
-   if (!backendReady) {
+   if (!backendReady || isAuthLoading) {
     return <FixkarLoader />;
   }
 
@@ -272,37 +274,33 @@ const App = () => {
       {/* Dashboard Layout Wrapper */}
       <Route element={<DashboardLayout />}>
         {/* Customer */}
-        <Route
+     <Route element={<ProtectedRoute allowedRole="customer"/>}>
+           <Route
           path="/customer/home"
-          element={role === "customer" ? <CustomerHome /> : <Navigate to="/" />}
+          element={<CustomerHome />}
         />
         <Route
           path="/customer/bookings"
           element={
-            role === "customer" ? <CustomerBookings /> : <Navigate to="/" />
+             <CustomerBookings /> 
           }
         />
         <Route
           path="/customer/bookings/:bookingId"
           element={
-            role === "customer" ? <CusBookingDetail /> : <Navigate to="/" />
+         <CusBookingDetail /> 
           }
         />
         <Route
           path="/customer/hire-professionals"
           element={
-            role === "customer" ? <HireProfessionals /> : <Navigate to="/" />
+            <HireProfessionals />
           }
         />
-        <Route
-          path="professional/profile/visit/:id"
-          element={
-            <ProfessionalInfo />
-          }
-        />
+       
         <Route
           path="customer/chat/:id"
-          element={role === "customer" ? <ChatSection /> : <Navigate to="/" />}
+          element={ <ChatSection />}
         />
         <Route
           path="/customer/verify-mobile"
@@ -316,97 +314,83 @@ const App = () => {
         />
          <Route
           path="/customer/messages"
-          element={role === "customer" ? <Messages /> : <Navigate to="/" />}
+          element={<Messages />}
         />
          <Route
           path="/customer/notifications"
-          element={role === "customer" ? <Notification role={role} /> : <Navigate to="/" />}
+          element={ <Notification role={role} />}
         />
+     </Route>
+
+           <Route
+          path="professional/profile/visit/:id"
+          element={
+            <ProfessionalInfo />
+          }
+        />
+
         {/* Professional */}
-        <Route
+          <Route element={<ProtectedRoute allowedRole="professional"/>}>
+               <Route
           path="/professional/home"
           element={
-            role === "professional" ? <ProfessionalHome /> : <Navigate to="/" />
+           <ProfessionalHome />
           }
         />
         <Route
           path="/professional/profile"
           element={
-            role === "professional" ? (
+            
               <ProfessionalProfile />
-            ) : (
-              <Navigate to="/" />
-            )
+         
           }
         />
         <Route
           path="/professional/bookings"
           element={
-            role === "professional" ? (
+     
               <ProfessionalBookings />
-            ) : (
-              <Navigate to="/" />
-            )
+       
           }
         />
         <Route
           path="/professional/bookings/:bookingId"
           element={
-            role === "professional" ? (
+           
               <ProBookingDetails />
-            ) : (
-              <Navigate to="/" />
-            )
+          
           }
         />
         <Route
           path="/professional/complete-profile"
           element={
-            role === "professional" ? <CompleteProfile /> : <Navigate to="/" />
+            <CompleteProfile />
           }
         />
         <Route
           path="/professional/messages"
-          element={role === "professional" ? <Messages /> : <Navigate to="/" />}
+          element={<Messages />}
         />
         <Route
           path="/professional/notifications"
-          element={role === "professional" ? <Notification role={role} /> : <Navigate to="/" />}
+          element={<Notification role={role} />}
         />
         <Route
           path="/professional/chat/:id"
           element={
-            role === "professional" ? <ChatSection /> : <Navigate to="/" />
+           <ChatSection />
           }
         />
         <Route
           path="/professional/transaction-history"
           element={
-            role === "professional" ? <ProfessionalTransactions proId={id}/> : <Navigate to="/" />
+             <ProfessionalTransactions proId={id}/>
           }
         />
 
-        {/* Admin  */}
-
-          <Route path={`${adminpath}/home`} element={currentAdmin ? <AdminHome/> : <Navigate to="/" />}/>
-          <Route path={`${adminpath}/signup`} element={currentAdmin?.role === "super_admin" ? <AdminSignup/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          
-          <Route path={`${adminpath}/manage-services`} element={currentAdmin?.role === "super_admin" ? <AdminServices/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-
-          <Route path={`${adminpath}/manage-users`} element={currentAdmin?.role === "super_admin" ? <AdminUsers/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          <Route path={`${adminpath}/manage-bookings`} element={currentAdmin?.role === "super_admin" ? <AdminBookings/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          <Route path={`${adminpath}/manage-bookings/:bookingId`} element={currentAdmin?.role === "super_admin" ? <AdminBookingDetail/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          
-          <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin?.role === "super_admin" ? <UpdateServiceForm/> : <Navigate to={`${adminpath}/home`}/>}/>
-          <Route path={`${adminpath}/manage-forms`} element={currentAdmin?.role === "super_admin" ? <ManageForms/> : <Navigate to={`${adminpath}/home`}/>}/>
-          <Route path={`${adminpath}/manage-offers`} element={currentAdmin?.role === "super_admin" ? <ManageOffers/> : <Navigate to={`${adminpath}/home`}/>}/>
-          <Route path={`${adminpath}/manage-forms/create`} element={currentAdmin?.role === "super_admin" ? <CreateForm/> : <Navigate to={`${adminpath}/home`}/>}/>
-
-      </Route>
-
-      {/* Onboarding */}
+         {/* Onboarding */}
       <Route
-        element={role === "professional" ? <OnBoard /> : <Navigate to="/" />}
+        element={<OnBoard />}
       >
         <Route
           path="/onboard/verify-mobile"
@@ -433,6 +417,28 @@ const App = () => {
           element={status === "rejected" ? <Rejected /> : <Navigate to="/" />}
         />
       </Route> 
+
+          </Route>
+
+        {/* Admin  */}
+
+          <Route path={`${adminpath}/home`} element={currentAdmin ? <AdminHome/> : <Navigate to="/" />}/>
+          <Route path={`${adminpath}/signup`} element={currentAdmin?.role === "super_admin" ? <AdminSignup/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+          
+          <Route path={`${adminpath}/manage-services`} element={currentAdmin?.role === "super_admin" ? <AdminServices/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+
+          <Route path={`${adminpath}/manage-users`} element={currentAdmin?.role === "super_admin" ? <AdminUsers/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+          <Route path={`${adminpath}/manage-bookings`} element={currentAdmin?.role === "super_admin" ? <AdminBookings/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+          <Route path={`${adminpath}/manage-bookings/:bookingId`} element={currentAdmin?.role === "super_admin" ? <AdminBookingDetail/> : (<Navigate to={`${adminpath}/home`}/>)}/>
+          
+          <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin?.role === "super_admin" ? <UpdateServiceForm/> : <Navigate to={`${adminpath}/home`}/>}/>
+          <Route path={`${adminpath}/manage-forms`} element={currentAdmin?.role === "super_admin" ? <ManageForms/> : <Navigate to={`${adminpath}/home`}/>}/>
+          <Route path={`${adminpath}/manage-offers`} element={currentAdmin?.role === "super_admin" ? <ManageOffers/> : <Navigate to={`${adminpath}/home`}/>}/>
+          <Route path={`${adminpath}/manage-forms/create`} element={currentAdmin?.role === "super_admin" ? <CreateForm/> : <Navigate to={`${adminpath}/home`}/>}/>
+
+      </Route>
+
+     
       {/* Admin Pannel starts here */}
 
        <Route path={`${adminpath}`} element={ !currentUserData && !currentAdmin ? <AdminLanding/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
