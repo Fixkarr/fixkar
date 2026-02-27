@@ -31,6 +31,7 @@ const DashboardLayout = () => {
         { withCredentials: true }
       );
       dispatch({type : 'LOGOUT'});
+      dispatch(setCurrentUserData(null))
       navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
