@@ -3,10 +3,12 @@ import { FaBell, FaClipboardList, FaHome, FaUser } from 'react-icons/fa';
 import { FaMessage } from 'react-icons/fa6';
 import { MdOutlineEngineering } from 'react-icons/md';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardNavigator = () => {
      const { currentUserData } = useSelector((state) => state.user);
   const role = currentUserData?.user?.userId?.role;
+  const navigate = useNavigate()
   return (
     <div className="d-flex gap-3 fs-5">
                  <FaHome role="button" size={20} onClick={() => navigate(`/${role}/home`)} />
