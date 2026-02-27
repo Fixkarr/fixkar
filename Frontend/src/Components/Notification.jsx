@@ -16,6 +16,7 @@ import { MdOutlineEngineering, MdOutlinePendingActions } from "react-icons/md";
 import { FaRegCalendarXmark } from "react-icons/fa6";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { formatDate } from "../utils/formatTime&Date";
+import useGetNotifications from "../hooks/useGetNotifications";
 
 const getIcon = (type) => {
   switch (type) {
@@ -41,6 +42,7 @@ const getIcon = (type) => {
 };
 
 const Notifications = () => {
+  useGetNotifications()
   const navigate = useNavigate();
   const notifications = useSelector(
     (state) => state.notifications.notifications
