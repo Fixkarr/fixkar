@@ -196,7 +196,7 @@ const Login = () => {
       {/* Google Login */}
       <button
         className="btn btn-outline-secondary w-100 rounded-pill py-2 d-flex align-items-center justify-content-center gap-2"
-        disabled={loading || gloading}
+        disabled={floading || gloading}
         onClick={handleLoginWithGoogle}
       >
         <FcGoogle size={20} />
