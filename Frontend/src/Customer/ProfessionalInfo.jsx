@@ -171,7 +171,7 @@ useEffect(() => {
         </p>
       </div>
 }
-    <div className="container mt-5 pt-5">
+    <div className="container pt-5">
       {showLocationGate && (
   <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
     <div className="modal-dialog modal-dialog-centered modal-lg">
