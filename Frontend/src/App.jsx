@@ -214,29 +214,6 @@ const App = () => {
     };
   }, [userId, role]);
 
-  // ---------------------------
-  // ROOT REDIRECT HANDLER LOGIC
-  // ---------------------------
-  const redirectUser = () => {
-    if (!currentUserData && !currentAdmin) return <Home />;
-    if(currentAdmin) return <Navigate to={adminpath}/>
-
-    if (role === "customer") return <Navigate to="/customer/home" replace />;
-
-    if (role === "professional") {
-      if (!isMobileVerified)
-        return <Navigate to="/onboard/verify-mobile" replace />;
-      if (!isOnboarded) return <Navigate to="/onboard" replace />;
-      if (status === "pending")
-        return <Navigate to="/application/pending" replace />;
-      if (status === "rejected")
-        return <Navigate to="/application/rejected" replace />;
-
-      return <Navigate to="/professional/home" replace />;
-    }
-
-    return <Home />;
-  };
 
    if (!backendReady || isAuthLoading) {
     return <FixkarLoader />;
