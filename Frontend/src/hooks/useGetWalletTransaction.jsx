@@ -18,8 +18,6 @@ const useGetWalletTransaction = (bookingId) => {
         );
         dispatch(setWalletTransaction(res.data.transaction));
       } catch (error) {
-        console.error(error);
-        toast.error(error?.response?.data?.message || "Failed to load wallet");
       }
     };
 

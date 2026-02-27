@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaBell, FaClipboardList, FaHome, FaUser } from 'react-icons/fa';
+import { FaBell, FaClipboardList, FaHome, FaUserCircle } from 'react-icons/fa';
 import { FaMessage } from 'react-icons/fa6';
 import { MdOutlineEngineering } from 'react-icons/md';
 import { useSelector } from 'react-redux';
@@ -22,21 +22,22 @@ const DashboardNavigator = () => {
                    size={20}
                    onClick={() => navigate(`/${role}/notifications`)}
                  />
+                   <FaMessage
+                           role="button"
+                           size={20}
+                           onClick={()=>navigate(`/${role}/messages`)}
+                         />
                  {role === "customer" && <MdOutlineEngineering
                    size={20}
                    role="button"
                    onClick={() => navigate("/customer/hire-professionals")}
                  />}
-                 {role === "professional" && <FaUser
+                 {role === "professional" && <FaUserCircle
                    size={20}
                    role="button"
                    onClick={() => navigate("/professional/profile")}
                  />}
-                  <FaMessage
-                           role="button"
-                           size={20}
-                           onClick={()=>navigate(`/${role}/messages`)}
-                         />
+                
 
                </div>
   )
