@@ -5,11 +5,11 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { server_url } from "../App";
 import { MdPersonSearch } from "react-icons/md";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 
 const HireProfessionals = () => {
-
- 
+  const {currentUserData} = useSelector(state => state.user);
   const { selectedLocation, selectedService } = useSelector((state) => state.location);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [professionals, setProfessionals] = useState([]);
@@ -72,6 +72,20 @@ const HireProfessionals = () => {
 
   return (
    <div className="professionals container px-3 px-md-5 py-4">
+    {currentUserData && <div
+        className="text-white p-4"
+        style={{
+          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
+          borderBottomLeftRadius: "25px",
+          borderBottomRightRadius: "25px"
+        }}
+      >
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className="fw-bold mb-0">Hire Professionals</h5>
+
+          <DashboardNavigator/>
+        </div>
+      </div>}
 
   {/* Heading */}
   <div className="text-center mb-4">

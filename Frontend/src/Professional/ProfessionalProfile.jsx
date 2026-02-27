@@ -125,7 +125,7 @@ const handleShareProfile = () => {
         </p>
       </div>
 
-       <div className="profile-upper d-flex flex-column gap-4">
+       <div className="profile-upper mt-2 d-flex flex-column gap-4">
         
 
   {/* ===== Top Card ===== */}
