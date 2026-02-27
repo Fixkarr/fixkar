@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, href } from "react-router-dom";
+import { useParams, useNavigate, href, useLocation } from "react-router-dom";
 import axios from "axios";
 import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
@@ -29,7 +29,7 @@ const ProfessionalInfo = () => {
   const isProfessionalInfo = Boolean(professionalInfo);
   const { selectedLocation } = useSelector(state => state.location);
   const { currentUserData } = useSelector(state => state.user);
-
+  const location = useLocation();
   
     const [showHireModal, setShowHireModal] = useState(false);
     const [showLocationGate, setShowLocationGate] = useState(false);
@@ -103,7 +103,9 @@ useEffect(() => {
   // 1️⃣ Not authenticated
   if (!currentUserData?.user?.userId) {
     toast.info("Please login to continue");
-    navigate("/login");
+   navigate("/login", {
+  state: { from: location }
+});
     return;
   }
 
@@ -241,7 +243,9 @@ useEffect(() => {
                 onClick={() => {
                 if (!currentUserData?.user?.userId) {
                   toast.info("Please login to chat");
-                  navigate("/login");
+                  navigate("/login", {
+                    state: { from: location }
+                  });
                 } else {
                   navigate(`/customer/chat/${id}`);
                 }
