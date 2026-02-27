@@ -28,6 +28,7 @@ import useGetWalletTransaction from '../../hooks/useGetWalletTransaction';
 import CashConfirmationBox from '../../Components/CashConfirmationBox';
 import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
 import useGetMyBookings from '../../hooks/useGetMyBookings';
+import FixkarLoader from '../../Components/FixkarLoader';
 
 const ProBookingDetails = () => {
   useGetMyBookings()
@@ -65,6 +66,10 @@ const cashReceivable =
   booking?.offerLocked
     ? booking?.finalCustomerPayable
     : fullAmount;
+
+    if (!booking) {
+  return <FixkarLoader />
+}
 
   return (
      <div

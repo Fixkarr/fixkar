@@ -12,6 +12,7 @@ import {
 import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
 import ProBookingCard from "./professionalBooking/ProBookingCard";
 import useGetMyBookings from "../hooks/useGetMyBookings";
+import FixkarLoader from "../Components/FixkarLoader";
 
 export default function ProfessionalBookings() {
   useGetMyBookings();
@@ -22,6 +23,10 @@ export default function ProfessionalBookings() {
   const total = myBookings?.length || 0;
   const completed = myBookings?.filter(b => b.status === "completed").length;
   const pending = myBookings?.filter(b => b.status !== "completed").length;
+
+  if (!myBookings) {
+  return <FixkarLoader />
+}
 
   return total !== 0 ? (
     <div className="container-fluid p-0">

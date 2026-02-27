@@ -15,6 +15,7 @@ import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
 
 import CusBookingCard from "./customerBooking/CusBookingCard";
 import useGetMyBookings from "../hooks/useGetMyBookings";
+import FixkarLoader from "../Components/FixkarLoader";
 
 const CustomerBookings = () => {
   useGetMyBookings();
@@ -24,6 +25,10 @@ const CustomerBookings = () => {
   const total = myBookings.length;
   const completed = myBookings.filter(b => b.status === "completed").length;
   const active = myBookings.filter(b => b.status !== "completed").length;
+
+  if (!myBookings) {
+  return <FixkarLoader />
+}
 
   return total !== 0 ? (
     <div className="container-fluid p-0">

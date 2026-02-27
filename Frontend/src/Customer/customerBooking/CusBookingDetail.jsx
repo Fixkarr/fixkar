@@ -37,6 +37,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import useGetMyBookings from '../../hooks/useGetMyBookings';
+import FixkarLoader from '../../Components/FixkarLoader';
 
 const CusBookingDetail = () => {
     useGetMyBookings()
@@ -119,6 +120,9 @@ const handleApplyOffer = async (offer) => {
   }
 };
 
+if (!booking) {
+  return <FixkarLoader />
+}
 
  return (
   <div
