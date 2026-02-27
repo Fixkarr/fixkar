@@ -78,9 +78,9 @@ export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const App = () => {
-    const [backendReady, setBackendReady] = useState(false);
-      useGetCurrentUser();
-      useGetCurrentAdmin()
+  useGetCurrentUser();
+  useGetCurrentAdmin()
+  const [backendReady, setBackendReady] = useState(false);
   const { currentUserData , isAuthLoading} = useSelector((state) => state.user);
   
   const {currentAdmin} = useSelector(state => state.admin);
