@@ -20,11 +20,13 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdEmail } from 'react-icons/md';
 import { FaLock } from 'react-icons/fa';
 import Footer from '../Components/Footer.jsx';
-import {generateFCMToken} from '../utils/generateFCMToken.js'
+
 const Login = () => {
    const [showPass, setShowPass] = useState(false);
-    const [loading, setLoading] = useState(false)
- 
+    const [floading, setFloading] = useState(false)
+    const [gloading, setGloading] = useState(false)
+     const from = location.state?.from?.pathname || "/";
+
     const dispatch = useDispatch()
     // 👁️ Show/Hide Password
     const handleShowPass = () => {
@@ -50,23 +52,24 @@ const Login = () => {
         validationSchema,
         onSubmit : async (values, {resetForm})=>{
          try {
-          setLoading(true)
+          setFloading(true)
           const result = await axios.post(`${server_url}/api/auth/login`, values, {withCredentials : true})
           toast.success(result?.data?.message)
-          setLoading(false)
+          setFloading(false)
           dispatch(setCurrentUserData(result.data))
+          navigate(from, { replace: true }); 
           resetForm()
          } catch (error) {
           console.log(error)
           toast.error(error.response.data.message)
-          setLoading(false)
+          setFloading(false)
          }
         }
       })
 
       const handleLoginWithGoogle = async () => {
     try {
-        setLoading(true)
+        setGloading(true)
       const result = await signInWithPopup(auth, provider);
 
       const user = {
@@ -75,11 +78,11 @@ const Login = () => {
       
       const response = await axios.post(`${server_url}/api/auth/google-auth-login`, user, {withCredentials : true})
       dispatch(setCurrentUserData(response.data))
-      setLoading(false)
+      setGloading(false)
     } catch (error) {
   
       toast.error(error.response.data.message)
-      setLoading(false)
+      setGloading(false)
     }
   };
 
@@ -179,10 +182,10 @@ const Login = () => {
         {/* Login Button */}
         <button
           type="submit"
-          disabled={loading}
+          disabled={floading || gloading}
           className="btn btn-primary w-100 rounded-pill py-2 fw-semibold mt-2"
         >
-          {loading ? <ClipLoader size={18} color="#fff" /> : "Login"}
+          {floading ? <ClipLoader size={18} color="#fff" /> : "Login"}
         </button>
 
       </form>
@@ -193,11 +196,11 @@ const Login = () => {
       {/* Google Login */}
       <button
         className="btn btn-outline-secondary w-100 rounded-pill py-2 d-flex align-items-center justify-content-center gap-2"
-        disabled={loading}
+        disabled={loading || gloading}
         onClick={handleLoginWithGoogle}
       >
         <FcGoogle size={20} />
-        {loading ? <ClipLoader size={18} /> : "Continue with Google"}
+        {gloading ? <ClipLoader size={18} /> : "Continue with Google"}
       </button>
 
       {/* Footer */}
