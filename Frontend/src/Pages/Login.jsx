@@ -58,6 +58,8 @@ const Login = () => {
           toast.success(result?.data?.message)
           setFloading(false)
           dispatch(setCurrentUserData(result.data))
+          console.log("FROM STATE:", location.state);
+          console.log("FROM PATH:", from);
           navigate(from, { replace: true }); 
           resetForm()
          } catch (error) {
