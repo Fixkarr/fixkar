@@ -73,6 +73,7 @@ import FixkarLoader from "./Components/FixkarLoader.jsx";
 import ManageOffers from "./Admin/AdminComponents/ManageOffers.jsx";
 import { generateFCMToken } from "./utils/generateFCMToken.js";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
+import ThemeToggle from "./utils/ThemeToggle.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -214,12 +215,18 @@ const App = () => {
     };
   }, [userId, role]);
 
+  useEffect(() => {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  document.documentElement.setAttribute("data-bs-theme", savedTheme);
+}, []);
+
 
    if (!backendReady || isAuthLoading) {
     return <FixkarLoader />;
   }
 
   return (
+   <>
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<Home/>} />
@@ -439,6 +446,9 @@ const App = () => {
       {/* 404 */}
       <Route path="*" element={<PageNotFound />} />
     </Routes>
+
+    <ThemeToggle/>
+   </>
   );
 };
 
