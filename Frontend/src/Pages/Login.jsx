@@ -9,7 +9,7 @@ import axios from 'axios';
 import { FaArrowLeft } from "react-icons/fa6";
 import {ClipLoader} from "react-spinners"
 import { server_url } from '../App';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentUserData } from '../redux/user.slice';
 import {
   auth,
@@ -27,6 +27,7 @@ const Login = () => {
     const [gloading, setGloading] = useState(false)
     const location = useLocation()
      const from = location.state?.from?.pathname || "/";
+     const {currentUserData} = useSelector(state=>state.user);
 
     const dispatch = useDispatch()
     // 👁️ Show/Hide Password
@@ -35,6 +36,13 @@ const Login = () => {
     };
 
      const navigate = useNavigate();
+
+
+       useEffect(() => {
+    if (currentUserData.user) {
+      navigate(from, { replace: true });
+    }
+  }, [currentUserData, from, navigate]);
   
      const validationSchema = Yup.object({
         email: Yup.string()

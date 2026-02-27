@@ -229,7 +229,7 @@ const App = () => {
       />
       <Route
         path="/login"
-        element={!currentUserData ? <Login /> : <Navigate to="/" replace />}
+        element={ <Login />}
       />
       <Route
         path="/forget-password"
