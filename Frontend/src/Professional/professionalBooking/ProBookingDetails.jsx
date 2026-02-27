@@ -29,6 +29,7 @@ import CashConfirmationBox from '../../Components/CashConfirmationBox';
 import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
 import useGetMyBookings from '../../hooks/useGetMyBookings';
 import FixkarLoader from '../../Components/FixkarLoader';
+import DashboardNavigator from '../../utils/DashboardNavigator';
 
 const ProBookingDetails = () => {
   useGetMyBookings()
@@ -78,6 +79,25 @@ const cashReceivable =
       background: "linear-gradient(180deg,#f8fbff,#eef4ff)"
     }}
   >
+    <div
+        className="text-white p-4"
+        style={{
+          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
+          borderBottomLeftRadius: "25px",
+          borderBottomRightRadius: "25px"
+        }}
+      >
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className="fw-bold mb-0">Booking Details</h5>
+
+          <DashboardNavigator/>
+        </div>
+
+        <p className="mt-2 small opacity-75">
+          Manage and track booking
+        </p>
+      </div>
+
       <div className="container">
           <div
         className="rounded-4 shadow-lg overflow-hidden"

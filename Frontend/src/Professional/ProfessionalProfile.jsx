@@ -27,6 +27,7 @@ import UpdateSkills from "./UpdateSkills";
 import DynamicForm from "../Admin/AdminComponents/Utils/DynamicForm";
 import useGetForm from "../hooks/useGetForm";
 import FormResponseSummary from "../Admin/AdminComponents/Utils/FormResponseSummary";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 const ProfessionalProfile = () => {
   const [profilePicture, setProfilePicture] = useState(null);
@@ -105,6 +106,25 @@ const handleShareProfile = () => {
   return (
     <>
       <div className="profile p-2">
+        <div
+        className="text-white p-4"
+        style={{
+          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
+          borderBottomLeftRadius: "25px",
+          borderBottomRightRadius: "25px"
+        }}
+      >
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className="fw-bold mb-0">My Profile</h5>
+
+          <DashboardNavigator/>
+        </div>
+
+        <p className="mt-2 small opacity-75">
+         Manage Your Profile
+        </p>
+      </div>
+
        <div className="profile-upper d-flex flex-column gap-4">
         
 

@@ -2,8 +2,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   FaHome,
-  FaBell,
-  FaUserCircle,
   FaClipboardList,
   FaClock,
   FaCheckCircle
@@ -42,7 +40,7 @@ export default function ProfessionalBookings() {
         }}
       >
         <div className="d-flex justify-content-between align-items-center">
-          <h5 className="fw-bold mb-0">Professional Dashboard</h5>
+          <h5 className="fw-bold mb-0">My Bookings</h5>
 
           <DashboardNavigator/>
         </div>
