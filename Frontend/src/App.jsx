@@ -245,7 +245,7 @@ const App = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={redirectUser()} />
+      <Route path="/" element={<Home/>} />
       <Route
         path="/signup"
         element={!currentUserData ? <Signup /> : <Navigate to="/" replace />}

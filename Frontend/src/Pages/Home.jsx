@@ -9,9 +9,59 @@ import { FaTools, FaMapMarkerAlt, FaBolt } from "react-icons/fa";
 import { IoSearchCircle } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
 import {Helmet} from 'react-helmet-async'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
+  const { currentUserData } = useSelector((state) => state.user);
+  const { currentAdmin } = useSelector((state) => state.admin);
+  const adminpath = import.meta.env.VITE_ADMIN_PATH
+  const role = currentUserData?.user?.userId?.role;
+  const isOnboarded = currentUserData?.user?.onBoarded;
+  const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
+  const status = currentUserData?.user?.status;
+
+
   const navigate = useNavigate()
+
+    useEffect(() => {
+    if (!currentUserData && !currentAdmin) return;
+
+     if(currentAdmin){
+      navigate(adminpath)
+     }
+
+    if (role === "customer") {
+      navigate("/customer/home", { replace: true });
+      return;
+    }
+
+    if (role === "professional") {
+      if (!isMobileVerified) {
+        navigate("/onboard/verify-mobile", { replace: true });
+        return;
+      }
+
+      if (!isOnboarded) {
+        navigate("/onboard", { replace: true });
+        return;
+      }
+
+      if (status === "pending") {
+        navigate("/application/pending", { replace: true });
+        return;
+      }
+
+      navigate("/professional/home", { replace: true });
+    }
+  }, [
+    currentUserData,
+    currentAdmin,
+    role,
+    isOnboarded,
+    isMobileVerified,
+    status,
+    navigate,
+  ]);
 
   return (
    <>
