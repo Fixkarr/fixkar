@@ -19,6 +19,8 @@ import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import CallButton from "../Components/CallButton";
 import FormResponseSummary from "../Admin/AdminComponents/Utils/FormResponseSummary";
 import DayCard from "../Professional/DayCard";
+import Navbar from "../Components/Navbar";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -149,6 +151,8 @@ useEffect(() => {
   }
 
   return (
+    <>
+    {!currentUserData?.user ? <Navbar/> : <DashboardNavigator/>}
     <div className="container mt-5 pt-5">
       {showLocationGate && (
   <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
@@ -416,6 +420,7 @@ useEffect(() => {
 
 
     </div>
+    </>
   );
 };
 
