@@ -71,7 +71,7 @@ const HireProfessionals = () => {
 
 
   return (
-   <div className="professionals container px-3 px-md-5 py-4">
+   <div className="professionals container px-3 px-md-5">
     {currentUserData && <div
         className="text-white p-4"
         style={{
@@ -85,10 +85,13 @@ const HireProfessionals = () => {
 
           <DashboardNavigator/>
         </div>
+         <p className="mt-2 small opacity-75">
+          Find Best Professionals near you!
+        </p>
       </div>}
 
   {/* Heading */}
-  <div className="text-center mb-4">
+  <div className="text-center mb-4 mt-2">
     <h2 className="fw-bold mb-1">Search Professionals</h2>
     <p className="text-muted small">
       Find trusted professionals near your location
