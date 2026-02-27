@@ -39,7 +39,7 @@ const Login = () => {
 
 
        useEffect(() => {
-    if (currentUserData.user) {
+    if (currentUserData?.user) {
       navigate(from, { replace: true });
     }
   }, [currentUserData, from, navigate]);
