@@ -36,8 +36,10 @@ import { server_url } from '../../App';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import useGetMyBookings from '../../hooks/useGetMyBookings';
 
 const CusBookingDetail = () => {
+    useGetMyBookings()
     const [loading, setLoading] = useState(false)
     const [offers, setOffers] = useState([]);
     const [applyingOffer, setApplyingOffer] = useState(false);

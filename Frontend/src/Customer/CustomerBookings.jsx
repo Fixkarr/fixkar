@@ -14,8 +14,10 @@ import {
 import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
 
 import CusBookingCard from "./customerBooking/CusBookingCard";
+import useGetMyBookings from "../hooks/useGetMyBookings";
 
 const CustomerBookings = () => {
+  useGetMyBookings();
   const { myBookings } = useSelector((state) => state.bookings);
   const navigate = useNavigate();
 

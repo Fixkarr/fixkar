@@ -27,8 +27,10 @@ import { reachedToLocationAPI } from './reachedToLocationAPI';
 import useGetWalletTransaction from '../../hooks/useGetWalletTransaction';
 import CashConfirmationBox from '../../Components/CashConfirmationBox';
 import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
+import useGetMyBookings from '../../hooks/useGetMyBookings';
 
 const ProBookingDetails = () => {
+  useGetMyBookings()
   const {bookingId} = useParams()
   useGetWalletTransaction(bookingId);
     const [showCashModal, setShowCashModal] = useState(false);
