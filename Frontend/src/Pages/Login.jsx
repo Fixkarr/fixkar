@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import axios from 'axios';
 import { FaArrowLeft } from "react-icons/fa6";
@@ -25,6 +25,7 @@ const Login = () => {
    const [showPass, setShowPass] = useState(false);
     const [floading, setFloading] = useState(false)
     const [gloading, setGloading] = useState(false)
+    const location = useLocation()
      const from = location.state?.from?.pathname || "/";
 
     const dispatch = useDispatch()
