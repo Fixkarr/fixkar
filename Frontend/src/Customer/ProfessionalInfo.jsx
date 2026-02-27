@@ -152,7 +152,25 @@ useEffect(() => {
 
   return (
     <>
-    {!currentUserData?.user ? <Navbar/> : <DashboardNavigator/>}
+    {!currentUserData?.user ? <Navbar/> :  <div
+        className="text-white p-4"
+        style={{
+          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
+          borderBottomLeftRadius: "25px",
+          borderBottomRightRadius: "25px"
+        }}
+      >
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className="fw-bold mb-0">Professional Information</h5>
+
+          <DashboardNavigator/>
+        </div>
+
+        <p className="mt-2 small opacity-75">
+         Here is the professional Details!
+        </p>
+      </div>
+}
     <div className="container mt-5 pt-5">
       {showLocationGate && (
   <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
