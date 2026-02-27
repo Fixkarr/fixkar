@@ -4,7 +4,7 @@ export const isAuth = (req,res,next) =>{
     try {
         const {token} = req.cookies;
         if(!token){
-            return 
+              return res.status(401).json({ message: "Unauthorized" }); 
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         if(!decoded){

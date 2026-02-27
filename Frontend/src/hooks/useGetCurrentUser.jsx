@@ -14,7 +14,7 @@ const useGetCurrentUser = () => {
              const result = await axios.get(`${server_url}/api/user/current`, {withCredentials : true})
             dispatch(setCurrentUserData(result.data)); 
            } catch (error) {
-                console.log("Internal server error!")
+               dispatch(setCurrentUserData(null))
            }
         }
         fetchUser()
