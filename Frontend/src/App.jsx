@@ -93,7 +93,7 @@ const App = () => {
   const status = currentUserData?.user?.status;
   const userId = currentUserData?.user?.userId?._id;
   const id = currentUserData?.user?._id
-
+ 
   useEffect(() => {
     const checkBackend = async () => {
       try {

@@ -9,13 +9,7 @@
     transition: all 0.3s ease;
 }
 
-/* html,
-body,
-#root {
-  height: 100%;
-  overflow: hidden; /* body scroll disable 
-  
-*/
+
 
 
 
@@ -318,4 +312,16 @@ border-radius: 25px;
   flex-direction: column;
   gap: 6px;
   max-width: 220px;
+}
+
+
+
+.invert-mode {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* images ko normal rakhne ke liye */
+.invert-mode img,
+.invert-mode video {
+  filter: invert(1) hue-rotate(180deg);
 }

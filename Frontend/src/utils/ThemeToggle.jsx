@@ -2,18 +2,23 @@ import { useEffect, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "light"
+  const [invert, setInvert] = useState(
+    localStorage.getItem("invert") === "true"
   );
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-bs-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+    if (invert) {
+      document.body.classList.add("invert-mode");
+      localStorage.setItem("invert", "true");
+    } else {
+      document.body.classList.remove("invert-mode");
+      localStorage.setItem("invert", "false");
+    }
+  }, [invert]);
 
   return (
     <button
-        className="btn btn-primary rounded-circle shadow-lg"
+      className="btn btn-primary rounded-circle shadow-lg"
       style={{
         width: "50px",
         height: "50px",
@@ -22,11 +27,9 @@ const ThemeToggle = () => {
         right: "20px",
         zIndex: 9999
       }}
-      onClick={() =>
-        setTheme(theme === "light" ? "dark" : "light")
-      }
+      onClick={() => setInvert(!invert)}
     >
-      {theme === "light" ? <FaMoon /> : <FaSun />}
+      {invert ? <FaSun /> : <FaMoon />}
     </button>
   );
 };
