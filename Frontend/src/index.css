@@ -317,7 +317,8 @@ border-radius: 25px;
 
 
 .invert-mode {
-  filter: invert(1) hue-rotate(180deg);
+   filter: invert(0.85) hue-rotate(180deg) contrast(0.9) brightness(0.9) saturate(0.9);
+  background-color: #111 !important;
 }
 
 /* images ko normal rakhne ke liye */
