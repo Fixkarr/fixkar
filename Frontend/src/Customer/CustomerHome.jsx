@@ -6,9 +6,7 @@ import { setSelectedLocation, setSelectedService } from '../redux/location.slice
 import { useNavigate } from 'react-router-dom'
 
 import MobileNotVerified from './MobileNotVerified'
-import { FaSearchLocation, FaUserCheck, FaTools, FaBook, FaBell } from "react-icons/fa";
-import { MdLocationOn } from "react-icons/md";
-import { IoSparkles } from "react-icons/io5";
+import { FaTools } from "react-icons/fa";
 import useGetMyBookings from '../hooks/useGetMyBookings'
 import useGetNotifications from '../hooks/useGetNotifications'
 import { generateFCMToken } from '../utils/generateFCMToken'
