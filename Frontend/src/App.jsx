@@ -73,7 +73,7 @@ import FixkarLoader from "./Components/FixkarLoader.jsx";
 import ManageOffers from "./Admin/AdminComponents/ManageOffers.jsx";
 import { generateFCMToken } from "./utils/generateFCMToken.js";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
-import ThemeToggle from "./utils/ThemeToggle.jsx";
+import LanguageToggle from "./utils/LanguageToggle.jsx";
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
@@ -447,7 +447,7 @@ const App = () => {
       <Route path="*" element={<PageNotFound />} />
     </Routes>
 
-    <ThemeToggle/>
+    <LanguageToggle/>
    </>
   );
 };
