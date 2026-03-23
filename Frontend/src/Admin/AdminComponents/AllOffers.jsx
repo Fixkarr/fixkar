@@ -1,154 +1,63 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   FaSearch,
   FaTag,
   FaCalendarAlt,
   FaBolt,
+  FaPercent,
+  FaRupeeSign,
 } from "react-icons/fa";
 import axios from 'axios'
 import {server_url} from '../../App'
-
-const dummyOffers = [
-  {
-    _id: "1",
-    offerTitle: "Festive Offer",
-    service: "Electrician",
-    discountType: "percentage",
-    discountValue: 20,
-    minBookingAmount: 200,
-    maxDiscount: 100,
-    startDate: "2026-03-01",
-    endDate: "2026-03-30",
-    usageLimit: 100,
-    usedCount: 20,
-    isActive: true,
-  },
-  {
-    _id: "2",
-    offerTitle: "Summer Sale",
-    service: "Plumber",
-    discountType: "flat",
-    discountValue: 50,
-    minBookingAmount: 300,
-    maxDiscount: 50,
-    startDate: "2026-04-01",
-    endDate: "2026-04-20",
-    usageLimit: 50,
-    usedCount: 10,
-    isActive: false,
-  },
-  {
-    _id: "3",
-    offerTitle: "New User Offer",
-    service: "AC Repair",
-    discountType: "percentage",
-    discountValue: 15,
-    minBookingAmount: 500,
-    maxDiscount: 150,
-    startDate: "2026-03-10",
-    endDate: "2026-04-10",
-    usageLimit: 200,
-    usedCount: 60,
-    isActive: true,
-  },
-];
+import { toast } from "react-toastify";
 
 const AllOffers = () => {
-  const [offers] = useState(dummyOffers);
+  const [offers, setOffers] = useState([]);
   const [search, setSearch] = useState("");
-  const [serviceFilter, setServiceFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
 
   useEffect(()=>{
     const getAllOffers = async ()=>{
         try {
             const res = await axios.get(`${server_url}/api/admin/get-all-offers`, {withCredentials : true})
-            console.log(res);
+            setOffers(res?.data?.offers);
         } catch (error) {
             console.log(error)
+            toast.error(error.response.data.message);
         }
     }
 
     getAllOffers();
   },[])
 
-  const filteredOffers = offers.filter((offer) => {
-    return (
-      offer.offerTitle.toLowerCase().includes(search.toLowerCase()) &&
-      (serviceFilter ? offer.service === serviceFilter : true) &&
-      (statusFilter
-        ? statusFilter === "active"
-          ? offer.isActive
-          : !offer.isActive
-        : true)
-    );
-  });
+  const filteredOffers = offers?.filter((offer) =>
+    offer.offerTitle.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div
       className="container-fluid p-4"
-      style={{
-        minHeight: "100vh",
-        background: "#f8fafc",
-      }}
+      style={{ background: "#f8fafc", minHeight: "100vh" }}
     >
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold text-dark">
-          Offers Dashboard
-        </h2>
-        <div className="text-muted small">
-          Manage all your offers efficiently
-        </div>
+        <h2 className="fw-bold text-dark">Offers Dashboard</h2>
+        <div className="text-muted small">Manage offers</div>
       </div>
 
-      {/* Filters */}
-      <div
-        className="p-3 mb-4 shadow-sm"
-        style={{
-          background: "#ffffff",
-          borderRadius: "12px",
-        }}
-      >
-        <div className="row g-3">
-          <div className="col-md-4">
-            <div className="input-group">
-              <span className="input-group-text bg-white border">
-                <FaSearch />
-              </span>
-              <input
-                type="text"
-                className="form-control border"
-                placeholder="Search offers..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="col-md-3">
-            <select
-              className="form-select border"
-              onChange={(e) => setServiceFilter(e.target.value)}
-            >
-              <option value="">All Services</option>
-              <option>Electrician</option>
-              <option>Plumber</option>
-              <option>AC Repair</option>
-            </select>
-          </div>
-
-          <div className="col-md-3">
-            <select
-              className="form-select border"
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
+      {/* Search */}
+      <div className="mb-4">
+        <div className="input-group" style={{ maxWidth: "350px" }}>
+          <span className="input-group-text bg-white border">
+            <FaSearch />
+          </span>
+          <input
+            type="text"
+            className="form-control border"
+            placeholder="Search offers..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
       </div>
 
@@ -164,24 +73,16 @@ const AllOffers = () => {
                 className="p-4 h-100 shadow-sm"
                 style={{
                   borderRadius: "16px",
-                  background: "#ffffff",
+                  background: "#fff",
                   border: "1px solid #e5e7eb",
                   transition: "0.3s",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 10px 25px rgba(0,0,0,0.08)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.boxShadow = "";
-                }}
               >
                 {/* Title */}
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="fw-bold mb-0 text-primary">
-                    <FaTag className="me-2" /> {offer.offerTitle}
+                <div className="d-flex justify-content-between mb-3">
+                  <h5 className="fw-bold text-primary">
+                    <FaTag className="me-2" />
+                    {offer.offerTitle}
                   </h5>
                   <span
                     className={`badge ${
@@ -192,27 +93,51 @@ const AllOffers = () => {
                   </span>
                 </div>
 
-                {/* Service */}
-                <div className="mb-2 text-muted small">
-                  Service: <strong>{offer.service}</strong>
+                {/* 🔥 Conditional Discount UI */}
+                <div className="mb-3">
+                  {offer.discountType === "percentage" ? (
+                    <div className="d-flex align-items-center gap-2 text-success fw-bold fs-5">
+                      <FaPercent /> {offer.discountValue}% OFF
+                      <span className="text-muted small">
+                        (Max ₹{offer.maxDiscount})
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="d-flex align-items-center gap-2 text-success fw-bold fs-5">
+                      <FaRupeeSign /> ₹{offer.discountValue} OFF
+                    </div>
+                  )}
                 </div>
 
-                {/* Discount */}
-                <div className="mb-2">
-                  <span className="text-success fw-semibold">
-                    {offer.discountType === "percentage"
-                      ? `${offer.discountValue}% OFF`
-                      : `₹${offer.discountValue} OFF`}
-                  </span>
+                {/* Services */}
+                <div className="mb-3 small text-muted">
+                  Services:
+                  <div className="mt-1">
+                    {offer.serviceId.map((s) => (
+                      <span
+                        key={s._id}
+                        className="badge bg-light text-dark me-2 mb-1"
+                      >
+                        {s.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Details */}
                 <div className="small text-muted mb-3">
-                  Min: ₹{offer.minBookingAmount} | Max: ₹
-                  {offer.maxDiscount}
+                  Min Booking: ₹{offer.minBookingAmount}
+                  <br />
+                  Per User Limit: {offer.perUserLimit || 1}
+                  <br />
+                  {offer.newCustomerOnly && (
+                    <span className="text-warning fw-semibold">
+                      New Customers Only
+                    </span>
+                  )}
                 </div>
 
-                {/* Progress */}
+                {/* Usage */}
                 <div className="mb-3">
                   <div className="d-flex justify-content-between small mb-1">
                     <span>Usage</span>
@@ -231,7 +156,8 @@ const AllOffers = () => {
                 {/* Dates */}
                 <div className="small text-muted mb-3">
                   <FaCalendarAlt className="me-1" />
-                  {offer.startDate} → {offer.endDate}
+                  {new Date(offer.startDate).toLocaleDateString()} →{" "}
+                  {new Date(offer.endDate).toLocaleDateString()}
                 </div>
 
                 {/* Action */}
