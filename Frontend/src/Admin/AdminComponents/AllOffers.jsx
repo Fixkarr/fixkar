@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from "react";
+
 import {
   FaSearch,
   FaTag,
   FaCalendarAlt,
   FaBolt,
 } from "react-icons/fa";
+import axios from 'axios'
+import {server_url} from '../../App'
 
 const dummyOffers = [
   {
@@ -57,6 +59,19 @@ const AllOffers = () => {
   const [search, setSearch] = useState("");
   const [serviceFilter, setServiceFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+
+  useEffect(()=>{
+    const getAllOffers = async ()=>{
+        try {
+            const res = await axios.get(`${server_url}/api/admin/get-all-offers`, {withCredentials : true})
+            console.log(res);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    getAllOffers();
+  },[])
 
   const filteredOffers = offers.filter((offer) => {
     return (
