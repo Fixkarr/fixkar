@@ -75,38 +75,36 @@ const AllOffers = () => {
       className="container-fluid p-4"
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #0f172a, #020617)",
-        color: "#fff",
+        background: "#f8fafc",
       }}
     >
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold">
-          <span style={{ color: "#38bdf8" }}>Offers</span> Dashboard
+        <h2 className="fw-bold text-dark">
+          Offers Dashboard
         </h2>
-        <div className="text-secondary small">
-          Manage all your offers efficiently 🚀
+        <div className="text-muted small">
+          Manage all your offers efficiently
         </div>
       </div>
 
-      {/* Filters Card */}
+      {/* Filters */}
       <div
-        className="p-3 mb-4"
+        className="p-3 mb-4 shadow-sm"
         style={{
-          background: "rgba(255,255,255,0.05)",
+          background: "#ffffff",
           borderRadius: "12px",
-          backdropFilter: "blur(10px)",
         }}
       >
         <div className="row g-3">
           <div className="col-md-4">
             <div className="input-group">
-              <span className="input-group-text bg-dark text-white border-0">
+              <span className="input-group-text bg-white border">
                 <FaSearch />
               </span>
               <input
                 type="text"
-                className="form-control bg-dark text-white border-0"
+                className="form-control border"
                 placeholder="Search offers..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -116,7 +114,7 @@ const AllOffers = () => {
 
           <div className="col-md-3">
             <select
-              className="form-select bg-dark text-white border-0"
+              className="form-select border"
               onChange={(e) => setServiceFilter(e.target.value)}
             >
               <option value="">All Services</option>
@@ -128,7 +126,7 @@ const AllOffers = () => {
 
           <div className="col-md-3">
             <select
-              className="form-select bg-dark text-white border-0"
+              className="form-select border"
               onChange={(e) => setStatusFilter(e.target.value)}
             >
               <option value="">All Status</option>
@@ -148,24 +146,31 @@ const AllOffers = () => {
           return (
             <div className="col-md-4 mb-4" key={offer._id}>
               <div
-                className="p-4 h-100"
+                className="p-4 h-100 shadow-sm"
                 style={{
                   borderRadius: "16px",
-                  background:
-                    "linear-gradient(145deg, rgba(30,41,59,0.8), rgba(2,6,23,0.9))",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  backdropFilter: "blur(15px)",
+                  background: "#ffffff",
+                  border: "1px solid #e5e7eb",
                   transition: "0.3s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 10px 25px rgba(0,0,0,0.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "none";
+                  e.currentTarget.style.boxShadow = "";
                 }}
               >
                 {/* Title */}
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="fw-bold mb-0 text-info">
-                    <FaTag /> {offer.offerTitle}
+                  <h5 className="fw-bold mb-0 text-primary">
+                    <FaTag className="me-2" /> {offer.offerTitle}
                   </h5>
                   <span
                     className={`badge ${
-                      offer.isActive ? "bg-success" : "bg-danger"
+                      offer.isActive ? "bg-success" : "bg-secondary"
                     }`}
                   >
                     {offer.isActive ? "Active" : "Inactive"}
@@ -173,11 +178,8 @@ const AllOffers = () => {
                 </div>
 
                 {/* Service */}
-                <div className="mb-2 text-secondary small">
-                  Service:{" "}
-                  <span className="text-warning">
-                    {offer.service}
-                  </span>
+                <div className="mb-2 text-muted small">
+                  Service: <strong>{offer.service}</strong>
                 </div>
 
                 {/* Discount */}
@@ -190,7 +192,7 @@ const AllOffers = () => {
                 </div>
 
                 {/* Details */}
-                <div className="small text-secondary mb-3">
+                <div className="small text-muted mb-3">
                   Min: ₹{offer.minBookingAmount} | Max: ₹
                   {offer.maxDiscount}
                 </div>
@@ -205,21 +207,21 @@ const AllOffers = () => {
                   </div>
                   <div className="progress" style={{ height: "6px" }}>
                     <div
-                      className="progress-bar bg-info"
+                      className="progress-bar bg-primary"
                       style={{ width: `${usagePercent}%` }}
                     ></div>
                   </div>
                 </div>
 
                 {/* Dates */}
-                <div className="small text-secondary mb-3">
-                  <FaCalendarAlt /> {offer.startDate} →{" "}
-                  {offer.endDate}
+                <div className="small text-muted mb-3">
+                  <FaCalendarAlt className="me-1" />
+                  {offer.startDate} → {offer.endDate}
                 </div>
 
                 {/* Action */}
-                <button className="btn btn-sm w-100 btn-outline-info">
-                  <FaBolt /> Manage Offer
+                <button className="btn btn-outline-primary w-100">
+                  <FaBolt className="me-1" /> Manage Offer
                 </button>
               </div>
             </div>
@@ -228,8 +230,8 @@ const AllOffers = () => {
       </div>
 
       {filteredOffers.length === 0 && (
-        <div className="text-center mt-5 text-secondary">
-          No offers found 😔
+        <div className="text-center mt-5 text-muted">
+          No offers found
         </div>
       )}
     </div>
