@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { server_url } from "../../App";
 import DynamicForm from "./Utils/DynamicForm";
+import AllOffers from "./AllOffers";
 
 const adminpath = import.meta.env.VITE_ADMIN_PATH;
 
@@ -63,8 +64,13 @@ const ManageOffers = () => {
           </div>
         </div>
 
+        <div className="card-body bg-light">
+          <AllOffers/>
+        </div>
+
         {/* ===== BODY ===== */}
         <div className="card-body bg-light">
+
           {loading ? (
             <div className="text-center py-5">
               <ClipLoader size={35} />
