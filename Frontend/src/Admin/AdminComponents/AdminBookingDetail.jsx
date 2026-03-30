@@ -186,7 +186,7 @@ const paymentStatus = currentPaymentId?.status;
   <Info label="Offer Active" value={offerId?.isActive ? "Yes" : "No"} />
   <Info label="Offer Locked" value={offerLocked ? "Yes" : "No"} />
 </Section>
-        {/* <div
+        <div
                          className="p-3 mb-3 rounded-3 text-white shadow"
                           style={{
                             background: "linear-gradient(135deg, #1e293b, #334155)",
@@ -194,15 +194,15 @@ const paymentStatus = currentPaymentId?.status;
                         >
                           <Info label="Review Created At" value={formatDate(review?.createdAt)} />
                           <div className="d-flex justify-content-between">
-                            <strong>{customerName}</strong>
+                            <strong>{review.customerName}</strong>
                             <span className="text-warning">
-                              {Array.from({ length: review }).map((_, i) => (
+                              {Array.from({ length: review?.rating }).map((_, i) => (
                                 <FaStar key={i} />
                               ))}
                             </span>
                           </div>
-                          <p className="small">{reviewDesc}</p>
-                        </div> */}
+                          <p className="small">{review?.review}</p>
+                        </div>
 
     </div>
   );
