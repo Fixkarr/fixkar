@@ -194,7 +194,7 @@ const paymentStatus = currentPaymentId?.status;
                         >
                           <Info label="Review Created At" value={formatDate(review?.createdAt)} />
                           <div className="d-flex justify-content-between">
-                            <strong>{review.customerName}</strong>
+                            <strong>{review?.customerName}</strong>
                             <span className="text-warning">
                               {Array.from({ length: review?.rating }).map((_, i) => (
                                 <FaStar key={i} />
