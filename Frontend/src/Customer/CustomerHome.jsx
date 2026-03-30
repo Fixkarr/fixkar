@@ -6,7 +6,7 @@ import { setSelectedLocation, setSelectedService } from '../redux/location.slice
 import { useNavigate } from 'react-router-dom'
 
 import MobileNotVerified from './MobileNotVerified'
-import { FaTools } from "react-icons/fa";
+import { FaEnvelope, FaIdBadge, FaPhone, FaTools } from "react-icons/fa";
 import useGetMyBookings from '../hooks/useGetMyBookings'
 import useGetNotifications from '../hooks/useGetNotifications'
 import { generateFCMToken } from '../utils/generateFCMToken'
@@ -26,7 +26,6 @@ const CustomerHome = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const userId = currentUserData?.user?.userId?._id;
 
   const handleLocationSelect = (location)=>{
     dispatch(setSelectedLocation(location));
@@ -104,13 +103,22 @@ const CustomerHome = () => {
       <DashboardNavigator/>
     </div>
 
-    <h4 className="fw-bold">
+  <div className='d-flex flex-column gap-3'>
+     <div>
+     <h4 className="fw-bold">
       Hi, {currentUserData?.user?.userId?.fullName} 👋
     </h4>
 
     <p className="small opacity-75 mb-3">
       Book trusted professionals in seconds
     </p>
+   </div>
+   <div>
+    <p><FaIdBadge/> {currentUserData?.user?.userId._id}</p>
+    <p><FaPhone/> {currentUserData?.user?.userId?.mobile}</p>
+    <p><FaEnvelope/> {currentUserData?.user?.userId?.email}</p>
+   </div>
+  </div>
 
     {/* Feature Badges */}
     <div className="d-flex gap-2 flex-wrap">
@@ -127,7 +135,7 @@ const CustomerHome = () => {
   </div>
 
   {/* 🔵 Floating Search Section */}
-  <div className="container" style={{marginTop:"-40px"}}>
+  <div className="container" style={{marginTop:"40px"}}>
     <div className="card border-0 shadow-lg rounded-4 p-3">
 
       <h6 className="fw-semibold text-primary mb-3">
