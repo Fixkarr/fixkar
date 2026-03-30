@@ -38,6 +38,7 @@ import { toast } from "react-toastify";
 import Section from "./Section";
 import Info from "./Info";
 import BankVerificationActions from "./BankVerificationActions";
+import FormResponseSummary from "./FormResponseSummary";
 
 const ProfessionalDetailCard = ({ p }) => {
   const [reason, setReason] = useState("");
@@ -152,6 +153,7 @@ const ProfessionalDetailCard = ({ p }) => {
         icon={p.onBoarded ? <FaCheckCircle /> : <FaTimesCircle />}
       />
     </Section>
+
 
     {/* ================= Terms Acceptance And Professional Acceptance ================= */}
     {p.userId?.termsAcceptance && p.userId?.professionalAcceptance && (
@@ -484,7 +486,9 @@ const ProfessionalDetailCard = ({ p }) => {
       
 
         {/* ================= CHARGES ================= */}
-       
+       <Section title="Charges" icon={<FaMoneyBillWave/>}>
+          <FormResponseSummary summary={p?.charges?.summary}/>
+       </Section>
 
         {/* ================= BUSY DAYS ================= */}
        <Section title="Busy Days" icon={<FaCalendarAlt />}>
