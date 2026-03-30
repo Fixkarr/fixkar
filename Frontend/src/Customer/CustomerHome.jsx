@@ -112,16 +112,7 @@ const CustomerHome = () => {
     <p className="small opacity-75 mb-3">
       Book trusted professionals in seconds
     </p>
-   </div>
-   <div>
-    <p><FaIdBadge/> {currentUserData?.user?.userId._id}</p>
-    <p><FaPhone/> {currentUserData?.user?.userId?.mobile}</p>
-    <p><FaEnvelope/> {currentUserData?.user?.userId?.email}</p>
-   </div>
-  </div>
-
-    {/* Feature Badges */}
-    <div className="d-flex gap-2 flex-wrap">
+     <div className="d-flex gap-2 flex-wrap">
       <span className="badge bg-light text-primary rounded-pill px-3 py-2">
         Verified
       </span>
@@ -132,6 +123,16 @@ const CustomerHome = () => {
         Nearby Experts
       </span>
     </div>
+   </div>
+   <div>
+    <p><FaIdBadge/> {currentUserData?.user?.userId._id}</p>
+    <p><FaPhone/> {currentUserData?.user?.userId?.mobile}</p>
+    <p><FaEnvelope/> {currentUserData?.user?.userId?.email}</p>
+   </div>
+  </div>
+
+    {/* Feature Badges */}
+   
   </div>
 
   {/* 🔵 Floating Search Section */}
