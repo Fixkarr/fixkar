@@ -47,6 +47,8 @@ export const getAllProfessionals = async (req,res)=>{
   }).populate({
     path : "selectedSkills",
     select : "name"
+  }).populate({
+    path : "charges",
   });
   
         res.status(200).json({
