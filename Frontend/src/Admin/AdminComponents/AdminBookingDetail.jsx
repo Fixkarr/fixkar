@@ -7,15 +7,15 @@ import {
   FaRoute,
   FaStar,
   FaUser,
-  FaTools,
-  FaFileInvoice,
+  FaPhone,
+  FaGift,
 } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { server_url } from "../../App";
 import { toast } from "react-toastify";
 import { GetStatusBadge } from "../../utils/GetStatusBadge";
-import { formatDate, formatTime } from "../../utils/formatTime&Date";
+import { formatDate } from "../../utils/formatTime&Date";
 
 const AdminBookingDetail = () => {
   const [booking, setBooking] = useState(null);
@@ -36,12 +36,15 @@ const AdminBookingDetail = () => {
     fetchBooking();
   }, [bookingId]);
 
-  if (!booking) return <div className="text-center mt-5">Loading...</div>;
+  if (!booking) return <div className="text-center mt-5 text-dark">Loading...</div>;
 
   const {
     _id,
     status,
     customerName,
+    customerId,
+    professionalId,
+    mobileNumber,
     problemDescription,
     workDate,
     workTime,
@@ -52,105 +55,104 @@ const AdminBookingDetail = () => {
     finalCustomerPayable,
     audioMessages,
     quoteAmount,
+    offerId,
     currentPaymentId,
     review,
+    createdAt,
+    startedAt,
+    quoteSentAt,
   } = booking;
 
   return (
-    <div className="container py-4">
+    <div style={{ background: "#0f172a", minHeight: "100vh" }} className="p-4">
+
       {/* HEADER */}
-      <div className="p-4 rounded-4 mb-4 shadow-lg text-white"
-        style={{
-          background: "linear-gradient(135deg,#0f2027,#203a43,#2c5364)"
-        }}>
-        <h3 className="fw-bold">Booking Overview</h3>
-        <div className="d-flex flex-wrap gap-3 mt-2">
-          <span>ID: {_id}</span>
-          <GetStatusBadge status={status} />
-        </div>
+      <div className="p-4 rounded-4 mb-4 shadow text-white"
+        style={{ background: "linear-gradient(135deg,#1e293b,#334155)" }}>
+        <h3>Booking Details</h3>
+        <p>ID: {_id}</p>
+        <GetStatusBadge status={status} />
+        <p>Created: {formatDate(createdAt)}</p>
       </div>
 
-      {/* CUSTOMER + WORK */}
-      <div className="row g-4">
-        <div className="col-md-6">
-          <div className="glass-card">
-            <h5><FaUser /> Customer</h5>
-            <p><strong>Name:</strong> {customerName}</p>
-            <p><strong>Problem:</strong> {problemDescription}</p>
-          </div>
-        </div>
-
-        <div className="col-md-6">
-          <div className="glass-card">
-            <h5><FaTools /> Work Details</h5>
-            <p><FaCalendarAlt /> {formatDate(workDate)}</p>
-            <p><FaClock /> {workTime}</p>
-            <p><FaMapMarkerAlt /> {workAddress}</p>
-            <p><FaRoute /> {distanceInKm} km</p>
-          </div>
-        </div>
+      {/* CUSTOMER */}
+      <div className="card mb-3 p-3 bg-dark text-white">
+        <h5><FaUser /> Customer Info</h5>
+        <p>Name: {customerName}</p>
+        <p>ID: {customerId}</p>
+        <p><FaPhone /> {mobileNumber}</p>
       </div>
+
+      {/* WORK */}
+      <div className="card mb-3 p-3 bg-dark text-white">
+        <h5>Work Details</h5>
+        <p>{problemDescription}</p>
+        <p><FaCalendarAlt /> {formatDate(workDate)}</p>
+        <p><FaClock /> {workTime}</p>
+        <p><FaMapMarkerAlt /> {workAddress}</p>
+        <p><FaRoute /> {distanceInKm} km</p>
+        <p><FaMoneyBillWave /> Visiting: ₹{visitingCharge}</p>
+      </div>
+
+      {/* TIMELINE */}
+      <div className="card mb-3 p-3 bg-dark text-white">
+        <h5>Progress</h5>
+        <p>Started: {startedAt}</p>
+        <p>Quote Sent: {quoteSentAt}</p>
+      </div>
+
+      {/* OFFER */}
+      {offerId && (
+        <div className="card mb-3 p-3 bg-dark text-white">
+          <h5><FaGift /> Offer</h5>
+          <p>{offerId.offerTitle}</p>
+          <p>
+            {offerId.discountType === "percentage"
+              ? `${offerId.discountValue}% OFF`
+              : `₹${offerId.discountValue} OFF`}
+          </p>
+        </div>
+      )}
 
       {/* PAYMENT */}
-      <div className="glass-card mt-4">
-        <h5><FaFileInvoice /> Payment Summary</h5>
-
-        <div className="row">
-          <div className="col-md-4">
-            <p>Quote: ₹{quoteAmount}</p>
-          </div>
-          <div className="col-md-4 text-danger">
-            <p>Discount: -₹{discountAmount}</p>
-          </div>
-          <div className="col-md-4 text-success fw-bold">
-            <p>Final: ₹{finalCustomerPayable}</p>
-          </div>
-        </div>
+      <div className="card mb-3 p-3 bg-dark text-white">
+        <h5>Payment</h5>
+        <p>Quote: ₹{quoteAmount}</p>
+        <p className="text-danger">Discount: -₹{discountAmount}</p>
+        <p className="text-success">Final: ₹{finalCustomerPayable}</p>
 
         <hr />
 
         <p>Paid: ₹{currentPaymentId?.amount}</p>
         <p>Status: {currentPaymentId?.status}</p>
         <p>Mode: {currentPaymentId?.paymentMode}</p>
+        <p>OrderId: {currentPaymentId?.razorpayOrderId}</p>
+        <p>PaymentId: {currentPaymentId?.razorpayPaymentId}</p>
       </div>
 
       {/* AUDIO */}
       {audioMessages?.length > 0 && (
-        <div className="glass-card mt-4">
+        <div className="card mb-3 p-3 bg-dark text-white">
           <h5>Audio Messages</h5>
-          {audioMessages.map((audio, i) => (
-            <audio key={i} controls src={audio.url} className="w-100 mb-2"/>
+          {audioMessages.map((a, i) => (
+            <audio key={i} controls src={a.url} className="w-100 mb-2"/>
           ))}
         </div>
       )}
 
       {/* REVIEW */}
       {review && (
-        <div className="glass-card mt-4">
-          <h5>Customer Review</h5>
-          <div className="d-flex justify-content-between">
-            <strong>{review.customerName}</strong>
-            <span className="text-warning">
-              {Array.from({ length: review.rating }).map((_, i) => (
-                <FaStar key={i}/>
-              ))}
-            </span>
+        <div className="card mb-3 p-3 bg-dark text-white">
+          <h5>Review</h5>
+          <strong>{review.customerName}</strong>
+          <div className="text-warning">
+            {Array.from({ length: review.rating }).map((_, i) => (
+              <FaStar key={i} />
+            ))}
           </div>
           <p>{review.review}</p>
         </div>
       )}
-
-      {/* CSS */}
-      <style jsx>{`
-        .glass-card {
-          background: rgba(255,255,255,0.1);
-          backdrop-filter: blur(12px);
-          border-radius: 20px;
-          padding: 20px;
-          color: white;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        }
-      `}</style>
     </div>
   );
 };
