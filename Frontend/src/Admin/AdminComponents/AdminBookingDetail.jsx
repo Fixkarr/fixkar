@@ -208,8 +208,4 @@ const paymentStatus = currentPaymentId?.status;
   );
 };
 
-/* ================= REUSABLE UI ================= */
-
-
-
 export default AdminBookingDetail;
