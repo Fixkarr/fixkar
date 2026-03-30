@@ -88,7 +88,7 @@ const Login = () => {
       }
       
       const response = await axios.post(`${server_url}/api/auth/google-auth-login`, user, {withCredentials : true})
-      dispatch(setCurrentUserData(response.data))
+      dispatch(setCurrentUserData(response?.data))
       setGloading(false)
     } catch (error) {
   
