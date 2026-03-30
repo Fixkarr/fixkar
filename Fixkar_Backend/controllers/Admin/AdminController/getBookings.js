@@ -43,9 +43,7 @@ export const getAdminBookingById = async (req, res) => {
             })
         }
 
-        const booking = await Booking.findById(bookingId).populate({
-            path: "professionalId",
-        }).populate('currentPaymentId').populate('review');
+        const booking = await Booking.findById(bookingId).populate('currentPaymentId').populate('review');
 
         if (!booking) {
             return res.status(400).json({
