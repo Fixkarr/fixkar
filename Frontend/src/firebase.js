@@ -4,12 +4,12 @@ import {getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVe
 
 const firebaseConfig = {
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: "fixkar-62c40.firebaseapp.com",
-  projectId: "fixkar-62c40",
-  storageBucket: "fixkar-62c40.firebasestorage.app",
-  messagingSenderId: "797851996951",
-  appId: "1:797851996951:web:b4f30d322684ed82191d52",
-  measurementId: "G-FSS54SSSK2"
+  authDomain: "fixkar-dev.firebaseapp.com",
+  projectId: "fixkar-dev",
+  storageBucket: "fixkar-dev.firebasestorage.app",
+  messagingSenderId: "229725846095",
+  appId: "1:229725846095:web:65fc4a8495ec043835083a",
+  measurementId: "G-1Z7FKM2JDR"
 }
 
 const app = initializeApp(firebaseConfig);

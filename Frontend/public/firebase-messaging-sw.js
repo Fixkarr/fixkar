@@ -2,11 +2,11 @@ importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"
 importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js");
 
 firebase.initializeApp({
-  apiKey: "AIzaSyA6UvlFZtuNIR_ciOc_JoiGSGLZtbeqins",
-  authDomain: "fixkar-62c40.firebaseapp.com",
-  projectId: "fixkar-62c40",
-  messagingSenderId: "797851996951",
-  appId: "1:797851996951:web:b4f30d322684ed82191d52",
+  apiKey: "AIzaSyCBsYjwK6rv1ow1Lbm70eHgBxelWg2UxIk",
+  authDomain: "fixkar-dev.firebaseapp.com",
+  projectId: "fixkar-dev",
+  messagingSenderId: "229725846095",
+  appId: "1:229725846095:web:65fc4a8495ec043835083a",
 });
 
 const messaging = firebase.messaging();
