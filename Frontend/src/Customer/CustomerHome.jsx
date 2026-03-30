@@ -103,7 +103,7 @@ const CustomerHome = () => {
       <DashboardNavigator/>
     </div>
 
-  <div className='d-flex flex-column gap-3'>
+  <div className='d-flex justify-content-between'>
      <div>
      <h4 className="fw-bold">
       Hi, {currentUserData?.user?.userId?.fullName} 👋
