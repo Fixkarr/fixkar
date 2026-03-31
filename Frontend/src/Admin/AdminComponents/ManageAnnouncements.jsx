@@ -6,19 +6,23 @@ import {
   FaTrash,
   FaUser,
   FaUsers,
+  FaLink,
 } from "react-icons/fa";
 
 const ManageAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
+
   const [formData, setFormData] = useState({
     title: "",
     message: "",
     audience: "all",
     userType: "all",
     image: null,
+    link: "", // 🔥 NEW FIELD
   });
 
-  const [banner, setBanner] = useState(null);
+  const [bannerImages, setBannerImages] = useState([]);
+  const [tempBanner, setTempBanner] = useState([]);
 
   // Handle input
   const handleChange = (e) => {
@@ -28,6 +32,19 @@ const ManageAnnouncements = () => {
   // Handle image
   const handleImage = (e) => {
     setFormData({ ...formData, image: e.target.files[0] });
+  };
+
+  // Handle banner multiple images
+  const handleBannerImages = (e) => {
+    const files = Array.from(e.target.files);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setTempBanner(previews);
+  };
+
+  // Apply banner images
+  const applyBanner = () => {
+    setBannerImages(tempBanner);
+    setTempBanner([]); // clear preview input
   };
 
   // Submit announcement
@@ -44,19 +61,26 @@ const ManageAnnouncements = () => {
 
     setAnnouncements([newAnnouncement, ...announcements]);
 
-    // reset
     setFormData({
       title: "",
       message: "",
       audience: "all",
       userType: "all",
       image: null,
+      link: "",
     });
   };
 
   // Delete
   const deleteAnnouncement = (id) => {
     setAnnouncements(announcements.filter((a) => a.id !== id));
+  };
+
+  // Redirect click
+  const handleRedirect = (link) => {
+    if (link) {
+      window.open(link, "_blank");
+    }
   };
 
   return (
@@ -66,7 +90,7 @@ const ManageAnnouncements = () => {
       </h3>
 
       <div className="row">
-        {/* LEFT FORM */}
+        {/* LEFT */}
         <div className="col-md-5">
           <div className="card shadow-lg border-0 rounded-4 p-4">
             <h5 className="mb-3">Create Announcement</h5>
@@ -89,7 +113,16 @@ const ManageAnnouncements = () => {
                 onChange={handleChange}
               />
 
-              {/* Audience */}
+              {/* 🔥 LINK INPUT */}
+              <input
+                type="text"
+                name="link"
+                placeholder="Redirect Link (optional)"
+                className="form-control mb-3"
+                value={formData.link}
+                onChange={handleChange}
+              />
+
               <select
                 name="audience"
                 className="form-select mb-3"
@@ -101,7 +134,6 @@ const ManageAnnouncements = () => {
                 <option value="professional">Professionals</option>
               </select>
 
-              {/* User Type */}
               <select
                 name="userType"
                 className="form-select mb-3"
@@ -115,7 +147,6 @@ const ManageAnnouncements = () => {
                 </option>
               </select>
 
-              {/* Image */}
               <input
                 type="file"
                 className="form-control mb-3"
@@ -128,31 +159,55 @@ const ManageAnnouncements = () => {
             </form>
           </div>
 
-          {/* Banner Upload */}
+          {/* 🔥 MULTIPLE BANNER SYSTEM */}
           <div className="card mt-4 shadow border-0 rounded-4 p-4">
             <h5>
-              <FaImage /> Change Banner
+              <FaImage /> Banner Slider
             </h5>
 
             <input
               type="file"
+              multiple
               className="form-control mt-3"
-              onChange={(e) =>
-                setBanner(URL.createObjectURL(e.target.files[0]))
-              }
+              onChange={handleBannerImages}
             />
 
-            {banner && (
-              <img
-                src={banner}
-                alt="banner"
-                className="img-fluid mt-3 rounded"
-              />
-            )}
+            {/* Preview */}
+            <div className="d-flex gap-2 mt-3 flex-wrap">
+              {tempBanner.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt=""
+                  width="80"
+                  className="rounded"
+                />
+              ))}
+            </div>
+
+            <button
+              className="btn btn-primary mt-3 w-100"
+              onClick={applyBanner}
+            >
+              Apply Banner Images
+            </button>
+
+            {/* Active banner */}
+            <div className="d-flex gap-2 mt-3 flex-wrap">
+              {bannerImages.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt=""
+                  width="80"
+                  className="rounded border"
+                />
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* RIGHT LIST */}
+        {/* RIGHT */}
         <div className="col-md-7">
           <div className="card shadow-lg border-0 rounded-4 p-4">
             <h5 className="mb-3">All Announcements</h5>
@@ -164,7 +219,9 @@ const ManageAnnouncements = () => {
             {announcements.map((item) => (
               <div
                 key={item.id}
-                className="border rounded-3 p-3 mb-3 position-relative"
+                className="border rounded-3 p-3 mb-3 position-relative cursor-pointer"
+                onClick={() => handleRedirect(item.link)}
+                style={{ cursor: item.link ? "pointer" : "default" }}
               >
                 <h6 className="fw-bold">{item.title}</h6>
                 <p>{item.message}</p>
@@ -177,7 +234,13 @@ const ManageAnnouncements = () => {
                   />
                 )}
 
-                <div className="d-flex gap-2 small text-muted">
+                {item.link && (
+                  <small className="text-primary">
+                    <FaLink /> Click to open link
+                  </small>
+                )}
+
+                <div className="d-flex gap-2 small text-muted mt-2">
                   <span>
                     <FaUsers /> {item.audience}
                   </span>
@@ -188,7 +251,10 @@ const ManageAnnouncements = () => {
 
                 <button
                   className="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
-                  onClick={() => deleteAnnouncement(item.id)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // important
+                    deleteAnnouncement(item.id);
+                  }}
                 >
                   <FaTrash />
                 </button>
