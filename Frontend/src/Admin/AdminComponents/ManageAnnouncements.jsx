@@ -56,25 +56,43 @@ const ManageAnnouncements = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newAnnouncement = {
-      id: Date.now(),
-      ...formData,
-      image: formData.image
-        ? URL.createObjectURL(formData.image)
-        : null,
-    };
+      const payload = {
+    title: formData.title,
+    message: formData.message,
+    audience: formData.audience,
+    userType: formData.audience === "all" ? formData.userType : null,
+    professions:
+      formData.audience === "professional"
+        ? formData.professions
+        : [],
+    link: formData.link || null,
+    image: formData.image || null, // backend me file jayegi
+    createdAt: new Date().toISOString(),
+  };
 
-    setAnnouncements([newAnnouncement, ...announcements]);
+    console.log("🚀 Announcement Payload:", payload);
 
-    setFormData({
-      title: "",
-      message: "",
-      audience: "all",
-      userType: "all",
-      image: null,
-      link: "",
-      professions: [],
-    });
+  // (optional UI preview ke liye)
+  const newAnnouncement = {
+    id: Date.now(),
+    ...payload,
+    image: formData.image
+      ? URL.createObjectURL(formData.image)
+      : null,
+  };
+
+  setAnnouncements([newAnnouncement, ...announcements]);
+
+  // reset
+  setFormData({
+    title: "",
+    message: "",
+    audience: "all",
+    userType: "all",
+    image: null,
+    link: "",
+    professions: [],
+  });
   };
 
   // Delete
@@ -139,18 +157,20 @@ const ManageAnnouncements = () => {
               </select>
 
               {/* User Type */}
-              <select
-                name="userType"
-                className="form-select mb-3"
-                value={formData.userType}
-                onChange={handleChange}
-              >
-                <option value="all">All</option>
-                <option value="registered">Registered</option>
-                <option value="non-registered">
-                  Non Registered
-                </option>
-              </select>
+             {formData.audience === "all" && (
+                <select
+                    name="userType"
+                    className="form-select mb-3"
+                    value={formData.userType}
+                    onChange={handleChange}
+                >
+                    <option value="all">All</option>
+                    <option value="registered">Registered</option>
+                    <option value="non-registered">
+                    Non Registered
+                    </option>
+                </select>
+                )}
 
               {/* 🔥 PROFESSION CHECKBOX */}
               <div className="mb-3">
