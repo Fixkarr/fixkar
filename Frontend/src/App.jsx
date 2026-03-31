@@ -73,6 +73,7 @@ import FixkarLoader from "./Components/FixkarLoader.jsx";
 import ManageOffers from "./Admin/AdminComponents/ManageOffers.jsx";
 import { generateFCMToken } from "./utils/generateFCMToken.js";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
+import ManageAnnouncements from "./Admin/AdminComponents/ManageAnnouncements.jsx";
 
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
@@ -419,7 +420,7 @@ const App = () => {
           <Route path={`${adminpath}/manage-forms`} element={currentAdmin?.role === "super_admin" ? <ManageForms/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-offers`} element={currentAdmin?.role === "super_admin" ? <ManageOffers/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-forms/create`} element={currentAdmin?.role === "super_admin" ? <CreateForm/> : <Navigate to={`${adminpath}/home`}/>}/>
-
+          <Route path={`${adminpath}/manage-announcements`} element={currentAdmin?.role === "super_admin" ? <ManageAnnouncements/> : <Navigate to={`${adminpath}/home`}/>}/>
       </Route>
 
      

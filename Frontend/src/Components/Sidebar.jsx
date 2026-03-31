@@ -167,6 +167,19 @@ const dispatch = useDispatch()
 
         <li className="nav-item" style={{fontSize : "0.5vmax"}}>
           <NavLink
+           to={`${adminpath}/manage-announcements`}
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FiMessageSquare />
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Manage Announcements</span>
+          </NavLink>
+        </li>
+        <li className="nav-item" style={{fontSize : "0.5vmax"}}>
+          <NavLink
             to="/customer/contact"
             className={({ isActive }) =>
               `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
