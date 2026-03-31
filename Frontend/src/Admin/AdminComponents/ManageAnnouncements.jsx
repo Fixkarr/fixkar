@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   FaBullhorn,
-  FaImage,
   FaTrash,
   FaUser,
   FaUsers,
@@ -18,11 +17,17 @@ const ManageAnnouncements = () => {
     audience: "all",
     userType: "all",
     image: null,
-    link: "", // 🔥 NEW FIELD
+    link: "",
+    professions: [], // 🔥 NEW
   });
 
-  const [bannerImages, setBannerImages] = useState([]);
-  const [tempBanner, setTempBanner] = useState([]);
+  const professionsList = [
+    "electrician",
+    "plumber",
+    "carpenter",
+    "painter",
+    "ac repair",
+  ];
 
   // Handle input
   const handleChange = (e) => {
@@ -34,20 +39,20 @@ const ManageAnnouncements = () => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
-  // Handle banner multiple images
-  const handleBannerImages = (e) => {
-    const files = Array.from(e.target.files);
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setTempBanner(previews);
+  // 🔥 Handle profession checkbox
+  const handleProfessionChange = (profession) => {
+    let updated = [...formData.professions];
+
+    if (updated.includes(profession)) {
+      updated = updated.filter((p) => p !== profession);
+    } else {
+      updated.push(profession);
+    }
+
+    setFormData({ ...formData, professions: updated });
   };
 
-  // Apply banner images
-  const applyBanner = () => {
-    setBannerImages(tempBanner);
-    setTempBanner([]); // clear preview input
-  };
-
-  // Submit announcement
+  // Submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -68,6 +73,7 @@ const ManageAnnouncements = () => {
       userType: "all",
       image: null,
       link: "",
+      professions: [],
     });
   };
 
@@ -76,11 +82,9 @@ const ManageAnnouncements = () => {
     setAnnouncements(announcements.filter((a) => a.id !== id));
   };
 
-  // Redirect click
+  // Redirect
   const handleRedirect = (link) => {
-    if (link) {
-      window.open(link, "_blank");
-    }
+    if (link) window.open(link, "_blank");
   };
 
   return (
@@ -113,7 +117,6 @@ const ManageAnnouncements = () => {
                 onChange={handleChange}
               />
 
-              {/* 🔥 LINK INPUT */}
               <input
                 type="text"
                 name="link"
@@ -123,6 +126,7 @@ const ManageAnnouncements = () => {
                 onChange={handleChange}
               />
 
+              {/* Audience */}
               <select
                 name="audience"
                 className="form-select mb-3"
@@ -134,6 +138,7 @@ const ManageAnnouncements = () => {
                 <option value="professional">Professionals</option>
               </select>
 
+              {/* User Type */}
               <select
                 name="userType"
                 className="form-select mb-3"
@@ -147,6 +152,40 @@ const ManageAnnouncements = () => {
                 </option>
               </select>
 
+              {/* 🔥 PROFESSION CHECKBOX */}
+              <div className="mb-3">
+                <label className="fw-semibold">
+                  Target Professions
+                </label>
+
+                <div className="d-flex flex-wrap gap-2 mt-2">
+                  {professionsList.map((prof) => (
+                    <div key={prof} className="form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        checked={formData.professions.includes(prof)}
+                        onChange={() =>
+                          handleProfessionChange(prof)
+                        }
+                        disabled={
+                          formData.audience !== "professional"
+                        }
+                      />
+                      <label className="form-check-label">
+                        {prof}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+
+                {formData.audience !== "professional" && (
+                  <small className="text-muted">
+                    Select "Professional" to enable this
+                  </small>
+                )}
+              </div>
+
               <input
                 type="file"
                 className="form-control mb-3"
@@ -158,53 +197,6 @@ const ManageAnnouncements = () => {
               </button>
             </form>
           </div>
-
-          {/* 🔥 MULTIPLE BANNER SYSTEM */}
-          <div className="card mt-4 shadow border-0 rounded-4 p-4">
-            <h5>
-              <FaImage /> Banner Slider
-            </h5>
-
-            <input
-              type="file"
-              multiple
-              className="form-control mt-3"
-              onChange={handleBannerImages}
-            />
-
-            {/* Preview */}
-            <div className="d-flex gap-2 mt-3 flex-wrap">
-              {tempBanner.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt=""
-                  width="80"
-                  className="rounded"
-                />
-              ))}
-            </div>
-
-            <button
-              className="btn btn-primary mt-3 w-100"
-              onClick={applyBanner}
-            >
-              Apply Banner Images
-            </button>
-
-            {/* Active banner */}
-            <div className="d-flex gap-2 mt-3 flex-wrap">
-              {bannerImages.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt=""
-                  width="80"
-                  className="rounded border"
-                />
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* RIGHT */}
@@ -212,14 +204,10 @@ const ManageAnnouncements = () => {
           <div className="card shadow-lg border-0 rounded-4 p-4">
             <h5 className="mb-3">All Announcements</h5>
 
-            {announcements.length === 0 && (
-              <p>No announcements yet</p>
-            )}
-
             {announcements.map((item) => (
               <div
                 key={item.id}
-                className="border rounded-3 p-3 mb-3 position-relative cursor-pointer"
+                className="border rounded-3 p-3 mb-3"
                 onClick={() => handleRedirect(item.link)}
                 style={{ cursor: item.link ? "pointer" : "default" }}
               >
@@ -240,19 +228,28 @@ const ManageAnnouncements = () => {
                   </small>
                 )}
 
-                <div className="d-flex gap-2 small text-muted mt-2">
-                  <span>
+                <div className="small text-muted mt-2">
+                  <div>
                     <FaUsers /> {item.audience}
-                  </span>
-                  <span>
+                  </div>
+                  <div>
                     <FaUser /> {item.userType}
-                  </span>
+                  </div>
+
+                  {/* 🔥 SHOW PROFESSIONS */}
+                  {item.audience === "professional" &&
+                    item.professions.length > 0 && (
+                      <div>
+                        <strong>Professions:</strong>{" "}
+                        {item.professions.join(", ")}
+                      </div>
+                    )}
                 </div>
 
                 <button
                   className="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
                   onClick={(e) => {
-                    e.stopPropagation(); // important
+                    e.stopPropagation();
                     deleteAnnouncement(item.id);
                   }}
                 >
