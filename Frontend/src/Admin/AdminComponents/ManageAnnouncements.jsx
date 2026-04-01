@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import {
   FaBullhorn,
@@ -5,6 +6,7 @@ import {
   FaUsers,
   FaLink,
 } from "react-icons/fa";
+import { server_url } from "../../App";
 
 const ManageAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -50,55 +52,82 @@ const ManageAnnouncements = () => {
   };
 
   // Submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      const payload = {
-    title: formData.title,
-    message: formData.message,
-    audience: formData.audience,
-    professions:
-      formData.audience === "professional"
-        ? formData.professions
-        : [],
-    link: formData.link || null,
-    image: formData.image || null, // backend me file jayegi
-    createdAt: new Date().toISOString(),
-  };
+  const formDataToSend = new FormData();
 
-    console.log("🚀 Announcement Payload:", payload);
+  // ✅ Basic fields
+  formDataToSend.append("title", formData.title);
+  formDataToSend.append("message", formData.message);
+  formDataToSend.append("audience", formData.audience);
 
-  // (optional UI preview ke liye)
-  const newAnnouncement = {
-    id: Date.now(),
-    ...payload,
-    image: formData.image
-      ? URL.createObjectURL(formData.image)
-      : null,
-  };
+  // ✅ Professions (only if professional)
+  if (formData.audience === "professional") {
+    formData.professions.forEach((prof) => {
+      formDataToSend.append("professions", prof);
+    });
+  }
 
-  setAnnouncements([newAnnouncement, ...announcements]);
+  // ✅ Optional fields
+  if (formData.link) {
+    formDataToSend.append("link", formData.link);
+  }
 
-  // reset
-  setFormData({
-    title: "",
-    message: "",
-    audience: "all",
-    image: null,
-    link: "",
-    professions: [],
-  });
-  };
+  // ✅ Image
+  if (formData.image) {
+    formDataToSend.append("image", formData.image);
+  }
+
+  // 🔥 DEBUG (very important)
+  for (let pair of formDataToSend.entries()) {
+    console.log(pair[0], pair[1]);
+  }
+
+  try {
+    const res = await axios.post(`${server_url}/api/admin/announcement`, formDataToSend, {withCredentials : true} );
+
+    console.log("✅ API Response:", res.data);
+
+    // UI preview (optional)
+    const newAnnouncement = {
+      id: Date.now(),
+      title: formData.title,
+      message: formData.message,
+      audience: formData.audience,
+      professions: formData.professions,
+      link: formData.link,
+      image: formData.image
+        ? URL.createObjectURL(formData.image)
+        : null,
+    };
+
+    setAnnouncements([newAnnouncement, ...announcements]);
+
+    // reset
+    setFormData({
+      title: "",
+      message: "",
+      audience: "all",
+      image: null,
+      link: "",
+      professions: [],
+    });
+
+  } catch (error) {
+    console.error("❌ Error:", error.response?.data || error.message);
+  }
+};
 
   // Delete
-  const deleteAnnouncement = (id) => {
-    setAnnouncements(announcements.filter((a) => a.id !== id));
-  };
+      const deleteAnnouncement = (id) => {
+        setAnnouncements(announcements.filter((a) => a.id !== id));
+      };
 
-  // Redirect
-  const handleRedirect = (link) => {
-    if (link) window.open(link, "_blank");
-  };
+      // Redirect
+      const handleRedirect = (link) => {
+        if (link) window.open(link, "_blank");
+      };
 
   return (
     <div className="container-fluid p-4">
