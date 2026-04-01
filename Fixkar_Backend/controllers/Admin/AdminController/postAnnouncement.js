@@ -1,5 +1,5 @@
 import { Notification } from "../../../models/notificationModel.js";
-import { User } from "../../../models/userModel.js";
+import { Professional, User } from "../../../models/userModel.js";
 import { pushNotification } from "../../../services/pushNotification.js";
 import { sendBulkEmail } from "../../../utils/mailer.js";
 import { uploadToCloudinary } from "../../../utils/uploadToCloudinary.js";
@@ -60,10 +60,22 @@ export const postAnnouncement = async (req, res) => {
     users = await User.find({ role: "customer" });
 
     } else if (audience === "professional") {
-    users = await User.find({
-        role: "professional",
-        profession: { $in: professions },
-    });
+        
+    const professionals = await Professional.find()
+    .populate("profession", "name");
+
+  // 🔥 Step 2: filter by profession
+  const filteredProfessionals = professionals.filter((p) =>
+    professions.includes(p.profession?.name)
+  );
+
+  // 🔥 Step 3: get userIds
+  const userIds = filteredProfessionals.map((p) => p.userId);
+
+  // 🔥 Step 4: find users
+  users = await User.find({
+    _id: { $in: userIds },
+  });
 
     } else if (audience === "all") {
     users = await User.find({});
@@ -156,7 +168,7 @@ export const postAnnouncement = async (req, res) => {
 </body>
 </html>`);
 
-        const notification =   await pushNotification({
+         await pushNotification({
             userId: users.map(u => u._id),
             title,
             message,
