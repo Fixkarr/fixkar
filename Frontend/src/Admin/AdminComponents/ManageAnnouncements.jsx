@@ -186,20 +186,20 @@ const ManageAnnouncements = () => {
 
                 <div className="d-flex flex-wrap gap-2 mt-2">
                   {services?.map((prof) => (
-                    <div key={prof} className="form-check">
+                    <div key={prof._id} className="form-check">
                       <input
                         type="checkbox"
                         className="form-check-input"
-                        checked={formData.professions.includes(prof)}
+                        checked={formData.professions.includes(prof.name)}
                         onChange={() =>
-                          handleProfessionChange(prof)
+                          handleProfessionChange(prof.name)
                         }
                         disabled={
                           formData.audience !== "professional"
                         }
                       />
                       <label className="form-check-label">
-                        {prof}
+                        {prof.name}
                       </label>
                     </div>
                   ))}
