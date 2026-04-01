@@ -50,6 +50,8 @@ export const postAnnouncement = async (req, res) => {
     // ✅ Save to DB
     await newAnnouncement.save();
 
+    
+
     // ✅ Response
     return res.status(201).json({
       message: "Announcement created successfully",

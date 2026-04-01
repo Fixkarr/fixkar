@@ -9,10 +9,13 @@ import {
 import { server_url } from "../../App";
 import useGetServices from "../../hooks/useGetServices";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ManageAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
-
+    useGetServices()
+  const {services} = useSelector(state => state.services);
+  const [formLoad, setFormLoad] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     message: "",
@@ -22,9 +25,6 @@ const ManageAnnouncements = () => {
     professions: [], // 🔥 NEW
   });
 
-   useGetServices()
-  const {services} = useSelector(state => state.services);
-  console.log(services)
 
   // Handle input
   const handleChange = (e) => {
@@ -77,31 +77,10 @@ const ManageAnnouncements = () => {
     formDataToSend.append("image", formData.image);
   }
 
-  // 🔥 DEBUG (very important)
-  for (let pair of formDataToSend.entries()) {
-    console.log(pair[0], pair[1]);
-  }
 
   try {
+    setFormLoad(true)
     const res = await axios.post(`${server_url}/api/admin/announcement`, formDataToSend, {withCredentials : true} );
-
-    console.log("✅ API Response:", res.data);
-
-    // UI preview (optional)
-    const newAnnouncement = {
-      id: Date.now(),
-      title: formData.title,
-      message: formData.message,
-      audience: formData.audience,
-      professions: formData.professions,
-      link: formData.link,
-      image: formData.image
-        ? URL.createObjectURL(formData.image)
-        : null,
-    };
-
-    setAnnouncements([newAnnouncement, ...announcements]);
-
     // reset
     setFormData({
       title: "",
@@ -111,9 +90,11 @@ const ManageAnnouncements = () => {
       link: "",
       professions: [],
     });
-
+    setFormLoad(false)
+    toast.success("Announcement Posted!")
   } catch (error) {
-    console.error("❌ Error:", error.response?.data || error.message);
+    setFormLoad(false)
+    toast.error("Failed to post announcement, Internal server error!")
   }
 };
 
@@ -218,8 +199,8 @@ const ManageAnnouncements = () => {
                 onChange={handleImage}
               />
 
-              <button className="btn btn-dark w-100 rounded-pill">
-                Post Announcement
+              <button className="btn btn-dark w-100 rounded-pill" disabled={formLoad}>
+               {formLoad ? "Posting..." : "Post Announcement"}
               </button>
             </form>
           </div>
