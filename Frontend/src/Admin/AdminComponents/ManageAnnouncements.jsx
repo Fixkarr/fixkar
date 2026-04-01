@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {
   FaBullhorn,
   FaTrash,
-  FaUser,
   FaUsers,
   FaLink,
 } from "react-icons/fa";
@@ -15,7 +13,6 @@ const ManageAnnouncements = () => {
     title: "",
     message: "",
     audience: "all",
-    userType: "all",
     image: null,
     link: "",
     professions: [], // 🔥 NEW
@@ -60,7 +57,6 @@ const ManageAnnouncements = () => {
     title: formData.title,
     message: formData.message,
     audience: formData.audience,
-    userType: formData.audience === "all" ? formData.userType : null,
     professions:
       formData.audience === "professional"
         ? formData.professions
@@ -88,7 +84,6 @@ const ManageAnnouncements = () => {
     title: "",
     message: "",
     audience: "all",
-    userType: "all",
     image: null,
     link: "",
     professions: [],
@@ -155,22 +150,6 @@ const ManageAnnouncements = () => {
                 <option value="customer">Customers</option>
                 <option value="professional">Professionals</option>
               </select>
-
-              {/* User Type */}
-             {formData.audience === "all" && (
-                <select
-                    name="userType"
-                    className="form-select mb-3"
-                    value={formData.userType}
-                    onChange={handleChange}
-                >
-                    <option value="all">All</option>
-                    <option value="registered">Registered</option>
-                    <option value="non-registered">
-                    Non Registered
-                    </option>
-                </select>
-                )}
 
               {/* 🔥 PROFESSION CHECKBOX */}
               <div className="mb-3">
@@ -252,10 +231,6 @@ const ManageAnnouncements = () => {
                   <div>
                     <FaUsers /> {item.audience}
                   </div>
-                  <div>
-                    <FaUser /> {item.userType}
-                  </div>
-
                   {/* 🔥 SHOW PROFESSIONS */}
                   {item.audience === "professional" &&
                     item.professions.length > 0 && (

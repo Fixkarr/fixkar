@@ -3,7 +3,7 @@ import "../css/sidebar.css";
 import { GoHome } from "react-icons/go";
 import { FaRegAddressBook, FaUserShield, FaWpforms } from "react-icons/fa6";
 import { IoConstructOutline } from "react-icons/io5";
-import { FaHeadset, FaRegBell, FaTools } from "react-icons/fa";
+import { FaHeadset, FaRegBell, FaTools,  FaBullhorn, } from "react-icons/fa";
 import { FiBell, FiMessageSquare } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineEngineering, MdWorkHistory } from "react-icons/md";
@@ -174,7 +174,7 @@ const dispatch = useDispatch()
               }`
             }
           >
-            <FiMessageSquare />
+            <FaBullhorn />
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Manage Announcements</span>
           </NavLink>
         </li>
