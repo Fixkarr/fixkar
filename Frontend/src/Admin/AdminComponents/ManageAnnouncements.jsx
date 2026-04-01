@@ -20,13 +20,9 @@ const ManageAnnouncements = () => {
     professions: [], // 🔥 NEW
   });
 
-  const professionsList = [
-    "electrician",
-    "plumber",
-    "carpenter",
-    "painter",
-    "ac repair",
-  ];
+   useGetServices()
+  const {services} = useSelector(state => state.services);
+  console.log(services)
 
   // Handle input
   const handleChange = (e) => {
@@ -187,7 +183,7 @@ const ManageAnnouncements = () => {
                 </label>
 
                 <div className="d-flex flex-wrap gap-2 mt-2">
-                  {professionsList.map((prof) => (
+                  {services?.map((prof) => (
                     <div key={prof} className="form-check">
                       <input
                         type="checkbox"

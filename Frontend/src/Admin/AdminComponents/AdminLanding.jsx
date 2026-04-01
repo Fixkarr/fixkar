@@ -9,7 +9,6 @@ const AdminLanding = () => {
     const navigate = useNavigate();
     const {currentAdmin} = useSelector(state => state.admin);
 
-    console.log(currentAdmin);
   return (
     <div
       className="min-vh-100 d-flex align-items-center justify-content-center"
