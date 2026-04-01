@@ -15,10 +15,14 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { FiMessageSquare } from 'react-icons/fi'
 import DashboardNavigator from '../utils/DashboardNavigator'
+import useGetAnnouncements from '../hooks/useGetAnnouncements'
+import AnnouncementBanner from '../Components/AnnouncementBanner'
+import { ClipLoader } from 'react-spinners'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [notifLoading, setNotifLoading] = useState(false);
+  const { announcements, loading, error, refetch } = useGetAnnouncements;
 
   useGetMyBookings();
   useGetNotifications()
@@ -156,6 +160,17 @@ const CustomerHome = () => {
       <MobileNotVerified />
     </div>
   )}
+
+ {loading ? (
+  <center>
+    <ClipLoader size={30} color="blue" />
+  </center>
+) : (
+  announcements?.length > 0 &&
+  announcements.map((a) => (
+    <AnnouncementBanner key={a._id} announcement={a} />
+  ))
+)}
 
   {/* 🔵 Floating Hire Button */}
   <button
