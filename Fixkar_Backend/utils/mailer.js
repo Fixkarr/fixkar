@@ -23,3 +23,22 @@ export const sendEmail = async (email, subject, content) => {
     throw err
   }
 };
+
+export const sendBulkEmail = async (emails, subject, content) => {
+  try {
+    const emailData = {
+      sender: {
+        name: "FixKar",
+        email: "hg852106@gmail.com",
+      },
+      to: emails.map((email) => ({ email })), // 🔥 multiple users
+      subject: subject,
+      htmlContent: content,
+    };
+
+    await apiInstance.sendTransacEmail(emailData);
+  } catch (err) {
+    console.error("Brevo email error:", err?.response?.body || err);
+    throw err;
+  }
+};

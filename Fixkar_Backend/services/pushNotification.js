@@ -7,8 +7,6 @@ export const pushNotification = async ({
     const user = await User.findById(userId).select('fcmTokens');
     if (!user || !user.fcmTokens.length) return;
 
-
-
    const payload = {
   data: {
     redirectUrl: redirectUrl || "",
