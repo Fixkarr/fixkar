@@ -164,15 +164,6 @@ export const postAnnouncement = async (req, res) => {
           })
 
 
-          await Notification.create({
-                userId: users.map(u => u._id),
-                title,
-                message,
-                type: "announcement",
-                isRead: false
-              });
-              
-    
     return res.status(201).json({
       message: "Announcement created successfully",
       data: newAnnouncement,
