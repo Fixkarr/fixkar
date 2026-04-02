@@ -91,6 +91,7 @@ export const verifyMobileOtp = async (req, res) => {
       `https://api.msg91.com/api/v5/otp/verify?mobile=91${phone}&otp=${otp}&authkey=${process.env.MSG91_AUTH_KEY}`
     );
 
+    console.log("MSG91 RESPONSE:", response.data);
     const data = await response.json();
 
     if (data.type !== "success") {
