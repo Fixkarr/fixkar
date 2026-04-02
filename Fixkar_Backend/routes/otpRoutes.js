@@ -8,10 +8,17 @@ import { isAuth } from "../middlewares/isAuth.js";
 const router = express.Router();
 
 const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
+  windowMs: 15 * 60 * 1000, // 1 minute
   max: 10,                 // max 10 requests per minute per IP
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+   skip: (req) => {
+    return false;
+  },
+    keyGenerator: (req) => {
+    return req.body?.phone || req.ip;
+  },
+
 });
 
 router.post("/send", isAuth, limiter, sendMobileOtp);
