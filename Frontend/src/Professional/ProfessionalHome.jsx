@@ -238,7 +238,7 @@ return (
 
   </div>
 
-     <div className="container-fluid">
+
        {loading ? (
   <center>
     <ClipLoader size={30} color="blue" />
@@ -249,7 +249,7 @@ return (
     <AnnouncementBanner key={a._id} announcement={a} />
   ))
 )}
-     </div>
+   
 
   {/* 🔵 MODAL (UNCHANGED LOGIC) */}
   <div

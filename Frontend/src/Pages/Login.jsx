@@ -63,15 +63,11 @@ const Login = () => {
          try {
           setFloading(true)
           const result = await axios.post(`${server_url}/api/auth/login`, values, {withCredentials : true})
-          toast.success(result?.data?.message)
           setFloading(false)
           dispatch(setCurrentUserData(result.data))
-          console.log("FROM STATE:", location.state);
-          console.log("FROM PATH:", from);
           navigate(from, { replace: true }); 
           resetForm()
          } catch (error) {
-          console.log(error)
           toast.error(error.response.data.message)
           setFloading(false)
          }
