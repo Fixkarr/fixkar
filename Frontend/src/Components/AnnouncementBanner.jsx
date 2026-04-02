@@ -5,10 +5,19 @@ const AnnouncementBanner = ({ announcement }) => {
   if (!announcement) return null;
 
   const { title, message, imageUrl, link } = announcement;
+     const handleClick = () => {
+    if (!link) return;
+
+    const formattedLink = link.startsWith("http")
+      ? link
+      : `https://${link}`;
+
+    window.open(formattedLink, "_blank");
+  };
 
   return (
     <div
-      onClick={() => link && window.open(link, "_blank")}
+      onClick={handleClick}
       className="rounded-4 overflow-hidden shadow-lg mb-4 position-relative"
       style={{
         cursor: link ? "pointer" : "default",
@@ -37,7 +46,7 @@ const AnnouncementBanner = ({ announcement }) => {
       <div
         className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center px-4 text-white"
         style={{
-          background: "rgba(0,0,0,0.2)",
+          background: "rgba(0,0,0,0.3)",
         }}
       >
         <div className="d-flex align-items-center mb-2">
