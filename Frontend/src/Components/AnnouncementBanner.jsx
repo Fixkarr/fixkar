@@ -18,7 +18,7 @@ const AnnouncementBanner = ({ announcement }) => {
 return (
   <div
     onClick={handleClick}
-    className="announcement-card position-relative overflow-hidden"
+    className="announcement-card position-relative overflow-hidden container-fluid"
     style={{
       cursor: link ? "pointer" : "default",
       height: "240px",
@@ -56,10 +56,10 @@ return (
     >
       {/* Badge */}
       <div className="d-flex align-items-center mb-1">
-        <FaBullhorn size={14} className="me-2 text-warning" />
+        <FaBullhorn size={30} className="me-2 text-warning" />
         <span
           style={{
-            fontSize: "11px",
+            fontSize: "2vmin",
             fontWeight: "600",
             letterSpacing: "0.5px",
           }}
@@ -73,7 +73,7 @@ return (
         <h5
           className="fw-bold mb-1"
           style={{
-            fontSize: "1.1rem",
+            fontSize: "1.1vmin",
             lineHeight: "1.3",
           }}
         >
