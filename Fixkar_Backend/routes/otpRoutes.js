@@ -2,23 +2,24 @@
 
 import express from "express";
 import {sendEmailOtp, sendMobileOtp, verifyEmailOtp, verifyMobileOtp} from "../controllers/auth/otpController.js";
-import rateLimit from "express-rate-limit"; 
+import rateLimit, { ipKeyGenerator } from "express-rate-limit"; 
 import { isAuth } from "../middlewares/isAuth.js";
 
 const router = express.Router();
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 1 minute
-  max: 10,                 // max 10 requests per minute per IP
+  windowMs: 15 * 60 * 1000,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
-   skip: (req) => {
-    return false;
-  },
-    keyGenerator: (req) => {
-    return req.body?.phone || req.ip;
-  },
 
+  keyGenerator: (req) => {
+    if (req.body?.phone) {
+      return req.body.phone; // OTP ke liye best
+    }
+
+    return ipKeyGenerator(req); // ✅ correct IP handling
+  },
 });
 
 router.post("/send", isAuth, limiter, sendMobileOtp);
