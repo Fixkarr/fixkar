@@ -4,7 +4,7 @@ import { FaBullhorn } from "react-icons/fa";
 const AnnouncementBanner = ({ announcement }) => {
   if (!announcement) return null;
 
-  const { title, message, image, link } = announcement;
+  const { title, message, imageUrl, link } = announcement;
 
   return (
     <div
@@ -16,9 +16,9 @@ const AnnouncementBanner = ({ announcement }) => {
       }}
     >
       {/* Background */}
-      {image ? (
+      {imageUrl ? (
         <img
-          src={image}
+          src={imageUrl}
           alt="announcement"
           className="w-100 h-100 object-fit-cover"
           style={{ filter: "brightness(0.6)" }}
