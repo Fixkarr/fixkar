@@ -160,7 +160,7 @@ const CustomerHome = () => {
     </div>
   )}
 
- <div className="container-fluid">
+ <div className="container-fluid px-5">
   {loading ? (
   <center>
     <ClipLoader size={30} color="blue" />
