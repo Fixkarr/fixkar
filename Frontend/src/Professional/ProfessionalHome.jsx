@@ -15,11 +15,14 @@ import ProfessionalBankDetails from "./ProfessionalBankDetails";
 import PendingBankReview from "../Components/PendingBankReview";
 import { FaMessage } from "react-icons/fa6";
 import DashboardNavigator from "../utils/DashboardNavigator";
+import useGetAnnouncements from "../hooks/useGetAnnouncements";
+import { ClipLoader } from "react-spinners";
+import AnnouncementBanner from "../Components/AnnouncementBanner";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [notifLoading, setNotifLoading] = useState(false);
-
+  const { announcements, loading, error, refetch } = useGetAnnouncements();
   useGetMyBookings()
   useGetNotifications()
   const navigate = useNavigate()
@@ -235,6 +238,18 @@ return (
 
   </div>
 
+     <div className="container-fluid">
+       {loading ? (
+  <center>
+    <ClipLoader size={30} color="blue" />
+  </center>
+) : (
+  announcements?.length > 0 &&
+  announcements.map((a) => (
+    <AnnouncementBanner key={a._id} announcement={a} />
+  ))
+)}
+     </div>
 
   {/* 🔵 MODAL (UNCHANGED LOGIC) */}
   <div
