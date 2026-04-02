@@ -1,3 +1,4 @@
+import cloudinary from "../../../config/cloudinary.js";
 import { Announcement } from "../AdminModels/announcementModel.js";
 
 export const getAllAnnouncements = async (req, res)=>{
@@ -35,6 +36,20 @@ export const deleteAnnouncement = async (req,res)=>{
                 message : "Announcement ID is required!"
             })
         }
+
+          const announcement = await Announcement.findById(id);
+
+            if (!announcement) {
+            return res.status(404).json({
+                message: "Announcement not found!",
+            });
+            }
+
+            // ✅ Step 2: Delete image from Cloudinary (if exists)
+            if (announcement.public_id) {
+            await cloudinary.uploader.destroy(announcement.public_id);
+            }
+
         await Announcement.findByIdAndDelete(id);
         return res.status(200).json({
             message : "Announcement deleted successfully!"
