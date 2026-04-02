@@ -235,7 +235,7 @@ const ManageAnnouncements = () => {
                 <h6 className="fw-bold">{item.title}</h6>
                 <p>{item.message}</p>
 
-                {item.image && (
+                {item.imageUrl && (
                   <img
                     src={item.image}
                     alt=""
@@ -267,7 +267,7 @@ const ManageAnnouncements = () => {
                   className="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
                   onClick={(e) => {
                     e.stopPropagation();
-                    deleteAnnouncement(item.id);
+                    deleteAnnouncement(item._id);
                   }}
                 >
                   <FaTrash />
