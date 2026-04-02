@@ -15,14 +15,15 @@ const AnnouncementBanner = ({ announcement }) => {
     window.open(formattedLink, "_blank");
   };
 
- return (
+return (
   <div
     onClick={handleClick}
-    className="announcement-card position-relative overflow-hidden mb-4"
+    className="announcement-card position-relative overflow-hidden"
     style={{
       cursor: link ? "pointer" : "default",
       height: "240px",
-      borderRadius: "20px",
+      borderRadius: "16px",
+      marginTop: "20px", // top spacing
     }}
   >
     {/* Background */}
@@ -32,8 +33,7 @@ const AnnouncementBanner = ({ announcement }) => {
         alt="announcement"
         className="w-100 h-100 object-fit-cover"
         style={{
-          filter: "brightness(0.7)",
-          transition: "transform 0.5s ease",
+          objectPosition: "center",
         }}
       />
     ) : (
@@ -41,48 +41,44 @@ const AnnouncementBanner = ({ announcement }) => {
         className="w-100 h-100"
         style={{
           background:
-            "linear-gradient(135deg, #4f46e5, #9333ea, #ec4899)",
+            "linear-gradient(135deg, #0d6efd, #0b5ed7)", // Fixkar primary theme
         }}
       ></div>
     )}
 
-    {/* Glass Overlay */}
+    {/* Bottom Overlay (only where text is) */}
     <div
-      className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-4"
+      className="position-absolute bottom-0 start-0 w-100 p-3 text-white"
       style={{
         background:
-          "linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1))",
-        backdropFilter: "blur(6px)",
+          "linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0))",
       }}
     >
       {/* Badge */}
-      <div className="d-flex align-items-center mb-2">
-        <div
-          className="d-flex align-items-center px-3 py-1"
+      <div className="d-flex align-items-center mb-1">
+        <FaBullhorn size={14} className="me-2 text-warning" />
+        <span
           style={{
-            background: "rgba(255,255,255,0.15)",
-            borderRadius: "50px",
-            backdropFilter: "blur(10px)",
+            fontSize: "11px",
+            fontWeight: "600",
+            letterSpacing: "0.5px",
           }}
         >
-          <FaBullhorn size={16} className="me-2 text-warning" />
-          <span style={{ fontSize: "12px", fontWeight: "600" }}>
-            ANNOUNCEMENT
-          </span>
-        </div>
+          ANNOUNCEMENT
+        </span>
       </div>
 
       {/* Title */}
       {title && (
-        <h4
-          className="fw-bold mb-2"
+        <h5
+          className="fw-bold mb-1"
           style={{
-            fontSize: "1.4rem",
-            lineHeight: "1.4",
+            fontSize: "1.1rem",
+            lineHeight: "1.3",
           }}
         >
           {title}
-        </h4>
+        </h5>
       )}
 
       {/* Message */}
@@ -90,11 +86,12 @@ const AnnouncementBanner = ({ announcement }) => {
         <p
           className="mb-0"
           style={{
-            fontSize: "0.95rem",
+            fontSize: "0.9rem",
             opacity: 0.9,
-            maxHeight: "60px",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
             overflow: "hidden",
-            textOverflow: "ellipsis",
           }}
         >
           {message}
@@ -102,20 +99,15 @@ const AnnouncementBanner = ({ announcement }) => {
       )}
     </div>
 
-    {/* Hover Effect */}
+    {/* Simple Hover */}
     <style>
       {`
-        .announcement-card:hover img {
-          transform: scale(1.1);
-        }
-
         .announcement-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: box-shadow 0.2s ease;
         }
 
         .announcement-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
       `}
     </style>
