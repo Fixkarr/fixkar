@@ -33,7 +33,7 @@ const ManageAnnouncements = () => {
     }
     
     getAnnouncements()
-  },[announcements.length])
+  },[])
 
   // Handle input
   const handleChange = (e) => {
@@ -112,6 +112,7 @@ const ManageAnnouncements = () => {
        try {
         const res = await axios.delete(`${server_url}/api/admin/delete-announcement/${id}`, {withCredentials : true})
         toast.success(res.data.message);
+        setAnnouncements((prev) => prev.filter((item) => item._id !== id));
        } catch (error) {
         toast.error(error.response.data.message)
        }
@@ -227,8 +228,8 @@ const ManageAnnouncements = () => {
 
             {announcements.map((item) => (
               <div
-                key={item.id}
-                className="border rounded-3 p-3 mb-3"
+                key={item._id}
+                className="border rounded-3 p-3 mb-3 position-relative"
                 onClick={() => handleRedirect(item.link)}
                 style={{ cursor: item.link ? "pointer" : "default" }}
               >
@@ -237,7 +238,7 @@ const ManageAnnouncements = () => {
 
                 {item.imageUrl && (
                   <img
-                    src={item.image}
+                    src={item.imageUrl}
                     alt=""
                     className="img-fluid rounded mb-2"
                   />
