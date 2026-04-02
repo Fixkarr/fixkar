@@ -22,8 +22,8 @@ import { ClipLoader } from 'react-spinners'
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [notifLoading, setNotifLoading] = useState(false);
-  const { announcements, loading, error, refetch } = useGetAnnouncements;
-
+  const { announcements, loading, error, refetch } = useGetAnnouncements();
+  console.log(announcements);
   useGetMyBookings();
   useGetNotifications()
   const {currentUserData} = useSelector((state)=>state.user)
