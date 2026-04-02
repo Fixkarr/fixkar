@@ -1,11 +1,11 @@
 //otpController.js
 import jwt from "jsonwebtoken";
 import redis from "../../services/redisClient.js";
-import { client } from "../../utils/twilioClient.js";
 import Joi from "joi";
 import { generateOtpPlain, hashOtp, compareOtp } from "../../utils/otpHelper.js";
 import { Customer, Professional, User } from "../../models/userModel.js";
 import { sendEmail } from "../../utils/mailer.js";
+import axios from "axios";
 
 
 const OTP_EXPIRY = parseInt(process.env.OTP_EXPIRY_SECONDS || "300"); // seconds
@@ -57,12 +57,10 @@ export const sendMobileOtp = async (req, res) => {
     // set resend cooldown
     await redis.set(otpResendKey(phone), `${OTP_RESEND_COOLDOWN}`, "EX", OTP_RESEND_COOLDOWN);
 
-    // Send SMS via Twilio (non-blocking best practice: await, but handle errors)
-    await client.messages.create({
-      body: `Your Fixkar verification code is ${plainOtp}. It is valid for ${Math.floor(OTP_EXPIRY/60)} minutes.`,
-      from: process.env.TWILIO_PHONE,
-      to: phone
-    });
+    
+    const response = await axios.get(
+      `https://api.msg91.com/api/v5/otp?template_id=${process.env.MSG91_TEMPLATE_ID}&mobile=91${phone}&authkey=${process.env.MSG91_AUTH_KEY}`
+    );
     
     // respond (do not return OTP)
     return res.status(200).json({ message: "OTP sent successfully." });
@@ -74,67 +72,70 @@ export const sendMobileOtp = async (req, res) => {
 
 export const verifyMobileOtp = async (req, res) => {
   try {
-    // validate input
     const { error, value } = verifySchema.validate(req.body);
     if (error) return res.status(400).json({ message: error.message });
 
     const { phone, otp } = value;
 
-    // fetch OTP record
-    const recordRaw = await redis.get(otpKey(phone));
-    if (!recordRaw) return res.status(400).json({ message: "OTP not found or expired. Please request a new OTP." });
-
-    const record = JSON.parse(recordRaw);
-    const hashedOtp = record.hashedOtp;
-
-    // attempts check
+    // 🔥 attempts check (REDIS BACK)
     const attempts = parseInt(await redis.get(otpAttemptsKey(phone)) || "0", 10);
+
     if (attempts >= OTP_MAX_ATTEMPTS) {
-      return res.status(429).json({ message: "Maximum attempts reached. Please request a new OTP." });
+      return res.status(429).json({
+        message: "Maximum attempts reached. Please request a new OTP.",
+      });
     }
 
-    // compare securely
-    const match = await compareOtp(otp, hashedOtp);
-    if (!match) {
-      // increment attempts and set expiry on attempts key equal to OTP expiry to avoid permanent lock
+    // 🔥 MSG91 VERIFY
+    const response = await fetch(
+      `https://api.msg91.com/api/v5/otp/verify?mobile=91${phone}&otp=${otp}&authkey=${process.env.MSG91_AUTH_KEY}`
+    );
+
+    const data = await response.json();
+
+    if (data.type !== "success") {
+      
       const newAttempts = await redis.incr(otpAttemptsKey(phone));
-      // set TTL on attempts same as otp expiry if not already set
+
       const ttl = await redis.ttl(otpAttemptsKey(phone));
       if (ttl === -1) {
         await redis.expire(otpAttemptsKey(phone), OTP_EXPIRY);
       }
+
       return res.status(400).json({ message: "Invalid OTP." });
     }
 
-    // success: delete otp keys and attempts
-    await redis.del(otpKey(phone));
+   
     await redis.del(otpAttemptsKey(phone));
-    await redis.del(otpResendKey(phone)); // allow immediate resend next time
+    await redis.del(otpResendKey(phone));
 
-    const user = await User.findByIdAndUpdate(req.userId, {mobile : phone, isMobileVerified : true}, {new : true});
-    // At this point, mark the user's phone as verified in DB:
-    // e.g., await User.findOneAndUpdate({ phone }, { mobileVerified: true })
-    // but controller should not assume DB model; return success and let calling code update user record
-    if(user.role === "customer"){
-      const customer = await Customer.findOne({userId : user._id}).populate("userId");
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { mobile: phone, isMobileVerified: true },
+      { new: true }
+    );
+
+    if (user.role === "customer") {
+      const customer = await Customer.findOne({ userId: user._id }).populate("userId");
       return res.status(200).json({
-        message : "OTP verified successfully",
-        user : customer
-      })
-    }else if(user.role === "professional"){
-       const professional = await Professional.findOne({userId : user._id}).populate("userId");
+        message: "OTP verified successfully",
+        user: customer,
+      });
+    } else if (user.role === "professional") {
+      const professional = await Professional.findOne({ userId: user._id }).populate("userId");
       return res.status(200).json({
-        message : "OTP verified successfully",
-        user : professional
-      }) 
-    }else{
-      return res.status(200).json({ message: "OTP verified successfully.",
-      user
-     });
+        message: "OTP verified successfully",
+        user: professional,
+      });
+    } else {
+      return res.status(200).json({
+        message: "OTP verified successfully",
+        user,
+      });
     }
-    
+
   } catch (err) {
-    console.error("verifyOtp error:", err);
+    console.error("verifyOtp error:", err?.response?.data || err.message);
     return res.status(500).json({ message: "OTP verification failed." });
   }
 };
