@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaBullhorn,
   FaTrash,
@@ -25,6 +25,15 @@ const ManageAnnouncements = () => {
     professions: [], // 🔥 NEW
   });
 
+  useEffect(()=>{
+    const getAnnouncements = async ()=>{
+      const res = await axios.get(`${server_url}/api/admin/get-announcements`, {withCredentials : true});
+      setAnnouncements(res.data.announcements)
+      toast.success(res.data.message)
+    }
+    
+    getAnnouncements()
+  },[announcements.length])
 
   // Handle input
   const handleChange = (e) => {
@@ -99,8 +108,13 @@ const ManageAnnouncements = () => {
 };
 
   // Delete
-      const deleteAnnouncement = (id) => {
-        setAnnouncements(announcements.filter((a) => a.id !== id));
+      const deleteAnnouncement = async (id) => {
+       try {
+        const res = await axios.delete(`${server_url}/api/admin/delete-announcement/${id}`, {withCredentials : true})
+        toast.success(res.data.message);
+       } catch (error) {
+        toast.error(error.response.data.message)
+       }
       };
 
       // Redirect
