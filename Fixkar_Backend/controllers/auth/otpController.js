@@ -25,7 +25,19 @@ const otpKey = (phone) => `otp:${phone}`;               // stores { hashedOtp, c
 const otpAttemptsKey = (phone) => `otp_attempts:${phone}`; // stores integer
 const otpResendKey = (phone) => `otp_resend:${phone}`; // cooldown key
 
- 
+ const formatPhone = (phone) => {
+  // remove spaces & symbols
+  phone = phone.replace(/\D/g, "");
+
+  // agar already 91 hai → remove karo
+  if (phone.startsWith("91") && phone.length === 12) {
+    phone = phone.slice(2);
+  }
+
+  // final: always 10 digit return
+  return phone;
+};
+
 export const sendMobileOtp = async (req, res) => {
   try {
     // validate input
@@ -34,9 +46,9 @@ export const sendMobileOtp = async (req, res) => {
     if (error) return res.status(400).json({ message: "invalid phone number" });
 
     const { phone } = value;
-
+    const formattedPhone = formatPhone(phone);
     // resend cooldown
-    const canResend = await redis.get(otpResendKey(phone));
+    const canResend = await redis.get(otpResendKey(formattedPhone));
     if (canResend) {
       return res.status(429).json({ message: `Please wait ${canResend}s before requesting a new OTP.` });
     }
@@ -46,20 +58,20 @@ export const sendMobileOtp = async (req, res) => {
     const hashed = await hashOtp(plainOtp);
 
     // store hashed OTP with TTL in redis (atomic set)
-    await redis.set(otpKey(phone), JSON.stringify({
+    await redis.set(otpKey(formattedPhone), JSON.stringify({
       hashedOtp: hashed,
       createdAt: Date.now()
     }), "EX", OTP_EXPIRY);
 
     // reset attempts counter
-    await redis.del(otpAttemptsKey(phone));
+    await redis.del(otpAttemptsKey(formattedPhone));
 
     // set resend cooldown
-    await redis.set(otpResendKey(phone), `${OTP_RESEND_COOLDOWN}`, "EX", OTP_RESEND_COOLDOWN);
+    await redis.set(otpResendKey(formattedPhone), `${OTP_RESEND_COOLDOWN}`, "EX", OTP_RESEND_COOLDOWN);
 
     
     const response = await axios.get(
-      `https://api.msg91.com/api/v5/otp?template_id=${process.env.MSG91_TEMPLATE_ID}&mobile=91${phone}&authkey=${process.env.MSG91_AUTH_KEY}`
+      `https://api.msg91.com/api/v5/otp?template_id=${process.env.MSG91_TEMPLATE_ID}&mobile=91${formattedPhone}&authkey=${process.env.MSG91_AUTH_KEY}`
     );
       console.log("MSG91 RESPONSE:", response.data);
     // respond (do not return OTP)
