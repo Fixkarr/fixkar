@@ -227,14 +227,9 @@ return (
 
 
     {/* WALLET SECTION */}
-    <div
-      className="card border-0 shadow-lg rounded-4 mb-5 p-4"
-      style={{
-        background: "linear-gradient(135deg,#e0f7fa,#ffffff)"
-      }}
-    >
+   
       <ProfessionalWallet />
-    </div>
+    
 
   </div>
 

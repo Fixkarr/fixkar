@@ -54,7 +54,7 @@ const ProfessionalWallet = () => {
     <div
       className="w-100"
       style={{
-        maxWidth: "700px", // 👈 approx 50% screen
+        maxWidth: "700px",
       }}
     >
       <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
