@@ -18,7 +18,7 @@ const AnnouncementBanner = ({ announcement }) => {
  return (
     <div
       onClick={handleClick}
-      className="announcement-card position-relative overflow-hidden container-fluid"
+      className="announcement-card position-relative overflow-hidden"
       style={{
         cursor: link ? "pointer" : "default",
       }}

@@ -160,7 +160,7 @@ const CustomerHome = () => {
     </div>
   )}
 
- <div className="container-fluid p-5">
+
   {loading ? (
   <center>
     <ClipLoader size={30} color="blue" />
@@ -171,7 +171,7 @@ const CustomerHome = () => {
     <AnnouncementBanner key={a._id} announcement={a} />
   ))
 )}
- </div>
+
 
   {/* 🔵 Floating Hire Button */}
   <button
