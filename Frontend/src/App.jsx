@@ -378,11 +378,15 @@ const App = () => {
         element={<OnBoard />}
       >
         <Route
-          path="/onboard/verify-mobile"
-          element={
-            !isMobileVerified ? <VerifyMobile /> : <Navigate to="/onboard" />
-          }
-        />
+  path="/onboard/verify-mobile"
+  element={
+    role === "professional" && isMobileVerified === false ? (
+      <VerifyMobile />
+    ) : (
+      <Navigate to="/" replace />
+    )
+  }
+/>
         <Route
           path="/onboard"
           element={
