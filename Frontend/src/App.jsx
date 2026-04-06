@@ -255,6 +255,36 @@ const App = () => {
           !currentUserData ? <ResetPassword /> : <Navigate to="/" replace />
         }
       />
+          {/* Onboarding */}
+      <Route
+        element={<OnBoard />}
+      >
+        <Route
+          path="/onboard/verify-mobile"
+          element={
+            !isMobileVerified ? <VerifyMobile /> : <Navigate to="/onboard" />
+          }
+        />
+        <Route
+          path="/onboard"
+          element={
+            isMobileVerified && !isOnboarded ? (
+              <Onboarding userData={currentUserData} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/application/pending"
+          element={status === "pending" ? <Pending /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/application/rejected"
+          element={status === "rejected" ? <Rejected /> : <Navigate to="/" />}
+        />
+      </Route> 
+
 
       {/* Dashboard Layout Wrapper */}
       <Route element={<DashboardLayout />}>
@@ -373,36 +403,7 @@ const App = () => {
           }
         />
 
-         {/* Onboarding */}
-      <Route
-        element={<OnBoard />}
-      >
-        <Route
-          path="/onboard/verify-mobile"
-          element={
-            !isMobileVerified ? <VerifyMobile /> : <Navigate to="/onboard" />
-          }
-        />
-        <Route
-          path="/onboard"
-          element={
-            isMobileVerified && !isOnboarded ? (
-              <Onboarding userData={currentUserData} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        <Route
-          path="/application/pending"
-          element={status === "pending" ? <Pending /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/application/rejected"
-          element={status === "rejected" ? <Rejected /> : <Navigate to="/" />}
-        />
-      </Route> 
-
+     
           </Route>
 
         {/* Admin  */}
