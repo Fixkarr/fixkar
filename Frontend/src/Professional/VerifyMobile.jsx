@@ -26,12 +26,14 @@ const VerifyMobile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
+ useEffect(() => {
   if (!window.recaptchaVerifier) {
     window.recaptchaVerifier = new RecaptchaVerifier(
+      auth, // 🔥 FIRST PARAM = auth
       "recaptcha-container",
-      { size: "invisible" },
-      auth
+      {
+        size: "invisible"
+      }
     );
   }
 }, []);
