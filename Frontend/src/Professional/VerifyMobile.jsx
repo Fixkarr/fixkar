@@ -162,6 +162,7 @@ const VerifyMobile = () => {
     {/* MOBILE STEP */}
     {step === "mobile" ? (
       <form onSubmit={handleSendOtp}>
+         <div id="recaptcha-container"></div>
         <div className="mb-4">
           <label className="form-label fw-semibold">Mobile Number</label>
           <div className="input-group">
@@ -189,7 +190,7 @@ const VerifyMobile = () => {
     ) : (
       /* OTP STEP */
       <form onSubmit={handleVerifyOtp}>
-        <div id="recaptcha-container"></div>
+       
         <div className="mb-4 text-center">
           <input
             type="text"
