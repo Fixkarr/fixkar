@@ -9,6 +9,7 @@ import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
 import { useSelector } from "react-redux";
+import { FaMobileAlt, FaLock, FaRedo } from "react-icons/fa";
 
 const VerifyMobile = () => {
   const {currentUserData} = useSelector(state=>state.user);
@@ -79,102 +80,154 @@ const VerifyMobile = () => {
 
   return (
     <>
-    <div className="verify-container d-flex align-items-center justify-content-center min-vh-100 bg-light">
-      <div className="card shadow p-4 verify-card">
-        <h4 className="text-center fw-bold mb-3">
-          {step === "mobile" ? "Verify Your Mobile" : "Enter OTP"}
-        </h4>
+    
 
-        <p className="text-muted text-center mb-4">
-          {step === "mobile"
-            ? "Please enter your mobile number to receive an OTP."
-            : `OTP has been sent to +91 ${mobile}`}
-        </p>
-
-        {step === "mobile" ? (
-          <form onSubmit={handleSendOtp}>
-            <div className="mb-3">
-              <label htmlFor="mobile" className="form-label fw-semibold">
-                Mobile Number
-              </label>
-              <input
-                type="text"
-                id="mobile"
-                className="form-control"
-                placeholder="Enter 10-digit mobile number"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-                maxLength={10}
-              />
-            </div>
-            <button type="submit" disabled={loading} className="btn btn-primary w-100">
-             {loading ? <ClipLoader size={20}/> : "Send OTP"}
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleVerifyOtp}>
-            <div className="mb-3 text-center">
-              <input
-                type="text"
-                className="form-control text-center otp-input"
-                maxLength="6"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter 6-digit OTP"
-              />
-            </div>
-            <button type="submit" disabled={loading} onClick={handleVerifyOtp} className="btn btn-success w-100 mb-3">
-              {loading? <ClipLoader size={20}/> : "Verify OTP"}
-            </button>
-            <div className="text-center">
-                  {!timerActive ? (
-                            <button
-                            type="button"
-                              onClick={handleResendOtp}
-                              className="text-primary btn btn-border"
-                            >
-                              {loading ? <ClipLoader size={20}/> :"Resend Otp"}
-                            </button>
-                          ) : (
-                            <Countdown
-                              key={key}
-                              date={Date.now() + 60000}
-                              renderer={({ seconds, completed }) => {
-                                if (completed) {
-                                  setTimerActive(false);
-                                  return (
-                                    <button
-                                      type="button"
-                                      onClick={handleResendOtp}
-                                      className="text-primary btn btn-border"
-                                      disabled={loading}
-                                    >
-                                      {loading ? <ClipLoader size={20}/> :"Resend Otp"}
-                                    </button>
-                                  );
-                                } else {
-                                  return (
-                                    <button type="button" disabled={loading} className="text-primary btn btn-border-0">
-                                      Resend OTP ({seconds}s)
-                                    </button>
-                                  );
-                                }
-                              }}
-                            />
-                          )}
-              <br />
-              <button
-                type="button"
-                className="btn btn-outline-secondary mt-2"
-                onClick={() => setStep("mobile")}
-              >
-                Change Mobile Number
-              </button>
-            </div>
-          </form>
-        )}
+<div className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+  <div className="card shadow-lg border-0 p-5" style={{ maxWidth: "480px", width: "100%", borderRadius: "20px" }}>
+    
+    {/* Header */}
+    <div className="text-center mb-4">
+      <div
+        className="d-flex align-items-center justify-content-center mx-auto mb-3"
+        style={{
+          width: "70px",
+          height: "70px",
+          borderRadius: "50%",
+          background: "linear-gradient(135deg, #0d6efd, #6610f2)",
+          color: "#fff",
+          fontSize: "28px"
+        }}
+      >
+        {step === "mobile" ? <FaMobileAlt /> : <FaLock />}
       </div>
+
+      <h3 className="fw-bold">
+        {step === "mobile" ? "Verify Your Mobile" : "Enter OTP"}
+      </h3>
+
+      <p className="text-muted">
+        {step === "mobile"
+          ? "Enter your mobile number to receive a secure OTP."
+          : `OTP sent to +91 ${mobile}`}
+      </p>
     </div>
+
+    {/* MOBILE STEP */}
+    {step === "mobile" ? (
+      <form onSubmit={handleSendOtp}>
+        <div className="mb-4">
+          <label className="form-label fw-semibold">Mobile Number</label>
+          <div className="input-group">
+            <span className="input-group-text">+91</span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter mobile number"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              maxLength={10}
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn btn-primary w-100 py-2 fw-semibold"
+          style={{ borderRadius: "10px" }}
+        >
+          {loading ? <ClipLoader size={20} color="#fff" /> : "Send OTP"}
+        </button>
+      </form>
+    ) : (
+      /* OTP STEP */
+      <form onSubmit={handleVerifyOtp}>
+        
+        <div className="mb-4 text-center">
+          <input
+            type="text"
+            className="form-control text-center fs-4 fw-bold"
+            style={{
+              letterSpacing: "8px",
+              height: "55px",
+              borderRadius: "10px"
+            }}
+            maxLength="6"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            placeholder="••••••"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn btn-success w-100 py-2 fw-semibold mb-3"
+          style={{ borderRadius: "10px" }}
+        >
+          {loading ? <ClipLoader size={20} color="#fff" /> : "Verify OTP"}
+        </button>
+
+        {/* Resend Section */}
+        <div className="text-center">
+
+          {!timerActive ? (
+            <button
+              type="button"
+              onClick={handleResendOtp}
+              className="btn btn-link text-decoration-none fw-semibold"
+            >
+              <FaRedo className="me-1" />
+              {loading ? <ClipLoader size={16} /> : "Resend OTP"}
+            </button>
+          ) : (
+            <Countdown
+              key={key}
+              date={Date.now() + 60000}
+              renderer={({ seconds, completed }) => {
+                if (completed) {
+                  setTimerActive(false);
+                  return (
+                    <button
+                      type="button"
+                      onClick={handleResendOtp}
+                      className="btn btn-link text-decoration-none fw-semibold"
+                      disabled={loading}
+                    >
+                      <FaRedo className="me-1" />
+                      {loading ? <ClipLoader size={16} /> : "Resend OTP"}
+                    </button>
+                  );
+                } else {
+                  return (
+                    <button
+                      type="button"
+                      disabled
+                      className="btn btn-link text-decoration-none text-muted"
+                    >
+                      Resend OTP ({seconds}s)
+                    </button>
+                  );
+                }
+              }}
+            />
+          )}
+
+          <br />
+
+          <button
+            type="button"
+            className="btn btn-outline-secondary mt-3 px-4"
+            style={{ borderRadius: "10px" }}
+            onClick={() => setStep("mobile")}
+          >
+            Change Mobile Number
+          </button>
+        </div>
+      </form>
+    )}
+  </div>
+</div>
     </>
   );
 };
