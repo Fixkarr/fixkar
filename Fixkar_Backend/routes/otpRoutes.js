@@ -24,6 +24,7 @@ const limiter = rateLimit({
 
 router.post("/send", isAuth, limiter, sendMobileOtp);
 router.post("/verify", isAuth, limiter, verifyMobileOtp);
+router.post("/firebase-phone-verify", isAuth, verifyMobileOtp); 
 
 
 router.post("/send-email-otp", sendEmailOtp);

@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../redux/user.slice";
 import { useSelector } from "react-redux";
 import { FaMobileAlt, FaLock, FaRedo } from "react-icons/fa";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { auth } from "../firebase";
+import { useEffect } from "react";
 
 const VerifyMobile = () => {
   const {currentUserData} = useSelector(state=>state.user);
@@ -23,6 +26,17 @@ const VerifyMobile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+  if (!window.recaptchaVerifier) {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      { size: "invisible" },
+      auth
+    );
+  }
+}, []);
+
+
   const handleSendOtp = async (e) => {
     e.preventDefault();
     if (!/^[6-9]\d{9}$/.test(mobile)) {
@@ -31,12 +45,23 @@ const VerifyMobile = () => {
     }
     try {
       setLoading(true)
-      const result = await axios.post(`${server_url}/api/otp/send`, {phone : `+91${mobile}`}, {withCredentials : true});
-      toast.success(result.data.message)
+      // const result = await axios.post(`${server_url}/api/otp/send`, {phone : `+91${mobile}`}, {withCredentials : true});
+      // toast.success(result.data.message)
+         const appVerifier = window.recaptchaVerifier;
+
+    const confirmationResult = await signInWithPhoneNumber(
+      auth,
+      "+91" + mobile,
+      appVerifier
+    );
+
+    window.confirmationResult = confirmationResult;
+      toast.success("OTP Sent Successfully");
       setLoading(false)
       setStep("otp");
     } catch (error) {
-      toast.error(error.response.data.message)
+      // toast.error(error.response.data.message)
+      toast.error("Otp send failed!")
       setLoading(false)
     }
   
@@ -46,15 +71,30 @@ const VerifyMobile = () => {
     e.preventDefault();
     try {
       setLoading(true)
-      const result = await axios.post(`${server_url}/api/otp/verify`, {phone : `+91${mobile}`,otp }, {withCredentials : true})
-      toast.success(result.data.message);
-      if(result.data.user){
-        dispatch(setCurrentUserData({user : result.data.user}))
-      }else{
-        dispatch(useGetCurrentUser());
-      }
+      // const result = await axios.post(`${server_url}/api/otp/verify`, {phone : `+91${mobile}`,otp }, {withCredentials : true})
+      // toast.success(result.data.message);
 
-      role === "professional" ? navigate("/onboard") : navigate(-1);
+         const result = await window.confirmationResult.confirm(otp);
+    const user = result.user;
+
+    // 🔥 Firebase token
+    const token = await user.getIdToken();
+
+    // 🔥 Backend ko bhej
+    const res = await axios.post(
+      `${server_url}/api/otp/firebase-phone-verify`,
+      { token },
+      { withCredentials: true }
+    );
+
+    toast.success("Mobile Verified Successfully");
+
+    if (res.data.user) {
+      dispatch(setCurrentUserData({ user: res.data.user }));
+    }
+
+    role === "professional" ? navigate("/onboard") : navigate(-1);
+
       setLoading(false)
     } catch (error) {
       toast.error(error.response.data.message)
@@ -64,16 +104,21 @@ const VerifyMobile = () => {
 
   const handleResendOtp = async ()=>{
         try {
-      setLoading(true)
-      const result = await axios.post(`${server_url}/api/otp/send`, {phone : `+91${mobile}`}, {withCredentials : true});
-      toast.success(result.data.message)
-      setLoading(false)
-      setTimerActive(true);
-      setKey((prev) => prev + 1);
-      setStep("otp");
+      // setLoading(true)
+      // const result = await axios.post(`${server_url}/api/otp/send`, {phone : `+91${mobile}`}, {withCredentials : true});
+      // toast.success(result.data.message)
+
+      // setLoading(false)
+      // setTimerActive(true);
+      // setKey((prev) => prev + 1);
+      // setStep("otp");
+
+       handleSendOtp(new Event("submit"));
+        setTimerActive(true);
+        setKey((prev) => prev + 1);
     } catch (error) {
-      toast.error(error.response.data.message)
-        setLoading(false)
+      // toast.error(error.response.data.message)
+        // setLoading(false)
     }
   
   }
@@ -142,7 +187,7 @@ const VerifyMobile = () => {
     ) : (
       /* OTP STEP */
       <form onSubmit={handleVerifyOtp}>
-        
+        <div id="recaptcha-container"></div>
         <div className="mb-4 text-center">
           <input
             type="text"

@@ -6,6 +6,7 @@ import { generateOtpPlain, hashOtp, compareOtp } from "../../utils/otpHelper.js"
 import { Customer, Professional, User } from "../../models/userModel.js";
 import { sendEmail } from "../../utils/mailer.js";
 import axios from "axios";
+import admin from '../../config/firebaseAdmin.js';
 
 
 const OTP_EXPIRY = parseInt(process.env.OTP_EXPIRY_SECONDS || "300"); // seconds
@@ -84,49 +85,66 @@ export const sendMobileOtp = async (req, res) => {
 
 export const verifyMobileOtp = async (req, res) => {
   try {
-    const { error, value } = verifySchema.validate(req.body);
-    if (error) return res.status(400).json({ message: error.message });
+    // const { error, value } = verifySchema.validate(req.body);
+    // if (error) return res.status(400).json({ message: error.message });
 
-    const { phone, otp } = value;
+    // const { phone, otp } = value;
 
-    // 🔥 attempts check (REDIS BACK)
-    const attempts = parseInt(await redis.get(otpAttemptsKey(phone)) || "0", 10);
+    // // 🔥 attempts check (REDIS BACK)
+    // const attempts = parseInt(await redis.get(otpAttemptsKey(phone)) || "0", 10);
 
-    if (attempts >= OTP_MAX_ATTEMPTS) {
-      return res.status(429).json({
-        message: "Maximum attempts reached. Please request a new OTP.",
-      });
-    }
+    // if (attempts >= OTP_MAX_ATTEMPTS) {
+    //   return res.status(429).json({
+    //     message: "Maximum attempts reached. Please request a new OTP.",
+    //   });
+    // }
 
-    // 🔥 MSG91 VERIFY
-    const response = await fetch(
-      `https://api.msg91.com/api/v5/otp/verify?mobile=91${phone}&otp=${otp}&authkey=${process.env.MSG91_AUTH_KEY}`
-    );
+    // // 🔥 MSG91 VERIFY
+    // const response = await fetch(
+    //   `https://api.msg91.com/api/v5/otp/verify?mobile=91${phone}&otp=${otp}&authkey=${process.env.MSG91_AUTH_KEY}`
+    // );
 
   
-    const data = await response.json();
+    // const data = await response.json();
 
-    if (data.type !== "success") {
+    // if (data.type !== "success") {
       
-      const newAttempts = await redis.incr(otpAttemptsKey(phone));
+    //   const newAttempts = await redis.incr(otpAttemptsKey(phone));
 
-      const ttl = await redis.ttl(otpAttemptsKey(phone));
-      if (ttl === -1) {
-        await redis.expire(otpAttemptsKey(phone), OTP_EXPIRY);
-      }
+    //   const ttl = await redis.ttl(otpAttemptsKey(phone));
+    //   if (ttl === -1) {
+    //     await redis.expire(otpAttemptsKey(phone), OTP_EXPIRY);
+    //   }
 
-      return res.status(400).json({ message: "Invalid OTP." });
-    }
+    //   return res.status(400).json({ message: "Invalid OTP." });
+    // }
 
    
-    await redis.del(otpAttemptsKey(phone));
-    await redis.del(otpResendKey(phone));
+    // await redis.del(otpAttemptsKey(phone));
+    // await redis.del(otpResendKey(phone));
 
+     const { token } = req.body;
+       if (!token) {
+      return res.status(400).json({ message: "Token is required" });
+    }
+
+     const decodedToken = await admin.auth().verifyIdToken(token);
+    const phone = decodedToken.phone_number;
+
+     if (!phone) {
+      return res.status(400).json({ message: "Phone number not found" });
+    }
+
+    const formattedPhone = formatPhone(phone);
     const user = await User.findByIdAndUpdate(
       req.userId,
-      { mobile: phone, isMobileVerified: true },
+      { mobile: formattedPhone, isMobileVerified: true },
       { new: true }
     );
+
+     if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     if (user.role === "customer") {
       const customer = await Customer.findOne({ userId: user._id }).populate("userId");
