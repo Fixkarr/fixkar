@@ -257,7 +257,7 @@ const App = () => {
       />
 
          <Route
-        element={<OnBoard />}
+        element={!isOnboarded && <OnBoard />}
       >
         <Route
           path="/onboard/verify-mobile"
@@ -344,7 +344,7 @@ const App = () => {
         />
 
         {/* Professional */}
-          <Route element={<ProtectedRoute allowedRole="professional"/>}>
+          <Route element={isOnboarded && <ProtectedRoute allowedRole="professional"/>}>
                <Route
           path="/professional/home"
           element={
