@@ -257,7 +257,7 @@ const App = () => {
       />
 
          <Route
-        element={!isOnboarded && <OnBoard />}
+        element={<OnBoard />}
       >
         <Route
           path="/onboard/verify-mobile"
