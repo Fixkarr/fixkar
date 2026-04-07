@@ -90,7 +90,7 @@ export const rejectBankDetail = async (req, res) => {
     <!-- CTA BUTTON -->
     <div style="text-align:center; margin:28px 0;">
       <a
-        href="https://fixkar.netlify.app"
+        href="https://fixkarr.com"
         style="
           display:inline-block;
           padding:14px 34px;

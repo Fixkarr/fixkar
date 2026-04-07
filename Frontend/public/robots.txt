@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fixkar.netlify.app/sitemap.xml
+Sitemap: https://fixkarr.com/sitemap.xml

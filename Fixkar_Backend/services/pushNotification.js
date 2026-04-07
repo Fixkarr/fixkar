@@ -15,7 +15,7 @@ export const pushNotification = async ({
     notification: {
       title: title,
       body: message,
-      icon: `https://fixkar.netlify.app/favicon.png`,
+      icon: `https://fixkarr.com/favicon.png`,
       data: {
         redirectUrl: redirectUrl || "",
       },

@@ -20,7 +20,7 @@ messaging.onBackgroundMessage((payload) => {
 
   self.registration.showNotification(title, {
     body,
-    icon: `https://fixkar.netlify.app/favicon.png`,
+    icon: `https://fixkarr.com/favicon.png`,
     data: {
       redirectUrl: payload?.data?.redirectUrl || "/",
     },
