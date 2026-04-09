@@ -48,20 +48,7 @@ const ManageOffers = () => {
         </div>
 
         <div className="card-body bg-light">
-
-          {loading ? (
-            <div className="text-center py-5">
-              <ClipLoader size={35} />
-            </div>
-          ) : offersForm.length === 0 ? (
-            <div className="text-center py-5 text-muted">
-              No offers created yet
-            </div>
-          ) : (
-            <div className="row">
               <OfferForm/>
-            </div>
-          )}
         </div>
 
         <div className="card-body bg-light">
