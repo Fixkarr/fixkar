@@ -39,49 +39,68 @@ const OfferForm = () => {
     e.preventDefault();
 
     console.log("Offer Data:", formData);
-    
+
   
   };
 
-  return (
-    <div className="container mt-4">
-      <div className="card shadow p-4">
-        <h3 className="mb-3">Create Offer</h3>
+ import { FaTag, FaPercentage, FaCalendarAlt, FaToggleOn } from "react-icons/fa";
+import { MdOutlineLocalOffer } from "react-icons/md";
 
-        <form onSubmit={handleSubmit}>
-          {/* Offer Title */}
-          <div className="mb-3">
-            <label className="form-label">Offer Title</label>
-            <input
-              type="text"
-              className="form-control"
-              name="offerTitle"
-              value={formData.offerTitle}
-              onChange={handleChange}
-              required
-            />
-          </div>
+return (
+  <div className="container py-5">
+    <div className="card bg-dark text-light shadow-lg border-0 rounded-4 p-4">
+      
+      {/* Header */}
+      <div className="d-flex align-items-center mb-4">
+        <MdOutlineLocalOffer size={28} className="me-2 text-warning" />
+        <h3 className="mb-0 fw-bold">Create Offer</h3>
+      </div>
 
-          {/* Service Multi Select */}
-          <div className="mb-3">
-            <label className="form-label">Select Services</label>
+      <form onSubmit={handleSubmit}>
+        
+        {/* Offer Title */}
+        <div className="mb-4">
+          <label className="form-label fw-semibold">
+            <FaTag className="me-2 text-info" />
+            Offer Title
+          </label>
+          <input
+            type="text"
+            className="form-control bg-secondary text-light border-0 rounded-3"
+            name="offerTitle"
+            value={formData.offerTitle}
+            onChange={handleChange}
+            placeholder="Enter offer title..."
+            required
+          />
+        </div>
+
+        {/* Services */}
+        <div className="mb-4">
+          <label className="form-label fw-semibold">
+            <MdOutlineLocalOffer className="me-2 text-success" />
+            Select Services
+          </label>
+          <select
+            multiple
+            className="form-select bg-secondary text-light border-0 rounded-3"
+            onChange={handleServiceChange}
+          >
+            <option value="service1">Service 1</option>
+            <option value="service2">Service 2</option>
+            <option value="service3">Service 3</option>
+          </select>
+        </div>
+
+        {/* Discount */}
+        <div className="row">
+          <div className="col-md-6 mb-4">
+            <label className="form-label fw-semibold">
+              <FaPercentage className="me-2 text-warning" />
+              Discount Type
+            </label>
             <select
-              multiple
-              className="form-control"
-              onChange={handleServiceChange}
-            >
-              {/* Replace with dynamic services */}
-              <option value="service1">Service 1</option>
-              <option value="service2">Service 2</option>
-              <option value="service3">Service 3</option>
-            </select>
-          </div>
-
-          {/* Discount Type */}
-          <div className="mb-3">
-            <label className="form-label">Discount Type</label>
-            <select
-              className="form-control"
+              className="form-select bg-secondary text-light border-0 rounded-3"
               name="discountType"
               value={formData.discountType}
               onChange={handleChange}
@@ -91,127 +110,152 @@ const OfferForm = () => {
             </select>
           </div>
 
-          {/* Discount Value */}
-          <div className="mb-3">
-            <label className="form-label">Discount Value</label>
+          <div className="col-md-6 mb-4">
+            <label className="form-label fw-semibold">
+              <FaPercentage className="me-2 text-danger" />
+              Discount Value
+            </label>
             <input
               type="number"
-              className="form-control"
+              className="form-control bg-secondary text-light border-0 rounded-3"
               name="discountValue"
               value={formData.discountValue}
               onChange={handleChange}
+              placeholder="Enter value..."
               required
             />
           </div>
+        </div>
 
-          {/* Min Booking */}
-          <div className="mb-3">
-            <label className="form-label">Min Booking Amount</label>
+        {/* Pricing */}
+        <div className="row">
+          <div className="col-md-6 mb-4">
+            <label className="form-label fw-semibold">
+              Min Booking Amount
+            </label>
             <input
               type="number"
-              className="form-control"
+              className="form-control bg-secondary text-light border-0 rounded-3"
               name="minBookingAmount"
               value={formData.minBookingAmount}
               onChange={handleChange}
             />
           </div>
 
-          {/* Max Discount */}
-          <div className="mb-3">
-            <label className="form-label">Max Discount</label>
+          <div className="col-md-6 mb-4">
+            <label className="form-label fw-semibold">
+              Max Discount
+            </label>
             <input
               type="number"
-              className="form-control"
+              className="form-control bg-secondary text-light border-0 rounded-3"
               name="maxDiscount"
               value={formData.maxDiscount}
               onChange={handleChange}
             />
           </div>
+        </div>
 
-          {/* Dates */}
-          <div className="row">
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Start Date</label>
-              <input
-                type="date"
-                className="form-control"
-                name="startDate"
-                value={formData.startDate}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="col-md-6 mb-3">
-              <label className="form-label">End Date</label>
-              <input
-                type="date"
-                className="form-control"
-                name="endDate"
-                value={formData.endDate}
-                onChange={handleChange}
-              />
-            </div>
+        {/* Dates */}
+        <div className="row">
+          <div className="col-md-6 mb-4">
+            <label className="form-label fw-semibold">
+              <FaCalendarAlt className="me-2 text-info" />
+              Start Date
+            </label>
+            <input
+              type="date"
+              className="form-control bg-secondary text-light border-0 rounded-3"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
+            />
           </div>
 
-          {/* Usage Limit */}
-          <div className="mb-3">
-            <label className="form-label">Usage Limit</label>
+          <div className="col-md-6 mb-4">
+            <label className="form-label fw-semibold">
+              <FaCalendarAlt className="me-2 text-info" />
+              End Date
+            </label>
+            <input
+              type="date"
+              className="form-control bg-secondary text-light border-0 rounded-3"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        {/* Limits */}
+        <div className="row">
+          <div className="col-md-6 mb-4">
+            <label className="form-label fw-semibold">
+              Usage Limit
+            </label>
             <input
               type="number"
-              className="form-control"
+              className="form-control bg-secondary text-light border-0 rounded-3"
               name="usageLimit"
               value={formData.usageLimit}
               onChange={handleChange}
             />
           </div>
 
-          {/* Per User Limit */}
-          <div className="mb-3">
-            <label className="form-label">Per User Limit</label>
+          <div className="col-md-6 mb-4">
+            <label className="form-label fw-semibold">
+              Per User Limit
+            </label>
             <input
               type="number"
-              className="form-control"
+              className="form-control bg-secondary text-light border-0 rounded-3"
               name="perUserLimit"
               value={formData.perUserLimit}
               onChange={handleChange}
             />
           </div>
+        </div>
 
-          {/* Checkboxes */}
-          <div className="form-check mb-2">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              name="newCustomerOnly"
-              checked={formData.newCustomerOnly}
-              onChange={handleChange}
-            />
-            <label className="form-check-label">
-              New Customers Only
-            </label>
-          </div>
+        {/* Toggles */}
+        <div className="form-check form-switch mb-3">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            name="newCustomerOnly"
+            checked={formData.newCustomerOnly}
+            onChange={handleChange}
+          />
+          <label className="form-check-label">
+            <FaToggleOn className="me-2 text-success" />
+            New Customers Only
+          </label>
+        </div>
 
-          <div className="form-check mb-3">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              name="isActive"
-              checked={formData.isActive}
-              onChange={handleChange}
-            />
-            <label className="form-check-label">
-              Active Offer
-            </label>
-          </div>
+        <div className="form-check form-switch mb-4">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            name="isActive"
+            checked={formData.isActive}
+            onChange={handleChange}
+          />
+          <label className="form-check-label">
+            <FaToggleOn className="me-2 text-warning" />
+            Active Offer
+          </label>
+        </div>
 
-          {/* Submit */}
-          <button type="submit" className="btn btn-primary w-100">
-            Create Offer
-          </button>
-        </form>
-      </div>
+        {/* Submit */}
+        <button
+          type="submit"
+          className="btn btn-warning w-100 fw-bold py-2 rounded-3"
+        >
+          Create Offer
+        </button>
+      </form>
     </div>
-  );
+  </div>
+);
 };
 
 export default OfferForm;
