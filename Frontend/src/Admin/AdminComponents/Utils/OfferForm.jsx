@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 
 const OfferForm = () => {
     const {services} = useSelector(state => state.services)
+    const [loading, setLoading] = useState(false);
     
   const [formData, setFormData] = useState({
     serviceId: [],
@@ -58,11 +59,14 @@ const handleServiceCheckbox = (e) => {
     e.preventDefault();
     console.log("Offer Data:", formData);
     try {
+        setLoading(true)
         const res = await axios.post(`${server_url}/api/admin/create-offer`, formData, {withCredentials : true})
         console.log(res);
         toast.success(res.data.message)
+        setLoading(false)
     } catch (error) {
         toast.error(error.response.data.message || "internal server error!")
+        setLoading(false)
     }
   
   };
@@ -284,8 +288,9 @@ return (
         <button
           type="submit"
           className="btn btn-warning w-100 fw-bold py-2 rounded-3"
+          disabled={loading}
         >
-          Create Offer
+          {loading ? "Creating.." : "Create Offer"}
         </button>
       </form>
     </div>
