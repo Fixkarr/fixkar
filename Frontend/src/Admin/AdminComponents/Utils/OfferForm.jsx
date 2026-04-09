@@ -2,10 +2,11 @@ import React, { useState } from "react";
 
  import { FaTag, FaPercentage, FaCalendarAlt, FaToggleOn } from "react-icons/fa";
 import { MdOutlineLocalOffer } from "react-icons/md";
-import useGetServices from "../../../hooks/useGetServices";
+import { useSelector } from "react-redux";
+// import useGetServices from "../../../hooks/useGetServices";
 
 const OfferForm = () => {
-    const services = useGetServices()
+    const {services} = useSelector(state => state.services)
     console.log(services)
   const [formData, setFormData] = useState({
     serviceId: [],
