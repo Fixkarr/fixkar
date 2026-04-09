@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const OfferForm = () => {
     const {services} = useSelector(state => state.services)
-    console.log(services)
+    
   const [formData, setFormData] = useState({
     serviceId: [],
     offerTitle: "",
@@ -34,12 +34,21 @@ const OfferForm = () => {
   };
 
   // handle service selection (multi)
-  const handleServiceChange = (e) => {
-    const options = Array.from(e.target.selectedOptions);
-    const values = options.map((opt) => opt.value);
+const handleServiceCheckbox = (e) => {
+  const { value, checked } = e.target;
 
-    setFormData({ ...formData, serviceId: values });
-  };
+  if (checked) {
+    setFormData({
+      ...formData,
+      serviceId: [...formData.serviceId, value],
+    });
+  } else {
+    setFormData({
+      ...formData,
+      serviceId: formData.serviceId.filter((id) => id !== value),
+    });
+  }
+};
 
   // submit
   const handleSubmit = (e) => {
@@ -81,21 +90,35 @@ return (
 
         {/* Services */}
         <div className="mb-4">
-          <label className="form-label fw-semibold">
-            <MdOutlineLocalOffer className="me-2 text-success" />
-            Select Services
-          </label>
-          <select
-            multiple
-            className="form-select bg-secondary text-light border-0 rounded-3"
-            onChange={handleServiceChange}
-          >
-            <option value="service1">Service 1</option>
-            <option value="service2">Service 2</option>
-            <option value="service3">Service 3</option>
-          </select>
-        </div>
+  <label className="form-label fw-semibold">
+    <MdOutlineLocalOffer className="me-2 text-success" />
+    Select Services
+  </label>
 
+  <div className="row">
+    {services.length !== 0 &&
+      services.map((service) => (
+        <div className="col-md-4 mb-2" key={service._id}>
+          <div className="form-check bg-secondary rounded-3 p-2">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value={service._id}
+              id={service._id}
+              checked={formData.serviceId.includes(service._id)}
+              onChange={handleServiceCheckbox}
+            />
+            <label
+              className="form-check-label ms-2"
+              htmlFor={service._id}
+            >
+              {service.name}
+            </label>
+          </div>
+        </div>
+      ))}
+  </div>
+</div>
         {/* Discount */}
         <div className="row">
           <div className="col-md-6 mb-4">
