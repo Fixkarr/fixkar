@@ -1,8 +1,11 @@
+import axios from "axios";
 import React, { useState } from "react";
 
  import { FaTag, FaPercentage, FaCalendarAlt, FaToggleOn } from "react-icons/fa";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { server_url } from "../../../App";
+import { toast } from "react-toastify";
 // import useGetServices from "../../../hooks/useGetServices";
 
 const OfferForm = () => {
@@ -51,11 +54,16 @@ const handleServiceCheckbox = (e) => {
 };
 
   // submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
     console.log("Offer Data:", formData);
-
+    try {
+        const res = await axios.post(`${server_url}/api/admin/create-offer`, formData, {withCredentials : true})
+        console.log(res);
+        toast.success(res.data.message)
+    } catch (error) {
+        toast.error(error.response.data.message || "internal server error!")
+    }
   
   };
 

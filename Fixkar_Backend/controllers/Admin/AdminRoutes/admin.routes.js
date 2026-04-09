@@ -20,10 +20,10 @@ import { createForm } from '../AdminController/createForm.controller.js';
 import { getAllForms } from '../AdminController/fetchAllForm.js';
 import {isAuth} from '../../../middlewares/isAuth.js'
 import { getFormByService } from '../AdminController/getFormByService.js';
-import { getOfferForm } from '../AdminController/getOfferForms.controller.js';
 import { getAllOffers } from '../AdminController/getAllOffers.js';
 import { postAnnouncement } from '../AdminController/postAnnouncement.js';
 import { deleteAnnouncement, getAllAnnouncements } from '../AdminController/announcements.controller.js';
+import { createOffer } from '../AdminController/createOffer.js';
 const adminRouter = express.Router()
 
 // /api/admin 
@@ -57,7 +57,7 @@ adminRouter.post('/forms', isAdmin, adminPermission('super_admin', 'content_admi
 adminRouter.get('/get-all-forms', isAdmin, adminPermission('super_admin', 'content_admin'), getAllForms);
 adminRouter.get('/get-form-by-service/:serviceId', isAuth, getFormByService);
 
-adminRouter.get('/get-offer-forms', isAdmin, adminPermission('super_admin'), getOfferForm);
+adminRouter.post('/create-offer', isAdmin, adminPermission('super_admin'), createOffer);
 adminRouter.get('/get-all-offers', isAdmin, adminPermission('super_admin', 'content_admin'), getAllOffers);
 
 
@@ -65,5 +65,7 @@ adminRouter.get('/get-all-offers', isAdmin, adminPermission('super_admin', 'cont
 adminRouter.post('/announcement', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), postAnnouncement);
 adminRouter.get('/get-announcements', isAdmin, adminPermission('super_admin', 'content_admin'), getAllAnnouncements);
 adminRouter.delete('/delete-announcement/:id', isAdmin, adminPermission('super_admin', 'content_admin'), deleteAnnouncement);
+
+
 
 export default adminRouter;

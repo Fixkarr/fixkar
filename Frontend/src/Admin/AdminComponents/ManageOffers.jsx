@@ -2,30 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   FaGift,
-  FaPlusCircle,
-  FaEdit,
-  FaToggleOn,
-  FaToggleOff,
-  FaPercentage
 } from "react-icons/fa";
-import { ClipLoader } from "react-spinners";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { server_url } from "../../App";
-import DynamicForm from "./Utils/DynamicForm";
+
 import AllOffers from "./AllOffers";
 import OfferForm from "./Utils/OfferForm";
 
-const adminpath = import.meta.env.VITE_ADMIN_PATH;
+
 
 const ManageOffers = () => {
-
-  const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
-
-
-
   return (
     <div className="container py-3">
       <div
