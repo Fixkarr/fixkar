@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+ import { FaTag, FaPercentage, FaCalendarAlt, FaToggleOn } from "react-icons/fa";
+import { MdOutlineLocalOffer } from "react-icons/md";
+
 const OfferForm = () => {
   const [formData, setFormData] = useState({
     serviceId: [],
@@ -42,9 +45,6 @@ const OfferForm = () => {
 
   
   };
-
- import { FaTag, FaPercentage, FaCalendarAlt, FaToggleOn } from "react-icons/fa";
-import { MdOutlineLocalOffer } from "react-icons/md";
 
 return (
   <div className="container py-5">
