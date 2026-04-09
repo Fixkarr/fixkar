@@ -19,7 +19,6 @@ import {
   signInWithPopup,
 } from "../firebase.js";
 
-import { createUserWithEmailAndPassword, sendEmailVerification } from "../firebase.js";
 
 import { server_url } from "../App.jsx";
 import { setCurrentUserData } from "../redux/user.slice.js";

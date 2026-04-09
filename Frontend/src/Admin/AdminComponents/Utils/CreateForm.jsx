@@ -221,7 +221,6 @@ if (form.target.entity === "service" && !form.target.entityId) {
             <option value="pricing">Pricing</option>
             <option value="onboarding">Onboarding</option>
             <option value="kyc">KYC</option>
-            <option value="offer">Offers</option>
             <option value="profile">Profile</option>
             <option value="survey">Survey</option>
             <option value="settings">Settings</option>

@@ -14,34 +14,17 @@ import { useNavigate } from "react-router-dom";
 import { server_url } from "../../App";
 import DynamicForm from "./Utils/DynamicForm";
 import AllOffers from "./AllOffers";
+import OfferForm from "./Utils/OfferForm";
 
 const adminpath = import.meta.env.VITE_ADMIN_PATH;
 
 const ManageOffers = () => {
-  const [offersForm, setOffersForm] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const fetchOffersForm = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(
-        `${server_url}/api/admin/get-offer-forms`,
-        { withCredentials: true }
-      );
-      setOffersForm(res.data.offerForms || []);
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to load offers");
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  useEffect(() => {
-    fetchOffersForm();
-  }, []);
 
   return (
     <div className="container py-3">
@@ -65,11 +48,6 @@ const ManageOffers = () => {
         </div>
 
         <div className="card-body bg-light">
-          <AllOffers/>
-        </div>
-
-        {/* ===== BODY ===== */}
-        <div className="card-body bg-light">
 
           {loading ? (
             <div className="text-center py-5">
@@ -81,12 +59,17 @@ const ManageOffers = () => {
             </div>
           ) : (
             <div className="row">
-              {offersForm?.map((offerForm) => (
-                <DynamicForm form={offerForm}/>
-              ))}
+              <OfferForm/>
             </div>
           )}
         </div>
+
+        <div className="card-body bg-light">
+          <AllOffers/>
+        </div>
+
+        {/* ===== BODY ===== */}
+        
       </div>
     </div>
   );
