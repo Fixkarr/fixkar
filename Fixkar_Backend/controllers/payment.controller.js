@@ -232,13 +232,38 @@ export const verifyPayment = async (req,res)=>{
 const visitingCharge = Number(booking.visitingCharge) || 0;
 
 
-  const fullAmount = quoteAmount + visitingCharge;
-     
-    const commission = Math.round(
-      (fullAmount * COMMISSION_PERCENT) / 100
-    );
+  let fullAmount = 0;
+let commission = 0;
+let professionalAmount = 0;
 
-     const professionalAmount = fullAmount - commission; 
+const lateCancellationFee =  50; // fallback
+
+if (paymentType === "FINAL") {
+  fullAmount = quoteAmount + visitingCharge;
+
+  commission = Math.round(
+    (fullAmount * COMMISSION_PERCENT) / 100
+  );
+
+  professionalAmount = fullAmount - commission;
+}
+
+if (paymentType === "CANCEL") {
+  // only visiting charge + late fee
+  fullAmount = visitingCharge + lateCancellationFee;
+
+  // commission ONLY on visiting charge
+  const commissionOnVisiting = Math.round(
+    (visitingCharge * COMMISSION_PERCENT) / 100
+  );
+
+  commission = commissionOnVisiting;
+
+  // professional gets:
+  // (visiting - commission) + full late fee
+  professionalAmount =
+    (visitingCharge - commissionOnVisiting) + lateCancellationFee;
+}
        
          let wallet = await Wallet.findOne({professionalId : booking.professionalId._id}).session(session);
 
