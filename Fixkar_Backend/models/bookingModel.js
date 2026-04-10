@@ -28,7 +28,7 @@ const bookingSchema = new mongoose.Schema({
         type : Date,
     },
     quoteAmount : {
-        type : Number
+        type : Number,
     },
     quoteSentAt : {
         type : Date

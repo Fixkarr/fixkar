@@ -228,7 +228,11 @@ export const verifyPayment = async (req,res)=>{
         ? Number(process.env.COMMISSION_PERCENT)
         : 5;
 
-   const fullAmount = booking.quoteAmount + booking.visitingCharge;
+   const quoteAmount = Number(booking.quoteAmount) || 0;
+const visitingCharge = Number(booking.visitingCharge) || 0;
+
+
+  const fullAmount = quoteAmount + visitingCharge;
      
     const commission = Math.round(
       (fullAmount * COMMISSION_PERCENT) / 100

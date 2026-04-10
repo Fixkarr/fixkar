@@ -105,7 +105,7 @@ useEffect(() => {
     toast.info("Please login to continue");
    navigate("/login", {
   state: { from: location }
-});
+    });
     return;
   }
 
