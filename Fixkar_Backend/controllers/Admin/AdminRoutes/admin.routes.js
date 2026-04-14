@@ -24,6 +24,8 @@ import { getAllOffers } from '../AdminController/getAllOffers.js';
 import { postAnnouncement } from '../AdminController/postAnnouncement.js';
 import { deleteAnnouncement, getAllAnnouncements } from '../AdminController/announcements.controller.js';
 import { createOffer } from '../AdminController/createOffer.js';
+import { updateOfferById } from '../AdminController/updateOfferById.js';
+import { getOfferById } from '../AdminController/getOfferById.js';
 const adminRouter = express.Router()
 
 // /api/admin 
@@ -59,6 +61,8 @@ adminRouter.get('/get-form-by-service/:serviceId', isAuth, getFormByService);
 
 adminRouter.post('/create-offer', isAdmin, adminPermission('super_admin'), createOffer);
 adminRouter.get('/get-all-offers', isAdmin, adminPermission('super_admin', 'content_admin'), getAllOffers);
+adminRouter.post('/update-offer/:offerId', isAdmin, adminPermission('super_admin'), updateOfferById)
+adminRouter.get('/get-offer/:offerId', isAdmin, adminPermission('super_admin'), getOfferById)
 
 
 // Announcement routes

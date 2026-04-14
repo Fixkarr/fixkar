@@ -11,10 +11,13 @@ import {
 import axios from 'axios'
 import {server_url} from '../../App'
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
+const adminpath = import.meta.env.VITE_ADMIN_PATH
 const AllOffers = () => {
   const [offers, setOffers] = useState([]);
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const getAllOffers = async ()=>{
@@ -161,14 +164,21 @@ const AllOffers = () => {
                 </div>
 
                 {/* Action */}
-                <button className="btn btn-outline-primary w-100">
-                  <FaBolt className="me-1" /> Manage Offer
+                <button className="btn btn-outline-primary w-100"
+                  onClick={()=>navigate(`${adminpath}/offer/update-offer/${offer._id}`)}
+                >
+                 Update Offer
+                </button>
+                <button className="btn btn-danger w-100">
+                 Inactive & Remove Offer
                 </button>
               </div>
             </div>
           );
         })}
       </div>
+
+  
 
       {filteredOffers.length === 0 && (
         <div className="text-center mt-5 text-muted">
