@@ -99,7 +99,7 @@ const UpdateOffer = () => {
     try {
       setLoading(true);
 
-      const res = await axios.put(
+      const res = await axios.post(
         `${server_url}/api/admin/update-offer/${offerId}`,
         formData,
         { withCredentials: true }
