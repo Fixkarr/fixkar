@@ -198,6 +198,122 @@ const UpdateOffer = () => {
                 required
               />
             </div>
+            <div className="row">
+                      <div className="col-md-6 mb-4">
+                        <label className="form-label fw-semibold">
+                          Min Booking Amount
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control bg-secondary text-light border-0 rounded-3"
+                          name="minBookingAmount"
+                          value={formData.minBookingAmount}
+                          onChange={handleChange}
+                        />
+                      </div>
+            
+                      <div className="col-md-6 mb-4">
+                        <label className="form-label fw-semibold">
+                          Max Discount
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control bg-secondary text-light border-0 rounded-3"
+                          name="maxDiscount"
+                          value={formData.maxDiscount}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+            
+                    {/* Dates */}
+                    <div className="row">
+                      <div className="col-md-6 mb-4">
+                        <label className="form-label fw-semibold">
+                          <FaCalendarAlt className="me-2 text-info" />
+                          Start Date
+                        </label>
+                        <input
+                          type="date"
+                          className="form-control bg-secondary text-light border-0 rounded-3"
+                          name="startDate"
+                          value={formData.startDate}
+                          onChange={handleChange}
+                        />
+                      </div>
+            
+                      <div className="col-md-6 mb-4">
+                        <label className="form-label fw-semibold">
+                          <FaCalendarAlt className="me-2 text-info" />
+                          End Date
+                        </label>
+                        <input
+                          type="date"
+                          className="form-control bg-secondary text-light border-0 rounded-3"
+                          name="endDate"
+                          value={formData.endDate}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+            
+                    {/* Limits */}
+                    <div className="row">
+                      <div className="col-md-6 mb-4">
+                        <label className="form-label fw-semibold">
+                          Usage Limit
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control bg-secondary text-light border-0 rounded-3"
+                          name="usageLimit"
+                          value={formData.usageLimit}
+                          onChange={handleChange}
+                        />
+                      </div>
+            
+                      <div className="col-md-6 mb-4">
+                        <label className="form-label fw-semibold">
+                          Per User Limit
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control bg-secondary text-light border-0 rounded-3"
+                          name="perUserLimit"
+                          value={formData.perUserLimit}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+            
+                    {/* Toggles */}
+                    <div className="form-check form-switch mb-3">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        name="newCustomerOnly"
+                        checked={formData.newCustomerOnly}
+                        onChange={handleChange}
+                      />
+                      <label className="form-check-label">
+                        <FaToggleOn className="me-2 text-success" />
+                        New Customers Only
+                      </label>
+                    </div>
+            
+                    <div className="form-check form-switch mb-4">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        name="isActive"
+                        checked={formData.isActive}
+                        onChange={handleChange}
+                      />
+                      <label className="form-check-label">
+                        <FaToggleOn className="me-2 text-warning" />
+                        Active Offer
+                      </label>
+                    </div>
           </div>
 
           {/* Submit */}
