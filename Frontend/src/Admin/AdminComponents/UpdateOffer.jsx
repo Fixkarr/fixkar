@@ -4,7 +4,7 @@ import { FaTag, FaPercentage, FaCalendarAlt, FaToggleOn } from "react-icons/fa";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { server_url } from "../../../App";
+import { server_url } from "../../App";
 import { toast } from "react-toastify";
 
 const UpdateOffer = () => {
