@@ -141,7 +141,7 @@ const UpdateOffer = () => {
               name="offerTitle"
               value={formData.offerTitle}
               onChange={handleChange}
-              required
+              
             />
           </div>
 
@@ -195,7 +195,7 @@ const UpdateOffer = () => {
                 name="discountValue"
                 value={formData.discountValue}
                 onChange={handleChange}
-                required
+                
               />
             </div>
             <div className="row">
