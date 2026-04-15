@@ -17,6 +17,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 const AllOffers = () => {
   const [offers, setOffers] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -36,6 +37,18 @@ const AllOffers = () => {
   const filteredOffers = offers?.filter((offer) =>
     offer.offerTitle.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleRemoveOffer = async(offerId)=>{
+    try {
+      setLoading(true)
+      const res = await axios.delete(`${server_url}/api/admin/delete-offer/${offerId}`, {withCredentials : true})
+      toast.success(res.data.message || "Offer Removed!")
+    } catch (error) {
+      toast.error(error.response.data.message || "Internal server error!")
+    }finally{
+      setLoading(false)
+    }
+  }
 
   return (
     <div
@@ -169,8 +182,10 @@ const AllOffers = () => {
                 >
                  Update Offer
                 </button>
-                <button className="btn btn-danger w-100">
-                 Inactive & Remove Offer
+                <button className="btn btn-danger w-100 m-2" disabled={loading} onClick={()=>{
+                  handleRemoveOffer(offer._id)
+                }}>
+                { loading ? "Removing" : "Remove"} Offer
                 </button>
               </div>
             </div>

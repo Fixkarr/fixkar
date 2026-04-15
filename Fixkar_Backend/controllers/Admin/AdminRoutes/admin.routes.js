@@ -26,6 +26,7 @@ import { deleteAnnouncement, getAllAnnouncements } from '../AdminController/anno
 import { createOffer } from '../AdminController/createOffer.js';
 import { updateOfferById } from '../AdminController/updateOfferById.js';
 import { getOfferById } from '../AdminController/getOfferById.js';
+import { removeOffer } from '../AdminController/removeOffer.js';
 const adminRouter = express.Router()
 
 // /api/admin 
@@ -63,6 +64,7 @@ adminRouter.post('/create-offer', isAdmin, adminPermission('super_admin'), creat
 adminRouter.get('/get-all-offers', isAdmin, adminPermission('super_admin', 'content_admin'), getAllOffers);
 adminRouter.post('/update-offer/:offerId', isAdmin, adminPermission('super_admin'), updateOfferById)
 adminRouter.get('/get-offer/:offerId', isAdmin, adminPermission('super_admin'), getOfferById)
+adminRouter.delete('/delete-offer/:offerId', isAdmin, adminPermission('super_admin'), removeOffer)
 
 
 // Announcement routes
@@ -72,4 +74,4 @@ adminRouter.delete('/delete-announcement/:id', isAdmin, adminPermission('super_a
 
 
 
-export default adminRouter;
+export default adminRouter; 
