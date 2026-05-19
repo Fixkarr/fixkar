@@ -180,7 +180,7 @@ const dispatch = useDispatch()
         </li>
         <li className="nav-item" style={{fontSize : "0.5vmax"}}>
           <NavLink
-            to="/customer/contact"
+            to={`${adminpath}/manage-enquiry`}
             className={({ isActive }) =>
               `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
                 isActive ? "bg-white text-primary fw-semibold" : "text-white"

@@ -75,6 +75,7 @@ import { generateFCMToken } from "./utils/generateFCMToken.js";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 import ManageAnnouncements from "./Admin/AdminComponents/ManageAnnouncements.jsx";
 import UpdateOffer from "./Admin/AdminComponents/UpdateOffer.jsx";
+import ManageEnquiry from "./Admin/AdminComponents/ManageEnquiry.jsx";
 
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
@@ -425,6 +426,7 @@ const App = () => {
           <Route path={`${adminpath}/manage-forms/create`} element={currentAdmin?.role === "super_admin" ? <CreateForm/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-announcements`} element={currentAdmin?.role === "super_admin" ? <ManageAnnouncements/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/offer/update-offer/:offerId`} element={currentAdmin?.role === "super_admin" ? <UpdateOffer/> : <Navigate to={`${adminpath}/home`}/>}/>
+          <Route path={`${adminpath}/manage-enquiry`} element={currentAdmin?.role === "super_admin" ? <ManageEnquiry/> : <Navigate to={`${adminpath}/home`}/>}/>
       </Route>
 
      

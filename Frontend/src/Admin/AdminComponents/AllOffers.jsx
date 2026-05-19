@@ -185,7 +185,7 @@ const AllOffers = () => {
                 <button className="btn btn-danger w-100 m-2" disabled={loading} onClick={()=>{
                   handleRemoveOffer(offer._id)
                 }}>
-                { loading ? "Removing" : "Remove"} Offer
+                  Remove Offer
                 </button>
               </div>
             </div>
