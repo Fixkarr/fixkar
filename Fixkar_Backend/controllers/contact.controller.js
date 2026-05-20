@@ -65,7 +65,7 @@ export const replyEnquiry = async (req,res)=>{
     try {
         const {enquiryId} = req.params;
         console.log(enquiryId);
-        
+
         if(!enquiryId){
             return res.status(400).json({
                 message : "Enquiry id not found!"
@@ -86,12 +86,17 @@ export const replyEnquiry = async (req,res)=>{
                 message : "Unauthorized!"
             })
         }
-        let enquiry = await Contact.findOne({_id : enquiryId, replied : false});
-        console.log(enquiry);
+        let enquiry = await Contact.findById(enquiryId);
 
         if(!enquiry){
             return res.status(400).json({
-                message : "This enquiry is not exist or replied already!"
+                message : "This enquiry is not exists!"
+            })
+        }
+
+        if(enquiry.replied){
+            return res.status(400).json({
+                message : "You have already replied to this enquiry!"
             })
         }
 
