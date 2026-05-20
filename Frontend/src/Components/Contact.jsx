@@ -42,7 +42,7 @@ const [loading, setLoading] = useState(false);
       const res = await axios.post(`${server_url}/api/user/send-enquiry`, {formData});
       toast.success(res?.data?.message || "message sent!")
     } catch (error) {
-      toast.error(error.response.data.message || "failed to send message!")
+      toast.error(error?.response?.data?.message || "failed to send message!")
     }finally{
         setLoading(false)
     }
