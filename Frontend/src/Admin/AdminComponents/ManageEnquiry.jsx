@@ -10,6 +10,7 @@ import {
 import axios from  "axios"
 import { server_url } from "../../App";
 import { toast } from "react-toastify";
+import { formatDate } from "../../utils/formatTime&Date";
 
 const ManageEnquiry = () => {
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -215,7 +216,7 @@ const ManageEnquiry = () => {
                     </div>
                   </div>
 
-                  <small style={{ color: "#cbd5e1" }}>{item.createdAt}</small>
+                  <small style={{ color: "#cbd5e1" }}>{formatDate(item.createdAt)}</small>
                 </div>
 
                 <p
