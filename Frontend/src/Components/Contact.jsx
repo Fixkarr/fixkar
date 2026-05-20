@@ -9,6 +9,7 @@ import {
   FaFacebook,
   FaInstagram,
   FaLinkedin,
+  FaPhone,
 } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import { useLocation } from "react-router-dom";
@@ -24,6 +25,7 @@ const { pathname } = location;
     name: "",
     email: "",
     message: "",
+    phone : ""
   });
 
   const handleChange = (e) => {
@@ -34,7 +36,7 @@ const { pathname } = location;
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("📩 Contact Form Submitted:", formData);
-    setFormData({ name: "", email: "", message: "" });
+    setFormData({ name: "", email: "", message: "" , phone : ""});
   };
 
   return (
@@ -153,6 +155,21 @@ const { pathname } = location;
                     className="form-control rounded-3"
                     placeholder="Enter your email"
                     value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label fw-semibold">
+                    <FaPhone className="me-2 text-primary" />
+                    Phone Number
+                  </label>
+                  <input
+                    type="number"
+                    name="phone"
+                    className="form-control rounded-3"
+                    placeholder="Enter your phone number"
+                    value={formData.phone}
                     onChange={handleChange}
                     required
                   />
