@@ -68,7 +68,7 @@ const ManageEnquiry = () => {
     setEnquiries(
       enquiries.map((item) =>
         item.id === selectedMessage.id
-          ? { ...item, status: "Replied" }
+          ? { ...item, replied: true }
           : item
       )
     );
