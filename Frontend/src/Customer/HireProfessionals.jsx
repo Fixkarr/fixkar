@@ -71,7 +71,7 @@ const HireProfessionals = () => {
 
 
   return (
-   <div className="professionals container px-3 px-md-5">
+   <div className="professionals container px-3 px-md-5 mt-5">
     {currentUserData && <div
         className="text-white p-4"
         style={{
