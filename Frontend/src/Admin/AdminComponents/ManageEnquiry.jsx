@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaEnvelope,
   FaReply,
@@ -7,47 +7,65 @@ import {
   FaUserCircle,
   FaPaperPlane,
 } from "react-icons/fa";
+import axios from  "axios"
+import { server_url } from "../../App";
+import { toast } from "react-toastify";
 
 const ManageEnquiry = () => {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [replyText, setReplyText] = useState("");
+    const [enquiries, setEnquiries] = useState([]);
 
   // Dummy Data
-  const [enquiries, setEnquiries] = useState([
-    {
-      id: 1,
-      name: "Rahul Sharma",
-      email: "rahul@gmail.com",
-      phone : "3924u2384y023",
-      message:
-        "Hello Admin, I want to know more about your electrician services.",
-      time: "10 min ago",
-      replied : false
-    },
-    {
-      id: 2,
-      name: "Aman Verma",
-      email: "aman@gmail.com",
-      phone : "sdfsdsdcsdvsd",
-      message:
-        "Can I book a plumber service for tomorrow morning in my locality?",
-      time: "30 min ago",
-      replied : true
-    },
-    {
-      id: 3,
-      name: "Priya Singh",
-      email: "priya@gmail.com",
-      phone : "sdfdkv",
-      message: "I am unable to login into my account please help me urgently.",
-      time: "1 hour ago",
-      replied : false
-    },
-  ]);
+//   const [enquiries, setEnquiries] = useState([
+//     {
+//       id: 1,
+//       name: "Rahul Sharma",
+//       email: "rahul@gmail.com",
+//       phone : "3924u2384y023",
+//       message:
+//         "Hello Admin, I want to know more about your electrician services.",
+//       createdAt: "10 min ago",
+//       replied : false
+//     },
+//     {
+//       id: 2,
+//       name: "Aman Verma",
+//       email: "aman@gmail.com",
+//       phone : "sdfsdsdcsdvsd",
+//       message:
+//         "Can I book a plumber service for tomorrow morning in my locality?",
+//       createdAt: "30 min ago",
+//       replied : true
+//     },
+//     {
+//       id: 3,
+//       name: "Priya Singh",
+//       email: "priya@gmail.com",
+//       phone : "sdfdkv",
+//       message: "I am unable to login into my account please help me urgently.",
+//       createdAt: "1 hour ago",
+//       replied : false
+//     },
+//   ]);
+
+ useEffect(()=>{
+    const getEnquiries = async ()=>{
+        try {
+            const res = await axios.get(`${server_url}/api/admin/get-enquiries`, {withCredentials : true});
+        setEnquiries(res?.data?.enquiries);
+        toast.success(res?.data.message);
+        } catch (error) {
+                toast.error(error?.response?.data?.message || "Failed to get Enquiries!")
+        }
+    }
+
+    getEnquiries();
+ },[])
 
   // Delete Enquiry
   const deleteEnquiry = (id) => {
-    setEnquiries(enquiries.filter((item) => item.id !== id));
+    setEnquiries(enquiries?.filter((item) => item.id !== id));
 
     if (selectedMessage?.id === id) {
       setSelectedMessage(null);
@@ -66,7 +84,7 @@ const ManageEnquiry = () => {
     );
 
     setEnquiries(
-      enquiries.map((item) =>
+      enquiries?.map((item) =>
         item.id === selectedMessage.id
           ? { ...item, replied: true }
           : item
@@ -157,11 +175,11 @@ const ManageEnquiry = () => {
                   borderRadius: "10px",
                 }}
               >
-                {enquiries.length} Messages
+                {enquiries?.length} Messages
               </span>
             </div>
 
-            {enquiries.map((item) => (
+            {enquiries?.map((item) => (
               <div
                 key={item.id}
                 onClick={() => setSelectedMessage(item)}
@@ -190,14 +208,14 @@ const ManageEnquiry = () => {
 
                       <small style={{ color: "#cbd5e1" }}>
                         {item.email}
-                      </small>
+                      </small> <br />
                       <small style={{ color: "#cbd5e1" }}>
                         {item.phone}
                       </small>
                     </div>
                   </div>
 
-                  <small style={{ color: "#cbd5e1" }}>{item.time}</small>
+                  <small style={{ color: "#cbd5e1" }}>{item.createdAt}</small>
                 </div>
 
                 <p
