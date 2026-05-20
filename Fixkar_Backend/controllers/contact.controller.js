@@ -1,3 +1,4 @@
+import { sendEmail } from "../utils/mailer.js";
 import { Contact } from "./Admin/AdminModels/contact.model.js";
 
 export const sendEnquiry = async (req,res)=>{
@@ -51,6 +52,46 @@ export const getEnquiries = async (req,res)=>{
             message : "Enquiries fetched!",
             enquiries,
             enquiriesCount : enquiries.length
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message : "Internal Server Error!"
+        })
+    }
+}
+
+export const replyEnquiry = async (req,res)=>{
+    try {
+        const {enquiryId} = req.params;
+        const {replyMessage} = req.body;
+        if(!replyMessage){
+            return res.status(400).json({
+                message : "Message is required!"
+            })
+        }
+
+        const admin = req.admin;
+
+        if(!admin){
+            return res.status(400).json({
+                message : "Unauthorized!"
+            })
+        }
+        let enquiry = await Contact.findOne({_id : enquiryId, replied : true});
+        if(!enquiry){
+            return res.status(400).json({
+                message : "This enquiry is not exist or replied already!"
+            })
+        }
+
+        await sendEmail(enquiry.email, "Regarding Your Enquiry On Fixkar", replyMessage);
+
+        enquiry.replied = true
+        await enquiry.save();
+
+        return res.status(200).json({
+            message : "Replied!"
         })
 
     } catch (error) {

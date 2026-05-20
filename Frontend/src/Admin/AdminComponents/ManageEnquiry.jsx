@@ -16,39 +16,7 @@ const ManageEnquiry = () => {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [replyText, setReplyText] = useState("");
     const [enquiries, setEnquiries] = useState([]);
-
-  // Dummy Data
-//   const [enquiries, setEnquiries] = useState([
-//     {
-//       id: 1,
-//       name: "Rahul Sharma",
-//       email: "rahul@gmail.com",
-//       phone : "3924u2384y023",
-//       message:
-//         "Hello Admin, I want to know more about your electrician services.",
-//       createdAt: "10 min ago",
-//       replied : false
-//     },
-//     {
-//       id: 2,
-//       name: "Aman Verma",
-//       email: "aman@gmail.com",
-//       phone : "sdfsdsdcsdvsd",
-//       message:
-//         "Can I book a plumber service for tomorrow morning in my locality?",
-//       createdAt: "30 min ago",
-//       replied : true
-//     },
-//     {
-//       id: 3,
-//       name: "Priya Singh",
-//       email: "priya@gmail.com",
-//       phone : "sdfdkv",
-//       message: "I am unable to login into my account please help me urgently.",
-//       createdAt: "1 hour ago",
-//       replied : false
-//     },
-//   ]);
+    const [loading, setLoading] = useState(false);
 
  useEffect(()=>{
     const getEnquiries = async ()=>{
@@ -74,19 +42,26 @@ const ManageEnquiry = () => {
   };
 
   // Reply Function
-  const handleReply = () => {
+  const handleReply = async (enquiryId) => {
     if (!replyText.trim()) {
       alert("Please write a reply message");
       return;
     }
 
-    alert(
-      `Reply sent successfully to ${selectedMessage.email}\n\nMessage: ${replyText}`
-    );
+    try {
+        setLoading(true)
+        const res = await axios.post(`${server_url}/api/admin/reply-enquiry/${enquiryId}`, {replyText}, {withCredentials : true} );
+
+        toast.success(res?.data?.message)
+    } catch (error) {
+           toast.error(error?.response?.data?.message || "Failed to reply enquiry!")
+    }finally{
+        setLoading(false)
+    }
 
     setEnquiries(
       enquiries?.map((item) =>
-        item.id === selectedMessage.id
+        item._id === selectedMessage._id
           ? { ...item, replied: true }
           : item
       )
@@ -335,7 +310,7 @@ const ManageEnquiry = () => {
                 </div>
 
                 {/* REPLY BOX */}
-                <div>
+               {!selectedMessage.replied && <div>
                   <h5 className="mb-3">
                     <FaReply className="me-2" />
                     Reply to Customer
@@ -358,7 +333,8 @@ const ManageEnquiry = () => {
                   />
 
                   <button
-                    onClick={handleReply}
+                    onClick={()=>handleReply(selectedMessage._id)}
+                    disabled={loading}
                     className="btn mt-4 px-4 py-3"
                     style={{
                       background:
@@ -371,9 +347,9 @@ const ManageEnquiry = () => {
                     }}
                   >
                     <FaPaperPlane className="me-2" />
-                    Send Reply
+                    {loading ? "Replying" : "Send Reply"}
                   </button>
-                </div>
+                </div>}
               </>
             ) : (
               <div
