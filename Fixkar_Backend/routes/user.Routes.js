@@ -85,4 +85,5 @@ userRoute.get('/get-my-announcements', isAuth, getMyAnnouncements);
 //contact
 userRoute.post('/send-enquiry', sendEnquiry);
 
+
  export default userRoute;

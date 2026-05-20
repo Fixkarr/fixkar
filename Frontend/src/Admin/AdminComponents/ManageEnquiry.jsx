@@ -18,28 +18,30 @@ const ManageEnquiry = () => {
       id: 1,
       name: "Rahul Sharma",
       email: "rahul@gmail.com",
+      phone : "3924u2384y023",
       message:
         "Hello Admin, I want to know more about your electrician services.",
       time: "10 min ago",
-      status: "Pending",
+      replied : false
     },
     {
       id: 2,
       name: "Aman Verma",
       email: "aman@gmail.com",
+      phone : "sdfsdsdcsdvsd",
       message:
         "Can I book a plumber service for tomorrow morning in my locality?",
       time: "30 min ago",
-      status: "Replied",
+      replied : true
     },
     {
       id: 3,
       name: "Priya Singh",
       email: "priya@gmail.com",
-      message:
-        "I am unable to login into my account please help me urgently.",
+      phone : "sdfdkv",
+      message: "I am unable to login into my account please help me urgently.",
       time: "1 hour ago",
-      status: "Pending",
+      replied : false
     },
   ]);
 
@@ -189,6 +191,9 @@ const ManageEnquiry = () => {
                       <small style={{ color: "#cbd5e1" }}>
                         {item.email}
                       </small>
+                      <small style={{ color: "#cbd5e1" }}>
+                        {item.phone}
+                      </small>
                     </div>
                   </div>
 
@@ -210,14 +215,14 @@ const ManageEnquiry = () => {
                     className="badge"
                     style={{
                       background:
-                        item.status === "Pending"
-                          ? "#dc2626"
-                          : "#16a34a",
+                        item.replied
+                        ? "#16a34a"
+                        : "#dc2626",
                       padding: "8px 12px",
                       borderRadius: "8px",
                     }}
                   >
-                    {item.status}
+                    {item.replied ? "Replied" : "Not Replied"}
                   </span>
 
                   <button
@@ -277,14 +282,14 @@ const ManageEnquiry = () => {
                     className="badge"
                     style={{
                       background:
-                        selectedMessage.status === "Pending"
-                          ? "#dc2626"
-                          : "#16a34a",
+                        selectedMessage.replied
+                        ? "#16a34a"
+                          : "#dc2626",
                       padding: "10px 15px",
                       borderRadius: "10px",
                     }}
                   >
-                    {selectedMessage.status}
+                    {selectedMessage.replied ? "Replied" : "Not Replied"}
                   </span>
                 </div>
 
