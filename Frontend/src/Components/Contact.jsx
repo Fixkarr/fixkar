@@ -18,6 +18,7 @@ import Footer from "./Footer";
 import {Helmet} from 'react-helmet-async'
 import axios from "axios"
 import { toast } from "react-toastify";
+import { server_url } from "../App";
 const Contact = () => {
   
 const location = useLocation();
