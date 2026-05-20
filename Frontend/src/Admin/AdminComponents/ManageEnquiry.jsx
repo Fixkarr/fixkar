@@ -105,26 +105,6 @@ const ManageEnquiry = () => {
           </p>
         </div>
 
-        <div
-          className="d-flex align-items-center px-3 py-2"
-          style={{
-            background: "#1e293b",
-            borderRadius: "12px",
-            width: "300px",
-          }}
-        >
-          <FaSearch color="#94a3b8" />
-
-          <input
-            type="text"
-            placeholder="Search enquiry..."
-            className="form-control border-0 shadow-none"
-            style={{
-              background: "transparent",
-              color: "white",
-            }}
-          />
-        </div>
       </div>
 
       <div className="row">
@@ -268,6 +248,15 @@ const ManageEnquiry = () => {
                       >
                         <FaEnvelope className="me-2" />
                         {selectedMessage.email}
+                      </p>
+                      <p
+                        style={{
+                          color: "#94a3b8",
+                          marginBottom: "0",
+                        }}
+                      >
+                        <FaPhone className="me-2" />
+                        {selectedMessage.phone}
                       </p>
                     </div>
                   </div>

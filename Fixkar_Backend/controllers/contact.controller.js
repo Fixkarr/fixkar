@@ -64,7 +64,6 @@ export const getEnquiries = async (req,res)=>{
 export const replyEnquiry = async (req,res)=>{
     try {
         const {enquiryId} = req.params;
-        console.log(enquiryId);
 
         if(!enquiryId){
             return res.status(400).json({
