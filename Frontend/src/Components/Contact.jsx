@@ -16,12 +16,14 @@ import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import {Helmet} from 'react-helmet-async'
+import axios from "axios"
+import { toast } from "react-toastify";
 const Contact = () => {
   
 const location = useLocation();
 const { pathname } = location;
-
-  const [formData, setFormData] = useState({
+const [loading, setLoading] = useState(false);
+;  const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
@@ -33,10 +35,22 @@ const { pathname } = location;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("📩 Contact Form Submitted:", formData);
+    try {
+      setLoading(true)
+      const res = await axios.post(`${server_url}/api/user/send-enquiry`, {formData});
+      toast.success(res?.data?.message || "message sent!")
+    } catch (error) {
+      toast.error(error.response.data.message || "failed to send message!")
+    }finally{
+        setLoading(false)
+    }
+    
+    
+
     setFormData({ name: "", email: "", message: "" , phone : ""});
+    
   };
 
   return (
@@ -196,9 +210,10 @@ const { pathname } = location;
                 <button
                   type="submit"
                   className="btn btn-primary w-100 rounded-pill py-2 fw-semibold"
+                  disabled={loading}
                 >
                   <FaPaperPlane className="me-2" />
-                  Send Message
+                  {loading ?  "Sending message!" : "Send Message"}
                 </button>
               </form>
             </div>

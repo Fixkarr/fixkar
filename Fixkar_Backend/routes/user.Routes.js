@@ -23,6 +23,7 @@ import { getBanks } from '../controllers/Admin/AdminController/bank.controller.j
 import { getEligibleOffers } from '../controllers/CustomerController/getEligibleOffers.controller.js';
 import { applyOfferToBooking } from '../controllers/CustomerController/applyOfferToBooking.js';
 import { getMyAnnouncements } from '../controllers/getMyAnnouncements.js';
+import { sendEnquiry } from '../controllers/contact.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -73,11 +74,15 @@ userRoute.get('/get-services', getServices)
 userRoute.post('/save-form-response', isAuth, saveFormResponse);
 userRoute.get('/get-banks', isAuth, getBanks);
 
+//offers
 userRoute.get('/get-elligible-offers/:bookingId', isAuth, getEligibleOffers)
 userRoute.post('/apply-offer', isAuth, applyOfferToBooking);
 
 
-
+// announcement
 userRoute.get('/get-my-announcements', isAuth, getMyAnnouncements);
+
+//contact
+userRoute.post('/send-enquiry', sendEnquiry);
 
  export default userRoute;
