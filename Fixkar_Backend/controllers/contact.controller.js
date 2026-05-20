@@ -64,6 +64,12 @@ export const getEnquiries = async (req,res)=>{
 export const replyEnquiry = async (req,res)=>{
     try {
         const {enquiryId} = req.params;
+        if(!enquiryId){
+            return res.status(400).json({
+                message : "Enquiry id not found!"
+            })
+        }
+        
         const {replyMessage} = req.body;
         if(!replyMessage){
             return res.status(400).json({
