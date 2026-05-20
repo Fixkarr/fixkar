@@ -50,7 +50,7 @@ const ManageEnquiry = () => {
 
     try {
         setLoading(true)
-        const res = await axios.post(`${server_url}/api/admin/reply-enquiry/${enquiryId}`, {replyText}, {withCredentials : true} );
+        const res = await axios.post(`${server_url}/api/admin/reply-enquiry/${enquiryId}`, {replyMessage : replyText}, {withCredentials : true} );
 
         toast.success(res?.data?.message)
     } catch (error) {
