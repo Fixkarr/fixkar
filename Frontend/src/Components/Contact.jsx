@@ -252,7 +252,7 @@ if(currentUserData){
         </div>
       </div>
     </div>
-    {pathname !== '/' && pathname.includes("/professional" || "/customer") && <Footer/>}
+    {pathname == '/contact' && <Footer/>}
     </>
   );
 };
