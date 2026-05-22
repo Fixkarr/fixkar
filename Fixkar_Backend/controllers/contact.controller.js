@@ -3,7 +3,7 @@ import { Contact } from "./Admin/AdminModels/contact.model.js";
 
 export const sendEnquiry = async (req,res)=>{
     try {
-        const {name, email, phone, message} = req.body;
+        const {name, email, phone, message, senderRole} = req.body;
         if(!name || !email || !phone || !message){
             return res.status(400).json({
                 message : "All fields are required!"
@@ -18,7 +18,7 @@ export const sendEnquiry = async (req,res)=>{
         }
 
         const newEnquiry = new Contact({
-            name, email, phone, message
+            name, email, phone, message, senderRole
         })
 
         await newEnquiry.save();

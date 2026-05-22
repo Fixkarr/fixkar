@@ -163,6 +163,8 @@ const ManageEnquiry = () => {
                     <div>
                       <h6 style={{ marginBottom: "3px" }}>{item.name}</h6>
 
+                      <span className="badge rounded-pill bg-danger">{item.senderRole}</span>
+
                       <small style={{ color: "#cbd5e1" }}>
                         {item.email}
                       </small> <br />

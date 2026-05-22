@@ -19,8 +19,10 @@ import {Helmet} from 'react-helmet-async'
 import axios from "axios"
 import { toast } from "react-toastify";
 import { server_url } from "../App";
+import { useSelector } from "react-redux";
 const Contact = () => {
-  
+  const {currentUserData} = useSelector(state=>state.user);
+  const role = currentUserData?.user?.userId?.role
 const location = useLocation();
 const { pathname } = location;
 const [loading, setLoading] = useState(false);
@@ -31,6 +33,12 @@ const [loading, setLoading] = useState(false);
     phone : ""
   });
 
+let senderRole = "visitor";
+
+if(currentUserData){
+   senderRole = role
+}
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -40,7 +48,7 @@ const [loading, setLoading] = useState(false);
     e.preventDefault();
     try {
       setLoading(true)
-      const res = await axios.post(`${server_url}/api/user/send-enquiry`, formData);
+      const res = await axios.post(`${server_url}/api/user/send-enquiry`, {...formData, senderRole});
       toast.success(res?.data?.message || "message sent!")
     } catch (error) {
       toast.error(error?.response?.data?.message || "failed to send message!")
