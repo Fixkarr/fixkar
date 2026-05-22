@@ -75,7 +75,8 @@ if(currentUserData){
   />
 </Helmet>
 
-      {/* {!pathname.includes("/professional" || "/customer") && <Navbar/>} */}
+      {!pathname.includes("/professional" || "/customer") && <Navbar/>}
+
       </>
       }
     <div
