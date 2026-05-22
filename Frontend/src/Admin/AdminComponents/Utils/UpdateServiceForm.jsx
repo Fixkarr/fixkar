@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setServices } from "../../../redux/service.Slice";
 import useGetServices from "../../../hooks/useGetServices";
 import { useParams } from "react-router-dom";
+import { MdOutlineMoney } from "react-icons/md";
 
 
 const UpdateServiceForm = () => {
@@ -34,6 +35,7 @@ const UpdateServiceForm = () => {
     name: "",
     description: "",
     image: null,
+    commission : ""
   });
 
   const [skillInput, setSkillInput] = useState("");
@@ -45,7 +47,9 @@ const UpdateServiceForm = () => {
       setFormData({
         name: service.name || "",
         description: service.description || "",
+        commission : service.commission || "",
         image: null,
+
       });
 
       setSkills(service.skills?.map((s) => s.name) || []);
@@ -92,7 +96,7 @@ const UpdateServiceForm = () => {
       const data = new FormData();
       data.append("name", formData.name);
       data.append("description", formData.description);
-
+      data.append("commission", formData.commission)
       if (formData.image) {
         data.append("image", formData.image);
       }
@@ -114,7 +118,7 @@ const UpdateServiceForm = () => {
       dispatch(setServices(res.data.services));
       toast.success(res.data.message || "Service updated");
     } catch (error) {
-      console.error(error);
+    
       toast.error(error.response?.data?.message || "Update failed");
     } finally {
       setLoading(false);
@@ -155,6 +159,20 @@ const UpdateServiceForm = () => {
                 name="name"
                 className="form-control rounded-3"
                 value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label fw-semibold">
+                <MdOutlineMoney className="me-2" />
+                Service Commission
+              </label>
+              <input
+                type="number"
+                name="name"
+                className="form-control rounded-3"
+                value={formData.commission}
                 onChange={handleChange}
                 required
               />

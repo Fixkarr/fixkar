@@ -6,6 +6,7 @@ const serviceShema = new mongoose.Schema({
     image : {type : String, required : true},
     professionalCount : {type : Number, default : 0},
     createdBy : {type : mongoose.Schema.Types.ObjectId, ref : "Admin", required : true},
+    commission : {type : Number, default : 0, required : true},
     skills : [{type : mongoose.Schema.Types.ObjectId, ref : "Skill"}],
 },{timestamps : true})
 

@@ -6,7 +6,7 @@ import {Professional} from '../../../models/userModel.js'
 export const updateService = async (req, res) => {
   try {
     const { serviceId } = req.params;
-    const { name, description, skills } = req.body;
+    const { name, description, skills, commission } = req.body;
     const admin = req.admin;
 
     // 1️⃣ Find service
@@ -36,6 +36,7 @@ export const updateService = async (req, res) => {
     // 3️⃣ Update basic fields
     if (name) service.name = name.trim();
     if (description) service.description = description;
+    if (commission) service.commission = commission;
 
     // 4️⃣ Update image (optional)
     if (req.file) {

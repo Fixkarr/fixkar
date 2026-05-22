@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { setServices } from "../../../redux/service.Slice";
+import { MdOutlineMoney } from "react-icons/md";
 
 const AddServiceForm = () => {
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,7 @@ const AddServiceForm = () => {
     name: "",
     description: "",
     image: null,
+    commission : ""
   });
 
   const [skillInput, setSkillInput] = useState("");
@@ -68,6 +70,7 @@ const AddServiceForm = () => {
             const data = new FormData();
     data.append("name", formData.name);
     data.append("description", formData.description);
+    data.append("commission", formData.commission);
     data.append("image", formData.image); // 🔥 FILE HERE
 
       skills.forEach((skill) => {
@@ -82,13 +85,12 @@ const AddServiceForm = () => {
         dispatch(setServices(result.data.services))
         toast.info(result.data.message)
 
-      setFormData({ name: "", description: "", image: null });
+      setFormData({ name: "", description: "", image: null , commission : ""});
       setSkills([]);
       setSkillInput("");
 
         setLoading(false)
     } catch (error) {
-        console.log(error)
         toast.error(error.response.data.message)
         setLoading(false)
     }
@@ -128,6 +130,21 @@ const AddServiceForm = () => {
                 className="form-control rounded-3"
                 placeholder="Enter service name (e.g. Electrician)"
                 value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label fw-semibold">
+                <MdOutlineMoney className="me-2 text-primary" />
+                Set Commission
+              </label>
+              <input
+                type="number"
+                name="name"
+                className="form-control rounded-3"
+                placeholder="Enter commission percentage (e.g. 15%)"
+                value={formData.commission}
                 onChange={handleChange}
                 required
               />

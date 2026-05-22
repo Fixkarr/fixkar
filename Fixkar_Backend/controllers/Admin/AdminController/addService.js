@@ -4,9 +4,9 @@ import { uploadToCloudinary } from "../../../utils/uploadToCloudinary.js";
 
 export const addService = async (req,res)=>{
     try {
-        const {name,description, skills} = req.body;
+        const {name,description, skills, commission} = req.body;
         const admin = req.admin;
-        if(!name || !description){
+        if(!name || !description || !commission){
             return res.status(400).json({
                 message : "All fields are required!"
             })
@@ -42,6 +42,7 @@ export const addService = async (req,res)=>{
             description,
             image : uploadedImage.secure_url,
             createdBy: admin._id, // from adminAuth middleware
+            commission
             });
 
     let skillIds = [];
