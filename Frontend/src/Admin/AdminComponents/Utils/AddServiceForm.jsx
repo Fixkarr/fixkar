@@ -141,7 +141,7 @@ const AddServiceForm = () => {
               </label>
               <input
                 type="number"
-                name="name"
+                name="commission"
                 className="form-control rounded-3"
                 placeholder="Enter commission percentage (e.g. 15%)"
                 value={formData.commission}

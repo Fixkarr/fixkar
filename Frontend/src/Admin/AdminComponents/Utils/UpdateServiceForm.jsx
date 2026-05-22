@@ -170,7 +170,7 @@ const UpdateServiceForm = () => {
               </label>
               <input
                 type="number"
-                name="name"
+                name="commission"
                 className="form-control rounded-3"
                 value={formData.commission}
                 onChange={handleChange}
