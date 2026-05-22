@@ -336,6 +336,10 @@ const App = () => {
           path="/customer/notifications"
           element={ <Notification role={role} />}
         />
+         <Route
+          path="/customer/contact"
+          element={ <Contact />}
+        />
      </Route>
 
            <Route
@@ -403,10 +407,10 @@ const App = () => {
              <ProfessionalTransactions proId={id}/>
           }
         />
-
-         {/* Onboarding */}
-   
-
+         <Route
+          path="/professional/contact"
+          element={ <Contact />}
+        />
           </Route>
 
         {/* Admin  */}
