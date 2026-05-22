@@ -20,6 +20,7 @@ import axios from "axios"
 import { toast } from "react-toastify";
 import { server_url } from "../App";
 import { useSelector } from "react-redux";
+import DashboardNavigator from "../utils/DashboardNavigator";
 const Contact = () => {
   const {currentUserData} = useSelector(state=>state.user);
   const role = currentUserData?.user?.userId?.role
@@ -50,7 +51,7 @@ if(currentUserData){
       setLoading(true)
       const res = await axios.post(`${server_url}/api/user/send-enquiry`, {...formData, senderRole});
       toast.success(res?.data?.message || "message sent!")
-    } catch (error) {
+    } catch (error) { 
       toast.error(error?.response?.data?.message || "failed to send message!")
     }finally{
         setLoading(false)
@@ -74,7 +75,7 @@ if(currentUserData){
   />
 </Helmet>
 
-      <Navbar/>
+      {pathname.includes("/professional" || "/customer") ? <DashboardNavigator/> :  <Navbar/>}
       </>
       }
     <div
