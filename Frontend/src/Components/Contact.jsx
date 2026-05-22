@@ -75,7 +75,7 @@ if(currentUserData){
   />
 </Helmet>
 
-      {pathname = "/contact" && <Navbar/>} 
+      {pathname == "/contact" && <Navbar/>} 
       
       {currentUserData && <div
         className="text-white p-4"
