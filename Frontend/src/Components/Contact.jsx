@@ -75,7 +75,7 @@ if(currentUserData){
   />
 </Helmet>
 
-      {pathname.includes("/professional" || "/customer") ? <DashboardNavigator/> : <Navbar/>}
+      {pathname.includes("/professional" || "/customer") ?<Navbar/> : <DashboardNavigator/>}
 
       </>
       }
