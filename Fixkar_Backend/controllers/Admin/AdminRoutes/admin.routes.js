@@ -27,7 +27,7 @@ import { createOffer } from '../AdminController/createOffer.js';
 import { updateOfferById } from '../AdminController/updateOfferById.js';
 import { getOfferById } from '../AdminController/getOfferById.js';
 import { removeOffer } from '../AdminController/removeOffer.js';
-import { getEnquiries, replyEnquiry } from '../../contact.controller.js';
+import { deleteEnquiry, getEnquiries, replyEnquiry } from '../../contact.controller.js';
 const adminRouter = express.Router()
 
 // /api/admin 
@@ -77,6 +77,8 @@ adminRouter.delete('/delete-announcement/:id', isAdmin, adminPermission('super_a
 
 adminRouter.get('/get-enquiries', isAdmin, adminPermission('super_admin', 'support_admin'), getEnquiries);
 adminRouter.post('/reply-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), replyEnquiry);
+
+adminRouter.delete('delete-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), deleteEnquiry);
 
 
 

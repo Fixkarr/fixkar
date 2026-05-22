@@ -18,6 +18,7 @@ const ManageEnquiry = () => {
   const [replyText, setReplyText] = useState("");
     const [enquiries, setEnquiries] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [wait, setWait] = useState(false);
 
  useEffect(()=>{
     const getEnquiries = async ()=>{
@@ -34,10 +35,20 @@ const ManageEnquiry = () => {
  },[])
 
   // Delete Enquiry
-  const deleteEnquiry = (id) => {
-    setEnquiries(enquiries?.filter((item) => item.id !== id));
+  const deleteEnquiry = async (id) => {
+    try {
+        setWait(true)
+        const res = await axios.delete(`${server_url}/api/admin/delete-enquiry/${id}`, {withCredentials : true})
+        toast.success(res?.data?.message || "Enquiry deleted")
+    } catch (error) {
+        toast.error(error?.response?.data?.message || "Failed to delete enquiry!")
+    }finally{
+        setWait(false)
+    }
 
-    if (selectedMessage?.id === id) {
+    setEnquiries(enquiries?.filter((item) => item._id !== id));
+
+    if (selectedMessage?._id === id) {
       setSelectedMessage(null);
     }
   };
@@ -163,7 +174,7 @@ const ManageEnquiry = () => {
                     <div>
                       <h6 style={{ marginBottom: "3px" }}>{item.name}</h6>
 
-                      <span className="badge rounded-pill bg-danger">{item.senderRole}</span>
+                      <span className={`badge rounded-pill ${item.senderRole == "professional" ? "bg-warning" : "bg-primary"}`}>{item.senderRole}</span> 
 
                       <small style={{ color: "#cbd5e1" }}>
                         {item.email}
@@ -204,9 +215,10 @@ const ManageEnquiry = () => {
 
                   <button
                     className="btn"
+                    disabled={wait}
                     onClick={(e) => {
                       e.stopPropagation();
-                      deleteEnquiry(item.id);
+                      deleteEnquiry(item._id);
                     }}
                     style={{
                       background: "#dc2626",

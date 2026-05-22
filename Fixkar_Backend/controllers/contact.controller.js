@@ -114,3 +114,38 @@ export const replyEnquiry = async (req,res)=>{
         })
     }
 }
+
+export const deleteEnquiry = async (req,res)=>{
+    try {
+        const {enquiryId} = req.params;
+        if(!enquiryId){
+            return res.status(400).json({
+                message : "Enquiry id not found!"
+            })
+        }
+        const admin = req.admin;
+        if(!admin){
+            return res.status(400).json({
+                message : "Unauthorized!"
+            })
+        }
+
+        const enquiry  = await Contact.findById(enquiryId);
+        if(!enquiry){
+            return res.status(400).json({
+                message : "This enquiry is not exists!"
+            })
+        }
+
+        await Contact.findByIdAndDelete(enquiryId);
+
+        return res.status(200).json({
+            message : "Enquiry deleted!"
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message : "Internal Server Error!"
+        })
+    }
+}
