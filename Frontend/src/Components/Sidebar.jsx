@@ -387,6 +387,19 @@ const dispatch = useDispatch()
             <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Transaction History</span>
           </NavLink>
         </li>
+         <li className="nav-item" style={{fontSize : "0.5vmax"}}>
+          <NavLink
+            to="/professional/contact"
+            className={({ isActive }) =>
+              `nav-link d-flex align-items-center  justify-content-md-start gap-2 rounded-3 ${
+                isActive ? "bg-white text-primary fw-semibold" : "text-white"
+              }`
+            }
+          >
+            <FaHeadset />
+            <span className=" d-md-inline" style={{fontSize : "0.8vmax"}}>Help & Support</span>
+          </NavLink>
+        </li>
       </>
     )}
   </ul>
