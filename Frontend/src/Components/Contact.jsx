@@ -75,7 +75,9 @@ if(currentUserData){
   />
 </Helmet>
 
-      {pathname.includes("/professional" || "/customer") ?<Navbar/> : <div
+      {pathname = "/contact" && <Navbar/>} 
+      
+      {currentUserData && <div
         className="text-white p-4"
         style={{
           background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
