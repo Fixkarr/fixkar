@@ -75,7 +75,24 @@ if(currentUserData){
   />
 </Helmet>
 
-      {pathname.includes("/professional" || "/customer") ?<Navbar/> : <DashboardNavigator/>}
+      {pathname.includes("/professional" || "/customer") ?<Navbar/> : <div
+        className="text-white p-4"
+        style={{
+          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
+          borderBottomLeftRadius: "25px",
+          borderBottomRightRadius: "25px"
+        }}
+      >
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className="fw-bold mb-0">Contact & Support</h5>
+
+          <DashboardNavigator/>
+        </div>
+
+        <p className="mt-2 small opacity-75">
+          Feel free to contact us anytime!
+        </p>
+      </div>}
 
       </>
       }
@@ -233,7 +250,7 @@ if(currentUserData){
         </div>
       </div>
     </div>
-    {pathname !== '/' && <Footer/>}
+    {pathname !== '/' && pathname.includes("/professional" || "/customer") && <Footer/>}
     </>
   );
 };
