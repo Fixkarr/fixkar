@@ -85,6 +85,7 @@ const AdminServices = () => {
                 <div className="card-body d-flex flex-column">
                   {/* Title */}
                   <h5 className="fw-bold mb-1">{service.name}</h5>
+                  <span className="badge rounded-pill bg-danger">{service.commission}%</span>
                   <p className="text-muted small">
                     {service.description}
                   </p>

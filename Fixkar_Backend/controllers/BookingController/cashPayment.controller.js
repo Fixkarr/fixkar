@@ -29,7 +29,7 @@ export const confirmCashPayment = async (req, res) => {
       model: "User",
       select: "fullName",
     },
-  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+  { path: "profession", select: "name image skills commission", populate: { path: "skills", select: "name" } },
     {path : "selectedSkills", select : "name"}
 ]
   }).populate('review')
@@ -110,7 +110,7 @@ export const confirmCashPayment = async (req, res) => {
       });
     }
 
-    const COMMISSION_PERCENT = Number(process.env.COMMISSION_PERCENT);
+    const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
     const commission = Math.round((fullAmount * COMMISSION_PERCENT) / 100);
     const professionalAmount = fullAmount - commission;
     wallet.pendingBalance += (discountAmount - commission);
@@ -124,7 +124,7 @@ export const confirmCashPayment = async (req, res) => {
       type: "CREDIT",
       grossAmount: fullAmount,
       commission,
-      professionalAmount : fullAmount - commission,
+      professionalAmount,
       reason: "SERVICE_PAYMENT",
       bookingId: booking._id,
       paymentMode: "CASH",

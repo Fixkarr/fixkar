@@ -205,7 +205,7 @@ export const verifyPayment = async (req,res)=>{
       model: "User",
       select: "fullName",
     },
-  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+  { path: "profession", select: "name image skills commission", populate: { path: "skills", select: "name" } },
     {path : "selectedSkills", select : "name"}
 ]
   }).populate('review').session(session);
@@ -223,10 +223,7 @@ export const verifyPayment = async (req,res)=>{
             booking.status = 'cancelled'
         }
 
-         const COMMISSION_PERCENT =
-      process.env.COMMISSION_PERCENT !== undefined
-        ? Number(process.env.COMMISSION_PERCENT)
-        : 5;
+         const COMMISSION_PERCENT = booking.professionalId.profession.commission;
 
    const quoteAmount = Number(booking.quoteAmount) || 0;
 const visitingCharge = Number(booking.visitingCharge) || 0;
