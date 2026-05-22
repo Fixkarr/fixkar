@@ -78,7 +78,7 @@ adminRouter.delete('/delete-announcement/:id', isAdmin, adminPermission('super_a
 adminRouter.get('/get-enquiries', isAdmin, adminPermission('super_admin', 'support_admin'), getEnquiries);
 adminRouter.post('/reply-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), replyEnquiry);
 
-adminRouter.delete('delete-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), deleteEnquiry);
+adminRouter.delete('/delete-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), deleteEnquiry);
 
 
 
