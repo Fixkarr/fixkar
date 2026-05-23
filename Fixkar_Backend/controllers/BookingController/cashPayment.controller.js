@@ -7,6 +7,7 @@ import { io } from "../../server.js";
 import { pushNotification } from "../../services/pushNotification.js";
 import { Offer } from "../Admin/AdminModels/offer.model.js";
 import { OfferUsage } from "../Admin/AdminModels/offerUsage.model.js";
+import { PlatformTransaction } from "../Admin/AdminModels/platformTransaction.js";
 
 export const confirmCashPayment = async (req, res) => {
   try {
@@ -67,7 +68,7 @@ export const confirmCashPayment = async (req, res) => {
         ? booking.discountAmount
         : 0;
 
-    // 3️⃣ Duplicate protection
+    // 3️⃣ Duplicate protection 
     const alreadyPaid = await Payment.findOne({
       bookingId,
       status: "paid",
@@ -84,7 +85,7 @@ export const confirmCashPayment = async (req, res) => {
       bookingId: booking._id,
       customerId: booking.customerId._id,
       professionalId: booking.professionalId._id,
-      amount : fullAmount,
+      amount : fullAmount - discountAmount,
       status: "paid",
       reason: "SERVICE_PAYMENT",
       paymentType: "FINAL",
@@ -117,6 +118,22 @@ export const confirmCashPayment = async (req, res) => {
     wallet.totalEarned += (fullAmount - commission);
 
     await wallet.save();
+
+    const customerPaidAmount = fullAmount - discountAmount;
+    
+
+    await PlatformTransaction.create({
+      bookingId : booking._id,
+      paymentId : payment._id,
+      professionalId : booking.professionalId._id,
+      paymentMode : "CASH",
+      grossAmount : fullAmount,
+      customerPaidAmount,
+      discountAmount,
+      professionalAmount,
+      commission,
+      profitOrLoss : customerPaidAmount - professionalAmount
+    })
 
     // 7️⃣ Wallet transaction (CASH)
     await WalletTransaction.create({

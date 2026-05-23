@@ -3,6 +3,7 @@ import { WalletTransaction } from "../../../models/walletTransactionModel.js";
 import { pushNotification } from "../../../services/pushNotification.js";
 import { sendEmail } from "../../../utils/mailer.js";
 import { maskSensitiveValue } from "../../../utils/maskSensitiveValue.js";
+import { PlatformTransaction } from "../AdminModels/platformTransaction.js";
 
 
 export const manualPay = async (req, res) => {
@@ -167,6 +168,26 @@ export const manualPay = async (req, res) => {
         transferedAt: new Date()
       }
     });
+
+    await PlatformTransaction.create({
+
+   professionalId : proId,
+
+   paymentMode : paymentMode,
+
+   grossAmount : withdrawAmount,
+
+   customerPaidAmount : 0,
+
+   discountAmount : 0,
+
+   commission : 0,
+
+   professionalAmount : withdrawAmount,
+
+   profitOrLoss : -withdrawAmount
+
+});
 
     proWallet.pendingBalance -= withdrawAmount;
     proWallet.totalWithdrawn += withdrawAmount;

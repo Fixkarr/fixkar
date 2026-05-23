@@ -10,6 +10,7 @@ import { pushNotification } from '../services/pushNotification.js';
 import mongoose from 'mongoose';
 import { Offer } from './Admin/AdminModels/offer.model.js';
 import { OfferUsage } from './Admin/AdminModels/offerUsage.model.js';
+import { PlatformTransaction } from './Admin/AdminModels/platformTransaction.js';
 export const createOrder = async (req, res) => {
   try {
     const { bookingId, paymentType} = req.body;
@@ -256,8 +257,7 @@ if (paymentType === "CANCEL") {
 
   commission = commissionOnVisiting;
 
-  // professional gets:
-  // (visiting - commission) + full late fee
+
   professionalAmount =
     (visitingCharge - commissionOnVisiting) + lateCancellationFee;
 }
@@ -324,6 +324,34 @@ if (paymentType === "CANCEL") {
           bookingId : booking._id,
           paymentMode : "ONLINE"
         }] ,{ session })
+
+        const customerPaidAmount = payment.amount;
+
+await PlatformTransaction.create([{
+
+   bookingId : booking._id,
+
+   paymentId : payment._id,
+
+   professionalId : booking.professionalId._id,
+
+   paymentMode : "ONLINE",
+
+   grossAmount : fullAmount,
+
+   customerPaidAmount,
+
+   discountAmount : payment.discountAmount,
+
+   commission,
+
+   professionalAmount,
+
+   profitOrLoss :
+      customerPaidAmount - professionalAmount
+
+}], { session });
+
 
         booking.walletTransaction = walletTransaction[0]._id;
          await booking.save({ session })
