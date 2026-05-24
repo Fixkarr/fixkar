@@ -5,10 +5,12 @@ import axios from 'axios'
 import { server_url } from '../App'
 const useGetSiteHealth = () => {
  const [health, setHealth] = useState({})
+ const [revenueHealth, setRevenueHealth] = useState({});
 
  useEffect(()=>{
     getSiteHealth();
  },[])
+
 
  const getSiteHealth = async ()=>{
     try {
@@ -18,8 +20,16 @@ const useGetSiteHealth = () => {
         
     }
  }
+ const getRevenueHealth = async ()=>{
+    try {
+        const res = await axios.get(`${server_url}/api/admin/get-revenue-health`, {withCredentials : true})
+        setRevenueHealth(res?.data?.revenueHealth);
+    } catch (error) {
+        
+    }
+ }
 
- return health;
+ return {health, revenueHealth};
 }
 
 export default useGetSiteHealth

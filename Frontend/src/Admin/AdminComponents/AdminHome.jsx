@@ -30,9 +30,9 @@ const AdminHome = () => {
   }, ${currentAdmin ? "#2c5364" : "#4f9cff"})`;
 
   const platformTransaction = useGetPlatformTransactions()
-  const health = useGetSiteHealth();
+  const {health, revenueHealth} = useGetSiteHealth();
 
-  console.log(health);
+  console.log(revenueHealth);
 
  return (
   <div

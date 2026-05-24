@@ -19,7 +19,7 @@ const platformTransactionSchema = new mongoose.Schema({
 
     paymentMode : {
         type : String,
-        enum : ["ONLINE", "CASH"]
+        enum : ["ONLINE", "CASH", "PAYOUT"]
     },
 
     // original service value

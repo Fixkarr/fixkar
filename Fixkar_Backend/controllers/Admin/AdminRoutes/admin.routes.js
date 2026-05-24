@@ -30,6 +30,7 @@ import { removeOffer } from '../AdminController/removeOffer.js';
 import { deleteEnquiry, getEnquiries, replyEnquiry } from '../../contact.controller.js';
 import { getPlatformTransactions } from '../AdminController/getPlatformTransactions.js';
 import { getSiteHealth } from '../AdminController/getSiteHealth.js';
+import { getRevenueHealth } from '../AdminController/getRevenueHealth.js';
 const adminRouter = express.Router()
 
 // /api/admin 
@@ -85,6 +86,7 @@ adminRouter.delete('/delete-enquiry/:enquiryId', isAdmin, adminPermission('super
 // platform health
 adminRouter.get('/get-platform-transactions', isAdmin, adminPermission('super_admin'), getPlatformTransactions)
 adminRouter.get('/get-site-health', isAdmin, adminPermission('super_admin'), getSiteHealth);
+adminRouter.get('/get-revenue-health', isAdmin, adminPermission('super_admin'), getRevenueHealth);
 
 
 export default adminRouter; 

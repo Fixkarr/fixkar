@@ -114,10 +114,24 @@ export const confirmCashPayment = async (req, res) => {
     const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
     const commission = Math.round((fullAmount * COMMISSION_PERCENT) / 100);
     const professionalAmount = fullAmount - commission;
-    wallet.pendingBalance += (discountAmount - commission);
-    wallet.totalEarned += (fullAmount - commission);
+   const wallet = await Wallet.findOneAndUpdate(
+  {
+    professionalId: booking.professionalId._id
+  },
+  {
+    $inc: {
+      pendingBalance:
+        (discountAmount - commission),
 
-    await wallet.save();
+      totalEarned:
+        (fullAmount - commission)
+    }
+  },
+  {
+    new: true,
+    upsert: true
+  }
+);
 
     const customerPaidAmount = fullAmount - discountAmount;
     
@@ -132,7 +146,7 @@ export const confirmCashPayment = async (req, res) => {
       discountAmount,
       professionalAmount,
       commission,
-      profitOrLoss : customerPaidAmount - professionalAmount
+      profitOrLoss : commission - discountAmount
     })
 
     // 7️⃣ Wallet transaction (CASH)

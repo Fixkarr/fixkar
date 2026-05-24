@@ -358,7 +358,7 @@ export const verifyPayment = async (req, res) => {
 
       profitOrLoss: commission - payment.discountAmount
 
-    }], { session });
+    }], { session }); 
 
 
     booking.walletTransaction = walletTransaction[0]._id;

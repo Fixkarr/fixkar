@@ -173,10 +173,10 @@ export const manualPay = async (req, res) => {
 
    professionalId : proId,
 
-   paymentMode : paymentMode,
+   paymentMode : "PAYOUT",
 
    grossAmount : withdrawAmount,
-
+    
    customerPaidAmount : 0,
 
    discountAmount : 0,
@@ -185,7 +185,7 @@ export const manualPay = async (req, res) => {
 
    professionalAmount : withdrawAmount,
 
-   profitOrLoss : -withdrawAmount
+   profitOrLoss : 0
 
 });
 
