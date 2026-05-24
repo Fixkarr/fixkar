@@ -84,7 +84,7 @@ const AdminHome = () => {
           title="Total Users"
           value="2,450"
           icon={<FaUsers />}
-          color="primary"
+          color="linear-gradient(135deg,#0ea5e9,#2563eb)"
         />
       </div>
 
@@ -93,7 +93,7 @@ const AdminHome = () => {
           title="Total Customers"
           value="1,780"
           icon={<FaUsers />}
-          color="success"
+          color="linear-gradient(135deg,#f59e0b,#d97706)"
         />
       </div>
 
@@ -102,7 +102,7 @@ const AdminHome = () => {
           title="Total Professionals"
           value="670"
           icon={<FaUserTie />}
-          color="warning"
+          color="linear-gradient(135deg,#ec4899,#be185d)"
         />
       </div>
 
@@ -111,7 +111,7 @@ const AdminHome = () => {
           title="Pending Applications"
           value="110"
           icon={<FaUserClock />}
-          color="warning"
+          color="linear-gradient(135deg,#14b8a6,#0f766e)"
         />
       </div>
 
@@ -120,7 +120,7 @@ const AdminHome = () => {
           title="Total Bookings"
           value="4,820"
           icon={<FaClipboardList />}
-          color="red"
+          color="linear-gradient(135deg,#8b5cf6,#6d28d9)"
         />
       </div>
 
@@ -129,7 +129,7 @@ const AdminHome = () => {
           title="Total Services"
           value="10"
           icon={<FaClipboardList />}
-          color="danger"
+          color="linear-gradient(135deg,#8b5cf6,#6d28d9)"
         />
       </div>
     </div>
