@@ -9,6 +9,7 @@ const useGetSiteHealth = () => {
 
  useEffect(()=>{
     getSiteHealth();
+    getRevenueHealth();
  },[])
 
 
