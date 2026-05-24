@@ -1,7 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { getSiteHealth } from '../../../Fixkar_Backend/controllers/Admin/AdminController/getSiteHealth'
 import axios from 'axios'
 import { server_url } from '../App'
 const useGetSiteHealth = () => {
