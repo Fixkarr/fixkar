@@ -161,7 +161,7 @@ const AdminHome = () => {
           {platformTransaction?.map((tx, index) => {
             return (
               <div
-                key={index}
+                key={tx._id}
                 className="d-flex justify-content-between align-items-center p-3 rounded-4 border"
                 style={{
                   background: "rgba(255,255,255,0.04)",
