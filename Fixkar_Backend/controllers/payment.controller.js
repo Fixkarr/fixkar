@@ -2,9 +2,9 @@ import crypto from 'crypto'
 import { Booking } from "../models/bookingModel.js";
 import { Payment } from "../models/paymentModel.js";
 import razorpayInstance from '../config/razorpay.js';
-import {io} from '../server.js'
-import {Wallet} from '../models/walletModel.js'
-import {WalletTransaction } from '../models/walletTransactionModel.js'
+import { io } from '../server.js'
+import { Wallet } from '../models/walletModel.js'
+import { WalletTransaction } from '../models/walletTransactionModel.js'
 import { Notification } from '../models/notificationModel.js';
 import { pushNotification } from '../services/pushNotification.js';
 import mongoose from 'mongoose';
@@ -13,12 +13,12 @@ import { OfferUsage } from './Admin/AdminModels/offerUsage.model.js';
 import { PlatformTransaction } from './Admin/AdminModels/platformTransaction.js';
 export const createOrder = async (req, res) => {
   try {
-    const { bookingId, paymentType} = req.body;
+    const { bookingId, paymentType } = req.body;
 
     // 1️⃣ Booking lao
     const booking = await Booking.findById(bookingId).populate({
-      path : "professionalId",
-      select : "profession"
+      path: "professionalId",
+      select: "profession"
     });
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
@@ -31,29 +31,29 @@ export const createOrder = async (req, res) => {
     // 2️⃣ Payment type ke hisaab se amount decide
     if (paymentType === "FINAL") {
       // Professional quote wala case
-        if (!booking.quoteAmount) {
-    return res.status(400).json({
-      message: "Quote not sent yet"
-    });
-  }
-  const fullAmount =
-    booking.quoteAmount + booking.visitingCharge;
+      if (!booking.quoteAmount) {
+        return res.status(400).json({
+          message: "Quote not sent yet"
+        });
+      }
+      const fullAmount =
+        booking.quoteAmount + booking.visitingCharge;
 
-  amount = booking.offerLocked && booking.finalCustomerPayable
-    ? booking.finalCustomerPayable
-    : fullAmount;
+      amount = booking.offerLocked && booking.finalCustomerPayable
+        ? booking.finalCustomerPayable
+        : fullAmount;
 
-  discountAmount = booking.offerLocked
-    ? booking.discountAmount
-    : 0;
+      discountAmount = booking.offerLocked
+        ? booking.discountAmount
+        : 0;
 
-  paymentReason = "SERVICE_PAYMENT";
+      paymentReason = "SERVICE_PAYMENT";
 
 
-} else if (paymentType === "CANCEL") {
+    } else if (paymentType === "CANCEL") {
       // Late cancellation case
       const cancellationFee = 50;
-     amount = cancellationFee + (booking.visitingCharge || 0);
+      amount = cancellationFee + (booking.visitingCharge || 0);
       paymentReason = "LATE_CANCELLATION_FEE";
 
     } else {
@@ -65,35 +65,35 @@ export const createOrder = async (req, res) => {
       return res.status(400).json({ message: "Invalid payment amount" });
     }
     // 🔐 DUPLICATE PAYMENT PROTECTION
-const alreadyPaid = await Payment.findOne({
-  bookingId,
-  paymentType,
-  status: "paid"
-});
+    const alreadyPaid = await Payment.findOne({
+      bookingId,
+      paymentType,
+      status: "paid"
+    });
 
-if (alreadyPaid) {
-  return res.status(400).json({
-    message: "Payment already completed for this booking"
-  });
-}
+    if (alreadyPaid) {
+      return res.status(400).json({
+        message: "Payment already completed for this booking"
+      });
+    }
 
-if (
-  paymentType === "FINAL" &&
-  booking.status === "completed"
-) {
-  return res.status(400).json({
-    message: "Service payment already done"
-  });
-}
+    if (
+      paymentType === "FINAL" &&
+      booking.status === "completed"
+    ) {
+      return res.status(400).json({
+        message: "Service payment already done"
+      });
+    }
 
-if (
-  paymentType === "CANCEL" &&
-  booking.status === "cancelled"
-) {
-  return res.status(400).json({
-    message: "Cancellation already processed"
-  });
-}
+    if (
+      paymentType === "CANCEL" &&
+      booking.status === "cancelled"
+    ) {
+      return res.status(400).json({
+        message: "Cancellation already processed"
+      });
+    }
 
     // 4️⃣ Payment record banao
     const payment = await Payment.create({
@@ -114,10 +114,10 @@ if (
       receipt: `booking_${booking._id}_${paymentType}`,
     });
 
-    if(!order){
-        return res.status(400).json({
-            message : "Failed to place order!"
-        })
+    if (!order) {
+      return res.status(400).json({
+        message: "Failed to place order!"
+      })
     }
 
     // 6️⃣ Save order ID
@@ -141,275 +141,281 @@ if (
   }
 };
 
-export const verifyPayment = async (req,res)=>{
-   const session = await mongoose.startSession();
-    session.startTransaction();
+export const verifyPayment = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-    try {
-        const {bookingId, paymentType, razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body;
+  try {
+    const { bookingId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
+    // generating signature 
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
 
-        const payment = await Payment.findOne({
-            bookingId,
-            razorpayOrderId : razorpay_order_id
-        }).session(session);;
-
-        if(!payment){
-             await session.abortTransaction();
-            session.endSession();
-             return res.status(404).json({ message: "Payment record not found" });
-        }
-
-         if (payment.status === "paid") {
-             await session.abortTransaction();
-              session.endSession();
-            return res.status(400).json({
-            message: "payment already paid!",
-        });
-        }
-            // generating signature 
-        const body = razorpay_order_id + "|" + razorpay_payment_id;
-
-         const expectedSignature = crypto
+    const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
       .update(body)
       .digest("hex");
 
-        if (expectedSignature !== razorpay_signature) {
-      payment.status = "failed";
-      await payment.save({ session });
+    if (expectedSignature !== razorpay_signature) {
 
-      await session.commitTransaction();
+      await session.abortTransaction();
       session.endSession();
-      return res.status(400).json({ message: "Something went wrong! please try again" });
+
+      return res.status(400).json({
+        message: "Invalid payment signature"
+      });
     }
 
-        payment.status = 'paid'
-        payment.razorpayPaymentId = razorpay_payment_id;
-        payment.paidAt = new Date();
-        payment.paymentMode = 'ONLINE'
-        await payment.save({ session });
 
-        const booking = await Booking.findById(bookingId).populate({
-    path: "customerId",
-    populate: {
-      path: "userId",
-      model: "User",
-      select: "fullName",
-    },
-  })
-  .populate({
-    path: "professionalId",
-    select: "profilePicture address userId",
-     populate: [{
-      path: "userId",
-      model: "User",
-      select: "fullName",
-    },
-  { path: "profession", select: "name image skills commission", populate: { path: "skills", select: "name" } },
-    {path : "selectedSkills", select : "name"}
-]
-  }).populate('review').session(session);
+    const payment = await Payment.findOneAndUpdate(
+      {
+        bookingId,
+        razorpayOrderId: razorpay_order_id,
+        status: { $ne: "paid" }
+      },
+      {
+        $set: {
+          status: "paid",
+          razorpayPaymentId: razorpay_payment_id,
+          paidAt: new Date(),
+          paymentMode: "ONLINE"
+        }
+      },
+      {
+        new: true,
+        session
+      }
+    );
+
+    if (!payment) {
+      await session.abortTransaction();
+      session.endSession();
+
+      return res.status(400).json({
+        message: "Payment already processed or invalid"
+      });
+    }
+
+    const booking = await Booking.findById(bookingId).populate({
+      path: "customerId",
+      populate: {
+        path: "userId",
+        model: "User",
+        select: "fullName",
+      },
+    })
+      .populate({
+        path: "professionalId",
+        select: "profilePicture address userId",
+        populate: [{
+          path: "userId",
+          model: "User",
+          select: "fullName",
+        },
+        { path: "profession", select: "name image skills commission", populate: { path: "skills", select: "name" } },
+        { path: "selectedSkills", select: "name" }
+        ]
+      }).populate('review').session(session);
 
 
-  if (["completed", "cancelled"].includes(booking.status)){
+    if (["completed", "cancelled"].includes(booking.status)) {
       throw new Error("Booking already completed!");
     }
 
 
-        if(paymentType === "FINAL"){
-            booking.status = 'completed'
-        }
-        if(paymentType === "CANCEL"){
-            booking.status = 'cancelled'
-        }
-
-         const COMMISSION_PERCENT = booking.professionalId.profession.commission;
-
-   const quoteAmount = Number(booking.quoteAmount) || 0;
-const visitingCharge = Number(booking.visitingCharge) || 0;
-
-
-  let fullAmount = 0;
-let commission = 0;
-let professionalAmount = 0;
-
-const lateCancellationFee =  50; // fallback
-
-if (paymentType === "FINAL") {
-  fullAmount = quoteAmount + visitingCharge;
-
-  commission = Math.round(
-    (fullAmount * COMMISSION_PERCENT) / 100
-  );
-
-  professionalAmount = fullAmount - commission;
-}
-
-if (paymentType === "CANCEL") {
-  // only visiting charge + late fee
-  fullAmount = visitingCharge + lateCancellationFee;
-
-  // commission ONLY on visiting charge
-  const commissionOnVisiting = Math.round(
-    (visitingCharge * COMMISSION_PERCENT) / 100
-  );
-
-  commission = commissionOnVisiting;
-
-
-  professionalAmount =
-    (visitingCharge - commissionOnVisiting) + lateCancellationFee;
-}
-       
-         let wallet = await Wallet.findOne({professionalId : booking.professionalId._id}).session(session);
-
-        if(!wallet){
-          wallet = new Wallet({
-        professionalId: booking.professionalId._id,
-        pendingBalance: 0,
-        totalEarned: 0,
-      });
-
-      await wallet.save({ session });
-        }
-
-        let notificationTitle = "";
-        let notificationMessage = "";
-        let type = "";
-
-      
-        wallet.pendingBalance += professionalAmount;
-        wallet.totalEarned += professionalAmount;
-
-        await wallet.save({ session });
-
-        if (booking.offerLocked && booking.offerId) {
-  await OfferUsage.create([{
-    offerId: payment.offerId,
-    userId: booking.customerId.userId,
-    bookingId: booking._id,
-    discountAmount: payment.discountAmount,
-    paymentMode: "ONLINE"
-  }], { session });
-
-  await Offer.findByIdAndUpdate(
-    booking.offerId,
-    { $inc: { usedCount: 1 } },
-    { session }
-  );
-}
-
-        
-if (paymentType === "FINAL") {
-  type = "booking_completed";
-   notificationTitle = "Work Completed & Payment Received";
-  notificationMessage = `${booking.customerName}'s Work has been completed successfully. ₹${professionalAmount} has been added to your wallet.`;
-}
-
-if (paymentType === "CANCEL") {
-  type = "booking_cancelled";
-   notificationTitle = "Work Cancelled & Payment Settled";
-  notificationMessage = `${booking.customerName} has cancelled the work. ₹${professionalAmount} has been added to your wallet as settlement.`;
-}
-
-
-      const walletTransaction =  await WalletTransaction.create([{
-          walletId : wallet._id,
-          type : "CREDIT",
-          grossAmount : fullAmount,
-          commission,
-          professionalAmount,
-          reason : payment.reason,
-          bookingId : booking._id,
-          paymentMode : "ONLINE"
-        }] ,{ session })
-
-        const customerPaidAmount = payment.amount;
-
-await PlatformTransaction.create([{
-
-   bookingId : booking._id,
-
-   paymentId : payment._id,
-
-   professionalId : booking.professionalId._id,
-
-   paymentMode : "ONLINE",
-
-   grossAmount : fullAmount,
-
-   customerPaidAmount,
-
-   discountAmount : payment.discountAmount,
-
-   commission,
-
-   professionalAmount,
-
-   profitOrLoss :
-      customerPaidAmount - professionalAmount
-
-}], { session });
-
-
-        booking.walletTransaction = walletTransaction[0]._id;
-         await booking.save({ session })
-
-          await session.commitTransaction();
-          session.endSession();
-
-
-const notification = await Notification.create({
-  userId: booking.professionalId.userId._id,
-  title: notificationTitle,
-  message: notificationMessage,
-  type: type,
-  relatedId: booking._id,
-  isRead: false,
-});
-
-  const notificationPayload = {
-  userId: notification.userId,
-  title: notification.title,
-  message: notification.message,
-  redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
-};
-
-  await pushNotification(notificationPayload);
-
-io.to(booking.professionalId.userId._id.toString()).emit(
-  "notification",
-  {
-    title: notification.title,
-    message: notification.message,
-    type: notification.type,
-    relatedId: notification.relatedId,
-    isRead: notification.isRead,
-    createdAt: notification.createdAt,
-  }
-);
-
-
-
-         io.to(booking.customerId.userId._id.toString()).emit(
-                     "bookingUpdated",
-                     booking
-                   );
-             
-                   io.to(booking.professionalId.userId._id.toString()).emit(
-                     "bookingUpdated",
-                     booking
-                   );
-
-        res.status(200).json({
-            success : true,
-            message : "Payment Successful!"
-        })
-    } catch (error) {
-       await session.abortTransaction();
-    session.endSession();
-        console.error(error);
-        res.status(500).json({ message: "Payment verification failed" });
+    if (payment.paymentType === "FINAL") {
+      booking.status = 'completed'
     }
+    if (payment.paymentType === "CANCEL") {
+      booking.status = 'cancelled'
+    }
+
+    const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
+
+    const quoteAmount = Number(booking.quoteAmount) || 0;
+    const visitingCharge = Number(booking.visitingCharge) || 0;
+
+
+    let fullAmount = 0;
+    let commission = 0;
+    let professionalAmount = 0;
+
+    const lateCancellationFee = 50; // fallback
+
+    if (payment.paymentType === "FINAL") {
+      fullAmount = quoteAmount + visitingCharge;
+
+      commission = Math.round(
+        (fullAmount * COMMISSION_PERCENT) / 100
+      );
+
+      professionalAmount = fullAmount - commission;
+    }
+
+    if (payment.paymentType === "CANCEL") {
+      // only visiting charge + late fee
+      fullAmount = visitingCharge + lateCancellationFee;
+
+      // commission ONLY on visiting charge
+      const commissionOnVisiting = Math.round(
+        (visitingCharge * COMMISSION_PERCENT) / 100
+      );
+
+      commission = commissionOnVisiting;
+
+
+      professionalAmount =
+        (visitingCharge - commissionOnVisiting) + lateCancellationFee;
+    }
+
+
+    let notificationTitle = "";
+    let notificationMessage = "";
+    let type = "";
+
+
+    const wallet = await Wallet.findOneAndUpdate(
+      {
+        professionalId: booking.professionalId._id
+      },
+      {
+        $inc: {
+          pendingBalance: professionalAmount,
+          totalEarned: professionalAmount
+        }
+      },
+      {
+        new: true,
+        upsert: true,
+        session
+      }
+    );
+
+    if (booking.offerLocked && booking.offerId) {
+      await OfferUsage.create([{
+        offerId: booking.offerId,
+        userId: booking.customerId.userId,
+        bookingId: booking._id,
+        discountAmount: payment.discountAmount,
+        paymentMode: "ONLINE"
+      }], { session });
+
+      await Offer.findByIdAndUpdate(
+        booking.offerId,
+        { $inc: { usedCount: 1 } },
+        { session }
+      );
+    }
+
+
+    if (payment.paymentType === "FINAL") {
+      type = "booking_completed";
+      notificationTitle = "Work Completed & Payment Received";
+      notificationMessage = `${booking.customerName}'s Work has been completed successfully. ₹${professionalAmount} has been added to your wallet.`;
+    }
+
+    if (payment.paymentType === "CANCEL") {
+      type = "booking_cancelled";
+      notificationTitle = "Work Cancelled & Payment Settled";
+      notificationMessage = `${booking.customerName} has cancelled the work. ₹${professionalAmount} has been added to your wallet as settlement.`;
+    }
+
+
+    await booking.save({ session });
+
+    const walletTransaction = await WalletTransaction.create([{
+      walletId: wallet._id,
+      type: "CREDIT",
+      grossAmount: fullAmount,
+      commission,
+      professionalAmount,
+      reason: payment.reason,
+      bookingId: booking._id,
+      paymentMode: "ONLINE"
+    }], { session })
+
+    const customerPaidAmount = payment.amount;
+
+    await PlatformTransaction.create([{
+
+      bookingId: booking._id,
+
+      paymentId: payment._id,
+
+      professionalId: booking.professionalId._id,
+
+      paymentMode: "ONLINE",
+
+      grossAmount: fullAmount,
+
+      customerPaidAmount,
+
+      discountAmount: payment.discountAmount,
+
+      commission,
+
+      professionalAmount,
+
+      profitOrLoss: commission - payment.discountAmount
+
+    }], { session });
+
+
+    booking.walletTransaction = walletTransaction[0]._id;
+    await booking.save({ session })
+
+    await session.commitTransaction();
+    session.endSession();
+
+
+    const notification = await Notification.create({
+      userId: booking.professionalId.userId._id,
+      title: notificationTitle,
+      message: notificationMessage,
+      type: type,
+      relatedId: booking._id,
+      isRead: false,
+    });
+
+    const notificationPayload = {
+      userId: notification.userId,
+      title: notification.title,
+      message: notification.message,
+      redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
+    };
+
+    await pushNotification(notificationPayload);
+
+    io.to(booking.professionalId.userId._id.toString()).emit(
+      "notification",
+      {
+        title: notification.title,
+        message: notification.message,
+        type: notification.type,
+        relatedId: notification.relatedId,
+        isRead: notification.isRead,
+        createdAt: notification.createdAt,
+      }
+    );
+
+    io.to(booking.customerId.userId._id.toString()).emit(
+      "bookingUpdated",
+      booking
+    );
+
+    io.to(booking.professionalId.userId._id.toString()).emit(
+      "bookingUpdated",
+      booking
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Payment Successful!"
+    })
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    console.error(error);
+    res.status(500).json({ message: "Payment verification failed" });
+  }
 }
