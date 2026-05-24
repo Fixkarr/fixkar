@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import StatCard from "./Utils/StatCard";
 import AdminServices from "./AdminServices";
 import AdminWithdrawRequests from "./AdminWithdrawRequests";
+import useGetPlatformTransactions from "../../hooks/useGetPlatformTransactions.jsx";
 
 
 const AdminHome = () => {
@@ -25,6 +26,8 @@ const AdminHome = () => {
   const bgGradient = `linear-gradient(135deg, ${
     currentAdmin ? "#0f2027" : "#0d6efd"
   }, ${currentAdmin ? "#2c5364" : "#4f9cff"})`;
+
+  const platformTransaction = useGetPlatformTransactions()
 
   return (
     <div
@@ -41,7 +44,8 @@ const AdminHome = () => {
 
       {/* ================= SUMMARY CARDS ================= */}
       <div className="row g-4 mb-4">
-        <StatCard
+        <div className="col-md-6">
+          <StatCard
           title="Total Users"
           value="2,450"
           icon={<FaUsers />}
@@ -58,12 +62,6 @@ const AdminHome = () => {
           value="670"
           icon={<FaUserTie />}
           color="warning"
-        />
-        <StatCard
-          title="Total Earnings"
-          value="₹ 3,45,000"
-          icon={<FaRupeeSign />}
-          color="info"
         />
          <StatCard
           title="Pending Applications"
@@ -83,6 +81,18 @@ const AdminHome = () => {
           icon={<FaClipboardList />}
           color="warning"
         />
+        </div>
+        <div className="col-md-6">
+          <h3 className="text-light me-2">Platform Transactions</h3>
+          {
+            platformTransaction.length > 0 ? platformTransaction.map((tx)=>{
+              return <>
+                  ho gai
+              </>
+            }) : <div className="bg-dark">No Records Found</div>
+          }
+
+        </div>
       </div>
 
       <AdminWithdrawRequests/>

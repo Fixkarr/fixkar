@@ -28,6 +28,7 @@ import { updateOfferById } from '../AdminController/updateOfferById.js';
 import { getOfferById } from '../AdminController/getOfferById.js';
 import { removeOffer } from '../AdminController/removeOffer.js';
 import { deleteEnquiry, getEnquiries, replyEnquiry } from '../../contact.controller.js';
+import { getPlatformTransactions } from '../AdminController/getPlatformTransactions.js';
 const adminRouter = express.Router()
 
 // /api/admin 
@@ -79,6 +80,9 @@ adminRouter.get('/get-enquiries', isAdmin, adminPermission('super_admin', 'suppo
 adminRouter.post('/reply-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), replyEnquiry);
 
 adminRouter.delete('/delete-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), deleteEnquiry);
+
+// platform health
+adminRouter.get('/get-platform-transactions', isAdmin, adminPermission('super-admin'), getPlatformTransactions)
 
 
 
