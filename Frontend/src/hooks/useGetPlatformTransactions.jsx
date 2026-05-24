@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { server_url } from '../App';
+import { useState } from 'react';
 
 const useGetPlatformTransactions = () => {  
     const [platformTransaction, setPlatformTransaction] = useState([]);
