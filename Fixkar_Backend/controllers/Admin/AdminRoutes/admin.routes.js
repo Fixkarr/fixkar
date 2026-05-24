@@ -82,7 +82,7 @@ adminRouter.post('/reply-enquiry/:enquiryId', isAdmin, adminPermission('super_ad
 adminRouter.delete('/delete-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), deleteEnquiry);
 
 // platform health
-adminRouter.get('/get-platform-transactions', isAdmin, adminPermission('super-admin'), getPlatformTransactions)
+adminRouter.get('/get-platform-transactions', isAdmin, adminPermission('super_admin'), getPlatformTransactions)
 
 
 
