@@ -19,6 +19,7 @@ import AdminServices from "./AdminServices";
 import AdminWithdrawRequests from "./AdminWithdrawRequests";
 import useGetPlatformTransactions from "../../hooks/useGetPlatformTransactions.jsx";
 import ManagePlatformTransactions from "./ManagePlatformTransaction.jsx";
+import useGetSiteHealth from "../../hooks/useGetSiteHealth.jsx";
 
 
 const AdminHome = () => {
@@ -29,6 +30,9 @@ const AdminHome = () => {
   }, ${currentAdmin ? "#2c5364" : "#4f9cff"})`;
 
   const platformTransaction = useGetPlatformTransactions()
+  const health = useGetSiteHealth();
+
+  console.log(health);
 
  return (
   <div
