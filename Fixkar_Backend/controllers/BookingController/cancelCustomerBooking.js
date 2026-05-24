@@ -102,6 +102,7 @@ export const cancelCustomerBooking = async (req, res) => {
     }
 
     const payment = await Payment.findOne({ bookingId: booking._id });
+    console.log(payment);
     if(payment && payment.paymentType === "CANCEL" && payment.status === "paid"){
       return res.json({
         success : true,
