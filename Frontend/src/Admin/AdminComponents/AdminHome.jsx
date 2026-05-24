@@ -129,7 +129,7 @@ const AdminHome = () => {
           title="Total Services"
           value="10"
           icon={<FaClipboardList />}
-          color="linear-gradient(135deg,#8b5cf6,#6d28d9)"
+          color="linear-gradient(135deg,#64748b,#334155)"
         />
       </div>
     </div>
