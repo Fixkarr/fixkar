@@ -1,5 +1,6 @@
 import { Booking } from "../../models/bookingModel.js";
 import { Notification } from "../../models/notificationModel.js";
+import { Payment } from "../../models/paymentModel.js";
 import { io } from '../../server.js'
 import { pushNotification } from "../../services/pushNotification.js";
 export const cancelCustomerBooking = async (req, res) => {
@@ -98,6 +99,15 @@ export const cancelCustomerBooking = async (req, res) => {
         message:
           "Booking has been cancelled successfully without any cancellation charges.",
       });
+    }
+
+    const payment = await Payment.findOne({ bookingId: booking._id });
+    if(payment && payment.paymentType === "CANCEL" && payment.status === "paid"){
+      return res.json({
+        success : true,
+        type : "Payment Done!",
+        message : "Booking has been cancelled!"
+      })
     }
 
     return res.json({
