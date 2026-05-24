@@ -1,15 +1,9 @@
 import React, { useMemo, useState } from "react";
-import {
-  FaMoneyBillWave,
-  FaWallet,
-  FaArrowTrendUp,
-  FaArrowTrendDown,
-  FaFilter,
-  FaSearch,
-  FaClockRotateLeft,
-} from "react-icons/fa6";
+
 import { MdPayments, MdOutlineAccountBalanceWallet } from "react-icons/md";
 import { BsCashStack } from "react-icons/bs";
+import { FaArrowTrendDown, FaArrowTrendUp, FaClockRotateLeft } from "react-icons/fa6";
+import { FaFilter, FaMoneyBillWave, FaSearch, FaWallet } from "react-icons/fa";
 
 const ManagePlatformTransactions = ({ platformTransactions = [] }) => {
   const [search, setSearch] = useState("");
