@@ -32,8 +32,6 @@ const AdminHome = () => {
   const platformTransaction = useGetPlatformTransactions()
   const {health, revenueHealth} = useGetSiteHealth();
 
-  console.log(revenueHealth);
-
  return (
   <div
     className="container-fluid min-vh-100 py-4 px-lg-4 px-3 text-white"
@@ -162,7 +160,7 @@ const AdminHome = () => {
       </div>
 
       {platformTransaction.length > 0 && (
-        <ManagePlatformTransactions platformTransactions={platformTransaction}/>
+        <ManagePlatformTransactions platformTransactions={platformTransaction} revenueHealth={revenueHealth}/>
       ) }
     </div>
 

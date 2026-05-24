@@ -5,7 +5,7 @@ import { BsCashStack } from "react-icons/bs";
 import { FaArrowTrendDown, FaArrowTrendUp, FaClockRotateLeft } from "react-icons/fa6";
 import { FaFilter, FaMoneyBillWave, FaSearch, FaWallet } from "react-icons/fa";
 
-const ManagePlatformTransactions = ({ platformTransactions = [] }) => {
+const ManagePlatformTransactions = ({ platformTransactions = [], revenueHealth}) => {
   const [search, setSearch] = useState("");
   const [filterMode, setFilterMode] = useState("ALL");
 
@@ -104,118 +104,305 @@ const ManagePlatformTransactions = ({ platformTransactions = [] }) => {
       {/* ANALYTICS CARDS */}
 
       <div className="row g-4 mb-4">
-        {/* TOTAL REVENUE */}
 
-        <div className="col-xl-3 col-md-6">
-          <div
-            className="p-4 rounded-4 h-100"
-            style={{
-              background:
-                "linear-gradient(135deg,#0ea5e9,#2563eb)",
-              boxShadow:
-                "0 10px 30px rgba(37,99,235,0.25)",
-            }}
-          >
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p className="mb-1 opacity-75">
-                  Total Revenue
-                </p>
+  {/* TOTAL REVENUE */}
 
-                <h3 className="fw-bold">
-                  ₹{analytics.totalRevenue}
-                </h3>
-              </div>
+  <div className="col-xl-3 col-md-6">
+    <div
+      className="p-4 rounded-4 h-100"
+      style={{
+        background:
+          "linear-gradient(135deg,#0ea5e9,#2563eb)",
+        boxShadow:
+          "0 10px 30px rgba(37,99,235,0.25)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center">
 
-              <FaMoneyBillWave size={35} />
-            </div>
-          </div>
+        <div>
+
+          <p className="mb-1 opacity-75">
+            Total Revenue
+          </p>
+
+          <h3 className="fw-bold">
+            ₹{revenueHealth?.totalRevenue || 0}
+          </h3>
+
+          <small className="opacity-75">
+            Commission earnings
+          </small>
+
         </div>
 
-        {/* PAYOUTS */}
+        <FaMoneyBillWave size={35} />
 
-        <div className="col-xl-3 col-md-6">
-          <div
-            className="p-4 rounded-4 h-100"
-            style={{
-              background:
-                "linear-gradient(135deg,#14b8a6,#0f766e)",
-              boxShadow:
-                "0 10px 30px rgba(20,184,166,0.25)",
-            }}
-          >
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p className="mb-1 opacity-75">
-                  Professional Payouts
-                </p>
-
-                <h3 className="fw-bold">
-                  ₹{analytics.totalPayout}
-                </h3>
-              </div>
-
-              <MdOutlineAccountBalanceWallet size={38} />
-            </div>
-          </div>
-        </div>
-
-        {/* PROFIT */}
-
-        <div className="col-xl-3 col-md-6">
-          <div
-            className="p-4 rounded-4 h-100"
-            style={{
-              background:
-                "linear-gradient(135deg,#22c55e,#15803d)",
-              boxShadow:
-                "0 10px 30px rgba(34,197,94,0.25)",
-            }}
-          >
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p className="mb-1 opacity-75">
-                  Total Profit
-                </p>
-
-                <h3 className="fw-bold">
-                  ₹{analytics.totalProfit}
-                </h3>
-              </div>
-
-              <FaArrowTrendUp size={35} />
-            </div>
-          </div>
-        </div>
-
-        {/* LOSS */}
-
-        <div className="col-xl-3 col-md-6">
-          <div
-            className="p-4 rounded-4 h-100"
-            style={{
-              background:
-                "linear-gradient(135deg,#ef4444,#b91c1c)",
-              boxShadow:
-                "0 10px 30px rgba(239,68,68,0.25)",
-            }}
-          >
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <p className="mb-1 opacity-75">
-                  Total Loss
-                </p>
-
-                <h3 className="fw-bold">
-                  ₹{analytics.totalLoss}
-                </h3>
-              </div>
-
-              <FaArrowTrendDown size={35} />
-            </div>
-          </div>
-        </div>
       </div>
+    </div>
+  </div>
+
+  {/* ADMIN CURRENT BALANCE */}
+
+  <div className="col-xl-3 col-md-6">
+    <div
+      className="p-4 rounded-4 h-100"
+      style={{
+        background:
+          "linear-gradient(135deg,#8b5cf6,#6d28d9)",
+        boxShadow:
+          "0 10px 30px rgba(139,92,246,0.25)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <p className="mb-1 opacity-75">
+            Admin Balance
+          </p>
+
+          <h3 className="fw-bold">
+            ₹{revenueHealth?.adminCurrentBalance || 0}
+          </h3>
+
+          <small className="opacity-75">
+            Current money with admin
+          </small>
+
+        </div>
+
+        <FaWallet size={35} />
+
+      </div>
+    </div>
+  </div>
+
+  {/* PENDING PAYOUTS */}
+
+  <div className="col-xl-3 col-md-6">
+    <div
+      className="p-4 rounded-4 h-100"
+      style={{
+        background:
+          "linear-gradient(135deg,#f59e0b,#d97706)",
+        boxShadow:
+          "0 10px 30px rgba(245,158,11,0.25)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <p className="mb-1 opacity-75">
+            Pending Payouts
+          </p>
+
+          <h3 className="fw-bold">
+            ₹{revenueHealth?.totalPendingPayouts || 0}
+          </h3>
+
+          <small className="opacity-75">
+            Yet to transfer
+          </small>
+
+        </div>
+
+        <MdOutlineAccountBalanceWallet size={38} />
+
+      </div>
+    </div>
+  </div>
+
+  {/* AVAILABLE PLATFORM BALANCE */}
+
+  <div className="col-xl-3 col-md-6">
+    <div
+      className="p-4 rounded-4 h-100"
+      style={{
+        background:
+          revenueHealth?.availablePlatformBalance >= 0
+            ? "linear-gradient(135deg,#22c55e,#15803d)"
+            : "linear-gradient(135deg,#ef4444,#b91c1c)",
+
+        boxShadow:
+          revenueHealth?.availablePlatformBalance >= 0
+            ? "0 10px 30px rgba(34,197,94,0.25)"
+            : "0 10px 30px rgba(239,68,68,0.25)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <p className="mb-1 opacity-75">
+            Available Balance
+          </p>
+
+          <h3 className="fw-bold">
+            ₹{revenueHealth?.availablePlatformBalance || 0}
+          </h3>
+
+          <small className="opacity-75">
+            After pending payouts
+          </small>
+
+        </div>
+
+        {revenueHealth?.availablePlatformBalance >= 0 ? (
+          <FaArrowTrendUp size={35} />
+        ) : (
+          <FaArrowTrendDown size={35} />
+        )}
+
+      </div>
+    </div>
+  </div>
+
+  {/* TOTAL PROFIT */}
+
+  <div className="col-xl-3 col-md-6">
+    <div
+      className="p-4 rounded-4 h-100"
+      style={{
+        background:
+          "linear-gradient(135deg,#22c55e,#15803d)",
+        boxShadow:
+          "0 10px 30px rgba(34,197,94,0.25)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <p className="mb-1 opacity-75">
+            Total Profit
+          </p>
+
+          <h3 className="fw-bold">
+            ₹{revenueHealth?.totalProfit || 0}
+          </h3>
+
+          <small className="opacity-75">
+            Net positive earnings
+          </small>
+
+        </div>
+
+        <FaArrowTrendUp size={35} />
+
+      </div>
+    </div>
+  </div>
+
+  {/* TOTAL LOSS */}
+
+  <div className="col-xl-3 col-md-6">
+    <div
+      className="p-4 rounded-4 h-100"
+      style={{
+        background:
+          "linear-gradient(135deg,#ef4444,#b91c1c)",
+        boxShadow:
+          "0 10px 30px rgba(239,68,68,0.25)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <p className="mb-1 opacity-75">
+            Total Loss
+          </p>
+
+          <h3 className="fw-bold">
+            ₹{revenueHealth?.totalLoss || 0}
+          </h3>
+
+          <small className="opacity-75">
+            Offer & platform losses
+          </small>
+
+        </div>
+
+        <FaArrowTrendDown size={35} />
+
+      </div>
+    </div>
+  </div>
+
+  {/* ONLINE RECEIVED */}
+
+  <div className="col-xl-3 col-md-6">
+    <div
+      className="p-4 rounded-4 h-100"
+      style={{
+        background:
+          "linear-gradient(135deg,#14b8a6,#0f766e)",
+        boxShadow:
+          "0 10px 30px rgba(20,184,166,0.25)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <p className="mb-1 opacity-75">
+            Online Received
+          </p>
+
+          <h3 className="fw-bold">
+            ₹{revenueHealth?.totalOnlineReceived || 0}
+          </h3>
+
+          <small className="opacity-75">
+            Received via online payments
+          </small>
+
+        </div>
+
+        <MdOutlineAccountBalanceWallet size={35} />
+
+      </div>
+    </div>
+  </div>
+
+  {/* CASH HANDLED */}
+
+  <div className="col-xl-3 col-md-6">
+    <div
+      className="p-4 rounded-4 h-100"
+      style={{
+        background:
+          "linear-gradient(135deg,#ec4899,#be185d)",
+        boxShadow:
+          "0 10px 30px rgba(236,72,153,0.25)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <p className="mb-1 opacity-75">
+            Cash Handled
+          </p>
+
+          <h3 className="fw-bold">
+            ₹{revenueHealth?.totalCashHandled || 0}
+          </h3>
+
+          <small className="opacity-75">
+            Direct cash transactions
+          </small>
+
+        </div>
+
+        <FaWallet size={35} />
+
+      </div>
+    </div>
+  </div>
+
+</div>
 
       {/* FILTERS */}
 
