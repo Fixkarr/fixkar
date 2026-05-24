@@ -18,7 +18,7 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 const AdminBookings = () => {
   const bookings = useGetAllBookings()
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [bookingId, setBookingId] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [professionalId, setProfessionalId] = useState("");
@@ -79,37 +79,37 @@ const AdminBookings = () => {
           title="Total Bookings"
           value={bookings?.length}
           icon={<FaClock />}
-          color="primary"
+          color="linear-gradient(135deg,#8b5cf6,#6d28d9)"
         />
         <StatCard
           title="Cancelled Bookings"
           value={getBookingCountByStatus(bookings, 'cancelled')}
           icon={<FaSpinner />}
-          color="success"
+          color="linear-gradient(135deg,#ef4444,#b91c1c)"
         />
         <StatCard
           title="Rejected Bookings"
           value={getBookingCountByStatus(bookings, 'rejected')}
           icon={<FaTimesCircle />}
-          color="warning"
+          color="linear-gradient(135deg,#ef4444,#b91c1c)"
         />
         <StatCard
           title="Pending Bookings"
           value={getBookingCountByStatus(bookings, 'pending')}
           icon={<FaBan />}
-          color="info"
+          color="linear-gradient(135deg,#f59e0b,#d97706)"
         />
          <StatCard
           title="Accepted Bookings"
           value={getBookingCountByStatus(bookings, 'accepted')}
           icon={<FaCheckCircle />}
-          color="warning"
+          color="linear-gradient(135deg,#0ea5e9,#2563eb)"
         />
          <StatCard
           title="Completed Bookings"
           value={getBookingCountByStatus(bookings, 'completed')}
           icon={<FaCheckCircle />}
-          color="warning"
+          color="linear-gradient(135deg,#22c55e,#15803d)"
         />
       </div>
 
