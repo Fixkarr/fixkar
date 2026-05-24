@@ -44,7 +44,7 @@ const AdminHome = () => {
 
       {/* ================= SUMMARY CARDS ================= */}
       <div className="row g-4 mb-4">
-        <div className="col-md-6">
+        <div className="col-md-8">
           <StatCard
           title="Total Users"
           value="2,450"
@@ -82,7 +82,7 @@ const AdminHome = () => {
           color="warning"
         />
         </div>
-        <div className="col-md-6">
+        <div className="col-md-3">
           <h3 className="text-light me-2">Platform Transactions</h3>
           {
             platformTransaction.length > 0 ? platformTransaction.map((tx)=>{
