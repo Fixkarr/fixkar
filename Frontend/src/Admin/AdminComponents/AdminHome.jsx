@@ -86,7 +86,7 @@ const AdminHome = () => {
       <div className="col-12 col-sm-6 col-xl-2">
         <StatCard
           title="Total Users"
-          value="2,450"
+          value={health.totalUsers}
           icon={<FaUsers />}
           color="linear-gradient(135deg,#0ea5e9,#2563eb)"
         />
@@ -95,7 +95,7 @@ const AdminHome = () => {
       <div className="col-12 col-sm-6 col-xl-2">
         <StatCard
           title="Total Customers"
-          value="1,780"
+          value={health?.customers}
           icon={<FaUsers />}
           color="linear-gradient(135deg,#f59e0b,#d97706)"
         />
@@ -104,7 +104,7 @@ const AdminHome = () => {
       <div className="col-12 col-sm-6 col-xl-2">
         <StatCard
           title="Total Professionals"
-          value="670"
+          value={health.professionals}
           icon={<FaUserTie />}
           color="linear-gradient(135deg,#ec4899,#be185d)"
         />
@@ -113,7 +113,7 @@ const AdminHome = () => {
       <div className="col-12 col-sm-6 col-xl-2">
         <StatCard
           title="Pending Applications"
-          value="110"
+          value={health.pendingApplications}
           icon={<FaUserClock />}
           color="linear-gradient(135deg,#14b8a6,#0f766e)"
         />
@@ -122,7 +122,7 @@ const AdminHome = () => {
       <div className="col-12 col-sm-6 col-xl-2">
         <StatCard
           title="Total Bookings"
-          value="4,820"
+          value={health.bookings}
           icon={<FaClipboardList />}
           color="linear-gradient(135deg,#8b5cf6,#6d28d9)"
         />
@@ -131,7 +131,7 @@ const AdminHome = () => {
       <div className="col-12 col-sm-6 col-xl-2">
         <StatCard
           title="Total Services"
-          value="10"
+          value={health.services}
           icon={<FaClipboardList />}
           color="linear-gradient(135deg,#64748b,#334155)"
         />
