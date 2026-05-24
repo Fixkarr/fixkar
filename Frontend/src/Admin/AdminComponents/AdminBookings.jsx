@@ -74,7 +74,7 @@ const AdminBookings = () => {
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="row g-4 mb-4">
+      <div className="row g-4 mb-4 text-light">
         <StatCard
           title="Total Bookings"
           value={bookings?.length}
