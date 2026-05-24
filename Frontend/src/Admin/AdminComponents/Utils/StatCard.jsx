@@ -1,22 +1,37 @@
 import React from 'react'
 
 const StatCard = ({ title, value, icon, color }) => (
-    <div className="col-xl-3 col-lg-4 col-md-6 booking-card" role='button'>
-    <div className={`card border-0 shadow-lg rounded-4 h-100`}>
-      <div className="card-body d-flex align-items-center gap-3">
+     <div className="col-12 col-sm-6 col-lg-4 col-xxl-2">
+    <div
+      className="position-relative overflow-hidden rounded-4 p-4 h-100"
+      style={{
+        background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+        boxShadow: "0 10px 30px rgba(37,99,235,0.35)",
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-start">
+        <div>
+          <p className="text-white-50 mb-2 small fw-semibold">
+           {title}
+          </p>
+          <h2 className="fw-bold mb-0">{value}</h2>
+        </div>
+
         <div
-          className={`rounded-circle d-flex align-items-center justify-content-center bg-${color} text-white`}
-          style={{ width: 56, height: 56, fontSize: 22 }}
+          className="d-flex align-items-center justify-content-center rounded-4"
+          style={{
+            width: "55px",
+            height: "55px",
+            background: "rgba(255,255,255,0.18)",
+            fontSize: "22px",
+          }}
         >
           {icon}
-        </div>
-        <div>
-          <h6 className="mb-1 text-muted">{title}</h6>
-          <h4 className="fw-bold mb-0">{value}</h4>
         </div>
       </div>
     </div>
   </div>
+
 
 );
 
