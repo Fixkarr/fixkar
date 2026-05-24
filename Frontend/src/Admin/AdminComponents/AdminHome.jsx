@@ -119,7 +119,7 @@ const AdminHome = () => {
           title="Total Bookings"
           value="4,820"
           icon={<FaClipboardList />}
-          color="primary"
+          color="red"
         />
       </div>
 
