@@ -5,6 +5,7 @@ const StatCard = ({ title, value, icon, color }) => (
     <div
       className="position-relative overflow-hidden rounded-4 p-4 h-100"
       style={{
+        width : "fit-content",
         background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
         boxShadow: "0 10px 30px rgba(37,99,235,0.35)",
       }}
