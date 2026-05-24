@@ -112,7 +112,7 @@ export const confirmCashPayment = async (req, res) => {
     }
 
     const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
-    const commission = Math.round((fullAmount * COMMISSION_PERCENT) / 100);
+    const commission = (fullAmount * COMMISSION_PERCENT) / 100;
     const professionalAmount = fullAmount - commission;
   await Wallet.findOneAndUpdate(
   {

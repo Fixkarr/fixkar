@@ -245,9 +245,8 @@ export const verifyPayment = async (req, res) => {
     if (payment.paymentType === "FINAL") {
       fullAmount = quoteAmount + visitingCharge;
 
-      commission = Math.round(
-        (fullAmount * COMMISSION_PERCENT) / 100
-      );
+      commission = 
+        (fullAmount * COMMISSION_PERCENT) / 100;
 
       professionalAmount = fullAmount - commission;
     }
@@ -257,9 +256,9 @@ export const verifyPayment = async (req, res) => {
       fullAmount = visitingCharge + lateCancellationFee;
 
       // commission ONLY on visiting charge
-      const commissionOnVisiting = Math.round(
+      const commissionOnVisiting = 
         (visitingCharge * COMMISSION_PERCENT) / 100
-      );
+      ;
 
       commission = commissionOnVisiting;
 
