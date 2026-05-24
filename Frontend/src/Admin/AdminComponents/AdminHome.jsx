@@ -18,6 +18,7 @@ import StatCard from "./Utils/StatCard";
 import AdminServices from "./AdminServices";
 import AdminWithdrawRequests from "./AdminWithdrawRequests";
 import useGetPlatformTransactions from "../../hooks/useGetPlatformTransactions.jsx";
+import ManagePlatformTransactions from "./ManagePlatformTransaction.jsx";
 
 
 const AdminHome = () => {
@@ -156,72 +157,9 @@ const AdminHome = () => {
         </button>
       </div>
 
-      {platformTransaction.length > 0 ? (
-        <div className="d-flex flex-column gap-3">
-          {platformTransaction?.map((tx, index) => {
-            return (
-              <div
-                key={tx._id}
-                className="d-flex justify-content-between align-items-center p-3 rounded-4 border"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  borderColor: "rgba(255,255,255,0.06)",
-                  transition: "0.3s",
-                }}
-              >
-                <div className="d-flex align-items-center gap-3">
-                  <div
-                    className="rounded-circle d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "52px",
-                      height: "52px",
-                      background:
-                        "linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)",
-                      fontSize: "20px",
-                    }}
-                  >
-                    💰
-                  </div>
-
-                  <div>
-                    <h6 className="mb-1 fw-semibold">
-                      Transaction #{index + 1}
-                    </h6>
-
-                    <small className="text-light opacity-75">
-                      Platform revenue received
-                    </small>
-                  </div>
-                </div>
-
-                <div className="text-end">
-                  <h6 className="fw-bold text-success mb-1">+ ₹2,500</h6>
-
-                  <small className="text-light opacity-50">
-                    Successful
-                  </small>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <div
-          className="text-center py-5 rounded-4 border"
-          style={{
-            background: "rgba(255,255,255,0.03)",
-            borderColor: "rgba(255,255,255,0.06)",
-          }}
-        >
-          <div style={{ fontSize: "50px" }}>📭</div>
-
-          <h5 className="fw-semibold mt-3">No Records Found</h5>
-
-          <p className="text-light opacity-75 mb-0">
-            No platform transactions available right now.
-          </p>
-        </div>
-      )}
+      {platformTransaction.length > 0 && (
+        <ManagePlatformTransactions platformTransactions={platformTransaction}/>
+      ) }
     </div>
 
     {/* ================= WITHDRAW REQUESTS ================= */}
