@@ -77,7 +77,7 @@ const Home = () => {
   <Navbar />
 
   {/* ===== HERO SECTION ===== */}
-<section className="mb-4 mt-4">
+<section className="mb-4 mt-5">
   <div
     id="homepageBanner"
     className="carousel slide"
