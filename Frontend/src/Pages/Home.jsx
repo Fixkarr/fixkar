@@ -94,24 +94,14 @@ const Home = () => {
           key={index}
           className={`carousel-item ${index === 0 ? "active" : ""}`}
         >
-          <div
-            className="w-100 d-flex justify-content-center align-items-center"
+          <img
+            src={item?.image}
+            alt={`banner-${index}`}
+            className="w-100 d-block img-fluid"
             style={{
-              background: "#f5f5f5",
               height: "auto",
-              minHeight: window.innerWidth < 768 ? "140px" : "320px",
             }}
-          >
-            <img
-              src={item?.image}
-              alt={`banner-${index}`}
-              className="img-fluid w-100"
-              style={{
-                objectFit: "contain",
-                maxHeight: "320px",
-              }}
-            />
-          </div>
+          />
         </div>
       ))}
     </div>
