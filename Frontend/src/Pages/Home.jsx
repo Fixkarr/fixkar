@@ -80,7 +80,7 @@ const Home = () => {
 <section className="mb-4">
   <div
     id="homepageBanner"
-    className="carousel slide carousel-fade"
+    className="carousel slide"
     data-bs-ride="carousel"
     data-bs-interval="3000"
   >
@@ -95,18 +95,20 @@ const Home = () => {
           className={`carousel-item ${index === 0 ? "active" : ""}`}
         >
           <div
+            className="w-100 d-flex justify-content-center align-items-center"
             style={{
-              width: "100%",
-              aspectRatio: "16 / 5", // Amazon style wide banner
               background: "#f5f5f5",
+              height: "auto",
+              minHeight: window.innerWidth < 768 ? "140px" : "320px",
             }}
           >
             <img
               src={item?.image}
               alt={`banner-${index}`}
-              className="w-100 h-100 d-block"
+              className="img-fluid w-100"
               style={{
-                objectFit: "cover",
+                objectFit: "contain",
+                maxHeight: "320px",
               }}
             />
           </div>
