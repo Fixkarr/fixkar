@@ -83,12 +83,17 @@ const Home = () => {
     className="carousel slide"
     data-bs-ride="carousel"
     data-bs-interval="3000"
+    data-bs-pause="false"
   >
+    {/* Slides */}
     <div className="carousel-inner rounded-4 overflow-hidden shadow-sm">
 
       {(banners?.length > 0
         ? banners
-        : [{ image: "/Images/banner.webp" },{ image: "/Images/banner2.webp" }]
+        : [
+            { image: "/Images/banner.webp" },
+            { image: "/Images/banner2.webp" },
+          ]
       ).map((item, index) => (
         <div
           key={index}
@@ -97,7 +102,7 @@ const Home = () => {
           <img
             src={item?.image}
             alt={`banner-${index}`}
-            className="w-100 d-block img-fluid"
+            className="w-100 d-block"
             style={{
               height: "auto",
             }}
@@ -106,7 +111,7 @@ const Home = () => {
       ))}
     </div>
 
-    {/* Controls */}
+    {/* Prev Button */}
     <button
       className="carousel-control-prev"
       type="button"
@@ -116,6 +121,7 @@ const Home = () => {
       <span className="carousel-control-prev-icon" />
     </button>
 
+    {/* Next Button */}
     <button
       className="carousel-control-next"
       type="button"
@@ -127,13 +133,20 @@ const Home = () => {
 
     {/* Indicators */}
     <div className="carousel-indicators mb-2">
-      {(banners?.length > 0 ? banners : [1]).map((_, index) => (
+      {(banners?.length > 0
+        ? banners
+        : [
+            { image: "/Images/banner.webp" },
+            { image: "/Images/banner2.webp" },
+          ]
+      ).map((_, index) => (
         <button
           key={index}
           type="button"
           data-bs-target="#homepageBanner"
           data-bs-slide-to={index}
           className={index === 0 ? "active" : ""}
+          aria-current={index === 0 ? "true" : undefined}
         />
       ))}
     </div>
