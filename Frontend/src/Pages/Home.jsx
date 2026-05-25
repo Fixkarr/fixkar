@@ -86,28 +86,35 @@ const Home = () => {
   >
     <div className="carousel-inner rounded-4 overflow-hidden shadow-sm">
 
-      {/* ===== SLIDES FROM BACKEND ===== */}
-      {(banners?.length > 0 ? banners : [
-        { image: "/Images/banner.webp"},
-      ]).map((item, index) => (
+      {(banners?.length > 0
+        ? banners
+        : [{ image: "/Images/banner.webp" }]
+      ).map((item, index) => (
         <div
           key={index}
           className={`carousel-item ${index === 0 ? "active" : ""}`}
         >
-          <img
-            src={item?.image}
-            alt={`banner-${index}`}
-            className="w-100 d-block"
+          <div
             style={{
-              height: window.innerWidth < 768 ? "180px" : "320px",
-              objectFit: "contain",
+              width: "100%",
+              aspectRatio: "16 / 5", // Amazon style wide banner
+              background: "#f5f5f5",
             }}
-          />
+          >
+            <img
+              src={item?.image}
+              alt={`banner-${index}`}
+              className="w-100 h-100 d-block"
+              style={{
+                objectFit: "cover",
+              }}
+            />
+          </div>
         </div>
       ))}
     </div>
 
-    {/* ===== CONTROLS ===== */}
+    {/* Controls */}
     <button
       className="carousel-control-prev"
       type="button"
@@ -126,7 +133,7 @@ const Home = () => {
       <span className="carousel-control-next-icon" />
     </button>
 
-    {/* ===== INDICATORS ===== */}
+    {/* Indicators */}
     <div className="carousel-indicators mb-2">
       {(banners?.length > 0 ? banners : [1]).map((_, index) => (
         <button
