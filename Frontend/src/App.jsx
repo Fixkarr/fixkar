@@ -450,7 +450,7 @@ const App = () => {
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/services" element={<Services/>}/>
-          <Route path="/explore/:profession" element={<Explore/>}/>
+          <Route path="/explore" element={<Explore/>}/>
           <Route path="/professional-policy" element={<ProfessionalOnboardingPolicy/>}/>
 
         

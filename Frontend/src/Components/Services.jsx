@@ -76,24 +76,24 @@ const Services = () => {
 
       {services?.map((item) => (
    <div
-  className="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-3"
+  className="col-6 col-sm-4 col-md-3 col-lg-2 mb-2"
   key={item._id}
 >
   <div
-    className="card border-0 rounded-4 overflow-hidden h-100 service-card-premium"
+    className="card border-0 rounded-4 overflow-hidden h-100 service-card-mini"
     style={{
       background: "#fff",
+      boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
       transition: "0.3s ease",
-      boxShadow: "0 4px 14px rgba(0,0,0,0.06)",
     }}
   >
 
     {/* Image */}
     <div
-      className="overflow-hidden"
       style={{
         aspectRatio: "1 / 1",
-        background: "#f8f9fa",
+        overflow: "hidden",
+        background: "#f3f4f6",
       }}
     >
       <img
@@ -102,7 +102,7 @@ const Services = () => {
         className="w-100 h-100"
         style={{
           objectFit: "cover",
-          transition: "0.4s ease",
+          transition: "0.3s ease",
         }}
       />
     </div>
@@ -112,41 +112,39 @@ const Services = () => {
 
       {/* Title */}
       <h6
-        className="fw-bold mb-1"
+        className="fw-semibold mb-1"
         style={{
-          fontSize: "0.88rem",
+          fontSize: "0.78rem",
           color: "#111827",
         }}
       >
         {item.name}
       </h6>
 
-      {/* Description */}
+      {/* Tiny Description */}
       <p
         className="text-muted mb-2"
         style={{
-          fontSize: "0.72rem",
-          lineHeight: "1.3",
-          minHeight: "34px",
+          fontSize: "0.65rem",
+          lineHeight: "1.2",
+          minHeight: "28px",
         }}
       >
-        {item.description?.slice(0, 45)}...
+        {item.description?.slice(0, 28)}...
       </p>
 
-      {/* Button */}
+      {/* Small Button */}
       <button
-        className="btn btn-primary btn-sm rounded-pill px-3 py-1 border-0"
+        className="btn btn-primary border-0 rounded-pill"
         style={{
-          fontSize: "0.72rem",
-          fontWeight: "600",
+          fontSize: "0.65rem",
+          padding: "4px 10px",
           background:
             "linear-gradient(135deg,#2563eb,#1d4ed8)",
         }}
-        onClick={() => {
-          navigate(`/explore`);
-        }}
+        onClick={() => navigate(`/explore`)}
       >
-        Explore <FaArrowRight size={10} className="ms-1" />
+        Explore
       </button>
     </div>
   </div>
