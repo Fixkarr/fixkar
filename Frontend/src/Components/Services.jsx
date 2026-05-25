@@ -97,7 +97,7 @@ const Services = () => {
 
       <button className="btn btn-outline-primary btn-sm px-3 py-1 rounded-pill d-inline-flex align-items-center gap-1"
       onClick={()=>{
-        navigate(`/explore/${item.name}`)
+        navigate(`/explore`)
       }}
       >
         Explore <FaArrowRight size={11} />
