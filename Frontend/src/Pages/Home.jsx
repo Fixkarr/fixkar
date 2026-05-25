@@ -77,7 +77,7 @@ const Home = () => {
   <Navbar />
 
   {/* ===== HERO SECTION ===== */}
-<section className="mb-4">
+<section className="mb-4 mt-4">
   <div
     id="homepageBanner"
     className="carousel slide"
@@ -88,7 +88,7 @@ const Home = () => {
 
       {(banners?.length > 0
         ? banners
-        : [{ image: "/Images/banner.webp" }]
+        : [{ image: "/Images/banner.webp" },{ image: "/Images/banner2.webp" }]
       ).map((item, index) => (
         <div
           key={index}
