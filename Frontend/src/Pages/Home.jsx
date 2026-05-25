@@ -100,7 +100,7 @@ const Home = () => {
             className="w-100 d-block"
             style={{
               height: window.innerWidth < 768 ? "180px" : "320px",
-              objectFit: "cover",
+              objectFit: "contain",
             }}
           />
         </div>
