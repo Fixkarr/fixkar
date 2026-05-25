@@ -75,35 +75,80 @@ const Services = () => {
     <div className="row g-4 justify-content-center">
 
       {services?.map((item) => (
-   <div className="col-xl-2 col-lg-3 col-md-4 col-6 mb-3" key={item._id}>
-  <div className="card border-0 rounded-3 service-card-sm shadow-sm h-100">
+   <div
+  className="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-3"
+  key={item._id}
+>
+  <div
+    className="card border-0 rounded-4 overflow-hidden h-100 service-card-premium"
+    style={{
+      background: "#fff",
+      transition: "0.3s ease",
+      boxShadow: "0 4px 14px rgba(0,0,0,0.06)",
+    }}
+  >
 
     {/* Image */}
-    <div className="ratio ratio-1x1">
+    <div
+      className="overflow-hidden"
+      style={{
+        aspectRatio: "1 / 1",
+        background: "#f8f9fa",
+      }}
+    >
       <img
         src={item.image}
         alt={item.name}
-        className="img-fluid object-fit-cover rounded-top-3"
+        className="w-100 h-100"
+        style={{
+          objectFit: "cover",
+          transition: "0.4s ease",
+        }}
       />
     </div>
 
     {/* Body */}
     <div className="card-body p-2 text-center">
-      <h6 className="fw-semibold mb-1 small">{item.name}</h6>
 
-      <p className="text-muted small mb-2">
-       {item.description?.slice(0, 70)}...
+      {/* Title */}
+      <h6
+        className="fw-bold mb-1"
+        style={{
+          fontSize: "0.88rem",
+          color: "#111827",
+        }}
+      >
+        {item.name}
+      </h6>
+
+      {/* Description */}
+      <p
+        className="text-muted mb-2"
+        style={{
+          fontSize: "0.72rem",
+          lineHeight: "1.3",
+          minHeight: "34px",
+        }}
+      >
+        {item.description?.slice(0, 45)}...
       </p>
 
-      <button className="btn btn-outline-primary btn-sm px-3 py-1 rounded-pill d-inline-flex align-items-center gap-1"
-      onClick={()=>{
-        navigate(`/explore`)
-      }}
+      {/* Button */}
+      <button
+        className="btn btn-primary btn-sm rounded-pill px-3 py-1 border-0"
+        style={{
+          fontSize: "0.72rem",
+          fontWeight: "600",
+          background:
+            "linear-gradient(135deg,#2563eb,#1d4ed8)",
+        }}
+        onClick={() => {
+          navigate(`/explore`);
+        }}
       >
-        Explore <FaArrowRight size={11} />
+        Explore <FaArrowRight size={10} className="ms-1" />
       </button>
     </div>
-
   </div>
 </div>
 
