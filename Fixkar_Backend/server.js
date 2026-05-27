@@ -19,6 +19,7 @@ import { Message } from './models/messageModel.js';
 import bookingRouter from './routes/booking.Routes.js';
 import adminRouter from './controllers/Admin/AdminRoutes/admin.routes.js';
 import notificationRouter from './routes/notification.routes.js';
+import wakeRouter from './routes/wakeup.route.js';
 
 dotenv.config();
 const app = express();
@@ -49,6 +50,7 @@ app.get("/api/health", (req, res) => {
     message: "Fixkar backend is running"
   });
 });
+app.use("/api/wakeup", wakeRouter);
 
 const server = http.createServer(app);
 
