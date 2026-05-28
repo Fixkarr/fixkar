@@ -93,7 +93,7 @@ const About = () => {
         <h1
           className="fw-bold mt-3 mb-3"
           style={{
-            fontSize: "clamp(2.2rem,5vw,4.5rem)",
+            fontSize: "clamp(1.2rem,3.6vw,3.5rem)",
             lineHeight: "1.1",
             color: "#0b1320",
           }}
