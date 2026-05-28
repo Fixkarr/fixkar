@@ -192,7 +192,7 @@ const About = () => {
                           background:
                             "linear-gradient(135deg,#0d6efd,#4dabff)",
                           color: "#fff",
-                          fontSize: "28px",
+                          fontSize: "50px",
                           boxShadow:
                             "0 10px 30px rgba(13,110,253,0.25)",
                         }}
@@ -360,7 +360,7 @@ const About = () => {
                       background:
                         "linear-gradient(135deg,#0d6efd,#4dabff)",
                       color: "#fff",
-                      fontSize: "38px",
+                      fontSize: "60px",
                       boxShadow:
                         "0 12px 30px rgba(13,110,253,0.2)",
                     }}
@@ -466,7 +466,7 @@ const About = () => {
                       background:
                         "linear-gradient(135deg,#0d6efd,#4dabff)",
                       color: "#fff",
-                      fontSize: "42px",
+                      fontSize: "70px",
                       boxShadow:
                         "0 12px 30px rgba(13,110,253,0.2)",
                     }}
