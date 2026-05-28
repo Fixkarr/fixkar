@@ -103,7 +103,7 @@ export default function About() {
                   Book a Service
                 </button>
 
-                <button className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-semibold"
+                <button className="btn btn-outline-primary btn-lg px-4 py-3 rounded-pill fw-semibold"
                   onClick={()=>{navigate('/signup?role=professional')}}
                 >
                   Become a Professional
@@ -120,7 +120,7 @@ export default function About() {
               >
                 <img
                   src="Images/about-banner.webp"
-                  alt="Fixkar"
+                  alt="About Fixkar"
                   className="img-fluid rounded-5 shadow-lg w-100"
                   style={{
                     objectFit: "cover",
