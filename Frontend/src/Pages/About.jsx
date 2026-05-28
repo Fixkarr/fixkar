@@ -52,8 +52,8 @@ export default function About() {
     <div
       className="w-100 overflow-hidden"
       style={{
-        background: "#0b1120",
-        color: "white",
+        background: "#f8fafc",
+        color: "#0f172a",
         fontFamily: "sans-serif",
       }}
     >
@@ -63,7 +63,7 @@ export default function About() {
         style={{
           minHeight: "100vh",
           background:
-            "linear-gradient(135deg,#0f172a 0%, #111827 40%, #1e3a8a 100%)",
+            "linear-gradient(135deg,#eff6ff 0%, #ffffff 40%, #dbeafe 100%)",
         }}
       >
         <div className="container py-5">
@@ -84,7 +84,7 @@ export default function About() {
               </h1>
 
               <p
-                className="text-light mb-4"
+                className="text-secondary mb-4"
                 style={{
                   fontSize: "1.1rem",
                   lineHeight: "1.8",
@@ -115,21 +115,22 @@ export default function About() {
                 }}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop"
+                  src="/Images/about-banner.webp"
                   alt="Fixkar"
-                  className="img-fluid rounded-5 shadow-lg"
+                  className="img-fluid rounded-5 shadow-lg w-100"
                   style={{
                     objectFit: "cover",
-                    minHeight: "400px",
+                    height: "520px",
+                    width: "100%",
                   }}
                 />
 
                 <div
                   className="position-absolute top-0 start-0 translate-middle p-4 rounded-4"
                   style={{
-                    background: "rgba(255,255,255,0.1)",
+                    background: "rgba(255,255,255,0.9)",
                     backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255,255,255,0.15)",
+                    border: "1px solid rgba(59,130,246,0.15)",
                   }}
                 >
                   <h3 className="fw-bold mb-1">100+</h3>
@@ -139,9 +140,9 @@ export default function About() {
                 <div
                   className="position-absolute bottom-0 end-0 translate-middle-y p-4 rounded-4"
                   style={{
-                    background: "rgba(255,255,255,0.1)",
+                    background: "rgba(255,255,255,0.9)",
                     backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255,255,255,0.15)",
+                    border: "1px solid rgba(59,130,246,0.15)",
                   }}
                 >
                   <h3 className="fw-bold mb-1">24/7</h3>
@@ -178,7 +179,7 @@ export default function About() {
               </h2>
 
               <p
-                className="text-light"
+                className="text-secondary"
                 style={{ lineHeight: "1.9", opacity: 0.85 }}
               >
                 Fixkar is a smart local service marketplace designed to help
@@ -188,7 +189,7 @@ export default function About() {
               </p>
 
               <p
-                className="text-light"
+                className="text-secondary"
                 style={{ lineHeight: "1.9", opacity: 0.85 }}
               >
                 From electricians and plumbers to painters and appliance repair
@@ -204,7 +205,7 @@ export default function About() {
       <section
         className="py-5"
         style={{
-          background: "linear-gradient(135deg,#111827,#172554)",
+          background: "linear-gradient(135deg,#eff6ff,#ffffff)"
         }}
       >
         <div className="container py-5">
@@ -227,8 +228,8 @@ export default function About() {
                 <div
                   className="h-100 p-4 rounded-5 text-center"
                   style={{
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "#ffffff",
+                    border: "1px solid #e2e8f0",
                     backdropFilter: "blur(8px)",
                     transition: "0.3s",
                   }}
@@ -276,8 +277,8 @@ export default function About() {
                 <div
                   className="h-100 p-4 rounded-5"
                   style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "#ffffff",
+                    border: "1px solid #e2e8f0",
                   }}
                 >
                   <div
@@ -295,7 +296,7 @@ export default function About() {
 
                   <h4 className="fw-bold mb-3">{item.title}</h4>
 
-                  <p className="text-light mb-0" style={{ opacity: 0.8 }}>
+                  <p className="text-secondary mb-0" style={{ opacity: 0.8 }}>
                     {item.desc}
                   </p>
                 </div>
@@ -309,7 +310,7 @@ export default function About() {
       <section
         className="py-5"
         style={{
-          background: "linear-gradient(135deg,#0f172a,#1e293b)",
+          background: "linear-gradient(135deg,#ffffff,#eff6ff)"
         }}
       >
         <div className="container py-5">
@@ -338,8 +339,8 @@ export default function About() {
                 <div
                   className="text-center h-100 p-4 rounded-5"
                   style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "#ffffff",
+                    border: "1px solid #e2e8f0",
                   }}
                 >
                   <div
@@ -395,7 +396,7 @@ export default function About() {
       <section
         className="py-5"
         style={{
-          background: "linear-gradient(135deg,#111827,#172554)",
+          background: "linear-gradient(135deg,#eff6ff,#ffffff)"
         }}
       >
         <div className="container py-5">
@@ -404,14 +405,14 @@ export default function About() {
               <div
                 className="p-5 rounded-5 h-100"
                 style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "#ffffff",
+                  border: "1px solid #e2e8f0",
                 }}
               >
                 <h2 className="fw-bold mb-4">Our Mission</h2>
 
                 <p
-                  className="text-light mb-0"
+                  className="text-secondary mb-0"
                   style={{ lineHeight: "1.9", opacity: 0.85 }}
                 >
                   Our mission is to digitally empower local professionals and
@@ -425,14 +426,14 @@ export default function About() {
               <div
                 className="p-5 rounded-5 h-100"
                 style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "#ffffff",
+                  border: "1px solid #e2e8f0",
                 }}
               >
                 <h2 className="fw-bold mb-4">Our Vision</h2>
 
                 <p
-                  className="text-light mb-0"
+                  className="text-secondary mb-0"
                   style={{ lineHeight: "1.9", opacity: 0.85 }}
                 >
                   We envision building India's most trusted local service
