@@ -385,7 +385,7 @@ export default function About() {
                     {item.number}
                   </h2>
 
-                  <p className="mb-0 fw-semibold">{item.label}</p>
+                  <p className="mb-0 fw-semibold text-light">{item.label}</p>
                 </div>
               </div>
             ))}
