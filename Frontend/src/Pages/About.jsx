@@ -166,18 +166,26 @@ const About = () => {
                     >
                       {/* ICON */}
                       <div
-                        className="d-flex align-items-center justify-content-center flex-shrink-0"
-                        style={{
-                          width: "52px",
-                          height: "52px",
-                          borderRadius: "16px",
-                          background: "linear-gradient(135deg,#0d6efd,#4dabff)",
-                          color: "#fff",
-                          fontSize: "1.5vmin",
-                        }}
-                      >
-                        {item.icon}
-                      </div>
+  className="d-flex align-items-center justify-content-center flex-shrink-0"
+  style={{
+    width: window.innerWidth < 768 ? "60px" : "72px",
+    height: window.innerWidth < 768 ? "60px" : "72px",
+
+    borderRadius: window.innerWidth < 768 ? "18px" : "22px",
+
+    background:
+      "linear-gradient(135deg,#0d6efd,#4dabff)",
+
+    color: "#fff",
+
+    fontSize: window.innerWidth < 768 ? "22px" : "28px",
+
+    boxShadow:
+      "0 10px 30px rgba(13,110,253,0.25)",
+  }}
+>
+  {item.icon}
+</div>
 
                       {/* TITLE */}
                       <div>
@@ -314,15 +322,24 @@ const About = () => {
   }}
 >
                 <div
-                  className="d-inline-flex align-items-center justify-content-center mb-4"
-                  style={{
-                    width: "70px",
-                    height: "70px",
-                    borderRadius: "22px",
-                    background: "linear-gradient(135deg,#0d6efd,#4dabff)",
-                    color: "#fff",
-                    fontSize: "28px",
-                  }}
+                   className="d-inline-flex align-items-center justify-content-center mb-4"
+  style={{
+    width: window.innerWidth < 768 ? "75px" : "90px",
+
+    height: window.innerWidth < 768 ? "75px" : "90px",
+
+    borderRadius: window.innerWidth < 768 ? "22px" : "28px",
+
+    background:
+      "linear-gradient(135deg,#0d6efd,#4dabff)",
+
+    color: "#fff",
+
+    fontSize: window.innerWidth < 768 ? "30px" : "38px",
+
+    boxShadow:
+      "0 12px 30px rgba(13,110,253,0.2)",
+  }}
                 >
                   <FaBuilding />
                 </div>
@@ -355,15 +372,24 @@ const About = () => {
   }}
 >
                 <div
-                  className="d-inline-flex align-items-center justify-content-center mb-4"
-                  style={{
-                    width: "70px",
-                    height: "70px",
-                    borderRadius: "22px",
-                    background: "linear-gradient(135deg,#00b894,#55efc4)",
-                    color: "#fff",
-                    fontSize: "28px",
-                  }}
+                   className="d-inline-flex align-items-center justify-content-center mb-4"
+  style={{
+    width: window.innerWidth < 768 ? "75px" : "90px",
+
+    height: window.innerWidth < 768 ? "75px" : "90px",
+
+    borderRadius: window.innerWidth < 768 ? "22px" : "28px",
+
+    background:
+      "linear-gradient(135deg,#0d6efd,#4dabff)",
+
+    color: "#fff",
+
+    fontSize: window.innerWidth < 768 ? "30px" : "38px",
+
+    boxShadow:
+      "0 12px 30px rgba(13,110,253,0.2)",
+  }}
                 >
                   <FaTools />
                 </div>
@@ -396,14 +422,23 @@ const About = () => {
 >
                 <div
                   className="d-inline-flex align-items-center justify-content-center mb-4"
-                  style={{
-                    width: "70px",
-                    height: "70px",
-                    borderRadius: "22px",
-                    background: "linear-gradient(135deg,#ff9800,#ffc107)",
-                    color: "#fff",
-                    fontSize: "28px",
-                  }}
+  style={{
+    width: window.innerWidth < 768 ? "75px" : "90px",
+
+    height: window.innerWidth < 768 ? "75px" : "90px",
+
+    borderRadius: window.innerWidth < 768 ? "22px" : "28px",
+
+    background:
+      "linear-gradient(135deg,#0d6efd,#4dabff)",
+
+    color: "#fff",
+
+    fontSize: window.innerWidth < 768 ? "30px" : "38px",
+
+    boxShadow:
+      "0 12px 30px rgba(13,110,253,0.2)",
+  }}
                 >
                   <FaHandshake />
                 </div>
@@ -473,20 +508,28 @@ const About = () => {
       "0 10px 30px rgba(0,0,0,0.05)",
   }}
 >
-                  <div
-                    className="mx-auto mb-4 d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "90px",
-                      height: "90px",
-                      borderRadius: "25px",
-                      background: "linear-gradient(135deg,#0d6efd,#4dabff)",
-                      color: "#fff",
-                      fontSize: "2vmin",
-                    }}
-                  >
-                    {item.icon}
-                  </div>
+                 <div
+  className="mx-auto mb-4 d-flex align-items-center justify-content-center"
+  style={{
+    width: window.innerWidth < 768 ? "80px" : "100px",
 
+    height: window.innerWidth < 768 ? "80px" : "100px",
+
+    borderRadius: window.innerWidth < 768 ? "22px" : "28px",
+
+    background:
+      "linear-gradient(135deg,#0d6efd,#4dabff)",
+
+    color: "#fff",
+
+    fontSize: window.innerWidth < 768 ? "32px" : "42px",
+
+    boxShadow:
+      "0 12px 30px rgba(13,110,253,0.2)",
+  }}
+>
+  {item.icon}
+</div>
                   <h5 className="fw-bold">{item.title}</h5>
 
                   <p className="text-muted mt-3">
