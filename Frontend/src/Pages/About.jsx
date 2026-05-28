@@ -1,18 +1,10 @@
 import { Helmet } from "react-helmet-async";
 import Footer from "../Components/Footer";
 import Navbar from "../Components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 export default function About() {
-  const services = [
-    "Electrician",
-    "Plumber",
-    "Carpenter",
-    "AC Repair",
-    "Painter",
-    "RO Service",
-    "Home Cleaning",
-    "CCTV Installation",
-  ];
+  const navigate = useNavigate();
 
   const features = [
     {
@@ -28,30 +20,20 @@ export default function About() {
       desc: "Find nearby professionals instantly.",
     },
     {
-      title: "Fast Response",
-      desc: "Quick service requests and instant communication.",
+      title : "Choose the right professional",
+      desc : "Customers can view profiles, ratings, and experience before selecting a professional."
     },
+    {
+      title : "Transparent Pricing",
+      desc : "Pricing for every professional is transparent on their profile to make bookings more trustworthy."
+    },
+    {
+      title : "Ratings & Reviews",
+      desc : "Customers can rate and review professionals after the service is completed."
+    }
   ];
 
-  const stats = [
-    {
-      number: "500+",
-      label: "Service Requests",
-    },
-    {
-      number: "100+",
-      label: "Professionals",
-    },
-    {
-      number: "20+",
-      label: "Categories",
-    },
-    {
-      number: "10+",
-      label: "Cities Target",
-    },
-  ];
-
+ 
   return (
    <>
        <Helmet>
@@ -115,11 +97,15 @@ export default function About() {
               </p>
 
               <div className="d-flex flex-wrap gap-3">
-                <button className="btn btn-primary btn-lg px-4 py-3 rounded-pill fw-semibold shadow">
+                <button className="btn btn-primary btn-lg px-4 py-3 rounded-pill fw-semibold shadow"
+                  onClick={()=>{navigate('/explore')}}
+                >
                   Book a Service
                 </button>
 
-                <button className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-semibold">
+                <button className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-semibold"
+                  onClick={()=>{navigate('/signup?role=professional')}}
+                >
                   Become a Professional
                 </button>
               </div>
@@ -215,60 +201,6 @@ export default function About() {
                 reliable.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section
-        className="py-5"
-        style={{
-          background: "linear-gradient(135deg,#eff6ff,#ffffff)"
-        }}
-      >
-        <div className="container py-5">
-          <div className="text-center mb-5">
-            <span className="text-primary fw-semibold text-uppercase">
-              Services
-            </span>
-
-            <h2
-              className="fw-bold mt-3"
-              style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
-            >
-              Services Available On Fixkar
-            </h2>
-          </div>
-
-          <div className="row g-4">
-            {services.map((service, index) => (
-              <div className="col-6 col-md-4 col-lg-3" key={index}>
-                <div
-                  className="h-100 p-4 rounded-5 text-center"
-                  style={{
-                    background: "#ffffff",
-                    border: "1px solid #e2e8f0",
-                    backdropFilter: "blur(8px)",
-                    transition: "0.3s",
-                  }}
-                >
-                  <div
-                    className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
-                    style={{
-                      width: "90px",
-                      height: "90px",
-                      background:
-                        "linear-gradient(135deg,#3b82f6,#2563eb)",
-                      fontSize: "2rem",
-                    }}
-                  >
-                    🔧
-                  </div>
-
-                  <h5 className="fw-bold mb-0">{service}</h5>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -383,34 +315,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="py-5">
-        <div className="container py-5">
-          <div className="row g-4">
-            {stats.map((item, index) => (
-              <div className="col-6 col-lg-3" key={index}>
-                <div
-                  className="text-center p-5 rounded-5 h-100"
-                  style={{
-                    background:
-                      "linear-gradient(135deg,#1d4ed8,#2563eb,#3b82f6)",
-                  }}
-                >
-                  <h2
-                    className="fw-bold mb-2"
-                    style={{ fontSize: "3rem", color : "#fff" }}
-                  >
-                    {item.number}
-                  </h2>
-
-                  <p className="mb-0 fw-semibold text-light">{item.label}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* MISSION */}
       <section
         className="py-5"
@@ -495,11 +399,16 @@ export default function About() {
             </p>
 
             <div className="d-flex flex-wrap justify-content-center gap-3">
-              <button className="btn btn-light btn-lg px-5 py-3 rounded-pill fw-bold">
+              <button className="btn btn-light btn-lg px-5 py-3 rounded-pill fw-bold"
+                onClick={()=>navigate("/explore")}
+
+              >
                 Book Service
               </button>
 
-              <button className="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold">
+              <button className="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold"
+                onClick={()=>navigate("/signup?role=professional")}
+              >
                 Join as Professional
               </button>
             </div>
