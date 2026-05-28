@@ -149,19 +149,19 @@ const About = () => {
               <div className="row mt-4 g-3">
                 {[
                   {
-                    icon: <FaCheckCircle />,
+                    icon: <FaCheckCircle size={50}/>,
                     title: "Quality Work",
                   },
                   {
-                    icon: <FaUsers />,
+                    icon: <FaUsers size={50}/>,
                     title: "Skilled Team",
                   },
                   {
-                    icon: <FaHardHat />,
+                    icon: <FaHardHat size={50}/>,
                     title: "Professional Execution",
                   },
                   {
-                    icon: <FaHandshake />,
+                    icon: <FaHandshake size={50}/>,
                     title: "Trusted Partnership",
                   },
                 ].map((item, index) => (
@@ -317,19 +317,19 @@ const About = () => {
 
             {[
               {
-                icon: <FaBuilding />,
+                icon: <FaBuilding size={50}/>,
                 title: "Large Scale Contracting",
                 desc: "From residential projects to commercial contracts, Fixkar manages complete execution with quality assurance and professional delivery.",
               },
 
               {
-                icon: <FaTools />,
+                icon: <FaTools size={50}/>,
                 title: "Smart Maintenance",
                 desc: "Technology-enabled maintenance solutions with skilled professionals, transparent workflow, and fast response system.",
               },
 
               {
-                icon: <FaHandshake />,
+                icon: <FaHandshake size={50}/>,
                 title: "Trusted Partnerships",
                 desc: "We collaborate with architects, engineers, businesses, and property owners to execute projects with accountability and trust.",
               },
@@ -422,22 +422,22 @@ const About = () => {
 
             {[
               {
-                icon: <FaPaintRoller />,
+                icon: <FaPaintRoller size={50}/>,
                 title: "Painting Contracts",
               },
 
               {
-                icon: <FaBolt />,
+                icon: <FaBolt size={50}/>,
                 title: "Electrical Works",
               },
 
               {
-                icon: <FaBuilding />,
+                icon: <FaBuilding size={50}/>,
                 title: "Civil Construction",
               },
 
               {
-                icon: <FaTools />,
+                icon: <FaTools size={50}/>,
                 title: "Maintenance Contracts",
               },
             ].map((item, index) => (
