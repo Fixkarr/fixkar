@@ -1,389 +1,301 @@
+export default function About() {
+  const services = [
+    "Electrician",
+    "Plumber",
+    "Carpenter",
+    "AC Repair",
+    "Painter",
+    "RO Service",
+    "Home Cleaning",
+    "CCTV Installation",
+  ];
 
-import { Helmet } from "react-helmet-async";
-import { useLocation } from "react-router-dom";
-import Footer from "../Components/Footer";
-import Navbar from "../Components/Navbar";
+  const features = [
+    {
+      title: "Verified Professionals",
+      desc: "Trusted and skilled service providers near your location.",
+    },
+    {
+      title: "Easy Booking",
+      desc: "Book services in just a few clicks anytime.",
+    },
+    {
+      title: "Location Based Search",
+      desc: "Find nearby professionals instantly.",
+    },
+    {
+      title: "Fast Response",
+      desc: "Quick service requests and instant communication.",
+    },
+  ];
 
-import {
-  FaCheckCircle,
-  FaUsers,
-  FaHardHat,
-  FaBuilding,
-  FaPaintRoller,
-  FaBolt,
-  FaTools,
-  FaHandshake,
-  FaArrowRight,
-} from "react-icons/fa";
-
-const About = () => {
-  const location = useLocation();
-  const { pathname } = location;
+  const stats = [
+    {
+      number: "500+",
+      label: "Service Requests",
+    },
+    {
+      number: "100+",
+      label: "Professionals",
+    },
+    {
+      number: "20+",
+      label: "Categories",
+    },
+    {
+      number: "10+",
+      label: "Cities Target",
+    },
+  ];
 
   return (
-    <>
-      {pathname !== "/" && (
-        <>
-          <Helmet>
-            <title>
-              About Fixkar – Smart Contracting & Maintenance Platform
-            </title>
-
-            <meta
-              name="description"
-              content="Fixkar is a modern service and contracting platform offering repair, maintenance, painting contracts, electrical works, civil projects, and smart technology-driven solutions."
-            />
-          </Helmet>
-
-          <Navbar />
-        </>
-      )}
-
-      {/* ================= HERO SECTION ================= */}
-
+    <div
+      className="w-100 overflow-hidden"
+      style={{
+        background: "#0b1120",
+        color: "white",
+        fontFamily: "sans-serif",
+      }}
+    >
+      {/* HERO SECTION */}
       <section
-        className="position-relative overflow-hidden d-flex align-items-center"
+        className="position-relative py-5"
         style={{
           minHeight: "100vh",
-
-          backgroundImage: `
-            linear-gradient(
-              90deg,
-              rgba(255,255,255,0.97) 0%,
-              rgba(255,255,255,0.92) 30%,
-              rgba(255,255,255,0.72) 55%,
-              rgba(255,255,255,0.25) 100%
-            ),
-            url('/Images/about-banner.webp')
-          `,
-
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          background:
+            "linear-gradient(135deg,#0f172a 0%, #111827 40%, #1e3a8a 100%)",
         }}
       >
-        {/* MOBILE OVERLAY */}
-        <div
-          className="d-block d-lg-none position-absolute top-0 start-0 w-100 h-100"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(255,255,255,0.92), rgba(255,255,255,0.85))",
-          }}
-        />
-
-        {/* GLOW */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-120px",
-            left: "-120px",
-            width: "320px",
-            height: "320px",
-            borderRadius: "50%",
-            background: "rgba(13,110,253,0.12)",
-            filter: "blur(100px)",
-          }}
-        />
-
-        <div className="container position-relative py-5">
-          <div className="row align-items-center min-vh-100">
-            <div className="col-12 col-lg-7">
-
-              {/* TAG */}
-
-              <span
-                className="px-3 px-md-4 py-2 rounded-pill fw-semibold d-inline-block"
-                style={{
-                  background: "rgba(13,110,253,0.1)",
-                  color: "#0d6efd",
-                  fontSize: "13px",
-                  letterSpacing: "1px",
-                }}
-              >
-                ABOUT FIXKAR
-              </span>
-
-              {/* HEADING */}
-
-              <h1
-                className="fw-bold mt-4 mb-4"
-                style={{
-                  fontSize: "clamp(2.3rem,7vw,5rem)",
-                  lineHeight: "1.1",
-                  color: "#0b1320",
-                }}
-              >
-                Building Spaces.
-                <br />
-
-                <span
-                  style={{
-                    background:
-                      "linear-gradient(90deg,#0d6efd,#00bfff)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  Delivering Trust.
-                </span>
-              </h1>
-
-              {/* DESCRIPTION */}
-
-              <p
-                className="text-secondary"
-                style={{
-                  fontSize: "clamp(15px,2vw,18px)",
-                  lineHeight: "32px",
-                  maxWidth: "720px",
-                }}
-              >
-                Fixkar delivers smart contracting and maintenance
-                solutions including painting, electrical works,
-                civil projects, and technology-driven services
-                for homes, offices, builders, and businesses.
-              </p>
-
-              {/* FEATURES */}
-
-              <div className="row mt-4 g-3">
-                {[
-                  {
-                    icon: <FaCheckCircle size={35}/>,
-                    title: "Quality Work",
-                  },
-                  {
-                    icon: <FaUsers size={35}/>,
-                    title: "Skilled Team",
-                  },
-                  {
-                    icon: <FaHardHat size={35}/>,
-                    title: "Professional Execution",
-                  },
-                  {
-                    icon: <FaHandshake size={35}/>,
-                    title: "Trusted Partnership",
-                  },
-                ].map((item, index) => (
-                  <div
-                    className="col-12 col-sm-6"
-                    key={index}
-                  >
-                    <div
-                      className="d-flex align-items-center gap-3 p-3 p-md-4 h-100"
-                      style={{
-                        background: "rgba(255,255,255,0.6)",
-                        backdropFilter: "blur(12px)",
-                        borderRadius: "24px",
-                        border:
-                          "1px solid rgba(255,255,255,0.5)",
-                        boxShadow:
-                          "0 10px 25px rgba(0,0,0,0.05)",
-                      }}
-                    >
-                      {/* ICON */}
-
-                      <div
-                        className="d-flex align-items-center justify-content-center flex-shrink-0"
-                        style={{
-                          width: "72px",
-                          height: "72px",
-                          borderRadius: "22px",
-                          background:
-                            "linear-gradient(135deg,#0d6efd,#4dabff)",
-                          color: "#fff",
-                          fontSize: "50px",
-                          boxShadow:
-                            "0 10px 30px rgba(13,110,253,0.25)",
-                        }}
-                      >
-                        {item.icon}
-                      </div>
-
-                      {/* CONTENT */}
-
-                      <div>
-                        <h5
-                          className="fw-bold mb-1"
-                          style={{
-                            fontSize: "18px",
-                          }}
-                        >
-                          {item.title}
-                        </h5>
-
-                        <p
-                          className="text-muted mb-0"
-                          style={{
-                            fontSize: "14px",
-                          }}
-                        >
-                          Premium Contract Solutions
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+        <div className="container py-5">
+          <div className="row align-items-center g-5">
+            <div className="col-lg-6">
+              <div className="mb-3 d-inline-block px-3 py-2 rounded-pill bg-primary bg-opacity-25 border border-primary">
+                India's Smart Local Service Platform
               </div>
 
-              {/* STATS */}
-
-              <div
-                className="d-flex flex-wrap align-items-center justify-content-between gap-4 mt-4 px-4 py-4"
+              <h1
+                className="fw-bold mb-4"
                 style={{
-                  background: "rgba(255,255,255,0.65)",
-                  backdropFilter: "blur(10px)",
-                  borderRadius: "26px",
-                  border: "1px solid rgba(255,255,255,0.5)",
-                  boxShadow:
-                    "0 10px 30px rgba(0,0,0,0.06)",
-
-                  maxWidth: "620px",
+                  fontSize: "clamp(2.5rem,6vw,5rem)",
+                  lineHeight: "1.1",
                 }}
               >
-                {[
-                  {
-                    value: "150+",
-                    label: "Projects",
-                  },
-                  {
-                    value: "98%",
-                    label: "Satisfaction",
-                  },
-                  {
-                    value: "50+",
-                    label: "Experts",
-                  },
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="text-center flex-fill"
-                  >
-                    <h3
-                      className="fw-bold mb-1"
-                      style={{
-                        color: "#0d6efd",
-                      }}
-                    >
-                      {item.value}
-                    </h3>
+                Trusted Local Services At Your Fingertips
+              </h1>
 
-                    <small className="text-muted">
-                      {item.label}
-                    </small>
-                  </div>
-                ))}
+              <p
+                className="text-light mb-4"
+                style={{
+                  fontSize: "1.1rem",
+                  lineHeight: "1.8",
+                  opacity: 0.85,
+                }}
+              >
+                Fixkar helps users connect with trusted nearby professionals
+                like electricians, plumbers, carpenters, AC technicians,
+                painters and many more with a smooth booking experience.
+              </p>
+
+              <div className="d-flex flex-wrap gap-3">
+                <button className="btn btn-primary btn-lg px-4 py-3 rounded-pill fw-semibold shadow">
+                  Book a Service
+                </button>
+
+                <button className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-semibold">
+                  Become a Professional
+                </button>
+              </div>
+            </div>
+
+            <div className="col-lg-6 text-center">
+              <div
+                className="position-relative mx-auto"
+                style={{
+                  maxWidth: "520px",
+                }}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop"
+                  alt="Fixkar"
+                  className="img-fluid rounded-5 shadow-lg"
+                  style={{
+                    objectFit: "cover",
+                    minHeight: "400px",
+                  }}
+                />
+
+                <div
+                  className="position-absolute top-0 start-0 translate-middle p-4 rounded-4"
+                  style={{
+                    background: "rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                  }}
+                >
+                  <h3 className="fw-bold mb-1">100+</h3>
+                  <p className="mb-0 small">Trusted Professionals</p>
+                </div>
+
+                <div
+                  className="position-absolute bottom-0 end-0 translate-middle-y p-4 rounded-4"
+                  style={{
+                    background: "rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                  }}
+                >
+                  <h3 className="fw-bold mb-1">24/7</h3>
+                  <p className="mb-0 small">Smart Service Support</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= MISSION SECTION ================= */}
+      {/* ABOUT */}
+      <section className="py-5">
+        <div className="container py-5">
+          <div className="row align-items-center g-5">
+            <div className="col-lg-6">
+              <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+                alt="About Fixkar"
+                className="img-fluid rounded-5 shadow-lg"
+              />
+            </div>
 
+            <div className="col-lg-6">
+              <span className="text-primary fw-semibold text-uppercase">
+                Who We Are
+              </span>
+
+              <h2
+                className="fw-bold mt-3 mb-4"
+                style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
+              >
+                Empowering Local Professionals Digitally
+              </h2>
+
+              <p
+                className="text-light"
+                style={{ lineHeight: "1.9", opacity: 0.85 }}
+              >
+                Fixkar is a smart local service marketplace designed to help
+                users find trusted professionals nearby quickly and easily. Our
+                platform bridges the gap between skilled workers and customers
+                using modern technology and location-based service discovery.
+              </p>
+
+              <p
+                className="text-light"
+                style={{ lineHeight: "1.9", opacity: 0.85 }}
+              >
+                From electricians and plumbers to painters and appliance repair
+                experts, Fixkar makes service booking simple, transparent, and
+                reliable.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SERVICES */}
       <section
         className="py-5"
         style={{
-          background: "#fff",
+          background: "linear-gradient(135deg,#111827,#172554)",
         }}
       >
-        <div className="container py-lg-5 py-4">
-
+        <div className="container py-5">
           <div className="text-center mb-5">
-            <h2
-              className="fw-bold"
-              style={{
-                fontSize: "clamp(2rem,5vw,3.8rem)",
-              }}
-            >
-              Our Vision & Mission
-            </h2>
+            <span className="text-primary fw-semibold text-uppercase">
+              Services
+            </span>
 
-            <p
-              className="text-muted mt-3 mx-auto"
-              style={{
-                maxWidth: "760px",
-                lineHeight: "32px",
-                fontSize: "16px",
-              }}
+            <h2
+              className="fw-bold mt-3"
+              style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
             >
-              We aim to become India’s most trusted contracting
-              and maintenance ecosystem by combining skilled
-              professionals with technology-driven operations.
-            </p>
+              Services Available On Fixkar
+            </h2>
           </div>
 
           <div className="row g-4">
-
-            {[
-              {
-                icon: <FaBuilding size={35}/>,
-                title: "Large Scale Contracting",
-                desc: "From residential projects to commercial contracts, Fixkar manages complete execution with quality assurance and professional delivery.",
-              },
-
-              {
-                icon: <FaTools size={35}/>,
-                title: "Smart Maintenance",
-                desc: "Technology-enabled maintenance solutions with skilled professionals, transparent workflow, and fast response system.",
-              },
-
-              {
-                icon: <FaHandshake size={35}/>,
-                title: "Trusted Partnerships",
-                desc: "We collaborate with architects, engineers, businesses, and property owners to execute projects with accountability and trust.",
-              },
-            ].map((item, index) => (
-              <div
-                className="col-12 col-md-6 col-lg-4"
-                key={index}
-              >
+            {services.map((service, index) => (
+              <div className="col-6 col-md-4 col-lg-3" key={index}>
                 <div
-                  className="h-100 p-4 p-lg-5"
+                  className="h-100 p-4 rounded-5 text-center"
                   style={{
-                    borderRadius: "35px",
-                    background:
-                      "linear-gradient(135deg,#f4f9ff,#ffffff)",
-                    border: "1px solid #edf2ff",
-                    boxShadow:
-                      "0 10px 30px rgba(0,0,0,0.04)",
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    backdropFilter: "blur(8px)",
+                    transition: "0.3s",
                   }}
                 >
-                  {/* ICON */}
-
                   <div
-                    className="d-inline-flex align-items-center justify-content-center mb-4"
+                    className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
                     style={{
                       width: "90px",
                       height: "90px",
-                      borderRadius: "28px",
                       background:
-                        "linear-gradient(135deg,#0d6efd,#4dabff)",
-                      color: "#fff",
-                      fontSize: "60px",
-                      boxShadow:
-                        "0 12px 30px rgba(13,110,253,0.2)",
+                        "linear-gradient(135deg,#3b82f6,#2563eb)",
+                      fontSize: "2rem",
                     }}
                   >
-                    {item.icon}
+                    🔧
                   </div>
 
-                  <h3
-                    className="fw-bold mb-3"
-                    style={{
-                      fontSize: "28px",
-                    }}
-                  >
-                    {item.title}
-                  </h3>
+                  <h5 className="fw-bold mb-0">{service}</h5>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                  <p
-                    className="text-muted mb-0"
+      {/* FEATURES */}
+      <section className="py-5">
+        <div className="container py-5">
+          <div className="text-center mb-5">
+            <span className="text-primary fw-semibold text-uppercase">
+              Why Choose Us
+            </span>
+
+            <h2
+              className="fw-bold mt-3"
+              style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
+            >
+              Why Users Trust Fixkar
+            </h2>
+          </div>
+
+          <div className="row g-4">
+            {features.map((item, index) => (
+              <div className="col-md-6 col-lg-3" key={index}>
+                <div
+                  className="h-100 p-4 rounded-5"
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <div
+                    className="d-flex align-items-center justify-content-center rounded-circle mb-4"
                     style={{
-                      lineHeight: "32px",
-                      fontSize: "15px",
+                      width: "80px",
+                      height: "80px",
+                      background:
+                        "linear-gradient(135deg,#3b82f6,#1d4ed8)",
+                      fontSize: "2rem",
                     }}
                   >
+                    ⭐
+                  </div>
+
+                  <h4 className="fw-bold mb-3">{item.title}</h4>
+
+                  <p className="text-light mb-0" style={{ opacity: 0.8 }}>
                     {item.desc}
                   </p>
                 </div>
@@ -393,100 +305,57 @@ const About = () => {
         </div>
       </section>
 
-      {/* ================= SERVICES ================= */}
-
+      {/* HOW IT WORKS */}
       <section
         className="py-5"
         style={{
-          background: "#f8fbff",
+          background: "linear-gradient(135deg,#0f172a,#1e293b)",
         }}
       >
-        <div className="container py-lg-5 py-4">
-
+        <div className="container py-5">
           <div className="text-center mb-5">
-            <h2
-              className="fw-bold"
-              style={{
-                fontSize: "clamp(2rem,5vw,3.5rem)",
-              }}
-            >
-              End-to-End Contracting Solutions
-            </h2>
+            <span className="text-primary fw-semibold text-uppercase">
+              Workflow
+            </span>
 
-            <p className="text-muted mt-3">
-              Complete project execution from planning to delivery.
-            </p>
+            <h2
+              className="fw-bold mt-3"
+              style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
+            >
+              How Fixkar Works
+            </h2>
           </div>
 
           <div className="row g-4">
-
             {[
-              {
-                icon: <FaPaintRoller size={35}/>,
-                title: "Painting Contracts",
-              },
-
-              {
-                icon: <FaBolt size={35}/>,
-                title: "Electrical Works",
-              },
-
-              {
-                icon: <FaBuilding size={35}/>,
-                title: "Civil Construction",
-              },
-
-              {
-                icon: <FaTools size={35}/>,
-                title: "Maintenance Contracts",
-              },
-            ].map((item, index) => (
-              <div
-                className="col-12 col-sm-6 col-lg-3"
-                key={index}
-              >
+              "Choose Service",
+              "Confirm Location",
+              "Find Nearby Professionals",
+              "Chat or Hire",
+              "Get Service Done",
+            ].map((step, index) => (
+              <div className="col-md-6 col-lg" key={index}>
                 <div
-                  className="h-100 p-4 text-center"
+                  className="text-center h-100 p-4 rounded-5"
                   style={{
-                    background: "#fff",
-                    borderRadius: "32px",
-                    border: "1px solid #edf2ff",
-                    boxShadow:
-                      "0 10px 30px rgba(0,0,0,0.05)",
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
-                  {/* ICON */}
-
                   <div
-                    className="mx-auto mb-4 d-flex align-items-center justify-content-center"
+                    className="mx-auto mb-4 rounded-circle d-flex align-items-center justify-content-center fw-bold"
                     style={{
-                      width: "100px",
-                      height: "100px",
-                      borderRadius: "30px",
+                      width: "90px",
+                      height: "90px",
                       background:
-                        "linear-gradient(135deg,#0d6efd,#4dabff)",
-                      color: "#fff",
-                      fontSize: "70px",
-                      boxShadow:
-                        "0 12px 30px rgba(13,110,253,0.2)",
+                        "linear-gradient(135deg,#2563eb,#1d4ed8)",
+                      fontSize: "2rem",
                     }}
                   >
-                    {item.icon}
+                    {index + 1}
                   </div>
 
-                  <h4 className="fw-bold">
-                    {item.title}
-                  </h4>
-
-                  <p
-                    className="text-muted mt-3 mb-0"
-                    style={{
-                      lineHeight: "30px",
-                    }}
-                  >
-                    Professional quality execution with modern
-                    equipment and skilled teams.
-                  </p>
+                  <h5 className="fw-bold">{step}</h5>
                 </div>
               </div>
             ))}
@@ -494,68 +363,128 @@ const About = () => {
         </div>
       </section>
 
-      {/* ================= CTA ================= */}
-
+      {/* STATS */}
       <section className="py-5">
-        <div className="container">
-
-          <div
-            className="p-4 p-lg-5 overflow-hidden position-relative"
-            style={{
-              borderRadius: "40px",
-              background:
-                "linear-gradient(135deg,#071c3d,#0d6efd)",
-            }}
-          >
-            <div className="row align-items-center text-center text-lg-start">
-
-              <div className="col-lg-8">
-                <h2
-                  className="fw-bold text-white"
+        <div className="container py-5">
+          <div className="row g-4">
+            {stats.map((item, index) => (
+              <div className="col-6 col-lg-3" key={index}>
+                <div
+                  className="text-center p-5 rounded-5 h-100"
                   style={{
-                    fontSize: "clamp(2rem,5vw,4rem)",
+                    background:
+                      "linear-gradient(135deg,#1d4ed8,#2563eb,#3b82f6)",
                   }}
                 >
-                  Let’s Build Something Great Together
-                </h2>
+                  <h2
+                    className="fw-bold mb-2"
+                    style={{ fontSize: "3rem" }}
+                  >
+                    {item.number}
+                  </h2>
 
-                <p
-                  className="text-light mt-3"
-                  style={{
-                    lineHeight: "32px",
-                    maxWidth: "700px",
-                  }}
-                >
-                  Whether it’s maintenance, electrical work,
-                  painting, or complete project contracting,
-                  Fixkar is ready to deliver excellence.
-                </p>
+                  <p className="mb-0 fw-semibold">{item.label}</p>
+                </div>
               </div>
-
-              <div className="col-lg-4 text-center text-lg-end mt-4 mt-lg-0">
-                <button
-                  className="btn btn-light fw-bold"
-                  style={{
-                    borderRadius: "18px",
-                    fontSize: "17px",
-                    padding: "14px 34px",
-                  }}
-                >
-                  Get a Quote
-                  <FaArrowRight className="ms-2" />
-                </button>
-              </div>
-
-            </div>
+            ))}
           </div>
-
         </div>
       </section>
 
-      {pathname !== "/" && <Footer />}
-    </>
+      {/* MISSION */}
+      <section
+        className="py-5"
+        style={{
+          background: "linear-gradient(135deg,#111827,#172554)",
+        }}
+      >
+        <div className="container py-5">
+          <div className="row g-5 align-items-center">
+            <div className="col-lg-6">
+              <div
+                className="p-5 rounded-5 h-100"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <h2 className="fw-bold mb-4">Our Mission</h2>
+
+                <p
+                  className="text-light mb-0"
+                  style={{ lineHeight: "1.9", opacity: 0.85 }}
+                >
+                  Our mission is to digitally empower local professionals and
+                  make trusted home services accessible, transparent, and fast
+                  for everyone.
+                </p>
+              </div>
+            </div>
+
+            <div className="col-lg-6">
+              <div
+                className="p-5 rounded-5 h-100"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <h2 className="fw-bold mb-4">Our Vision</h2>
+
+                <p
+                  className="text-light mb-0"
+                  style={{ lineHeight: "1.9", opacity: 0.85 }}
+                >
+                  We envision building India's most trusted local service
+                  ecosystem where users and professionals connect seamlessly.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-5">
+        <div className="container py-5">
+          <div
+            className="p-5 rounded-5 text-center"
+            style={{
+              background:
+                "linear-gradient(135deg,#2563eb,#1d4ed8,#3b82f6)",
+            }}
+          >
+            <h2
+              className="fw-bold mb-4"
+              style={{ fontSize: "clamp(2rem,5vw,4rem)" }}
+            >
+              Need a Trusted Professional Near You?
+            </h2>
+
+            <p
+              className="mx-auto mb-4"
+              style={{
+                maxWidth: "700px",
+                opacity: 0.9,
+                lineHeight: "1.8",
+              }}
+            >
+              Join thousands of users and professionals using Fixkar for smart,
+              fast, and trusted local services.
+            </p>
+
+            <div className="d-flex flex-wrap justify-content-center gap-3">
+              <button className="btn btn-light btn-lg px-5 py-3 rounded-pill fw-bold">
+                Book Service
+              </button>
+
+              <button className="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold">
+                Join as Professional
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
-};
-
-export default About;
-
+}
