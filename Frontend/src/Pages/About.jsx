@@ -115,7 +115,7 @@ export default function About() {
                 }}
               >
                 <img
-                  src="/Images/about-banner.webp"
+                  src="Images/about-banner.webp"
                   alt="Fixkar"
                   className="img-fluid rounded-5 shadow-lg w-100"
                   style={{
