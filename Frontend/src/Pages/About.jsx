@@ -43,7 +43,7 @@ const About = () => {
       <section
         className="position-relative overflow-hidden d-flex align-items-center"
         style={{
-          minHeight: window.innerWidth < 768 ? "auto" : "60vh",
+          minHeight: window.innerWidth < 768 ? "auto" : "50vh",
 
           backgroundImage: `
       linear-gradient(
