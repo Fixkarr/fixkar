@@ -39,19 +39,18 @@ const About = () => {
         </>
       )}
 
-      {/* ===== HERO SECTION ===== */}
-      {/* ===== HERO SECTION ===== */}
+{/* ===== HERO SECTION ===== */}
 <section
   className="position-relative overflow-hidden d-flex align-items-center"
   style={{
-    minHeight: "100vh",
+    minHeight: "88vh",
     backgroundImage: `
       linear-gradient(
         90deg,
-        rgba(255,255,255,0.97) 0%,
-        rgba(255,255,255,0.92) 35%,
-        rgba(255,255,255,0.75) 55%,
-        rgba(255,255,255,0.35) 100%
+        rgba(255,255,255,0.96) 0%,
+        rgba(255,255,255,0.9) 35%,
+        rgba(255,255,255,0.7) 55%,
+        rgba(255,255,255,0.25) 100%
       ),
       url('/Images/about-banner.webp')
     `,
@@ -60,32 +59,31 @@ const About = () => {
     backgroundRepeat: "no-repeat",
   }}
 >
-  {/* BLUE GLOW */}
+  {/* BLUR GLOW */}
   <div
     style={{
       position: "absolute",
       top: "-100px",
       left: "-100px",
-      width: "350px",
-      height: "350px",
-      background: "rgba(13,110,253,0.15)",
-      filter: "blur(100px)",
+      width: "280px",
+      height: "280px",
+      background: "rgba(13,110,253,0.12)",
+      filter: "blur(90px)",
       borderRadius: "50%",
     }}
   />
 
-  <div className="container py-5 mt-5 position-relative">
+  <div className="container py-5 mt-4 position-relative">
     <div className="row">
-      <div className="col-lg-7">
+      <div className="col-lg-6">
         {/* TAG */}
         <span
-          className="px-4 py-2 rounded-pill fw-semibold"
+          className="px-3 py-2 rounded-pill fw-semibold"
           style={{
             background: "rgba(13,110,253,0.1)",
             color: "#0d6efd",
-            fontSize: "14px",
+            fontSize: "12px",
             letterSpacing: "1px",
-            backdropFilter: "blur(10px)",
           }}
         >
           ABOUT FIXKAR
@@ -93,10 +91,10 @@ const About = () => {
 
         {/* HEADING */}
         <h1
-          className="fw-bold mt-4 mb-4"
+          className="fw-bold mt-3 mb-3"
           style={{
-            fontSize: "clamp(2.8rem,6vw,6rem)",
-            lineHeight: "1.05",
+            fontSize: "clamp(2.2rem,5vw,4.5rem)",
+            lineHeight: "1.1",
             color: "#0b1320",
           }}
         >
@@ -119,20 +117,19 @@ const About = () => {
         <p
           className="text-secondary"
           style={{
-            fontSize: "18px",
-            lineHeight: "35px",
-            maxWidth: "700px",
+            fontSize: "15px",
+            lineHeight: "30px",
+            maxWidth: "620px",
           }}
         >
-          Fixkar is not just a repair & maintenance platform.
-          We provide complete contracting solutions including
-          painting contracts, electrical projects, civil works,
-          maintenance contracts, and smart technology-driven
-          services for homes, offices, builders, and businesses.
+          Fixkar delivers smart contracting and maintenance
+          solutions including painting, electrical works,
+          civil projects, and technology-driven services
+          for homes and businesses.
         </p>
 
         {/* FEATURES */}
-        <div className="row mt-5 g-4">
+        <div className="row mt-4 g-3">
           {[
             {
               icon: <FaCheckCircle />,
@@ -157,25 +154,23 @@ const About = () => {
                 style={{
                   background: "rgba(255,255,255,0.55)",
                   backdropFilter: "blur(12px)",
-                  borderRadius: "22px",
-                  border: "1px solid rgba(255,255,255,0.6)",
+                  borderRadius: "18px",
+                  border: "1px solid rgba(255,255,255,0.5)",
                   boxShadow:
-                    "0 10px 30px rgba(0,0,0,0.05)",
+                    "0 8px 20px rgba(0,0,0,0.04)",
                 }}
               >
                 {/* ICON */}
                 <div
                   className="d-flex align-items-center justify-content-center flex-shrink-0"
                   style={{
-                    width: "65px",
-                    height: "65px",
-                    borderRadius: "20px",
+                    width: "52px",
+                    height: "52px",
+                    borderRadius: "16px",
                     background:
                       "linear-gradient(135deg,#0d6efd,#4dabff)",
                     color: "#fff",
-                    fontSize: "24px",
-                    boxShadow:
-                      "0 10px 30px rgba(13,110,253,0.25)",
+                    fontSize: "18px",
                   }}
                 >
                   {item.icon}
@@ -184,16 +179,16 @@ const About = () => {
                 {/* TITLE */}
                 <div>
                   <h6
-                    className="mb-1 fw-bold"
+                    className="mb-0 fw-bold"
                     style={{
-                      fontSize: "17px",
+                      fontSize: "15px",
                     }}
                   >
                     {item.title}
                   </h6>
 
                   <small className="text-muted">
-                    Premium Contract Solutions
+                    Premium Solutions
                   </small>
                 </div>
               </div>
@@ -201,25 +196,26 @@ const About = () => {
           ))}
         </div>
 
-        {/* FLOATING STATS */}
+        {/* STATS */}
         <div
-          className="d-inline-flex align-items-center gap-4 mt-5 px-4 py-3"
+          className="d-inline-flex align-items-center gap-4 mt-4 px-4 py-3"
           style={{
-            background: "rgba(255,255,255,0.65)",
-            backdropFilter: "blur(12px)",
-            borderRadius: "24px",
+            background: "rgba(255,255,255,0.6)",
+            backdropFilter: "blur(10px)",
+            borderRadius: "20px",
             border: "1px solid rgba(255,255,255,0.5)",
             boxShadow:
-              "0 15px 40px rgba(0,0,0,0.08)",
+              "0 10px 30px rgba(0,0,0,0.06)",
           }}
         >
           <div>
-            <h3
+            <h4
               className="fw-bold mb-0"
               style={{ color: "#0d6efd" }}
             >
               150+
-            </h3>
+            </h4>
+
             <small className="text-muted">
               Projects
             </small>
@@ -228,40 +224,42 @@ const About = () => {
           <div
             style={{
               width: "1px",
-              height: "40px",
+              height: "35px",
               background: "#dbe4ff",
             }}
           />
 
           <div>
-            <h3
+            <h4
               className="fw-bold mb-0"
               style={{ color: "#0d6efd" }}
             >
               98%
-            </h3>
+            </h4>
+
             <small className="text-muted">
-              Client Satisfaction
+              Satisfaction
             </small>
           </div>
 
           <div
             style={{
               width: "1px",
-              height: "40px",
+              height: "35px",
               background: "#dbe4ff",
             }}
           />
 
           <div>
-            <h3
+            <h4
               className="fw-bold mb-0"
               style={{ color: "#0d6efd" }}
             >
               50+
-            </h3>
+            </h4>
+
             <small className="text-muted">
-              Skilled Professionals
+              Experts
             </small>
           </div>
         </div>
