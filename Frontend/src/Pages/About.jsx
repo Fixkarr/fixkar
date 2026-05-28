@@ -351,6 +351,7 @@ export default function About() {
                       background:
                         "linear-gradient(135deg,#2563eb,#1d4ed8)",
                       fontSize: "2rem",
+                      color  : "#fff"
                     }}
                   >
                     {index + 1}
@@ -379,7 +380,7 @@ export default function About() {
                 >
                   <h2
                     className="fw-bold mb-2"
-                    style={{ fontSize: "3rem" }}
+                    style={{ fontSize: "3rem", color : "#fff" }}
                   >
                     {item.number}
                   </h2>
@@ -457,7 +458,7 @@ export default function About() {
           >
             <h2
               className="fw-bold mb-4"
-              style={{ fontSize: "clamp(2rem,5vw,4rem)" }}
+              style={{ fontSize: "clamp(2rem,5vw,4rem)", color : "#fff" }}
             >
               Need a Trusted Professional Near You?
             </h2>
@@ -468,6 +469,7 @@ export default function About() {
                 maxWidth: "700px",
                 opacity: 0.9,
                 lineHeight: "1.8",
+                color : "#fff"
               }}
             >
               Join thousands of users and professionals using Fixkar for smart,
