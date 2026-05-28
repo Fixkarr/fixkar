@@ -173,7 +173,7 @@ const About = () => {
                           borderRadius: "16px",
                           background: "linear-gradient(135deg,#0d6efd,#4dabff)",
                           color: "#fff",
-                          fontSize: "18px",
+                          fontSize: "1.5vmin",
                         }}
                       >
                         {item.icon}
@@ -481,7 +481,7 @@ const About = () => {
                       borderRadius: "25px",
                       background: "linear-gradient(135deg,#0d6efd,#4dabff)",
                       color: "#fff",
-                      fontSize: "35px",
+                      fontSize: "2vmin",
                     }}
                   >
                     {item.icon}
