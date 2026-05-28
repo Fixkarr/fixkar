@@ -1,3 +1,6 @@
+import Footer from "../Components/Footer";
+import Navbar from "../Components/Navbar";
+
 export default function About() {
   const services = [
     "Electrician",
@@ -49,7 +52,18 @@ export default function About() {
   ];
 
   return (
-    <div
+   <>
+       <Helmet>
+        <title>About Fixkar – India's Smart Local Service Platform</title>
+        <meta
+          name="description"
+          content="Fixkar helps users connect with trusted nearby professionals like electricians, plumbers, carpenters, AC technicians, painters and many more with a smooth booking experience."
+        />
+      </Helmet>
+
+      <Navbar/>
+    
+     <div
       className="w-100 overflow-hidden"
       style={{
         background: "#f8fafc",
@@ -57,6 +71,9 @@ export default function About() {
         fontFamily: "sans-serif",
       }}
     >
+      
+      
+      
       {/* HERO SECTION */}
       <section
         className="position-relative py-5"
@@ -488,6 +505,9 @@ export default function About() {
           </div>
         </div>
       </section>
+     
     </div>
+      <Footer/>
+   </>
   );
 }
