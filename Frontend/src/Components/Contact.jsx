@@ -139,7 +139,7 @@ if(currentUserData){
                 </li>
                 <li className="mb-2">
                   <FaPhoneAlt className="me-2 text-primary" />
-                  +91 9719764282
+                  +91 8795213106
                 </li>
                 <li className="mb-2">
                   <FaMapMarkerAlt className="me-2 text-primary" />

@@ -96,12 +96,12 @@ const DashboardLayout = () => {
 
               <span className="d-flex align-items-center gap-1 small">
                 <IoCall size={16} />
-                +10 92 92988 28
+                +91 8795213106
               </span>
 
               <span className="d-flex align-items-center gap-1 small">
                 <MdEmail size={16} />
-                support@fixkar.com
+                fixkarteam@gmail.com
               </span>
 
               <span
