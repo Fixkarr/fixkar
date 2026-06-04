@@ -316,8 +316,8 @@ border-radius: 25px;
 
 /* announcement banner css */
         .announcement-card {
-  height: 260px;
-  border-radius: 18px;
+  max-height: 260px;
+  border-radius:5px;
   margin-top: 28px;
   transition: all 0.25s ease;
 }
