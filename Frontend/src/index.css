@@ -411,8 +411,8 @@ border-radius: 25px;
 }
 
 .how-badge {
-  background: rgba(13, 110, 253, 0.1);
-  color: #0d6efd;
+  background: rgba(13, 110, 253);
+  color: #ffffff;
   font-weight: 600;
 }
 
