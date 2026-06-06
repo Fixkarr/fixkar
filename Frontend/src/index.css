@@ -708,14 +708,14 @@ border-radius: 25px;
 .feature-item {
   display: flex;
   align-items: flex-start;
-  gap: 18px;
-  margin-bottom: 24px;
+  gap: 2px;
+  margin-bottom: 5px;
 }
 
 .feature-icon {
-  width: 58px;
-  height: 58px;
-  min-width: 58px;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
   border-radius: 50%;
   background: #eff6ff;
   color: #0d6efd;
