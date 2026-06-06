@@ -1,4 +1,6 @@
 import React from "react";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const steps = [
   {
@@ -37,7 +39,9 @@ const steps = [
 
 const JoinProcess = () => {
   return (
-    <section className="container py-5">
+    <>
+        <Navbar/>
+        <section className="container py-5">
       {/* Heading */}
       <div className="text-center mb-5">
         <span className="badge bg-primary-subtle text-primary px-3 py-2">
@@ -101,6 +105,8 @@ const JoinProcess = () => {
         </div>
       ))}
     </section>
+    <Footer/>
+    </>
   );
 };
 

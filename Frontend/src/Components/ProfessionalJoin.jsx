@@ -13,8 +13,11 @@ import {
   MdLocationOn,
   MdVerified,
 } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const ProfessionalJoin = () => {
+    const navigate = useNavigate();
+
   const features = [
     {
       icon: <FaUsers />,
@@ -105,7 +108,7 @@ const ProfessionalJoin = () => {
         </div>
       ))}
 
-      <button className="btn btn-primary rounded-3 px-4 py-3 mt-3">
+      <button className="btn btn-primary rounded-3 px-4 py-3 mt-3" onClick={()=>{navigate('/professional-join-process')}}>
         See Joining Process
         <FaArrowRight className="ms-2" />
       </button>
