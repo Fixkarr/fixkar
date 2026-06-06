@@ -1,4 +1,8 @@
-<section className="how-it-works py-5">
+import React from 'react'
+
+const Working = () => {
+  return (
+   <section className="how-it-works py-5">
   <div className="container">
 
     <div className="text-center mb-5">
@@ -144,3 +148,7 @@
 
   </div>
 </section>
+  )
+}
+
+export default Working
