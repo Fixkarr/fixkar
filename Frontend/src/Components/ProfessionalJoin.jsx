@@ -62,7 +62,7 @@ const ProfessionalJoin = () => {
               <img
                 src="/images/professionals-group.webp"
                 alt="Join Fixkar"
-                className="img-fluid position-relative z-2 overflow-hidden"
+                className="img-fluid"
               />
 
               {/* Floating Cards */}
