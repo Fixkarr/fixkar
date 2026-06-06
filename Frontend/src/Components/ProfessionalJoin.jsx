@@ -54,10 +54,10 @@ const ProfessionalJoin = () => {
         <div className="row align-items-center g-5">
 
           {/* Left Side */}
-          <div className="col-lg-5">
+         <div className="col-lg-5 mb-4 mb-lg-0">
             <div className="position-relative">
 
-              <div className="image-bg"></div>
+              <div className="image-wrapper"></div>
 
               <img
                 src="/images/professionals-group.webp"
