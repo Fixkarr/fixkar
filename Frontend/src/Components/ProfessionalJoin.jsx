@@ -51,8 +51,7 @@ const ProfessionalJoin = () => {
   return (
     <section className="professional-join-section py-5 overflow-hidden">
       <div className="container">
-        <div className="row g-5">
-            <center>
+         <div>
                   <span className="small-heading">
               GROW YOUR BUSINESS WITH FIXKAR
             </span>
@@ -67,7 +66,9 @@ const ProfessionalJoin = () => {
               nearby customers, showcase your skills, and grow your business
               effortlessly.
             </p>
-            </center>
+            </div>
+        <div className="row g-5">
+           
           {/* Left Side */}
          <div className="col-5 col-lg-5 mb-4 mb-lg-0">
             <div className="position-relative">
