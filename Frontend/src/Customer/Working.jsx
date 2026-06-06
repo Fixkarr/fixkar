@@ -1,135 +1,146 @@
-import {
-  FaSearch,
-  FaUserCheck,
-  FaComments,
-  FaClipboardCheck,
-  FaMapMarkerAlt,
-  FaShieldAlt,
-  FaTools,
-  FaFileInvoiceDollar,
-  FaCreditCard,
-  FaStar,
-  FaCheckCircle,
-  FaListAlt,
-} from "react-icons/fa";
+<section className="how-it-works py-5">
+  <div className="container">
 
-const steps = [
-  {
-    icon: <FaSearch />,
-    title: "Search Nearby Professionals",
-    desc: "Find trusted professionals available near your location.",
-  },
-  {
-    icon: <FaUserCheck />,
-    title: "Compare Profiles",
-    desc: "Compare experience, services, ratings and reviews.",
-  },
-  {
-    icon: <FaComments />,
-    title: "Chat or Hire",
-    desc: "Chat with professionals or send a direct hire request.",
-  },
-  {
-    icon: <FaClipboardCheck />,
-    title: "Request Accepted",
-    desc: "Professional accepts your booking request.",
-  },
-  {
-    icon: <FaMapMarkerAlt />,
-    title: "Professional Visit",
-    desc: "Professional arrives at your location on scheduled date.",
-  },
-  {
-    icon: <FaShieldAlt />,
-    title: "OTP Verification",
-    desc: "Arrival is verified securely using OTP.",
-  },
-  {
-    icon: <FaTools />,
-    title: "Work In Progress",
-    desc: "Professional starts and completes the required work.",
-  },
-  {
-    icon: <FaFileInvoiceDollar />,
-    title: "Receive Final Quote",
-    desc: "Professional sends the final quotation amount.",
-  },
-  {
-    icon: <FaCreditCard />,
-    title: "Make Payment",
-    desc: "Pay securely after reviewing the quotation.",
-  },
-  {
-    icon: <FaStar />,
-    title: "Rate & Review",
-    desc: "Share your experience with ratings and reviews.",
-  },
-  {
-    icon: <FaCheckCircle />,
-    title: "Booking Completed",
-    desc: "Your service booking is successfully completed.",
-  },
-  {
-    icon: <FaListAlt />,
-    title: "Track in My Bookings",
-    desc: "View booking history and status anytime.",
-  },
-];
+    <div className="text-center mb-5">
+      <span className="badge rounded-pill px-3 py-2 how-badge">
+        HOW IT WORKS
+      </span>
 
-export default function Working() {
-  return (
-    <section className="py-5 bg-light">
-      <div className="container">
+      <h2 className="fw-bold mt-3">
+        Simple Steps To Get Your Work Done
+      </h2>
 
-        <div className="text-center mb-5">
-          <span className="badge bg-primary px-3 py-2 rounded-pill mb-3">
-            HOW IT WORKS
+      <p className="text-muted mx-auto" style={{ maxWidth: "700px" }}>
+        Find trusted professionals, hire them, get your work completed and
+        pay securely through a transparent workflow.
+      </p>
+    </div>
+
+    <div className="row g-4 align-items-stretch">
+
+      {/* STEP 1 */}
+      <div className="col-12 col-sm-6 col-lg-3">
+        <div className="step-card h-100">
+
+          <span className="step-number bg-primary">1</span>
+
+          <img
+            src="/images/search-professional.webp"
+            alt="Fixkar Search Professionals"
+            className="img-fluid mb-4"
+          />
+
+          <h5 className="fw-bold">
+            Search & Hire
+          </h5>
+
+          <p className="text-muted mb-0">
+            Search nearby professionals, compare profiles, ratings and
+            services, then send a hire request to the one that fits your
+            needs.
+          </p>
+
+        </div>
+      </div>
+
+      {/* STEP 2 */}
+      <div className="col-12 col-sm-6 col-lg-3">
+        <div className="step-card h-100">
+
+          <span className="step-number bg-success">2</span>
+
+          <img
+            src="/images/professional-visit.webp"
+            alt="Fixkar Professionals"
+            className="img-fluid mb-4"
+          />
+
+          <h5 className="fw-bold">
+            Professional Visit
+          </h5>
+
+          <p className="text-muted mb-0">
+            Once your booking request is accepted, the professional visits
+            your work location on the scheduled date and time.
+          </p>
+
+        </div>
+      </div>
+
+      {/* STEP 3 */}
+      <div className="col-12 col-sm-6 col-lg-3">
+        <div className="step-card h-100">
+
+          <span className="step-number bg-warning text-dark">
+            3
           </span>
 
-          <h2 className="fw-bold">
-            Book Local Professionals in Simple Steps
-          </h2>
+          <img
+            src="/images/work-progress.webp"
+            alt="Fixkar"
+            className="img-fluid mb-4"
+          />
 
-          <p className="text-muted mx-auto" style={{ maxWidth: "700px" }}>
-            From finding nearby professionals to completing payment and
-            tracking your booking, Fixkar makes every step simple,
-            transparent and secure.
+          <h5 className="fw-bold">
+            Work In Progress
+          </h5>
+
+          <p className="text-muted mb-0">
+            The professional starts working in your presence. After
+            completion, a final quotation amount is sent to you.
+          </p>
+
+        </div>
+      </div>
+
+      {/* STEP 4 */}
+      <div className="col-12 col-sm-6 col-lg-3">
+        <div className="step-card h-100">
+
+          <span className="step-number bg-info">
+            4
+          </span>
+
+          <img
+            src="/images/payment-rating.webp"
+            alt="fixkar-rating"
+            className="img-fluid mb-4"
+          />
+
+          <h5 className="fw-bold">
+            Pay & Rate
+          </h5>
+
+          <p className="text-muted mb-0">
+            Pay the quoted amount, complete your booking and leave a review
+            so other customers can evaluate the professional.
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    {/* Bottom Info Bar */}
+
+    <div className="secure-box mt-5">
+      <div className="row align-items-center">
+
+        <div className="col-lg-4">
+          <h5 className="mb-0 fw-bold">
+            🛡️ Safe, Secure & Reliable Service
+          </h5>
+        </div>
+
+        <div className="col-lg-8">
+          <p className="mb-0 text-muted">
+            Every booking can be tracked from My Bookings. Stay updated
+            with booking status, professional details and service history.
           </p>
         </div>
 
-        <div className="row g-4">
-
-          {steps.map((step, index) => (
-            <div className="col-md-6 col-lg-3" key={index}>
-              <div className="card border-0 shadow-sm h-100 rounded-4 how-card">
-
-                <div className="card-body text-center p-4">
-
-                  <div className="step-number">
-                    {index + 1}
-                  </div>
-
-                  <div className="icon-box mb-3">
-                    {step.icon}
-                  </div>
-
-                  <h5 className="fw-bold mb-2">
-                    {step.title}
-                  </h5>
-
-                  <p className="text-muted small mb-0">
-                    {step.desc}
-                  </p>
-
-                </div>
-
-              </div>
-            </div>
-          ))}
-
-        </div>
-
       </div>
-    </section>
-  );
-}
+    </div>
+
+  </div>
+</section>
