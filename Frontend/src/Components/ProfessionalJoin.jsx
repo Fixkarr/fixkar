@@ -52,7 +52,22 @@ const ProfessionalJoin = () => {
     <section className="professional-join-section py-5 overflow-hidden">
       <div className="container">
         <div className="row g-5">
+            <center>
+                  <span className="small-heading">
+              GROW YOUR BUSINESS WITH FIXKAR
+            </span>
 
+            <h2 className="main-heading mt-3">
+              Are You a <br />
+              Working Professional?
+            </h2>
+
+            <p className="hero-text mt-3">
+              Join Fixkar and unlock endless opportunities. Connect with
+              nearby customers, showcase your skills, and grow your business
+              effortlessly.
+            </p>
+            </center>
           {/* Left Side */}
          <div className="col-5 col-lg-5 mb-4 mb-lg-0">
             <div className="position-relative">
@@ -92,21 +107,6 @@ const ProfessionalJoin = () => {
           {/* Right Side */}
 
           <div className="col-7 col-lg-7">
-
-            <span className="small-heading">
-              GROW YOUR BUSINESS WITH FIXKAR
-            </span>
-
-            <h2 className="main-heading mt-3">
-              Are You a <br />
-              Working Professional?
-            </h2>
-
-            <p className="hero-text mt-3">
-              Join Fixkar and unlock endless opportunities. Connect with
-              nearby customers, showcase your skills, and grow your business
-              effortlessly.
-            </p>
 
             <div className="mt-4">
 
