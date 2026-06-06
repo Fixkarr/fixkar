@@ -626,8 +626,8 @@ border-radius: 25px;
 .image-wrapper {
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
 }
 
 .image-bg {
@@ -652,6 +652,7 @@ border-radius: 25px;
   display: block;
   margin: auto;
   border-radius: 24px;
+  overflow : hidden;
 }
 
 /* =========================================
@@ -857,6 +858,7 @@ border-radius: 25px;
       display: block;
       position: relative;
       z-index: 2;
+
   }
 
   .feature-item {
