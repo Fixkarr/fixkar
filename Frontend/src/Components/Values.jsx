@@ -13,32 +13,32 @@ import {
 const Values = () => {
   const features = [
     {
-      icon: <FaShieldAlt />,
+      icon: <FaShieldAlt size={30}/>,
       title: "Trusted Professionals",
       desc: "All professionals are verified before joining the platform.",
     },
     {
-      icon: <FaMapMarkerAlt />,
+      icon: <FaMapMarkerAlt size={30}/>,
       title: "Nearby Service",
       desc: "Find local professionals quickly in your area.",
     },
     {
-      icon: <FaStar />,
+      icon: <FaStar size={30}/>,
       title: "Quality Assurance",
       desc: "Ratings and reviews help ensure high service quality.",
     },
     {
-      icon: <FaComments />,
+      icon: <FaComments size={30}/>,
       title: "Easy Communication",
       desc: "Chat directly with professionals before hiring.",
     },
     {
-      icon: <FaWallet />,
+      icon: <FaWallet size={30}/>,
       title: "Secure Payments",
       desc: "Safe transactions with transparent pricing.",
     },
     {
-      icon: <FaHeadset />,
+      icon: <FaHeadset size={30}/>,
       title: "Customer Support",
       desc: "Dedicated support whenever you need assistance.",
     },
