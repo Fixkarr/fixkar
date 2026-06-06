@@ -130,7 +130,7 @@ const Services = () => {
           minHeight: "28px",
         }}
       >
-        {item.description?.slice(0, 28)}...
+        {item.description?.slice(0, 100)}...
       </p>
 
       {/* Small Button */}
