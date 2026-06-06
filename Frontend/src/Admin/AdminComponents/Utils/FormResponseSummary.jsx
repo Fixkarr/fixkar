@@ -78,7 +78,7 @@ const FormResponseSummary = ({ summary = [] }) => {
         <div className="summary-value">
 
           {values.length > 1 ? (
-            <div className="d-flex flex-wrap gap-2 justify-content-end">
+            <div className="charge-container">
 
               {values.map((value, i) => (
                 <span
