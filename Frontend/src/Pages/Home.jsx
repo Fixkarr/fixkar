@@ -160,6 +160,7 @@ const Home = () => {
     <Values />
     <Testimonial />
     <Contact />
+    
   <Footer />
 </>
 

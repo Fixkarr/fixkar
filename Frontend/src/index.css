@@ -585,3 +585,181 @@ border-radius: 25px;
     margin-bottom: 0;
   }
 }
+
+
+/* Professional Join Section  */
+
+.professional-join-section {
+  background: #fff;
+}
+
+.small-heading {
+  color: #0d6efd;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.main-heading {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.hero-text {
+  color: #64748b;
+  font-size: 1.05rem;
+  max-width: 650px;
+}
+
+.image-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(13, 110, 253, 0.12),
+    rgba(13, 110, 253, 0.03)
+  );
+  border-radius: 50%;
+  transform: scale(1.1);
+}
+
+.feature-item {
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.feature-icon {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 50%;
+  background: #eff6ff;
+  color: #0d6efd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.feature-item h6 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.feature-item p {
+  color: #64748b;
+  margin: 0;
+}
+
+.join-btn {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.join-btn:hover {
+  background: #0b5ed7;
+  color: white;
+}
+
+.floating-card {
+  position: absolute;
+  background: white;
+  padding: 12px 18px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #334155;
+  z-index: 5;
+}
+
+.floating-card svg {
+  color: #0d6efd;
+  font-size: 20px;
+}
+
+.card-1 {
+  top: 15%;
+  left: -20px;
+}
+
+.card-2 {
+  top: 15%;
+  right: -10px;
+}
+
+.card-3 {
+  top: 45%;
+  right: -20px;
+}
+
+.card-4 {
+  bottom: 15%;
+  left: -10px;
+}
+
+/* =====================
+   Responsive
+===================== */
+
+@media (max-width: 991px) {
+
+  .main-heading {
+    font-size: 2.3rem;
+  }
+
+  .floating-card {
+    display: none;
+  }
+
+  .feature-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .main-heading {
+    font-size: 1.9rem;
+  }
+
+  .hero-text {
+    font-size: 0.95rem;
+  }
+
+  .feature-item {
+    gap: 12px;
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    font-size: 18px;
+  }
+
+  .feature-item h6 {
+    font-size: 0.95rem;
+  }
+
+  .feature-item p {
+    font-size: 0.85rem;
+  }
+
+  .join-btn {
+    width: 100%;
+  }
+}
