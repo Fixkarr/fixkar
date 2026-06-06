@@ -81,28 +81,8 @@ const ProfessionalJoin = () => {
                 className="img-fluid"
               />
 
-              {/* Floating Cards */}
 
-              <div className="floating-card card-1">
-                <MdLocationOn />
-                <span>Nearby Customers</span>
-              </div>
-
-              <div className="floating-card card-2">
-                <FaBriefcase />
-                <span>More Jobs</span>
-              </div>
-
-              <div className="floating-card card-3">
-                <FaWallet />
-                <span>Secure Earnings</span>
-              </div>
-
-              <div className="floating-card card-4">
-                <FaComments />
-                <span>Direct Chat</span>
-              </div>
-            </div>
+                         </div>
           </div>
 
           {/* Right Side */}

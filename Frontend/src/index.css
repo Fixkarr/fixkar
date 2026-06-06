@@ -655,51 +655,7 @@ border-radius: 25px;
   overflow : hidden;
 }
 
-/* =========================================
-   FLOATING CARDS
-========================================= */
 
-.floating-card {
-  position: absolute;
-  background: #fff;
-  padding: 12px 18px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 5;
-  font-size: 14px;
-  font-weight: 600;
-  color: #334155;
-}
-
-.floating-card svg {
-  color: #0d6efd;
-  font-size: 20px;
-}
-
-/* Card Positions */
-
-.card-1 {
-  top: 15%;
-  left: -20px;
-}
-
-.card-2 {
-  top: 18%;
-  right: -10px;
-}
-
-.card-3 {
-  top: 48%;
-  right: -20px;
-}
-
-.card-4 {
-  bottom: 15%;
-  left: -10px;
-}
 
 /* =========================================
    FEATURES
@@ -790,21 +746,6 @@ border-radius: 25px;
 ========================================= */
 
 @media (max-width: 768px) {
-
-  .small-heading {
-    display: block;
-    text-align: center;
-  }
-
-  .main-heading {
-    font-size: 2rem;
-    text-align: center;
-  }
-
-  .hero-text {
-    text-align: center;
-    font-size: 0.9rem;
-  }
 
   .image-wrapper img {
     max-width: 350px;
