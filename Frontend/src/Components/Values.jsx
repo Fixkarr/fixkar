@@ -9,8 +9,11 @@ import {
   FaUsers,
   FaArrowRight,
 } from "react-icons/fa";
+import {useNavigate} from "react-router-dom"
 
 const Values = () => {
+  const navigate = useNavigate();
+
   const features = [
     {
       icon: <FaShieldAlt size={30}/>,
@@ -110,7 +113,7 @@ const Values = () => {
               <div className="d-flex align-items-center gap-3">
 
                 <div className="cta-icon">
-                  <FaUsers />
+                  <FaUsers size={35}/>
                 </div>
 
                 <div>
@@ -130,7 +133,7 @@ const Values = () => {
 
             <div className="col-lg-4 text-lg-end mt-4 mt-lg-0">
 
-              <button className="btn btn-primary btn-lg px-4">
+              <button className="btn btn-primary btn-lg px-4" onClick={()=>{navigate("/login")}}>
                 Get Started
                 <FaArrowRight className="ms-2" />
               </button>
