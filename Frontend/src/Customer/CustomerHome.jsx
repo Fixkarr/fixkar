@@ -18,6 +18,7 @@ import DashboardNavigator from '../utils/DashboardNavigator'
 import useGetAnnouncements from '../hooks/useGetAnnouncements'
 import AnnouncementBanner from '../Components/AnnouncementBanner'
 import { ClipLoader } from 'react-spinners'
+import Working from './Working'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -171,6 +172,9 @@ const CustomerHome = () => {
     <AnnouncementBanner key={a._id} announcement={a} />
   ))
 )}
+
+
+  <Working/>
 
 
   {/* 🔵 Floating Hire Button */}
