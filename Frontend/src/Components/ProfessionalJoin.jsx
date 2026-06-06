@@ -51,7 +51,7 @@ const ProfessionalJoin = () => {
   return (
     <section className="professional-join-section py-5 overflow-hidden">
       <div className="container">
-        <div className="row align-items-center g-5">
+        <div className="row g-5">
 
           {/* Left Side */}
          <div className="col-5 col-lg-5 mb-4 mb-lg-0">
