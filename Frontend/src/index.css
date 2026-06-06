@@ -545,23 +545,29 @@ border-radius: 25px;
 .charge-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .charge-pill {
-  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
 
-  border-radius: 10px;
+  padding: 4px 10px;
 
   background: #eff6ff;
-  border: 1px solid #bfdbfe;
+  border: 1px solid #dbeafe;
+
+  border-radius: 999px;
 
   color: #2563eb;
 
-  font-size: 13px;
-  font-weight: 600;
-}
+  font-size: 12px;
+  font-weight: 500;
 
+  line-height: 1.2;
+
+  white-space: nowrap;
+}
 
 .card {
   overflow: hidden;
