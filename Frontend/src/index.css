@@ -651,6 +651,7 @@ border-radius: 25px;
   z-index: 2;
   display: block;
   margin: auto;
+  border-radius: 24px;
 }
 
 /* =========================================
@@ -789,10 +790,6 @@ border-radius: 25px;
 
 @media (max-width: 768px) {
 
-  .professional-join-section {
-    text-align: center;
-  }
-
   .small-heading {
     display: block;
     text-align: center;
@@ -805,7 +802,7 @@ border-radius: 25px;
 
   .hero-text {
     text-align: center;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .image-wrapper img {
@@ -813,7 +810,6 @@ border-radius: 25px;
   }
 
   .feature-item {
-    flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 12px;
@@ -854,7 +850,13 @@ border-radius: 25px;
   }
 
   .image-wrapper img {
-    max-width: 280px;
+      width: 100%;
+      max-width: 550px;
+      height: auto;
+      border-radius: 24px;
+      display: block;
+      position: relative;
+      z-index: 2;
   }
 
   .feature-item {

@@ -54,7 +54,7 @@ const ProfessionalJoin = () => {
         <div className="row align-items-center g-5">
 
           {/* Left Side */}
-         <div className="col-lg-5 mb-4 mb-lg-0">
+         <div className="col-5 col-lg-5 mb-4 mb-lg-0">
             <div className="position-relative">
 
               <div className="image-wrapper"></div>
@@ -91,7 +91,7 @@ const ProfessionalJoin = () => {
 
           {/* Right Side */}
 
-          <div className="col-lg-7">
+          <div className="col-7 col-lg-7">
 
             <span className="small-heading">
               GROW YOUR BUSINESS WITH FIXKAR
