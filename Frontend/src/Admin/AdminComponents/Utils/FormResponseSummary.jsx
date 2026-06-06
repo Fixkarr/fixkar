@@ -26,7 +26,7 @@ const FormResponseSummary = ({ summary = [] }) => {
   }, {});
 
   return (
-    <div className="container my-4">
+    <div className="container my-2">
       <div className="card border-0 shadow-lg rounded-4">
         {/* BODY */}
         <div className="card-body bg-light">
@@ -34,7 +34,7 @@ const FormResponseSummary = ({ summary = [] }) => {
             ([groupTitle, items]) => (
               <div
                 key={groupTitle}
-                className="card mb-4 border-0 shadow-sm rounded-4"
+                className="card mb-2 border-0 shadow-sm rounded-4"
               >
                 <div
   className="section-header"
@@ -56,7 +56,7 @@ const FormResponseSummary = ({ summary = [] }) => {
 </div>
 
 
-                <div className="card-body bg-white p-4">
+                <div className="card-body bg-white p-2">
 
   {items.map((item, idx) => {
 
