@@ -60,8 +60,8 @@ const ProfessionalJoin = () => {
               <div className="image-bg"></div>
 
               <img
-                src="/images/professionals-group.png"
-                alt="Fixkar Professionals"
+                src="/images/professionals-group.webp"
+                alt="Join Fixkar"
                 className="img-fluid position-relative z-2"
               />
 
