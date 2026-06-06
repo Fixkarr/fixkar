@@ -105,7 +105,7 @@ const ProfessionalJoin = () => {
         </div>
       ))}
 
-      <button className="btn join-btn mt-2">
+      <button className="btn btn-primary rounded-3 px-4 py-3 mt-3">
         See Joining Process
         <FaArrowRight className="ms-2" />
       </button>
