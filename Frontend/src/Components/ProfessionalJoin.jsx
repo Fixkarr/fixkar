@@ -67,55 +67,53 @@ const ProfessionalJoin = () => {
               effortlessly.
             </p>
             </div>
-        <div className="row g-5">
-           
-          {/* Left Side */}
-         <div className="col-5 col-lg-5 mb-4 mb-lg-0">
-            <div className="position-relative">
+       <div className="row align-items-center g-4">
 
-              <div className="image-wrapper"></div>
+  {/* Image */}
+  <div className="col-12 col-lg-5">
+    <div className="image-wrapper">
+      <img
+        src="/images/professionals-group.webp"
+        alt="Join Fixkar"
+        className="img-fluid w-100 shadow-sm"
+      />
+    </div>
+  </div>
 
-              <img
-                src="/images/professionals-group.webp"
-                alt="Join Fixkar"
-                className="img-fluid"
-              />
+  {/* Content */}
+  <div className="col-12 col-lg-7">
+    <div className="mt-lg-4">
 
-
-                         </div>
+      {features.map((item, index) => (
+        <div
+          key={index}
+          className="d-flex align-items-start gap-3 mb-4"
+        >
+          <div className="feature-icon flex-shrink-0">
+            {item.icon}
           </div>
 
-          {/* Right Side */}
+          <div>
+            <h6 className="fw-bold mb-2">
+              {item.title}
+            </h6>
 
-          <div className="col-7 col-lg-7">
-
-            <div className="mt-4">
-
-              {features.map((item, index) => (
-                <div
-                  key={index}
-                  className="feature-item d-flex align-items-start"
-                >
-                  <div className="feature-icon">
-                    {item.icon}
-                  </div>
-
-                  <div>
-                    <h6>{item.title}</h6>
-                    <p>{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-
-            </div>
-
-            <button className="btn join-btn mt-3">
-              See Joining Process
-              <FaArrowRight className="ms-2" />
-            </button>
-
+            <p className="text-muted mb-0">
+              {item.desc}
+            </p>
           </div>
         </div>
+      ))}
+
+      <button className="btn join-btn mt-2">
+        See Joining Process
+        <FaArrowRight className="ms-2" />
+      </button>
+
+    </div>
+  </div>
+
+</div>
       </div>
     </section>
   );
