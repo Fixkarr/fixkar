@@ -1,153 +1,149 @@
-import React from 'react'
-
+import React from "react";
 import {
-  FaUserShield,
-  FaRupeeSign,
+  FaShieldAlt,
+  FaMapMarkerAlt,
+  FaStar,
+  FaComments,
+  FaWallet,
   FaHeadset,
-  FaHandshake,
-  FaCalendarCheck
+  FaUsers,
+  FaArrowRight,
 } from "react-icons/fa";
 
 const Values = () => {
+  const features = [
+    {
+      icon: <FaShieldAlt />,
+      title: "Trusted Professionals",
+      desc: "All professionals are verified before joining the platform.",
+    },
+    {
+      icon: <FaMapMarkerAlt />,
+      title: "Nearby Service",
+      desc: "Find local professionals quickly in your area.",
+    },
+    {
+      icon: <FaStar />,
+      title: "Quality Assurance",
+      desc: "Ratings and reviews help ensure high service quality.",
+    },
+    {
+      icon: <FaComments />,
+      title: "Easy Communication",
+      desc: "Chat directly with professionals before hiring.",
+    },
+    {
+      icon: <FaWallet />,
+      title: "Secure Payments",
+      desc: "Safe transactions with transparent pricing.",
+    },
+    {
+      icon: <FaHeadset />,
+      title: "Customer Support",
+      desc: "Dedicated support whenever you need assistance.",
+    },
+  ];
+
   return (
-    <>
-    <div
-  className="values py-5 mt-5"
-  style={{
-    background: "linear-gradient(180deg, #f8f9ff 0%, #eef3ff 100%)",
-  }}
->
-  {/* ===== Header ===== */}
-  <div className="text-center mb-5">
-    <span
-      className="badge rounded-pill px-4 py-2 mb-3"
-      style={{
-        background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
-        color: "#fff",
-      }}
-    >
-      ⭐ Why Choose Fixkar
-    </span>
+    <section className="py-5 bg-white">
+      <div className="container">
 
-    <h3 className="fw-bold display-6">
-      Our <span className="text-primary">Core Values</span>
-    </h3>
+        {/* Heading */}
 
-    <p className="text-muted mt-2">
-      What makes Fixkar reliable, trusted & customer-first
-    </p>
-  </div>
+        <div className="text-center mb-5">
 
-  {/* ===== Values Grid ===== */}
-  <div className="container">
-    <div className="row g-4 justify-content-center">
+          <span className="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
+            WHY CHOOSE FIXKAR
+          </span>
 
-      {/* Verified Professionals */}
-      <div className="col-xl-3 col-lg-4 col-md-6">
-        <div className="card border-0 shadow-sm rounded-4 p-4 h-100 value-card text-center">
-          <div
-            className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
-            style={{
-              width: "70px",
-              height: "70px",
-              background: "rgba(13,110,253,0.1)",
-            }}
+          <h2 className="display-5 fw-bold mt-3">
+            Why Thousands Choose
+            <span className="text-primary"> Fixkar</span>
+          </h2>
+
+          <p
+            className="text-secondary mx-auto mt-3"
+            style={{ maxWidth: "700px" }}
           >
-            <FaUserShield size={30} className="text-primary" />
-          </div>
-          <h5 className="fw-semibold">Verified Professionals</h5>
-          <p className="text-muted small mb-0">
-            Trained, skilled & background-checked service providers
+            Fixkar connects customers with trusted local professionals
+            through a secure, reliable and transparent platform.
           </p>
-        </div>
-      </div>
 
-      {/* Affordable Pricing */}
-      <div className="col-xl-3 col-lg-4 col-md-6">
-        <div className="card border-0 shadow-sm rounded-4 p-4 h-100 value-card text-center">
-          <div
-            className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
-            style={{
-              width: "70px",
-              height: "70px",
-              background: "rgba(25,135,84,0.1)",
-            }}
-          >
-            <FaRupeeSign size={30} className="text-success" />
+        </div>
+
+        {/* Cards */}
+
+        <div className="row g-4">
+
+          {features.map((item, index) => (
+            <div className="col-md-6 col-lg-4" key={index}>
+
+              <div className="feature-card h-100 p-4">
+
+                <div className="icon-circle mb-4">
+                  {item.icon}
+                </div>
+
+                <h5 className="fw-bold mb-3">
+                  {item.title}
+                </h5>
+
+                <p className="text-secondary mb-0">
+                  {item.desc}
+                </p>
+
+              </div>
+
+            </div>
+          ))}
+
+        </div>
+
+        {/* Bottom CTA */}
+
+        <div className="cta-banner mt-5 p-4 p-lg-5">
+
+          <div className="row align-items-center">
+
+            <div className="col-lg-8">
+
+              <div className="d-flex align-items-center gap-3">
+
+                <div className="cta-icon">
+                  <FaUsers />
+                </div>
+
+                <div>
+                  <h3 className="fw-bold mb-2">
+                    Join Thousands of Happy Customers
+                  </h3>
+
+                  <p className="mb-0 text-secondary">
+                    Grow your business and connect with trusted
+                    professionals through Fixkar.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div className="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+              <button className="btn btn-primary btn-lg px-4">
+                Get Started
+                <FaArrowRight className="ms-2" />
+              </button>
+
+            </div>
+
           </div>
-          <h5 className="fw-semibold">Affordable Pricing</h5>
-          <p className="text-muted small mb-0">
-            Transparent pricing with no hidden charges
-          </p>
+
         </div>
+
       </div>
+    </section>
+  );
+};
 
-      {/* 24x7 Support */}
-      <div className="col-xl-3 col-lg-4 col-md-6">
-        <div className="card border-0 shadow-sm rounded-4 p-4 h-100 value-card text-center">
-          <div
-            className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
-            style={{
-              width: "70px",
-              height: "70px",
-              background: "rgba(255,193,7,0.15)",
-            }}
-          >
-            <FaHeadset size={30} className="text-warning" />
-          </div>
-          <h5 className="fw-semibold">24×7 Support</h5>
-          <p className="text-muted small mb-0">
-            Our support team is always ready to help you
-          </p>
-        </div>
-      </div>
-
-      {/* Trust & Reliability */}
-      <div className="col-xl-3 col-lg-4 col-md-6">
-        <div className="card border-0 shadow-sm rounded-4 p-4 h-100 value-card text-center">
-          <div
-            className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
-            style={{
-              width: "70px",
-              height: "70px",
-              background: "rgba(13,202,240,0.15)",
-            }}
-          >
-            <FaHandshake size={30} className="text-info" />
-          </div>
-          <h5 className="fw-semibold">Trust & Reliability</h5>
-          <p className="text-muted small mb-0">
-            Building long-term trust with every service
-          </p>
-        </div>
-      </div>
-
-      {/* Quick Booking */}
-      <div className="col-xl-3 col-lg-4 col-md-6">
-        <div className="card border-0 shadow-sm rounded-4 p-4 h-100 value-card text-center">
-          <div
-            className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle"
-            style={{
-              width: "70px",
-              height: "70px",
-              background: "rgba(111,66,193,0.15)",
-            }}
-          >
-            <FaCalendarCheck size={30} className="text-primary" />
-          </div>
-          <h5 className="fw-semibold">Quick & Easy Booking</h5>
-          <p className="text-muted small mb-0">
-            Book a service in just a few clicks
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-    </>
-  )
-}
-
-export default Values
+export default Values;
