@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import Footer from "../Components/Footer";
 import Navbar from "../Components/Navbar";
 import { useNavigate } from "react-router-dom";
+import Working from "../Customer/Working";
 
 export default function About() {
   const navigate = useNavigate();
@@ -213,56 +214,7 @@ export default function About() {
           background: "linear-gradient(135deg,#ffffff,#eff6ff)"
         }}
       >
-        <div className="container py-5">
-          <div className="text-center mb-5">
-            <span className="text-primary fw-semibold text-uppercase">
-              Workflow
-            </span>
-
-            <h2
-              className="fw-bold mt-3"
-              style={{ fontSize: "clamp(2rem,5vw,3.5rem)" }}
-            >
-              How Fixkar Works
-            </h2> 
-          </div>
-
-          <div className="row g-4">
-            {[
-              "Choose Service",
-              "Confirm Location",
-              "Find Nearby Professionals",
-              "Chat or Hire",
-              "Get Service Done",
-            ].map((step, index) => (
-              <div className="col-md-6 col-lg" key={index}>
-                <div
-                  className="text-center h-100 p-4 rounded-5"
-                  style={{
-                    background: "#ffffff",
-                    border: "1px solid #e2e8f0",
-                  }}
-                >
-                  <div
-                    className="mx-auto mb-4 rounded-circle d-flex align-items-center justify-content-center fw-bold"
-                    style={{
-                      width: "90px",
-                      height: "90px",
-                      background:
-                        "linear-gradient(135deg,#2563eb,#1d4ed8)",
-                      fontSize: "2rem",
-                      color  : "#fff"
-                    }}
-                  >
-                    {index + 1}
-                  </div>
-
-                  <h5 className="fw-bold">{step}</h5>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <Working/>
       </section>
 
       {/* FEATURES */}
