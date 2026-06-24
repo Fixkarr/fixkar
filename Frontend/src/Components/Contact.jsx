@@ -135,7 +135,7 @@ if(currentUserData){
               <ul className="list-unstyled small text-muted">
                 <li className="mb-2">
                   <FaEnvelope className="me-2 text-primary" />
-                  fixkarteam@gmail.com
+                    info@fixkarr.com
                 </li>
                 <li className="mb-2">
                   <FaPhoneAlt className="me-2 text-primary" />

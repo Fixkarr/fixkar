@@ -101,7 +101,7 @@ const DashboardLayout = () => {
 
               <span className="d-flex align-items-center gap-1 small">
                 <MdEmail size={16} />
-                fixkarteam@gmail.com
+                info@fixkarr.com
               </span>
 
               <span

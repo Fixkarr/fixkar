@@ -34,7 +34,7 @@ const Services = () => {
    {pathname !== '/' &&
          <>
           <Helmet>
-    <title>Fixkar Services - Explore Fixkar Services</title>
+    <title>Fixkar Services in Varanasi</title>
     <meta
       name="description"
       content="Contact Fixkar for support, service queries, or assistance. Our team is available to help you connect with skilled professionals efficiently."

@@ -68,8 +68,7 @@ const Footer = () => {
             <li><MdKeyboardArrowRight /> <FaInstagram className="me-1 text-warning" /> Instagram</li>
             <li><MdKeyboardArrowRight /> <FaFacebookSquare className="me-1 text-info" /> Facebook</li>
             <li><MdKeyboardArrowRight /> <FaLinkedin className="me-1 text-primary" /> LinkedIn</li>
-            <li><MdKeyboardArrowRight /> <FaSquareXTwitter className="me-1" /> X (Twitter)</li>
-            <li><MdKeyboardArrowRight /> <MdOutlineMail className="me-1" /> himanshu@gmail.com</li>
+            <li><MdKeyboardArrowRight /> <MdOutlineMail className="me-1" /> info@fixkarr.com</li>
           </ul>
         </div>
 

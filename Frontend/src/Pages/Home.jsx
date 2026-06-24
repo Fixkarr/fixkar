@@ -70,7 +70,7 @@ const Home = () => {
      <title>Fixkar – Smart Service Platform</title>
        <meta
           name="description"
-          content="Fixkar is a smart service platform connecting users with skilled professionals who use modern tools and technology to deliver reliable services across multiple categories."
+          content="Fixkar is a smart service platform connecting users with skilled professionals who use modern tools and technology to deliver reliable services across multiple categories in varanasi."
         />
   </Helmet>
 
@@ -101,7 +101,7 @@ const Home = () => {
         >
           <img
             src={item?.image}
-            alt={`banner-${index}`}
+            alt={`Fixkar home services in varanasi`}
             className="w-100 d-block"
             style={{
               height: "auto",
