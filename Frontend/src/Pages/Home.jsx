@@ -67,7 +67,7 @@ const Home = () => {
   return (
    <>
   <Helmet>
-     <title>Fixkar – Smart Service Platform</title>
+     <title>Fixkar</title>
        <meta
           name="description"
           content="Fixkar is a smart service platform connecting users with skilled professionals who use modern tools and technology to deliver reliable services across multiple categories in varanasi."

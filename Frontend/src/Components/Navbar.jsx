@@ -28,7 +28,7 @@ const Navbar = () => {
         <NavLink to="/" className="navbar-brand me-2">
           <img
             src="/Images/logo2.png"
-            alt="Fixkar"
+            alt="fixkar smart solutions private limited"
             className="fixkar-logo"
           />
         </NavLink>
