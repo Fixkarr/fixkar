@@ -10,7 +10,7 @@ export const sendEmail = async (email, subject, content) => {
     const emailData = {
       sender: {
         name: "FixKar",
-        email: "hg852106@gmail.com", // TEMP OK, domain email better
+        email: "info@fixkarr.com", // TEMP OK, domain email better
       },
       to: [{ email }],
       subject: subject,
@@ -29,7 +29,7 @@ export const sendBulkEmail = async (emails, subject, content) => {
     const emailData = {
       sender: {
         name: "FixKar",
-        email: "hg852106@gmail.com",
+        email: "info@fixkarr.com",
       },
       to: emails.map((email) => ({ email })), // 🔥 multiple users
       subject: subject,
