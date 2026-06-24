@@ -55,21 +55,21 @@ const AdminUsers = () => {
           title="Total Users"
           value={(customers?.length || 0) + (professionals?.length || 0)}
           icon={<FaUsers className="fs-3" />}
-          color="primary"
+          color="linear-gradient(135deg,#0ea5e9,#2563eb)"
         />
 
         <StatCard
           title="Customers"
           value={customers?.length || 0}
           icon={<FaUsers className="fs-3" />}
-          color="success"
+          color="linear-gradient(135deg,#f59e0b,#d97706)"
         />
 
         <StatCard
           title="Professionals"
           value={professionals?.length || 0}
           icon={<FaUserTie className="fs-3" />}
-          color="warning"
+          color="linear-gradient(135deg,#ec4899,#be185d)"
         />
       </div>
 

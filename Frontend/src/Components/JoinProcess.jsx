@@ -41,7 +41,7 @@ const JoinProcess = () => {
   return (
     <>
         <Navbar/>
-        <section className="container py-5">
+        <section className="container py-5 mt-2">
       {/* Heading */}
       <div className="text-center mb-5">
         <span className="badge bg-primary-subtle text-primary px-3 py-2">
