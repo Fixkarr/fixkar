@@ -35,7 +35,7 @@ const ProfessionalInfo = () => {
     const [showLocationGate, setShowLocationGate] = useState(false);
 
 
-  const { id } = useParams();
+  const { id, slug } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

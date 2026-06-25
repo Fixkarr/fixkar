@@ -43,7 +43,7 @@
 
     const handleVisitProfile = () => {
      
-      navigate(`/professional/profile/visit/${data?.userId?._id}`);
+      navigate(`/professional/profile/visit/${data?.userId?._id}/${data?.slug}`);
     };
 
     return (

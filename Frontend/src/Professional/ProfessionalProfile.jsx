@@ -89,7 +89,7 @@ const ProfessionalProfile = () => {
 
   
 const handleShareProfile = () => {
-  const profileUrl = `https://fixkarr.com/professional/profile/visit/${ProfessionalDetails.userId._id}`;
+  const profileUrl = `https://fixkarr.com/professional/profile/visit/${ProfessionalDetails.userId._id}/${ProfessionalDetails.slug}`;
 
   if (navigator.share) {
     navigator.share({

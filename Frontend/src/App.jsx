@@ -344,7 +344,7 @@ const App = () => {
      </Route>
 
            <Route
-          path="professional/profile/visit/:id"
+          path="professional/profile/visit/:id/:slug"
           element={
             <ProfessionalInfo />
           }
