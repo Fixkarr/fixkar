@@ -2,6 +2,7 @@ import cloudinary from "../../config/cloudinary.js";
 import { Service } from "../../models/serviceModel.js";
 import { Professional, User } from "../../models/userModel.js";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
+import slugify from "slugify";
 
 export const onboard = async (req, res) => {
   try {
@@ -35,6 +36,12 @@ export const onboard = async (req, res) => {
       return res.status(404).json({ message: "Professional not found" });
     }
 
+    const user = await User.findById(req.userId);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
     // Step 3: Upload both files
     const [profileResult, poiResult] = await Promise.all([
       uploadToCloudinary(profilePicture, "professionals/profile_pictures", "image"),
@@ -42,7 +49,32 @@ export const onboard = async (req, res) => {
     ]);
 
 
+    const baseSlug = slugify(
+  `${user.fullName}-${service.name}-${address}`,
+  {
+    lower: true,
+    strict: true,
+    trim: true,
+  }
+);
 
+let slug = baseSlug;
+let count = 1;
+
+while (true) {
+  const existingProfessional = await Professional.findOne({ slug });
+
+  if (
+    !existingProfessional ||
+    existingProfessional.userId.toString() === req.userId.toString()
+  ) {
+    break;
+  }
+
+  slug = `${baseSlug}-${count}`;
+  count++;
+}
+    
     // Step 5: Update professional data
    await Professional.findOneAndUpdate(
       { userId: req.userId },
@@ -62,9 +94,12 @@ export const onboard = async (req, res) => {
         public_id : profileResult.public_id,
         poi: poiResult.secure_url,
         onBoarded: true, // optional flag
+        slug
       },
       { new: true } // return updated document
     );
+
+
 
       const updatedProfessional = await Professional.findOne({
       userId: req.userId,
