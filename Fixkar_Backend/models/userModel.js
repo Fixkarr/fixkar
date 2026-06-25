@@ -122,7 +122,13 @@ const professionalSchema = new mongoose.Schema({
         panNumber : {type : String, select : false},
         docPicUrl : {type : String, select : false}
     },
-    bankVerificationStatus : {type : String, default : 'N/A', enum : ['pending', 'approved', 'N/A'],}
+    bankVerificationStatus : {type : String, default : 'N/A', enum : ['pending', 'approved', 'N/A'],},
+    slug : {
+        type : String,
+        unique : true,
+        sparse : true,
+    }
+
 
 },{timestamps : true});
 
