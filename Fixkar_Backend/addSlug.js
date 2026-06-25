@@ -6,7 +6,7 @@ import { Professional } from "./models/userModel.js";
 
 dotenv.config();
 
-export async function addSlugToProfessionals() {
+export async function addSlugToProfessionals(req,res) {
   try {
     await mongoose.connect(process.env.MONGO_URL);
     console.log("✅ MongoDB Connected");
@@ -55,6 +55,7 @@ export async function addSlugToProfessionals() {
       console.log(`✅ ${fullName} -> ${slug}`);
     }
 
+    res.status(200).json({ message: "All professionals updated successfully." });
     console.log("\n🎉 All professionals updated successfully.");
 
     process.exit(0);
