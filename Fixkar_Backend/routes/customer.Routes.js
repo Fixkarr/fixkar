@@ -6,6 +6,6 @@ import { addSlugToProfessionals } from '../addSlug.js';
 const customerRouter = express.Router();
 
 customerRouter.get('/get-professional-info/:id', getProfessionalInfo);
-customerRouter.get('generateSlug', addSlugToProfessionals)
+customerRouter.get('/generateSlug', addSlugToProfessionals)
 
 export default customerRouter;
