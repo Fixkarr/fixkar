@@ -21,6 +21,7 @@ import FormResponseSummary from "../Admin/AdminComponents/Utils/FormResponseSumm
 import DayCard from "../Professional/DayCard";
 import Navbar from "../Components/Navbar";
 import DashboardNavigator from "../utils/DashboardNavigator";
+import { Helmet } from "react-helmet-async";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -38,6 +39,18 @@ const ProfessionalInfo = () => {
   const { id, slug } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const averageRating =
+  professionalInfo?.reviews?.length
+    ? (
+        professionalInfo.reviews.reduce(
+          (sum, review) => sum + review.rating,
+          0
+        ) / professionalInfo.reviews.length
+      ).toFixed(1)
+    : 0;
+
+const reviewCount = professionalInfo?.reviews?.length || 0;
 
 useEffect(() => {
    if (!professionalInfo?.address) return;
@@ -154,6 +167,28 @@ useEffect(() => {
 
   return (
     <>
+    <Helmet>
+        <title>
+  {professionalInfo
+    ? `${professionalInfo.userId.fullName} | ${professionalInfo.profession.name} | FixKar`
+    : "FixKar"}
+  </title>
+
+  <meta
+  name="description"
+  content={
+    professionalInfo
+      ? `Hire ${professionalInfo.userId.fullName}, verified ${professionalInfo.profession.name} on FixKar. View profile, ratings, reviews and book online.`
+      : "FixKar"
+  }
+/>
+
+  <link
+  rel="canonical"
+  href={`https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo?.slug}`}
+/>
+
+    </Helmet>
     {!currentUserData?.user ? <Navbar/> :  <div
         className="text-white p-4"
         style={{
