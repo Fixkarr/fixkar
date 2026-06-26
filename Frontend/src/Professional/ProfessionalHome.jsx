@@ -123,9 +123,9 @@ return (
         </small>
       </div>
       <DashboardNavigator/>
-      <NeedHelp/>
+      
     </div>
-
+       <NeedHelp/>
     {/* ✅ BUTTON CLEARLY VISIBLE */}
     <div className="mt-4">
       <button
@@ -142,6 +142,7 @@ return (
         <SlCalender className="me-2"/>
         Mark Busy Days
       </button>
+   
     </div>
   </div>
 
