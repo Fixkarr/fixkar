@@ -18,6 +18,7 @@ import DashboardNavigator from "../utils/DashboardNavigator";
 import useGetAnnouncements from "../hooks/useGetAnnouncements";
 import { ClipLoader } from "react-spinners";
 import AnnouncementBanner from "../Components/AnnouncementBanner";
+import RecentBookings from "./professionalBooking/RecentBookings";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
