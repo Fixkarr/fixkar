@@ -10,4 +10,4 @@ const serviceShema = new mongoose.Schema({
     skills : [{type : mongoose.Schema.Types.ObjectId, ref : "Skill"}],
 },{timestamps : true})
 
-export const rService = mongoose.model('Service', serviceShema);
+export const Service = mongoose.model('Service', serviceShema);
