@@ -12,9 +12,9 @@ import { GetStatusBadge } from "../../utils/GetStatusBadge";
 const RecentBookings = () => {
   const navigate = useNavigate();
 
-  const bookings = useSelector((state) => state.bookings) || [];
+   const { myBookings } = useSelector((state) => state.bookings);
 
-  const recentBookings = [...bookings]
+  const recentBookings = [...myBookings]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 5);
 
@@ -40,7 +40,7 @@ const RecentBookings = () => {
           </div>
 
           <span className="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">
-            {bookings.length} Total
+            {myBookings.length} Total
           </span>
         </div>
 
