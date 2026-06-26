@@ -19,6 +19,7 @@ import useGetAnnouncements from "../hooks/useGetAnnouncements";
 import { ClipLoader } from "react-spinners";
 import AnnouncementBanner from "../Components/AnnouncementBanner";
 import RecentBookings from "./professionalBooking/RecentBookings";
+import NeedHelp from "../utils/NeedHelp";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -122,6 +123,7 @@ return (
         </small>
       </div>
       <DashboardNavigator/>
+      <NeedHelp/>
     </div>
 
     {/* ✅ BUTTON CLEARLY VISIBLE */}
