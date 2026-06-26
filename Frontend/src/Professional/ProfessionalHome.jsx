@@ -148,36 +148,7 @@ return (
   <div className="container py-4">
 
     {/* PROFILE WARNING */}
-    {!isProfileComplete && (
-      <div
-        className="card border-0 shadow-lg rounded-4 mb-4"
-        style={{
-          background: "linear-gradient(135deg,#fff8e1,#fff3cd)"
-        }}
-      >
-        <div className="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-
-          <div>
-            <h6 className="fw-bold text-dark mb-1">
-              <FaExclamationTriangle className="me-2 text-warning"/>
-              Profile Incomplete
-            </h6>
-            <small className="text-muted">
-              Add service charges and description to improve booking rate.
-            </small>
-          </div>
-
-          <button
-            onClick={() => navigate("/professional/complete-profile")}
-            className="btn btn-warning rounded-pill px-4 fw-semibold shadow-sm"
-          >
-            Complete Now
-          </button>
-
-        </div>
-      </div>
-    )}
-
+   
 
     {/* BUSY DAYS */}
     {showSelectedDays.length > 0 && (
@@ -213,7 +184,44 @@ return (
     )}
 
 
-    {/* BANK CARDS */}
+   
+
+
+    {/* WALLET SECTION */}
+   
+      <ProfessionalWallet />
+
+       {!isProfileComplete && (
+      <div
+        className="card border-0 shadow-lg rounded-4 mb-4"
+        style={{
+          background: "linear-gradient(135deg,#fff8e1,#fff3cd)"
+        }}
+      >
+        <div className="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+
+          <div>
+            <h6 className="fw-bold text-dark mb-1">
+              <FaExclamationTriangle className="me-2 text-warning"/>
+              Profile Incomplete
+            </h6>
+            <small className="text-muted">
+              Add service charges and description to improve booking rate.
+            </small>
+          </div>
+
+          <button
+            onClick={() => navigate("/professional/complete-profile")}
+            className="btn btn-warning rounded-pill px-4 fw-semibold shadow-sm"
+          >
+            Complete Now
+          </button>
+
+        </div>
+      </div>
+    )}
+
+     {/* BANK CARDS */}
     {bankVerificationStatus === "N/A" && (
       <div className="card border-0 shadow-sm rounded-4 mb-4 p-3 bg-white">
         <ProfessionalBankDetails />
@@ -226,10 +234,6 @@ return (
       </div>
     )}
 
-
-    {/* WALLET SECTION */}
-   
-      <ProfessionalWallet />
     <RecentBookings/>
 
   </div>
