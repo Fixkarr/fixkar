@@ -229,7 +229,7 @@ return (
     {/* WALLET SECTION */}
    
       <ProfessionalWallet />
-    
+    <RecentBookings/>
 
   </div>
 
