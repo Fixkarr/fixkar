@@ -125,7 +125,7 @@ const RecentBookings = () => {
 
             {/* Button */}
 
-            {bookings.length > 5 && (
+            {myBookings.length > 5 && (
               <button
                 onClick={() =>
                   navigate("/professional/bookings")
