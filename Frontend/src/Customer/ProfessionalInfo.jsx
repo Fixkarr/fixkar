@@ -52,6 +52,37 @@ const ProfessionalInfo = () => {
 
 const reviewCount = professionalInfo?.reviews?.length || 0;
 
+const jsonLd = professionalInfo && {
+  "@context": "https://schema.org",
+  "@type": "Person",
+
+  name: professionalInfo.userId.fullName,
+
+  image: professionalInfo.profilePicture,
+
+  description:
+    professionalInfo.description ||
+    `${professionalInfo.profession.name} available on FixKar`,
+
+  jobTitle: professionalInfo.profession.name,
+
+  url: `https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo.slug}`,
+
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: professionalInfo.address.addressLine,
+  },
+
+  aggregateRating:
+    reviewCount > 0
+      ? {
+          "@type": "AggregateRating",
+          ratingValue: averageRating,
+          reviewCount,
+        }
+      : undefined,
+};
+
 useEffect(() => {
    if (!professionalInfo?.address) return;
   const calculateDistance = async () => {
@@ -187,7 +218,9 @@ useEffect(() => {
   rel="canonical"
   href={`https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo?.slug}`}
 />
-
+<script type="application/ld+json">
+  {JSON.stringify(jsonLd)}
+</script>
     </Helmet>
     {!currentUserData?.user ? <Navbar/> :  <div
         className="text-white p-4"
