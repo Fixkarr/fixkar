@@ -316,14 +316,12 @@ border-radius: 25px;
   max-height: 260px;
   border-radius:5px;
   margin-top: 28px;
-  transition: all 0.25s ease;
 }
 
 /* Image */
 .banner-img {
   object-fit: contain;
   object-position: center;
-  transition: transform 0.4s ease;
 }
 
 /* Fallback background */
@@ -369,14 +367,7 @@ border-radius: 25px;
 }
 
 /* Hover (premium subtle) */
-.announcement-card:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
-  transform: translateY(-2px);
-}
 
-.announcement-card:hover .banner-img {
-  transform: scale(1.03);
-}
 
 /* Responsive */
 @media (max-width: 768px) {
