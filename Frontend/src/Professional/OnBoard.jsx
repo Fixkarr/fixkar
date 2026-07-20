@@ -52,12 +52,12 @@ const OnBoard = () => {
           <div className="d-flex align-items-center gap-4 flex-wrap">
             <span className="d-flex align-items-center gap-1 small">
               <IoCall />
-              +10 92 92988 28
+              +91 8795213106
             </span>
 
             <span className="d-flex align-items-center gap-1 small">
               <MdEmail />
-              support@fixkar.com
+              info@fixkar.com
             </span>
 
             <span
