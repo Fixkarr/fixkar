@@ -19,6 +19,7 @@ import useGetAnnouncements from '../hooks/useGetAnnouncements'
 import AnnouncementBanner from '../Components/AnnouncementBanner'
 import { ClipLoader } from 'react-spinners'
 import Working from './Working'
+import NeedHelp from '../utils/NeedHelp'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -136,7 +137,7 @@ const CustomerHome = () => {
   </div>
 
     {/* Feature Badges */}
-   
+   <NeedHelp user={"customer"}/>
   </div>
 
   {/* 🔵 Floating Search Section */}

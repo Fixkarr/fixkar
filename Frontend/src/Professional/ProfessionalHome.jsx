@@ -125,7 +125,7 @@ return (
       <DashboardNavigator/>
       
     </div>
-       <NeedHelp/>
+       <NeedHelp user={"professional"}/>
     {/* ✅ BUTTON CLEARLY VISIBLE */}
     <div className="mt-4">
       <button
@@ -150,7 +150,7 @@ return (
   {/* 🔵 CONTENT AREA (NO NEGATIVE MARGIN NOW) */}
   <div className="container py-4">
 
-    {/* PROFILE WARNING */}
+
    
 
     {/* BUSY DAYS */}

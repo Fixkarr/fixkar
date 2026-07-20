@@ -2,7 +2,7 @@ import React from "react";
 import { FaHeadset, FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const NeedHelp = () => {
+const NeedHelp = ({user}) => {
   const navigate = useNavigate();
 
   return (
@@ -37,7 +37,7 @@ const NeedHelp = () => {
         </div>
 
         <button
-          onClick={() => navigate("/professional/contact")}
+          onClick={() => navigate(`/${user}/contact`)}
           className="btn btn-light btn-sm rounded-pill px-3 fw-semibold d-flex align-items-center gap-2"
         >
           Help
