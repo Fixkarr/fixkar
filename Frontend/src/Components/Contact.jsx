@@ -10,6 +10,7 @@ import {
   FaInstagram,
   FaLinkedin,
   FaPhone,
+  FaYoutube,
 } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import { useLocation } from "react-router-dom";
@@ -155,9 +156,10 @@ if(currentUserData){
 
               <h6 className="fw-semibold mb-2">Follow Us</h6>
               <div className="d-flex gap-3">
-                <a href="#" className="text-primary fs-5"><FaFacebook /></a>
+                <a href="https://www.facebook.com/profile.php?id=61591695204940" className="text-primary fs-5"><FaFacebook /></a>
                 <a href="https://www.instagram.com/fixkar.official" className="text-danger fs-5"><FaInstagram /></a>
-                <a href="#" className="text-primary fs-5"><FaLinkedin /></a>
+                <a href="https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd" className="text-primary fs-5"><FaLinkedin /></a>
+                <a href="https://www.youtube.com/@fixkarofficial" className="text-primary fs-5"><FaYoutube /></a>
               </div>
             </div>
           </div>
