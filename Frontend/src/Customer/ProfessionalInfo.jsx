@@ -71,40 +71,51 @@ const ProfessionalInfo = () => {
 
 const reviewCount = professionalInfo?.reviews?.length || 0;
 
-const jsonLd = professionalInfo && {
+const personSchema = professionalInfo && {
   "@context": "https://schema.org",
   "@type": "Person",
-
   name: professionalInfo.userId.fullName,
-
   image: professionalInfo.profilePicture,
-
-  description:
-    about ||
-    `${professionalInfo.profession.name} available on FixKar`,
-
   jobTitle: professionalInfo.profession.name,
-
   url: `https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo.slug}`,
-
+  description: about,
   address: {
     "@type": "PostalAddress",
     streetAddress: professionalInfo.address.addressLine,
+  }
+};
+
+const serviceSchema = professionalInfo && {
+   "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+
+  name: `${professionalInfo.userId.fullName} - ${professionalInfo.profession.name}`,
+
+  image: professionalInfo.profilePicture,
+
+  url: `https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo.slug}`,
+
+  areaServed: professionalInfo.address.addressLine,
+
+  provider: {
+    "@type": "Person",
+    name: professionalInfo.userId.fullName,
   },
 
   aggregateRating:
     reviewCount > 0
       ? {
           "@type": "AggregateRating",
-          ratingValue: averageRating,
+          ratingValue: parseFloat(averageRating),
           reviewCount,
         }
       : undefined,
-};
+}
+
 
 useEffect(() => {
    if (!professionalInfo?.address) return;
-  const calculateDistance = async () => {
+  const calculateDistance = async () => { 
     if (
       !mapsLoaded ||
       !selectedLocation?.lat ||
@@ -236,8 +247,13 @@ useEffect(() => {
   href={`https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo?.slug}`}
 />
 <script type="application/ld+json">
-  {JSON.stringify(jsonLd)}
+{JSON.stringify(personSchema)}
 </script>
+
+<script type="application/ld+json">
+{JSON.stringify(serviceSchema)}
+</script>
+
 {faqSchema && (
   <script type="application/ld+json">
     {JSON.stringify(faqSchema)}
