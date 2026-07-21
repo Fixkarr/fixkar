@@ -5,13 +5,13 @@ export const sitemapController = async (req,res) =>{
       status: "approved",
     })
       .select("_id slug updatedAt")
-      .lean().populate(userId, "_id");
+      .lean()
 
       const urls = professionals
       .map((professional) => {
         return `
 <url>
-  <loc>https://www.fixkarr.com/professional/profile/visit/${professional.userId._id}/${professional.slug}</loc>
+  <loc>https://www.fixkarr.com/professional/profile/visit/${professional.userId}/${professional.slug}</loc>
   <lastmod>${professional.updatedAt.toISOString()}</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.9</priority>
