@@ -9,7 +9,7 @@ export const generateFaqs = (professionalInfo)=>{
       item.label.toLowerCase().includes("material")
     )?.value;
     const workCharge =
-    professionalInfo.charges?.summary?.find(item =>
+    professionalInfo?.charges?.summary?.find(item =>
       item.label.toLowerCase().includes("charge")
     )?.value;
     const ratings = professionalInfo?.reviews?.ratings || "no ratings yet";
@@ -60,7 +60,7 @@ export const generateFaqs = (professionalInfo)=>{
   }
 
 
-    if (professionalInfo.status === "approved") {
+    if (professionalInfo?.status === "approved") {
     faqs.push({
       question: `Is ${name} verified on FixKar?`,
       answer: `Yes, ${name} is a verified ${profession.toLowerCase()} on FixKar.`
