@@ -64,6 +64,37 @@ if(currentUserData){
     
   };
 
+  const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "FixKar Smart Solutions",
+  url: "https://www.fixkarr.com",
+  logo: "https://fixkarr.com/Images/logo2.png",
+  about : "https://fixkarr.com/about",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    phone : "+91 8795213106",
+    email: "info@fixkarr.com",
+    location : "varanasi uttarpradesh india",
+    facebook : "https://www.facebook.com/profile.php?id=61591695204940",
+    instagram : "https://www.instagram.com/fixkar.official",
+    linkedin : "https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd",
+    youtube : "https://www.youtube.com/@fixkarofficial",
+    availableLanguage: ["English", "Hindi"]
+  }
+
+  
+};
+
+const contactPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact FixKar",
+  url: "https://www.fixkarr.com/contact",
+  description: "Contact FixKar for customer support, booking assistance and professional registration.",
+
+};
   return (
     <>
        {pathname !== '/' &&
@@ -72,8 +103,14 @@ if(currentUserData){
   <title>Contact Fixkar – Support & Help</title>
   <meta
     name="description"
-    content="Contact Fixkar for support, service queries, or assistance. Our team is available to help you connect with skilled professionals efficiently."
+    content="Contact FixKar for booking assistance, customer support, professional registration, partnership enquiries and general questions related to home services. Our team helps customers connect with verified professionals across different service categories."
   />
+  <script type="application/ld+json">
+    {JSON.stringify(contactPageSchema)}
+  </script>
+  <script type="application/ld+json">
+    {JSON.stringify(organizationSchema)}
+  </script>
 </Helmet>
 
       {pathname == "/contact" && <Navbar/>} 
@@ -109,7 +146,7 @@ if(currentUserData){
       <div className="container  mt-5">
         {/* HEADER */}
         <div className="text-center text-white mb-5">
-          <h2 className="fw-bold">Contact <span className="text-warning">Fixkar</span></h2>
+          <h1 className="fw-bold">Contact <span className="text-warning">Fixkar</span></h1>
           <p className="opacity-75">
             We’re always ready to help you. Get in touch with us anytime.
           </p>
@@ -123,11 +160,11 @@ if(currentUserData){
             <div className="bg-white h-100 p-4 rounded-4 shadow">
               <FaMessage size={36} className="text-primary mb-3" />
 
-              <h5 className="fw-bold mb-3">Fixkar – Service Support</h5>
+              <h2 className="fw-bold mb-3">Fixkar – Service Support</h2>
 
               <p className="text-muted small">
-                Fixkar is a professional service platform connecting customers
-                with verified service professionals. Reach out to us for any
+                Fixkar Smart Solutions is a professional service platform connecting customers
+                with verified service professionals in varanasi. Reach out to us for any
                 support or queries.
               </p>
 
@@ -144,7 +181,7 @@ if(currentUserData){
                 </li>
                 <li className="mb-2">
                   <FaMapMarkerAlt className="me-2 text-primary" />
-                  Lohta, Varanasi, Uttar Pradesh, India
+                  Varanasi, Uttar Pradesh, India
                 </li>
                 <li className="mb-2">
                   <FaClock className="me-2 text-primary" />
@@ -161,6 +198,9 @@ if(currentUserData){
                 <a href="https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd" className="text-primary fs-5"><FaLinkedin /></a>
                 <a href="https://www.youtube.com/@fixkarofficial" className="text-primary fs-5"><FaYoutube /></a>
               </div>
+              <hr />
+              <h2 className="fw-semibold mb-2 fs-3"> <a href="https://fixkarr.com/about" target="_blank" className="text-muted">About Fixkar Smart Solutions</a></h2>
+
             </div>
           </div>
 
