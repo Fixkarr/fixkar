@@ -68,8 +68,8 @@ const Footer = () => {
             <li><MdKeyboardArrowRight /> <a href="https://www.instagram.com/fixkar.official" className='text-light'><FaInstagram className="me-1 text-warning" /> Instagram</a></li>
             <li><MdKeyboardArrowRight /> <a href="https://www.facebook.com/profile.php?id=61591695204940" className='text-light '><FaFacebookSquare className="me-1 text-info" /> Facebook</a></li>
             <li><MdKeyboardArrowRight /> <a href="https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd" className='text-light '><FaLinkedin className="me-1 text-primary" /> LinkedIn</a></li>
-            <li><MdKeyboardArrowRight /> <a href="https://www.youtube.com/@fixkarofficial" className='text-light '><FaYoutube className="me-1 text-primary" /> Youtube</a></li>
-            <li><MdKeyboardArrowRight /> <MdOutlineMail className="me-1" /> info@fixkarr.com</li>
+            <li><MdKeyboardArrowRight /> <a href="https://www.youtube.com/@fixkarofficial" className='text-light'><FaYoutube className="me-1 text-primary" /> Youtube</a></li>
+            <li><MdKeyboardArrowRight /> <a href="mailto:info@fixkarr.com" className='text-light'><MdOutlineMail className="me-1" /> info@fixkarr.com </a></li>
           </ul>
         </div>
 
