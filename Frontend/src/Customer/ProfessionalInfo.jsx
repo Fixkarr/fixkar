@@ -22,7 +22,7 @@ import DayCard from "../Professional/DayCard";
 import Navbar from "../Components/Navbar";
 import DashboardNavigator from "../utils/DashboardNavigator";
 import { Helmet } from "react-helmet-async";
-import { generateFaqs } from "../utils/generateFaqs";
+import { generateAbout, generateFaqs } from "../utils/generateFaqs";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -33,6 +33,7 @@ const ProfessionalInfo = () => {
   const { currentUserData } = useSelector(state => state.user);
   const location = useLocation();
   const faqs = generateFaqs(professionalInfo);
+  const about = generateAbout(professionalInfo, id);
   const faqSchema =
   faqs.length > 0
     ? {
@@ -78,7 +79,7 @@ const jsonLd = professionalInfo && {
   image: professionalInfo.profilePicture,
 
   description:
-    professionalInfo.description ||
+    about ||
     `${professionalInfo.profession.name} available on FixKar`,
 
   jobTitle: professionalInfo.profession.name,
@@ -225,9 +226,7 @@ useEffect(() => {
   <meta
   name="description"
   content={
-    professionalInfo
-      ? `Hire ${professionalInfo.userId.fullName}, verified ${professionalInfo.profession.name} on FixKar. View profile, ratings, reviews and book online.`
-      : "FixKar"
+    about
   }
 />
 

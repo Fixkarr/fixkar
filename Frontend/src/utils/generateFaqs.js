@@ -83,3 +83,26 @@ export const generateFaqs = (professionalInfo)=>{
 
   return faqs;
 }
+
+
+export const generateAbout = (professionalInfo, id) => {
+     const name = professionalInfo?.userId?.fullName.trim();
+    const profession = professionalInfo?.profession?.name;
+    const skills = professionalInfo?.selectedSkills?.map(s=> s.name) || [];
+
+    const location = professionalInfo?.address?.addressLine;
+    const experience = professionalInfo?.charges?.summary?.find(item => item.label.toLowerCase().includes("experience"))?.value;
+     const description =
+        professionalInfo?.description;
+
+       return `${name} is a verified ${profession.toLowerCase()} in ${location}. ${
+        experience
+            ? `With ${experience} of experience,`
+            : ""
+    } ${name} specializes in ${skills}. ${
+        description
+            ? `${name} says - ${description}` 
+            : ""
+    } Customers can hire ${name} through Fixkar Smart Solutions for reliable ${profession.toLowerCase()} services. They can visit https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo.slug} to view the profile and book ${name} for your ${profession.toLowerCase()} needs. Visit fixkarr.com for more information and to explore other verified professionals in your area.`;
+
+}
