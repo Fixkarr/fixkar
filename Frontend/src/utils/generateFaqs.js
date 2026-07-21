@@ -12,8 +12,17 @@ export const generateFaqs = (professionalInfo)=>{
     professionalInfo?.charges?.summary?.find(item =>
       item.label.toLowerCase().includes("charge")
     )?.value;
-    const ratings = professionalInfo?.reviews?.ratings || "no ratings yet";
+     const averageRating =
+  professionalInfo?.reviews?.length
+    ? (
+        professionalInfo.reviews.reduce(
+          (sum, review) => sum + review.rating,
+          0
+        ) / professionalInfo.reviews.length
+      ).toFixed(1)
+    : 0 || "no ratings yet";
 
+    const reviewCount = professionalInfo?.reviews?.length || 0;
      const faqs = [];
 
      if (skills.length) {
@@ -52,10 +61,10 @@ export const generateFaqs = (professionalInfo)=>{
     });
   }
 
-  if (ratings) {
+  if (averageRating !== "no ratings yet") {
     faqs.push({
       question: `What are the ratings for ${name}?`,
-      answer: ratings
+      answer: `The average rating for ${name} is ${averageRating} and ${reviewCount} reviews.`
     });
   }
 

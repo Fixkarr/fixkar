@@ -33,7 +33,21 @@ const ProfessionalInfo = () => {
   const { currentUserData } = useSelector(state => state.user);
   const location = useLocation();
   const faqs = generateFaqs(professionalInfo);
-  console.log(faqs)
+  const faqSchema =
+  faqs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      }
+    : null;
   
     const [showHireModal, setShowHireModal] = useState(false);
     const [showLocationGate, setShowLocationGate] = useState(false);
@@ -224,6 +238,11 @@ useEffect(() => {
 <script type="application/ld+json">
   {JSON.stringify(jsonLd)}
 </script>
+{faqSchema && (
+  <script type="application/ld+json">
+    {JSON.stringify(faqSchema)}
+  </script>
+)}
     </Helmet>
     {!currentUserData?.user ? <Navbar/> :  <div
         className="text-white p-4"
