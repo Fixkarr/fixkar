@@ -20,6 +20,7 @@ import bookingRouter from './routes/booking.Routes.js';
 import adminRouter from './controllers/Admin/AdminRoutes/admin.routes.js';
 import notificationRouter from './routes/notification.routes.js';
 import wakeRouter from './routes/wakeup.route.js';
+import seoRouter from './routes/seo.route.js';
 
 
 dotenv.config();
@@ -44,6 +45,7 @@ app.use("/api/messages", messageRouter);
 app.use("/api/booking", bookingRouter);
 app.use('/api/admin', adminRouter)
 app.use('/api/notification', notificationRouter)
+app.use('/api/seo', seoRouter);
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
