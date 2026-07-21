@@ -261,7 +261,7 @@ const Onboarding = ({ userData }) => {
         <div className="alert alert-warning py-2 small mb-2">
           <FaInfoCircle className="me-1" />
           Upload a valid government ID (Aadhaar / PAN / Driving License).  
-          Image must be readable or PDF only.
+          Image must be readable or PDF only, , should contain both side of id.
         </div>
 
         <input
