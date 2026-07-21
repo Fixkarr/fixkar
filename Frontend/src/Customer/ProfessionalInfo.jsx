@@ -23,6 +23,7 @@ import Navbar from "../Components/Navbar";
 import DashboardNavigator from "../utils/DashboardNavigator";
 import { Helmet } from "react-helmet-async";
 import { generateAbout, generateFaqs } from "../utils/generateFaqs";
+import FAQSection from "../Components/FAQSection";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -517,6 +518,8 @@ useEffect(() => {
       {professionalInfo?.reviews.length !==0 && <div className="review">
             <ProReviews reviews={professionalInfo?.reviews}/>
           </div>}
+      
+      {faqs && <FAQSection faqs={faqs}/>}
           
           {/* ================gallery============== */}
       {professionalInfo?.gallery.length !==0 && <ProfessionalGallerySection professionalInfo={professionalInfo}/>}
