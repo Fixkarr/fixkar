@@ -4,7 +4,7 @@ export const generateFaqs = (professionalInfo)=>{
     const skills = professionalInfo?.selectedSkills?.map(s=> s.name) || [];
 
     const location = professionalInfo?.address?.addressLine || "nearby location";
-    const experience = professionalInfo?.charges?.summary?.find(item = item.label.toLowerCase().includes("experience"))?.value || "not specified";
+    const experience = professionalInfo?.charges?.summary?.find(item => item.label.toLowerCase().includes("experience"))?.value || "not specified";
     const material = professionalInfo?.charges?.summary?.find(item =>
       item.label.toLowerCase().includes("material")
     )?.value;
@@ -70,7 +70,7 @@ export const generateFaqs = (professionalInfo)=>{
     faqs.push({
     question: `How can I book ${name}?`,
     answer: `You can book ${name} directly through FixKar after viewing the profile, availability and pricing.`
-  });
+  })
 
   return faqs;
 }
