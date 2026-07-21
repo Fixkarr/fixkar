@@ -163,6 +163,7 @@ const Home = () => {
       {(banners?.length > 0
         ? banners
         : [
+            {image : "/Images/banner3.jpg"},
             { image: "/Images/banner.webp" },
             { image: "/Images/banner2.webp" },
           ]
