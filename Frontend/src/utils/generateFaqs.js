@@ -1,7 +1,7 @@
 export const generateFaqs = (professionalInfo)=>{
     const name = professionalInfo?.userId?.fullName.trim() || "This professional";
     const profession = professionalInfo?.profession?.name || "this profession";
-    const skills = professionalInfo?.selectedSkills?.map(s= s.name) || [];
+    const skills = professionalInfo?.selectedSkills?.map(s=> s.name) || [];
 
     const location = professionalInfo?.userId?.address.addressLine || "nearby location";
     const experience = professionalInfo?.charges?.summary?.find(item = item.label.toLowerCase().includes("experience"))?.value || "not specified";
