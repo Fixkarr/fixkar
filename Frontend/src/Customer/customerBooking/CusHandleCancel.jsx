@@ -86,10 +86,10 @@ const CusHandleCancel = ({ booking }) => {
       }
 
       toast.success(result.data.message);
+       setShowCancelModal(false);
       setLoading(false);
 
     } catch (error) {
-      console.error(error.message);
       toast.error("Internal server error!");
       setLoading(false);
     }
@@ -107,7 +107,7 @@ const CusHandleCancel = ({ booking }) => {
       <CancelBookingModal
     show={showCancelModal}
     onClose={() => setShowCancelModal(false)}
-    onConfirm={ handleCancel(booking._id, booking.visitingCharge)}
+    onConfirm={ () => handleCancel(booking._id, booking.visitingCharge)}
 />
    </>
   );
