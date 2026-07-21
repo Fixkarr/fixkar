@@ -5,11 +5,12 @@ import { toast } from "react-toastify";
 import PayButton from "../PayButton";
 import { ClipLoader } from "react-spinners";
 import { FaExclamationTriangle, FaMoneyBillWave } from "react-icons/fa";
+import CancelBookingModal from "../../Components/CancelBookingModal";
 
 const CusHandleCancel = ({ booking }) => {
   const [loading, setLoading] = useState(false);
   const [paymentLocked, setPaymentLocked] = useState(false);
-
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const handleCancel = async (bookingId, visitingCharge) => {
     try {
       setLoading(true);
@@ -95,7 +96,8 @@ const CusHandleCancel = ({ booking }) => {
   };
 
   return (
-    <button
+   <>
+     <button
       className="btn btn-outline-danger rounded-pill px-3 d-flex align-items-center gap-2"
       disabled={loading || paymentLocked}
       onClick={() =>
@@ -104,6 +106,12 @@ const CusHandleCancel = ({ booking }) => {
     >
       {loading ? <ClipLoader size={16} /> : "Cancel Booking"}
     </button>
+      <CancelBookingModal
+    show={showCancelModal}
+    onClose={() => setShowCancelModal(false)}
+    onConfirm={handleCancel}
+/>
+   </>
   );
 };
 
