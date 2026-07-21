@@ -11,6 +11,59 @@ import { useNavigate } from 'react-router-dom'
 import {Helmet} from 'react-helmet-async'
 import { useSelector } from 'react-redux'
 import FAQSection from '../Components/FAQSection'
+const faqs =  [
+  {
+    question: "What is Fixkar?",
+    answer:
+      "FixKar is an online platform that helps customers find and hire verified electricians, plumbers, carpenters, painters, builders, labourers, civil engineers, and other home service professionals near their location."
+  },
+  {
+    question: "How does Fixkar work?",
+    answer:
+      "Customers can search for nearby professionals, compare their profiles, experience, skills, ratings, and service charges, then send a hiring request directly through FixKar."
+  },
+  {
+    question: "Are professionals on Fixkar verified?",
+    answer:
+      "Yes. Every professional on Fixkar completes a document verification process before becoming available for customer bookings."
+  },
+  {
+    question: "Which services are available on Fixkar?",
+    answer:
+      "FixKar offers electricians, plumbers, carpenters, painters, builders, civil engineers, labourers, and other home repair and maintenance services."
+  },
+  {
+    question: "How can I hire a professional on Fixkar?",
+    answer:
+      "Simply search for a service, choose a verified professional, review their profile, and click the Hire button to submit your booking request."
+  },
+  {
+    question: "How are service charges decided?",
+    answer:
+      "Service charges are decided by the professional based on their skills, experience, work type, and location. Customers can review the charges before hiring."
+  },
+  {
+    question: "Can I hire professionals near my location?",
+    answer:
+      "Yes. Fixkar helps customers find verified professionals based on their selected location so they can hire nearby service providers."
+  },
+  {
+    question: "Can I compare professionals before hiring?",
+    answer:
+      "Yes. Customers can compare professionals based on experience, skills, ratings, reviews, availability, and pricing before making a hiring decision."
+  },
+  {
+    question: "Is Fixkar available across India?",
+    answer:
+      "FixKar is expanding across India. Service availability depends on the number of verified professionals available in your city or locality."
+  },
+  {
+    question: "How can professionals join Fixkar?",
+    answer:
+      "Skilled professionals can apply through the professional registration process, complete document verification, and start receiving customer hiring requests after approval."
+  }
+];
+
 
 const Home = () => {
   const { currentUserData } = useSelector((state) => state.user);
@@ -64,6 +117,18 @@ const Home = () => {
     navigate,
   ]);
 
+   const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      }
   const banners = [];
   return (
    <>
@@ -71,8 +136,14 @@ const Home = () => {
      <title>Fixkar</title>
        <meta
           name="description"
-          content="Fixkar is a smart service platform connecting users with skilled professionals who use modern tools and technology to deliver reliable services across multiple categories in varanasi."
+          content="Fixkar Smart Solutions is a smart service platform connecting users with skilled professionals who use modern tools and technology to deliver reliable services across multiple categories in varanasi."
         />
+
+        {faqSchema && (
+  <script type="application/ld+json">
+    {JSON.stringify(faqSchema)}
+  </script>
+)}
   </Helmet>
 
   <Navbar />
@@ -161,7 +232,7 @@ const Home = () => {
     <Values />
     <Testimonial />
     <Contact />
-    <FAQSection/>
+    <FAQSection faqs={faqs}/>
     
   <Footer />
 </>
