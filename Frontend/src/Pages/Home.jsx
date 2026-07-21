@@ -10,6 +10,7 @@ import { IoSearchCircle } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
 import {Helmet} from 'react-helmet-async'
 import { useSelector } from 'react-redux'
+import FAQSection from '../Components/FAQSection'
 
 const Home = () => {
   const { currentUserData } = useSelector((state) => state.user);
@@ -160,6 +161,7 @@ const Home = () => {
     <Values />
     <Testimonial />
     <Contact />
+    <FAQSection/>
     
   <Footer />
 </>
