@@ -4,7 +4,7 @@ export const sitemapController = async (req,res) =>{
     const professionals = await Professional.find({
       status: "approved",
     })
-      .select("_id slug updatedAt")
+      .select("userId slug updatedAt")
       .lean()
 
       const urls = professionals
