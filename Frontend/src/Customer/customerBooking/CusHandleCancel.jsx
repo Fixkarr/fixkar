@@ -100,16 +100,14 @@ const CusHandleCancel = ({ booking }) => {
      <button
       className="btn btn-outline-danger rounded-pill px-3 d-flex align-items-center gap-2"
       disabled={loading || paymentLocked}
-      onClick={() =>
-        handleCancel(booking._id, booking.visitingCharge)
-      }
+      onClick={() => setShowCancelModal(true)}
     >
       {loading ? <ClipLoader size={16} /> : "Cancel Booking"}
     </button>
       <CancelBookingModal
     show={showCancelModal}
     onClose={() => setShowCancelModal(false)}
-    onConfirm={handleCancel}
+    onConfirm={ handleCancel(booking._id, booking.visitingCharge)}
 />
    </>
   );
