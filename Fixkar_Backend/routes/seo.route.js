@@ -1,8 +1,9 @@
 import express from "express";
+import { sitemapController } from "../controllers/seo/generateSitemap.js";
 
 const seoRouter = express.Router();
 
-import { sitemapController } from "../../controllers/seo/generateSitemap.js";
+
 
 seoRouter.get("/sitemap.xml", sitemapController);
 
