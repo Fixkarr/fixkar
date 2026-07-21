@@ -22,6 +22,7 @@ import DayCard from "../Professional/DayCard";
 import Navbar from "../Components/Navbar";
 import DashboardNavigator from "../utils/DashboardNavigator";
 import { Helmet } from "react-helmet-async";
+import { generateFaqs } from "../utils/generateFaqs";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -31,6 +32,8 @@ const ProfessionalInfo = () => {
   const { selectedLocation } = useSelector(state => state.location);
   const { currentUserData } = useSelector(state => state.user);
   const location = useLocation();
+  const faqs = generateFaqs(professionalInfo);
+  console.log(faqs)
   
     const [showHireModal, setShowHireModal] = useState(false);
     const [showLocationGate, setShowLocationGate] = useState(false);
@@ -201,7 +204,7 @@ useEffect(() => {
     <Helmet>
         <title>
   {professionalInfo
-    ? `${professionalInfo.userId.fullName} | ${professionalInfo.profession.name} | FixKar`
+    ? `${professionalInfo.userId.fullName} - Verified ${professionalInfo.profession.name} in ${professionalInfo.address.addressLine} | FixKar`
     : "FixKar"}
   </title>
 
