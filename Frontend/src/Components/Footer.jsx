@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaInstagram } from "react-icons/fa";
+import { FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
@@ -65,9 +65,10 @@ const Footer = () => {
         <div className="col-6 col-md-3">
           <h6 className="fw-semibold mb-3">Connect With Us</h6>
           <ul className="list-unstyled small">
-            <li><MdKeyboardArrowRight /> <FaInstagram className="me-1 text-warning" /> Instagram</li>
-            <li><MdKeyboardArrowRight /> <FaFacebookSquare className="me-1 text-info" /> Facebook</li>
-            <li><MdKeyboardArrowRight /> <FaLinkedin className="me-1 text-primary" /> LinkedIn</li>
+            <li><MdKeyboardArrowRight /> <a href="https://www.instagram.com/fixkar.official" className='text-light'><FaInstagram className="me-1 text-warning" /> Instagram</a></li>
+            <li><MdKeyboardArrowRight /> <a href="https://www.facebook.com/profile.php?id=61591695204940" className='text-light '><FaFacebookSquare className="me-1 text-info" /> Facebook</a></li>
+            <li><MdKeyboardArrowRight /> <a href="https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd" className='text-light '><FaLinkedin className="me-1 text-primary" /> LinkedIn</a></li>
+            <li><MdKeyboardArrowRight /> <a href="https://www.youtube.com/@fixkarofficial" className='text-light '><FaYoutube className="me-1 text-primary" /> Youtube</a></li>
             <li><MdKeyboardArrowRight /> <MdOutlineMail className="me-1" /> info@fixkarr.com</li>
           </ul>
         </div>
