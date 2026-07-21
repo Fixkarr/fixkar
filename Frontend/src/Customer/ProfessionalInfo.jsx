@@ -33,7 +33,7 @@ const ProfessionalInfo = () => {
   const { currentUserData } = useSelector(state => state.user);
   const location = useLocation();
   const faqs = generateFaqs(professionalInfo);
-  const about = generateAbout(professionalInfo, id);
+
   const faqSchema =
   faqs.length > 0
     ? {
@@ -55,6 +55,7 @@ const ProfessionalInfo = () => {
 
 
   const { id, slug } = useParams();
+    const about = generateAbout(professionalInfo, id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
