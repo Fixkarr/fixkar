@@ -103,6 +103,6 @@ export const generateAbout = (professionalInfo, id) => {
         description
             ? `${name} says - ${description}` 
             : ""
-    } Customers can hire ${name} through Fixkar Smart Solutions for reliable ${profession?.toLowerCase()} services. They can visit https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo.slug} to view the profile and book ${name} for your ${profession?.toLowerCase()} needs. Visit fixkarr.com for more information and to explore other verified professionals in your area.`;
+    } Customers can hire ${name} through Fixkar Smart Solutions for reliable ${profession?.toLowerCase()} services. They can visit https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo?.slug} to view the profile and book ${name} for your ${profession?.toLowerCase()} needs. Visit fixkarr.com for more information and to explore other verified professionals in your area.`;
 
 }
