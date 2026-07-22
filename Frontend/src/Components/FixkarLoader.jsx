@@ -15,7 +15,7 @@ const FixkarLoader = () => {
         </div>
       </div>
 
-      <p className="loading-text">Starting Fixkar...</p>
+      <p className="loading-text">Please wait...</p>
     </div>
   );
 };
