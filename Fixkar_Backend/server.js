@@ -22,6 +22,7 @@ import notificationRouter from './routes/notification.routes.js';
 import wakeRouter from './routes/wakeup.route.js';
 import seoRouter from './routes/seo.route.js';
 import { Professional } from './models/userModel.js';
+import { generateShortCode } from './utils/generateShortCode.js';
 
 
 dotenv.config();
@@ -70,6 +71,37 @@ app.get("/api/s/:shortCode", async (req,res)=>{
     });
 
 })
+
+
+app.get("/admin/generate-shortcodes", async (req, res) => {
+
+    const professionals = await Professional.find({
+        $or: [
+            { shortCode: { $exists: false } },
+            { shortCode: null },
+            { shortCode: "" }
+        ]
+    });
+
+    for (const professional of professionals) {
+
+        if (!professional.shortCode) {
+
+            let shortCode;
+            let exists = true;
+
+            while (exists) {
+                shortCode = generateShortCode();
+                exists = await Professional.exists({ shortCode });
+            }
+
+            professional.shortCode = shortCode;
+            await professional.save();
+        }
+    }
+
+    res.send("Done");
+});
 
 const server = http.createServer(app);
 
