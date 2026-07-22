@@ -67,7 +67,7 @@ app.get("/api/s/:shortCode", async (req,res)=>{
     
      return res.json({
         success: true,
-        slug: `/professional/profile/visit/${professional.userId}/${professional.slug}`
+        slug: `/professional/profile/visit/${professional.userId._id}/${professional.slug}`
     });
 
 })
