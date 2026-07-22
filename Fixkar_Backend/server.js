@@ -73,36 +73,6 @@ app.get("/api/s/:shortCode", async (req,res)=>{
 })
 
 
-app.get("/admin/generate-shortcodes", async (req, res) => {
-
-    const professionals = await Professional.find({
-        $or: [
-            { shortCode: { $exists: false } },
-            { shortCode: null },
-            { shortCode: "" }
-        ]
-    });
-
-    for (const professional of professionals) {
-
-        if (!professional.shortCode) {
-
-            let shortCode;
-            let exists = true;
-
-            while (exists) {
-                shortCode = generateShortCode();
-                exists = await Professional.exists({ shortCode });
-            }
-
-            professional.shortCode = shortCode;
-            await professional.save();
-        }
-    }
-
-    res.send("Done");
-});
-
 const server = http.createServer(app);
 
 //initialize socket.io server
