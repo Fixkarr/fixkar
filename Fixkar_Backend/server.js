@@ -21,6 +21,7 @@ import adminRouter from './controllers/Admin/AdminRoutes/admin.routes.js';
 import notificationRouter from './routes/notification.routes.js';
 import wakeRouter from './routes/wakeup.route.js';
 import seoRouter from './routes/seo.route.js';
+import { Professional } from './models/userModel.js';
 
 
 dotenv.config();
@@ -54,6 +55,21 @@ app.get("/api/health", (req, res) => {
   });
 });
 app.use("/api/wakeup", wakeRouter);
+
+app.get("/api/s/:shortCode", async (req,res)=>{
+  const professional = await Professional.findOne({
+    shortCode : req.params.shortCode
+  }).populate("userId");
+
+    if (!professional)
+        return res.status(404).send("Not Found");
+    
+     return res.json({
+        success: true,
+        slug: `/professional/profile/visit/${professional.userId}/${professional.slug}`
+    });
+
+})
 
 const server = http.createServer(app);
 

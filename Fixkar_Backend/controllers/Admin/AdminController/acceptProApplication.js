@@ -1,5 +1,6 @@
 import { Service } from "../../../models/serviceModel.js";
 import { Professional } from "../../../models/userModel.js";
+import { generateShortCode } from "../../../utils/generateShortCode.js";
 import { sendEmail } from "../../../utils/mailer.js";
 
 export const acceptApplication = async (req,res)=>{
@@ -27,6 +28,23 @@ export const acceptApplication = async (req,res)=>{
 
         professional.acceptedBy = admin._id;
         professional.status = "approved";
+       if (!professional.shortCode) {
+
+    let shortCode;
+    let exists = true;
+
+    while (exists) {
+
+        shortCode = generateShortCode();
+
+        exists = await Professional.exists({
+            shortCode
+        });
+
+    }
+
+    professional.shortCode = shortCode;
+}
         await professional.save();
 
         service.professionalCount += 1;

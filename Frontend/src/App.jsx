@@ -77,6 +77,7 @@ import ManageAnnouncements from "./Admin/AdminComponents/ManageAnnouncements.jsx
 import UpdateOffer from "./Admin/AdminComponents/UpdateOffer.jsx";
 import ManageEnquiry from "./Admin/AdminComponents/ManageEnquiry.jsx";
 import JoinProcess from "./Components/JoinProcess.jsx";
+import ShortLinkRedirect from "./Components/ShortLinkRedirect.jsx";
 
 
 export const server_url = import.meta.env.VITE_SERVER_URL;
@@ -441,6 +442,8 @@ const App = () => {
 
         <Route path={`${adminpath}/login`} element={ !currentUserData && !currentAdmin ? <AdminLogin/> : (currentAdmin ? <Navigate to={`${adminpath}/home`}/> : <Navigate to="/"/>)}/>
 
+
+          <Route path="/s/:shortCode" element={<ShortLinkRedirect />}/>
 
           {/* footer links */}
 

@@ -127,6 +127,11 @@ const professionalSchema = new mongoose.Schema({
         type : String,
         unique : true,
         sparse : true,
+    },
+    shortCode : {
+        type : String,
+        unique : true,
+        index : true
     }
 
 
