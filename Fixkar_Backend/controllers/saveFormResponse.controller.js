@@ -44,6 +44,8 @@ export const saveFormResponse = async (req,res)=>{
             }`;
         }
 
+        if (!formattedValue || formattedValue.trim() === "") return;
+        
           summary.push({
           label: field.summary,         
           value: formattedValue,        
