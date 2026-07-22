@@ -24,6 +24,7 @@ import DashboardNavigator from "../utils/DashboardNavigator";
 import { Helmet } from "react-helmet-async";
 import { generateAbout, generateFaqs } from "../utils/generateFaqs";
 import FAQSection from "../Components/FAQSection";
+import FixkarLoader from "../Components/FixkarLoader";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -200,7 +201,7 @@ useEffect(() => {
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-100">
-        <ClipLoader size={50} color="#0d6efd" />
+        <FixkarLoader/>
       </div>
     );
   }
