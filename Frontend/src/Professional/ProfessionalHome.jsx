@@ -21,6 +21,8 @@ import AnnouncementBanner from "../Components/AnnouncementBanner";
 import RecentBookings from "./professionalBooking/RecentBookings";
 import NeedHelp from "../utils/NeedHelp";
 import { useProfileCompletion } from "../hooks/useProfileCompletion";
+import { dummyProfileCompletion } from "./ProfileHealthCard/dummyProfileCompletion";
+import ProfileHealthCard from "./ProfileHealthCard/ProfileHealthCard";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -191,7 +193,24 @@ return (
     )}
 
 
-   
+    {dummyProfileCompletion && 
+      <div className="container py-5">
+
+    <div className="row justify-content-center">
+
+        <div className="col-lg-8">
+
+            <ProfileHealthCard
+                profileCompletion={dummyProfileCompletion}
+                navigate={navigate}
+            />
+
+        </div>
+
+    </div>
+
+</div>
+    }
 
 
     {/* WALLET SECTION */}

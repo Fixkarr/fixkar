@@ -735,3 +735,162 @@ border-radius: 25px;
   }
 
 }
+
+
+/* Professional health  */
+
+
+.profile-health-card svg{
+
+    overflow: visible;
+
+}
+
+.profile-health-card circle{
+
+    transition: all .5s ease;
+
+}
+
+.recommendation-card{
+
+    border-radius:18px;
+
+    transition:.35s;
+
+    background:#fff;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.06);
+
+}
+
+.recommendation-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:5px;
+    height:100%;
+
+    background:linear-gradient(
+        180deg,
+        #0d6efd,
+        #7c3aed
+    );
+
+}
+
+.recommendation-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.12);
+
+}
+
+.recommendation-icon{
+
+    width:50px;
+    height:50px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+
+    color:#fff;
+
+    background:linear-gradient(
+        135deg,
+        #0d6efd,
+        #7c3aed
+    );
+
+}
+
+.score-pill{
+
+    background:#e9f2ff;
+
+    color:#0d6efd;
+
+    padding:6px 14px;
+
+    border-radius:50px;
+
+    font-weight:700;
+
+    font-size:13px;
+
+}
+
+.section-progress-card{
+
+    border-radius:18px;
+
+    transition:.35s;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.05);
+
+}
+
+.section-progress-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.10);
+
+}
+
+.section-progress-card .progress{
+
+    background:#edf2f7;
+
+}
+
+.section-progress-card .btn{
+
+    font-size:.85rem;
+
+} 
+
+.level-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    color:#fff;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    font-size:.85rem;
+
+    font-weight:700;
+
+    letter-spacing:.4px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.18);
+
+    backdrop-filter:blur(10px);
+
+}
