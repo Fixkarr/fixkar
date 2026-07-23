@@ -21,7 +21,6 @@ import AnnouncementBanner from "../Components/AnnouncementBanner";
 import RecentBookings from "./professionalBooking/RecentBookings";
 import NeedHelp from "../utils/NeedHelp";
 import { useProfileCompletion } from "../hooks/useProfileCompletion";
-import { dummyProfileCompletion } from "./ProfileHealthCard/dummyProfileCompletion";
 import ProfileHealthCard from "./ProfileHealthCard/ProfileHealthCard";
 
 const ProfessionalHome = () => {
@@ -193,7 +192,7 @@ return (
     )}
 
 
-    {dummyProfileCompletion && 
+    {profileCompletion && 
       <div className="container py-5">
 
     <div className="row justify-content-center">
@@ -201,7 +200,7 @@ return (
         <div className="col-lg-8">
 
             <ProfileHealthCard
-                profileCompletion={dummyProfileCompletion}
+                profileCompletion={profileCompletion}
                 navigate={navigate}
             />
 
