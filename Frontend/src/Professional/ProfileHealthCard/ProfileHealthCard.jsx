@@ -30,59 +30,76 @@ const ProfileHealthCard = ({ profileCompletion, navigate }) => {
   } = profileCompletion;
 
   return (
-    <Card className="profile-health-card border-0 shadow-sm overflow-hidden rounded-3">
-      {/* ================= COMPACT HEADER ================= */}
-      <div className="profile-health-header p-3">
+    <Card className="profile-health-card w-100 border-0 shadow-sm overflow-hidden rounded-3 mb-3">
+      {/* ================= HEADER BANNERS (FULL WIDTH & SLEEK) ================= */}
+      <div 
+        className="px-3 py-2 text-white" 
+        style={{
+          background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+        }}
+      >
         <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
           
-          {/* Title & Badge */}
-          <div className="d-flex align-items-center gap-2">
+          {/* Left: Info & Badge */}
+          <div className="d-flex align-items-center gap-3">
+            <CircularProgress percentage={percentage} size={48} />
             <div>
-              <h6 className="fw-bold text-white mb-0">Profile Health</h6>
-              <small className="text-white-50" style={{ fontSize: "0.75rem" }}>
+              <div className="d-flex align-items-center gap-2">
+                <h6 className="fw-bold mb-0 text-white" style={{ fontSize: "0.95rem" }}>
+                  Profile Health
+                </h6>
+                <LevelBadge level={level} />
+              </div>
+              <small className="text-white-50 d-block mt-1" style={{ fontSize: "0.75rem" }}>
                 Complete your profile to get more customers
               </small>
             </div>
-            <LevelBadge level={level} />
           </div>
 
-          {/* Compact Score & Circular Progress */}
-          <div className="d-flex align-items-center gap-3">
-            <CircularProgress percentage={percentage} size={55} />
-            
+          {/* Right: Score & Section Stats */}
+          <div className="d-flex align-items-center gap-4">
             <div className="text-end">
-              <div className="d-flex align-items-baseline justify-content-end">
-                <span className="text-white fw-bold h5 mb-0">{score}</span>
-                <span className="text-white-50 ms-1" style={{ fontSize: "0.8rem" }}>/{maxScore}</span>
+              <span className="text-white-50" style={{ fontSize: "0.75rem" }}>Sections</span>
+              <div className="fw-semibold text-white" style={{ fontSize: "0.85rem" }}>
+                {completedSections} / {totalSections}
               </div>
-              <small className="text-warning fw-bold d-block" style={{ fontSize: "0.75rem" }}>
-                {percentage}% ({completedSections}/{totalSections} Done)
-              </small>
+            </div>
+
+            <div className="text-end border-start border-secondary ps-3">
+              <div className="d-flex align-items-baseline justify-content-end gap-1">
+                <span className="text-white fw-bold h5 mb-0">{score}</span>
+                <span className="text-white-50" style={{ fontSize: "0.75rem" }}>/{maxScore}</span>
+              </div>
+              <span className="badge bg-warning text-dark px-2 py-0 mt-1" style={{ fontSize: "0.7rem" }}>
+                {percentage}% Completed
+              </span>
             </div>
           </div>
 
         </div>
 
-        {/* Thin Linear Progress */}
+        {/* Sleek Line Progress Bar */}
         <ProgressBar 
           now={percentage} 
-          className="profile-progress mt-2" 
-          style={{ height: "4px" }} 
+          className="mt-2 bg-secondary" 
+          style={{ height: "3px", opacity: 0.8 }} 
         />
       </div>
 
-      {/* ================= NEXT RECOMMENDATION (RECTANGULAR STRIP) ================= */}
+      {/* ================= NEXT RECOMMENDATION BANNER ================= */}
       {nextRecommendation && (
-        <div className="px-3 py-2 border-bottom bg-white d-flex align-items-center justify-content-between flex-wrap gap-2">
-          <div className="d-flex align-items-center gap-2 overflow-hidden me-2">
-            <span className="badge bg-warning-subtle text-warning-emphasis border border-warning px-2 py-1">
-              <FaBolt className="me-1" />+{nextRecommendation.scoreGain}
+        <div className="w-100 px-3 py-2 bg-light border-bottom d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div className="d-flex align-items-center gap-2 overflow-hidden">
+            <span className="badge bg-warning text-dark d-flex align-items-center gap-1 px-2 py-1">
+              <FaBolt style={{ fontSize: "0.75rem" }} />
+              <span>+{nextRecommendation.scoreGain} pts</span>
             </span>
+
             <div className="text-truncate">
-              <span className="fw-semibold text-dark me-2" style={{ fontSize: "0.85rem" }}>
+              <span className="fw-bold text-dark me-1" style={{ fontSize: "0.85rem" }}>
                 {nextRecommendation.title}:
               </span>
-              <small className="text-muted text-truncate d-none d-sm-inline" style={{ fontSize: "0.8rem" }}>
+              <small className="text-secondary text-truncate" style={{ fontSize: "0.8rem" }}>
                 {nextRecommendation.message}
               </small>
             </div>
@@ -91,35 +108,37 @@ const ProfileHealthCard = ({ profileCompletion, navigate }) => {
           <Button
             variant="primary"
             size="sm"
-            className="rounded-pill px-3 py-1 ms-auto"
+            className="rounded-pill px-3 py-1 shadow-sm border-0 ms-auto"
             onClick={() => navigate?.(nextRecommendation.action)}
-            style={{ fontSize: "0.8rem" }}
+            style={{ fontSize: "0.75rem", fontWeight: "600" }}
           >
-            Fix <FaArrowRight className="ms-1" />
+            Complete Now <FaArrowRight className="ms-1" style={{ fontSize: "0.7rem" }} />
           </Button>
         </div>
       )}
 
-      {/* ================= EXPAND TOGGLE BAR ================= */}
-      <div className="text-center py-1 bg-light border-top">
+      {/* ================= TOGGLE BUTTON ================= */}
+      <div className="w-100 text-center bg-white py-1">
         <Button
           variant="link"
           size="sm"
-          className="text-decoration-none fw-semibold text-secondary py-0"
+          className="text-decoration-none fw-semibold text-muted py-0"
           style={{ fontSize: "0.75rem" }}
           onClick={() => setExpanded(!expanded)}
         >
-          {expanded ? "Less Details" : "View Details"}
-          {expanded ? <FaChevronUp className="ms-1" /> : <FaChevronDown className="ms-1" />}
+          {expanded ? "Hide Details" : "View Details"}
+          {expanded ? <FaChevronUp className="ms-1" style={{ fontSize: "0.65rem" }} /> : <FaChevronDown className="ms-1" style={{ fontSize: "0.65rem" }} />}
         </Button>
       </div>
 
-      {/* ================= EXPANDABLE SECTION ================= */}
+      {/* ================= EXPANDABLE AREA ================= */}
       <Collapse in={expanded}>
-        <div>
-          {/* SECTION PROGRESS */}
+        <div className="border-top bg-light">
+          {/* Section Progress */}
           <div className="p-3">
-            <h6 className="fw-bold mb-3" style={{ fontSize: "0.85rem" }}>Section Progress</h6>
+            <h6 className="fw-bold mb-3 text-dark" style={{ fontSize: "0.85rem" }}>
+              Section Progress
+            </h6>
             <div className="row g-2">
               {sections.map((section) => (
                 <div key={section.id} className="col-md-6">
@@ -129,10 +148,12 @@ const ProfileHealthCard = ({ profileCompletion, navigate }) => {
             </div>
           </div>
 
-          {/* RECOMMENDATIONS */}
+          {/* Recommendations */}
           {recommendations.length > 0 && (
-            <div className="border-top p-3">
-              <h6 className="fw-bold mb-3" style={{ fontSize: "0.85rem" }}>Recommended Improvements</h6>
+            <div className="border-top p-3 bg-white">
+              <h6 className="fw-bold mb-3 text-dark" style={{ fontSize: "0.85rem" }}>
+                Recommended Improvements
+              </h6>
               <div className="row g-2">
                 {recommendations.map((item, index) => (
                   <div key={index} className="col-lg-6">
