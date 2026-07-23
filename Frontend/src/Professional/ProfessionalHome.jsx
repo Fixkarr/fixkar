@@ -193,7 +193,7 @@ return (
 
 
     {profileCompletion && 
-      <div className="container py-5">
+
 
     <div className="row justify-content-center">
 
@@ -206,7 +206,7 @@ return (
 
         </div>
 
-    </div>
+  
 
 </div>
     }
