@@ -17,8 +17,17 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const DynamicForm = ({ form }) => {
+const DynamicForm = ({ form, initialValues  }) => {
   const [formData, setFormData] = useState({});
+    useEffect(() => {
+
+        if(initialValues){
+
+            setFormData(initialValues);
+
+        }
+
+    },[initialValues]);
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);

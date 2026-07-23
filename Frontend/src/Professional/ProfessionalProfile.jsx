@@ -331,7 +331,7 @@ const ProfessionalProfile = () => {
                         data-bs-dismiss="modal"
                       ></button>
                     </div>
-                    <DynamicForm form={form} />
+                    <DynamicForm form={form} initialValues={ProfessionalDetails?.charges?.responses} />
                   </div>
                 </div>
               </div>
