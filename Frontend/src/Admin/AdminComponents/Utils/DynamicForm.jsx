@@ -14,7 +14,7 @@ import { server_url } from "../../../App";
 import { useDispatch } from "react-redux";
 import { setCurrentUserData } from "../../../redux/user.slice";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const DynamicForm = ({ form, initialValues  }) => {
