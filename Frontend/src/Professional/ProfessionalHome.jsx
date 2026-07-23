@@ -20,6 +20,7 @@ import { ClipLoader } from "react-spinners";
 import AnnouncementBanner from "../Components/AnnouncementBanner";
 import RecentBookings from "./professionalBooking/RecentBookings";
 import NeedHelp from "../utils/NeedHelp";
+import { useProfileCompletion } from "../hooks/useProfileCompletion";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -27,9 +28,12 @@ const ProfessionalHome = () => {
   const { announcements, loading, error, refetch } = useGetAnnouncements();
   useGetMyBookings()
   useGetNotifications()
+  
   const navigate = useNavigate()
   const { currentUserData } = useSelector((state) => state.user);
   const user = currentUserData?.user;
+  const profileCompletion = useProfileCompletion(user);
+  console.log(profileCompletion);
   const userId = currentUserData?.user?.userId;
   const bankVerificationStatus = user?.bankVerificationStatus;
   const isProfileComplete = (user?.isChargesDefined);
