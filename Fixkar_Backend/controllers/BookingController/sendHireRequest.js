@@ -3,6 +3,7 @@ import { Notification } from "../../models/notificationModel.js";
 import { Customer } from "../../models/userModel.js";
 import {io} from '../../server.js'
 import { pushNotification } from "../../services/pushNotification.js";
+import { sendWhatsAppMessage } from "../../utils/sendWhatsaAppMessage.js";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
 export const sendHireRequest = async (req, res)=>{
     try {
@@ -62,7 +63,7 @@ export const sendHireRequest = async (req, res)=>{
     populate: [{
       path: "userId",
       model: "User",
-      select: "fullName",
+      select: "fullName mobile",
     },
   { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
       {path : "selectedSkills", select : "name"}
@@ -101,7 +102,12 @@ export const sendHireRequest = async (req, res)=>{
     );
 
 
-
+    await sendWhatsAppMessage({
+  phone: booking.professionalId.userId.mobile,
+  customerName: booking.customerName,
+  address : booking.workAddress,
+  bookingId: booking._id.toString(),
+});
 
        io.to(booking.professionalId.userId._id.toString()).emit(
       "newBookingRequest",
