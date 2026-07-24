@@ -168,7 +168,7 @@ return (
             Busy Schedule
           </h6>
 
-          <div className="d-flex flex-wrap gap-2 justify-content-center">
+          <div className="d-flex flex-wrap gap-2">
             {showSelectedDays.map((d) => {
               const dateObj = new Date(d);
               return (
@@ -185,11 +185,14 @@ return (
                 </span>
               );
             })}
-              {profileCompletion && 
+             
+          </div>
 
+        </div>
+      </div>
+    )}
 
-  
-
+     {profileCompletion && 
             <ProfileHealthCard
                 profileCompletion={profileCompletion}
                 navigate={navigate}
@@ -197,13 +200,6 @@ return (
 
      
     }
-          </div>
-
-        </div>
-      </div>
-    )}
-
-
   
 
 
