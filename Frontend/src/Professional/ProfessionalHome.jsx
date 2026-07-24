@@ -185,6 +185,18 @@ return (
                 </span>
               );
             })}
+              {profileCompletion && 
+
+
+  
+
+            <ProfileHealthCard
+                profileCompletion={profileCompletion}
+                navigate={navigate}
+            />
+
+     
+    }
           </div>
 
         </div>
@@ -192,24 +204,7 @@ return (
     )}
 
 
-    {profileCompletion && 
-
-
-    <div className="row justify-content-center">
-
-        <div className="col-lg-8">
-
-            <ProfileHealthCard
-                profileCompletion={profileCompletion}
-                navigate={navigate}
-            />
-
-        </div>
-
   
-
-</div>
-    }
 
 
     {/* WALLET SECTION */}
