@@ -102,12 +102,14 @@ export const sendHireRequest = async (req, res)=>{
     );
 
 
-    await sendWhatsAppMessage({
+    const message = await sendWhatsAppMessage({
   phone: booking.professionalId.userId.mobile,
   customerName: booking.customerName,
   address : booking.workAddress,
   bookingId: booking._id.toString(),
 });
+
+    console.log(message)
 
        io.to(booking.professionalId.userId._id.toString()).emit(
       "newBookingRequest",
