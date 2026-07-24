@@ -168,7 +168,7 @@ return (
             Busy Schedule
           </h6>
 
-          <div className="d-flex flex-wrap gap-2">
+          <div className="d-flex flex-wrap gap-2 justify-content-center">
             {showSelectedDays.map((d) => {
               const dateObj = new Date(d);
               return (
