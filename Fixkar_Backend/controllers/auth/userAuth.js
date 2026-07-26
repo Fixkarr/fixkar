@@ -168,7 +168,8 @@ export const login = async (req, res) => {
   }).populate({
     path : "selectedSkills",
     select : "name"
-  });
+  }).populate("charges");
+  
         } else {
             return res.status(400).json({ message: "No role assigned to this user" })
         }
