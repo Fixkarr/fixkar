@@ -57,7 +57,7 @@ const OnBoard = () => {
 
             <span className="d-flex align-items-center gap-1 small">
               <MdEmail />
-              info@fixkar.com
+              info@fixkarr.com
             </span>
 
             <span
