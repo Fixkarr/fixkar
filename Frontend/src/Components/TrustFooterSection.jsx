@@ -68,7 +68,7 @@ export default function TrustFooterSection() {
             <Card.Body className="p-4">
 
               <h5 className="fw-bold text-primary mb-3">
-                About Fixkarr
+                About Fixkar Smart Solutions Private Limited
               </h5>
 
               <p className="text-muted small">
@@ -82,7 +82,7 @@ export default function TrustFooterSection() {
                 <FaBuilding className="text-primary me-2" />
                 <strong>CIN</strong>
                 <div className="small text-muted">
-                  UXXXXXXXXXXXXXX
+                  U62013UP2026PTC250005
                 </div>
               </div>
 
@@ -90,7 +90,7 @@ export default function TrustFooterSection() {
                 <FaIdCard className="text-primary me-2" />
                 <strong>GSTIN</strong>
                 <div className="small text-muted">
-                  XXABCDE1234F1Z5
+                  NOT YET
                 </div>
               </div>
 
@@ -98,7 +98,7 @@ export default function TrustFooterSection() {
                 <FaCheckCircle className="text-primary me-2" />
                 <strong>MSME</strong>
                 <div className="small text-muted">
-                  UDYAM-UP-XX-000000
+                  UDYAM-UP-75-0197914
                 </div>
               </div>
 
