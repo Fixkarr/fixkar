@@ -20,34 +20,6 @@ export default function TrustFooterSection() {
       <Row className="g-4">
 
         {/* Why Fixkarr */}
-        <Col lg={3} md={6}>
-          <Card
-            className="border-0 shadow-sm rounded-4 h-100"
-            style={{ background: "#fff" }}
-          >
-            <Card.Body className="p-4">
-              <h5 className="fw-bold mb-4 text-primary">
-                Why Choose Fixkarr?
-              </h5>
-
-              {[
-                "All professionals are verified & trained",
-                "Transparent pricing, no hidden charges",
-                "100% secure payments",
-                "Quick booking & on-time service",
-                "24×7 customer support",
-              ].map((item, index) => (
-                <div key={index} className="d-flex mb-3">
-                  <FaCheckCircle
-                    className="text-primary mt-1 me-2"
-                    size={15}
-                  />
-                  <span className="text-muted">{item}</span>
-                </div>
-              ))}
-            </Card.Body>
-          </Card>
-        </Col>
 
         {/* Security */}
         <Col lg={3} md={6}>
