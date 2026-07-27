@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import {Helmet} from 'react-helmet-async'
 import { useSelector } from 'react-redux'
 import FAQSection from '../Components/FAQSection'
+import TrustFooterSection from '../Components/TrustFooterSection'
 const faqs =  [
   {
     question: "What is Fixkar?",
@@ -233,6 +234,7 @@ const Home = () => {
     <Services />
     <Values />
     <Testimonial />
+    <TrustFooterSection/>
     <Contact />
     <FAQSection faqs={faqs}/>
     
