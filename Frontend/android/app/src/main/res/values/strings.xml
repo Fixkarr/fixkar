@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Fixkar Smart Solutions</string>
+    <string name="title_activity_main">Fixkar Smart Solutions</string>
+    <string name="package_name">com.fixkarr.app</string>
+    <string name="custom_url_scheme">com.fixkarr.app</string>
+</resources>
