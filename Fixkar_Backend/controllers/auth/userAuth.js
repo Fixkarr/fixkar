@@ -398,3 +398,26 @@ export const googleAuthLogin = async (req, res) => {
     return res.status(500).json({ message: "Google login failed" });
   }
 };
+
+
+export const googleAuthLoginNative = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Native Google Login Failed"
+    });
+  }
+};
+
+export const googleAuthSignupNative = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Native Google Signup Failed"
+    });
+  }
+};

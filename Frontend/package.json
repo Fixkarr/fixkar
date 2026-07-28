@@ -13,6 +13,7 @@
     "@capacitor/android": "^8.4.2",
     "@capacitor/cli": "^8.4.2",
     "@capacitor/core": "^8.4.2",
+    "@capgo/capacitor-social-login": "^8.3.39",
     "@react-google-maps/api": "^2.20.7",
     "@reduxjs/toolkit": "^2.9.2",
     "axios": "^1.13.0",
