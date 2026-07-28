@@ -83,6 +83,9 @@ import ShortLinkRedirect from "./Components/ShortLinkRedirect.jsx";
 export const server_url = import.meta.env.VITE_SERVER_URL;
 const adminpath = import.meta.env.VITE_ADMIN_PATH
 
+import {Capacitor} from '@capacitor/core'
+import {SocialLogin} from '@capgo/capacitor-social-login'
+
 const App = () => {
   useGetCurrentUser();
   useGetCurrentAdmin()
@@ -98,6 +101,18 @@ const App = () => {
   const status = currentUserData?.user?.status;
   const userId = currentUserData?.user?.userId?._id;
   const id = currentUserData?.user?._id
+
+  useEffect(()=>{
+    const initSocialLogin = async ()=>{
+      if(Capacitor.getPlatform()=== 'android'){
+        await SocialLogin.initialize({
+          google : {
+            webClientId : "229725846095-vd23276c954sa16562q6jm8n8ie3io33.apps.googleusercontent.com"
+          }
+        })
+      }
+    }
+  },[])
  
   useEffect(() => {
     const checkBackend = async () => {
