@@ -112,6 +112,8 @@ const App = () => {
         })
       }
     }
+
+    initSocialLogin();
   },[])
  
   useEffect(() => {

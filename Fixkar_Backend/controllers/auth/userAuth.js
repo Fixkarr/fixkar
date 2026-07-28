@@ -404,7 +404,7 @@ export const googleAuthLogin = async (req, res) => {
 export const googleAuthLoginNative = async (req, res) => {
    try {
     const { idToken } = req.body;
-
+    console.log("Login Native Body:", req.body);
     if (!idToken) {
       return res.status(400).json({
         message: "Firebase ID Token is required",

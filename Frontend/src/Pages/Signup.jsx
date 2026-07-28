@@ -18,7 +18,13 @@ import {
   provider,
   signInWithPopup,
 } from "../firebase.js";
-
+import { Capacitor } from "@capacitor/core";
+import { SocialLogin } from "@capgo/capacitor-social-login";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  signInWithPopup,
+} from "firebase/auth";
 
 import { server_url } from "../App.jsx";
 import { setCurrentUserData } from "../redux/user.slice.js";
@@ -57,6 +63,51 @@ const Signup = () => {
   const handleSignupWithGoogle = async () => {
     try {
         setLoading(true)
+       if (Capacitor.getPlatform() === "android") {
+
+      const login = await SocialLogin.login({
+        provider: "google",
+        options: {
+          scopes: ["email", "profile"],
+          filterByAuthorizedAccounts: false,
+        },
+      });
+
+      const googleIdToken = login.result.idToken;
+
+      const credential = GoogleAuthProvider.credential(
+        googleIdToken
+      );
+
+      const firebaseCredential = await signInWithCredential(
+        auth,
+        credential
+      );
+
+      const firebaseIdToken =
+        await firebaseCredential.user.getIdToken();
+
+      const response = await axios.post(
+        `${server_url}/api/auth/google-auth-signup-native`,
+        {
+          idToken: firebaseIdToken,
+          role,
+          acceptedTerms: true,
+          acceptedProfessionalPolicy:
+            role === "professional",
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      dispatch(setCurrentUserData(response.data));
+
+      return;
+    }
+
+
+
       const result = await signInWithPopup(auth, provider);
 
       const user = {

@@ -83,6 +83,52 @@ const Login = () => {
       const handleLoginWithGoogle = async () => {
     try {
         setGloading(true)
+      // android
+
+        if (Capacitor.getPlatform() === "android") {
+
+      const login = await SocialLogin.login({
+        provider: "google",
+        options: {
+          scopes: ["email"],
+          filterByAuthorizedAccounts: false,
+        },
+      });
+
+      const googleIdToken = login.result?.idToken;
+
+      if (!googleIdToken) {
+        throw new Error("Google ID Token not received");
+      }
+
+      // Convert Google Token -> Firebase Login
+      const credential =
+        GoogleAuthProvider.credential(googleIdToken);
+
+      const firebaseCredential =
+        await signInWithCredential(auth, credential);
+
+      // Firebase Token
+      const firebaseIdToken =
+        await firebaseCredential.user.getIdToken();
+
+      const response = await axios.post(
+        `${server_url}/api/auth/google-auth-login-native`,
+        {
+          idToken: firebaseIdToken,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      dispatch(setCurrentUserData(response.data));
+
+      return;
+    }
+
+
+
       const result = await signInWithPopup(auth, provider);
 
       const user = {
