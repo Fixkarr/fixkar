@@ -16,6 +16,12 @@ import {
   provider,
   signInWithPopup,
 } from "../firebase.js";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
+import { Capacitor } from "@capacitor/core";
+import { SocialLogin } from "@capgo/capacitor-social-login";
 import { FcGoogle } from 'react-icons/fc';
 import { MdEmail } from 'react-icons/md';
 import { FaLock } from 'react-icons/fa';
