@@ -30,18 +30,22 @@ export const uploadToCloudinary = (file, folder) => {
       return reject(new Error("Unsupported file type"));
     }
 
+   const fileName = file.originalname
+  .replace(/\.[^/.]+$/, "")      // extension remove
+  .trim()                        // start/end spaces remove
+  .replace(/\s+/g, "_")          // spaces -> underscore
+  .replace(/[^\w-]/g, "_");
+
+    
     const stream = cloudinary.uploader.upload_stream(
       {
         folder,
         resource_type: resourceType,
-        chunk_size: 6 * 1024 * 1024,    // ✅ REQUIRED for videos (6MB chunks)
-        timeout: 120000,                // ✅ 2 min timeout
+        chunk_size: 6 * 1024 * 1024,    
+        timeout: 120000,               
         secure: true,   
         flags,              // ✅ HTTPS
-        public_id: `${Date.now()}_${file.originalname
-          .split(".")
-          .slice(0, -1)
-          .join(".")}`,
+        public_id: `${Date.now()}_${fileName}`,
       },
       (error, result) => {
         if (error) {
