@@ -66,10 +66,10 @@ const Signup = () => {
 
       const login = await SocialLogin.login({
         provider: "google",
-        options: {
-          scopes: ["email", "profile"],
-          filterByAuthorizedAccounts: false,
-        },
+        // options: {
+        //   scopes: ["email", "profile"],
+        //   filterByAuthorizedAccounts: false,
+        // },
       });
 
       const googleIdToken = login.result.idToken;
