@@ -23,7 +23,6 @@ import { SocialLogin } from "@capgo/capacitor-social-login";
 import {
   GoogleAuthProvider,
   signInWithCredential,
-  signInWithPopup,
 } from "firebase/auth";
 
 import { server_url } from "../App.jsx";
