@@ -89,10 +89,10 @@ const Login = () => {
           console.log("ok1")
       const login = await SocialLogin.login({
         provider: "google",
-        options: {
-          scopes: ["email"],
-          filterByAuthorizedAccounts: false,
-        },
+        // options: {
+        //   scopes: ["email"],
+        //   filterByAuthorizedAccounts: false,
+        // },
       });
 
       console.log(login)
