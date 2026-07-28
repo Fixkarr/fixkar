@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "229725846095",
+    "project_id": "fixkar-dev",
+    "storage_bucket": "fixkar-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:229725846095:android:c1e47f0d9c928ae035083a",
+        "android_client_info": {
+          "package_name": "com.fixkarr.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "229725846095-vlvpmggbs9fhecmsa857do4k3vcfks2k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fixkarr.app",
+            "certificate_hash": "f1a0081cf704b32f6b07a0bdd61fc6dc78b58147"
+          }
+        },
+        {
+          "client_id": "229725846095-vd23276c954sa16562q6jm8n8ie3io33.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL5tHLEwjRaEqUIAQFqVlsrpi1bN7yVHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "229725846095-vd23276c954sa16562q6jm8n8ie3io33.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
