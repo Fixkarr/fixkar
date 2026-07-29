@@ -135,7 +135,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onl
 
 };
 
-    const handleUseCurrentLocation = () => {
+    const handleUseCurrentLocation = async() => {
         if (Capacitor.getPlatform() === "android") {
 
     const granted = await requestLocationPermission();

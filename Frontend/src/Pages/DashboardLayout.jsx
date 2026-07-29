@@ -34,7 +34,7 @@ const DashboardLayout = () => {
       dispatch(setCurrentUserData(null))
       navigate("/");
     } catch (error) {
-      toast.error(error.response.data.message);
+     
     }
   };
 

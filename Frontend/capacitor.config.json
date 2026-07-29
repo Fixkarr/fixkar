@@ -1,9 +1,5 @@
 {
   "appId": "com.fixkarr.app",
-  "appName": "Fixkar Smart Solutions",
-  "webDir": "dist",
-  "server" : {
-    "url": "https://fixkarr.com",
-    "cleartext" : false
-  }
+  "appName": "Fixkarr",
+  "webDir": "dist"
 }
