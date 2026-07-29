@@ -69,7 +69,8 @@ const VoiceRecorder = ({ onAudioReady }) => {
       }, 1000);
 
     } catch (err) {
-      alert("Microphone permission denied");
+      console.log("Microphone permission denied : ", err);
+      alert(`${err.name}\n${err.message}`)
     }
   };
 
