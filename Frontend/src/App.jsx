@@ -103,10 +103,10 @@ const App = () => {
   const status = currentUserData?.user?.status;
   const userId = currentUserData?.user?.userId?._id;
   const id = currentUserData?.user?._id
-  const isOnline =  useNetworkStatus();
-  if (!isOnline) {
-    return <NoInternet />;
-}
+ const isOnline = useNetworkStatus();
+
+
+
   useEffect(()=>{
     const initSocialLogin = async ()=>{
       if(Capacitor.getPlatform()=== 'android'){
@@ -251,6 +251,10 @@ const App = () => {
    if (!backendReady || isAuthLoading) {
     return <FixkarLoader />;
   }
+  if (!isOnline) {
+
+  return <NoInternet />;
+}
 
   return (
    <>
