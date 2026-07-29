@@ -8,6 +8,10 @@ import useGetServices from "../hooks/useGetServices";
 import axios from 'axios'
 import { server_url } from "../App";
 
+import { Geolocation } from "@capacitor/geolocation";
+import { Capacitor } from "@capacitor/core";
+import { requestLocationPermission } from "../utils/permissionManager.js";
+
 const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onlyLocation = false,}) => {
   useGetServices()
   const {services} = useSelector(state => state.services)
@@ -87,7 +91,80 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onl
 
   };
 
+  const updateAddress = (lat, lng) => {
+
+  if (!window.google) {
+
+    setCoords({
+      lat,
+      lng,
+      address: "",
+    });
+
+    return;
+  }
+
+  const geocoder = new window.google.maps.Geocoder();
+
+  geocoder.geocode(
+    {
+      location: { lat, lng },
+    },
+    (results, status) => {
+
+      if (status === "OK" && results[0]) {
+
+        setCoords({
+          lat,
+          lng,
+          address: results[0].formatted_address,
+        });
+
+      } else {
+
+        setCoords({
+          lat,
+          lng,
+          address: "",
+        });
+
+      }
+
+    }
+  );
+
+};
+
     const handleUseCurrentLocation = () => {
+        if (Capacitor.getPlatform() === "android") {
+
+    const granted = await requestLocationPermission();
+
+    if (!granted) {
+      alert("Location permission is required");
+      return;
+    }
+
+    try {
+
+      const position = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+      });
+
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      updateAddress(lat, lng);
+
+    } catch (err) {
+      console.log(err);
+      alert("Unable to fetch location");
+    }
+
+    return;
+  }
+
+
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser");
       return;

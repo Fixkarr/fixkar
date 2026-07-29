@@ -85,6 +85,8 @@ const adminpath = import.meta.env.VITE_ADMIN_PATH
 
 import {Capacitor} from '@capacitor/core'
 import {SocialLogin} from '@capgo/capacitor-social-login'
+import useNetworkStatus from "./hooks/useNetworkStatus.jsx";
+import NoInternet from "./Components/NoInternet.jsx";
 
 const App = () => {
   useGetCurrentUser();
@@ -101,7 +103,10 @@ const App = () => {
   const status = currentUserData?.user?.status;
   const userId = currentUserData?.user?.userId?._id;
   const id = currentUserData?.user?._id
-
+  const isOnline =  useNetworkStatus();
+  if (!isOnline) {
+    return <NoInternet />;
+}
   useEffect(()=>{
     const initSocialLogin = async ()=>{
       if(Capacitor.getPlatform()=== 'android'){
