@@ -2,6 +2,8 @@ import { Capacitor } from "@capacitor/core";
 import { Geolocation } from "@capacitor/geolocation";
 import { Camera } from "@capacitor/camera";
 import { LocalNotifications } from "@capacitor/local-notifications";
+import { VoiceRecorder as NativeVoiceRecorder } from "@independo/capacitor-voice-recorder";
+
 
 export const isAndroid = () => {
     return Capacitor.getPlatform() === "android";
@@ -115,6 +117,32 @@ export const requestGalleryPermission = async () => {
             request.photos === "granted" ||
             request.photos === "limited"
         );
+
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+
+};
+
+
+export const requestMicrophonePermission = async () => {
+
+    if (!isAndroid()) return true;
+
+    try {
+
+        const hasPermission =
+            await NativeVoiceRecorder.hasAudioRecordingPermission();
+
+        if (hasPermission.value) {
+            return true;
+        }
+
+        const permission =
+            await NativeVoiceRecorder.requestAudioRecordingPermission();
+
+        return permission.value;
 
     } catch (err) {
         console.log(err);

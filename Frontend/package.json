@@ -18,6 +18,7 @@
     "@capacitor/local-notifications": "^8.2.1",
     "@capacitor/network": "^8.0.1",
     "@capgo/capacitor-social-login": "^8.3.39",
+    "@independo/capacitor-voice-recorder": "^8.3.7",
     "@react-google-maps/api": "^2.20.7",
     "@reduxjs/toolkit": "^2.9.2",
     "axios": "^1.13.0",

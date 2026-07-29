@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaMicrophone } from "react-icons/fa";
+import { VoiceRecorder as NativeVoiceRecorder } from "@independo/capacitor-voice-recorder";
+import { Capacitor } from "@capacitor/core";
+import { requestMicrophonePermission } from "../utils/permissionManager";
 
 const VoiceRecorder = ({ onAudioReady }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -26,6 +29,36 @@ const VoiceRecorder = ({ onAudioReady }) => {
 
   const startRecording = async () => {
     if (isRecording) return;
+    if (Capacitor.isNativePlatform()) {
+
+    const granted = await requestMicrophonePermission();
+
+    if (!granted) {
+        alert("Microphone permission denied");
+        return;
+    }
+
+   try {
+
+    await NativeVoiceRecorder.startRecording();
+
+} catch (err) {
+
+    console.log(err);
+    return;
+
+}
+
+    setIsRecording(true);
+
+    timerRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+    }, 1000);
+
+    return;
+}
+
+    
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -74,7 +107,38 @@ const VoiceRecorder = ({ onAudioReady }) => {
     }
   };
 
-  const stopRecording = () => {
+  const stopRecording = async() => {
+    if (Capacitor.isNativePlatform()) {
+
+    const result = await NativeVoiceRecorder.stopRecording();
+
+    clearInterval(timerRef.current);
+
+    setRecordingTime(0);
+    setIsRecording(false);
+
+    if (!result.value || !result.value.recordDataBase64) {
+        return;
+    }
+
+    const byteCharacters = atob(result.value.recordDataBase64);
+
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+
+    const blob = new Blob([byteArray], {
+        type: result.value.mimeType,
+    });
+
+    onAudioReady(blob);
+
+    return;
+}
     if (!mediaRecorderRef.current || !isRecording) return;
 
     mediaRecorderRef.current.stop();
