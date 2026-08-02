@@ -4,6 +4,10 @@ import { WalletTransaction } from "../../models/walletTransactionModel.js";
 export const getTransaction = async (req,res)=>{
     try {
         const {proId} = req.params;
+        const requestedLimit = Number(req.query.limit);
+        const limit = Number.isFinite(requestedLimit) && requestedLimit > 0
+            ? Math.min(Math.floor(requestedLimit), 50)
+            : null;
         if(!proId){
             return res.status(400).json({
                 message : "Professional Id required!"
@@ -19,7 +23,9 @@ export const getTransaction = async (req,res)=>{
         }
 
 
-        const transactions = await WalletTransaction.find({walletId : wallet._id}).sort({ createdAt: -1});
+        let transactionQuery = WalletTransaction.find({walletId : wallet._id}).sort({ createdAt: -1});
+        if (limit) transactionQuery = transactionQuery.limit(limit);
+        const transactions = await transactionQuery;
         
         
         return res.status(200).json({

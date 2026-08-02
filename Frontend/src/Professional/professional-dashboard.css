@@ -8,7 +8,17 @@
 .professional-dashboard__overview-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: 20px; align-items: start; margin-bottom: 20px; }
 .professional-dashboard__overview-grid--single { grid-template-columns: minmax(0, 1fr); }
 .professional-dashboard__side-stack { display: grid; gap: 16px; }
+.professional-dashboard__activity-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr); gap: 20px; align-items: start; }
 .professional-dashboard__profile-alert { background: linear-gradient(135deg, #fff8e1, #fff3cd); box-shadow: 0 8px 24px rgba(146,64,14,.08); }
 .professional-dashboard__announcements { display: flex; justify-content: center; padding: 0 16px 24px; }
 .professional-dashboard .announcement-card { width: min(100% - 32px, 1180px); margin: 0 auto 24px; }
-@media (max-width: 767.98px) { .professional-dashboard__hero { border-radius: 0 0 24px 24px; } .professional-dashboard__hero-inner { padding: 22px 0 24px; } .professional-dashboard__content { padding-top: 16px; } .professional-dashboard__overview-grid { grid-template-columns: 1fr; gap: 16px; } }
+.recent-transactions { box-shadow: 0 8px 24px rgba(15,23,42,.06); }
+.recent-transactions__list { display: grid; gap: 8px; }
+.recent-transactions__item { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #e8eef7; border-radius: 12px; background: #fff; transition: background .2s ease, border-color .2s ease; }
+.recent-transactions__item:hover { background: #f7faff; border-color: #bcd5ff; }
+.recent-transactions__icon { width: 32px; height: 32px; flex: 0 0 32px; display: grid; place-items: center; border-radius: 50%; }
+.recent-transactions__icon.is-credit { color: #198754; background: #e8f7ee; }
+.recent-transactions__icon.is-debit { color: #b7791f; background: #fff4da; }
+.recent-transactions__date { font-size: .72rem; }
+.recent-transactions__state { min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+@media (max-width: 767.98px) { .professional-dashboard__hero { border-radius: 0 0 24px 24px; } .professional-dashboard__hero-inner { padding: 22px 0 24px; } .professional-dashboard__content { padding-top: 16px; } .professional-dashboard__overview-grid, .professional-dashboard__activity-grid { grid-template-columns: 1fr; gap: 16px; } .professional-dashboard__activity-grid { margin-top: 16px; } }

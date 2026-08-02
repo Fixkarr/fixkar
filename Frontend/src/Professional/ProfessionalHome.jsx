@@ -19,6 +19,7 @@ import useGetAnnouncements from "../hooks/useGetAnnouncements";
 import { ClipLoader } from "react-spinners";
 import AnnouncementBanner from "../Components/AnnouncementBanner";
 import RecentBookings from "./professionalBooking/RecentBookings";
+import RecentTransactions from "./RecentTransactions";
 import NeedHelp from "../utils/NeedHelp";
 import { useProfileCompletion } from "../hooks/useProfileCompletion";
 import ProfileHealthCard from "./ProfileHealthCard/ProfileHealthCard";
@@ -243,7 +244,10 @@ return (
       </div>
     </div>
 
-    <RecentBookings/>
+    <div className="professional-dashboard__activity-grid">
+      <RecentBookings/>
+      <RecentTransactions professionalId={user?._id} />
+    </div>
 
   </div>
 
