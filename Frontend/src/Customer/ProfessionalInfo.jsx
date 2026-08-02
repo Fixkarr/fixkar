@@ -404,7 +404,8 @@ useEffect(() => {
       </div>
 
       {/* ================= ABOUT & ADDRESS ================= */}
-  <div className="card public-profile__section border-0 rounded-4 mb-4 overflow-hidden">
+  <div className="public-profile__primary-grid">
+  <div className="card public-profile__section public-profile__details-card border-0 rounded-4 overflow-hidden">
 
   {/* Header */}
   <div
@@ -454,7 +455,7 @@ useEffect(() => {
 </div>
 
 { professionalInfo.busyDays?.length !== 0 &&
-<div className="card public-profile__section border-0 rounded-4 mb-4 overflow-hidden">
+<div className="card public-profile__section public-profile__availability-card border-0 rounded-4 overflow-hidden">
  <div
     className="public-profile__section-header px-4 py-3 text-white"
   >
@@ -489,7 +490,7 @@ useEffect(() => {
 
 
 {/* ================= SKILLS & EXPERTISE ================= */}
-<div className="card public-profile__section border-0 rounded-4 mb-4 overflow-hidden">
+<div className="card public-profile__section public-profile__skills-card border-0 rounded-4 overflow-hidden">
 
   {/* Header */}
   <div
@@ -527,11 +528,14 @@ useEffect(() => {
     )}
   </div>
 </div>
+ </div>
 
 
 
       {/* ================= CHARGES ================= */}
-   <FormResponseSummary summary={professionalInfo?.charges?.summary}/>
+   <div className="public-profile__charges">
+     <FormResponseSummary summary={professionalInfo?.charges?.summary}/>
+   </div>
 
       {/* {=======================Reviews=============} */}
 
