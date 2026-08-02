@@ -5,7 +5,7 @@ import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
 import { CiLocationOn } from "react-icons/ci";
 import { IoChatbubbleEllipsesOutline} from "react-icons/io5";
-import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools, FaCalendar } from "react-icons/fa";
+import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools, FaCalendar, FaShareAlt, FaStar } from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProfessional } from "../redux/professionalInfo.slice";
@@ -25,6 +25,7 @@ import { Helmet } from "react-helmet-async";
 import { generateAbout, generateFaqs } from "../utils/generateFaqs";
 import FAQSection from "../Components/FAQSection";
 import FixkarLoader from "../Components/FixkarLoader";
+import "./professional-public-profile.css";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -196,6 +197,29 @@ useEffect(() => {
   setShowHireModal(true);
 };
 
+  const handleShareProfile = async () => {
+    const url = window.location.href;
+    const shareData = {
+      title: `${professionalInfo?.userId?.fullName} | FixKar`,
+      text: `View ${professionalInfo?.userId?.fullName}'s professional profile on FixKar.`,
+      url,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        return;
+      }
+
+      await navigator.clipboard.writeText(url);
+      toast.success("Profile link copied");
+    } catch (error) {
+      if (error?.name !== "AbortError") {
+        toast.error("Unable to share this profile");
+      }
+    }
+  };
+
 
   /* ================= LOADER ================= */
   if (loading) {
@@ -281,7 +305,8 @@ useEffect(() => {
         </p>
       </div>
 }
-    <div className="container pt-5">
+    <div className="public-profile">
+    <div className="container public-profile__container py-4">
       {showLocationGate && (
   <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
     <div className="modal-dialog modal-dialog-centered modal-lg">
@@ -317,37 +342,38 @@ useEffect(() => {
 )}
 
       {/* ================= HEADER CARD ================= */}
-      <div className="card border-0 shadow-sm rounded-4 mb-4">
+      <div className="card public-profile__hero border-0 rounded-4 mb-4">
         <div
-          className="p-4 text-white rounded-top-4"
-          style={{ background: "linear-gradient(135deg, #0d6efd, #4f9cff)" }}
+          className="public-profile__hero-bg p-3 p-md-4 text-white rounded-4"
         >
-          <div className="row align-items-center">
-            <div className="col-7 d-flex align-items-center gap-3">
+          <div className="row align-items-center g-4">
+            <div className="col-12 col-lg-7 d-flex align-items-center gap-3">
               <img
-                src={professionalInfo?.profilePicture}
+                src={professionalInfo?.profilePicture || "/Images/placeholderProfile.avif"}
                 alt="Profile"
-                className="rounded-circle border border-3 border-white"
-                style={{ width: 90, height: 90, objectFit: "cover" }}
+                className="public-profile__avatar rounded-circle"
               />
               <div>
                 <h4 className="fw-bold mb-1">
                   {professionalInfo?.userId?.fullName}
                 </h4>
-                <div className="d-flex align-items-center gap-2">
+                <div className="d-flex align-items-center gap-2 small">
                   <FaUserTie />
                   <span>{professionalInfo?.profession.name}</span>
                 </div>
-                <span className="badge bg-success mt-2">
-                  {professionalInfo?.status?.[0]?.toUpperCase() +
-                    professionalInfo?.status?.slice(1)}
-                </span>
+                <div className="d-flex align-items-center gap-2 flex-wrap mt-2">
+                  <span className="badge public-profile__verified-badge">Verified professional</span>
+                  <span className="public-profile__rating"><FaStar /> {averageRating} <small>({reviewCount})</small></span>
+                </div>
               </div>
             </div>
 
-            <div className="col-5 mt-3 mt-md-0 d-flex gap-2 justify-content-md-end">
+            <div className="col-12 col-lg-5 d-flex gap-2 justify-content-lg-end flex-wrap">
+              <button className="btn public-profile__action-btn" onClick={handleShareProfile}>
+                <FaShareAlt /> <span>Share</span>
+              </button>
               <button
-                className="btn btn-outline-light btn-sm"
+                className="btn public-profile__action-btn"
                 onClick={() => {
                 if (!currentUserData?.user?.userId) {
                   toast.info("Please login to chat");
@@ -365,7 +391,7 @@ useEffect(() => {
               <CallButton currentUserData={currentUserData} professionalInfo={professionalInfo}/>
 
               <button
-                className="btn btn-light btn-sm fw-semibold"
+                className="btn public-profile__hire-btn fw-semibold"
                 onClick={handleHireClick}
               >
                 Hire
@@ -376,14 +402,11 @@ useEffect(() => {
       </div>
 
       {/* ================= ABOUT & ADDRESS ================= */}
-  <div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
+  <div className="card public-profile__section border-0 rounded-4 mb-4 overflow-hidden">
 
   {/* Header */}
   <div
-    className="px-4 py-3 text-white"
-    style={{
-      background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
-    }}
+    className="public-profile__section-header px-4 py-3 text-white"
   >
     <div className="d-flex align-items-center gap-2">
       <FaInfoCircle size={18} />
@@ -395,7 +418,7 @@ useEffect(() => {
   </div>
 
   {/* Body */}
-  <div className="card-body bg-light">
+  <div className="card-body public-profile__section-body">
 
     {/* About */}
     {professionalInfo?.description && (
@@ -429,12 +452,9 @@ useEffect(() => {
 </div>
 
 { professionalInfo.busyDays?.length !== 0 &&
-<div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
+<div className="card public-profile__section border-0 rounded-4 mb-4 overflow-hidden">
  <div
-    className="px-4 py-3 text-white"
-    style={{
-     background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
-    }}
+    className="public-profile__section-header px-4 py-3 text-white"
   >
     <div className="d-flex align-items-center gap-2">
       <FaCalendar size={18} />
@@ -445,7 +465,7 @@ useEffect(() => {
     </small>
   </div>
 
-    <div  className="d-flex p-3 gap-3">
+    <div className="public-profile__busy-days d-flex p-3 gap-3">
    {professionalInfo.busyDays?.map((date, idx) => {
   return (
       <DayCard  
@@ -467,14 +487,11 @@ useEffect(() => {
 
 
 {/* ================= SKILLS & EXPERTISE ================= */}
-<div className="card border-0 shadow rounded-4 mb-4 overflow-hidden">
+<div className="card public-profile__section border-0 rounded-4 mb-4 overflow-hidden">
 
   {/* Header */}
   <div
-    className="px-4 py-3 text-white"
-    style={{
-     background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
-    }}
+    className="public-profile__section-header px-4 py-3 text-white"
   >
     <div className="d-flex align-items-center gap-2">
       <FaTools size={18} />
@@ -486,7 +503,7 @@ useEffect(() => {
   </div>
 
   {/* Body */}
-  <div className="card-body bg-light">
+  <div className="card-body public-profile__section-body">
     {professionalInfo?.selectedSkills &&
     professionalInfo.selectedSkills.length > 0 ? (
       <div className="d-flex flex-wrap gap-2">
@@ -551,6 +568,7 @@ useEffect(() => {
 )}
 
 
+    </div>
     </div>
     </>
   );

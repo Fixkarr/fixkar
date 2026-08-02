@@ -12,14 +12,11 @@ const ProfessionalGallerySection = ({ professionalInfo }) => {
   return (
     <>
       {/* ================= GALLERY CARD ================= */}
-      <div className="card border-0 shadow rounded-4 my-4 overflow-hidden">
+      <div className="card public-profile__section border-0 rounded-4 my-4 overflow-hidden">
 
         {/* Header */}
         <div
-          className="px-4 py-3 text-white"
-          style={{
-            background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
-          }}
+          className="public-profile__section-header px-4 py-3 text-white"
         >
           <div className="d-flex align-items-center gap-2">
             <FaImages size={18} />
@@ -31,7 +28,7 @@ const ProfessionalGallerySection = ({ professionalInfo }) => {
         </div>
 
         {/* Body */}
-        <div className="card-body bg-light">
+        <div className="card-body public-profile__section-body">
           <div className="row g-3">
             {professionalInfo.gallery.map((item, index) => (
               <div

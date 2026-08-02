@@ -1,0 +1,22 @@
+.public-profile { min-height: 100vh; background: linear-gradient(180deg, #f6f9ff 0%, #eef5ff 55%, #fff 100%); }
+.public-profile__container { width: min(100%, 1080px); }
+.public-profile__hero { overflow: hidden; box-shadow: 0 18px 45px rgba(30, 64, 175, .16); }
+.public-profile__hero-bg { position: relative; isolation: isolate; background: linear-gradient(130deg, #123b8b 0%, #1463d8 48%, #16a4c5 100%); }
+.public-profile__hero-bg::before, .public-profile__hero-bg::after { content: ""; position: absolute; border-radius: 50%; background: rgba(255,255,255,.09); z-index: -1; }
+.public-profile__hero-bg::before { width: 220px; height: 220px; top: -130px; right: 8%; }
+.public-profile__hero-bg::after { width: 130px; height: 130px; bottom: -85px; left: 34%; }
+.public-profile__avatar { width: 92px; height: 92px; object-fit: cover; border: 3px solid rgba(255,255,255,.92); box-shadow: 0 10px 25px rgba(6, 25, 75, .28); }
+.public-profile__verified-badge { background: rgba(17, 118, 70, .9); padding: 6px 10px; }
+.public-profile__rating { display: inline-flex; align-items: center; gap: 5px; font-size: .85rem; font-weight: 600; color: #fff7cc; }
+.public-profile__rating small { color: rgba(255,255,255,.78); }
+.public-profile__action-btn { display: inline-flex; align-items: center; gap: 6px; color: #fff; border-color: rgba(255,255,255,.55); background: rgba(255,255,255,.1); }
+.public-profile__action-btn:hover { color: #0d47a1; border-color: #fff; background: #fff; }
+.public-profile__hire-btn { background: #fff; color: #1059c3; border: 1px solid #fff; padding-inline: 18px; }
+.public-profile__hire-btn:hover { background: #eaf4ff; color: #0b4aa5; }
+.public-profile__section { box-shadow: 0 10px 30px rgba(30, 41, 59, .07); }
+.public-profile__section-header { background: linear-gradient(110deg, #1555bb, #237be6); }
+.public-profile__section-body { background: #fff; }
+.public-profile__section-body .badge { border: 1px solid #cfe1ff; }
+.public-profile__busy-days { overflow-x: auto; }
+.public-profile__section .day-card { flex: 0 0 auto; }
+@media (max-width: 575.98px) { .public-profile__container { padding-inline: 12px; } .public-profile__hero-bg { border-radius: 18px !important; } .public-profile__avatar { width: 72px; height: 72px; } .public-profile__action-btn, .public-profile__hire-btn { flex: 1 1 auto; justify-content: center; } }
