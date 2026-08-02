@@ -197,6 +197,16 @@ useEffect(() => {
   setShowHireModal(true);
 };
 
+  const handleChatClick = () => {
+    if (!currentUserData?.user?.userId) {
+      toast.info("Please login to chat");
+      navigate("/login", { state: { from: location } });
+      return;
+    }
+
+    navigate(`/customer/chat/${id}`);
+  };
+
   const handleShareProfile = async () => {
     const url = professionalInfo?.shortCode
       ? `${window.location.origin}/s/${professionalInfo.shortCode}`
@@ -376,16 +386,7 @@ useEffect(() => {
               </button>
               <button
                 className="btn public-profile__action-btn"
-                onClick={() => {
-                if (!currentUserData?.user?.userId) {
-                  toast.info("Please login to chat");
-                  navigate("/login", {
-                    state: { from: location }
-                  });
-                } else {
-                  navigate(`/customer/chat/${id}`);
-                }
-              }}
+                onClick={handleChatClick}
               >
                 <IoChatbubbleEllipsesOutline /> Chat
               </button>
@@ -547,6 +548,17 @@ useEffect(() => {
           
           {/* ================gallery============== */}
       {professionalInfo?.gallery.length !==0 && <ProfessionalGallerySection professionalInfo={professionalInfo}/>}
+
+      <div className="public-profile__mobile-cta d-md-none">
+        <button type="button" className="btn btn-light" onClick={handleChatClick}>
+          <IoChatbubbleEllipsesOutline />
+          <span>Chat</span>
+        </button>
+        <button type="button" className="btn btn-primary" onClick={handleHireClick}>
+          <FaUserTie />
+          <span>Hire now</span>
+        </button>
+      </div>
 
       {/* ================= MODAL ================= */}
      {showHireModal && (

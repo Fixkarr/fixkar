@@ -33,4 +33,20 @@
 .public-profile__charges .section-icon { width: 36px; height: 36px; margin-right: 8px; }
 .public-profile__charges .summary-row { padding: 6px 0; }
 @media (max-width: 767.98px) { .public-profile__primary-grid { grid-template-columns: 1fr; gap: 12px; } .public-profile__details-card, .public-profile__skills-card, .public-profile__availability-card { grid-column: 1; grid-row: auto; } }
-@media (max-width: 575.98px) { .public-profile__container { padding-inline: 12px; } .public-profile__hero-bg { border-radius: 18px !important; } .public-profile__avatar { width: 72px; height: 72px; } .public-profile__action-btn, .public-profile__hire-btn { flex: 1 1 auto; justify-content: center; } }
+@media (max-width: 767.98px) {
+  .public-profile { padding-bottom: 84px; background: #f4f7fb; }
+  .public-profile__container { padding-top: 12px !important; }
+  .public-profile__hero { margin-bottom: 12px !important; border-radius: 18px; }
+  .public-profile__hero-bg { padding: 16px !important; }
+  .public-profile__hero-bg .row { row-gap: 14px !important; }
+  .public-profile__hero-bg h4 { font-size: 1.05rem; }
+  .public-profile__section { border-radius: 16px !important; }
+  .public-profile__section-header { padding: 10px 14px !important; }
+  .public-profile__section-body { padding: 14px !important; }
+  .public-profile__action-btn, .public-profile__hire-btn { min-height: 40px; padding-inline: 12px; }
+  .public-profile__mobile-cta { position: fixed; left: 0; right: 0; bottom: 0; z-index: 1030; display: grid; grid-template-columns: 1fr 1.25fr; gap: 10px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: rgba(255,255,255,.96); border-top: 1px solid #dce6f5; box-shadow: 0 -8px 24px rgba(15, 23, 42, .1); backdrop-filter: blur(12px); }
+  .public-profile__mobile-cta .btn { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 12px; font-weight: 700; }
+  .public-profile__mobile-cta .btn-light { color: #1255b4; border: 1px solid #c9ddfb; background: #eff6ff; }
+  .public-profile__mobile-cta .btn-primary { background: linear-gradient(135deg, #0d6efd, #247cef); border: 0; box-shadow: 0 8px 18px rgba(13,110,253,.22); }
+}
+@media (max-width: 575.98px) { .public-profile__container { padding-inline: 12px; } .public-profile__hero-bg { border-radius: 18px !important; } .public-profile__avatar { width: 72px; height: 72px; } .public-profile__action-btn, .public-profile__hire-btn { flex: 1 1 auto; justify-content: center; } .public-profile__hero-bg .col-12:last-child .btn { font-size: .82rem; } }
