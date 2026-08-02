@@ -38,6 +38,7 @@ const messagesSlice = createSlice({
 
         if (!isMine) {
           state.conversations[index].unseenCount += 1;
+          state.totalUnreadCount += 1;
         }
 
         // 🔥 move to top
@@ -55,6 +56,10 @@ const messagesSlice = createSlice({
       );
 
       if (convo) {
+        state.totalUnreadCount = Math.max(
+          0,
+          state.totalUnreadCount - (convo.unseenCount || 0)
+        );
         convo.unseenCount = 0;
       }
     },

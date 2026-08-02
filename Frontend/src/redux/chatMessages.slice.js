@@ -61,6 +61,16 @@ const chatMessagesSlice = createSlice({
     addMessageToChat: (state, action) => {
       const msg = action.payload;
 
+      // The socket listener is global. Only append a message when it belongs
+      // to the conversation currently open on screen.
+      const selectedUserId = state.selectedConversationId?.toString();
+      const belongsToOpenChat =
+        selectedUserId &&
+        (msg.sender?.toString() === selectedUserId ||
+          msg.reciever?.toString() === selectedUserId);
+
+      if (!belongsToOpenChat) return;
+
       // avoid duplicate (socket + api)
       const exists = state.messages.find(
         (m) => m._id === msg._id

@@ -57,7 +57,8 @@ import About from "./Pages/About.jsx";
 import ProfessionalOnboardingPolicy from "./Components/Policies/ProfessionalOnboardingPolicy.jsx";
 import Notification from "./Components/Notification.jsx";
 import { addNotification } from "./redux/notification.slice.js";
-import { addMessageToChat, markAllMessagesSeenInChat, updateConversationOnNewMessage, updateMessageStatus } from "./redux/chatMessages.slice.js";
+import { addMessageToChat, markAllMessagesSeenInChat, updateMessageStatus } from "./redux/chatMessages.slice.js";
+import { addNewMessageToConversation, setConversations } from "./redux/messages.Slice.js";
 import { setOnlineUsers } from "./redux/presence.slice.js";
 import UpdateServiceForm from "./Admin/AdminComponents/Utils/UpdateServiceForm.jsx";
 import AdminBookings from "./Admin/AdminComponents/AdminBookings.jsx";
@@ -170,16 +171,31 @@ const App = () => {
       dispatch(setOnlineUsers(users));
     });
     // 1️⃣ New Message
-  socket.on("newMessage", (msg) => {
+  socket.on("newMessage", async (msg) => {
     dispatch(addMessageToChat(msg));
 
     dispatch(
-      updateConversationOnNewMessage({
-        senderId: msg.sender === userId ? msg.reciever : msg.sender,
+      addNewMessageToConversation({
+        senderId:
+          msg.sender?.toString() === userId?.toString()
+            ? msg.reciever
+            : msg.sender,
         message: msg.message || "📎 Attachment",
-        isMine: msg.sender === userId,
+        isMine: msg.sender?.toString() === userId?.toString(),
       })
     );
+
+    // An existing conversation updates immediately above. Refreshing from the
+    // server also adds a first-ever conversation that is not in local state.
+    try {
+      const result = await axios.get(
+        `${server_url}/api/messages/get-my-conversations`,
+        { withCredentials: true }
+      );
+      dispatch(setConversations(result.data.conversations));
+    } catch (error) {
+      console.error("Could not refresh conversations after a new message", error);
+    }
   });
 
   // 2️⃣ Message Delivered ✔
