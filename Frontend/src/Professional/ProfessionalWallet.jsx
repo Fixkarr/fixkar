@@ -28,6 +28,9 @@ const ProfessionalWallet = () => {
     wallet,
     bankDetails = {}
   } = wallets || {};
+  const credits = wallet?.credits || {};
+  const creditBalance = credits.balance || 0;
+  const creditValue = creditBalance / 100;
 
 
   const handleWithdrawRequest = async () => {
@@ -70,7 +73,7 @@ const ProfessionalWallet = () => {
           <div className="row g-2">
             
             {/* Pending */}
-            <div className="col-12 col-md-4">
+            <div className="col-6 col-md-3">
               <div className="p-2 rounded-3 border h-100">
                 <div className="d-flex align-items-center mb-1 small">
                   <FaHourglassHalf className="text-primary me-1" size={14} />
@@ -83,7 +86,7 @@ const ProfessionalWallet = () => {
             </div>
 
             {/* Withdrawn */}
-            <div className="col-12 col-md-4">
+            <div className="col-6 col-md-3">
               <div className="p-2 rounded-3 border h-100">
                 <div className="d-flex align-items-center mb-1 small">
                   <FaMoneyCheckAlt className="text-primary me-1" size={14} />
@@ -96,7 +99,7 @@ const ProfessionalWallet = () => {
             </div>
 
             {/* Earned */}
-            <div className="col-12 col-md-4">
+            <div className="col-6 col-md-3">
               <div className="p-2 rounded-3 border h-100">
                 <div className="d-flex align-items-center mb-1 small">
                   <FaCoins className="text-primary me-1" size={14} />
@@ -107,6 +110,31 @@ const ProfessionalWallet = () => {
                 </h6>
               </div>
             </div>
+
+            <div className="col-6 col-md-3">
+              <div className="p-2 rounded-3 border h-100 bg-primary-subtle border-primary-subtle">
+                <div className="d-flex align-items-center mb-1 small text-primary">
+                  <FaCoins className="me-1" size={14} />
+                  <span>Credits</span>
+                </div>
+                <h6 className="fw-bold text-primary mb-0">
+                  {creditBalance.toLocaleString()}
+                </h6>
+                <small className="text-muted">₹{creditValue.toFixed(2)} value</small>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3 px-3 py-2 rounded-3 border bg-light d-flex align-items-center justify-content-between gap-2 flex-wrap">
+            <div>
+              <div className="small fw-semibold text-dark">Credit score</div>
+              <small className="text-muted">100 credits = ₹1. Complete bookings to grow your rewards.</small>
+            </div>
+            {credits.firstBookingRewarded ? (
+              <span className="badge text-bg-success rounded-pill">First booking bonus earned</span>
+            ) : (
+              <span className="badge text-bg-primary rounded-pill">First booking bonus: 10,000 credits</span>
+            )}
           </div>
 
           {/* Bank Details */}

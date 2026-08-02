@@ -8,6 +8,7 @@ import { pushNotification } from "../../services/pushNotification.js";
 import { Offer } from "../Admin/AdminModels/offer.model.js";
 import { OfferUsage } from "../Admin/AdminModels/offerUsage.model.js";
 import { PlatformTransaction } from "../Admin/AdminModels/platformTransaction.js";
+import { rewardCompletedBookingCredits } from "../../utils/creditRewards.js";
 
 export const confirmCashPayment = async (req, res) => {
   try {
@@ -132,6 +133,17 @@ export const confirmCashPayment = async (req, res) => {
     upsert: true
   }
 );
+
+    try {
+      await rewardCompletedBookingCredits({
+        booking,
+        walletId: wallet._id,
+        professionalEarnings: professionalAmount,
+      });
+    } catch (creditError) {
+      // Cash payment is already settled above; a reward failure must not undo it.
+      console.error("Unable to award booking credits:", creditError);
+    }
 
     const customerPaidAmount = fullAmount - discountAmount;
     

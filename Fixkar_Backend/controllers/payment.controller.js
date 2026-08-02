@@ -11,6 +11,7 @@ import mongoose from 'mongoose';
 import { Offer } from './Admin/AdminModels/offer.model.js';
 import { OfferUsage } from './Admin/AdminModels/offerUsage.model.js';
 import { PlatformTransaction } from './Admin/AdminModels/platformTransaction.js';
+import { rewardCompletedBookingCredits } from "../utils/creditRewards.js";
 export const createOrder = async (req, res) => {
   try {
     const { bookingId, paymentType } = req.body;
@@ -289,6 +290,15 @@ export const verifyPayment = async (req, res) => {
         session
       }
     );
+
+    if (payment.paymentType === "FINAL") {
+      await rewardCompletedBookingCredits({
+        booking,
+        walletId: wallet._id,
+        professionalEarnings: professionalAmount,
+        session,
+      });
+    }
 
     if (booking.offerLocked && booking.offerId) {
       await OfferUsage.create([{
