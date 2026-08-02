@@ -26,17 +26,17 @@ const messagesSlice = createSlice({
 
     // 🔹 new message aaya (socket / send)
     addNewMessageToConversation: (state, action) => {
-      const { senderId, message, isMine } = action.payload;
+      const { senderId, message, isMine, isConversationOpen } = action.payload;
 
       const index = state.conversations.findIndex(
-        (c) => c.user._id === senderId
+        (c) => c.user._id?.toString() === senderId?.toString()
       );
 
       if (index !== -1) {
         state.conversations[index].lastMessage = message;
         state.conversations[index].lastMessageTime = new Date().toISOString();
 
-        if (!isMine) {
+        if (!isMine && !isConversationOpen) {
           state.conversations[index].unseenCount += 1;
           state.totalUnreadCount += 1;
         }

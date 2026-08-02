@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 
@@ -103,8 +103,16 @@ const App = () => {
   const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
   const status = currentUserData?.user?.status;
   const userId = currentUserData?.user?.userId?._id;
+  const activeConversationId = useSelector(
+    (state) => state.chatMessages.selectedConversationId
+  );
+  const activeConversationIdRef = useRef(activeConversationId);
   const id = currentUserData?.user?._id
  const isOnline = useNetworkStatus();
+
+  useEffect(() => {
+    activeConversationIdRef.current = activeConversationId;
+  }, [activeConversationId]);
 
 
 
@@ -182,6 +190,11 @@ const App = () => {
             : msg.sender,
         message: msg.message || "📎 Attachment",
         isMine: msg.sender?.toString() === userId?.toString(),
+        isConversationOpen:
+          activeConversationIdRef.current?.toString() ===
+          (msg.sender?.toString() === userId?.toString()
+            ? msg.reciever?.toString()
+            : msg.sender?.toString()),
       })
     );
 

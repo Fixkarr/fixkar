@@ -3,7 +3,7 @@ import { IoMdSend } from "react-icons/io";
 import { ImAttachment } from "react-icons/im";
 import { BsCheck, BsCheckAll } from "react-icons/bs";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
@@ -15,8 +15,10 @@ import useGetUserById from "../hooks/useGetUserById";
 import { formatChatDate } from "../utils/formatChatDate";
 import VoiceRecorder from "./VoiceRecorder";
 import CustomAudioPlayer from "./CustomAudioPlayer";
+import { markConversationAsRead } from "../redux/messages.Slice";
 
 const ChatSection = () => {
+  const dispatch = useDispatch();
   const { id: recieverId } = useParams();
   useGetUserById(recieverId);
   const {onlineUsers} = useSelector(state => state.presence)
@@ -93,10 +95,12 @@ useEffect(() => {
     `${server_url}/api/messages/mark-seen`,
     { senderId: recieverId },
     { withCredentials: true }
-  ).catch(err => {
-  });
+  ).then(() => {
+    // Keep the Messages page badge in sync with the server-side seen state.
+    dispatch(markConversationAsRead(recieverId));
+  }).catch(() => {});
 
-}, [recieverId, messages]);
+}, [recieverId, messages, dispatch]);
 
   /* ================= SEND MESSAGE ================= */
   const handleSend = async () => {
