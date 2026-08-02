@@ -198,7 +198,9 @@ useEffect(() => {
 };
 
   const handleShareProfile = async () => {
-    const url = window.location.href;
+    const url = professionalInfo?.shortCode
+      ? `${window.location.origin}/s/${professionalInfo.shortCode}`
+      : window.location.href;
     const shareData = {
       title: `${professionalInfo?.userId?.fullName} | FixKar`,
       text: `View ${professionalInfo?.userId?.fullName}'s professional profile on FixKar.`,
