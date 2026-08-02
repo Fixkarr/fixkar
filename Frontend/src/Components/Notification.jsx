@@ -1,5 +1,6 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
   FaBullhorn,
@@ -16,8 +17,9 @@ import { MdOutlineEngineering, MdOutlinePendingActions } from "react-icons/md";
 import { FaRegCalendarXmark } from "react-icons/fa6";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { formatDate } from "../utils/formatTime&Date";
-import useGetNotifications from "../hooks/useGetNotifications";
 import DashboardNavigator from "../utils/DashboardNavigator";
+import { server_url } from "../App";
+import { setNotifications } from "../redux/notification.slice";
 
 const getIcon = (type) => {
   switch (type) {
@@ -43,7 +45,34 @@ const getIcon = (type) => {
 };
 
 const Notifications = () => {
-  useGetNotifications()
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const loadAndMarkNotificationsRead = async () => {
+      try {
+        // Opening the notifications screen acknowledges every notification.
+        await axios.get(`${server_url}/api/notification/mark-all-as-read`, {
+          withCredentials: true,
+        });
+
+        // Fetch after marking read so the badge receives the server's latest
+        // unread count instead of a stale value.
+        const result = await axios.get(
+          `${server_url}/api/notification/get-my-notifications`,
+          { withCredentials: true }
+        );
+        dispatch(setNotifications({
+          notifications: result.data.notifications,
+          unreadCount: result.data.unreadCount,
+        }));
+      } catch (error) {
+        console.error("Could not load notifications", error);
+      }
+    };
+
+    loadAndMarkNotificationsRead();
+  }, [dispatch]);
+
   const navigate = useNavigate();
   const notifications = useSelector(
     (state) => state.notifications.notifications
