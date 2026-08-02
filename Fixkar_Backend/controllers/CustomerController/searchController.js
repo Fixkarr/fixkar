@@ -8,6 +8,8 @@ export const searchProfessionals = async (req, res) => {
       lng,
       service,
       skills = [],     // 🔥 NEW (optional)
+      minRating,
+      sortBy,
       page = 1,
       limit = 20,
     } = req.query;
@@ -24,8 +26,9 @@ export const searchProfessionals = async (req, res) => {
     const hasLocation =
     Number.isFinite(lat) && Number.isFinite(lng);
     
-    page = parseInt(page);
-    limit = parseInt(limit);
+    page = Math.max(parseInt(page) || 1, 1);
+    limit = Math.min(Math.max(parseInt(limit) || 20, 1), 50);
+    const ratingFilter = Number(minRating);
 
     const skip = (page - 1) * limit;
 
@@ -44,7 +47,6 @@ export const searchProfessionals = async (req, res) => {
             coordinates: [lng, lat],
           },
           distanceField: "distance",
-          maxDistance: 20 * 1000, // 20 km
           spherical: true,
           query: {
             status: "approved",
@@ -84,11 +86,12 @@ export const searchProfessionals = async (req, res) => {
 }
 
     // 🔥 OPTIONAL SKILLS FILTER (MAIN CHANGE)
-    if (skills.length > 0) {
+    const validSkillIds = skills.filter((id) => mongoose.Types.ObjectId.isValid(id));
+    if (validSkillIds.length > 0) {
       pipeline.push({
         $match: {
           selectedSkills: {
-            $in: skills.map(
+            $in: validSkillIds.map(
               (id) => new mongoose.Types.ObjectId(id)
             ),
           },
@@ -105,6 +108,36 @@ export const searchProfessionals = async (req, res) => {
         as: "profession.skills",
       },
     });
+
+    pipeline.push(
+      {
+        $lookup: {
+          from: "reviews",
+          localField: "_id",
+          foreignField: "professionalId",
+          as: "reviewStats",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $ifNull: [{ $avg: "$reviewStats.rating" }, 0] },
+          reviewCount: { $size: "$reviewStats" },
+        },
+      }
+    );
+
+    if (Number.isFinite(ratingFilter) && ratingFilter > 0) {
+      pipeline.push({ $match: { averageRating: { $gte: Math.min(ratingFilter, 5) } } });
+    }
+
+    const ratingSort = { averageRating: -1, reviewCount: -1, _id: 1 };
+    if (sortBy === "rating_desc" || !hasLocation) {
+      pipeline.push({ $sort: ratingSort });
+    } else if (sortBy === "rating_asc") {
+      pipeline.push({ $sort: { averageRating: 1, reviewCount: 1, distance: 1, _id: 1 } });
+    } else {
+      pipeline.push({ $sort: { distance: 1, ...ratingSort } });
+    }
 
     // 🔗 Populate selectedSkills
     pipeline.push({
@@ -142,6 +175,7 @@ export const searchProfessionals = async (req, res) => {
         updatedAt: 0,
         availability: 0,
         reviews: 0,
+        reviewStats: 0,
         poi: 0,
         dob: 0,
 

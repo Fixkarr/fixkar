@@ -1,6 +1,6 @@
   // components/ProfessionalCard.jsx
   import React, { useEffect, useState } from "react";
-  import { FaMapMarkerAlt, FaUserTie, FaRoute } from "react-icons/fa";
+  import { FaMapMarkerAlt, FaUserTie, FaRoute, FaStar } from "react-icons/fa";
   import { useNavigate } from "react-router-dom";
   import { useDispatch, useSelector } from "react-redux";
   import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
@@ -21,7 +21,12 @@
       data?.selectedSkills && data.selectedSkills.length > MAX_SKILLS;
 
     useEffect(() => {
-      if (!mapsLoaded) return;
+      if (
+        !mapsLoaded ||
+        !selectedLocation?.lat ||
+        !selectedLocation?.lng ||
+        Number.isFinite(data?.distance)
+      ) return;
 
       const fetchDistance = async () => {
         try {
@@ -40,6 +45,12 @@
 
       fetchDistance();
     }, [mapsLoaded, selectedLocation, data]);
+
+    const directDistance = Number.isFinite(data?.distance)
+      ? data.distance >= 1000
+        ? `${(data.distance / 1000).toFixed(1)} km`
+        : `${Math.round(data.distance)} m`
+      : null;
 
     const handleVisitProfile = () => {
      
@@ -116,12 +127,18 @@
         </p>
       </div>
 
+      <div className="d-flex align-items-center gap-2 mb-3">
+        <FaStar className="text-warning" />
+        <span className="small fw-semibold">{Number(data?.averageRating || 0).toFixed(1)}</span>
+        <span className="small text-muted">({data?.reviewCount || 0} reviews)</span>
+      </div>
+
       {/* DISTANCE */}
-      {distance?.distance?.text && (
+      {(directDistance || distance?.distance?.text) && (
         <div className="d-flex align-items-center gap-2 mb-3">
           <FaRoute className="text-success" />
           <span className="small fw-semibold text-success">
-            {distance.distance.text} away
+            {directDistance || distance.distance.text} away
           </span>
         </div>
       )}

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { server_url } from "../App";
 import { MdPersonSearch } from "react-icons/md";
+import { FaFilter, FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import DashboardNavigator from "../utils/DashboardNavigator";
 
 
@@ -14,6 +15,8 @@ const HireProfessionals = () => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [professionals, setProfessionals] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState("distance_asc");
+  const [minRating, setMinRating] = useState("");
 
  const { services } = useSelector(state => state.services);
   const serviceName =
@@ -31,7 +34,10 @@ const HireProfessionals = () => {
         service: selectedService || "",
         page: pageNo,
         limit: 20,
+        sortBy,
       };
+
+      if (minRating) params.minRating = minRating;
 
         if (hasLocation) {
       params.lat = selectedLocation.lat;
@@ -67,7 +73,13 @@ const HireProfessionals = () => {
   useEffect(() => {
       setPage(1)
       fetchProfessionals(1, true);
-  }, [selectedLocation, selectedService, selectedSkills]);
+  }, [selectedLocation, selectedService, selectedSkills, sortBy, minRating]);
+
+  useEffect(() => {
+    if (!selectedLocation?.lat || !selectedLocation?.lng) {
+      setSortBy((current) => current === "distance_asc" ? "rating_desc" : current);
+    }
+  }, [selectedLocation]);
 
 
   return (
@@ -101,6 +113,34 @@ const HireProfessionals = () => {
   {/* Search */}
   <div className="mb-4">
     <SearchSection onSkillsChange={setSelectedSkills} />
+  </div>
+
+  <div className="card border-0 shadow-sm rounded-4 mb-4">
+    <div className="card-body p-3 d-flex flex-column flex-md-row align-items-md-end gap-3">
+      <div className="d-flex align-items-center gap-2 text-primary fw-semibold">
+        <FaFilter />
+        <span>Sort & Filter</span>
+      </div>
+      <div className="flex-grow-1 row g-2">
+        <div className="col-12 col-sm-6">
+          <label className="form-label small fw-semibold mb-1"><FaMapMarkerAlt className="me-1" />Order results</label>
+          <select className="form-select" value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+            <option value="distance_asc" disabled={!selectedLocation?.lat}>Nearest first</option>
+            <option value="rating_desc">Highest rated</option>
+            <option value="rating_asc">Lowest rated</option>
+          </select>
+        </div>
+        <div className="col-12 col-sm-6">
+          <label className="form-label small fw-semibold mb-1"><FaStar className="me-1 text-warning" />Minimum rating</label>
+          <select className="form-select" value={minRating} onChange={(event) => setMinRating(event.target.value)}>
+            <option value="">All ratings</option>
+            <option value="4">4 stars & above</option>
+            <option value="3">3 stars & above</option>
+            <option value="2">2 stars & above</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 
   {/* Search summary */}
