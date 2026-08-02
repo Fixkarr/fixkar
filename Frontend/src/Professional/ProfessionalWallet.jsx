@@ -50,14 +50,8 @@ const ProfessionalWallet = () => {
   };
 
  return (
-  <div className="d-flex justify-content-center py-4">
-    <div
-      className="w-100"
-      style={{
-        maxWidth: "700px",
-      }}
-    >
-      <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
+  <div className="professional-wallet h-100">
+      <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
         
         {/* Header */}
         <div
@@ -195,7 +189,6 @@ const ProfessionalWallet = () => {
 
         </div>
       </div>
-    </div>
   </div>
 );
 };
