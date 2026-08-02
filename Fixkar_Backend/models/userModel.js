@@ -130,14 +130,19 @@ const professionalSchema = new mongoose.Schema({
     },
     shortCode : {
         type : String,
-        unique : true,
-        sparse : true,
-        index : true
     }
 
 
 },{timestamps : true});
-
+professionalSchema.index(
+  { shortCode: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      shortCode: { $type: "string" }
+    }
+  }
+);
 professionalSchema.index({location : "2dsphere"})
 
 export const Professional = mongoose.model("Professional", professionalSchema);
