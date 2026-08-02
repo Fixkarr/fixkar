@@ -121,7 +121,11 @@ export const sendMessage = async (req, res) => {
         message: "Message or attachment required",
       });
     }
-    const isReceiverOnline = Boolean(userSocketMap[recieverId]);
+    // A user can have multiple tabs/devices. The Socket.IO room is the source
+    // of truth; the old single socket-id map can become stale after reconnects.
+    const receiverRoom = recieverId.toString();
+    const senderRoom = senderId.toString();
+    const isReceiverOnline = Boolean(io.sockets.adapter.rooms.get(receiverRoom)?.size);
 
     let newMessage = await Message.create({
       sender: senderId,
@@ -179,23 +183,15 @@ else if (attachmentsArray.length > 0) {
 
 
     // emit message via socket
-    const recieverSocketId = userSocketMap[recieverId];
-   
-    if (recieverSocketId) {
-      io.to(recieverSocketId).emit("newMessage", newMessage);
-    }
+    // Emit to user rooms so every active tab/device receives the update.
+    io.to(receiverRoom).emit("newMessage", newMessage);
+    io.to(senderRoom).emit("newMessage", newMessage);
 
-    // sender ko bhi bhejo (multi-tab case)
-    const senderSocketId = userSocketMap[senderId];
-    if (senderSocketId) {
-      io.to(senderSocketId).emit("newMessage", newMessage);
-    }
-
-    if (recieverSocketId && senderSocketId) {
-      io.to(senderSocketId).emit("messageDelivered", {
+    if (isReceiverOnline) {
+      io.to(senderRoom).emit("messageDelivered", {
         messageId: newMessage._id,
       });
-}
+    }
 
     res.status(201).json({
       success: true,

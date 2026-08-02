@@ -57,6 +57,7 @@ import About from "./Pages/About.jsx";
 import ProfessionalOnboardingPolicy from "./Components/Policies/ProfessionalOnboardingPolicy.jsx";
 import Notification from "./Components/Notification.jsx";
 import { addNotification } from "./redux/notification.slice.js";
+import { setNotifications } from "./redux/notification.slice.js";
 import { addMessageToChat, markAllMessagesSeenInChat, updateMessageStatus } from "./redux/chatMessages.slice.js";
 import { addNewMessageToConversation, setConversations } from "./redux/messages.Slice.js";
 import { setOnlineUsers } from "./redux/presence.slice.js";
@@ -239,8 +240,23 @@ const App = () => {
       }
     });
 
-     socket.on("notification", (data) => {
+     socket.on("notification", async (data) => {
       dispatch(addNotification(data));
+
+      // Fetch the canonical unread count, including notifications created
+      // before the current socket connected.
+      try {
+        const result = await axios.get(
+          `${server_url}/api/notification/get-my-notifications`,
+          { withCredentials: true }
+        );
+        dispatch(setNotifications({
+          notifications: result.data.notifications,
+          unreadCount: result.data.unreadCount,
+        }));
+      } catch (error) {
+        console.error("Could not refresh notifications", error);
+      }
     });
 
     // ✅ CUSTOMER SIDE
