@@ -44,7 +44,14 @@ const RequestHireForm = ({ proInfo }) => {
 
   const busyDays = proInfo?.busyDays;
 
-  const today = new Date().toISOString().split("T")[0];
+  const getLocalDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+  const today = getLocalDate();
   const [minTime, setMinTime] = useState("");
   const [formData, setFormData] = useState({
     customerName: "",
@@ -76,17 +83,10 @@ const RequestHireForm = ({ proInfo }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.workTime) {
-      const [hour, minute] = formData.workTime.split(":").map(Number);
-      const selectedMinutes = hour * 60 + minute;
-
-      const startTime = 8 * 60;
-      const endTime = 17 * 60;
-
-      if (selectedMinutes < startTime || selectedMinutes > endTime) {
-        toast.warning(
-          "Booking requests are allowed only between 8:00 AM and 5:00 PM."
-        );
+    if (formData.workDate && formData.workTime) {
+      const selectedDateTime = new Date(`${formData.workDate}T${formData.workTime}:00`);
+      if (selectedDateTime <= new Date()) {
+        toast.warning("Please select a future time for your service request.");
         return;
       }
     }
@@ -110,7 +110,7 @@ const RequestHireForm = ({ proInfo }) => {
   });
 
 
-    if (busyDays.includes(formData.workDate)) {
+    if (busyDays?.includes(formData.workDate)) {
       toast.info("This date is not available. Please select another date.");
       return;
     }
@@ -230,12 +230,12 @@ const RequestHireForm = ({ proInfo }) => {
                 type="time"
                 className="form-control"
                 name="workTime"
-                min={formData.workDate === today ? minTime : "08:00"}
-                max="17:00"
+                min={formData.workDate === today ? minTime : undefined}
                 value={formData.workTime}
                 onChange={handleChange}
                 required
               />
+              <small className="text-muted">You can choose any future time, including night hours.</small>
             </div>
           </div>
 

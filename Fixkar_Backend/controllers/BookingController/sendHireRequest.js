@@ -9,6 +9,28 @@ export const sendHireRequest = async (req, res)=>{
     try {
         const {professionalId, workDate, workTime, mobileNumber, problemDescription, visitingCharge, workAddress, distanceInKm, customerName} = req.body;
 
+        const dateMatch = /^\d{4}-\d{2}-\d{2}$/.test(workDate || "");
+        const timeMatch = /^([01]\d|2[0-3]):[0-5]\d$/.test(workTime || "");
+
+        if (!dateMatch || !timeMatch) {
+          return res.status(400).json({ message: "Please provide a valid service date and time" });
+        }
+
+        const [year, month, day] = workDate.split("-").map(Number);
+        const calendarDate = new Date(Date.UTC(year, month - 1, day));
+        const isValidCalendarDate =
+          calendarDate.getUTCFullYear() === year &&
+          calendarDate.getUTCMonth() === month - 1 &&
+          calendarDate.getUTCDate() === day;
+
+        // Service time is entered in the app's India-facing local time (IST).
+        const scheduledAt = new Date(`${workDate}T${workTime}:00+05:30`);
+        if (!isValidCalendarDate || Number.isNaN(scheduledAt.getTime()) || scheduledAt <= new Date()) {
+          return res.status(400).json({
+            message: "Please select a future date and time for the service request",
+          });
+        }
+
         const myId = req.userId;
         const customerId = await Customer.findOne({userId : myId}).select('_id');
 
