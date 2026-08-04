@@ -8,6 +8,12 @@ const serviceShema = new mongoose.Schema({
     createdBy : {type : mongoose.Schema.Types.ObjectId, ref : "Admin", required : true},
     commission : {type : Number, default : 0, required : true},
     skills : [{type : mongoose.Schema.Types.ObjectId, ref : "Skill"}],
+   serviceType: {
+    type: String,
+    enum: ["skill_based", "specialized"],
+    required: true,
+    default: "skill_based"
+},
 },{timestamps : true})
 
 export const Service = mongoose.model('Service', serviceShema);

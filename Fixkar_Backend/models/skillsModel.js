@@ -1,7 +1,32 @@
-import mongoose from 'mongoose'
 const skillSchema = new mongoose.Schema({
-    name : {type : String, required : true, unique : true},
-    service : {type : mongoose.Schema.Types.ObjectId, ref : "Service", required : true},
-},{timestamps : true})
+    name : {
+        type : String,
+        required : true
+    },
 
-export const Skill = mongoose.model('Skill', skillSchema);
+    service : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Service",
+        required : true
+    },
+
+   bookingType: {
+    type: String,
+    enum: ["fixed", "inspection"],
+    required: true
+},
+
+fixedPrice: {
+    type: Number,
+    default: null
+},
+isActive: {
+    type: Boolean,
+    default: true
+},
+
+estimatedDuration: {
+    type: Number,
+    default: null
+}
+},{timestamps:true})
