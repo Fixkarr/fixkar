@@ -1,5 +1,6 @@
 import cloudinary from "../config/cloudinary.js";
 import { Gallery } from "../models/galleryModel.js";
+import { Skill } from "../models/skillsModel.js";
 import { Professional, User } from "../models/userModel.js";
 import { Service } from "../models/serviceModel.js";
 import { io } from "../server.js";
