@@ -111,10 +111,6 @@ const ServiceForm = ({ mode , service}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.image) {
-      toast.error("Service image is required");
-      return;
-    }
 
     if (skills.length === 0) {
       toast.error("Please add at least one skill");
