@@ -137,17 +137,17 @@ const AdminSearch = ({ customers, professionals }) => {
                           <div className="col-md-4 text-center">
                             <div className="fw-muted mb-1">
                               Terms Accepted At :{" "}
-                              {c.userId.termsAcceptance.acceptedAt
+                              {c?.userId?.termsAcceptance.acceptedAt
                                 ? new Date(
-                                    c.userId.termsAcceptance.acceptedAt,
+                                    c?.userId?.termsAcceptance.acceptedAt,
                                   ).toLocaleString()
                                 : "—"}
                             </div>
                             <div className="text-primary-emphasis small">
-                              {c.userId.termsAcceptance.acceptedIP}
+                              {c?.userId?.termsAcceptance.acceptedIP}
                             </div>
                             <div className="text-muted small">
-                              {c.userId.termsAcceptance.policyVersion}
+                              {c?.userId?.termsAcceptance.policyVersion}
                             </div>
                           </div>
 
@@ -166,8 +166,8 @@ const AdminSearch = ({ customers, professionals }) => {
                             )}
 
                             <div className="small text-muted mt-2">
-                              {c.userId.isMobileVerified
-                                ? c.userId.mobile
+                              {c?.userId?.isMobileVerified
+                                ? c?.userId?.mobile
                                 : "N/A"}
                             </div>
                           </div>
@@ -206,7 +206,7 @@ const AdminSearch = ({ customers, professionals }) => {
                           {/* LEFT */}
                           <div className="col-md-4">
                             <h6 className="fw-bold mb-1">
-                              {p?.userId.fullName}
+                              {p?.userId?.fullName}
                             </h6>
                             <div className="text-muted small">
                               {p?.userId?.email}
