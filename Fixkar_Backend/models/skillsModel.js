@@ -1,40 +1,20 @@
-const skillSchema = new mongoose.Schema({
-    name : {
-        type : String,
-        required : true
-    },
+import mongoose from "mongoose";
 
-    service : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "Service",
-        required : true
-    },
+const skillSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    service: { type: mongoose.Schema.Types.ObjectId, ref: "Service", required: true, index: true },
+    bookingType: { type: String, enum: ["fixed", "inspection"], required: true, default: "fixed" },
+    // Skill-based fixed prices belong to the admin. Specialised task prices
+    // belong to the individual professional.
+    pricingSource: { type: String, enum: ["admin", "professional"], required: true, default: "admin" },
+    fixedPrice: { type: Number, default: null, min: 0 },
+    isActive: { type: Boolean, default: true },
+    estimatedDuration: { type: Number, default: null },
+  },
+  { timestamps: true }
+);
 
-   bookingType: {
-    type: String,
-    enum: ["fixed", "inspection"],
-    required: true,
-    default: "fixed"
-},
+skillSchema.index({ service: 1, name: 1 }, { unique: true });
 
-pricingSource: {
-    type: String,
-    enum: ["admin", "professional"],
-    default: "admin",
-    required: true
-},
-
-fixedPrice: {
-    type: Number,
-    default: null
-},
-isActive: {
-    type: Boolean,
-    default: true
-},
-
-estimatedDuration: {
-    type: Number,
-    default: null
-}
-},{timestamps:true})
+export const Skill = mongoose.model("Skill", skillSchema);

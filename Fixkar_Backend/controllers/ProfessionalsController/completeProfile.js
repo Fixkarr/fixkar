@@ -62,6 +62,7 @@ export const completeProfile =async (req,res)=>{
         await Professional.findByIdAndUpdate(professional._id, {
         description,
         selectedSkills: validatedSkills,
+        isChargesDefined: true,
         ...(visitingCharge !== undefined ? { visitingCharge: Number(visitingCharge) } : {}),
         ...(service?.serviceType === "specialized" ? { taskPricing: validatedTaskPricing } : {}),
        },{new : true})

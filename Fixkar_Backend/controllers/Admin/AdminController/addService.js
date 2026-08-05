@@ -51,6 +51,15 @@ export const addService = async (req, res) => {
           message: "Please add at least one task.",
         });
       }
+      const invalidTask = parsedSkills.some((task) => {
+        if (!String(task.name || "").trim()) return true;
+        if (serviceType === "specialized") return false;
+        if (!['fixed', 'inspection'].includes(task.bookingType)) return true;
+        return task.bookingType === 'fixed' && (!Number.isFinite(Number(task.fixedPrice)) || Number(task.fixedPrice) < 0);
+      });
+      if (invalidTask) {
+        return res.status(400).json({ success: false, message: "Each fixed task needs a valid price" });
+      }
     }
 
     // Upload Image

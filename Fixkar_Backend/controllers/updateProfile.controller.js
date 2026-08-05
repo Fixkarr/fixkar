@@ -305,6 +305,7 @@ export const updateSkills = async (req, res) => {
     professional.selectedSkills = selectedSkills;
     if (visitingCharge !== undefined) professional.visitingCharge = Number(visitingCharge);
     professional.taskPricing = validatedTaskPricing;
+    professional.isChargesDefined = true;
     await professional.save();
 
     // 4️⃣ Re-fetch populated professional (🔥 SAME PATTERN)

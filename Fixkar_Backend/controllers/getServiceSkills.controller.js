@@ -11,7 +11,7 @@ export const getServiceSkills = async (req,res)=>{
         }
 
         const service = await Service.findById(serviceId)
-            .populate("skills", "name bookingType fixedPrice pricingSource isActive")
+            .populate({ path: "skills", match: { isActive: true }, select: "name bookingType fixedPrice pricingSource isActive" })
             .select("skills serviceType")
           if (!service) {
             return res.status(404).json({
