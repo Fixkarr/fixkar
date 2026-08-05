@@ -30,6 +30,12 @@ const bookingSchema = new mongoose.Schema({
     quoteAmount : {
         type : Number,
     },
+    service: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
+    task: { type: mongoose.Schema.Types.ObjectId, ref: "Skill", default: null },
+    pricingType: { type: String, enum: ["inspection", "fixed"], default: "inspection" },
+    serviceCharge: { type: Number, default: null },
+    totalAmount: { type: Number, default: null },
+    isPriceLocked: { type: Boolean, default: false },
     quoteSentAt : {
         type : Date
     },

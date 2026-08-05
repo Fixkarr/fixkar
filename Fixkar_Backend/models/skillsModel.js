@@ -13,6 +13,14 @@ const skillSchema = new mongoose.Schema({
    bookingType: {
     type: String,
     enum: ["fixed", "inspection"],
+    required: true,
+    default: "fixed"
+},
+
+pricingSource: {
+    type: String,
+    enum: ["admin", "professional"],
+    default: "admin",
     required: true
 },
 

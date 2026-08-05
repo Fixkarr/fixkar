@@ -86,6 +86,7 @@ const professionalSchema = new mongoose.Schema({
     },
     charges : {type : mongoose.Schema.Types.ObjectId, ref : 'FormResponse'},
     isChargesDefined : {type : Boolean, default : false},
+    visitingCharge: { type: Number, default: 0, min: 0 },
     location : {
         type : {
             type : String,
@@ -130,7 +131,13 @@ const professionalSchema = new mongoose.Schema({
     },
     shortCode : {
         type : String,
-    }
+    },
+    taskPricing : [
+        {
+            skill : {type : mongoose.Schema.Types.ObjectId, ref : "Skill", required: true},
+            price : {type : Number, required: true, min: 0}
+        }
+    ]
 
 
 },{timestamps : true});

@@ -38,10 +38,10 @@ export const getCurrentUser = async (req, res)=>{
     }
   }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate : {
       path : "skills",
-      select : "name"
+      select : "name bookingType fixedPrice pricingSource isActive"
     }
   }).populate({
     path : "selectedSkills",

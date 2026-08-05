@@ -1,4 +1,6 @@
 import { Booking } from "../../models/bookingModel.js";
+import { Professional } from "../../models/userModel.js";
+import { Skill } from "../../models/skillsModel.js";
 import { Notification } from "../../models/notificationModel.js";
 import { Customer } from "../../models/userModel.js";
 import {io} from '../../server.js'
@@ -7,7 +9,7 @@ import { sendWhatsAppMessage } from "../../utils/sendWhatsaAppMessage.js";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
 export const sendHireRequest = async (req, res)=>{
     try {
-        const {professionalId, workDate, workTime, mobileNumber, problemDescription, visitingCharge, workAddress, distanceInKm, customerName} = req.body;
+        const {professionalId, workDate, workTime, mobileNumber, problemDescription, workAddress, distanceInKm, customerName, taskId} = req.body;
 
         const dateMatch = /^\d{4}-\d{2}-\d{2}$/.test(workDate || "");
         const timeMatch = /^([01]\d|2[0-3]):[0-5]\d$/.test(workTime || "");
@@ -33,6 +35,47 @@ export const sendHireRequest = async (req, res)=>{
 
         const myId = req.userId;
         const customerId = await Customer.findOne({userId : myId}).select('_id');
+
+        const professional = await Professional.findById(professionalId)
+          .populate({ path: "profession", select: "serviceType" });
+        if (!professional || !professional.profession) {
+          return res.status(404).json({ message: "Professional not found" });
+        }
+
+        // Pricing is always calculated on the server.  Never trust a visit or
+        // task price supplied by the browser.
+        let task = null;
+        let pricingType = "inspection";
+        let serviceCharge = null;
+        let totalAmount = null;
+        let isPriceLocked = false;
+        if (taskId) {
+          task = await Skill.findOne({ _id: taskId, service: professional.profession._id, isActive: true });
+          if (!task) return res.status(400).json({ message: "Invalid or inactive task" });
+          if (!professional.selectedSkills.some((id) => id.toString() === task._id.toString())) {
+            return res.status(400).json({ message: "This professional does not offer the selected task" });
+          }
+
+          if (task.bookingType === "fixed") {
+            pricingType = "fixed";
+            if (task.pricingSource === "admin") {
+              serviceCharge = Number(task.fixedPrice);
+            } else {
+              const professionalRate = professional.taskPricing.find(
+                (rate) => rate.skill.toString() === task._id.toString()
+              );
+              if (!professionalRate) {
+                return res.status(400).json({ message: "Professional has not set a price for this task" });
+              }
+              serviceCharge = Number(professionalRate.price);
+            }
+            if (!Number.isFinite(serviceCharge) || serviceCharge < 0) {
+              return res.status(400).json({ message: "Task price is not available" });
+            }
+            totalAmount = Number(professional.visitingCharge || 0) + serviceCharge;
+            isPriceLocked = true;
+          }
+        }
 
         let audioMessages = [];
          if (req.files && req.files.length > 0) {
@@ -62,11 +105,17 @@ export const sendHireRequest = async (req, res)=>{
             workDate,
             workTime,
             problemDescription,
-            visitingCharge,
+            visitingCharge: Number(professional.visitingCharge || 0),
             workAddress,
             distanceInKm,
             mobileNumber,
             audioMessages, 
+            service: professional.profession._id,
+            task: task?._id,
+            pricingType,
+            serviceCharge,
+            totalAmount,
+            isPriceLocked,
         })
 
         const savedBooking = await newBooking.save()

@@ -42,7 +42,7 @@ export const addService = async (req, res) => {
     // Parse Skills
     let parsedSkills = [];
 
-    if (serviceType === "skill_based") {
+    if (["skill_based", "specialized"].includes(serviceType)) {
       parsedSkills = JSON.parse(req.body.skills || "[]");
 
       if (!parsedSkills.length) {
@@ -72,14 +72,15 @@ export const addService = async (req, res) => {
     let skillIds = [];
 
     // Create Tasks / Skills
-    if (serviceType === "skill_based") {
+    if (["skill_based", "specialized"].includes(serviceType)) {
       const createdSkills = await Promise.all(
         parsedSkills.map((task) =>
           Skill.create({
             name: task.name.trim(),
-            bookingType: task.bookingType,
+            bookingType: serviceType === "specialized" ? "fixed" : task.bookingType,
+            pricingSource: serviceType === "specialized" ? "professional" : "admin",
             fixedPrice:
-              task.bookingType === "fixed"
+              serviceType === "skill_based" && task.bookingType === "fixed"
                 ? task.fixedPrice
                 : null,
             service: service._id,

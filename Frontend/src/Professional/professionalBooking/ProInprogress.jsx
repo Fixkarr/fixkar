@@ -5,6 +5,9 @@ import { server_url } from '../../App'
 import axios from 'axios'
 
 const ProInprogress = ({booking}) => {
+    if (booking?.isPriceLocked) {
+      return <div className="alert alert-success mt-3 mb-0">Upfront price locked: ₹{booking.totalAmount}. No quote is required.</div>;
+    }
     const [quoteAmount, setQuoteAmount] = useState('')
 
     const sendQuoteAPI = async (bookingId)=>{

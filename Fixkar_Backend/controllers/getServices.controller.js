@@ -2,7 +2,7 @@ import {Service} from "../models/serviceModel.js";
 
 export const getServices = async(req,res)=>{
     try {
-        const services = await Service.find().populate('skills','name');
+        const services = await Service.find().populate('skills','name bookingType fixedPrice pricingSource isActive');
         res.status(200).json({
             message : "Services fetched successfully",
             services

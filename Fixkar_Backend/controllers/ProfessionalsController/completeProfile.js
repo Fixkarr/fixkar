@@ -4,7 +4,7 @@ import { Professional } from "../../models/userModel.js";
 
 export const completeProfile =async (req,res)=>{
     try {
-        const {description, skills} = req.body;
+        const {description, skills, taskPricing = [], visitingCharge} = req.body;
        if(!description){
        return res.status(400).json({
             message  : "Description is required"
@@ -21,10 +21,11 @@ export const completeProfile =async (req,res)=>{
 
 
     let validatedSkills = [];
+    let skillDocs = [];
 
     if (skills && Array.isArray(skills) && skills.length > 0) {
       // ensure selected skills belong to same profession
-      const skillDocs = await Skill.find({
+      skillDocs = await Skill.find({
         _id: { $in: skills },
         service: professional.profession,
       });
@@ -44,6 +45,8 @@ export const completeProfile =async (req,res)=>{
         await Professional.findByIdAndUpdate(professional._id, {
         description,
         selectedSkills: validatedSkills,
+        ...(visitingCharge !== undefined ? { visitingCharge: Number(visitingCharge) } : {}),
+        ...(taskPricing.length ? { taskPricing } : {}),
        },{new : true})
 
 
@@ -57,14 +60,14 @@ export const completeProfile =async (req,res)=>{
   options: { sort: { createdAt: -1 }, limit: 20 } // latest gallery
 }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate : {
       path : "skills",
-      select : "name"
+      select : "name bookingType fixedPrice pricingSource isActive"
     }
   }).populate({
     path : "selectedSkills",
-    select : "name"
+    select : "name bookingType fixedPrice pricingSource isActive"
   });
   
   

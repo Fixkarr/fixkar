@@ -35,8 +35,9 @@ const CusCompleteBooking = ({ booking }) => {
   };
 
   const fullAmount =
-    (booking.quoteAmount || 0) +
-    (booking.visitingCharge || 0);
+    booking.isPriceLocked
+      ? (booking.totalAmount || 0)
+      : (booking.quoteAmount || 0) + (booking.visitingCharge || 0);
 
   const discountAmount =
     booking.discountAmount || 0;

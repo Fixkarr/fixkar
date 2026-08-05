@@ -20,8 +20,9 @@ const ProCompleteBooking = ({ booking, transaction }) => {
   const isCash = transaction?.paymentMode === "CASH";
 
   const fullAmount =
-    (booking.quoteAmount || 0) +
-    (booking.visitingCharge || 0);
+    booking.isPriceLocked
+      ? (booking.totalAmount || 0)
+      : (booking.quoteAmount || 0) + (booking.visitingCharge || 0);
 
   const discount =
     booking.discountAmount || 0;

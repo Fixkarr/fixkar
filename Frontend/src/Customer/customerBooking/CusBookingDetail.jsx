@@ -79,8 +79,9 @@ const fetchOffers = async () => {
 };
 
 const originalTotal =
-  (booking?.quoteAmount || 0) +
-  (booking?.visitingCharge || 0);
+  booking?.isPriceLocked
+    ? (booking?.totalAmount || 0)
+    : (booking?.quoteAmount || 0) + (booking?.visitingCharge || 0);
 
 const discountAmount =
   booking?.discountAmount || 0;
@@ -412,7 +413,7 @@ if (!booking) {
         <CusInprogress booking={booking}/>
     )}
 
-     {booking.quoteAmount && booking.status !== "completed" && (
+     {(booking.quoteAmount || booking.isPriceLocked) && booking.status !== "completed" && (
             <div
   className="mt-4 p-4 rounded-4 shadow-sm"
   style={{

@@ -10,6 +10,8 @@ import { setCurrentUserData } from "../redux/user.slice";
 const UpdateSkills = ({ professional }) => {
   const [allSkills, setAllSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [visitingCharge, setVisitingCharge] = useState(0);
+  const [taskPrices, setTaskPrices] = useState({});
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
 
@@ -28,6 +30,10 @@ const UpdateSkills = ({ professional }) => {
       professional?.selectedSkills?.map((s) => s._id) || [];
 
     setSelectedSkills(alreadySelected);
+    setVisitingCharge(professional?.visitingCharge ?? 0);
+    setTaskPrices(
+      Object.fromEntries((professional?.taskPricing || []).map((rate) => [rate.skill?._id || rate.skill, rate.price]))
+    );
   }, [professional]);
 
   /* 🔁 Toggle skill */
@@ -49,9 +55,19 @@ const UpdateSkills = ({ professional }) => {
     try {
       setLoading(true);
 
+      const isSpecialized = professional?.profession?.serviceType === "specialized";
+      const taskPricing = selectedSkills.map((skill) => ({ skill, price: Number(taskPrices[skill]) }));
+      if (!Number.isFinite(Number(visitingCharge)) || Number(visitingCharge) < 0) {
+        toast.warning("Enter a valid visiting charge");
+        return;
+      }
+      if (isSpecialized && taskPricing.some((rate) => !Number.isFinite(rate.price) || rate.price < 0)) {
+        toast.warning("Set a valid price for every selected task");
+        return;
+      }
       const result = await axios.post(
         `${server_url}/api/user/professional/update-skills`,
-        { selectedSkills },
+        { selectedSkills, visitingCharge: Number(visitingCharge), taskPricing },
         { withCredentials: true }
       );
        dispatch(setCurrentUserData(result.data));
@@ -67,6 +83,13 @@ const UpdateSkills = ({ professional }) => {
 
   return (
  <div className="p-3">
+
+  <div className="mb-4">
+    <label className="form-label fw-semibold">Visiting charge (₹)</label>
+    <input type="number" min="0" className="form-control" value={visitingCharge}
+      onChange={(event) => setVisitingCharge(event.target.value)} />
+    <small className="text-muted">This is added to every upfront fixed task price.</small>
+  </div>
 
   {/* ===== HEADER ===== */}
   <div
@@ -122,6 +145,10 @@ const UpdateSkills = ({ professional }) => {
                 {skill.name}
               </div>
 
+              {professional?.profession?.serviceType === "skill_based" && skill.bookingType === "fixed" && (
+                <small className={isSelected ? "opacity-75" : "text-success"}>Admin price: ₹{skill.fixedPrice}</small>
+              )}
+
               {/* Selected indicator */}
               {isSelected && (
                 <small className="opacity-75">
@@ -136,6 +163,24 @@ const UpdateSkills = ({ professional }) => {
   ) : (
     <div className="alert alert-warning small">
       No skills available under this profession.
+    </div>
+  )}
+
+  {professional?.profession?.serviceType === "specialized" && selectedSkills.length > 0 && (
+    <div className="mt-4 card border-0 bg-light">
+      <div className="card-body">
+        <h6 className="fw-semibold">Your specialised task prices</h6>
+        <small className="text-muted d-block mb-3">Customers will see these prices before booking.</small>
+        {allSkills.filter((skill) => selectedSkills.includes(skill._id)).map((skill) => (
+          <div className="row align-items-center mb-2" key={skill._id}>
+            <label className="col-7 col-form-label">{skill.name}</label>
+            <div className="col-5"><input type="number" min="0" className="form-control"
+              value={taskPrices[skill._id] ?? ""}
+              onChange={(event) => setTaskPrices((current) => ({ ...current, [skill._id]: event.target.value }))}
+              placeholder="Price" /></div>
+          </div>
+        ))}
+      </div>
     </div>
   )}
 

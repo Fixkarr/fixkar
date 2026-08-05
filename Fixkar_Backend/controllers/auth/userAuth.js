@@ -161,10 +161,10 @@ export const login = async (req, res) => {
     }
   }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate: {
       path: "skills",
-      select: "name", // Skill schema field
+      select: "name bookingType fixedPrice pricingSource isActive", // Skill schema field
     },
   }).populate({
     path : "selectedSkills",
@@ -379,10 +379,10 @@ export const googleAuthLogin = async (req, res) => {
           options: { sort: { createdAt: -1 }, limit: 20 },
         }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate: {
       path: "skills",
-      select: "name", // Skill schema field
+      select: "name bookingType fixedPrice pricingSource isActive", // Skill schema field
     },
   }).populate("charges");
 
@@ -464,10 +464,10 @@ export const googleAuthLoginNative = async (req, res) => {
           options: { sort: { createdAt: -1 }, limit: 20 },
         }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate: {
       path: "skills",
-      select: "name", // Skill schema field
+      select: "name bookingType fixedPrice pricingSource isActive", // Skill schema field
     },
   }).populate("charges");
 

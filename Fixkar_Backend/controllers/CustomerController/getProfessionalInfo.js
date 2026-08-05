@@ -23,15 +23,15 @@ export const getProfessionalInfo = async (req,res)=>{
     }
   }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate : {
       path : "skills",
-      select : "name"
+      select : "name bookingType fixedPrice pricingSource isActive"
     }
   }).populate({
     path : "selectedSkills",
-    select : "name"
-  }).populate('charges');
+    select : "name bookingType fixedPrice pricingSource isActive"
+  }).populate({ path: 'taskPricing.skill', select: 'name' }).populate('charges');
 
         if(!professionalInfo){
             return res.status(404).json({message: "Professional not found"});

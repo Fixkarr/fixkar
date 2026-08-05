@@ -36,6 +36,10 @@ export const sendQuoteAmount = async (req,res)=>{
     })
   }
 
+  if (booking.isPriceLocked) {
+    return res.status(400).json({ message: "This booking has a locked upfront price" });
+  }
+
     const myId = req.userId;
     if(myId !== booking.professionalId.userId._id.toString()){
         return res.status(400).json({

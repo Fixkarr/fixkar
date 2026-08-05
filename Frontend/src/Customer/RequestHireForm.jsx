@@ -29,10 +29,21 @@ const RequestHireForm = ({ proInfo }) => {
   const mobileNumber = currentUserData?.user?.userId?.mobile;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [taskId, setTaskId] = useState("");
 
-  const visitingCharge = calculateVisitingCharge(
+  const visitingCharge = Number(proInfo?.visitingCharge ?? calculateVisitingCharge(
     parseFloat(distance?.distance.text)
+  ));
+  const availableTasks = (proInfo?.selectedSkills || []).filter((task) => task.isActive !== false);
+  const selectedTask = availableTasks.find((task) => task._id === taskId);
+  const specializedRate = (proInfo?.taskPricing || []).find(
+    (rate) => (rate.skill?._id || rate.skill) === taskId
   );
+  const serviceCharge = selectedTask?.pricingSource === "professional"
+    ? Number(specializedRate?.price)
+    : Number(selectedTask?.fixedPrice);
+  const isFixedTask = selectedTask?.bookingType === "fixed" && Number.isFinite(serviceCharge);
+  const totalAmount = isFixedTask ? visitingCharge + serviceCharge : null;
   const handleAudioReady = (blob) => {
   const audioUrl = URL.createObjectURL(blob);
 
@@ -95,7 +106,7 @@ const RequestHireForm = ({ proInfo }) => {
 
   formDataToSend.append("customerName", formData.customerName);
   formDataToSend.append("professionalId", proInfo._id);
-  formDataToSend.append("visitingCharge", visitingCharge);
+  if (taskId) formDataToSend.append("taskId", taskId);
   formDataToSend.append("profession", proInfo.profession);
   formDataToSend.append("workDate", formData.workDate);
   formDataToSend.append("workTime", formData.workTime);
@@ -175,7 +186,7 @@ const RequestHireForm = ({ proInfo }) => {
       <div className="card-body bg-light">
 
         {/* Notice */}
-        <div className="alert alert-info border-0 rounded-4 small">
+          <div className="alert alert-info border-0 rounded-4 small">
           <FaInfoCircle className="me-1" />
           Visiting charge is <b>₹{visitingCharge}</b>.  
           It will be added to the final bill.  
@@ -199,6 +210,32 @@ const RequestHireForm = ({ proInfo }) => {
               required
             />
           </div>
+
+          {availableTasks.length > 0 && (
+            <div className="mb-3">
+              <label className="form-label fw-semibold"><FaTools className="me-1 text-primary" /> Select task</label>
+              <select className="form-select" value={taskId} onChange={(event) => setTaskId(event.target.value)} required>
+                <option value="">Select the work you need</option>
+                {availableTasks.map((task) => (
+                  <option key={task._id} value={task._id}>
+                    {task.name}{task.bookingType === "inspection" ? " (inspection)" : ""}
+                  </option>
+                ))}
+              </select>
+              {isFixedTask && (
+                <div className="alert alert-success mt-3 mb-0 small">
+                  <div className="d-flex justify-content-between"><span>Visiting charge</span><strong>₹{visitingCharge}</strong></div>
+                  <div className="d-flex justify-content-between"><span>{selectedTask.name}</span><strong>₹{serviceCharge}</strong></div>
+                  <hr className="my-2" />
+                  <div className="d-flex justify-content-between"><strong>Total payable</strong><strong>₹{totalAmount}</strong></div>
+                  <small>This upfront amount is locked; no quote will be requested later.</small>
+                </div>
+              )}
+              {taskId && selectedTask?.bookingType === "inspection" && (
+                <small className="text-muted">This task needs inspection. The professional will quote after the visit.</small>
+              )}
+            </div>
+          )}
 
           {/* Date & Time */}
           <div className="row">

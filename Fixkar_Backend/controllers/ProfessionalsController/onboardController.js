@@ -117,10 +117,10 @@ while (true) {
         }
       }).populate({
         path : "profession",
-        select : "name image skills",
+        select : "name image skills serviceType",
         populate: {
           path: "skills",
-          select: "name", // Skill schema field
+          select: "name bookingType fixedPrice pricingSource isActive", // Skill schema field
         },
       }).populate({
         path : "selectedSkills",

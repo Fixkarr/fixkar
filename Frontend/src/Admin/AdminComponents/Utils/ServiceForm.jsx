@@ -71,7 +71,7 @@ const ServiceForm = ({ mode = "create", service = null }) => {
       return;
     }
 
-    if (skillForm.bookingType === "fixed" && !skillForm.fixedPrice) {
+    if (serviceType === "skill_based" && skillForm.bookingType === "fixed" && !skillForm.fixedPrice) {
       toast.warning("Enter fixed price");
       return;
     }
@@ -89,9 +89,9 @@ const ServiceForm = ({ mode = "create", service = null }) => {
       ...skills,
       {
         name: skillForm.name,
-        bookingType: skillForm.bookingType,
+        bookingType: serviceType === "specialized" ? "fixed" : skillForm.bookingType,
         fixedPrice:
-          skillForm.bookingType === "fixed"
+          serviceType === "skill_based" && skillForm.bookingType === "fixed"
             ? Number(skillForm.fixedPrice)
             : null,
       },
@@ -116,7 +116,7 @@ const ServiceForm = ({ mode = "create", service = null }) => {
       return;
     }
 
-    if (serviceType === "skill_based" && skills.length === 0) {
+    if (skills.length === 0) {
       toast.error("Please add at least one skill");
       return;
     }
@@ -311,7 +311,7 @@ const ServiceForm = ({ mode = "create", service = null }) => {
                 </div>
               </div>
             </div>
-            {serviceType === "skill_based" && (
+            {(serviceType === "skill_based" || serviceType === "specialized") && (
               <div className="card border-0 shadow-sm mb-4">
                 <div className="card-header bg-white fw-bold d-flex justify-content-between align-items-center">
                   <span>Tasks / Bookable Services</span>
@@ -345,7 +345,7 @@ const ServiceForm = ({ mode = "create", service = null }) => {
 
                     {/* Booking Type */}
 
-                    <div className="col-lg-3">
+                    {serviceType === "skill_based" && <div className="col-lg-3">
                       <label className="form-label fw-semibold">
                         Booking Type
                       </label>
@@ -364,11 +364,11 @@ const ServiceForm = ({ mode = "create", service = null }) => {
 
                         <option value="fixed">Fixed Price</option>
                       </select>
-                    </div>
+                    </div>}
 
                     {/* Fixed Price */}
 
-                    {skillForm.bookingType === "fixed" && (
+                    {serviceType === "skill_based" && skillForm.bookingType === "fixed" && (
                       <div className="col-lg-2">
                         <label className="form-label fw-semibold">Price</label>
 
@@ -391,7 +391,7 @@ const ServiceForm = ({ mode = "create", service = null }) => {
 
                     <div
                       className={
-                        skillForm.bookingType === "fixed"
+                        serviceType === "skill_based" && skillForm.bookingType === "fixed"
                           ? "col-lg-2"
                           : "col-lg-4"
                       }
@@ -416,7 +416,7 @@ const ServiceForm = ({ mode = "create", service = null }) => {
                           <tr>
                             <th>Task</th>
 
-                            <th>Booking Type</th>
+                            <th>{serviceType === "skill_based" ? "Booking Type" : "Pricing"}</th>
 
                             <th>Price</th>
 
@@ -430,7 +430,9 @@ const ServiceForm = ({ mode = "create", service = null }) => {
                               <td className="fw-semibold">{skill.name}</td>
 
                               <td>
-                                {skill.bookingType === "fixed" ? (
+                                {serviceType === "specialized" ? (
+                                  <span className="badge bg-info text-dark">Professional-defined</span>
+                                ) : skill.bookingType === "fixed" ? (
                                   <span className="badge bg-success">
                                     Fixed
                                   </span>
@@ -442,7 +444,9 @@ const ServiceForm = ({ mode = "create", service = null }) => {
                               </td>
 
                               <td>
-                                {skill.bookingType === "fixed"
+                                {serviceType === "specialized"
+                                  ? "Professional sets price"
+                                  : skill.bookingType === "fixed"
                                   ? `₹${skill.fixedPrice}`
                                   : "--"}
                               </td>

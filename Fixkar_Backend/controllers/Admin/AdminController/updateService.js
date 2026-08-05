@@ -6,7 +6,7 @@ import {Professional} from '../../../models/userModel.js'
 export const updateService = async (req, res) => {
   try {
     const { serviceId } = req.params;
-    const { name, description, skills, commission } = req.body;
+    let { name, description, skills, commission, serviceType } = req.body;
     const admin = req.admin;
 
     // 1️⃣ Find service
@@ -37,6 +37,8 @@ export const updateService = async (req, res) => {
     if (name) service.name = name.trim();
     if (description) service.description = description;
     if (commission) service.commission = commission;
+    if (serviceType && ["skill_based", "specialized"].includes(serviceType)) service.serviceType = serviceType;
+    if (typeof skills === "string") skills = JSON.parse(skills || "[]");
 
     // 4️⃣ Update image (optional)
     if (req.file) {
@@ -54,10 +56,13 @@ export const updateService = async (req, res) => {
 
       // 🔥 create new skills
       const skillDocs = await Promise.all(
-        skills.map((skillName) =>
+        skills.map((task) =>
           Skill.create({
-            name: skillName.trim(),
+            name: task.name.trim(),
             service: service._id,
+            bookingType: service.serviceType === "specialized" ? "fixed" : task.bookingType,
+            pricingSource: service.serviceType === "specialized" ? "professional" : "admin",
+            fixedPrice: service.serviceType === "skill_based" && task.bookingType === "fixed" ? Number(task.fixedPrice) : null,
           })
         )
       );

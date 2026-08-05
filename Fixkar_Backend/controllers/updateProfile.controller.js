@@ -1,6 +1,7 @@
 import cloudinary from "../config/cloudinary.js";
 import { Gallery } from "../models/galleryModel.js";
 import { Professional, User } from "../models/userModel.js";
+import { Service } from "../models/serviceModel.js";
 import { io } from "../server.js";
 import { uploadToCloudinary } from "../utils/uploadToCloudinary.js"
 
@@ -253,7 +254,7 @@ export const uploadMedia = async (req,res)=>{
 
 export const updateSkills = async (req, res) => {
   try {
-    const { selectedSkills } = req.body;
+    const { selectedSkills, taskPricing = [], visitingCharge } = req.body;
     const userId = req.userId;
 
     // 1️⃣ Validation
@@ -272,8 +273,38 @@ export const updateSkills = async (req, res) => {
       });
     }
 
+    const skillDocs = await Skill.find({
+      _id: { $in: selectedSkills },
+      service: professional.profession,
+      isActive: true,
+    });
+    if (skillDocs.length !== selectedSkills.length) {
+      return res.status(400).json({ message: "Invalid skills selected for this service" });
+    }
+
+    const service = await Service.findById(professional.profession).select("serviceType");
+    if (!service) return res.status(400).json({ message: "Professional service not found" });
+
+    if (visitingCharge !== undefined && (!Number.isFinite(Number(visitingCharge)) || Number(visitingCharge) < 0)) {
+      return res.status(400).json({ message: "Visiting charge must be a valid amount" });
+    }
+
+    let validatedTaskPricing = [];
+    if (service.serviceType === "specialized") {
+      const ratesBySkill = new Map(taskPricing.map((rate) => [String(rate.skill), Number(rate.price)]));
+      for (const skill of skillDocs) {
+        const price = ratesBySkill.get(String(skill._id));
+        if (!Number.isFinite(price) || price < 0) {
+          return res.status(400).json({ message: `Set a valid price for ${skill.name}` });
+        }
+        validatedTaskPricing.push({ skill: skill._id, price });
+      }
+    }
+
     // 3️⃣ OPTIONAL: allow empty array (skill reset)
     professional.selectedSkills = selectedSkills;
+    if (visitingCharge !== undefined) professional.visitingCharge = Number(visitingCharge);
+    professional.taskPricing = validatedTaskPricing;
     await professional.save();
 
     // 4️⃣ Re-fetch populated professional (🔥 SAME PATTERN)
@@ -298,15 +329,15 @@ export const updateSkills = async (req, res) => {
       })
       .populate({
         path: "profession",
-        select: "name image skills",
+        select: "name image skills serviceType",
         populate: {
           path: "skills",
-          select: "name",
+          select: "name bookingType fixedPrice pricingSource isActive",
         },
       })
       .populate({
         path: "selectedSkills",
-        select: "name",
+        select: "name bookingType fixedPrice pricingSource isActive",
       }).populate('charges');
 
     // 5️⃣ Response

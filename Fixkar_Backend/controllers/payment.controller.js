@@ -32,13 +32,14 @@ export const createOrder = async (req, res) => {
     // 2️⃣ Payment type ke hisaab se amount decide
     if (paymentType === "FINAL") {
       // Professional quote wala case
-      if (!booking.quoteAmount) {
+      if (!booking.isPriceLocked && !booking.quoteAmount) {
         return res.status(400).json({
           message: "Quote not sent yet"
         });
       }
-      const fullAmount =
-        booking.quoteAmount + booking.visitingCharge;
+      const fullAmount = booking.isPriceLocked
+        ? booking.totalAmount
+        : booking.quoteAmount + booking.visitingCharge;
 
       amount = booking.offerLocked && booking.finalCustomerPayable
         ? booking.finalCustomerPayable
@@ -233,7 +234,9 @@ export const verifyPayment = async (req, res) => {
 
     const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
 
-    const quoteAmount = Number(booking.quoteAmount) || 0;
+    const quoteAmount = booking.isPriceLocked
+      ? Number(booking.serviceCharge) || 0
+      : Number(booking.quoteAmount) || 0;
     const visitingCharge = Number(booking.visitingCharge) || 0;
 
 
@@ -244,7 +247,9 @@ export const verifyPayment = async (req, res) => {
     const lateCancellationFee = 50; // fallback
 
     if (payment.paymentType === "FINAL") {
-      fullAmount = quoteAmount + visitingCharge;
+      fullAmount = booking.isPriceLocked
+        ? Number(booking.totalAmount) || 0
+        : quoteAmount + visitingCharge;
 
       commission = 
         (fullAmount * COMMISSION_PERCENT) / 100;
