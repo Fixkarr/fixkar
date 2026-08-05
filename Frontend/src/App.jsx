@@ -61,7 +61,6 @@ import { setNotifications } from "./redux/notification.slice.js";
 import { addMessageToChat, markAllMessagesSeenInChat, updateMessageStatus } from "./redux/chatMessages.slice.js";
 import { addNewMessageToConversation, setConversations } from "./redux/messages.Slice.js";
 import { setOnlineUsers } from "./redux/presence.slice.js";
-import UpdateServiceForm from "./Admin/AdminComponents/Utils/UpdateServiceForm.jsx";
 import AdminBookings from "./Admin/AdminComponents/AdminBookings.jsx";
 import AdminBookingDetail from "./Admin/AdminComponents/AdminBookingDetail.jsx";
 import ProfessionalTransactions from "./Professional/ProfessionalTransactions.jsx";
@@ -496,8 +495,6 @@ const App = () => {
           <Route path={`${adminpath}/manage-users`} element={currentAdmin?.role === "super_admin" ? <AdminUsers/> : (<Navigate to={`${adminpath}/home`}/>)}/>
           <Route path={`${adminpath}/manage-bookings`} element={currentAdmin?.role === "super_admin" ? <AdminBookings/> : (<Navigate to={`${adminpath}/home`}/>)}/>
           <Route path={`${adminpath}/manage-bookings/:bookingId`} element={currentAdmin?.role === "super_admin" ? <AdminBookingDetail/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          
-          <Route path={`${adminpath}/update-service/:serviceId`} element={currentAdmin?.role === "super_admin" ? <UpdateServiceForm/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-forms`} element={currentAdmin?.role === "super_admin" ? <ManageForms/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-offers`} element={currentAdmin?.role === "super_admin" ? <ManageOffers/> : <Navigate to={`${adminpath}/home`}/>}/>
           <Route path={`${adminpath}/manage-forms/create`} element={currentAdmin?.role === "super_admin" ? <CreateForm/> : <Navigate to={`${adminpath}/home`}/>}/>

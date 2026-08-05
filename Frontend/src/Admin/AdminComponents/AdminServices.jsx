@@ -1,30 +1,27 @@
 import React from "react";
-import {
-  FaTools,
-  FaPlus,
-  FaUsers,
-  FaInfoCircle,
-  FaPen,
-} from "react-icons/fa";
-import AddServiceForm from "./Utils/AddServiceForm";
+import { FaTools, FaPlus, FaUsers, FaInfoCircle, FaPen } from "react-icons/fa";
+import AddServiceForm from "./Utils/ServiceForm";
 import useGetServices from "../../hooks/useGetServices";
 import { useSelector } from "react-redux";
-import UpdateServiceForm from "./Utils/UpdateServiceForm";
 
-  import { useNavigate } from "react-router-dom";
+
+
+import ServiceForm from "./Utils/ServiceForm";
 
 const AdminServices = () => {
-  const adminPath = import.meta.env.VITE_ADMIN_PATH
-  useGetServices()
-  const {services} = useSelector(state => state.services);
-  const navigate = useNavigate()
+  const adminPath = import.meta.env.VITE_ADMIN_PATH;
+  useGetServices();
+  const { services } = useSelector((state) => state.services);
+
+  const [selectedService, setSelectedService] = useState(null);
   return (
-    <div className="container-fluid py-4"
-       style={{
-          background: "linear-gradient(135deg, #0f2027, #2c5364)",
-          minHeight : "100vh"
-        }}
-    > 
+    <div
+      className="container-fluid py-4"
+      style={{
+        background: "linear-gradient(135deg, #0f2027, #2c5364)",
+        minHeight: "100vh",
+      }}
+    >
       {/* ================= HEADER ================= */}
       <div
         className="card border-0 shadow-lg rounded-4 mb-4 text-white"
@@ -35,15 +32,16 @@ const AdminServices = () => {
         <div className="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
           <div>
             <h4 className="fw-bold mb-1">
-                <FaTools className="me-2 text-warning" />
+              <FaTools className="me-2 text-warning" />
               Services Management
             </h4>
             <p className="mb-0 text-light opacity-75">
-             Manage all platform services & skills
+              Manage all platform services & skills
             </p>
           </div>
 
-          <button className="btn btn-warning fw-semibold px-4 rounded-pill shadow-sm"
+          <button
+            className="btn btn-warning fw-semibold px-4 rounded-pill shadow-sm"
             data-bs-toggle="modal"
             data-bs-target="#AddServiceModal"
           >
@@ -51,25 +49,64 @@ const AdminServices = () => {
             Add New Service
           </button>
 
+          <div
+            className="modal fade"
+            id="AddServiceModal"
+            tabIndex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="exampleModalLabel">
+                    Add Service
+                  </h1>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <ServiceForm mode="create" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          <div className="modal fade" id="AddServiceModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Add Service</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <AddServiceForm/>
-      </div>
-    </div>
-  </div>
-</div>
+      <div
+        className="modal fade"
+        id="UpdateServiceModal"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-xl modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Update Service</h5>
+
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              />
+            </div>
+
+            <div className="modal-body">
+              {selectedService && (
+                <ServiceForm mode="update" service={selectedService} />
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* ================= TABLE ================= */}
-       <div className="row g-4">
+      <div className="row g-4">
         {services?.length > 0 ? (
           services.map((service) => (
             <div className="col-xl-3 col-lg-4 col-md-6" key={service._id}>
@@ -85,10 +122,10 @@ const AdminServices = () => {
                 <div className="card-body d-flex flex-column">
                   {/* Title */}
                   <h5 className="fw-bold mb-1">{service.name}</h5>
-                  <span className="badge rounded-pill bg-danger">{service.commission}%</span>
-                  <p className="text-muted small">
-                    {service.description}
-                  </p>
+                  <span className="badge rounded-pill bg-danger">
+                    {service.commission}%
+                  </span>
+                  <p className="text-muted small">{service.description}</p>
 
                   {/* Skills */}
                   <div className="mb-3">
@@ -102,9 +139,7 @@ const AdminServices = () => {
                         </span>
                       ))
                     ) : (
-                      <span className="text-muted small">
-                        No skills added
-                      </span>
+                      <span className="text-muted small">No skills added</span>
                     )}
                   </div>
 
@@ -115,14 +150,15 @@ const AdminServices = () => {
                       {service.professionalCount} Pros
                     </span>
 
-                     <button className="btn btn-outline-primary rounded-pill"
-                        onClick={()=> navigate(`${adminPath}/update-service/${service._id}`)}
-          >
-            <FaPen className="me-2" />
-            Update Service
-          </button>
-  
-
+                    <button
+                      className="btn btn-outline-primary rounded-pill"
+                      data-bs-toggle="modal"
+                      data-bs-target="#UpdateServiceModal"
+                      onClick={() => setSelectedService(service)}
+                    >
+                      <FaPen className="me-2" />
+                      Update Service
+                    </button>
                   </div>
                 </div>
               </div>
