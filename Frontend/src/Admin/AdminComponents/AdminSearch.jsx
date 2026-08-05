@@ -120,16 +120,16 @@ const AdminSearch = ({ customers, professionals }) => {
                           {/* LEFT */}
                           <div className="col-md-4">
                             <h6 className="fw-bold mb-1">
-                              {c.userId.fullName}
+                              {c?.userId?.fullName}
                             </h6>
                             <div className="text-muted small">
-                              {c.userId.email}
+                              {c?.userId?.email}
                             </div>
                             <div className="text-muted small">
-                              User ID: {c.userId._id}
+                              User ID: {c?.userId?._id}
                             </div>
                             <div className="text-muted small">
-                              Customer ID: {c._id}
+                              Customer ID: {c?._id}
                             </div>
                           </div>
 
@@ -206,23 +206,23 @@ const AdminSearch = ({ customers, professionals }) => {
                           {/* LEFT */}
                           <div className="col-md-4">
                             <h6 className="fw-bold mb-1">
-                              {p.userId.fullName}
+                              {p?.userId.fullName}
                             </h6>
                             <div className="text-muted small">
-                              {p.userId.email}
+                              {p?.userId?.email}
                             </div>
                             <div className="text-muted small">
-                              User ID: {p.userId._id}
+                              User ID: {p?.userId?._id}
                             </div>
                             <div className="text-muted small">
-                              Professional ID: {p._id}
+                              Professional ID: {p?._id}
                             </div>
                           </div>
 
                           {/* CENTER */}
                           <div className="col-md-4 text-center">
                             <span className="badge bg-info me-2">
-                              {p.profession?.name}
+                              {p?.profession?.name}
                             </span>
 
                             <span
@@ -234,14 +234,14 @@ const AdminSearch = ({ customers, professionals }) => {
                                     : "bg-danger"
                               }`}
                             >
-                              {p.status}
+                              {p?.status}
                             </span>
 
                             <div className="small text-muted mt-2">
-                              {p.userId.isMobileVerified ? (
+                              {p?.userId?.isMobileVerified ? (
                                 <>
                                   <FaCheckCircle className="text-success me-1" />
-                                  {p.userId.mobile}
+                                  {p?.userId?.mobile}
                                 </>
                               ) : (
                                 <>
@@ -255,7 +255,7 @@ const AdminSearch = ({ customers, professionals }) => {
                           {/* RIGHT */}
                           <div className="col-md-4 text-end">
                             <div className="small text-muted mb-2">
-                              {p.address?.addressLine}
+                              {p?.address?.addressLine}
                             </div>
                             <button
                               className="btn btn-sm btn-outline-primary me-2"
