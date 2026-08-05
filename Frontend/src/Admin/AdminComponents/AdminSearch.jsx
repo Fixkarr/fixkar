@@ -153,7 +153,7 @@ const AdminSearch = ({ customers, professionals }) => {
 
                           {/* Right */}
                           <div className="col-md-4 text-center">
-                            {c.userId.isMobileVerified ? (
+                            {c?.userId?.isMobileVerified ? (
                               <span className="badge bg-success">
                                 <FaCheckCircle className="me-1" />
                                 Verified
