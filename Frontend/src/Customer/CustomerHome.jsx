@@ -39,7 +39,6 @@ const CustomerHome = () => {
 
   const handleServiceSelect = (service) => {
     dispatch(setSelectedService(service));
-    navigate("/customer/hire-professionals");
   };
 
 
@@ -151,6 +150,7 @@ const CustomerHome = () => {
       <SearchSection
         onLocationSelect={handleLocationSelect}
         onServiceSelect={handleServiceSelect}
+        onTaskSelect={() => navigate("/customer/hire-professionals")}
       />
     </div>
   </div>

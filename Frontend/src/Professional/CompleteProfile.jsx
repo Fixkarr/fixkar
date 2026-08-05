@@ -22,6 +22,9 @@ export default function CompleteProfile() {
   const availableSkills = currentUserData?.user?.profession?.skills || [];
   const serviceId = currentUserData?.user?.profession._id;
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [visitingCharge, setVisitingCharge] = useState("");
+  const [taskPrices, setTaskPrices] = useState({});
+  const isSpecialized = currentUserData?.user?.profession?.serviceType === "specialized";
  
   const isProfileComplete = currentUserData?.user?.description 
    const ChargesDefined = currentUserData?.user?.isChargesDefined
@@ -51,7 +54,18 @@ export default function CompleteProfile() {
       const payload = {
         description: values.description,
         skills: selectedSkills,
+        visitingCharge: Number(visitingCharge),
+        taskPricing: selectedSkills.map((skill) => ({ skill, price: Number(taskPrices[skill]) })),
       };
+
+      if (!Number.isFinite(Number(visitingCharge)) || Number(visitingCharge) < 0) {
+        toast.error("Please define a valid visiting charge");
+        return;
+      }
+      if (isSpecialized && selectedSkills.some((skill) => !Number.isFinite(Number(taskPrices[skill])) || Number(taskPrices[skill]) < 0)) {
+        toast.error("Please define a price for every selected specialised task");
+        return;
+      }
 
       try {
         setLoading(true);
@@ -157,6 +171,29 @@ export default function CompleteProfile() {
       </small>
     )}
   </div>
+              )}
+              <div className="mb-4">
+                <label className="form-label fw-semibold text-primary">Visiting charge (₹)</label>
+                <input type="number" min="0" className="form-control" value={visitingCharge}
+                  onChange={(event) => setVisitingCharge(event.target.value)} required />
+                <small className="text-muted">Customer ko fixed task ke total mein ye charge dikhaya jayega.</small>
+              </div>
+
+              {isSpecialized && selectedSkills.length > 0 && (
+                <div className="card border-0 shadow-sm mb-4">
+                  <div className="card-body">
+                    <h6 className="fw-semibold">Set your task prices</h6>
+                    <small className="text-muted d-block mb-3">Admin ne tasks banaye hain; unki price aap define karenge.</small>
+                    {availableSkills.filter((skill) => selectedSkills.includes(skill._id)).map((skill) => (
+                      <div className="row align-items-center mb-2" key={skill._id}>
+                        <label className="col-7 col-form-label">{skill.name}</label>
+                        <div className="col-5"><input type="number" min="0" className="form-control" placeholder="Price"
+                          value={taskPrices[skill._id] ?? ""}
+                          onChange={(event) => setTaskPrices((current) => ({ ...current, [skill._id]: event.target.value }))} required /></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             {/* SUBMIT */}
             <button

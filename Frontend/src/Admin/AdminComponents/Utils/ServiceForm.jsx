@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { setServices } from "../../../redux/service.Slice";
 import { MdOutlineMoney } from "react-icons/md";
 
-const ServiceForm = ({ mode , service}) => {
+const ServiceForm = ({ mode = "create", service = null}) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -110,6 +110,11 @@ const ServiceForm = ({ mode , service}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (mode === "create" && !formData.image) {
+      toast.error("Service image is required");
+      return;
+    }
 
 
     if (skills.length === 0) {

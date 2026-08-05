@@ -1,5 +1,6 @@
 import { Skill } from "../../models/skillsModel.js";
 import { Professional } from "../../models/userModel.js";
+import { Service } from "../../models/serviceModel.js";
 
 
 export const completeProfile =async (req,res)=>{
@@ -39,6 +40,22 @@ export const completeProfile =async (req,res)=>{
       validatedSkills = skillDocs.map((s) => s._id);
     }
 
+    if (visitingCharge !== undefined && (!Number.isFinite(Number(visitingCharge)) || Number(visitingCharge) < 0)) {
+      return res.status(400).json({ message: "Invalid visiting charge" });
+    }
+    const service = await Service.findById(professional.profession).select("serviceType");
+    let validatedTaskPricing = [];
+    if (service?.serviceType === "specialized") {
+      const rateByTask = new Map(taskPricing.map((rate) => [String(rate.skill), Number(rate.price)]));
+      for (const skill of skillDocs) {
+        const price = rateByTask.get(String(skill._id));
+        if (!Number.isFinite(price) || price < 0) {
+          return res.status(400).json({ message: `Set a valid price for ${skill.name}` });
+        }
+        validatedTaskPricing.push({ skill: skill._id, price });
+      }
+    }
+
 
 
 
@@ -46,7 +63,7 @@ export const completeProfile =async (req,res)=>{
         description,
         selectedSkills: validatedSkills,
         ...(visitingCharge !== undefined ? { visitingCharge: Number(visitingCharge) } : {}),
-        ...(taskPricing.length ? { taskPricing } : {}),
+        ...(service?.serviceType === "specialized" ? { taskPricing: validatedTaskPricing } : {}),
        },{new : true})
 
 

@@ -11,12 +11,16 @@ import DashboardNavigator from "../utils/DashboardNavigator";
 
 const HireProfessionals = () => {
   const {currentUserData} = useSelector(state => state.user);
-  const { selectedLocation, selectedService } = useSelector((state) => state.location);
-  const [selectedSkills, setSelectedSkills] = useState([]);
+  const { selectedLocation, selectedService, selectedTask } = useSelector((state) => state.location);
+  const [selectedSkills, setSelectedSkills] = useState(selectedTask?._id ? [selectedTask._id] : []);
   const [professionals, setProfessionals] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState("distance_asc");
   const [minRating, setMinRating] = useState("");
+
+  useEffect(() => {
+    setSelectedSkills(selectedTask?._id ? [selectedTask._id] : []);
+  }, [selectedTask?._id]);
 
  const { services } = useSelector(state => state.services);
   const serviceName =

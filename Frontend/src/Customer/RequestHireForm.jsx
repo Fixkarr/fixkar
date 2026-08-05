@@ -21,7 +21,7 @@ import VoiceRecorder from "../Components/VoiceRecorder";
 import CustomAudioPlayer from "../Components/CustomAudioPlayer";
 
 const RequestHireForm = ({ proInfo }) => {
-  const { selectedLocation } = useSelector((state) => state.location);
+  const { selectedLocation, selectedTask: preselectedTask } = useSelector((state) => state.location);
   const { currentUserData } = useSelector((state) => state.user);
   const { distance } = useSelector((state) => state.distance);
   const [audioMessages, setAudioMessages] = useState([]);
@@ -29,7 +29,7 @@ const RequestHireForm = ({ proInfo }) => {
   const mobileNumber = currentUserData?.user?.userId?.mobile;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [taskId, setTaskId] = useState("");
+  const [taskId, setTaskId] = useState(preselectedTask?._id || "");
 
   const visitingCharge = Number(proInfo?.visitingCharge ?? calculateVisitingCharge(
     parseFloat(distance?.distance.text)

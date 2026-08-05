@@ -5,6 +5,7 @@ const locationSlice = createSlice({
   initialState: {
     selectedLocation: null,
     selectedService: null,
+    selectedTask: null,
   },
   reducers: {
     setSelectedLocation: (state, action) => {
@@ -12,9 +13,12 @@ const locationSlice = createSlice({
     },
     setSelectedService : (state, action)=>{
         state.selectedService = action.payload
+    },
+    setSelectedTask: (state, action) => {
+      state.selectedTask = action.payload;
     }
   }
 });
 
-export const { setSelectedLocation, setSelectedService } = locationSlice.actions;
+export const { setSelectedLocation, setSelectedService, setSelectedTask } = locationSlice.actions;
 export default locationSlice.reducer;

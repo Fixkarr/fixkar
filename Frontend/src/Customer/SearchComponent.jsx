@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaCrosshairs, FaMapMarkerAlt, FaCheck } from "react-icons/fa";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedLocation, setSelectedService } from "../redux/location.slice";
+import { setSelectedLocation, setSelectedService, setSelectedTask } from "../redux/location.slice";
 import MapPinDrop from "./MapPinDrop";
 import useGetServices from "../hooks/useGetServices";
 import axios from 'axios'
@@ -12,7 +12,7 @@ import { Geolocation } from "@capacitor/geolocation";
 import { Capacitor } from "@capacitor/core";
 import { requestLocationPermission } from "../utils/permissionManager.js";
 
-const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onlyLocation = false,}) => {
+const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTaskSelect, onlyLocation = false,}) => {
   useGetServices()
   const {services} = useSelector(state => state.services)
  
@@ -45,6 +45,13 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onl
   });
 };
 
+  const chooseTask = (skill) => {
+    dispatch(setSelectedTask(skill));
+    setSelectedSkills([skill._id]);
+    if (onSkillsChange) onSkillsChange([skill._id]);
+    if (onTaskSelect) onTaskSelect(skill);
+  };
+
   // 🔹 Autocomplete (ONLY initial location)
   useEffect(() => {
     if (!googleLoaded || !inputRef.current) return;
@@ -72,6 +79,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onl
   const handleServiceChange = async (service) => {
     setSelectedServiceId(service._id);
     dispatch(setSelectedService(service._id));
+    dispatch(setSelectedTask(null));
       setSelectedSkills([]);
       if (onSkillsChange) onSkillsChange([]);
     if (onServiceSelect) onServiceSelect(service._id);
@@ -291,7 +299,7 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onl
             {/* 🔥 SKILLS CHECKBOXES */}
 {!onlyLocation && serviceSkills.length > 0 && (
   <div className="mt-4">
-    <h6 className="fw-semibold mb-2">Filter by Skills</h6>
+    <h6 className="fw-semibold mb-2">Choose a task to book</h6>
     <div className="d-flex flex-wrap gap-2">
       {serviceSkills.map((skill) => {
         const active = selectedSkills.includes(skill._id);
@@ -299,13 +307,18 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange,  onl
           <button
             key={skill._id}
             type="button"
-            onClick={() => handleSkillToggle(skill._id)}
+            onClick={() => chooseTask(skill)}
             className={`btn btn-sm rounded-pill d-flex align-items-center gap-1 ${
               active ? "btn-success" : "btn-outline-secondary"
             }`}
           >
             {active && <FaCheck />}
-            {skill.name}
+            <span>{skill.name}</span>
+            {skill.bookingType === "fixed" && skill.pricingSource === "admin" && (
+              <strong>₹{skill.fixedPrice}</strong>
+            )}
+            {skill.pricingSource === "professional" && <small>Price by professional</small>}
+            {skill.bookingType === "inspection" && <small>Inspection</small>}
           </button>
         );
       })}
