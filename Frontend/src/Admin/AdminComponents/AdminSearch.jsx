@@ -110,9 +110,9 @@ const AdminSearch = ({ customers, professionals }) => {
                     No customers found
                   </div>
                 ) : (
-                  filteredData.map((c) => (
+                  filteredData?.map((c) => (
                     <div
-                      key={c._id}
+                      key={c?._id}
                       className="card border-0 shadow-sm rounded-3 mb-3"
                     >
                       <div className="card-body">
@@ -191,12 +191,12 @@ const AdminSearch = ({ customers, professionals }) => {
               </div>
 
               <div className="flex-grow-1 overflow-auto p-3">
-                {filteredData.length === 0 ? (
+                {filteredData?.length === 0 ? (
                   <div className="text-center text-muted py-5">
                     No professionals found
                   </div>
                 ) : (
-                  filteredData.map((p) => (
+                  filteredData?.map((p) => (
                     <div
                       key={p._id}
                       className="card border-0 shadow-sm rounded-3 mb-3"
