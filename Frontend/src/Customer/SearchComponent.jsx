@@ -15,7 +15,7 @@ import { requestLocationPermission } from "../utils/permissionManager.js";
 const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTaskSelect, onlyLocation = false,}) => {
   useGetServices()
   const {services} = useSelector(state => state.services)
- 
+  
   const googleLoaded = useLoadGoogleMaps();
   const inputRef = useRef(null);
 
@@ -25,13 +25,11 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTa
     address: "",
   });
 
-
-
   const dispatch = useDispatch();
 
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [serviceSkills, setServiceSkills] = useState([]);
-
+  const [selectedFixedTask, setSelectedFixedTask] = useState(null); 
   const [selectedSkills, setSelectedSkills] = useState([]);
 
   const handleSkillToggle = (skillId) => {
@@ -45,12 +43,31 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTa
   });
 };
 
-  const chooseTask = (skill) => {
-    dispatch(setSelectedTask(skill));
-    setSelectedSkills([skill._id]);
-    if (onSkillsChange) onSkillsChange([skill._id]);
-    if (onTaskSelect) onTaskSelect(skill);
-  };
+ const chooseTask = (skill) => {
+
+if(skill.bookingType==="fixed"){
+
+setSelectedFixedTask(skill);
+
+dispatch(setSelectedTask(skill));
+
+return;
+
+}
+
+// inspection flow
+
+dispatch(setSelectedTask(skill));
+
+setSelectedSkills([skill._id]);
+
+if(onSkillsChange)
+onSkillsChange([skill._id]);
+
+if(onTaskSelect)
+onTaskSelect(skill);
+
+}
 
   // 🔹 Autocomplete (ONLY initial location)
   useEffect(() => {
@@ -320,10 +337,20 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTa
             {skill.pricingSource === "professional" && <small>Price by professional</small>}
             {skill.bookingType === "inspection" && <small>Inspection</small>}
           </button>
+
         );
       })}
+    
     </div>
   </div>
+)}
+
+  {selectedFixedTask && (
+
+<BookingConfiguration
+task={selectedFixedTask}
+/>
+
 )}
 
 
