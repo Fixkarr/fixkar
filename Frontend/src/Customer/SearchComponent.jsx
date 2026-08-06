@@ -16,18 +16,15 @@ import RequestHireForm from "./RequestHireForm.jsx";
 const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTaskSelect, onlyLocation = false,}) => {
   useGetServices()
   const {services} = useSelector(state => state.services)
-  
+  const [showHireForm, setShowHireForm] = useState(false);
   const googleLoaded = useLoadGoogleMaps();
   const inputRef = useRef(null);
-
   const [coords, setCoords] = useState({
     lat: null,
     lng: null,
     address: "",
   });
-
   const dispatch = useDispatch();
-
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [serviceSkills, setServiceSkills] = useState([]);
   const [selectedFixedTask, setSelectedFixedTask] = useState(null); 
@@ -43,31 +40,28 @@ const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTa
     return updated;
   });
 };
-
+const { selectedLocation } = useSelector(
+  (state) => state.location
+);
  const chooseTask = (skill) => {
 
 if(skill.bookingType==="fixed"){
-
-setSelectedFixedTask(skill);
-
-dispatch(setSelectedTask(skill));
-
-return;
-
+ if (!selectedLocation?.lat) {
+    alert("Please confirm your location first.");
+    return;
 }
-
+    setSelectedFixedTask(skill);
+    dispatch(setSelectedTask(skill));
+    setShowHireForm(true);
+    return;
+}
 // inspection flow
-
 dispatch(setSelectedTask(skill));
-
 setSelectedSkills([skill._id]);
-
 if(onSkillsChange)
 onSkillsChange([skill._id]);
-
 if(onTaskSelect)
 onTaskSelect(skill);
-
 }
 
   // 🔹 Autocomplete (ONLY initial location)
@@ -346,12 +340,15 @@ onTaskSelect(skill);
   </div>
 )}
 
-  {selectedFixedTask && (
+ {selectedFixedTask && showHireForm && (
 
-<RequestHireForm
-
-task={selectedFixedTask}
-/>
+  <RequestHireForm
+    task={selectedFixedTask}
+    onClose={() => {
+      setShowHireForm(false);
+      setSelectedFixedTask(null);
+    }}
+  />
 
 )}
 

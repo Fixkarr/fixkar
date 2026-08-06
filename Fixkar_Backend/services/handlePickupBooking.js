@@ -5,6 +5,7 @@ import { findEligibleProfessionals } from "./matchingEngine.js";
 import { calculateDistanceForProfessionals } from "./calculateDistanceForProfessionals.js";
 import { pushNotification } from "./pushNotification.js";
 import { sendWhatsAppMessage } from "../utils/sendWhatsaAppMessage.js";
+import { PickupRequest } from "../models/pickup.model.js";
 
 export const handlePickupBooking = async ({
     req,
@@ -98,6 +99,14 @@ export const handlePickupBooking = async ({
 
         for (const item of topProfessionals) {
             const professional = item.professional;
+            await PickupRequest.create({
+    bookingId: booking._id,
+    professionalId: professional._id,
+    customerId,
+    distanceInKm: item.distanceInKm,
+    durationInMinutes: item.durationValue,
+    expiresAt: new Date(Date.now() + 30000),
+});
             const notification = await Notification.create({
                 userId: professional.userId._id,
                 title: "New Pickup Request",

@@ -36,7 +36,7 @@ const bookingSchema = new mongoose.Schema({
     serviceCharge: { type: Number, default: null },
     totalAmount: { type: Number, default: null },
     isPriceLocked: { type: Boolean, default: false },
-    assignmentStatus : { type: String, enum: ['pending', 'assigned', 'unassigned'], default: 'pending' },
+    assignmentStatus : { type: String, enum: ['searching', 'assigned', 'expired', 'cancelled'], default: 'searching' },
     quoteSentAt : {
         type : Date
     },

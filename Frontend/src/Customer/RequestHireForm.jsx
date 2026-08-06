@@ -20,7 +20,7 @@ import {
 import VoiceRecorder from "../Components/VoiceRecorder";
 import CustomAudioPlayer from "../Components/CustomAudioPlayer";
 
-const RequestHireForm = ({ proInfo,  task }) => {
+const RequestHireForm = ({ proInfo,  task, onClose }) => {
   const { selectedLocation, selectedTask: preselectedTask } = useSelector(
     (state) => state.location,
   );
@@ -81,14 +81,24 @@ const RequestHireForm = ({ proInfo,  task }) => {
     workAddress: `${selectedLocation?.address}`,
   });
 
-  useEffect(() => {
-    if (selectedTask?.bookingType === "fixed") {
-      setFormData((prev) => ({
-        ...prev,
-        problemDesc: selectedTask.name,
+ useEffect(() => {
+   if(task){
+      setTaskId(task._id);
+      setFormData(prev=>({
+          ...prev,
+          problemDesc:task.name
       }));
-    }
-  }, [selectedTask]);
+   }
+},[task]);
+
+useEffect(()=>{
+   if(selectedLocation?.address){
+      setFormData(prev=>({
+         ...prev,
+         workAddress:selectedLocation.address
+      }));
+   }
+},[selectedLocation]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -206,6 +216,13 @@ formDataToSend.append(
           <FaTools className="me-2" />
           Hire Professional
         </h5>
+          <button
+        type="button"
+        className="btn btn-sm btn-light rounded-circle"
+        onClick={onClose}
+    >
+        ✕
+    </button>
         <small className="opacity-75">
           Fill the details carefully to request service
         </small>
@@ -213,11 +230,13 @@ formDataToSend.append(
 
       <div className="card-body bg-light">
         {/* Notice */}
-        <div className="alert alert-info border-0 rounded-4 small">
-          <FaInfoCircle className="me-1" />
-          Visiting charge is <b>₹{visitingCharge}</b>. It will be added to the
-          final bill. Cancellation after arrival may cost extra <b>₹50</b>.
-        </div>
+       {proInfo && (
+  <div className="alert alert-info border-0 rounded-4 small">
+    <FaInfoCircle className="me-1" />
+    Visiting charge is <b>₹{visitingCharge}</b>. It will be added to the
+    final bill. Cancellation after arrival may cost extra <b>₹50</b>.
+  </div>
+)}
 
         <form onSubmit={handleSubmit}>
           {/* Name */}
