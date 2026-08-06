@@ -20,7 +20,7 @@ const useGetProfessionalWallet = () => {
         );        
         dispatch(setWallet(res.data))
       } catch (error) {
-        toast.error(error?.response?.data?.message || "Failed to load wallet");
+      
       }
     };
 
