@@ -209,7 +209,7 @@ formDataToSend.append(
     <div className="card border-0 shadow rounded-4 overflow-hidden">
       {/* Header */}
       <div
-        className="px-4 py-3 text-white"
+        className="d-flex justify-content-between px-4 py-3 text-white"
         style={{ background: "linear-gradient(135deg,#0d6efd,#4f9cff)" }}
       >
         <h5 className="fw-bold mb-0">
@@ -223,9 +223,7 @@ formDataToSend.append(
     >
         ✕
     </button>
-        <small className="opacity-75">
-          Fill the details carefully to request service
-        </small>
+       
       </div>
 
       <div className="card-body bg-light">
