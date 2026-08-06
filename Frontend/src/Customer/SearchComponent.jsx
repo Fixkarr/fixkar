@@ -57,6 +57,13 @@ if(skill.bookingType==="fixed"){
     return;
 }
 // inspection flow
+  if (skill.bookingType === "inspection") {
+
+    setShowHireForm(false);
+    setSelectedFixedTask(null);
+
+    return;
+  }
 dispatch(setSelectedTask(skill));
 setSelectedSkills([skill._id]);
 if(onSkillsChange)
