@@ -46,31 +46,37 @@ const { selectedLocation } = useSelector(
 );
  const chooseTask = (skill) => {
 
-if(skill.bookingType==="fixed"){
- if (!selectedLocation?.lat) {
-    toast.info("Please confirm your location first.");
-    return;
-}
-    setSelectedFixedTask(skill);
-    dispatch(setSelectedTask(skill));
-    setShowHireForm(true);
-    return;
-}
-// inspection flow
-  if (skill.bookingType === "inspection") {
+  // Pehle har case me selected chip update karo
+  setSelectedSkills([skill._id]);
 
-    setShowHireForm(false);
-    setSelectedFixedTask(null);
+  if (onSkillsChange) {
+    onSkillsChange([skill._id]);
+  }
+
+  dispatch(setSelectedTask(skill));
+
+  // ================= Fixed Task =================
+  if (skill.bookingType === "fixed") {
+
+    if (!selectedLocation?.lat) {
+      toast.info("Please confirm your location first.");
+      return;
+    }
+
+    setSelectedFixedTask(skill);
+    setShowHireForm(true);
 
     return;
   }
-dispatch(setSelectedTask(skill));
-setSelectedSkills([skill._id]);
-if(onSkillsChange)
-onSkillsChange([skill._id]);
-if(onTaskSelect)
-onTaskSelect(skill);
-}
+
+  // ================= Inspection Task =================
+  setSelectedFixedTask(null);
+  setShowHireForm(false);
+
+  if (onTaskSelect) {
+    onTaskSelect(skill);
+  }
+};
 
   // 🔹 Autocomplete (ONLY initial location)
   useEffect(() => {
