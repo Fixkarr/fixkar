@@ -22,9 +22,7 @@ const useGetTransaction = (proId, limit) => {
 
         setTransactions(data.transactions || []);
       } catch (error) {
-        toast.error(
-          error?.response?.data?.message || "Failed to fetch transactions"
-        );
+       
       } finally {
         setLoading(false);
       }
