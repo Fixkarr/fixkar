@@ -356,7 +356,8 @@ const { selectedLocation } = useSelector(
 
  {selectedFixedTask && showHireForm && (
 
-  <RequestHireForm
+  <div className="mt-3 p-2">
+    <RequestHireForm
     task={selectedFixedTask}
     onClose={() => {
       setShowHireForm(false);
@@ -364,6 +365,7 @@ const { selectedLocation } = useSelector(
     }}
   />
 
+  </div>
 )}
 
 
