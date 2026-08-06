@@ -14,8 +14,7 @@ const UpdateSkills = ({ professional }) => {
   const [taskPrices, setTaskPrices] = useState({});
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch()
-  const isSpecialized =
-  isSpecialized;
+  const isSpecialized = professional?.profession?.serviceType === "specialized";
 
   /* ✅ Init skills from props */
   useEffect(() => {
