@@ -12,6 +12,7 @@ import { Geolocation } from "@capacitor/geolocation";
 import { Capacitor } from "@capacitor/core";
 import { requestLocationPermission } from "../utils/permissionManager.js";
 import RequestHireForm from "./RequestHireForm.jsx";
+import { toast } from "react-toastify";
 
 const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTaskSelect, onlyLocation = false,}) => {
   useGetServices()
@@ -47,7 +48,7 @@ const { selectedLocation } = useSelector(
 
 if(skill.bookingType==="fixed"){
  if (!selectedLocation?.lat) {
-    alert("Please confirm your location first.");
+    toast.info("Please confirm your location first.");
     return;
 }
     setSelectedFixedTask(skill);
