@@ -286,13 +286,27 @@ export const updateSkills = async (req, res) => {
     const service = await Service.findById(professional.profession).select("serviceType");
     if (!service) return res.status(400).json({ message: "Professional service not found" });
 
-    if (visitingCharge !== undefined && (!Number.isFinite(Number(visitingCharge)) || Number(visitingCharge) < 0)) {
-      return res.status(400).json({ message: "Visiting charge must be a valid amount" });
-    }
+  if (
+  service.serviceType === "specialized" &&
+  (
+    visitingCharge === undefined ||
+    !Number.isFinite(Number(visitingCharge)) ||
+    Number(visitingCharge) < 0
+  )
+) {
+  return res.status(400).json({
+    message: "Visiting charge must be a valid amount",
+  });
+}
 
     let validatedTaskPricing = [];
     if (service.serviceType === "specialized") {
-      const ratesBySkill = new Map(taskPricing.map((rate) => [String(rate.skill), Number(rate.price)]));
+     const ratesBySkill = new Map(
+  (taskPricing || []).map((rate) => [
+    String(rate.skill),
+    Number(rate.price),
+  ])
+);
       for (const skill of skillDocs) {
         const price = ratesBySkill.get(String(skill._id));
         if (!Number.isFinite(price) || price < 0) {
@@ -304,8 +318,12 @@ export const updateSkills = async (req, res) => {
 
     // 3️⃣ OPTIONAL: allow empty array (skill reset)
     professional.selectedSkills = selectedSkills;
-    if (visitingCharge !== undefined) professional.visitingCharge = Number(visitingCharge);
-    professional.taskPricing = validatedTaskPricing;
+   if (service.serviceType === "specialized") {
+  professional.visitingCharge = Number(visitingCharge);
+}
+  if (service.serviceType === "specialized") {
+  professional.taskPricing = validatedTaskPricing;
+}
     professional.isChargesDefined = true;
     await professional.save();
 

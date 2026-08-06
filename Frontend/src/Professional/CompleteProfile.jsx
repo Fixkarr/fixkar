@@ -51,17 +51,31 @@ export default function CompleteProfile() {
         .required("Description is required."),
     }),
     onSubmit: async (values, { resetForm }) => {
-      const payload = {
-        description: values.description,
-        skills: selectedSkills,
-        visitingCharge: Number(visitingCharge),
-        taskPricing: selectedSkills.map((skill) => ({ skill, price: Number(taskPrices[skill]) })),
-      };
+    const payload = {
+  description: values.description,
+  skills: selectedSkills,
 
-      if (!Number.isFinite(Number(visitingCharge)) || Number(visitingCharge) < 0) {
-        toast.error("Please define a valid visiting charge");
-        return;
-      }
+  visitingCharge: isSpecialized
+    ? Number(visitingCharge)
+    : null,
+
+  taskPricing: isSpecialized
+    ? selectedSkills.map((skill) => ({
+        skill,
+        price: Number(taskPrices[skill]),
+      }))
+    : [],
+};
+
+     if (
+  isSpecialized &&
+  (!Number.isFinite(Number(visitingCharge)) ||
+    Number(visitingCharge) < 0)
+) {
+  toast.error("Please define a valid visiting charge");
+  return;
+}
+
       if (isSpecialized && selectedSkills.some((skill) => !Number.isFinite(Number(taskPrices[skill])) || Number(taskPrices[skill]) < 0)) {
         toast.error("Please define a price for every selected specialised task");
         return;
@@ -172,12 +186,26 @@ export default function CompleteProfile() {
     )}
   </div>
               )}
-              <div className="mb-4">
-                <label className="form-label fw-semibold text-primary">Visiting charge (₹)</label>
-                <input type="number" min="0" className="form-control" value={visitingCharge}
-                  onChange={(event) => setVisitingCharge(event.target.value)} required />
-                <small className="text-muted">Customer ko fixed task ke total mein ye charge dikhaya jayega.</small>
-              </div>
+            {isSpecialized && (
+  <div className="mb-4">
+    <label className="form-label fw-semibold text-primary">
+      Visiting Charge (₹)
+    </label>
+
+    <input
+      type="number"
+      min="0"
+      className="form-control"
+      value={visitingCharge}
+      onChange={(e) => setVisitingCharge(e.target.value)}
+      required
+    />
+
+    <small className="text-muted">
+      Customer ko inspection booking ke saath ye visiting charge dikhaya jayega.
+    </small>
+  </div>
+)}
 
               {isSpecialized && selectedSkills.length > 0 && (
                 <div className="card border-0 shadow-sm mb-4">

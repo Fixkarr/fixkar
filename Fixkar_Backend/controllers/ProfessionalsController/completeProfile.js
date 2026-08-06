@@ -19,7 +19,7 @@ export const completeProfile =async (req,res)=>{
             message : "Professional not found!"
         })
        }
-
+        const service = await Service.findById(professional.profession).select("serviceType");
 
     let validatedSkills = [];
     let skillDocs = [];
@@ -40,13 +40,27 @@ export const completeProfile =async (req,res)=>{
       validatedSkills = skillDocs.map((s) => s._id);
     }
 
-    if (visitingCharge !== undefined && (!Number.isFinite(Number(visitingCharge)) || Number(visitingCharge) < 0)) {
-      return res.status(400).json({ message: "Invalid visiting charge" });
-    }
-    const service = await Service.findById(professional.profession).select("serviceType");
+   if (
+  service?.serviceType === "specialized" &&
+  (
+    visitingCharge === undefined ||
+    !Number.isFinite(Number(visitingCharge)) ||
+    Number(visitingCharge) < 0
+  )
+) {
+  return res.status(400).json({
+    message: "Invalid visiting charge",
+  });
+}
+   
     let validatedTaskPricing = [];
     if (service?.serviceType === "specialized") {
-      const rateByTask = new Map(taskPricing.map((rate) => [String(rate.skill), Number(rate.price)]));
+     const rateByTask = new Map(
+  (taskPricing || []).map((rate) => [
+    String(rate.skill),
+    Number(rate.price),
+  ])
+);
       for (const skill of skillDocs) {
         const price = rateByTask.get(String(skill._id));
         if (!Number.isFinite(price) || price < 0) {
@@ -63,7 +77,9 @@ export const completeProfile =async (req,res)=>{
         description,
         selectedSkills: validatedSkills,
         isChargesDefined: true,
-        ...(visitingCharge !== undefined ? { visitingCharge: Number(visitingCharge) } : {}),
+       ...(service?.serviceType === "specialized"
+  ? { visitingCharge: Number(visitingCharge) }
+  : {}),
         ...(service?.serviceType === "specialized" ? { taskPricing: validatedTaskPricing } : {}),
        },{new : true})
 
