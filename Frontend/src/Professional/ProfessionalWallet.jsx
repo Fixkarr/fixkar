@@ -47,8 +47,7 @@ const ProfessionalWallet = () => {
       dispatch(refreshWallet());
       setWithdrawAmount("");
     } catch (error) {
-      toast.error(error.response.data.message || "Something went wrong!");
-      setLoading(false);
+    
     }
   };
 
