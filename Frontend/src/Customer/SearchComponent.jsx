@@ -11,6 +11,7 @@ import { server_url } from "../App";
 import { Geolocation } from "@capacitor/geolocation";
 import { Capacitor } from "@capacitor/core";
 import { requestLocationPermission } from "../utils/permissionManager.js";
+import RequestHireForm from "./RequestHireForm.jsx";
 
 const SearchSection = ({ onLocationSelect, onServiceSelect, onSkillsChange, onTaskSelect, onlyLocation = false,}) => {
   useGetServices()
@@ -347,7 +348,8 @@ onTaskSelect(skill);
 
   {selectedFixedTask && (
 
-<BookingConfiguration
+<RequestHireForm
+
 task={selectedFixedTask}
 />
 

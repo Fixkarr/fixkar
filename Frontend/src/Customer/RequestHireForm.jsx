@@ -20,7 +20,7 @@ import {
 import VoiceRecorder from "../Components/VoiceRecorder";
 import CustomAudioPlayer from "../Components/CustomAudioPlayer";
 
-const RequestHireForm = ({ proInfo, mode, task }) => {
+const RequestHireForm = ({ proInfo,  task }) => {
   const { selectedLocation, selectedTask: preselectedTask } = useSelector(
     (state) => state.location,
   );
@@ -131,9 +131,19 @@ const RequestHireForm = ({ proInfo, mode, task }) => {
     formDataToSend.append("workDate", formData.workDate);
     formDataToSend.append("workTime", formData.workTime);
     formDataToSend.append("workAddress", formData.workAddress);
+    formDataToSend.append(
+  "customerLat",
+  selectedLocation?.lat
+);
+
+formDataToSend.append(
+  "customerLng",
+  selectedLocation?.lng
+);
     formDataToSend.append("problemDescription", formData.problemDesc);
     formDataToSend.append("distanceInKm", parseFloat(distance?.distance.text));
     formDataToSend.append("mobileNumber", mobileNumber);
+
 
     // 🔥 AUDIO FILES
     audioMessages.forEach((audio, index) => {

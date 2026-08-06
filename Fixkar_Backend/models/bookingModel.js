@@ -21,7 +21,7 @@ const bookingSchema = new mongoose.Schema({
     reachedOTP : {type : String},
     status : {
         type : String,
-        enum : ['pending', 'accepted', 'reached', 'in-progress', "rejected", 'completed', 'cancelled'],
+        enum : ['pending', 'accepted', 'reached', 'in-progress', "rejected", 'completed', 'cancelled', 'searching'],
         default : 'pending'
     },
     startedAt : {
@@ -36,6 +36,7 @@ const bookingSchema = new mongoose.Schema({
     serviceCharge: { type: Number, default: null },
     totalAmount: { type: Number, default: null },
     isPriceLocked: { type: Boolean, default: false },
+    assignmentStatus : { type: String, enum: ['pending', 'assigned', 'unassigned'], default: 'pending' },
     quoteSentAt : {
         type : Date
     },
