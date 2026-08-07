@@ -206,6 +206,22 @@ formDataToSend.append(
     }
   };
 
+  console.log("taskId:", taskId);
+
+console.log("selectedTask:", selectedTask);
+
+console.log("bookingType:", selectedTask?.bookingType);
+
+console.log("pricingSource:", selectedTask?.pricingSource);
+
+console.log("fixedPrice:", selectedTask?.fixedPrice);
+
+console.log("serviceCharge:", serviceCharge);
+
+console.log("Number.isFinite:", Number.isFinite(serviceCharge));
+
+console.log("isFixedTask:", isFixedTask);
+
   return (
     <div className="card border-0 shadow rounded-4 overflow-hidden">
       {/* Header */}
