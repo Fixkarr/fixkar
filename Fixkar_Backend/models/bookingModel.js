@@ -9,9 +9,9 @@ const bookingSchema = new mongoose.Schema({
     workTime : {type : String, required : true},
     problemDescription : {type : String, required : true},
     audioMessages : [{url : {type : String}}],
-    visitingCharge : {type : Number, required : true},
+    visitingCharge : {type : Number},
     workAddress : {type : String, required : true},
-    distanceInKm : {type : Number, required : true},
+    distanceInKm : {type : Number},
     mobileNumber : {type : String, required : true},
     rejectMessage  : {type : String},
     reachedAt: {
