@@ -45,7 +45,7 @@ const RequestHireForm = ({ proInfo,  task, onClose }) => {
   const availableTasks = (proInfo?.selectedSkills || []).filter(
     (task) => task.isActive !== false,
   );
-  const selectedTask = availableTasks.find((task) => task._id === taskId);
+  const selectedTask = availableTasks.find( (task) => task._id?.toString() === taskId?.toString());
   const specializedRate = (proInfo?.taskPricing || []).find(
     (rate) => (rate.skill?._id || rate.skill) === taskId,
   );
