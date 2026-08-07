@@ -91,6 +91,7 @@ import NoInternet from "./Components/NoInternet.jsx";
 import { setPickupRequest } from "./redux/pickup.slice.js";
 import { toast } from "react-toastify";
 import PickupToast from "./Professional/PickupToast.jsx";
+import IncomingBooking from "./Professional/professionalBooking/Pickup/IncomingBooking.jsx";
 
 const App = () => {
   useGetCurrentUser();
