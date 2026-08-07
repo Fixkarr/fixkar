@@ -20,10 +20,12 @@ import {
 import VoiceRecorder from "../Components/VoiceRecorder";
 import CustomAudioPlayer from "../Components/CustomAudioPlayer";
 
-const RequestHireForm = ({ proInfo,  task, onClose }) => {
-  const { selectedLocation, selectedTask: preselectedTask } = useSelector(
-    (state) => state.location,
-  );
+const RequestHireForm = ({ proInfo, task, onClose }) => {
+  const {
+    selectedLocation,
+    selectedTask: preselectedTask,
+    selectedService,
+  } = useSelector((state) => state.location);
   const { currentUserData } = useSelector((state) => state.user);
   const { distance } = useSelector((state) => state.distance);
   const [audioMessages, setAudioMessages] = useState([]);
@@ -32,30 +34,51 @@ const RequestHireForm = ({ proInfo,  task, onClose }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [taskId, setTaskId] = useState(preselectedTask?._id || "");
+  const isDirectHire = Boolean(proInfo);
+
+  const service = isDirectHire ? proInfo?.profession : selectedService;
+
+  const isSkillBased = service?.serviceType === "skill_based";
+
+  const isSpecialized = service?.serviceType === "specialized";
 
   const distanceCharge = calculateVisitingCharge(
     parseFloat(distance?.distance.text),
   );
 
-  const visitingCharge =
-    proInfo?.visitingCharge != null
-      ? Number(proInfo.visitingCharge)
-      : distanceCharge;
+  let visitingCharge = null;
 
-  const availableTasks = (proInfo?.selectedSkills || []).filter(
-    (task) => task.isActive !== false,
+  if (isDirectHire) {
+    visitingCharge = isSpecialized
+      ? Number(proInfo?.visitingCharge)
+      : distanceCharge;
+  } else {
+    visitingCharge = isSkillBased ? distanceCharge : null;
+  }
+
+  const availableTasks = isDirectHire
+    ? proInfo?.selectedSkills || []
+    : selectedService?.skills || [];
+
+  const selectedTask = availableTasks.find(
+    (task) => task._id?.toString() === taskId?.toString(),
   );
-  const selectedTask = availableTasks.find( (task) => task._id?.toString() === taskId?.toString());
   const specializedRate = (proInfo?.taskPricing || []).find((rate) => {
     const skillId = rate?.skill?._id?.toString() || rate?.skill?.toString();
     return skillId === taskId?.toString();
-});
-  const serviceCharge =
-    selectedTask?.pricingSource === "professional"
-      ? Number(specializedRate?.price)
-      : Number(selectedTask?.fixedPrice);
-  const isFixedTask =
-    selectedTask?.bookingType === "fixed" && Number.isFinite(serviceCharge);
+  });
+
+  let serviceCharge = null;
+
+  if (selectedTask) {
+    if (selectedTask.pricingSource === "admin") {
+      serviceCharge = Number(selectedTask.fixedPrice);
+    } else if (isDirectHire) {
+      serviceCharge = Number(specializedRate?.price);
+    }
+  }
+  const isFixedTask = selectedTask?.bookingType === "fixed";
+
   const totalAmount = isFixedTask ? visitingCharge + serviceCharge : null;
   const handleAudioReady = (blob) => {
     const audioUrl = URL.createObjectURL(blob);
@@ -82,24 +105,24 @@ const RequestHireForm = ({ proInfo,  task, onClose }) => {
     workAddress: `${selectedLocation?.address}`,
   });
 
- useEffect(() => {
-   if(task){
+  useEffect(() => {
+    if (task) {
       setTaskId(task._id);
-      setFormData(prev=>({
-          ...prev,
-          problemDesc:task.name
+      setFormData((prev) => ({
+        ...prev,
+        problemDesc: task.name,
       }));
-   }
-},[task]);
+    }
+  }, [task]);
 
-useEffect(()=>{
-   if(selectedLocation?.address){
-      setFormData(prev=>({
-         ...prev,
-         workAddress:selectedLocation.address
+  useEffect(() => {
+    if (selectedLocation?.address) {
+      setFormData((prev) => ({
+        ...prev,
+        workAddress: selectedLocation.address,
       }));
-   }
-},[selectedLocation]);
+    }
+  }, [selectedLocation]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -142,19 +165,12 @@ useEffect(()=>{
     formDataToSend.append("workDate", formData.workDate);
     formDataToSend.append("workTime", formData.workTime);
     formDataToSend.append("workAddress", formData.workAddress);
-    formDataToSend.append(
-  "customerLat",
-  selectedLocation?.lat
-);
+    formDataToSend.append("customerLat", selectedLocation?.lat);
 
-formDataToSend.append(
-  "customerLng",
-  selectedLocation?.lng
-);
+    formDataToSend.append("customerLng", selectedLocation?.lng);
     formDataToSend.append("problemDescription", formData.problemDesc);
     formDataToSend.append("distanceInKm", parseFloat(distance?.distance.text));
     formDataToSend.append("mobileNumber", mobileNumber);
-
 
     // 🔥 AUDIO FILES
     audioMessages.forEach((audio, index) => {
@@ -207,20 +223,14 @@ formDataToSend.append(
   };
 
   console.log("taskId:", taskId);
-
-console.log("selectedTask:", selectedTask);
-
-console.log("bookingType:", selectedTask?.bookingType);
-
-console.log("pricingSource:", selectedTask?.pricingSource);
-
-console.log("fixedPrice:", selectedTask?.fixedPrice);
-
-console.log("serviceCharge:", serviceCharge);
-
-console.log("Number.isFinite:", Number.isFinite(serviceCharge));
-
-console.log("isFixedTask:", isFixedTask);
+  console.log("selectedTask:", selectedTask);
+  console.log("bookingType:", selectedTask?.bookingType);
+  console.log("pricingSource:", selectedTask?.pricingSource);
+  console.log("fixedPrice:", selectedTask?.fixedPrice);
+  console.log("serviceCharge:", serviceCharge);
+  console.log("Number.isFinite:", Number.isFinite(serviceCharge));
+  console.log("isFixedTask:", isFixedTask);
+  console.log("selectedService", selectedService)
 
   return (
     <div className="card border-0 shadow rounded-4 overflow-hidden">
@@ -233,25 +243,24 @@ console.log("isFixedTask:", isFixedTask);
           <FaTools className="me-2" />
           Hire Professional
         </h5>
-          <button
-        type="button"
-        className="btn btn-sm btn-light rounded-circle"
-        onClick={onClose}
-    >
-        ✕
-    </button>
-       
+        <button
+          type="button"
+          className="btn btn-sm btn-light rounded-circle"
+          onClick={onClose}
+        >
+          ✕
+        </button>
       </div>
 
       <div className="card-body bg-light">
         {/* Notice */}
-       {proInfo && (
-  <div className="alert alert-info border-0 rounded-4 small">
-    <FaInfoCircle className="me-1" />
-    Visiting charge is <b>₹{visitingCharge}</b>. It will be added to the
-    final bill. Cancellation after arrival may cost extra <b>₹50</b>.
-  </div>
-)}
+        {proInfo && (
+          <div className="alert alert-info border-0 rounded-4 small">
+            <FaInfoCircle className="me-1" />
+            Visiting charge is <b>₹{visitingCharge}</b>. It will be added to the
+            final bill. Cancellation after arrival may cost extra <b>₹50</b>.
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           {/* Name */}
@@ -455,10 +464,10 @@ console.log("isFixedTask:", isFixedTask);
           >
             {loading ? (
               <ClipLoader size={20} color="#fff" />
+            ) : selectedTask?.bookingType === "fixed" ? (
+              "Book Now"
             ) : (
-             isFixedTask
-              ? "Book Now"
-              : "Send Hire Request"
+              "Send Hire Request"
             )}
           </button>
         </form>
