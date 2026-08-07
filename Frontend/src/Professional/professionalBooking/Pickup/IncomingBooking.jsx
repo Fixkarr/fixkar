@@ -1,8 +1,6 @@
 import CustomerInfo from "./CustomerInfo";
 import ServiceInfo from "./ServiceInfo";
 import AddressInfo from "./AddressInfo";
-import EarningsCard from "./EarningsCard";
-import CountdownTimer from "./CountdownTimer";
 import ActionButtons from "./ActionButtons";
 
 const IncomingBooking = () => {
@@ -25,7 +23,6 @@ const IncomingBooking = () => {
                             <CustomerInfo />
                             <ServiceInfo />
                             <AddressInfo />
-                            <EarningsCard />
                             <ActionButtons />
                         </div>
                     </div>
