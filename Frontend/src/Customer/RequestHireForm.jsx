@@ -159,9 +159,11 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
     const formDataToSend = new FormData();
 
     formDataToSend.append("customerName", formData.customerName);
+  if (isDirectHire) {
     formDataToSend.append("professionalId", proInfo._id);
-    if (taskId) formDataToSend.append("taskId", taskId);
     formDataToSend.append("profession", proInfo.profession);
+}
+    if (taskId) formDataToSend.append("taskId", taskId);
     formDataToSend.append("workDate", formData.workDate);
     formDataToSend.append("workTime", formData.workTime);
     formDataToSend.append("workAddress", formData.workAddress);
@@ -169,7 +171,12 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
 
     formDataToSend.append("customerLng", selectedLocation?.lng);
     formDataToSend.append("problemDescription", formData.problemDesc);
-    formDataToSend.append("distanceInKm", parseFloat(distance?.distance.text));
+   if (isDirectHire) {
+    formDataToSend.append(
+        "distanceInKm",
+        parseFloat(distance?.distance.text)
+    );
+}
     formDataToSend.append("mobileNumber", mobileNumber);
 
     // 🔥 AUDIO FILES
