@@ -14,6 +14,7 @@ import notificationSlice from './notification.slice.js'
 import messagesSlice from  './messages.Slice.js'
 import chatMessagesSlice from './chatMessages.slice.js'
 import presenceSlice from './presence.slice.js'
+import pickupSlice from './pickup.slice.js'
 
 const appReducer = combineReducers({
         user : userSlice,
@@ -30,7 +31,8 @@ const appReducer = combineReducers({
         notifications : notificationSlice,
         messages : messagesSlice,
         chatMessages : chatMessagesSlice,
-        presence : presenceSlice
+        presence : presenceSlice,
+        pickup : pickupSlice
 })
 
 const rootReducer = (state, action) => {

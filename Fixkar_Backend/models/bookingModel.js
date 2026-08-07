@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 const bookingSchema = new mongoose.Schema({
     customerId : {type : mongoose.Schema.Types.ObjectId, ref : "Customer", required : true},
     customerName : {type : String, required : true},
-    professionalId : {type : mongoose.Schema.Types.ObjectId, ref : "Professional", required : true},
+    professionalId : {type : mongoose.Schema.Types.ObjectId, ref : "Professional"},
     workDate : {type : String, required : true},
     workTime : {type : String, required : true},
     problemDescription : {type : String, required : true},

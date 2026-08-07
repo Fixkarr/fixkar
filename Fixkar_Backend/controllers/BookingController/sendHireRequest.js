@@ -283,32 +283,19 @@ if(isDirectHire){
 
 }else{
     return await handlePickupBooking({
-
         req,
         res,
-
         customerId,
-
         customerName,
-
         mobileNumber,
-
         workDate,
-
         workTime,
-
         workAddress,
-
         problemDescription,
-
         task,
-
         service,
-
         customerLat,
-
         customerLng,
-
         audioMessages,
 
     });

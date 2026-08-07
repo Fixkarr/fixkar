@@ -124,7 +124,7 @@ return (
     </div>
        <NeedHelp user={"professional"}/>
     {/* ✅ BUTTON CLEARLY VISIBLE */}
-    <div className="mt-3">
+    <div className="d-flex flex-wrap gap-2 mt-3">
       <button
         className="btn professional-dashboard__busy-btn fw-semibold rounded-pill px-4 py-2"
         style={{
@@ -139,7 +139,17 @@ return (
         <SlCalender className="me-2"/>
         Mark Busy Days
       </button>
-   
+         <button
+        onClick={()=>navigate("/professional/pickup")}
+        className="btn fw-semibold rounded-pill px-4 py-2"
+        style={{
+            background:"#fff",
+            color:"#0d6efd"
+        }}
+    >
+        <FaBell className="me-2"/>
+        Pickup Requests
+    </button>
     </div>
     </div>
   </div>
