@@ -305,27 +305,6 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
                   </option>
                 ))}
               </select>
-              {isFixedTask && (
-                <div className="alert alert-success mt-3 mb-0 small">
-                  <div className="d-flex justify-content-between">
-                    <span>Visiting charge</span>
-                    <strong>₹{visitingCharge}</strong>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span>{selectedTask.name}</span>
-                    <strong>₹{serviceCharge}</strong>
-                  </div>
-                  <hr className="my-2" />
-                  <div className="d-flex justify-content-between">
-                    <strong>Total payable</strong>
-                    <strong>₹{totalAmount}</strong>
-                  </div>
-                  <small>
-                    This upfront amount is locked; no quote will be requested
-                    later.
-                  </small>
-                </div>
-              )}
               {taskId && selectedTask?.bookingType === "inspection" && (
                 <small className="text-muted">
                   This task needs inspection. The professional will quote after
