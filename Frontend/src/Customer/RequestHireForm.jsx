@@ -46,9 +46,10 @@ const RequestHireForm = ({ proInfo,  task, onClose }) => {
     (task) => task.isActive !== false,
   );
   const selectedTask = availableTasks.find( (task) => task._id?.toString() === taskId?.toString());
-  const specializedRate = (proInfo?.taskPricing || []).find(
-    (rate) => (rate.skill?._id || rate.skill) === taskId,
-  );
+  const specializedRate = (proInfo?.taskPricing || []).find((rate) => {
+    const skillId = rate?.skill?._id?.toString() || rate?.skill?.toString();
+    return skillId === taskId?.toString();
+});
   const serviceCharge =
     selectedTask?.pricingSource === "professional"
       ? Number(specializedRate?.price)
