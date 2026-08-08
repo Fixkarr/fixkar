@@ -58,9 +58,18 @@ export const calculateDistanceForProfessionals = async ({
       const distance =
         (route?.distanceMeters || 0) / 1000;
 
+            const durationSeconds = route?.duration
+                ? parseInt(route.duration.replace("s", ""), 10)
+                : 0;
+
+            const durationInMinutes = Math.ceil(
+                durationSeconds / 60
+            );
       return {
         professional,
         distanceInKm: Number(distance.toFixed(2)),
+        durationValue: durationInMinutes,
+        durationText: `${durationInMinutes} min`,
       };
     });
 
