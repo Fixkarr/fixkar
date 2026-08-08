@@ -22,6 +22,16 @@ export const getProfessionalPickupRequests = async (req, res) => {
 
         const now = new Date();
 
+        console.log("🔥 USER ID:", req.userId);
+        console.log(
+            "🔥 PROFESSIONAL:",
+            professional?._id
+        );
+        console.log(
+            "🔥 NOW:",
+            new Date()
+        );
+
         // Sirf isi professional ki pending aur non-expired requests
         const pickupRequests = await PickupRequest.find({
             professionalId: professional._id,

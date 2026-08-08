@@ -4,7 +4,7 @@ import AddressInfo from "./AddressInfo";
 import ActionButtons from "./ActionButtons";
 import { useSelector } from "react-redux";
 import PricingInfo from "./PricingInfo";
-import BookingSchedule from "./BookingSchedule";
+
 
 const IncomingBooking = ({request}) => {
        console.log(request)
@@ -21,7 +21,7 @@ const IncomingBooking = ({request}) => {
                             <ServiceInfo request={request} />
                             <AddressInfo request={request} />
                             <PricingInfo request={request}/>
-                            <BookingSchedule request={request}/>
+                           
                             <ActionButtons request={request} />
 
                         </div>

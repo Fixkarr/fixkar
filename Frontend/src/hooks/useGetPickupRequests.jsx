@@ -24,9 +24,14 @@ export const useGetPickupRequests = () => {
           withCredentials: true,
         }
       );
+      console.log("🔥 PICKUP API RESPONSE:", response.data);
+
 
       const requests =
         response.data?.pickupRequests || [];
+        
+console.log("🔥 FETCHED PICKUP REQUESTS:", requests);
+
 
       requests.forEach((request) => {
         dispatch(
