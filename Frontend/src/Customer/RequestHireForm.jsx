@@ -36,7 +36,9 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
   const mobileNumber = currentUserData?.user?.userId?.mobile;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [taskId, setTaskId] = useState(preselectedTask?._id || "");
+  const [taskId, setTaskId] = useState(
+    !proInfo ? preselectedTask?._id || "" : ""
+);
   const isDirectHire = Boolean(proInfo);
 
   const service = isDirectHire ? proInfo?.profession : selectedService;
@@ -59,8 +61,8 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
     visitingCharge = isSkillBased ? distanceCharge : null;
   }
 
-  const availableTasks = isDirectHire
-    ? proInfo?.selectedSkills || []
+ const availableTasks = isDirectHire
+    ? []
     : selectedService?.skills || [];
 
   const selectedTask = availableTasks.find(
@@ -109,14 +111,14 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
   });
 
   useEffect(() => {
-    if (task) {
-      setTaskId(task._id);
-      setFormData((prev) => ({
-        ...prev,
-        problemDesc: task.name,
-      }));
+    if (!isDirectHire && task) {
+        setTaskId(task._id);
+        setFormData((prev) => ({
+            ...prev,
+            problemDesc: task.name,
+        }));
     }
-  }, [task]);
+}, [task, isDirectHire]);
 
   useEffect(() => {
     if (selectedLocation?.address) {
@@ -166,7 +168,9 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
     formDataToSend.append("professionalId", proInfo._id);
     formDataToSend.append("profession", proInfo.profession);
 }
-    if (taskId) formDataToSend.append("taskId", taskId);
+    if (!isDirectHire && taskId) {
+          formDataToSend.append("taskId", taskId);
+      }
     formDataToSend.append("workDate", formData.workDate);
     formDataToSend.append("workTime", formData.workTime);
     formDataToSend.append("workAddress", formData.workAddress);
@@ -373,12 +377,12 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
               rows="3"
               value={formData.problemDesc}
               onChange={handleChange}
-              readOnly={selectedTask?.bookingType === "fixed"}
-              placeholder={
-                selectedTask?.bookingType === "fixed"
-                  ? ""
-                  : "Explain the work you want to get done"
-              }
+             readOnly={!isDirectHire && selectedTask?.bookingType === "fixed"}
+            placeholder={
+                !isDirectHire && selectedTask?.bookingType === "fixed"
+                    ? ""
+                    : "Explain the work you want to get done"
+            }
               required
             />
             {/* Audio Preview */}
@@ -455,13 +459,15 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
             disabled={loading}
             className="btn btn-primary w-100 rounded-pill fw-semibold"
           >
-            {loading ? (
-              <ClipLoader size={20} color="#fff" />
-            ) : selectedTask?.bookingType === "fixed" ? (
-              "Book Now"
-            ) : (
-              "Send Hire Request"
-            )}
+           {loading ? (
+    <ClipLoader size={20} color="#fff" />
+) : isDirectHire ? (
+    "Book Now"
+) : selectedTask?.bookingType === "fixed" ? (
+    "Book Now"
+) : (
+    "Send Hire Request"
+)}
           </button>
         </form>
       </div>

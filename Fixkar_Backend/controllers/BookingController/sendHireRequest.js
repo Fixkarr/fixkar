@@ -3,7 +3,7 @@ import { Professional } from "../../models/userModel.js";
 import { Skill } from "../../models/skillsModel.js";
 import { Notification } from "../../models/notificationModel.js";
 import { Customer } from "../../models/userModel.js";
-import {io} from '../../server.js'
+import { io } from '../../server.js'
 import { pushNotification } from "../../services/pushNotification.js";
 import { sendWhatsAppMessage } from "../../utils/sendWhatsaAppMessage.js";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
@@ -11,145 +11,244 @@ import { Service } from "../../models/serviceModel.js";
 import { findEligibleProfessionals } from "../../services/matchingEngine.js";
 import { calculateDistanceForProfessionals } from "../../services/calculateDistanceForProfessionals.js";
 import { handlePickupBooking } from "../../services/handlePickupBooking.js";
-export const sendHireRequest = async (req, res)=>{
-    try {
-        const {professionalId, workDate, workTime, mobileNumber, problemDescription, workAddress, distanceInKm,  customerLat,
-    customerLng, customerName, taskId} = req.body;
+export const sendHireRequest = async (req, res) => {
+  try {
+    const { professionalId, workDate, workTime, mobileNumber, problemDescription, workAddress, distanceInKm, customerLat,
+      customerLng, customerName, taskId } = req.body;
 
     console.log(customerLng, customerLat, "CUSTOMER LOCATION")
-        const dateMatch = /^\d{4}-\d{2}-\d{2}$/.test(workDate || "");
-        const timeMatch = /^([01]\d|2[0-3]):[0-5]\d$/.test(workTime || "");
+    const dateMatch = /^\d{4}-\d{2}-\d{2}$/.test(workDate || "");
+    const timeMatch = /^([01]\d|2[0-3]):[0-5]\d$/.test(workTime || "");
 
-        if (!dateMatch || !timeMatch) {
-          return res.status(400).json({ message: "Please provide a valid service date and time" });
+    if (!dateMatch || !timeMatch) {
+      return res.status(400).json({ message: "Please provide a valid service date and time" });
+    }
+
+
+
+    const [year, month, day] = workDate.split("-").map(Number);
+    const calendarDate = new Date(Date.UTC(year, month - 1, day));
+    const isValidCalendarDate =
+      calendarDate.getUTCFullYear() === year &&
+      calendarDate.getUTCMonth() === month - 1 &&
+      calendarDate.getUTCDate() === day;
+
+    // Service time is entered in the app's India-facing local time (IST).
+    const scheduledAt = new Date(`${workDate}T${workTime}:00+05:30`);
+    if (!isValidCalendarDate || Number.isNaN(scheduledAt.getTime()) || scheduledAt <= new Date()) {
+      return res.status(400).json({
+        message: "Please select a future date and time for the service request",
+      });
+    }
+
+    const myId = req.userId;
+    const customerId = await Customer.findOne({ userId: myId }).select('_id');
+    const isDirectHire = !!professionalId;
+    let professional = null;
+
+    if (!isDirectHire) {
+      if (
+        customerLat == null ||
+        customerLng == null
+      ) {
+        return res.status(400).json({
+          message: "Customer location is required."
+        });
+      }
+    }
+
+
+
+    if (isDirectHire) {
+      professional = await Professional.findById(professionalId)
+        .populate({
+          path: "profession",
+          select: "serviceType",
+        });
+
+      if (!professional || !professional.profession) {
+        return res.status(404).json({
+          message: "Professional not found",
+        });
+      }
+    }
+
+    // Pricing is always calculated on the server.  Never trust a visit or
+    // task price supplied by the browser.
+    let task = null;
+    let pricingType = "inspection";
+    let serviceCharge = null;
+    let totalAmount = null;
+    let isPriceLocked = false;
+    let service = null;
+
+    const calculateVisitingCharge = (distanceInKm) => {
+      const baseCharge = Number(distanceInKm);
+      if (!Number.isFinite(baseCharge) || baseCharge < 0) {
+        return null;
+      }
+      if (baseCharge <= 10) {
+        return 25;
+      }
+      return Math.round(
+        baseCharge + (baseCharge - 5) * 3
+      );
+    };
+
+    if (isDirectHire) {
+      service = professional.profession;
+    } else {
+      service = await Service.findOne({
+        skills: taskId,
+      }).select("name serviceType");
+    }
+  if (taskId) {
+    task = await Skill.findById(taskId);
+
+    if (!task || !task.isActive) {
+        return res.status(400).json({
+            message: "Invalid task",
+        });
+    }
+
+    if (task.service.toString() !== service._id.toString()) {
+        return res.status(400).json({
+            message: "Task doesn't belong to this service",
+        });
+    }
+
+    // Direct hire mein selected task professional ke
+    // available skills mein hona chahiye.
+    if (isDirectHire) {
+        const offersTask = professional.selectedSkills.some(
+            (id) => id.toString() === task._id.toString()
+        );
+
+        if (!offersTask) {
+            return res.status(400).json({
+                message: "This professional does not offer the selected task",
+            });
         }
+    }
 
+    // Sirf fixed task ke liye pricing calculate hogi.
+    if (task.bookingType === "fixed") {
+        pricingType = "fixed";
 
+        // -----------------------------------------
+        // ADMIN PRICED TASK
+        // -----------------------------------------
+        if (task.pricingSource === "admin") {
+            serviceCharge = Number(task.fixedPrice);
 
-        const [year, month, day] = workDate.split("-").map(Number);
-        const calendarDate = new Date(Date.UTC(year, month - 1, day));
-        const isValidCalendarDate =
-          calendarDate.getUTCFullYear() === year &&
-          calendarDate.getUTCMonth() === month - 1 &&
-          calendarDate.getUTCDate() === day;
-
-        // Service time is entered in the app's India-facing local time (IST).
-        const scheduledAt = new Date(`${workDate}T${workTime}:00+05:30`);
-        if (!isValidCalendarDate || Number.isNaN(scheduledAt.getTime()) || scheduledAt <= new Date()) {
-          return res.status(400).json({
-            message: "Please select a future date and time for the service request",
-          });
-        }
-
-        const myId = req.userId;
-        const customerId = await Customer.findOne({userId : myId}).select('_id');
-        const isDirectHire = !!professionalId;
-     let professional = null;
-
-     if(!isDirectHire){
-              if (
-    customerLat == null ||
-    customerLng == null
-){
-    return res.status(400).json({
-        message:"Customer location is required."
-    });
-}
-     }
-
-
-
-if (isDirectHire) {
-  professional = await Professional.findById(professionalId)
-    .populate({
-      path: "profession",
-      select: "serviceType",
-    });
-
-  if (!professional || !professional.profession) {
-    return res.status(404).json({
-      message: "Professional not found",
-    });
-  }
-}
-
-        // Pricing is always calculated on the server.  Never trust a visit or
-        // task price supplied by the browser.
-        let task = null;
-        let pricingType = "inspection";
-        let serviceCharge = null;
-        let totalAmount = null;
-        let isPriceLocked = false;
-        let service = null;
-
-if (isDirectHire) {
-  service = professional.profession;
-} else {
- service = await Service.findOne({
-    skills: taskId,
-}).select("name serviceType");
-}
-        if (taskId) {
-        task = await Skill.findById(taskId);
-
-if (!task || !task.isActive) {
-    return res.status(400).json({
-        message:"Invalid task"
-    });
-}
-
-if(task.service.toString()!==service._id.toString()){
-    return res.status(400).json({
-        message:"Task doesn't belong to this service"
-    })
-}
-        if(isDirectHire){
-          if (!professional.selectedSkills.some((id) => id.toString() === task._id.toString())) {
-            return res.status(400).json({ message: "This professional does not offer the selected task" });
-          }
-        }
-          if (task.bookingType === "fixed") {
-            pricingType = "fixed";
-            if (task.pricingSource === "admin") {
-              serviceCharge = Number(task.fixedPrice);
-            } else if(isDirectHire){
-              const professionalRate = professional.taskPricing.find(
-                (rate) => rate.skill.toString() === task._id.toString()
-              );
-              if (!professionalRate) {
-                return res.status(400).json({ message: "Professional has not set a price for this task" });
-              }
-              serviceCharge = Number(professionalRate.price);
+            if (
+                !Number.isFinite(serviceCharge) ||
+                serviceCharge < 0
+            ) {
+                return res.status(400).json({
+                    message: "Task price is not available",
+                });
             }
-            if (!Number.isFinite(serviceCharge) || serviceCharge < 0) {
-              return res.status(400).json({ message: "Task price is not available" });
-            }
-          if (isDirectHire) {
 
-            const calculateVisitingCharge = (distanceInKm) => {
-            
-                const baseCharge = Number(distanceInKm);
-                if(baseCharge <= 10){
-                    return 25
+            // Direct hire mein abhi professional already known hai.
+            if (isDirectHire) {
+                const visitingCharge =
+                    service.serviceType === "specialized"
+                        ? Number(professional.visitingCharge)
+                        : calculateVisitingCharge(distanceInKm);
+
+                if (
+                    !Number.isFinite(visitingCharge) ||
+                    visitingCharge < 0
+                ) {
+                    return res.status(400).json({
+                        message: "Visiting charge is not available",
+                    });
                 }
-                return Math.round(baseCharge + (baseCharge - 5) * 3);
+
+                totalAmount =
+                    visitingCharge + serviceCharge;
+
+                isPriceLocked = true;
             }
 
-    const visitingCharge =
-        professional.visitingCharge ??
-        calculateVisitingCharge(distanceInKm);
-
-    totalAmount =
-        Number(visitingCharge) +
-        serviceCharge;
-
-}
-            isPriceLocked = true;
-          }
+            // Pickup mein admin price already known hai,
+            // lekin professional abhi assign nahi hua.
+            else {
+                totalAmount = null;
+                isPriceLocked = false;
+            }
         }
 
-        let audioMessages = [];
-         if (req.files && req.files.length > 0) {
+        // -----------------------------------------
+        // PROFESSIONAL PRICED TASK
+        // -----------------------------------------
+        else if (task.pricingSource === "professional") {
+
+            // Direct hire:
+            // professional already known hai,
+            // isliye uski taskPricing se price milegi.
+            if (isDirectHire) {
+                const professionalRate =
+                    professional.taskPricing.find(
+                        (rate) =>
+                            rate.skill.toString() ===
+                            task._id.toString()
+                    );
+
+                if (!professionalRate) {
+                    return res.status(400).json({
+                        message:
+                            "Professional has not set a price for this task",
+                    });
+                }
+
+                serviceCharge =
+                    Number(professionalRate.price);
+
+                if (
+                    !Number.isFinite(serviceCharge) ||
+                    serviceCharge < 0
+                ) {
+                    return res.status(400).json({
+                        message: "Task price is not available",
+                    });
+                }
+
+                const visitingCharge =
+                    service.serviceType === "specialized"
+                        ? Number(professional.visitingCharge)
+                        : calculateVisitingCharge(distanceInKm);
+
+                if (
+                    !Number.isFinite(visitingCharge) ||
+                    visitingCharge < 0
+                ) {
+                    return res.status(400).json({
+                        message: "Visiting charge is not available",
+                    });
+                }
+
+                totalAmount =
+                    visitingCharge + serviceCharge;
+
+                isPriceLocked = true;
+            }
+
+            // Pickup:
+            // Professional abhi unknown hai.
+            // Isliye professional ka price abhi nahi niklega.
+            else {
+                serviceCharge = null;
+                totalAmount = null;
+                isPriceLocked = false;
+            }
+        }
+    }
+}
+
+    let audioMessages = [];
+    if (req.files && req.files.length > 0) {
       for (let file of req.files) {
 
         if (!file.mimetype.startsWith("audio/")) {
@@ -168,122 +267,142 @@ if(task.service.toString()!==service._id.toString()){
         });
       }
     }
-      let visitingCharge = null;
+   let visitingCharge = null;
 
-      if (isDirectHire) {
-          visitingCharge =
-              professional.visitingCharge ??
-              calculateVisitingCharge(distanceInKm);
-      }
+if (isDirectHire) {
+    if (service.serviceType === "specialized") {
+        visitingCharge = Number(professional.visitingCharge);
 
-     
-        const newBooking = new Booking({
-            customerId ,
-            customerName,
-            professionalId: isDirectHire
-                          ? professionalId
-                          : null, 
-            workDate,
-            workTime,
-            problemDescription,
-            visitingCharge,
-            workAddress,
-            distanceInKm,
-            mobileNumber,
-            audioMessages, 
-            service: isDirectHire
-                      ? professional.profession._id
-                      : task.service,
-            task: task?._id,
-            pricingType,
-            serviceCharge,
-            totalAmount,
-            isPriceLocked,
-        })
+        if (
+            !Number.isFinite(visitingCharge) ||
+            visitingCharge < 0
+        ) {
+            return res.status(400).json({
+                message: "Professional visiting charge is not available",
+            });
+        }
+    } else {
+        visitingCharge =
+            calculateVisitingCharge(distanceInKm);
 
-        const savedBooking = await newBooking.save()
+        if (
+            !Number.isFinite(visitingCharge) ||
+            visitingCharge < 0
+        ) {
+            return res.status(400).json({
+                message: "Visiting charge is not available",
+            });
+        }
+    }
+}
+
+
+    const newBooking = new Booking({
+      customerId,
+      customerName,
+      professionalId: isDirectHire
+        ? professionalId
+        : null,
+      workDate,
+      workTime,
+      problemDescription,
+      visitingCharge,
+      workAddress,
+      distanceInKm,
+      mobileNumber,
+      audioMessages,
+     service: service._id,
+      task: task?._id || null,
+      
+      pricingType,
+      serviceCharge,
+      totalAmount,
+      isPriceLocked,
+    })
+
+    const savedBooking = await newBooking.save()
     const booking = await Booking.findById(savedBooking._id)
-  .populate({
-    path: "customerId",
-    populate: {
-      path: "userId",
-      model: "User",
-      select: "fullName",
-    },
-  })
-  .populate({
-    path: "professionalId",
-    select: "profilePicture address userId profession",
-    populate: [{
-      path: "userId",
-      model: "User",
-      select: "fullName mobile",
-    },
-  { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
-      {path : "selectedSkills", select : "name"}
-],
-  }).populate('review');
+      .populate({
+        path: "customerId",
+        populate: {
+          path: "userId",
+          model: "User",
+          select: "fullName",
+        },
+      })
+      .populate({
+        path: "professionalId",
+        select: "profilePicture address userId profession",
+        populate: [{
+          path: "userId",
+          model: "User",
+          select: "fullName mobile",
+        },
+        { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
+        { path: "selectedSkills", select: "name" }
+        ],
+      }).populate('review');
 
-if(isDirectHire){
-     const notification = await Notification.create({
-      userId: booking.professionalId.userId._id,
-      title: "New Booking Request",
-      message: `New hire request received from ${booking.customerName}`,
-      type: "booking_pending",
-      relatedId: booking._id,
-      isRead: false,
-    });
+    if (isDirectHire) {
+      const notification = await Notification.create({
+        userId: booking.professionalId.userId._id,
+        title: "New Booking Request",
+        message: `New hire request received from ${booking.customerName}`,
+        type: "booking_pending",
+        relatedId: booking._id,
+        isRead: false,
+      });
 
-    
+
       const notificationPayload = {
-      userId: notification.userId,
-      title: notification.title,
-      message: notification.message,
-      redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
-    };
-    
-      await pushNotification(notificationPayload);
-
-    io.to(booking.professionalId.userId._id.toString()).emit(
-      "notification",
-      {
+        userId: notification.userId,
         title: notification.title,
         message: notification.message,
-        type: notification.type,
-        relatedId: notification.relatedId,
-        isRead: notification.isRead,
-        createdAt: notification.createdAt,
-      }
-    );
+        redirectUrl: `/professional/bookings/${booking._id}`, // OPTIONAL
+      };
+
+      await pushNotification(notificationPayload);
+
+      io.to(booking.professionalId.userId._id.toString()).emit(
+        "notification",
+        {
+          title: notification.title,
+          message: notification.message,
+          type: notification.type,
+          relatedId: notification.relatedId,
+          isRead: notification.isRead,
+          createdAt: notification.createdAt,
+        }
+      );
 
 
-    const message = await sendWhatsAppMessage({
-  phone: booking.professionalId.userId.mobile,
-  customerName: booking.customerName,
-  address : booking.workAddress,
-  bookingId: booking._id.toString(),
-});
+      const message = await sendWhatsAppMessage({
+        phone: booking.professionalId.userId.mobile,
+        customerName: booking.customerName,
+        address: booking.workAddress,
+        bookingId: booking._id.toString(),
+      });
 
-    console.log(message)
+      console.log(message)
 
-       io.to(booking.professionalId.userId._id.toString()).emit(
-      "newBookingRequest",
-      booking
-    );
+      io.to(booking.professionalId.userId._id.toString()).emit(
+        "newBookingRequest",
+        booking
+      );
 
-    io.to(booking.customerId.userId._id.toString()).emit(
-      "bookingCreated",
-      booking
-    );
+      io.to(booking.customerId.userId._id.toString()).emit(
+        "bookingCreated",
+        booking
+      );
 
       res.status(200).json({
-            success : true,
-            message : "Hire request sent successfully",
-            booking
-        })
+        success: true,
+        message: "Hire request sent successfully",
+        booking
+      })
 
-}else{
-    return await handlePickupBooking({
+    } else {
+      return await handlePickupBooking({
         req,
         res,
         customerId,
@@ -299,16 +418,16 @@ if(isDirectHire){
         customerLng,
         audioMessages,
 
-    });
-}
-
-      
-
-
-    } catch (error) {
-        console.error(error.message)
-        res.status(500).json({
-            message : "Internal server error, please try again",
-        })
+      });
     }
+
+
+
+
+  } catch (error) {
+    console.error(error.message)
+    res.status(500).json({
+      message: "Internal server error, please try again",
+    })
+  }
 }
