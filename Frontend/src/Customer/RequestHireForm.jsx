@@ -19,6 +19,7 @@ import {
 } from "react-icons/fa";
 import VoiceRecorder from "../Components/VoiceRecorder";
 import CustomAudioPlayer from "../Components/CustomAudioPlayer";
+import PickupWaiting from "./PickupWaiting";
 
 const RequestHireForm = ({ proInfo, task, onClose }) => {
   const {
@@ -29,6 +30,8 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
   const { currentUserData } = useSelector((state) => state.user);
   const { distance } = useSelector((state) => state.distance);
   const [audioMessages, setAudioMessages] = useState([]);
+  const [pickupSearching, setPickupSearching] = useState(false);
+  const [pickupExpiresAt, setPickupExpiresAt] = useState(null);
   const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
   const mobileNumber = currentUserData?.user?.userId?.mobile;
   const navigate = useNavigate();
@@ -220,13 +223,16 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
         formDataToSend,
         { withCredentials: true },
       );
-    if (isDirectHire) {
+        if (!isDirectHire && result.data.searching) {
+        setPickupExpiresAt(result.data.expiresAt);
+        setPickupSearching(true);
+        setLoading(false);
+        return;
+      }
+
   toast.success(result.data.message);
         navigate("/customer/bookings");
-      } else {
-        // Pickup flow
-        // Stay on current page
-      }
+     
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -234,9 +240,14 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
     }
   };
 
-
+ 
   return (
-    <div className="card border-0 shadow rounded-4 overflow-hidden">
+   <>
+   {pickupSearching ? 
+     <PickupWaiting
+      expiresAt={pickupExpiresAt}
+    /> :  <div className="card border-0 shadow rounded-4 overflow-hidden">
+      
       {/* Header */}
       <div
         className="d-flex justify-content-between px-4 py-3 text-white"
@@ -455,6 +466,8 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
         </form>
       </div>
     </div>
+  }
+   </>
   );
 };
 
