@@ -4,14 +4,8 @@ import AddressInfo from "./AddressInfo";
 import ActionButtons from "./ActionButtons";
 import { useSelector } from "react-redux";
 
-const IncomingBooking = () => {
-        const { currentPickupRequest } = useSelector(
-        (state) => state.pickup
-    );
-
-    if (!currentPickupRequest) {
-        return null;
-    }
+const IncomingBooking = ({request}) => {
+       console.log(request)
     return (
         <section className="container-fluid bg-light min-vh-100 py-3 py-md-4">
             <div className="row justify-content-center">
@@ -21,10 +15,10 @@ const IncomingBooking = () => {
                             New Request
                         </span>
                         <div className="card-body p-3 p-md-4">
-                            <CustomerInfo />
-                            <ServiceInfo />
-                            <AddressInfo />
-                            <ActionButtons />
+                            <CustomerInfo request={request} />
+                            <ServiceInfo request={request} />
+                            <AddressInfo request={request} />
+                            <ActionButtons request={request} />
                         </div>
                     </div>
                 </div>

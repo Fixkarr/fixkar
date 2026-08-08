@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     currentPickupRequest: null,
     isSearching: false,
+    incomingRequests : []
 };
 
 const pickupSlice = createSlice({
@@ -16,6 +17,25 @@ const pickupSlice = createSlice({
         clearPickupRequest: (state) => {
             state.currentPickupRequest = null;
         },
+         addIncomingRequest: (state, action) => {
+            const request = action.payload;
+
+            const exists = state.incomingRequests.some(
+                (item) =>
+                    item.pickupRequestId === request.pickupRequestId
+            );
+
+            if (!exists) {
+                state.incomingRequests.push(request);
+            }
+        },
+          removeIncomingRequest: (state, action) => {
+            state.incomingRequests =
+                state.incomingRequests.filter(
+                    (item) =>
+                        item.pickupRequestId !== action.payload
+                );
+        },
 
         setSearching: (state, action) => {
             state.isSearching = action.payload;
@@ -24,6 +44,7 @@ const pickupSlice = createSlice({
         resetPickupState: (state) => {
             state.currentPickupRequest = null;
             state.isSearching = false;
+         state.incomingRequests = [];
         },
     },
 });
@@ -31,6 +52,8 @@ const pickupSlice = createSlice({
 export const {
     setPickupRequest,
     clearPickupRequest,
+    addIncomingRequest,
+    removeIncomingRequest,
     setSearching,
     resetPickupState,
 } = pickupSlice.actions;

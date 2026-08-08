@@ -88,10 +88,11 @@ import {Capacitor} from '@capacitor/core'
 import {SocialLogin} from '@capgo/capacitor-social-login'
 import useNetworkStatus from "./hooks/useNetworkStatus.jsx";
 import NoInternet from "./Components/NoInternet.jsx";
-import { setPickupRequest } from "./redux/pickup.slice.js";
+import { addIncomingRequest, setPickupRequest } from "./redux/pickup.slice.js";
 import { toast } from "react-toastify";
 import PickupToast from "./Professional/PickupToast.jsx";
 import IncomingBooking from "./Professional/professionalBooking/Pickup/IncomingBooking.jsx";
+import IncomingRequests from "./Professional/professionalBooking/Pickup/IncomingRequests.jsx";
 
 const App = () => {
   useGetCurrentUser();
@@ -276,20 +277,22 @@ const App = () => {
       dispatch(refreshWallet())
     });
 
-  socket.on("pickupRequest",(data)=>{
-    if(role!=="professional") return;
-    dispatch(setPickupRequest(data));
+socket.on("pickupRequest", (data) => {
+    if (role !== "professional") return;
+
+    dispatch(addIncomingRequest(data));
+
     toast.info(
-    <PickupToast data={data}/>,
-       {
-            toastId: "pickup-request",
+        <PickupToast data={data} />,
+        {
+            toastId: `pickup-${data.pickupRequestId}`,
             autoClose: 8000,
             closeOnClick: false,
             closeButton: false,
             hideProgressBar: false,
-            position: "top-right"
+            position: "top-right",
         }
-    )
+    );
 });
 
 
@@ -477,7 +480,7 @@ const App = () => {
         <Route
           path="/professional/pickup"
           element={
-            <IncomingBooking/>
+            <IncomingRequests/>
           }
         />
         <Route
