@@ -1,14 +1,29 @@
 import { Professional } from "../models/userModel.js";
 
 export const findEligibleProfessionals = async ( 
-  serviceId,
+ { serviceId,
   taskId,
   workDate,
    customerLat,
   customerLng,
   radiusInKm = 15,
-  limit = 10,) =>{
+  limit = 10,}) =>{
     try {
+       const lat = Number(customerLat);
+        const lng = Number(customerLng);
+        const maxDistance = Number(radiusInKm) * 1000;
+
+          if (
+            !Number.isFinite(lat) ||
+            !Number.isFinite(lng)
+        ) {
+            throw new Error("Invalid customer coordinates");
+        }
+
+        if (!Number.isFinite(maxDistance)) {
+            throw new Error("Invalid search radius");
+        }
+
             const query = {
       profession: serviceId,
 
@@ -25,19 +40,15 @@ export const findEligibleProfessionals = async (
       busyDays: {
         $ne: workDate,
       },
-        location: {
-        $near: {
-          $geometry: {
-            type: "Point",
-            coordinates: [
-              Number(customerLng),
-              Number(customerLat),
-            ],
-          },
-
-          $maxDistance: radiusInKm * 1000,
-        },
-      },
+         location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lng, lat],
+                    },
+                    $maxDistance: maxDistance,
+                },
+            },
     };
 
     const professionals = await Professional.find(query)
