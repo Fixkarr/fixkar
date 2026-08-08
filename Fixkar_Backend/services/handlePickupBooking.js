@@ -121,7 +121,7 @@ export const handlePickupBooking = async ({
                 title: notification.title,
                 message: notification.message,
                 redirectUrl: `/professional/pickup/${pickupSessionId}`,
-            });
+            }); 
 
             // Socket notification
             io.to(

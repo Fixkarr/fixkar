@@ -28,7 +28,6 @@ const handleCancel = () => {
 
 const handleTryAgain = () => {
     dispatch(resetPickupState());
-
     navigate("/customer");
 };
 

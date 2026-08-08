@@ -227,7 +227,15 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
         formDataToSend,
         { withCredentials: true },
       );
+
+      
+      console.log("🔥 BOOKING RESPONSE:", result.data);
+console.log("🔥 isDirectHire:", isDirectHire);
+console.log("🔥 searching:", result.data.searching);
+console.log("🔥 expiresAt:", result.data.expiresAt);
+
         if (!isDirectHire && result.data.searching) {
+          console.log("openning pickup waiting!")
         setPickupExpiresAt(result.data.expiresAt);
         setPickupSearching(true);
         setLoading(false);
