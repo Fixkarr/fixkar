@@ -120,7 +120,7 @@ export const handlePickupBooking = async ({
                 userId: professional.userId._id,
                 title: notification.title,
                 message: notification.message,
-                redirectUrl: `/professional/pickup/${pickupSessionId}`,
+                redirectUrl: `/professional/pickup`,
             }); 
 
             // Socket notification

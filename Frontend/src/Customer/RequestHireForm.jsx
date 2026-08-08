@@ -262,7 +262,6 @@ console.log("🔥 expiresAt:", result.data.expiresAt);
      pickupSessionId={pickupSessionId}
       expiresAt={pickupExpiresAt}
     /> : <div className="card border-0 shadow rounded-4 overflow-hidden">
-      
       {/* Header */}
       <div
         className="d-flex justify-content-between px-4 py-3 text-white"
