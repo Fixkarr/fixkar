@@ -82,6 +82,37 @@ export const handlePickupBooking = async ({
         );
         // STEP-6
         // Send pickup request to nearest professionals
+
+        const taskPrice = task.pricingSource === "admin"
+        ? Number(task.fixedPrice)
+        : Number(
+            professional.taskPricing?.find(
+                (rate) =>
+                    rate.skill?.toString() ===
+                    task._id.toString()
+            )?.price
+        );
+
+        const calculateVisitingCharge = (distanceInKm) => {
+    const distance = Number(distanceInKm);
+    if (distance <= 10) {
+        return 25;
+    }
+    return Math.round(
+        distance + (distance - 5) * 3
+    );
+};
+
+
+const visitingCharge =
+    service.serviceType === "specialized"
+        ? Number(professional.visitingCharge || 0)
+        : calculateVisitingCharge(item.distanceInKm);
+
+        const totalAmount =
+    taskPrice + visitingCharge;
+
+
         for (const item of topProfessionals) {
             const professional = item.professional;
 
@@ -99,6 +130,13 @@ export const handlePickupBooking = async ({
                 expiresAt,
                 notificationSent: false,
                 socketDelivered: false,
+                customerLocation: {
+                    customerLat: Number(customerLat),
+                    customerLng: Number(customerLng),
+                },
+                customerMobileNumber: Number(mobileNumber),
+                workDate,
+                workTime
             });
 
             // Notification
@@ -139,6 +177,17 @@ export const handlePickupBooking = async ({
                     workDate,
                     workTime,
                     expiresAt,
+                    customerLocation : {
+                        customerLat: Number(customerLat),
+                        customerLng: Number(customerLng),
+                    },
+                    mobileNumber,
+                    workAddress,
+                    charge : {
+                         taskPrice,
+                        visitingCharge,
+                        totalAmount,
+                    }
                 }
             );
 

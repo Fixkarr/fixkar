@@ -229,14 +229,8 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
         { withCredentials: true },
       );
 
-      
-      console.log("🔥 BOOKING RESPONSE:", result.data);
-console.log("🔥 isDirectHire:", isDirectHire);
-console.log("🔥 searching:", result.data.searching);
-console.log("🔥 expiresAt:", result.data.expiresAt);
 
         if (!isDirectHire && result.data.searching) {
-          console.log("openning pickup waiting!")
           setPickupSessionId(result.data.pickupSessionId);
         setPickupExpiresAt(result.data.expiresAt);
         setPickupSearching(true);

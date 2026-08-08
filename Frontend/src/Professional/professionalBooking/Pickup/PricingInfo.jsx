@@ -1,6 +1,6 @@
 import {FaWallet,FaRupeeSign} from "react-icons/fa";
 
-const EarningsCard=()=>{
+const PricingInfo=({request})=>{
     return(
         <div className="card border-0 bg-primary text-white rounded-4 mb-4 shadow-sm">
             <div className="card-body p-3">
@@ -45,4 +45,4 @@ const EarningsCard=()=>{
     );
 };
 
-export default EarningsCard;
+export default PricingInfo;

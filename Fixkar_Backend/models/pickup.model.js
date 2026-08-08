@@ -30,17 +30,30 @@ const pickupRequestSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-
+    customerLocation: {
+      customerLat: {type: Number, required: true},
+      customerLng: {type: Number, required: true},
+    },
+    customerMobileNumber : {type : Number, required: true},
+    workDate : {type : Date, required: true},
+    workTime : {type : String, required: true},
     distanceInKm: {
       type: Number,
       required: true,
     },
-
+    workAddress: {
+      type: String,
+      required: true,
+    },
     durationInMinutes: {
       type: Number,
       default: null,
     },
-
+    charge : {
+      taskPrice: {type: Number, required: true},
+      visitingCharge: {type: Number, required: true},
+      totalAmount: {type: Number, required: true},
+    },
     attemptNo: {
       type: Number,
       default: 1,
