@@ -23,12 +23,12 @@ const {
 
 const handleCancel = () => {
     dispatch(resetPickupState());
-    navigate("/customer");
+    navigate("/customer/home");
 };
 
 const handleTryAgain = () => {
     dispatch(resetPickupState());
-    navigate("/customer");
+    navigate("/customer/home");
 };
 
 useEffect(() => {
