@@ -2,6 +2,7 @@ import CustomerInfo from "./CustomerInfo";
 import ServiceInfo from "./ServiceInfo";
 import AddressInfo from "./AddressInfo";
 import ActionButtons from "./ActionButtons";
+import { useSelector } from "react-redux";
 
 const IncomingBooking = () => {
         const { currentPickupRequest } = useSelector(
