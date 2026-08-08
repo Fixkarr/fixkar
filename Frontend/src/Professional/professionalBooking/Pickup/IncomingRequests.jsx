@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { FaInbox, FaBell } from "react-icons/fa";
 import IncomingBooking from "./IncomingBooking";
-import { useGetPickupRequests } from "../../../hooks/useGetPickupRequests.js";
+import { useGetPickupRequests } from "../../../hooks/useGetPickupRequests";
 
 const IncomingRequests = () => {
     const {
