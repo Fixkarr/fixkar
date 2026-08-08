@@ -24,6 +24,7 @@ import { getEligibleOffers } from '../controllers/CustomerController/getEligible
 import { applyOfferToBooking } from '../controllers/CustomerController/applyOfferToBooking.js';
 import { getMyAnnouncements } from '../controllers/getMyAnnouncements.js';
 import { sendEnquiry } from '../controllers/contact.controller.js';
+import { getProfessionalPickupRequests } from '../controllers/ProfessionalsController/getPickupRequests.controller.js';
 const userRoute = express.Router();
 
 // /api/user
@@ -85,5 +86,9 @@ userRoute.get('/get-my-announcements', isAuth, getMyAnnouncements);
 //contact
 userRoute.post('/send-enquiry', sendEnquiry);
 
+
+//pickup request routes
+
+userRoute.get('/professional/pickup-requests', isAuth, getProfessionalPickupRequests)
 
  export default userRoute;

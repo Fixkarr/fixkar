@@ -8,7 +8,9 @@ const pickupRequestSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-
+    customerName : {type : String, required :true},
+    serviceName : {type : String, required :true},
+    taskName : {type : String, required :true},
     // Created only after a professional accepts
     bookingId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -44,6 +46,9 @@ const pickupRequestSchema = new mongoose.Schema(
     workAddress: {
       type: String,
       required: true,
+    },
+    problemDescription : {
+      type : String
     },
     durationInMinutes: {
       type: Number,

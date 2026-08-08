@@ -83,16 +83,7 @@ export const handlePickupBooking = async ({
         // STEP-6
         // Send pickup request to nearest professionals
 
-        const taskPrice = task.pricingSource === "admin"
-        ? Number(task.fixedPrice)
-        : Number(
-            professional.taskPricing?.find(
-                (rate) =>
-                    rate.skill?.toString() ===
-                    task._id.toString()
-            )?.price
-        );
-
+    
         const calculateVisitingCharge = (distanceInKm) => {
     const distance = Number(distanceInKm);
     if (distance <= 10) {
@@ -103,8 +94,18 @@ export const handlePickupBooking = async ({
     );
 };
 
-
-const visitingCharge =
+        for (const item of topProfessionals) {
+            const professional = item.professional;
+                const taskPrice = task.pricingSource === "admin"
+        ? Number(task.fixedPrice)
+        : Number(
+            professional.taskPricing?.find(
+                (rate) =>
+                    rate.skill?.toString() ===
+                    task._id.toString()
+            )?.price
+        );
+        const visitingCharge =
     service.serviceType === "specialized"
         ? Number(professional.visitingCharge || 0)
         : calculateVisitingCharge(item.distanceInKm);
@@ -112,15 +113,20 @@ const visitingCharge =
         const totalAmount =
     taskPrice + visitingCharge;
 
-
-        for (const item of topProfessionals) {
-            const professional = item.professional;
-
             // Create pickup request
             const pickupRequest = await PickupRequest.create({
                 pickupSessionId,
                 // Booking does NOT exist yet
                 bookingId: null,
+                customerName,
+                serviceName: service.name,
+                taskName: task.name,
+                charge : {
+                         taskPrice,
+                        visitingCharge,
+                        totalAmount,
+                    },
+                
                 professionalId: professional._id,
                 customerId,
                 distanceInKm: item.distanceInKm,
@@ -136,7 +142,8 @@ const visitingCharge =
                 },
                 customerMobileNumber: Number(mobileNumber),
                 workDate,
-                workTime
+                workTime,
+                problemDescription
             });
 
             // Notification
@@ -145,11 +152,7 @@ const visitingCharge =
                 title: "New Pickup Request",
                 message: `${customerName} needs a ${service.name}.`,
                 type: "pickup_request",
-
-                // No booking exists yet.
-                // Use pickupSessionId for now.
                 relatedId: pickupSessionId,
-
                 isRead: false,
             });
 
@@ -187,7 +190,8 @@ const visitingCharge =
                          taskPrice,
                         visitingCharge,
                         totalAmount,
-                    }
+                    },
+                    problemDescription
                 }
             );
 
