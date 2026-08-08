@@ -24,6 +24,14 @@ export const handlePickupBooking = async ({
     audioMessages,
 }) => {
     try {
+        console.log("PICKUP LOCATION:", {
+    customerLat,
+    customerLng,
+    customerLatNumber: Number(customerLat),
+    customerLngNumber: Number(customerLng),
+    serviceId: service?._id,
+    taskId: task?._id,
+});
         const eligibleProfessionals =
             await findEligibleProfessionals({
                 serviceId: service._id,
