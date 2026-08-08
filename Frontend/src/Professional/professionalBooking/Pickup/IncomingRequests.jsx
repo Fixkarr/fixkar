@@ -2,12 +2,21 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { FaInbox, FaBell } from "react-icons/fa";
 import IncomingBooking from "./IncomingBooking";
+import { useGetPickupRequests } from "../../../hooks/useGetPickupRequests.js";
 
 const IncomingRequests = () => {
+    const {
+  loading,
+  error,
+  refetch,
+} = useGetPickupRequests();
+
     const { incomingRequests } = useSelector(
         (state) => state.pickup
     );
 
+    console.log(incomingRequests);
+    
     return (
         <section className="container-fluid min-vh-100 bg-light py-3 py-md-4">
             <div className="container">
