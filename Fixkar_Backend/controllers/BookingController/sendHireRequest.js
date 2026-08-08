@@ -85,9 +85,9 @@ if (isDirectHire) {
 if (isDirectHire) {
   service = professional.profession;
 } else {
-  service = await Service.findOne({
+ service = await Service.findOne({
     skills: taskId,
-  }).select("serviceType");
+}).select("name serviceType");
 }
         if (taskId) {
         task = await Skill.findById(taskId);

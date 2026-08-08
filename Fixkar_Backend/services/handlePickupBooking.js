@@ -1,10 +1,9 @@
-import { Booking } from "../models/bookingModel.js";
+import mongoose from "mongoose";
 import { Notification } from "../models/notificationModel.js";
 import { io } from "../server.js";
 import { findEligibleProfessionals } from "./matchingEngine.js";
 import { calculateDistanceForProfessionals } from "./calculateDistanceForProfessionals.js";
 import { pushNotification } from "./pushNotification.js";
-import { sendWhatsAppMessage } from "../utils/sendWhatsaAppMessage.js";
 import { PickupRequest } from "../models/pickup.model.js";
 
 export const handlePickupBooking = async ({
@@ -24,6 +23,8 @@ export const handlePickupBooking = async ({
     audioMessages,
 }) => {
     try {
+        // STEP-1
+        // Find eligible professionals
         const eligibleProfessionals =
             await findEligibleProfessionals({
                 serviceId: service._id,
@@ -37,8 +38,8 @@ export const handlePickupBooking = async ({
 
         if (eligibleProfessionals.length === 0) {
             return res.status(404).json({
-                message:
-                    "No professionals are available nearby.",
+                success: false,
+                message: "No professionals are available nearby.",
             });
         }
 
@@ -55,9 +56,11 @@ export const handlePickupBooking = async ({
 
         if (nearbyProfessionals.length === 0) {
             return res.status(404).json({
+                success: false,
                 message: "No nearby professionals found.",
             });
         }
+
         // STEP-3
         // Sort by actual road distance
         nearbyProfessionals.sort(
@@ -65,95 +68,112 @@ export const handlePickupBooking = async ({
         );
 
         // STEP-4
-        // Keep only nearest 5 professionals
+        // Only nearest 5 professionals
         const topProfessionals =
             nearbyProfessionals.slice(0, 5);
         // STEP-5
-        // Create booking in searching state
-        const booking = await Booking.create({
-            customerId,
-            professionalId: null,
-            customerName,
-            mobileNumber,
-            workDate,
-            workTime,
-            workAddress,
-            problemDescription,
-            audioMessages,
-            service: service._id,
-            task: task._id,
-            pricingType: task.bookingType,
-            serviceCharge:
-                task.pricingSource === "admin"
-                    ? task.fixedPrice
-                    : null,
-            totalAmount: null,
-            visitingCharge: null,
-            isPriceLocked: false,
-            status: "searching",
-        });
-
+        // Create one unique pickup session
+        // All professional requests belong to this session
+        const pickupSessionId =
+            new mongoose.Types.ObjectId();
+        // Customer gets 60 seconds to find a professional
+        const expiresAt = new Date(
+            Date.now() + 60 * 1000
+        );
         // STEP-6
-        // Next Part
         // Send pickup request to nearest professionals
-
         for (const item of topProfessionals) {
             const professional = item.professional;
-            await PickupRequest.create({
-    bookingId: booking._id,
-    professionalId: professional._id,
-    customerId,
-    distanceInKm: item.distanceInKm,
-    durationInMinutes: item.durationValue,
-    expiresAt: new Date(Date.now() + 30000),
-});
+
+            // Create pickup request
+            const pickupRequest = await PickupRequest.create({
+                pickupSessionId,
+                // Booking does NOT exist yet
+                bookingId: null,
+                professionalId: professional._id,
+                customerId,
+                distanceInKm: item.distanceInKm,
+                durationInMinutes: item.durationValue,
+                attemptNo: 1,
+                status: "pending",
+                expiresAt,
+                notificationSent: false,
+                socketDelivered: false,
+            });
+
+            // Notification
             const notification = await Notification.create({
                 userId: professional.userId._id,
                 title: "New Pickup Request",
                 message: `${customerName} needs a ${service.name}.`,
                 type: "pickup_request",
-                relatedId: booking._id,
+
+                // No booking exists yet.
+                // Use pickupSessionId for now.
+                relatedId: pickupSessionId,
+
                 isRead: false,
             });
 
-            // Push Notification
+            // Push notification
             await pushNotification({
                 userId: professional.userId._id,
                 title: notification.title,
                 message: notification.message,
-                redirectUrl: `/professional/pickup/${booking._id}`,
+                redirectUrl: `/professional/pickup/${pickupSessionId}`,
             });
 
-            // Socket Notification
-            io.to(professional.userId._id.toString()).emit(
+            // Socket notification
+            io.to(
+                professional.userId._id.toString()
+            ).emit(
                 "pickupRequest",
                 {
-                    bookingId: booking._id,
-                    notification,
+                    pickupRequestId: pickupRequest._id,
+                    pickupSessionId,
                     customerName,
                     serviceName: service.name,
                     taskName: task.name,
                     distanceInKm: item.distanceInKm,
+                    durationInMinutes: item.durationValue,
                     workDate,
                     workTime,
+                    expiresAt,
+                }
+            );
+
+            // Mark delivery information
+            await PickupRequest.findByIdAndUpdate(
+                pickupRequest._id,
+                {
+                    notificationSent: true,
+                    socketDelivered: true,
                 }
             );
         }
 
-        // STEP-8
-        // Next Part
-
+        // STEP-7
+        // Send response to customer
         return res.status(200).json({
             success: true,
             message: "Searching nearby professionals...",
             searching: true,
-            booking,
+            pickupSessionId,
+            expiresAt,
+            professionalsNotified:
+                topProfessionals.length,
         });
+
     } catch (error) {
-        console.error("Pickup Booking Error:", error);
+        console.error(
+            "Pickup Booking Error:",
+            error
+        );
+
         return res.status(500).json({
             success: false,
-            message: "Something went wrong while searching professionals.",
+            message:
+                "Something went wrong while searching professionals.",
         });
     }
 };

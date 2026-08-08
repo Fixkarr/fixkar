@@ -2,15 +2,21 @@ import mongoose from "mongoose";
 
 const pickupRequestSchema = new mongoose.Schema(
   {
-    // Main Booking
-    bookingId: {
+    // One search session shared by all professionals
+    pickupSessionId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Booking",
       required: true,
       index: true,
     },
 
-    // Professional jise request bheji gayi
+    // Created only after a professional accepts
+    bookingId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Booking",
+      default: null,
+      index: true,
+    },
+
     professionalId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Professional",
@@ -18,34 +24,28 @@ const pickupRequestSchema = new mongoose.Schema(
       index: true,
     },
 
-    // Customer (Quick lookup)
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Customer",
       required: true,
+      index: true,
     },
 
-    // Distance from customer
     distanceInKm: {
       type: Number,
       required: true,
     },
 
-    // Google ETA
     durationInMinutes: {
       type: Number,
       default: null,
     },
 
-    // Which attempt?
-    // First batch = 1
-    // Second batch = 2
     attemptNo: {
       type: Number,
       default: 1,
     },
 
-    // Current request status
     status: {
       type: String,
       enum: [
@@ -59,31 +59,31 @@ const pickupRequestSchema = new mongoose.Schema(
       index: true,
     },
 
-    // Customer cancelled?
     cancelledByCustomer: {
       type: Boolean,
       default: false,
     },
 
-    // When professional accepted
-    acceptedAt: Date,
+    acceptedAt: {
+      type: Date,
+      default: null,
+    },
 
-    // When rejected
-    rejectedAt: Date,
+    rejectedAt: {
+      type: Date,
+      default: null,
+    },
 
-    // Expiry time (30 sec)
     expiresAt: {
       type: Date,
       required: true,
     },
 
-    // Push notification sent?
     notificationSent: {
       type: Boolean,
       default: false,
     },
 
-    // Socket delivered?
     socketDelivered: {
       type: Boolean,
       default: false,
@@ -94,7 +94,6 @@ const pickupRequestSchema = new mongoose.Schema(
   }
 );
 
-// Auto delete after expiry (optional)
 pickupRequestSchema.index(
   { expiresAt: 1 },
   {
