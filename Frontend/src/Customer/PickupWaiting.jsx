@@ -7,8 +7,31 @@ import {
   FaClock,
   FaShieldAlt,
 } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { resetPickupState, setSearchStatus } from "../redux/pickup.slice";
 
 const PickupWaiting = ({ expiresAt }) => {
+  const dispatch = useDispatch();
+const navigate = useNavigate();
+
+const {
+    currentPickupRequest,
+    isSearching,
+    searchStatus,
+} = useSelector((state) => state.pickup);
+
+const handleCancel = () => {
+    dispatch(resetPickupState());
+    navigate("/customer");
+};
+
+const handleTryAgain = () => {
+    dispatch(resetPickupState());
+
+    navigate("/customer");
+};
+
   const calculateRemaining = () => {
     if (!expiresAt) return 60;
 
@@ -20,6 +43,12 @@ const PickupWaiting = ({ expiresAt }) => {
   };
 
   const [remaining, setRemaining] = useState(calculateRemaining);
+
+  useEffect(() => {
+    if (remaining <= 0 && searchStatus === "searching") {
+        dispatch(setSearchStatus("expired"));
+    }
+}, [remaining, searchStatus, dispatch]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,7 +67,48 @@ const PickupWaiting = ({ expiresAt }) => {
 
   const progress = Math.min(100, Math.max(0, (remaining / 60) * 100));
 
-  return (
+  return
+   <>
+    {searchStatus === "expired" && (
+    <div className="text-center py-4">
+        <div
+            className="rounded-circle bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center mx-auto mb-3"
+            style={{
+                width: "70px",
+                height: "70px",
+            }}
+        >
+            <span className="fs-3">!</span>
+        </div>
+
+        <h5 className="fw-bold">
+            No Professional Found
+        </h5>
+
+        <p className="text-muted small">
+            No professional accepted your request
+            within 1 minute.
+        </p>
+
+        <div className="d-grid gap-2 mt-4">
+            <button
+                className="btn btn-primary rounded-pill fw-semibold"
+                onClick={handleTryAgain}
+            >
+                Try Again
+            </button>
+
+            <button
+                className="btn btn-light rounded-pill"
+                onClick={handleCancel}
+            >
+                Cancel
+            </button>
+        </div>
+    </div>
+)}
+
+ { searchStatus === "searching" && (
     <div className="container-fluid px-3 py-4">
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 col-lg-6">
@@ -183,7 +253,9 @@ const PickupWaiting = ({ expiresAt }) => {
         </div>
       </div>
     </div>
-  );
+
+  )};
+   </>
 };
 
 export default PickupWaiting;
