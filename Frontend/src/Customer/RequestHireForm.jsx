@@ -40,6 +40,7 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
     !proInfo ? preselectedTask?._id || "" : ""
 );
   const isDirectHire = Boolean(proInfo);
+  const [pickupSessionId, setPickupSessionId] = useState(null);
 
   const service = isDirectHire ? proInfo?.profession : selectedService;
 
@@ -236,6 +237,7 @@ console.log("🔥 expiresAt:", result.data.expiresAt);
 
         if (!isDirectHire && result.data.searching) {
           console.log("openning pickup waiting!")
+          setPickupSessionId(result.data.pickupSessionId);
         setPickupExpiresAt(result.data.expiresAt);
         setPickupSearching(true);
         setLoading(false);
@@ -255,10 +257,11 @@ console.log("🔥 expiresAt:", result.data.expiresAt);
  
   return (
    <>
-   {pickupSearching ? 
+  {pickupSearching ? 
      <PickupWaiting
+     pickupSessionId={pickupSessionId}
       expiresAt={pickupExpiresAt}
-    /> :  <div className="card border-0 shadow rounded-4 overflow-hidden">
+    /> : <div className="card border-0 shadow rounded-4 overflow-hidden">
       
       {/* Header */}
       <div

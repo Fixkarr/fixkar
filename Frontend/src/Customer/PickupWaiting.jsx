@@ -31,6 +31,11 @@ const handleTryAgain = () => {
     navigate("/customer");
 };
 
+useEffect(() => {
+    dispatch(setSearchStatus("searching"));
+}, [dispatch]);
+
+
   const calculateRemaining = () => {
     if (!expiresAt) return 60;
 
@@ -66,8 +71,7 @@ const handleTryAgain = () => {
 
   const progress = Math.min(100, Math.max(0, (remaining / 60) * 100));
 
-  return
-   <>
+  return <>
     {searchStatus === "expired" && (
     <div className="text-center py-4">
         <div
