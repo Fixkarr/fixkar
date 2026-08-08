@@ -143,7 +143,9 @@ export const handlePickupBooking = async ({
                 customerMobileNumber: Number(mobileNumber),
                 workDate,
                 workTime,
-                problemDescription
+                problemDescription,
+                workAddress,
+                audioMessages,
             });
 
             // Notification
@@ -191,7 +193,8 @@ export const handlePickupBooking = async ({
                         visitingCharge,
                         totalAmount,
                     },
-                    problemDescription
+                    problemDescription,
+                    audioMessages,
                 }
             );
 

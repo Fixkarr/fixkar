@@ -50,6 +50,7 @@ const pickupRequestSchema = new mongoose.Schema(
     problemDescription : {
       type : String
     },
+    audioMessages : [{url : {type : String}}],
     durationInMinutes: {
       type: Number,
       default: null,
