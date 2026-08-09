@@ -4,7 +4,7 @@ const notificationSchema = new mongoose.Schema({
     userId : {type : mongoose.Schema.Types.ObjectId, ref : "User"},
     title : {type : String},
     message : {type : String},
-    type : {type : String, enum : ['announcement', 'pickup_request', 'booking_rejected', 'booking_accepted', 'booking_cancelled', 'booking_completed', 'booking_reached', 'booking_pending', 'message']},
+    type : {type : String, enum : ['announcement', 'pickup_accepted', 'pickup_request', 'booking_rejected', 'booking_accepted', 'booking_cancelled', 'booking_completed', 'booking_reached', 'booking_pending', 'message']},
     relatedId : {type : mongoose.Schema.Types.ObjectId},
     isRead : {type : Boolean, default : false},
 },{timestamps : true})

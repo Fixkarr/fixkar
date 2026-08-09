@@ -21,6 +21,7 @@ import DashboardNavigator from "../utils/DashboardNavigator";
 import { server_url } from "../App";
 import { setNotifications } from "../redux/notification.slice";
 import { GiCardPickup } from "react-icons/gi";
+import { PiHandsClappingDuotone } from "react-icons/pi";
 
 const getIcon = (type) => {
   switch (type) {
@@ -40,6 +41,8 @@ const getIcon = (type) => {
       return <RiMotorbikeFill className="text-info fs-5" />;
     case "pickup_request":
       return <GiCardPickup className="text-info fs-5" />;
+    case "pickup_accepted":
+      return <PiHandsClappingDuotone  className="text-info fs-5" />;
     case "message":
       return <FaEnvelopeOpenText className="text-primary fs-5" />;
     default:
