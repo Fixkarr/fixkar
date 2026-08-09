@@ -88,7 +88,7 @@ export const handlePickupBooking = async ({
       
         // STEP-6
         // Send pickup request to nearest professionals
-
+            const pickupSessionId = pickupSession._id;
     
         const calculateVisitingCharge = (distanceInKm) => {
     const distance = Number(distanceInKm);
