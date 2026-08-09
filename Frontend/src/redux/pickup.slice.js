@@ -4,6 +4,7 @@ const initialState = {
     currentPickupRequest: null,
     isSearching: false,
     incomingRequests : [],
+    acceptedProfessionals: [],
     searchStatus: "idle",
 };
 
@@ -14,6 +15,31 @@ const pickupSlice = createSlice({
         setPickupRequest: (state, action) => {
             state.currentPickupRequest = action.payload;
         },
+        addAcceptedProfessional: (state, action) => {
+    const exists =
+        state.acceptedProfessionals.some(
+            (item) =>
+                item.pickupRequestId ===
+                action.payload.pickupRequestId
+        );
+
+    if (!exists) {
+        state.acceptedProfessionals.push(
+            action.payload
+        );
+    }
+},
+    removeAcceptedProfessional: (state, action) => {
+    state.acceptedProfessionals =
+        state.acceptedProfessionals.filter(
+            (item) =>
+                item.pickupRequestId !== action.payload
+        );
+},
+
+clearAcceptedProfessionals: (state) => {
+    state.acceptedProfessionals = [];
+},
 
         clearPickupRequest: (state) => {
             state.currentPickupRequest = null;
@@ -50,6 +76,7 @@ const pickupSlice = createSlice({
             state.isSearching = false;
          state.incomingRequests = [];
            state.searchStatus = "idle";
+           state.acceptedProfessionals = [];
         },
     },
 });
@@ -61,7 +88,10 @@ export const {
     removeIncomingRequest,
     setSearching,
     setSearchStatus,
+    removeAcceptedProfessional,
+    clearAcceptedProfessionals,
     resetPickupState,
+    addAcceptedProfessional
 } = pickupSlice.actions;
 
 export default pickupSlice.reducer;

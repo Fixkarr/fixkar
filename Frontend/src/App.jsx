@@ -88,7 +88,7 @@ import {Capacitor} from '@capacitor/core'
 import {SocialLogin} from '@capgo/capacitor-social-login'
 import useNetworkStatus from "./hooks/useNetworkStatus.jsx";
 import NoInternet from "./Components/NoInternet.jsx";
-import { addIncomingRequest, setPickupRequest } from "./redux/pickup.slice.js";
+import { addAcceptedProfessional, addIncomingRequest, setPickupRequest } from "./redux/pickup.slice.js";
 import { toast } from "react-toastify";
 import PickupToast from "./Professional/PickupToast.jsx";
 import IncomingBooking from "./Professional/professionalBooking/Pickup/IncomingBooking.jsx";
@@ -295,6 +295,18 @@ socket.on("pickupRequest", (data) => {
     );
 });
 
+socket.on("pickupProfessionalAccepted", (data) => {
+   if (role !== "customer") return;
+    console.log(
+        "🔥 PROFESSIONAL ACCEPTED:",
+        data
+    );
+
+    dispatch(
+        addAcceptedProfessional(data)
+    );
+});
+
 
     return () => {
       socket.off("newMessage");
@@ -306,6 +318,7 @@ socket.on("pickupRequest", (data) => {
       socket.off("bookingUpdated");
       socket.off("notification");
       socket.off("pickupRequest");
+      socket.off("pickupProfessionalAccepted");
       socket.disconnect();
     };
   }, [userId, role]);

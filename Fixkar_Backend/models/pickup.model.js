@@ -6,6 +6,7 @@ const pickupRequestSchema = new mongoose.Schema(
     pickupSessionId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref : "PickupSession",
       index: true,
     },
     customerName : {type : String, required :true},
@@ -96,6 +97,11 @@ const pickupRequestSchema = new mongoose.Schema(
     expiresAt: {
       type: Date,
       required: true,
+    },
+    
+    customerSelectedAt: {
+      type: Date,
+      default: null,
     },
 
     notificationSent: {

@@ -7,7 +7,6 @@ import {
 } from "react-icons/fa";
 
 const ActionButtons = ({ request, onAccept, onReject }) => {
-
     const calculateRemaining = () => {
         if (!request?.expiresAt) return 0;
 
@@ -31,62 +30,80 @@ const ActionButtons = ({ request, onAccept, onReject }) => {
         return () => clearInterval(timer);
     }, [request?.expiresAt]);
 
-    const handleAccept = async () => {
-        if (remaining <= 0 || actionLoading) return;
-
-        try {
-            setActionLoading(true);
-
-            if (onAccept) {
-                await onAccept(request);
-            }
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    const handleReject = async () => {
-        if (remaining <= 0 || actionLoading) return;
-
-        try {
-            setActionLoading(true);
-
-            if (onReject) {
-                await onReject(request);
-            }
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
     const isExpired = remaining <= 0;
 
-    /*
-     * Pickup request ka total lifetime 60 seconds hai.
-     */
+    // =====================================================
+    // ACCEPT
+    // =====================================================
+
+    const handleAccept = async () => {
+        if (isExpired || actionLoading) return;
+
+        try {
+            setActionLoading(true);
+
+            await onAccept?.(request);
+        } catch (error) {
+            console.error("Accept pickup request error:", error);
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    // =====================================================
+    // REJECT
+    // =====================================================
+
+    const handleReject = async () => {
+        if (isExpired || actionLoading) return;
+
+        try {
+            setActionLoading(true);
+
+            await onReject?.(request);
+        } catch (error) {
+            console.error("Reject pickup request error:", error);
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    // =====================================================
+    // TIMER
+    // =====================================================
+
     const totalSeconds = 60;
 
     const progress = Math.min(
         100,
-        Math.max(0, (remaining / totalSeconds) * 100)
+        Math.max(
+            0,
+            (remaining / totalSeconds) * 100
+        )
     );
 
     const minutes = Math.floor(remaining / 60);
     const seconds = remaining % 60;
 
-    const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
-        seconds
-    ).padStart(2, "0")}`;
+    const formattedTime = `${String(minutes).padStart(
+        2,
+        "0"
+    )}:${String(seconds).padStart(2, "0")}`;
 
     return (
         <div className="mt-4">
 
-            {/* COUNTDOWN */}
+            {/* ================================
+                COUNTDOWN
+            ================================= */}
+
             <div
                 className={`rounded-4 p-3 mb-3 border ${
                     isExpired
                         ? "bg-danger bg-opacity-10 border-danger"
-                        : "bg-light border-warning"
+                        : remaining <= 15
+                        ? "bg-danger bg-opacity-10 border-danger"
+                        : "bg-warning bg-opacity-10 border-warning"
                 }`}
             >
                 <div className="d-flex justify-content-between align-items-center mb-2">
@@ -96,6 +113,8 @@ const ActionButtons = ({ request, onAccept, onReject }) => {
                         <div
                             className={`rounded-circle d-flex align-items-center justify-content-center ${
                                 isExpired
+                                    ? "bg-danger text-white"
+                                    : remaining <= 15
                                     ? "bg-danger text-white"
                                     : "bg-warning bg-opacity-25 text-warning"
                             }`}
@@ -115,21 +134,27 @@ const ActionButtons = ({ request, onAccept, onReject }) => {
                             <small className="text-muted d-block">
                                 {isExpired
                                     ? "Request Expired"
-                                    : "Auto Reject"}
+                                    : "Response Required"}
                             </small>
 
-                            <span className="fw-semibold">
+                            <span className="fw-semibold small">
                                 {isExpired
-                                    ? "This request is no longer available"
-                                    : "Please respond before the timer ends"}
+                                    ? "This request is no longer available."
+                                    : "Please respond before the timer ends."}
                             </span>
                         </div>
 
                     </div>
 
                     {!isExpired && (
-                        <div className="text-end">
-                            <div className="fw-bold text-danger fs-5">
+                        <div className="text-end ms-2">
+                            <div
+                                className={`fw-bold fs-5 ${
+                                    remaining <= 15
+                                        ? "text-danger"
+                                        : "text-dark"
+                                }`}
+                            >
                                 {formattedTime}
                             </div>
 
@@ -141,7 +166,8 @@ const ActionButtons = ({ request, onAccept, onReject }) => {
 
                 </div>
 
-                {/* PROGRESS */}
+                {/* PROGRESS BAR */}
+
                 <div
                     className="progress rounded-pill"
                     style={{ height: "7px" }}
@@ -157,7 +183,8 @@ const ActionButtons = ({ request, onAccept, onReject }) => {
                         role="progressbar"
                         style={{
                             width: `${progress}%`,
-                            transition: "width 1s linear",
+                            transition:
+                                "width 1s linear",
                         }}
                     />
                 </div>
@@ -165,19 +192,23 @@ const ActionButtons = ({ request, onAccept, onReject }) => {
                 {!isExpired && (
                     <div className="d-flex align-items-center gap-2 mt-2 text-muted small">
                         <FaClock size={12} />
+
                         <span>
-                            Accept this request before it expires.
+                            Accept or reject this request before it expires.
                         </span>
                     </div>
                 )}
-
             </div>
 
-            {/* ACTION BUTTONS */}
+            {/* ================================
+                ACTION BUTTONS
+            ================================= */}
+
             {!isExpired ? (
                 <div className="row g-2">
 
                     {/* REJECT */}
+
                     <div className="col-6">
                         <button
                             type="button"
@@ -194,6 +225,7 @@ const ActionButtons = ({ request, onAccept, onReject }) => {
                     </div>
 
                     {/* ACCEPT */}
+
                     <div className="col-6">
                         <button
                             type="button"
@@ -211,17 +243,19 @@ const ActionButtons = ({ request, onAccept, onReject }) => {
 
                 </div>
             ) : (
-                /* EXPIRED STATE */
+
+                /* ================================
+                   EXPIRED
+                ================================= */
+
                 <div className="alert alert-danger rounded-4 mb-0 text-center">
                     <FaTimes className="me-2" />
 
                     This pickup request has expired.
                 </div>
             )}
-
         </div>
     );
 };
 
 export default ActionButtons;
-

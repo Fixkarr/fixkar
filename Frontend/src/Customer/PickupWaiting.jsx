@@ -19,7 +19,13 @@ const {
     currentPickupRequest,
     isSearching,
     searchStatus,
+    acceptedProfessionals,
 } = useSelector((state) => state.pickup);
+
+console.log(
+    "Accepted Professionals:",
+    acceptedProfessionals
+);
 
 const handleCancel = () => {
     dispatch(resetPickupState());

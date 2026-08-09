@@ -5,6 +5,7 @@ import { findEligibleProfessionals } from "./matchingEngine.js";
 import { calculateDistanceForProfessionals } from "./calculateDistanceForProfessionals.js";
 import { pushNotification } from "./pushNotification.js";
 import { PickupRequest } from "../models/pickup.model.js";
+import { PickupSession } from "../models/pickupSession.model.js";
 
 export const handlePickupBooking = async ({
     req,
@@ -74,12 +75,17 @@ export const handlePickupBooking = async ({
         // STEP-5
         // Create one unique pickup session
         // All professional requests belong to this session
-        const pickupSessionId =
-            new mongoose.Types.ObjectId();
-        // Customer gets 60 seconds to find a professional
-        const expiresAt = new Date(
+        const professionalExpiresAt = new Date(
             Date.now() + 60 * 1000
-        );
+            );
+
+            const pickupSession = await PickupSession.create({
+            customerId,
+            status: "searching",
+            professionalExpiresAt,
+            });
+        // Customer gets 60 seconds to find a professional
+      
         // STEP-6
         // Send pickup request to nearest professionals
 
@@ -115,7 +121,7 @@ export const handlePickupBooking = async ({
 
             // Create pickup request
             const pickupRequest = await PickupRequest.create({
-                pickupSessionId,
+                pickupSessionId: pickupSession._id,
                 // Booking does NOT exist yet
                 bookingId: null,
                 customerName,
@@ -133,7 +139,7 @@ export const handlePickupBooking = async ({
                 durationInMinutes: item.durationValue,
                 attemptNo: 1,
                 status: "pending",
-                expiresAt,
+                expiresAt : professionalExpiresAt,
                 notificationSent: false,
                 socketDelivered: false,
                 customerLocation: {
