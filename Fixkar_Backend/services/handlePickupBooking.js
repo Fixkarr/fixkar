@@ -187,7 +187,7 @@ export const handlePickupBooking = async ({
                     durationInMinutes: item.durationValue,
                     workDate,
                     workTime,
-                    expiresAt,
+                    expiresAt : professionalExpiresAt,
                     customerLocation : {
                         customerLat: Number(customerLat),
                         customerLng: Number(customerLng),
@@ -221,7 +221,7 @@ export const handlePickupBooking = async ({
             message: "Searching nearby professionals...",
             searching: true,
             pickupSessionId,
-            expiresAt,
+            expiresAt : professionalExpiresAt,
             professionalsNotified:
                 topProfessionals.length,
         });
