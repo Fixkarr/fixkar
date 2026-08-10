@@ -27,7 +27,7 @@ bookingRouter.post('/create-booking', isAuth,  upload.array("audioMessages", 5),
 bookingRouter.get('/my-bookings', isAuth, getMyBookings);
 bookingRouter.get('/get-booking', getBookingById)
 bookingRouter.post('/reject-booking', rejectBooking)
-bookingRouter.post('/cancel-booking', cancelCustomerBooking)
+bookingRouter.post('/cancel-booking', isAuth, cancelCustomerBooking)
 bookingRouter.post('/accept-booking', acceptBooking)
 bookingRouter.post('/confirm-pickup-hire', isAuth, confirmPickupHire)
 bookingRouter.post('/mark-reached', isAuth, reachedToLocation)
@@ -38,8 +38,8 @@ bookingRouter.get('/get-reached-otp/:bookingId', isAuth, getReachedOtp);
 
 //payment route
 
-bookingRouter.post('/create-order', createOrder);
-bookingRouter.post('/verify-payment', verifyPayment)
+bookingRouter.post('/create-order', isAuth, createOrder);
+bookingRouter.post('/verify-payment', isAuth, verifyPayment)
 bookingRouter.post('/confirm-cash-payment', isAuth, confirmCashPayment)
 bookingRouter.get('/get-professional-wallet', isAuth, getProfessionalWallet)
 bookingRouter.get('/get-wallet-transaction/:bookingId', isAuth, getWalletTransaction)

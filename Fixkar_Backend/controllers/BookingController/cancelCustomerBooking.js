@@ -34,7 +34,11 @@ export const cancelCustomerBooking = async (req, res) => {
       })
     }
 
-    if (booking.status === "in-progress" || booking.status === "rejected" || booking.status === "completed") {
+    if (booking.customerId.userId._id.toString() !== req.userId.toString()) {
+      return res.status(403).json({ message: "You can only cancel your own booking." });
+    }
+
+    if (["cancelled", "in-progress", "rejected", "completed"].includes(booking.status)) {
       return res.status(400).json({
         message: "Booking cannot be cancelled!"
       })

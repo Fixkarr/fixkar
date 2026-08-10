@@ -41,16 +41,6 @@ const SearchSection = ({
   const [selectedFixedTask, setSelectedFixedTask] = useState(null);
   const [selectedSkills, setSelectedSkills] = useState([]);
 
-  const handleSkillToggle = (skillId) => {
-    setSelectedSkills((prev) => {
-      const updated = prev.includes(skillId)
-        ? prev.filter((id) => id !== skillId)
-        : [...prev, skillId];
-
-      if (onSkillsChange) onSkillsChange(updated);
-      return updated;
-    });
-  };
   const { selectedLocation } = useSelector((state) => state.location);
   const chooseTask = (skill) => {
     // Pehle har case me selected chip update karo
@@ -137,7 +127,7 @@ const SearchSection = ({
       dispatch(setSelectedService(completeService));
 
       setServiceSkills(res.data.skills || []);
-    } catch (error) {
+    } catch {
       setServiceSkills([]);
 
       dispatch(
@@ -335,32 +325,57 @@ const SearchSection = ({
         {/* 🔥 SKILLS CHECKBOXES */}
         {!onlyLocation && serviceSkills.length > 0 && (
           <div className="mt-4">
-            <h6 className="fw-semibold mb-2">Choose a task to book</h6>
-            <div className="d-flex flex-wrap gap-2">
+            <div className="d-flex align-items-center justify-content-between mb-3">
+              <div>
+                <h6 className="fw-bold mb-1">Choose your task</h6>
+                <small className="text-muted">Select one to see the booking options</small>
+              </div>
+              <span className="badge rounded-pill text-primary border border-primary-subtle bg-primary-subtle px-3 py-2">
+                {serviceSkills.length} options
+              </span>
+            </div>
+            <div className="row g-2">
               {serviceSkills.map((skill) => {
                 const active = selectedSkills.includes(skill._id);
+                const isFixed = skill.bookingType === "fixed";
+                const priceLabel = isFixed && skill.pricingSource === "admin"
+                  ? `₹${skill.fixedPrice}`
+                  : skill.pricingSource === "professional"
+                    ? "Price after selection"
+                    : "Inspection required";
                 return (
-                  <button
-                    key={skill._id}
-                    type="button"
-                    onClick={() => chooseTask(skill)}
-                    className={`btn btn-sm rounded-pill d-flex align-items-center gap-1 ${
-                      active ? "btn-success" : "btn-outline-secondary"
-                    }`}
-                  >
-                    {active && <FaCheck />}
-                    <span>{skill.name}</span>
-                    {skill.bookingType === "fixed" &&
-                      skill.pricingSource === "admin" && (
-                        <strong>₹{skill.fixedPrice}</strong>
-                      )}
-                    {skill.pricingSource === "professional" && (
-                      <small>Price by professional</small>
-                    )}
-                    {skill.bookingType === "inspection" && (
-                      <small>Inspection</small>
-                    )}
-                  </button>
+                  <div className="col-12 col-sm-6" key={skill._id}>
+                    <button
+                      type="button"
+                      onClick={() => chooseTask(skill)}
+                      className="w-100 text-start border-0 rounded-4 p-3 position-relative"
+                      style={{
+                        minHeight: "106px",
+                        background: active
+                          ? "linear-gradient(135deg,#2563eb,#7c3aed)"
+                          : "linear-gradient(145deg,#ffffff,#f5f8ff)",
+                        color: active ? "#fff" : "#172554",
+                        boxShadow: active
+                          ? "0 10px 24px rgba(79,70,229,.28)"
+                          : "0 4px 14px rgba(37,99,235,.09)",
+                        outline: active ? "2px solid #c4b5fd" : "1px solid #dbeafe",
+                        transition: "transform .2s ease, box-shadow .2s ease",
+                      }}
+                    >
+                      <div className="d-flex align-items-start justify-content-between gap-2">
+                        <div>
+                          <div className="fw-bold">{skill.name}</div>
+                          <small className={active ? "text-white-50" : "text-muted"}>
+                            {isFixed ? "Fixed-price service" : "Professional inspection"}
+                          </small>
+                        </div>
+                        <span className={`rounded-circle d-inline-flex align-items-center justify-content-center ${active ? "bg-white text-primary" : "bg-primary-subtle text-primary"}`} style={{ width: 28, height: 28 }}>
+                          {active ? <FaCheck size={12} /> : "→"}
+                        </span>
+                      </div>
+                      <div className={`small fw-semibold mt-3 ${active ? "text-white" : "text-primary"}`}>{priceLabel}</div>
+                    </button>
+                  </div>
                 );
               })}
             </div>

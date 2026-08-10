@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import {server_url} from '../App'
 import { toast } from 'react-toastify'
-const PayButton = ({bookingId, paymentType, label}) => {
+const PayButton = ({bookingId, paymentType, label, disabled = false, onSuccess}) => {
+    const [loading, setLoading] = useState(false);
     const handlePayment = async ()=>{
+        if (disabled || loading) return;
         try {
-            const res = await axios.post(`${server_url}/api/booking/create-order`, {bookingId, paymentType});
+            setLoading(true);
+            const res = await axios.post(`${server_url}/api/booking/create-order`, {bookingId, paymentType}, { withCredentials: true });
 
             const {order, key}  = res.data;
 
@@ -25,10 +28,16 @@ const PayButton = ({bookingId, paymentType, label}) => {
                 modal : {
                     ondismiss : function () {
                         toast.info("Payment cancelled by you!")
+                        setLoading(false);
                     }
                 }
             }
 
+             if (!window.Razorpay) {
+               toast.error("Payment service is not ready. Please try again.");
+               setLoading(false);
+               return;
+             }
              const rzp = new window.Razorpay(options);
              rzp.open();
             
@@ -40,10 +49,13 @@ const PayButton = ({bookingId, paymentType, label}) => {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
-            });
-            toast.success(res.data.message) 
+            }, { withCredentials: true });
+            toast.success(res.data.message);
+            onSuccess?.(res.data);
             } catch (err) {
-                toast.error(err.response.data.message)
+                toast.error(err.response?.data?.message || "Payment verification failed.")
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -51,12 +63,13 @@ const PayButton = ({bookingId, paymentType, label}) => {
 
         } catch (error) {
             console.log(error)
-            toast.error(error.response.data.message)
+            toast.error(error.response?.data?.message || "Unable to start payment.")
+            setLoading(false);
         }
     }
   return (
-     <button className="btn btn-success w-100 mt-3 fw-semibold" onClick={handlePayment}>
-      {label || "Pay"}
+     <button className="btn btn-success w-100 mt-3 fw-semibold" disabled={disabled || loading} onClick={handlePayment}>
+      {loading ? "Preparing payment..." : (label || "Pay")}
     </button>
   )
 }

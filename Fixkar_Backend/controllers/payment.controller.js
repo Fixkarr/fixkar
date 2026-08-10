@@ -1,5 +1,6 @@
 import crypto from 'crypto'
 import { Booking } from "../models/bookingModel.js";
+import { Customer } from "../models/userModel.js";
 import { Payment } from "../models/paymentModel.js";
 import razorpayInstance from '../config/razorpay.js';
 import { io } from '../server.js'
@@ -17,12 +18,17 @@ export const createOrder = async (req, res) => {
     const { bookingId, paymentType } = req.body;
 
     // 1️⃣ Booking lao
-    const booking = await Booking.findById(bookingId).populate({
+    const customer = await Customer.findOne({ userId: req.userId }).select("_id");
+    if (!customer) {
+      return res.status(403).json({ message: "Only customers can make booking payments." });
+    }
+
+    const booking = await Booking.findOne({ _id: bookingId, customerId: customer._id }).populate({
       path: "professionalId",
       select: "profession"
     });
     if (!booking) {
-      return res.status(404).json({ message: "Booking not found" });
+      return res.status(404).json({ message: "Booking not found or not available to you" });
     }
 
     let discountAmount = 0;
@@ -31,6 +37,12 @@ export const createOrder = async (req, res) => {
 
     // 2️⃣ Payment type ke hisaab se amount decide
     if (paymentType === "FINAL") {
+      if (["cancelled", "rejected", "completed"].includes(booking.status)) {
+        return res.status(400).json({ message: "Final payment is not available for this booking." });
+      }
+      if (booking.status !== "in-progress") {
+        return res.status(400).json({ message: "Final payment is available after the service starts." });
+      }
       // Professional quote wala case
       if (!booking.isPriceLocked && !booking.quoteAmount) {
         return res.status(400).json({
@@ -149,6 +161,19 @@ export const verifyPayment = async (req, res) => {
 
   try {
     const { bookingId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    const customer = await Customer.findOne({ userId: req.userId }).select("_id");
+    const customerBooking = customer && await Booking.findOne({ _id: bookingId, customerId: customer._id }).select("_id status");
+    if (!customerBooking) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(403).json({ message: "You are not authorized to verify this payment." });
+    }
+    if (["cancelled", "rejected", "completed"].includes(customerBooking.status)) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(400).json({ message: "Payment is not available for this booking." });
+    }
 
     // generating signature 
     const body = razorpay_order_id + "|" + razorpay_payment_id;

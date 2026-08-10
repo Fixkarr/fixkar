@@ -42,7 +42,6 @@ import DashboardNavigator from '../../utils/DashboardNavigator';
 
 const CusBookingDetail = () => {
     useGetMyBookings()
-    const [loading, setLoading] = useState(false)
     const [offers, setOffers] = useState([]);
     const [applyingOffer, setApplyingOffer] = useState(false);
     const [loadingOffers, setLoadingOffers] = useState(false);
@@ -54,29 +53,27 @@ const CusBookingDetail = () => {
      const booking = myBookings.find(book => book._id == bookingId)
 
     useEffect(() => {
-  if (
-  booking?.quoteAmount &&
-  booking.status === "in-progress" &&
-  !booking.offerLocked
-){
-    fetchOffers();
-  }
-}, [booking?.quoteAmount, booking?.offerLocked]);
+      if (!booking?.quoteAmount || booking.status !== "in-progress" || booking.offerLocked) {
+        return;
+      }
 
-const fetchOffers = async () => {
-  try {
-    setLoadingOffers(true);
-    const res = await axios.get(
-      `${server_url}/api/user/get-elligible-offers/${bookingId}`,
-      { withCredentials: true }
-    );
-    setOffers(res.data.offers || []);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoadingOffers(false);
-  }
-};
+      const fetchOffers = async () => {
+        try {
+          setLoadingOffers(true);
+          const res = await axios.get(
+            `${server_url}/api/user/get-elligible-offers/${bookingId}`,
+            { withCredentials: true }
+          );
+          setOffers(res.data.offers || []);
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setLoadingOffers(false);
+        }
+      };
+
+      fetchOffers();
+    }, [booking?.quoteAmount, booking?.status, booking?.offerLocked, bookingId]);
 
 const originalTotal =
   booking?.isPriceLocked
@@ -413,7 +410,7 @@ if (!booking) {
         <CusInprogress booking={booking}/>
     )}
 
-     {(booking.quoteAmount || booking.isPriceLocked) && booking.status !== "completed" && (
+     {(booking.quoteAmount || booking.isPriceLocked) && !["cancelled", "rejected", "completed"].includes(booking.status) && (
             <div
   className="mt-4 p-4 rounded-4 shadow-sm"
   style={{
@@ -576,14 +573,15 @@ if (!booking) {
   ) : null}
 
   {/* PAY BUTTON */}
-  <div>
-   <PayButton 
-  bookingId={bookingId} 
-  paymentType="FINAL" 
-  label={`Pay ₹${finalPayable}`} 
-/>
-
-  </div>
+  {booking.status === "in-progress" && (
+    <div>
+      <PayButton
+        bookingId={bookingId}
+        paymentType="FINAL"
+        label={`Pay ₹${finalPayable}`}
+      />
+    </div>
+  )}
 
 </div>
 
