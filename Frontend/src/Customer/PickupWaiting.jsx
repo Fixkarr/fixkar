@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     FaSearch,
     FaUserClock,
@@ -31,7 +31,7 @@ const getRemainingSeconds = (expiresAt) => {
     );
 };
 
-const PickupWaiting = ({ expiresAt, onConfirmHire }) => {
+const PickupWaiting = ({ expiresAt, onConfirmHire, onExpired }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -91,6 +91,7 @@ const PickupWaiting = ({ expiresAt, onConfirmHire }) => {
     const [remaining, setRemaining] = useState(
         () => getRemainingSeconds(activeExpiresAt)
     );
+    const hasExpired = useRef(false);
 
     useEffect(() => {
         setRemaining(getRemainingSeconds(activeExpiresAt));
@@ -107,22 +108,17 @@ const PickupWaiting = ({ expiresAt, onConfirmHire }) => {
     // =====================================================
 
     useEffect(() => {
-        /*
-         * Agar kisi professional ne accept kar liya hai,
-         * to "No Professional Found" nahi dikhana.
-         */
-        if (
-            remaining <= 0 &&
-            searchStatus === "searching" &&
-            acceptedProfessionals.length === 0
-        ) {
+        if (remaining <= 0 && !hasExpired.current) {
+            hasExpired.current = true;
             dispatch(setSearchStatus("expired"));
+            dispatch(resetPickupState());
+            onExpired?.();
         }
     }, [
         remaining,
         searchStatus,
-        acceptedProfessionals.length,
         dispatch,
+        onExpired,
     ]);
 
     // =====================================================
@@ -564,6 +560,23 @@ const PickupWaiting = ({ expiresAt, onConfirmHire }) => {
                                     ? "A professional has accepted your request."
                                     : `${acceptedProfessionals.length} professionals have accepted your request.`}
                             </p>
+
+                            <div className="border border-primary-subtle bg-primary bg-opacity-10 rounded-4 py-3 px-4 mt-3 mx-auto" style={{ maxWidth: "340px" }}>
+                                <small className="text-primary fw-semibold d-block mb-1">
+                                    Confirm & hire within
+                                </small>
+                                <div className="display-6 fw-bold text-primary">
+                                    <FaClock className="me-2" size={22} />
+                                    {formattedTime}
+                                </div>
+                                <div className="progress mt-2" style={{ height: "6px" }}>
+                                    <div
+                                        className="progress-bar"
+                                        role="progressbar"
+                                        style={{ width: `${progress}%` }}
+                                    />
+                                </div>
+                            </div>
 
                         </div>
 

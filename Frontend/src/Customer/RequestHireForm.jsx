@@ -42,6 +42,12 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
   const isDirectHire = Boolean(proInfo);
   const [pickupSessionId, setPickupSessionId] = useState(null);
 
+  const clearExpiredPickup = () => {
+    setPickupSearching(false);
+    setPickupSessionId(null);
+    setPickupExpiresAt(null);
+  };
+
   const service = isDirectHire ? proInfo?.profession : selectedService;
 
   const isSkillBased = service?.serviceType === "skill_based";
@@ -256,6 +262,7 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
      <PickupWaiting
      pickupSessionId={pickupSessionId}
       expiresAt={pickupExpiresAt}
+      onExpired={clearExpiredPickup}
     /> : <div className="card border-0 shadow rounded-4 overflow-hidden">
       {/* Header */}
       <div
