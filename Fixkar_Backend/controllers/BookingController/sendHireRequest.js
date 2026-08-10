@@ -63,7 +63,7 @@ export const sendHireRequest = async (req, res) => {
       professional = await Professional.findById(professionalId)
         .populate({
           path: "profession",
-          select: "serviceType",
+          select: "serviceType commission",
         });
 
       if (!professional || !professional.profession) {
@@ -100,7 +100,7 @@ export const sendHireRequest = async (req, res) => {
     } else {
       service = await Service.findOne({
         skills: taskId,
-      }).select("name serviceType");
+      }).select("name serviceType commission");
     }
   if (taskId) {
     task = await Skill.findById(taskId);
