@@ -22,12 +22,20 @@ import {
     setSearchStatus,
 } from "../redux/pickup.slice";
 
+const getRemainingSeconds = (expiresAt) => {
+    if (!expiresAt) return 60;
+
+    return Math.max(
+        0,
+        Math.ceil((new Date(expiresAt).getTime() - Date.now()) / 1000)
+    );
+};
+
 const PickupWaiting = ({ expiresAt, onConfirmHire }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const {
-        isSearching,
         searchStatus,
         acceptedProfessionals,
     } = useSelector((state) => state.pickup);
@@ -76,30 +84,23 @@ const PickupWaiting = ({ expiresAt, onConfirmHire }) => {
     // COUNTDOWN
     // =====================================================
 
-    const calculateRemaining = () => {
-        if (!expiresAt) return 60;
-
-        const remaining = Math.ceil(
-            (new Date(expiresAt).getTime() - Date.now()) /
-                1000
-        );
-
-        return Math.max(0, remaining);
-    };
+    const customerConfirmationExpiresAt =
+        acceptedProfessionals[0]?.customerConfirmationExpiresAt;
+    const activeExpiresAt = customerConfirmationExpiresAt || expiresAt;
 
     const [remaining, setRemaining] = useState(
-        calculateRemaining
+        () => getRemainingSeconds(activeExpiresAt)
     );
 
     useEffect(() => {
-        setRemaining(calculateRemaining());
+        setRemaining(getRemainingSeconds(activeExpiresAt));
 
         const timer = setInterval(() => {
-            setRemaining(calculateRemaining());
+            setRemaining(getRemainingSeconds(activeExpiresAt));
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [expiresAt]);
+    }, [activeExpiresAt]);
 
     // =====================================================
     // EXPIRED

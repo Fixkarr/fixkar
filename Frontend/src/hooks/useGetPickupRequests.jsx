@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import {
   addIncomingRequest,
+  addWaitingForCustomerConfirmation,
 } from "../redux/pickup.slice";
 import { server_url } from "../App";
 
@@ -39,6 +40,19 @@ console.log("🔥 FETCHED PICKUP REQUESTS:", requests);
             ...request,
             pickupRequestId:
               request.pickupRequestId || request._id,
+          })
+        );
+      });
+
+      const waitingRequests = response.data?.waitingForCustomerConfirmation || [];
+      waitingRequests.forEach((request) => {
+        dispatch(
+          addWaitingForCustomerConfirmation({
+            ...request,
+            pickupRequestId: request.pickupRequestId || request._id,
+            customerConfirmationExpiresAt:
+              request.customerConfirmationExpiresAt ||
+              request.pickupSessionId?.customerSelectionExpiresAt,
           })
         );
       });

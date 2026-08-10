@@ -49,10 +49,32 @@ export const getProfessionalPickupRequests = async (req, res) => {
             })
             .sort({ createdAt: -1 });
 
+        // Accepted requests must remain visible while the customer chooses.
+        // This also restores the waiting screen after a professional refreshes.
+        const acceptedRequests = await PickupRequest.find({
+            professionalId: professional._id,
+            status: "accepted",
+        })
+            .populate({
+                path: "pickupSessionId",
+                select: "status customerSelectionExpiresAt",
+            })
+            .sort({ acceptedAt: -1 });
+
+        const waitingForCustomerConfirmation = acceptedRequests.filter((request) => {
+            const session = request.pickupSessionId;
+            return (
+                session?.status === "selecting" &&
+                session.customerSelectionExpiresAt &&
+                new Date(session.customerSelectionExpiresAt) > now
+            );
+        });
+
         return res.status(200).json({
             success: true,
             count: pickupRequests.length,
             pickupRequests,
+            waitingForCustomerConfirmation,
         });
 
     } catch (error) {

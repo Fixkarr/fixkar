@@ -10,7 +10,10 @@ import PricingInfo from "./PricingInfo";
 
 
 import { server_url } from "../../../App";
-import { removeIncomingRequest } from "../../../redux/pickup.slice";
+import {
+    addWaitingForCustomerConfirmation,
+    removeIncomingRequest,
+} from "../../../redux/pickup.slice";
 
 const IncomingBooking = ({ request }) => {
     const dispatch = useDispatch();
@@ -48,6 +51,16 @@ const IncomingBooking = ({ request }) => {
                 removeIncomingRequest(
                     request.pickupRequestId
                 )
+            );
+
+            dispatch(
+                addWaitingForCustomerConfirmation({
+                    ...request,
+                    ...response.data.pickupRequest,
+                    pickupRequestId: request.pickupRequestId,
+                    customerConfirmationExpiresAt:
+                        response.data.customerConfirmationExpiresAt,
+                })
             );
 
             toast.success(

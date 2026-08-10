@@ -1,17 +1,16 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaInbox, FaBell } from "react-icons/fa";
 import IncomingBooking from "./IncomingBooking";
 import { useGetPickupRequests } from "../../../hooks/useGetPickupRequests";
+import WaitingForCustomerConfirmation from "./WaitingForCustomerConfirmation";
+import { removeWaitingForCustomerConfirmation } from "../../../redux/pickup.slice";
 
 const IncomingRequests = () => {
-    const {
-  loading,
-  error,
-  refetch,
-} = useGetPickupRequests();
+    const dispatch = useDispatch();
+    useGetPickupRequests();
 
-    const { incomingRequests } = useSelector(
+    const { incomingRequests, waitingForCustomerConfirmation } = useSelector(
         (state) => state.pickup
     );
 
@@ -45,7 +44,19 @@ const IncomingRequests = () => {
                     </div>
                 </div>
 
-                {incomingRequests.length === 0 ? (
+                {waitingForCustomerConfirmation.length > 0 && (
+                    <div className="d-flex flex-column gap-3 mb-4">
+                        {waitingForCustomerConfirmation.map((request) => (
+                            <WaitingForCustomerConfirmation
+                                key={request.pickupRequestId || request._id}
+                                request={request}
+                                onExpired={() => dispatch(removeWaitingForCustomerConfirmation(request.pickupRequestId || request._id))}
+                            />
+                        ))}
+                    </div>
+                )}
+
+                {incomingRequests.length === 0 && waitingForCustomerConfirmation.length === 0 ? (
                     <div className="card border-0 shadow-sm rounded-4">
                         <div className="card-body text-center py-5">
                             <div

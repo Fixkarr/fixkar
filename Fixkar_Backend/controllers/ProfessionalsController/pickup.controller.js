@@ -113,6 +113,31 @@ export const acceptPickupRequest = async (req, res) => {
 
         await pickupRequest.save();
 
+        // Start the customer-selection phase with a fresh one-minute window.
+        const now = new Date();
+        const pickupSession = await PickupSession.findById(
+            pickupRequest.pickupSessionId
+        );
+
+        if (!pickupSession) {
+            return res.status(404).json({
+                success: false,
+                message: "Pickup session not found.",
+            });
+        }
+
+        if (
+            !pickupSession.customerSelectionExpiresAt ||
+            new Date(pickupSession.customerSelectionExpiresAt) <= now
+        ) {
+            pickupSession.customerSelectionExpiresAt = new Date(
+                now.getTime() + 60 * 1000
+            );
+        }
+
+        pickupSession.status = "selecting";
+        await pickupSession.save();
+
         // =====================================================
         // 7. Customer
         // =====================================================
@@ -206,6 +231,8 @@ export const acceptPickupRequest = async (req, res) => {
                 // Booking abhi create nahi hui hai.
                 professionalExpiresAt:
                     pickupRequest.expiresAt,
+                customerConfirmationExpiresAt:
+                    pickupSession.customerSelectionExpiresAt,
             }
         );
 
@@ -218,14 +245,9 @@ export const acceptPickupRequest = async (req, res) => {
             message:
                 "Pickup request accepted. Waiting for customer confirmation.",
 
-            pickupRequest: {
-                _id: pickupRequest._id,
-                pickupSessionId:
-                    pickupRequest.pickupSessionId,
-                status: pickupRequest.status,
-                acceptedAt:
-                    pickupRequest.acceptedAt,
-            },
+            pickupRequest: pickupRequest.toObject(),
+            customerConfirmationExpiresAt:
+                pickupSession.customerSelectionExpiresAt,
         });
 
     } catch (error) {
