@@ -52,6 +52,7 @@ export const cancelCustomerBooking = async (req, res) => {
 
     if (workDate > today || booking.status === "pending") {
       booking.status = "cancelled";
+      booking.cancellationType = "free";
       await booking.save();
 
       const notification = await Notification.create({

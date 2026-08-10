@@ -47,6 +47,13 @@ const bookingSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Payment",
     },
+    // This is intentionally separate from currentPaymentId: a booking can have
+    // an abandoned/regular payment order without being a late cancellation.
+    cancellationType: {
+        type: String,
+        enum: ["free", "late"],
+        default: null,
+    },
     completedAt : {
         type : Date
     },

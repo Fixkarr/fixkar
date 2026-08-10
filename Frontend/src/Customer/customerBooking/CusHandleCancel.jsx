@@ -17,7 +17,8 @@ const CusHandleCancel = ({ booking }) => {
 
       const result = await axios.post(
         `${server_url}/api/booking/cancel-booking`,
-        { bookingId }
+        { bookingId },
+        { withCredentials: true }
       );
 
       // 🔴 Late cancellation case
@@ -89,7 +90,7 @@ const CusHandleCancel = ({ booking }) => {
        setShowCancelModal(false);
       setLoading(false);
 
-    } catch (error) {
+    } catch {
       toast.error("Internal server error!");
       setLoading(false);
     }

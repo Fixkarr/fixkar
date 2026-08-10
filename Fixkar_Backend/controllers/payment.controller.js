@@ -255,6 +255,7 @@ export const verifyPayment = async (req, res) => {
     }
     if (payment.paymentType === "CANCEL") {
       booking.status = 'cancelled'
+      booking.cancellationType = 'late'
     }
 
     const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);

@@ -59,7 +59,7 @@ export const getMyBookings = async (req, res) => {
   { path: "profession", select: "name image skills", populate: { path: "skills", select: "name" } },
      {path : "selectedSkills", select : "name"}
 ],
-  }).populate('review').sort({createdAt : -1});
+  }).populate('currentPaymentId', 'paymentType status amount').populate('review').sort({createdAt : -1});
 
     return res.status(200).json({
       message: bookings.length

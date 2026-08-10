@@ -1,7 +1,12 @@
 import React from 'react'
 
 const CusCancelBooking = ({booking}) => {
-  return booking.currentPaymentId ? (
+  const isLateCancellation =
+    booking.cancellationType === "late" ||
+    (booking.currentPaymentId?.paymentType === "CANCEL" &&
+      booking.currentPaymentId?.status === "paid");
+
+  return isLateCancellation ? (
     <div className="card border-danger shadow-sm mt-3">
     <div className="card-body">
       <h5 className="text-danger fw-bold mb-2 text-center">

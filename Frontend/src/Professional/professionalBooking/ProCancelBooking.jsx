@@ -3,7 +3,12 @@ import { CiWallet } from "react-icons/ci";
 import { MdFreeCancellation } from "react-icons/md";
 
 const ProCancelBooking = ({ booking, transaction }) => {
-  return booking.currentPaymentId ? (
+  const isLateCancellation =
+    booking.cancellationType === "late" ||
+    (booking.currentPaymentId?.paymentType === "CANCEL" &&
+      booking.currentPaymentId?.status === "paid");
+
+  return isLateCancellation ? (
     <div className="card border-0 shadow-sm mb-3">
       <div className="card-body">
         <div className="d-flex align-items-center mb-3">
