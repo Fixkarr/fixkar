@@ -30,6 +30,9 @@ const WaitingForCustomerConfirmation = ({ request, onExpired }) => {
     const seconds = remaining % 60;
     const formattedTime = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
     const charge = request.charge || {};
+    const commissionPercentage = Number(charge.commissionPercentage) || 0;
+    const platformCommission = Number(charge.platformCommission) || 0;
+    const professionalAmount = Number(charge.professionalAmount) || Number(charge.totalAmount) || 0;
 
     return (
         <div className="card border-0 shadow rounded-4 overflow-hidden">
@@ -62,7 +65,7 @@ const WaitingForCustomerConfirmation = ({ request, onExpired }) => {
 
                 <div className="row g-3 small">
                     <div className="col-6"><div className="border rounded-3 p-3 h-100"><span className="text-muted d-block">Service</span><strong>{request.serviceName || "Service"}</strong><div>{request.taskName}</div></div></div>
-                    <div className="col-6"><div className="border rounded-3 p-3 h-100"><span className="text-muted d-block">Estimated earnings</span><strong><FaRupeeSign size={12} />{charge.totalAmount ?? "--"}</strong><div>{request.distanceInKm ? `${Number(request.distanceInKm).toFixed(1)} km away` : ""}</div></div></div>
+                    <div className="col-6"><div className="border rounded-3 p-3 h-100"><span className="text-muted d-block">You'll receive</span><strong><FaRupeeSign size={12} />{professionalAmount.toLocaleString("en-IN")}</strong><div>Commission: -₹{platformCommission.toLocaleString("en-IN")} ({commissionPercentage}%)</div></div></div>
                     <div className="col-12"><div className="border rounded-3 p-3"><FaMapMarkerAlt className="text-danger me-2" /><strong>{request.workAddress || "Customer address will be shared after confirmation"}</strong></div></div>
                 </div>
             </div>

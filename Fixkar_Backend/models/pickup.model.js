@@ -60,6 +60,9 @@ const pickupRequestSchema = new mongoose.Schema(
       taskPrice: {type: Number, required: true},
       visitingCharge: {type: Number, required: true},
       totalAmount: {type: Number, required: true},
+      commissionPercentage: {type: Number, default: 0},
+      platformCommission: {type: Number, default: 0},
+      professionalAmount: {type: Number, default: 0},
     },
     attemptNo: {
       type: Number,

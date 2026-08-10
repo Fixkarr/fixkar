@@ -10,6 +10,9 @@ const PricingInfo = ({ request }) => {
     const taskPrice = Number(request?.charge?.taskPrice) || 0;
     const visitingCharge = Number(request?.charge?.visitingCharge) || 0;
     const totalAmount = Number(request?.charge?.totalAmount) || 0;
+    const commissionPercentage = Number(request?.charge?.commissionPercentage) || 0;
+    const platformCommission = Number(request?.charge?.platformCommission) || 0;
+    const professionalAmount = Number(request?.charge?.professionalAmount) || totalAmount;
 
     return (
         <div className="bg-primary text-white rounded-4 p-3 p-md-4 mb-4 shadow-sm">
@@ -31,7 +34,7 @@ const PricingInfo = ({ request }) => {
 
                     <div className="ms-3">
                         <small className="opacity-75 d-block">
-                            Estimated Earnings
+                            Customer will pay
                         </small>
 
                         <h3 className="fw-bold mb-0 d-flex align-items-center">
@@ -89,6 +92,18 @@ const PricingInfo = ({ request }) => {
 
                 <hr className="border-light opacity-50 my-3" />
 
+                <div className="d-flex justify-content-between align-items-center gap-3 text-warning mt-3">
+                    <span>
+                        Platform commission ({commissionPercentage}%)
+                    </span>
+                    <span className="fw-semibold text-nowrap d-flex align-items-center">
+                        - <FaRupeeSign size={12} />
+                        {platformCommission.toLocaleString("en-IN")}
+                    </span>
+                </div>
+
+                <hr className="border-light opacity-50 my-3" />
+
                 {/* TOTAL */}
                 <div className="d-flex justify-content-between align-items-center">
 
@@ -104,7 +119,7 @@ const PricingInfo = ({ request }) => {
 
                     <h4 className="fw-bold mb-0 d-flex align-items-center text-nowrap">
                         <FaRupeeSign size={18} />
-                        {totalAmount.toLocaleString("en-IN")}
+                        {professionalAmount.toLocaleString("en-IN")}
                     </h4>
 
                 </div>
@@ -113,7 +128,7 @@ const PricingInfo = ({ request }) => {
 
             {/* NOTE */}
             <div className="mt-3 small opacity-75">
-                Final amount is based on the charges shown above.
+                Commission is deducted from the customer-payable amount.
             </div>
 
         </div>

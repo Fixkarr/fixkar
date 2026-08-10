@@ -118,6 +118,15 @@ export const handlePickupBooking = async ({
 
         const totalAmount =
     taskPrice + visitingCharge;
+        // Keep the pickup estimate aligned with the booking payment flow:
+        // commission applies to the full customer-payable amount.
+        const commissionPercentage = Number(service.commission) || 0;
+        const platformCommission = Number(
+            ((totalAmount * commissionPercentage) / 100).toFixed(2)
+        );
+        const professionalAmount = Number(
+            (totalAmount - platformCommission).toFixed(2)
+        );
 
             // Create pickup request
             const pickupRequest = await PickupRequest.create({
@@ -131,6 +140,9 @@ export const handlePickupBooking = async ({
                          taskPrice,
                         visitingCharge,
                         totalAmount,
+                        commissionPercentage,
+                        platformCommission,
+                        professionalAmount,
                     },
                 
                 professionalId: professional._id,
@@ -198,6 +210,9 @@ export const handlePickupBooking = async ({
                          taskPrice,
                         visitingCharge,
                         totalAmount,
+                        commissionPercentage,
+                        platformCommission,
+                        professionalAmount,
                     },
                     problemDescription,
                     audioMessages,
