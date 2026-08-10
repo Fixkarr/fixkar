@@ -69,6 +69,10 @@ const cashReceivable =
     ? booking?.finalCustomerPayable
     : fullAmount;
 
+const professionalReceivable = booking?.isPriceLocked
+  ? (booking?.professionalReceivable || 0)
+  : null;
+
     if (!booking) {
   return <FixkarLoader />
 }
@@ -310,21 +314,22 @@ const cashReceivable =
           {booking.status == "reached" && <ProReached booking={booking}/>}
           {booking.status == "cancelled" && <ProCancelBooking booking={booking} transaction={walletTransaction}/>}
           {booking.status == "in-progress" && <ProInprogress booking={booking}/>}
-          {booking.quoteAmount && booking.status !== "completed" && (
+          {(booking.quoteAmount || booking.isPriceLocked) && booking.status === "in-progress" && (
        <div className="alert alert-warning rounded-4 shadow-sm mt-4">
     <h6 className="fw-bold mb-2">
-      Quote Sent Successfully, Awaiting Payment
+      {booking.isPriceLocked ? "Pickup Price Confirmed" : "Quote Sent Successfully, Awaiting Payment"}
     </h6>
 
     <p className="mb-2">
-      You have sent the work charge to the customer.
-      Please wait for the customer to complete the payment.
+      {booking.isPriceLocked
+        ? "The pickup price is locked. No quote is required."
+        : "You have sent the work charge to the customer. Please wait for the customer to complete the payment."}
     </p>
 
     <div className="border rounded p-3 bg-light">
       <div className="d-flex justify-content-between">
         <span>Service Charge</span>
-        <span className="fw-semibold">₹{booking.quoteAmount}</span>
+        <span className="fw-semibold">₹{booking.isPriceLocked ? booking.serviceCharge : booking.quoteAmount}</span>
       </div>
         <div className="d-flex justify-content-between">
             <span>Visiting Charge</span>
@@ -343,6 +348,12 @@ const cashReceivable =
                   <span>Customer Pays (Cash)</span>
                   <span>₹{cashReceivable}</span>
                 </div>
+                {booking.isPriceLocked && (
+                  <div className="d-flex justify-content-between fw-bold text-success mt-2">
+                    <span>You Receive</span>
+                    <span>₹{professionalReceivable}</span>
+                  </div>
+                )}
     </div>
 
        {booking.offerLocked && (

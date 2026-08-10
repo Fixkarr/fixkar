@@ -35,6 +35,9 @@ const bookingSchema = new mongoose.Schema({
     pricingType: { type: String, enum: ["inspection", "fixed"], default: "inspection" },
     serviceCharge: { type: Number, default: null },
     totalAmount: { type: Number, default: null },
+    // Amount the assigned professional receives after platform commission.
+    // This is locked for pickup bookings along with totalAmount.
+    professionalReceivable: { type: Number, default: null },
     isPriceLocked: { type: Boolean, default: false },
     assignmentStatus : { type: String, enum: ['searching', 'assigned', 'expired', 'cancelled'], default: 'searching' },
     quoteSentAt : {

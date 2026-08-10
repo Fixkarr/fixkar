@@ -55,8 +55,9 @@ export const confirmCashPayment = async (req, res) => {
       });
     }
 
-      const fullAmount =
-      booking.quoteAmount + booking.visitingCharge;
+      const fullAmount = booking.isPriceLocked
+        ? Number(booking.totalAmount) || 0
+        : (Number(booking.quoteAmount) || 0) + (Number(booking.visitingCharge) || 0);
 
      if (!fullAmount || fullAmount <= 0) {
       return res.status(400).json({

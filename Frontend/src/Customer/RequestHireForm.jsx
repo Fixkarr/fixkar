@@ -48,6 +48,24 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
     setPickupExpiresAt(null);
   };
 
+  const confirmPickupHire = async (pickupRequest) => {
+    try {
+      setLoading(true);
+      const result = await axios.post(
+        `${server_url}/api/booking/confirm-pickup-hire`,
+        { pickupRequestId: pickupRequest.pickupRequestId || pickupRequest._id },
+        { withCredentials: true },
+      );
+      toast.success(result.data.message);
+      clearExpiredPickup();
+      navigate(`/customer/bookings/${result.data.booking._id}`);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Unable to confirm booking.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const service = isDirectHire ? proInfo?.profession : selectedService;
 
   const isSkillBased = service?.serviceType === "skill_based";
@@ -262,6 +280,7 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
      <PickupWaiting
      pickupSessionId={pickupSessionId}
       expiresAt={pickupExpiresAt}
+      onConfirmHire={confirmPickupHire}
       onExpired={clearExpiredPickup}
     /> : <div className="card border-0 shadow rounded-4 overflow-hidden">
       {/* Header */}

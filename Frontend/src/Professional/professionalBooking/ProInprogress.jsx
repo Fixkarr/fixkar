@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const ProInprogress = ({booking}) => {
     if (booking?.isPriceLocked) {
-      return <div className="alert alert-success mt-3 mb-0">Upfront price locked: ₹{booking.totalAmount}. No quote is required.</div>;
+      return <div className="alert alert-success mt-3 mb-0">Upfront price locked: ₹{booking.totalAmount}. You receive: ₹{booking.professionalReceivable || 0}. No quote is required.</div>;
     }
     const [quoteAmount, setQuoteAmount] = useState('')
 

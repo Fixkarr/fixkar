@@ -12,6 +12,14 @@ const pickupRequestSchema = new mongoose.Schema(
     customerName : {type : String, required :true},
     serviceName : {type : String, required :true},
     taskName : {type : String, required :true},
+    serviceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+    },
+    taskId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Skill",
+    },
     // Created only after a professional accepts
     bookingId: {
       type: mongoose.Schema.Types.ObjectId,

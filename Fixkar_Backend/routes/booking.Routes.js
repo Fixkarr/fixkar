@@ -15,6 +15,7 @@ import { postReview } from '../controllers/review.controller.js';
 import { getReachedOtp } from '../controllers/BookingController/getReachedOtp.js';
 import { getWalletTransaction } from '../controllers/ProfessionalsController/getWalletTransaction.js';
 import { confirmCashPayment } from '../controllers/BookingController/cashPayment.controller.js';
+import { confirmPickupHire } from '../controllers/BookingController/confirmPickupHire.js';
 import upload from '../middlewares/multer.js';
 import multerErrorHandler from '../middlewares/multerErrorHandler.js';
 
@@ -28,6 +29,7 @@ bookingRouter.get('/get-booking', getBookingById)
 bookingRouter.post('/reject-booking', rejectBooking)
 bookingRouter.post('/cancel-booking', cancelCustomerBooking)
 bookingRouter.post('/accept-booking', acceptBooking)
+bookingRouter.post('/confirm-pickup-hire', isAuth, confirmPickupHire)
 bookingRouter.post('/mark-reached', isAuth, reachedToLocation)
 bookingRouter.post('/verify-reached-otp', isAuth, verifyReachedOtp);
 bookingRouter.post('/send-quote-amount', isAuth, sendQuoteAmount)

@@ -136,6 +136,8 @@ export const handlePickupBooking = async ({
                 customerName,
                 serviceName: service.name,
                 taskName: task.name,
+                serviceId: service._id,
+                taskId: task._id,
                 charge : {
                          taskPrice,
                         visitingCharge,

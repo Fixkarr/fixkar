@@ -455,7 +455,7 @@ if (!booking) {
     <div className="d-flex justify-content-between mb-2 text-muted">
       <span>Service Charge</span>
       <span className="fw-semibold text-dark">
-        ₹{booking.quoteAmount}
+        ₹{booking.isPriceLocked ? booking.serviceCharge : booking.quoteAmount}
       </span>
     </div>
 
