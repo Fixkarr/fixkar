@@ -142,7 +142,7 @@ export const handlePickupBooking = async ({
                          taskPrice,
                         visitingCharge,
                         totalAmount,
-                        commissionPercentage,
+                        commissionPercentage, 
                         platformCommission,
                         professionalAmount,
                     },

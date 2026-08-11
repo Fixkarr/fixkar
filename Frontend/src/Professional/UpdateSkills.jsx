@@ -103,8 +103,9 @@ if (
       toast.success("Skills updated successfully");
     } catch (err) {
       toast.error(
-        err.response?.data?.message || "Failed to update skills"
+        err?.response?.data?.message
       );
+      console.log(err);
     } finally {
       setLoading(false);
     }
