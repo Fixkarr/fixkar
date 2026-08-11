@@ -11,6 +11,7 @@ import { getAllProfessionals } from '../../ProfessionalsController/getAllProfess
 import { acceptApplication } from '../AdminController/acceptProApplication.js';
 import { rejectApplication } from '../AdminController/rejectProApplication.js';
 import { updateService } from '../AdminController/updateService.js';
+import { deleteService } from '../AdminController/deleteService.js';
 import { getAdminBookingById, getBookings } from '../AdminController/getBookings.js';
 import { acceptBankDetail } from '../AdminController/acceptBankDetail.js';
 import { rejectBankDetail } from '../AdminController/rejectBankDetail.js';
@@ -41,6 +42,7 @@ adminRouter.get('/get-current-admin', isAdmin, getCurrentAdmin);
 
 adminRouter.post('/create-service', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), addService)
 adminRouter.post('/update-service/:serviceId', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), updateService)
+adminRouter.delete('/delete-service/:serviceId', isAdmin, adminPermission('super_admin'), deleteService)
 
 adminRouter.get('/get-all-customers', isAdmin, adminPermission('super_admin', 'professional_admin'), getAllCustomers);
 adminRouter.get('/get-all-professionals', isAdmin, adminPermission('super_admin', 'professional_admin'), getAllProfessionals)
