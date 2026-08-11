@@ -3,90 +3,85 @@ import { Customer, User } from "../../../models/userModel.js";
 
 export const getAllCustomers = async (req, res) => {
   try {
-    const {
-      page = 1,
-      limit = 10,
-      search = "",
-    } = req.query;
+    const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(
+      Math.max(Number.parseInt(req.query.limit, 10) || 10, 1),
+      50,
+    );
 
-    const currentPage = Math.max(Number(page), 1);
-    const perPage = Math.min(Math.max(Number(limit), 1), 50);
-    const skip = (currentPage - 1) * perPage;
+    const search = String(req.query.search || "").trim();
+    const skip = (page - 1) * limit;
 
-    let customerFilter = {};
+    const customerFilter = {};
 
-    // =========================================
-    // SEARCH
-    // =========================================
-
-    if (search.trim()) {
-      const searchValue = search.trim();
-
-      const userSearchFilter = {
-        $or: [
-          {
-            fullName: {
-              $regex: searchValue,
-              $options: "i",
-            },
-          },
-          {
-            email: {
-              $regex: searchValue,
-              $options: "i",
-            },
-          },
-          {
-            mobile: {
-              $regex: searchValue,
-              $options: "i",
-            },
-          },
-        ],
-      };
-
-      // User ID search
-      if (mongoose.Types.ObjectId.isValid(searchValue)) {
-        userSearchFilter.$or.push({
-          _id: searchValue,
-        });
-      }
-
-      const matchingUsers = await User.find(userSearchFilter)
-        .select("_id")
-        .lean();
-
-      const matchingUserIds = matchingUsers.map(
-        (user) => user._id
-      );
-
-      const customerOrConditions = [
+    if (search) {
+      const userConditions = [
         {
-          userId: {
-            $in: matchingUserIds,
+          fullName: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          email: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          mobile: {
+            $regex: search,
+            $options: "i",
           },
         },
       ];
 
-      // Customer ID search
-      if (mongoose.Types.ObjectId.isValid(searchValue)) {
-        customerOrConditions.push({
-          _id: searchValue,
+      if (mongoose.isValidObjectId(search)) {
+        userConditions.push({ _id: search });
+      }
+
+      const matchingUsers = await User.find({
+        $or: userConditions,
+      })
+        .select("_id")
+        .lean();
+
+      const matchingUserIds = matchingUsers.map((user) => user._id);
+      const matchingCustomerConditions = [];
+
+      if (matchingUserIds.length) {
+        matchingCustomerConditions.push({
+          userId: { $in: matchingUserIds },
         });
       }
 
-      customerFilter.$or = customerOrConditions;
-    }
+      if (mongoose.isValidObjectId(search)) {
+        matchingCustomerConditions.push({ _id: search });
+      }
 
-    // =========================================
-    // FETCH DATA + TOTAL COUNT
-    // =========================================
+      if (!matchingCustomerConditions.length) {
+        return res.status(200).json({
+          message: "Customers fetched successfully",
+          customers: [],
+          pagination: {
+            page,
+            limit,
+            total: 0,
+            totalPages: 0,
+            hasNextPage: false,
+            hasPreviousPage: page > 1,
+          },
+        });
+      }
+
+      customerFilter.$or = matchingCustomerConditions;
+    }
 
     const [customers, total] = await Promise.all([
       Customer.find(customerFilter)
-        .sort({ createdAt: -1 })
+        .sort({ createdAt: -1, _id: -1 })
         .skip(skip)
-        .limit(perPage)
+        .limit(limit)
         .populate({
           path: "userId",
           model: "User",
@@ -98,27 +93,25 @@ export const getAllCustomers = async (req, res) => {
           `,
         })
         .lean(),
-
       Customer.countDocuments(customerFilter),
     ]);
 
+    const totalPages = Math.ceil(total / limit);
+
     return res.status(200).json({
       message: "Customers fetched successfully",
-
       customers,
-
       pagination: {
-        page: currentPage,
-        limit: perPage,
+        page,
+        limit,
         total,
-        totalPages: Math.ceil(total / perPage),
-        hasNextPage: currentPage < Math.ceil(total / perPage),
-        hasPreviousPage: currentPage > 1,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
       },
     });
-
   } catch (error) {
-    console.log("getAllCustomers error:", error);
+    console.error("getAllCustomers error:", error);
 
     return res.status(500).json({
       message: "Internal server error!",
