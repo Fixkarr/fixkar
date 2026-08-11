@@ -1060,7 +1060,7 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
             PRICE SUMMARY
         =================================================== */}
 
-        {isFixedTask && (
+        {isFixedTask && !isDirectHire && (
           <section className="price-summary">
 
             <div className="price-summary-heading">
