@@ -11,27 +11,26 @@ export const getAllProfessionals = async (req, res) => {
       });
     }
 
-    const {
-      page = 1,
-      limit = 10,
-      search = "",
-      status = "",
-      profession = "",
-      verified = "",
-    } = req.query;
+    const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.min(
+      Math.max(Number.parseInt(req.query.limit, 10) || 10, 1),
+      50,
+    );
 
-    const currentPage = Math.max(Number(page), 1);
-    const perPage = Math.min(Math.max(Number(limit), 1), 50);
-    const skip = (currentPage - 1) * perPage;
+    const search = String(req.query.search || "").trim();
+    const status = String(req.query.status || "").trim();
+    const profession = String(req.query.profession || "").trim();
+    const verified = String(req.query.verified || "").trim();
 
-    let professionalFilter = {};
+    const skip = (page - 1) * limit;
+    const filterConditions = [];
 
     // =========================================
     // STATUS FILTER
     // =========================================
 
     if (status) {
-      professionalFilter.status = status;
+      filterConditions.push({ status });
     }
 
     // =========================================
@@ -39,116 +38,139 @@ export const getAllProfessionals = async (req, res) => {
     // =========================================
 
     if (profession) {
-      if (mongoose.Types.ObjectId.isValid(profession)) {
-        professionalFilter.profession = profession;
+      if (!mongoose.isValidObjectId(profession)) {
+        return res.status(400).json({
+          message: "Invalid profession ID",
+        });
       }
+
+      filterConditions.push({
+        profession: profession,
+      });
     }
 
     // =========================================
     // MOBILE VERIFICATION FILTER
     // =========================================
 
-    let matchingUserIds = null;
-
-    if (verified === "true") {
-      const users = await User.find({
-        isMobileVerified: true,
+    if (verified === "true" || verified === "false") {
+      const matchingUsers = await User.find({
+        isMobileVerified: verified === "true",
       })
         .select("_id")
         .lean();
 
-      matchingUserIds = users.map((user) => user._id);
-    }
+      const matchingUserIds = matchingUsers.map((user) => user._id);
 
-    if (verified === "false") {
-      const users = await User.find({
-        isMobileVerified: false,
-      })
-        .select("_id")
-        .lean();
+      if (!matchingUserIds.length) {
+        return res.status(200).json({
+          message: "Professionals fetched successfully",
+          professionals: [],
+          pagination: {
+            page,
+            limit,
+            total: 0,
+            totalPages: 0,
+            hasNextPage: false,
+            hasPreviousPage: page > 1,
+          },
+        });
+      }
 
-      matchingUserIds = users.map((user) => user._id);
-    }
-
-    if (matchingUserIds) {
-      professionalFilter.userId = {
-        $in: matchingUserIds,
-      };
+      filterConditions.push({
+        userId: { $in: matchingUserIds },
+      });
     }
 
     // =========================================
     // SEARCH
+    // Name / Email / Mobile / User ID /
+    // Professional ID
     // =========================================
 
-    if (search.trim()) {
-      const searchValue = search.trim();
-
-      const userSearchFilter = {
-        $or: [
-          {
-            fullName: {
-              $regex: searchValue,
-              $options: "i",
-            },
-          },
-          {
-            email: {
-              $regex: searchValue,
-              $options: "i",
-            },
-          },
-          {
-            mobile: {
-              $regex: searchValue,
-              $options: "i",
-            },
-          },
-        ],
-      };
-
-      // User ID
-      if (mongoose.Types.ObjectId.isValid(searchValue)) {
-        userSearchFilter.$or.push({
-          _id: searchValue,
-        });
-      }
-
-      const matchingUsers = await User.find(userSearchFilter)
-        .select("_id")
-        .lean();
-
-      const userIds = matchingUsers.map(
-        (user) => user._id
-      );
-
-      const searchConditions = [
+    if (search) {
+      const userSearchConditions = [
         {
-          userId: {
-            $in: userIds,
+          fullName: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          email: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          mobile: {
+            $regex: search,
+            $options: "i",
           },
         },
       ];
 
-      // Professional ID
-      if (mongoose.Types.ObjectId.isValid(searchValue)) {
-        searchConditions.push({
-          _id: searchValue,
+      if (mongoose.isValidObjectId(search)) {
+        userSearchConditions.push({
+          _id: search,
         });
       }
 
-      professionalFilter.$or = searchConditions;
+      const matchingUsers = await User.find({
+        $or: userSearchConditions,
+      })
+        .select("_id")
+        .lean();
+
+      const matchingUserIds = matchingUsers.map((user) => user._id);
+      const searchConditions = [];
+
+      if (matchingUserIds.length) {
+        searchConditions.push({
+          userId: { $in: matchingUserIds },
+        });
+      }
+
+      if (mongoose.isValidObjectId(search)) {
+        searchConditions.push({
+          _id: search,
+        });
+      }
+
+      if (!searchConditions.length) {
+        return res.status(200).json({
+          message: "Professionals fetched successfully",
+          professionals: [],
+          pagination: {
+            page,
+            limit,
+            total: 0,
+            totalPages: 0,
+            hasNextPage: false,
+            hasPreviousPage: page > 1,
+          },
+        });
+      }
+
+      filterConditions.push({
+        $or: searchConditions,
+      });
     }
 
+    const professionalFilter =
+      filterConditions.length > 0
+        ? { $and: filterConditions }
+        : {};
+
     // =========================================
-    // FETCH PROFESSIONALS
+    // FETCH DATA + TOTAL COUNT
     // =========================================
 
     const [professionals, total] = await Promise.all([
       Professional.find(professionalFilter)
-        .sort({ createdAt: -1 })
+        .sort({ createdAt: -1, _id: -1 })
         .skip(skip)
-        .limit(perPage)
-
+        .limit(limit)
         .select(`
           +bankDetails.bankName
           +bankDetails.holderName
@@ -158,7 +180,6 @@ export const getAllProfessionals = async (req, res) => {
           +bankDetails.panNumber
           +bankDetails.docPicUrl
         `)
-
         .populate({
           path: "userId",
           model: "User",
@@ -173,27 +194,20 @@ export const getAllProfessionals = async (req, res) => {
             +professionalAcceptance.policyVersion
           `,
         })
-
         .populate({
           path: "reviews",
           options: {
-            sort: {
-              createdAt: -1,
-            },
+            sort: { createdAt: -1 },
             limit: 10,
           },
         })
-
         .populate({
           path: "gallery",
           options: {
-            sort: {
-              createdAt: -1,
-            },
+            sort: { createdAt: -1 },
             limit: 20,
           },
         })
-
         .populate({
           path: "profession",
           select: "name image skills",
@@ -202,43 +216,34 @@ export const getAllProfessionals = async (req, res) => {
             select: "name",
           },
         })
-
         .populate({
           path: "selectedSkills",
           select: "name",
         })
-
         .populate({
           path: "charges",
         })
-
         .lean(),
 
       Professional.countDocuments(professionalFilter),
     ]);
 
+    const totalPages = Math.ceil(total / limit);
+
     return res.status(200).json({
       message: "Professionals fetched successfully",
-
       professionals,
-
       pagination: {
-        page: currentPage,
-        limit: perPage,
+        page,
+        limit,
         total,
-        totalPages: Math.ceil(total / perPage),
-        hasNextPage:
-          currentPage < Math.ceil(total / perPage),
-        hasPreviousPage:
-          currentPage > 1,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
       },
     });
-
   } catch (error) {
-    console.log(
-      "getAllProfessionals error:",
-      error
-    );
+    console.error("getAllProfessionals error:", error);
 
     return res.status(500).json({
       message: "Internal server error",
