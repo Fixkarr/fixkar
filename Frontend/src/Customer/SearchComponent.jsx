@@ -705,9 +705,15 @@ const SearchSection = ({
                   </div>
 
                   {/* Task List */}
-                  {filteredTasks.length > 0 ? (
-                    <div className="row g-2">
-                      {filteredTasks.map((skill) => {
+                 {filteredTasks.length > 0 ? (
+  <div
+    className="overflow-auto pe-2"
+    style={{
+      maxHeight: "320px",
+    }}
+  >
+    <div className="row g-2">
+      {filteredTasks.map((skill) => {
                         const active = selectedSkills.includes(
                           skill._id
                         );
@@ -815,6 +821,7 @@ const SearchSection = ({
                           </div>
                         );
                       })}
+                    </div>
                     </div>
                   ) : (
                     /* No Search Results */

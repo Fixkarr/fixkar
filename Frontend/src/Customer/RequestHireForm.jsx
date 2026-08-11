@@ -1044,7 +1044,6 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
 
           </div>
 
-          {/* Hidden/disabled input is intentionally retained */}
           <textarea
             className="d-none"
             name="workAddress"
@@ -1055,36 +1054,6 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
           />
 
         </section>
-
-      
-
-
-
-
-        {/* ===================================================
-            INSPECTION INFO
-        =================================================== */}
-
-        {!isFixedTask && selectedTask && (
-          <div className="inspection-card">
-
-            <div className="inspection-icon">
-              <FaTools />
-            </div>
-
-            <div>
-              <strong>
-                Inspection required
-              </strong>
-
-              <p>
-                The professional will inspect the work
-                and provide the final quote after the visit.
-              </p>
-            </div>
-
-          </div>
-        )}
 
         {/* ===================================================
             FINAL CTA
