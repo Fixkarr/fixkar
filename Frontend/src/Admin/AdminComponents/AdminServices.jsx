@@ -1,83 +1,648 @@
-import React from "react";
-import { FaTools, FaPlus, FaUsers, FaInfoCircle, FaPen } from "react-icons/fa";
-import AddServiceForm from "./Utils/ServiceForm";
+import React, { useMemo, useState } from "react";
+import {
+  FaTools,
+  FaPlus,
+  FaUsers,
+  FaPen,
+  FaChevronRight,
+  FaSearch,
+  FaTasks,
+  FaPercentage,
+  FaTimes,
+} from "react-icons/fa";
+
+import ServiceForm from "./Utils/ServiceForm";
 import useGetServices from "../../hooks/useGetServices";
 import { useSelector } from "react-redux";
 
-
-
-import ServiceForm from "./Utils/ServiceForm";
-import { useState } from "react";
-
 const AdminServices = () => {
   const adminPath = import.meta.env.VITE_ADMIN_PATH;
-  useGetServices();
-  const { services } = useSelector((state) => state.services);
 
-  const [selectedService, setSelectedService] = useState(null);
+  useGetServices();
+
+  const { services } = useSelector(
+    (state) => state.services
+  );
+
+  const [selectedService, setSelectedService] =
+    useState(null);
+
+  const [serviceSearch, setServiceSearch] =
+    useState("");
+
+  // =========================================================
+  // SERVICE SEARCH
+  // =========================================================
+
+  const filteredServices = useMemo(() => {
+    const query = serviceSearch.trim().toLowerCase();
+
+    if (!query) {
+      return services || [];
+    }
+
+    return (services || []).filter((service) => {
+      const serviceName =
+        service?.name?.toLowerCase() || "";
+
+      const description =
+        service?.description?.toLowerCase() || "";
+
+      return (
+        serviceName.includes(query) ||
+        description.includes(query)
+      );
+    });
+  }, [services, serviceSearch]);
+
   return (
     <div
-      className="container-fluid py-4"
+      className="container-fluid min-vh-100 py-3 py-md-4"
       style={{
-        background: "linear-gradient(135deg, #0f2027, #2c5364)",
-        minHeight: "100vh",
+        background:
+          "linear-gradient(180deg,#f5f7fb 0%,#eef2f7 100%)",
       }}
     >
-      {/* ================= HEADER ================= */}
-      <div
-        className="card border-0 shadow-lg rounded-4 mb-4 text-white"
-        style={{
-          background: "linear-gradient(135deg, #0f2027, #2c5364)",
-        }}
-      >
-        <div className="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
-          <div>
-            <h4 className="fw-bold mb-1">
-              <FaTools className="me-2 text-warning" />
-              Services Management
-            </h4>
-            <p className="mb-0 text-light opacity-75">
-              Manage all platform services & skills
-            </p>
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
+      <div className="container-fluid px-0">
+
+        <div className="bg-white border rounded-4 shadow-sm p-3 p-md-4 mb-4">
+
+          <div className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+
+            {/* LEFT */}
+
+            <div className="d-flex align-items-center gap-3">
+
+              <div
+                className="d-flex align-items-center justify-content-center rounded-3 bg-primary bg-opacity-10 text-primary flex-shrink-0"
+                style={{
+                  width: "48px",
+                  height: "48px",
+                }}
+              >
+                <FaTools size={20} />
+              </div>
+
+              <div>
+                <h4 className="fw-bold mb-1 text-dark">
+                  Services Management
+                </h4>
+
+                <p className="text-secondary small mb-0">
+                  Manage services, tasks and professional
+                  availability from one place.
+                </p>
+              </div>
+
+            </div>
+
+            {/* RIGHT */}
+
+            <button
+              type="button"
+              className="btn btn-primary rounded-3 px-4 fw-semibold"
+              data-bs-toggle="modal"
+              data-bs-target="#AddServiceModal"
+            >
+              <FaPlus className="me-2" size={12} />
+              Add New Service
+            </button>
+
           </div>
 
-          <button
-            className="btn btn-warning fw-semibold px-4 rounded-pill shadow-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#AddServiceModal"
-          >
-            <FaPlus className="me-2" />
-            Add New Service
-          </button>
+        </div>
+
+        {/* ===================================================
+            QUICK STATS
+        =================================================== */}
+
+        <div className="row g-3 mb-4">
+
+          <div className="col-6 col-md-4">
+
+            <div className="bg-white border rounded-4 shadow-sm p-3 h-100">
+
+              <div className="d-flex align-items-center justify-content-between">
+
+                <div>
+                  <small className="text-secondary">
+                    Total Services
+                  </small>
+
+                  <h4 className="fw-bold mb-0 mt-1">
+                    {services?.length || 0}
+                  </h4>
+                </div>
+
+                <div className="text-primary bg-primary bg-opacity-10 rounded-3 p-2">
+                  <FaTools />
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="col-6 col-md-4">
+
+            <div className="bg-white border rounded-4 shadow-sm p-3 h-100">
+
+              <div className="d-flex align-items-center justify-content-between">
+
+                <div>
+                  <small className="text-secondary">
+                    Total Tasks
+                  </small>
+
+                  <h4 className="fw-bold mb-0 mt-1">
+                    {(services || []).reduce(
+                      (total, service) =>
+                        total +
+                        (service?.skills?.length || 0),
+                      0
+                    )}
+                  </h4>
+                </div>
+
+                <div className="text-success bg-success bg-opacity-10 rounded-3 p-2">
+                  <FaTasks />
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="col-12 col-md-4">
+
+            <div className="bg-white border rounded-4 shadow-sm p-3 h-100">
+
+              <div className="d-flex align-items-center justify-content-between">
+
+                <div>
+                  <small className="text-secondary">
+                    Active Professionals
+                  </small>
+
+                  <h4 className="fw-bold mb-0 mt-1">
+                    {(services || []).reduce(
+                      (total, service) =>
+                        total +
+                        Number(
+                          service?.professionalCount || 0
+                        ),
+                      0
+                    )}
+                  </h4>
+                </div>
+
+                <div className="text-warning bg-warning bg-opacity-10 rounded-3 p-2">
+                  <FaUsers />
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* ===================================================
+            SEARCH + LIST HEADER
+        =================================================== */}
+
+        <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+
+          <div>
+            <h5 className="fw-bold mb-1">
+              All Services
+            </h5>
+
+            <small className="text-secondary">
+              Select a service to manage its tasks and
+              details.
+            </small>
+          </div>
 
           <div
-            className="modal fade"
-            id="AddServiceModal"
-            tabIndex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
+            className="input-group bg-white border rounded-3 overflow-hidden"
+            style={{
+              maxWidth: "330px",
+              height: "42px",
+            }}
           >
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1 className="modal-title fs-5" id="exampleModalLabel">
-                    Add Service
-                  </h1>
+
+            <span className="input-group-text bg-white border-0">
+              <FaSearch
+                size={13}
+                className="text-secondary"
+              />
+            </span>
+
+            <input
+              type="text"
+              className="form-control border-0 shadow-none ps-0"
+              placeholder="Search services..."
+              value={serviceSearch}
+              onChange={(e) =>
+                setServiceSearch(e.target.value)
+              }
+            />
+
+            {serviceSearch && (
+              <button
+                type="button"
+                className="btn bg-white border-0"
+                onClick={() =>
+                  setServiceSearch("")
+                }
+              >
+                <FaTimes
+                  size={12}
+                  className="text-secondary"
+                />
+              </button>
+            )}
+
+          </div>
+
+        </div>
+
+        {/* =====================================================
+            SERVICE CARDS
+        ===================================================== */}
+
+        <div className="row g-3">
+
+          {filteredServices?.length > 0 ? (
+
+            filteredServices.map((service) => (
+
+              <div
+                className="col-12 col-md-6 col-xl-4"
+                key={service._id}
+              >
+
+                <div className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden bg-white">
+
+                  {/* ==========================================
+                      IMAGE
+                  ========================================== */}
+
+                  <div
+                    className="position-relative"
+                    style={{
+                      height: "125px",
+                    }}
+                  >
+
+                    <img
+                      src={service.image}
+                      alt={service.name}
+                      className="w-100 h-100"
+                      style={{
+                        objectFit: "cover",
+                      }}
+                    />
+
+                    {/* Commission */}
+
+                    <span
+                      className="position-absolute top-0 end-0 m-2 badge rounded-pill bg-dark bg-opacity-75 px-3 py-2"
+                    >
+                      <FaPercentage
+                        size={9}
+                        className="me-1"
+                      />
+                      {service.commission}%
+                    </span>
+
+                  </div>
+
+                  {/* ==========================================
+                      CARD BODY
+                  ========================================== */}
+
+                  <div className="card-body p-3 d-flex flex-column">
+
+                    {/* Service title */}
+
+                    <div className="d-flex align-items-start justify-content-between gap-2 mb-2">
+
+                      <div className="min-w-0">
+
+                        <h5 className="fw-bold mb-1 text-dark text-truncate">
+                          {service.name}
+                        </h5>
+
+                        <small className="text-secondary">
+                          Service
+                        </small>
+
+                      </div>
+
+                      <span className="badge rounded-pill bg-success-subtle text-success px-2 py-1 flex-shrink-0">
+                        <FaUsers
+                          size={9}
+                          className="me-1"
+                        />
+                        {service.professionalCount || 0}
+                      </span>
+
+                    </div>
+
+                    {/* Description */}
+
+                    <p
+                      className="text-secondary small mb-3"
+                      style={{
+                        minHeight: "36px",
+                        display:
+                          "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient:
+                          "vertical",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {service.description ||
+                        "No description available for this service."}
+                    </p>
+
+                    {/* ========================================
+                        TASK HEADER
+                    ======================================== */}
+
+                    <div className="d-flex align-items-center justify-content-between mb-2">
+
+                      <div className="d-flex align-items-center gap-2">
+
+                        <div
+                          className="d-flex align-items-center justify-content-center rounded-2 bg-primary bg-opacity-10 text-primary"
+                          style={{
+                            width: "28px",
+                            height: "28px",
+                          }}
+                        >
+                          <FaTasks size={11} />
+                        </div>
+
+                        <div>
+                          <div className="small fw-bold text-dark">
+                            Tasks
+                          </div>
+
+                          <small className="text-secondary">
+                            {service.skills?.length || 0}{" "}
+                            available
+                          </small>
+                        </div>
+
+                      </div>
+
+                      <small className="text-primary">
+                        Scroll to view
+                      </small>
+
+                    </div>
+
+                    {/* ========================================
+                        TASK SCROLL AREA
+                    ======================================== */}
+
+                    <div
+                      className="border rounded-3 bg-light p-2 mb-3 overflow-auto"
+                      style={{
+                        maxHeight: "155px",
+                      }}
+                    >
+
+                      {service.skills?.length > 0 ? (
+
+                        <div className="d-flex flex-column gap-2">
+
+                          {service.skills.map(
+                            (skill) => (
+
+                              <div
+                                key={skill._id}
+                                className="bg-white border rounded-3 px-2 py-2"
+                              >
+
+                                <div className="d-flex align-items-center gap-2">
+
+                                  <div
+                                    className="d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 text-primary flex-shrink-0"
+                                    style={{
+                                      width: "25px",
+                                      height: "25px",
+                                    }}
+                                  >
+                                    <FaChevronRight
+                                      size={8}
+                                    />
+                                  </div>
+
+                                  <div className="flex-grow-1 min-w-0">
+
+                                    <div
+                                      className="small fw-semibold text-dark text-truncate"
+                                      title={skill.name}
+                                    >
+                                      {skill.name}
+                                    </div>
+
+                                    <small className="text-secondary">
+                                      {skill.bookingType ===
+                                      "fixed"
+                                        ? "Fixed price"
+                                        : "Inspection"}
+                                    </small>
+
+                                  </div>
+
+                                  {skill.bookingType ===
+                                    "fixed" &&
+                                    skill.pricingSource ===
+                                      "admin" && (
+                                      <span className="badge rounded-pill bg-success-subtle text-success flex-shrink-0">
+                                        ₹
+                                        {
+                                          skill.fixedPrice
+                                        }
+                                      </span>
+                                    )}
+
+                                </div>
+
+                              </div>
+
+                            )
+                          )}
+
+                        </div>
+
+                      ) : (
+
+                        <div className="text-center py-3">
+
+                          <FaTasks
+                            size={18}
+                            className="text-secondary mb-2"
+                          />
+
+                          <div className="small text-secondary">
+                            No tasks added
+                          </div>
+
+                        </div>
+
+                      )}
+
+                    </div>
+
+                    {/* ========================================
+                        FOOTER
+                    ======================================== */}
+
+                    <div className="mt-auto pt-2 border-top">
+
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary rounded-3 w-100 fw-semibold"
+                        data-bs-toggle="modal"
+                        data-bs-target="#UpdateServiceModal"
+                        onClick={() =>
+                          setSelectedService(
+                            service
+                          )
+                        }
+                      >
+                        <FaPen
+                          size={11}
+                          className="me-2"
+                        />
+
+                        Manage Service
+
+                        <FaChevronRight
+                          size={10}
+                          className="ms-2"
+                        />
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            ))
+
+          ) : (
+
+            <div className="col-12">
+
+              <div className="bg-white border rounded-4 text-center py-5 px-3">
+
+                <div
+                  className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 text-primary"
+                  style={{
+                    width: "55px",
+                    height: "55px",
+                  }}
+                >
+                  <FaSearch />
+                </div>
+
+                <h6 className="fw-bold mb-1">
+                  No services found
+                </h6>
+
+                <p className="text-secondary small mb-3">
+                  Try searching with another service name.
+                </p>
+
+                {serviceSearch && (
                   <button
                     type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  <ServiceForm mode="create" />
-                </div>
+                    className="btn btn-sm btn-outline-primary rounded-pill px-4"
+                    onClick={() =>
+                      setServiceSearch("")
+                    }
+                  >
+                    Clear search
+                  </button>
+                )}
+
               </div>
+
             </div>
-          </div>
+
+          )}
+
         </div>
+
       </div>
+
+      {/* =====================================================
+          ADD SERVICE MODAL
+      ===================================================== */}
+
+      <div
+        className="modal fade"
+        id="AddServiceModal"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
+
+        <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+
+          <div className="modal-content border-0 rounded-4 overflow-hidden">
+
+            <div className="modal-header px-4 py-3">
+
+              <div>
+                <small className="text-primary fw-semibold">
+                  SERVICE MANAGEMENT
+                </small>
+
+                <h5 className="modal-title fw-bold mb-0 mt-1">
+                  Add New Service
+                </h5>
+              </div>
+
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+
+            </div>
+
+            <div className="modal-body p-3 p-md-4">
+              <ServiceForm mode="create" />
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* =====================================================
+          UPDATE SERVICE MODAL
+      ===================================================== */}
 
       <div
         className="modal fade"
@@ -85,94 +650,60 @@ const AdminServices = () => {
         tabIndex="-1"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-xl modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Update Service</h5>
+
+        <div className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+
+          <div className="modal-content border-0 rounded-4 overflow-hidden">
+
+            <div className="modal-header px-4 py-3">
+
+              <div>
+
+                <small className="text-primary fw-semibold">
+                  SERVICE MANAGEMENT
+                </small>
+
+                <h5 className="modal-title fw-bold mb-0 mt-1">
+                  Manage Service
+                </h5>
+
+                {selectedService && (
+                  <small className="text-secondary">
+                    {selectedService.name}
+                  </small>
+                )}
+
+              </div>
 
               <button
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
+                aria-label="Close"
               />
+
             </div>
 
-            <div className="modal-body">
+            <div className="modal-body p-3 p-md-4">
+
               {selectedService && (
-                <ServiceForm mode="update" service={selectedService} />
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ================= TABLE ================= */}
-      <div className="row g-4">
-        {services?.length > 0 ? (
-          services.map((service) => (
-            <div className="col-xl-3 col-lg-4 col-md-6" key={service._id}>
-              <div className="card border-0 shadow-lg rounded-4 h-100 service-card">
-                {/* Image */}
-                <img
-                  src={service.image}
-                  alt={service.name}
-                  className="card-img-top rounded-top-4"
-                  style={{ height: 160, objectFit: "cover" }}
+                <ServiceForm
+                  mode="update"
+                  service={selectedService}
                 />
+              )}
 
-                <div className="card-body d-flex flex-column">
-                  {/* Title */}
-                  <h5 className="fw-bold mb-1">{service.name}</h5>
-                  <span className="badge rounded-pill bg-danger">
-                    {service.commission}%
-                  </span>
-                  <p className="text-muted small">{service.description}</p>
-
-                  {/* Skills */}
-                  <div className="mb-3">
-                    {service.skills?.length > 0 ? (
-                      service.skills.map((skill) => (
-                        <span
-                          key={skill._id}
-                          className="badge bg-primary me-2 mb-2 px-3 py-2 rounded-pill"
-                        >
-                          {skill.name}
-                        </span>
-                      ))
-                    ) : (
-                      <span className="text-muted small">No skills added</span>
-                    )}
-                  </div>
-
-                  {/* Footer */}
-                  <div className="mt-auto d-flex justify-content-between align-items-center">
-                    <span className="badge bg-success px-3 py-2 rounded-pill">
-                      <FaUsers className="me-1" />
-                      {service.professionalCount} Pros
-                    </span>
-
-                    <button
-                      className="btn btn-outline-primary rounded-pill"
-                      data-bs-toggle="modal"
-                      data-bs-target="#UpdateServiceModal"
-                      onClick={() => setSelectedService(service)}
-                    >
-                      <FaPen className="me-2" />
-                      Update Service
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
-          ))
-        ) : (
-          <div className="col-12 text-center text-white opacity-75 py-5">
-            No services found
+
           </div>
-        )}
+
+        </div>
+
       </div>
+
     </div>
   );
 };
 
 export default AdminServices;
+
