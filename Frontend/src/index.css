@@ -894,3 +894,233 @@ border-radius: 25px;
     backdrop-filter:blur(10px);
 
 }
+
+
+/* search service csss */
+
+/* =========================================
+   SERVICE SCROLL AREA
+========================================= */
+
+.service-scroll-area {
+  max-height: 285px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 3px 8px 8px 3px;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #b8c7dd transparent;
+}
+
+/* Chrome / Edge / Safari */
+.service-scroll-area::-webkit-scrollbar {
+  width: 7px;
+}
+
+.service-scroll-area::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 20px;
+}
+
+.service-scroll-area::-webkit-scrollbar-thumb {
+  background: #b8c7dd;
+  border-radius: 20px;
+  border: 2px solid #f1f5f9;
+}
+
+.service-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #7f95b5;
+}
+
+
+/* =========================================
+   SERVICE CARD
+========================================= */
+
+.service-card {
+  width: 100%;
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 12px;
+
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  text-align: left;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+
+  cursor: pointer;
+}
+
+.service-card:hover {
+  border-color: #93c5fd;
+  background: #f8fbff;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.service-card:active {
+  transform: scale(0.99);
+}
+
+
+/* Selected service */
+
+.service-card-active {
+  border: 2px solid #0d6efd;
+  background: #eff6ff;
+  padding: 9px 11px;
+}
+
+.service-card-active:hover {
+  background: #eff6ff;
+  border-color: #0d6efd;
+}
+
+
+/* =========================================
+   SERVICE ICON
+========================================= */
+
+.service-icon {
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f1f5f9;
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.service-icon img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.service-icon-active {
+  background: #dbeafe;
+}
+
+
+/* =========================================
+   SERVICE CONTENT
+========================================= */
+
+.service-card-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.service-name {
+  font-size: 14px;
+  font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.service-card-content small {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #64748b;
+  font-size: 11px;
+}
+
+
+/* =========================================
+   CHECK / ARROW
+========================================= */
+
+.service-check {
+  width: 28px;
+  height: 28px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.service-check-active {
+  background: #0d6efd;
+  color: #ffffff;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.service-empty-state {
+  min-height: 150px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+
+  background: #f8fafc;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+  .service-scroll-area {
+    max-height: 310px;
+    padding-right: 6px;
+  }
+
+  .service-card {
+    min-height: 68px;
+  }
+
+  .service-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .service-name {
+    font-size: 13px;
+  }
+
+  .service-card-content small {
+    font-size: 10px;
+  }
+
+}
