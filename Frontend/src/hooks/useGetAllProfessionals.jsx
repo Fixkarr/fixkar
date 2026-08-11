@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
 import { server_url } from "../App";
 import { toast } from "react-toastify";
 
+const DEFAULT_PAGINATION = {
+  page: 1,
+  limit: 10,
+  total: 0,
+  totalPages: 0,
+  hasNextPage: false,
+  hasPreviousPage: false,
+};
+
 const useGetAllProfessionals = () => {
   const [professionals, setProfessionals] = useState([]);
-
-  const [pagination, setPagination] = useState({
-    page: 1,
-    limit: 10,
-    total: 0,
-    totalPages: 0,
-    hasNextPage: false,
-    hasPreviousPage: false,
-  });
-
+  const [pagination, setPagination] = useState(DEFAULT_PAGINATION);
   const [loading, setLoading] = useState(false);
 
-  const fetchProfessionals = async ({
+  const fetchProfessionals = useCallback(async ({
     page = 1,
     limit = 10,
     search = "",
@@ -34,52 +34,45 @@ const useGetAllProfessionals = () => {
           params: {
             page,
             limit,
-            search,
+            search: search.trim(),
             status,
             profession,
             verified,
           },
           withCredentials: true,
-        }
+        },
       );
 
-      setProfessionals(result.data.professionals || []);
+      setProfessionals(result.data?.professionals || []);
 
       setPagination(
-        result.data.pagination || {
+        result.data?.pagination || {
+          ...DEFAULT_PAGINATION,
           page,
           limit,
-          total: 0,
-          totalPages: 0,
-          hasNextPage: false,
-          hasPreviousPage: false,
-        }
+        },
       );
 
+      return result.data;
     } catch (error) {
-      console.log("Error fetching professionals:", error);
+      console.error("Error fetching professionals:", error);
 
       toast.error(
         error?.response?.data?.message ||
-        "Something went wrong!"
+          "Unable to fetch professionals. Please try again.",
       );
 
       setProfessionals([]);
+      setPagination({
+        ...DEFAULT_PAGINATION,
+        page,
+        limit,
+      });
+
+      return null;
     } finally {
       setLoading(false);
     }
-  };
-
-  // Initial load
-  useEffect(() => {
-    fetchProfessionals({
-      page: 1,
-      limit: 10,
-      search: "",
-      status: "",
-      profession: "",
-      verified: "",
-    });
   }, []);
 
   return {
