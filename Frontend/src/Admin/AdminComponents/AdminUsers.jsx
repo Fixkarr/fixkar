@@ -4,6 +4,7 @@ import {
   FaUserTie,
   FaUserShield,
   FaDatabase,
+  FaUserClock,
 } from "react-icons/fa";
 
 import StatCard from "./Utils/StatCard";
@@ -73,8 +74,9 @@ const AdminUsers = () => {
 
               <div className="text-md-end">
                 <div className="small text-light opacity-50 mb-1">
-                  Records are loaded on demand
+                  On-demand data loading
                 </div>
+
                 <div className="d-flex align-items-center justify-content-md-end gap-2">
                   <FaDatabase className="text-info" />
                   <span className="small text-light opacity-75">
@@ -108,12 +110,12 @@ const AdminUsers = () => {
 
           <div className="col-md-12 col-xl-4">
             <div className="card border-0 shadow-sm rounded-4 h-100 bg-white">
-              <div className="card-body d-flex align-items-center justify-content-between p-4">
+              <div className="card-body p-4 d-flex align-items-center justify-content-between gap-3">
                 <div>
-                  <div className="small text-muted mb-1">Current data scope</div>
-                  <h5 className="fw-bold mb-1">On-demand management</h5>
+                  <div className="small text-muted mb-1">Management mode</div>
+                  <h5 className="fw-bold mb-1">Search on demand</h5>
                   <p className="small text-muted mb-0">
-                    Only the selected user type is fetched.
+                    Only the selected user type is requested from the server.
                   </p>
                 </div>
 
@@ -121,7 +123,7 @@ const AdminUsers = () => {
                   className="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center flex-shrink-0"
                   style={{ width: 52, height: 52 }}
                 >
-                  <FaDatabase />
+                  <FaUserClock />
                 </div>
               </div>
             </div>
@@ -129,18 +131,16 @@ const AdminUsers = () => {
         </section>
 
         {/* ================= SEARCH + RESULTS ================= */}
-        <section>
-          <AdminSearch
-            customers={customers}
-            professionals={professionals}
-            customerPagination={customerPagination}
-            professionalPagination={professionalPagination}
-            customerLoading={customerLoading}
-            professionalLoading={professionalLoading}
-            fetchCustomers={fetchCustomers}
-            fetchProfessionals={fetchProfessionals}
-          />
-        </section>
+        <AdminSearch
+          customers={customers}
+          professionals={professionals}
+          customerPagination={customerPagination}
+          professionalPagination={professionalPagination}
+          customerLoading={customerLoading}
+          professionalLoading={professionalLoading}
+          fetchCustomers={fetchCustomers}
+          fetchProfessionals={fetchProfessionals}
+        />
       </div>
     </main>
   );
