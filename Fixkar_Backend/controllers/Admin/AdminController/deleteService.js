@@ -28,16 +28,20 @@ export const deleteService = async (req, res) => {
       });
     }
 
-    // Never delete a service that is already assigned to a professional.
+    // Block deletion only when an actual approved and onboarded
+    // professional is assigned to this service.
     const professionalExists = await Professional.exists({
       profession: service._id,
+      status: "approved",
+      onBoarded: true,
     }).session(session);
 
     if (professionalExists) {
       await session.abortTransaction();
       return res.status(409).json({
         success: false,
-        message: "This service cannot be deleted because professionals are assigned to it.",
+        message:
+          "This service cannot be deleted because approved professionals are assigned to it.",
       });
     }
 
