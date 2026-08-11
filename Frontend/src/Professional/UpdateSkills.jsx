@@ -57,8 +57,6 @@ const UpdateSkills = ({ professional }) => {
 
     try {
       setLoading(true);
-
-      const isSpecialized = isSpecialized;
      const taskPricing = isSpecialized
   ? selectedSkills.map((skill) => ({
       skill,
