@@ -9,21 +9,62 @@ import {
   FaTasks,
   FaPercentage,
   FaTimes,
-} from "react-icons/fa";
+  FaTrash
+} from "react-icons/fa";  
 
 import ServiceForm from "./Utils/ServiceForm";
 import useGetServices from "../../hooks/useGetServices";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { server_url } from "../../App";
 
 const AdminServices = () => {
   const adminPath = import.meta.env.VITE_ADMIN_PATH;
 
-  useGetServices();
+  const { refetchServices } = useGetServices();
+  const [deletingServiceId, setDeletingServiceId] =
+  useState(null);
 
   const { services } = useSelector(
     (state) => state.services
   );
 
+  const handleDeleteService = async (service) => {
+  const confirmed = window.confirm(
+    `Are you sure you want to delete "${service.name}"?`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    setDeletingServiceId(service._id);
+
+    const response = await axios.delete(
+      `${server_url}/api/admin/delete-service/${service._id}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    toast.success(
+      response.data?.message ||
+        "Service deleted successfully"
+    );
+
+    // Modal/list ko refresh karne ke liye
+    // tumhare existing useGetServices ko dobara
+    // trigger karna better hoga.
+      await refetchServices();
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+        "Unable to delete service"
+    );
+  } finally {
+    setDeletingServiceId(null);
+  }
+};
   const [selectedService, setSelectedService] =
     useState(null);
 
@@ -514,31 +555,54 @@ const AdminServices = () => {
 
                     <div className="mt-auto pt-2 border-top">
 
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary rounded-3 w-100 fw-semibold"
-                        data-bs-toggle="modal"
-                        data-bs-target="#UpdateServiceModal"
-                        onClick={() =>
-                          setSelectedService(
-                            service
-                          )
-                        }
-                      >
-                        <FaPen
-                          size={11}
-                          className="me-2"
-                        />
+  <div className="d-flex gap-2">
 
-                        Manage Service
+    {/* Manage */}
+    <button
+      type="button"
+      className="btn btn-outline-primary rounded-3 flex-grow-1 fw-semibold"
+      data-bs-toggle="modal"
+      data-bs-target="#UpdateServiceModal"
+      onClick={() =>
+        setSelectedService(service)
+      }
+    >
+      <FaPen
+        size={11}
+        className="me-2"
+      />
 
-                        <FaChevronRight
-                          size={10}
-                          className="ms-2"
-                        />
-                      </button>
+      Manage
+    </button>
 
-                    </div>
+    {/* Delete */}
+    <button
+      type="button"
+      className="btn btn-outline-danger rounded-3"
+      style={{
+        width: "44px",
+      }}
+      disabled={
+        deletingServiceId === service._id
+      }
+      onClick={() =>
+        handleDeleteService(service)
+      }
+      title="Delete service"
+    >
+      {deletingServiceId === service._id ? (
+        <span
+          className="spinner-border spinner-border-sm"
+          role="status"
+        />
+      ) : (
+        <FaTrash size={12} />
+      )}
+    </button>
+
+  </div>
+
+</div>
 
                   </div>
 
