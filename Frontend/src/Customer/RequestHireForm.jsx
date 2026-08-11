@@ -1061,70 +1061,101 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
         =================================================== */}
 
         {isFixedTask && !isDirectHire && (
-          <section className="price-summary">
+  <section className="price-summary">
+    <div className="price-summary-heading">
+      <div>
+        <small>YOUR BOOKING</small>
+        <h6>Service price</h6>
+      </div>
 
-            <div className="price-summary-heading">
-              <div>
-                <small>
-                  YOUR BOOKING
-                </small>
+      <div className="price-summary-icon">
+        <FaRupeeSign />
+      </div>
+    </div>
 
-                <h6>
-                  Estimated cost
-                </h6>
-              </div>
+    <div className="price-row">
+      <span>Service charge</span>
 
-              <div className="price-summary-icon">
-                <FaRupeeSign />
-              </div>
-            </div>
+      <strong>
+        ₹{serviceCharge || 0}
+      </strong>
+    </div>
 
-            <div className="price-row">
-              <span>
-                Visiting charge
-              </span>
+    <div className="price-divider" />
 
-              <strong>
-                ₹{visitingCharge || 0}
-              </strong>
-            </div>
+    <div className="price-total">
+      <span>Service price</span>
 
-            <div className="price-row">
-              <span>
-                Service charge
-              </span>
+      <strong>
+        ₹{serviceCharge || 0}
+      </strong>
+    </div>
 
-              <strong>
-                ₹{serviceCharge || 0}
-              </strong>
-            </div>
+    <div className="price-note">
+      <FaInfoCircle />
 
-            <div className="price-divider" />
+      <span>
+        A professional will be found for your request.
+        Any applicable visiting charge will be shown
+        once the professional is confirmed.
+      </span>
+    </div>
+  </section>
+)}
 
-            <div className="price-total">
-              <span>
-                Estimated total
-              </span>
 
-              <strong>
-                ₹{totalAmount || 0}
-              </strong>
-            </div>
+{isFixedTask && isDirectHire && (
+  <section className="price-summary">
 
-            {proInfo && (
-              <div className="price-note">
-                <FaInfoCircle />
+    <div className="price-summary-heading">
+      <div>
+        <small>YOUR BOOKING</small>
+        <h6>Estimated cost</h6>
+      </div>
 
-                <span>
-                  Visiting charge is added to the final bill.
-                  Cancellation after professional arrival may
-                  cost an additional ₹50.
-                </span>
-              </div>
-            )}
+      <div className="price-summary-icon">
+        <FaRupeeSign />
+      </div>
+    </div>
 
-          </section>
-        )}
+    <div className="price-row">
+      <span>Visiting charge</span>
+
+      <strong>
+        ₹{visitingCharge || 0}
+      </strong>
+    </div>
+
+    <div className="price-row">
+      <span>Service charge</span>
+
+      <strong>
+        ₹{serviceCharge || 0}
+      </strong>
+    </div>
+
+    <div className="price-divider" />
+
+    <div className="price-total">
+      <span>Estimated total</span>
+
+      <strong>
+        ₹{totalAmount || 0}
+      </strong>
+    </div>
+
+    <div className="price-note">
+      <FaInfoCircle />
+
+      <span>
+        Visiting charge is added to the final bill.
+        Cancellation after professional arrival may
+        cost an additional ₹50.
+      </span>
+    </div>
+
+  </section>
+)}
 
         {/* ===================================================
             INSPECTION INFO
