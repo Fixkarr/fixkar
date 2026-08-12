@@ -1,6 +1,7 @@
 // authRoutes.js
 import express from 'express';
-import { login, signOut, registerUserWithForm, googleAuthSignup, googleAuthLogin, googleAuthLoginNative, googleAuthSignupNative } from '../controllers/auth/userAuth.js';
+import { login, signOut, registerUserWithForm } from '../controllers/auth/userAuth.js';
+import { googleAuthSignup, googleAuthLogin, googleAuthLoginNative, googleAuthSignupNative } from '../controllers/auth/googleAuth.js';
 import { resetPassword } from '../controllers/auth/resetPassword.js';
 import { verifyFirebaseGoogleToken } from '../middlewares/verifyFirebaseGoogleToken.js';
 import { rejectPlaceholderPassword } from '../middlewares/rejectPlaceholderPassword.js';
@@ -14,7 +15,6 @@ authRouter.post("/logout", signOut);
 
 authRouter.post("/google-auth-signup", signupRateLimiter, verifyFirebaseGoogleToken, googleAuthSignup);
 authRouter.post("/google-auth-login", loginRateLimiter, verifyFirebaseGoogleToken, googleAuthLogin);
-
 authRouter.post("/google-auth-login-native", loginRateLimiter, googleAuthLoginNative);
 authRouter.post("/google-auth-signup-native", signupRateLimiter, googleAuthSignupNative);
 
