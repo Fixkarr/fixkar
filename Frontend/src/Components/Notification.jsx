@@ -57,7 +57,7 @@ const Notifications = () => {
     const loadAndMarkNotificationsRead = async () => {
       try {
         // Opening the notifications screen acknowledges every notification.
-        await axios.get(`${server_url}/api/notification/mark-all-as-read`, {
+        await axios.patch(`${server_url}/api/notification/mark-all-as-read`, null, {
           withCredentials: true,
         });
 

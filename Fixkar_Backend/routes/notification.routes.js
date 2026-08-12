@@ -5,7 +5,7 @@ import { markAllNotificationsRead } from '../controllers/markNotificationAsRead.
 const notificationRouter = express.Router()
 
 notificationRouter.get('/get-my-notifications', isAuth, getNotifications);
-notificationRouter.get('/mark-all-as-read', isAuth, markAllNotificationsRead);
+notificationRouter.patch('/mark-all-as-read', isAuth, markAllNotificationsRead);
 
 
 notificationRouter.post('/save-fcm-token', isAuth, saveFCMToken);
