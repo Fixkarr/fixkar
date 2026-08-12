@@ -1,7 +1,8 @@
 //otpRoutes.js
 
 import express from "express";
-import {sendEmailOtp, sendMobileOtp, verifyEmailOtp, verifyMobileOtp} from "../controllers/auth/otpController.js";
+import {sendEmailOtp, sendMobileOtp, verifyMobileOtp} from "../controllers/auth/otpController.js";
+import { verifyEmailOtp } from "../controllers/auth/verifyEmailOtp.js";
 import rateLimit, { ipKeyGenerator } from "express-rate-limit"; 
 import { isAuth } from "../middlewares/isAuth.js";
 
@@ -15,10 +16,10 @@ const limiter = rateLimit({
 
   keyGenerator: (req) => {
     if (req.body?.phone) {
-      return req.body.phone; // OTP ke liye best
+      return req.body.phone;
     }
 
-    return ipKeyGenerator(req); // ✅ correct IP handling
+    return ipKeyGenerator(req);
   },
 });
 
@@ -26,9 +27,7 @@ router.post("/send", isAuth, limiter, sendMobileOtp);
 router.post("/verify", isAuth, limiter, verifyMobileOtp);
 router.post("/firebase-phone-verify", isAuth, verifyMobileOtp); 
 
-
 router.post("/send-email-otp", sendEmailOtp);
 router.post("/verify-email-otp", verifyEmailOtp);
-
 
 export default router;
