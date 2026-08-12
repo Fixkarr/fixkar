@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from 'axios'
 import { server_url } from "../App";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import {ClipLoader} from 'react-spinners'
 import Footer from "./Footer";
+
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,13 +15,12 @@ const ResetPassword = () => {
   const [showLoginBtn, setShowLoginBtn] = useState(false);
   const [loader, setLoader] = useState(false)
 
-
   const navigate = useNavigate()
    useEffect(() => {
     if (!otpVerified) {
       navigate("/forget-password");
     }
-  }, [otpVerified]);
+  }, [otpVerified, navigate]);
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -40,90 +40,55 @@ const ResetPassword = () => {
       return;
     }
 
-    // Dummy logic (replace with backend call)
-  try {
+    try {
       setLoader(true)
-      const result = await axios.post(`${server_url}/api/auth/request-reset-password`, {newPassword : password, email
-      })
+      const result = await axios.post(
+        `${server_url}/api/auth/request-reset-password`,
+        { newPassword: password },
+        { withCredentials: true }
+      )
       toast.success(result.data.message)
-      setLoader(false)
       setShowLoginBtn(true)
-  } catch (error) {
-      toast.error(error.response.data.message)
-          setLoading(false)
-
-  }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Password reset failed")
+    } finally {
+      setLoader(false)
+    }
   };
 
   return (
     <>
       <Navbar />
-     <div className="forget-pass container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
-  <div
-    className="bg-white p-4 p-md-5 rounded-4 shadow-lg"
-    style={{ maxWidth: "460px", width: "100%" }}
-  >
-    {/* Header */}
-    <div className="text-center mb-4">
-      <h4 className="text-primary fw-bold mb-1">Reset Your Password</h4>
-      <p className="text-muted small">
-        Create a strong password to secure your account
-      </p>
-    </div>
+      <div className="forget-pass container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+        <div className="bg-white p-4 p-md-5 rounded-4 shadow-lg" style={{ maxWidth: "460px", width: "100%" }}>
+          <div className="text-center mb-4">
+            <h4 className="text-primary fw-bold mb-1">Reset Your Password</h4>
+            <p className="text-muted small">Create a strong password to secure your account</p>
+          </div>
 
-    {/* Form */}
-    <form onSubmit={handleResetPassword}>
-      <div className="mb-3">
-        <label htmlFor="password" className="form-label fw-semibold">
-          New Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          className="form-control form-control-lg"
-          placeholder="Enter new password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
+          <form onSubmit={handleResetPassword}>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label fw-semibold">New Password</label>
+              <input type="password" id="password" className="form-control form-control-lg" placeholder="Enter new password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            </div>
 
-      <div className="mb-4">
-        <label htmlFor="confirmPassword" className="form-label fw-semibold">
-          Confirm Password
-        </label>
-        <input
-          type="password"
-          id="confirmPassword"
-          className="form-control form-control-lg"
-          placeholder="Re-enter new password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-      </div>
+            <div className="mb-4">
+              <label htmlFor="confirmPassword" className="form-label fw-semibold">Confirm Password</label>
+              <input type="password" id="confirmPassword" className="form-control form-control-lg" placeholder="Re-enter new password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+            </div>
 
-      <button
-        type="submit"
-        disabled={loader}
-        className="btn btn-primary w-100 py-2 fw-semibold"
-      >
-        {loader ? <ClipLoader size={20} /> : "Reset Password"}
-      </button>
+            <button type="submit" disabled={loader} className="btn btn-primary w-100 py-2 fw-semibold">
+              {loader ? <ClipLoader size={20} /> : "Reset Password"}
+            </button>
 
-      {/* Login Link */}
-      {showLoginBtn && (
-        <div className="text-center mt-3">
-          <Link
-            to="/login"
-            className="text-success fw-semibold text-decoration-none"
-          >
-            Go to Login page
-          </Link>
+            {showLoginBtn && (
+              <div className="text-center mt-3">
+                <Link to="/login" className="text-success fw-semibold text-decoration-none">Go to Login page</Link>
+              </div>
+            )}
+          </form>
         </div>
-      )}
-    </form>
-  </div>
-</div>
-
+      </div>
       <Footer/>
     </>
   );
