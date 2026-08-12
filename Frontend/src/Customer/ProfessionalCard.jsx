@@ -6,7 +6,7 @@ import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { getDistanceMatrixData } from "../utils/getDistanceMatrixData";
 import { toast } from "react-toastify";
 
-const MAX_SKILLS = 3;
+const MAX_SKILLS = 2;
 
 const ProfessionalCard = ({ data }) => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -36,7 +36,6 @@ const ProfessionalCard = ({ data }) => {
           professionalLat: data?.address?.lat,
           professionalLng: data?.address?.lng,
         });
-
         setDistance(result);
       } catch (err) {
         toast.error(err.message);
@@ -59,12 +58,9 @@ const ProfessionalCard = ({ data }) => {
   };
 
   return (
-    <div
-      className="card border-0 shadow-sm rounded-4 overflow-hidden mx-auto"
-      style={{ width: "100%", maxWidth: "330px" }}
-    >
+    <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
       <div
-        className="px-3 py-2"
+        className="px-2 py-2"
         style={{
           background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
           color: "#fff",
@@ -75,50 +71,49 @@ const ProfessionalCard = ({ data }) => {
             src={data?.profilePicture || "/Images/placeholderProfile.avif"}
             alt={data?.userId?.fullName || "User"}
             className="rounded-circle border border-2 border-white flex-shrink-0"
-            style={{ width: 50, height: 50, objectFit: "cover" }}
+            style={{ width: 42, height: 42, objectFit: "cover" }}
           />
 
           <div className="min-w-0 flex-grow-1">
-            <div className="fw-bold text-truncate">
+            <div className="fw-bold text-truncate" style={{ fontSize: "0.86rem" }}>
               {data?.userId?.fullName || "Unknown User"}
             </div>
-            <div className="d-flex align-items-center gap-1 small opacity-90 text-truncate">
-              <FaUserTie size={11} className="flex-shrink-0" />
+            <div className="d-flex align-items-center gap-1 text-truncate" style={{ fontSize: "0.70rem" }}>
+              <FaUserTie size={9} className="flex-shrink-0" />
               <span className="text-truncate">
                 {data?.profession?.name || "Not specified"}
               </span>
             </div>
           </div>
 
-          <div className="text-end flex-shrink-0">
-            <div className="d-flex align-items-center gap-1 fw-semibold small">
-              <FaStar className="text-warning" size={11} />
+          <div className="text-end flex-shrink-0 lh-1">
+            <div className="d-flex align-items-center gap-1 fw-semibold" style={{ fontSize: "0.74rem" }}>
+              <FaStar className="text-warning" size={9} />
               {Number(data?.averageRating || 0).toFixed(1)}
             </div>
-            <small className="opacity-75">
-              {data?.reviewCount || 0} reviews
+            <small style={{ fontSize: "0.60rem", opacity: 0.8 }}>
+              {data?.reviewCount || 0}
             </small>
           </div>
         </div>
       </div>
 
-      <div className="card-body p-3 d-flex flex-column">
+      <div className="card-body p-2 d-flex flex-column">
         {skillsToShow.length > 0 && (
           <div className="d-flex flex-wrap gap-1 mb-2">
             {skillsToShow.map((skill) => (
               <span
                 key={skill._id}
-                className="badge rounded-pill bg-primary-subtle text-primary px-2 py-1"
-                style={{ fontSize: "0.68rem" }}
+                className="badge rounded-pill bg-primary-subtle text-primary px-2 py-1 text-truncate"
+                style={{ fontSize: "0.58rem", maxWidth: "100%" }}
               >
                 {skill.name}
               </span>
             ))}
-
             {hasMoreSkills && (
               <span
                 className="badge rounded-pill bg-light text-muted border px-2 py-1"
-                style={{ fontSize: "0.68rem" }}
+                style={{ fontSize: "0.58rem" }}
               >
                 +{data.selectedSkills.length - MAX_SKILLS}
               </span>
@@ -126,10 +121,11 @@ const ProfessionalCard = ({ data }) => {
           </div>
         )}
 
-        <div className="d-flex align-items-start gap-2 mb-2">
-          <FaMapMarkerAlt className="text-primary mt-1 flex-shrink-0" size={12} />
+        <div className="d-flex align-items-start gap-1 mb-2">
+          <FaMapMarkerAlt className="text-primary mt-1 flex-shrink-0" size={10} />
           <span
-            className="text-muted small text-truncate"
+            className="text-muted text-truncate"
+            style={{ fontSize: "0.68rem" }}
             title={data?.address?.addressLine || "Address not provided"}
           >
             {data?.address?.addressLine || "Address not provided"}
@@ -137,22 +133,21 @@ const ProfessionalCard = ({ data }) => {
         </div>
 
         {distanceText && (
-          <div className="d-flex align-items-center gap-2 mb-2">
-            <FaRoute className="text-success flex-shrink-0" size={12} />
-            <span className="small fw-semibold text-success">
-              {distanceText} away
+          <div className="d-flex align-items-center gap-1 mb-2">
+            <FaRoute className="text-success flex-shrink-0" size={10} />
+            <span className="fw-semibold text-success" style={{ fontSize: "0.68rem" }}>
+              {distanceText}
             </span>
           </div>
         )}
 
-        <div className="pt-2">
-          <button
-            onClick={handleVisitProfile}
-            className="btn btn-primary btn-sm w-100 rounded-3 fw-semibold"
-          >
-            Visit Profile
-          </button>
-        </div>
+        <button
+          onClick={handleVisitProfile}
+          className="btn btn-primary btn-sm w-100 rounded-3 fw-semibold mt-auto"
+          style={{ fontSize: "0.70rem", padding: "6px 8px" }}
+        >
+          Visit Profile
+        </button>
       </div>
     </div>
   );
