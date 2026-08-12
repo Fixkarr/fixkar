@@ -11,7 +11,7 @@ export const getProfessionalInfo = async (req, res) => {
         }
 
         const professionalInfo = await Professional.findOne({ userId: id })
-            .select('-poi -dob -bankDetails')
+            .select('-poi -dob')
             .populate("userId", 'fullName')
             .populate({
                 path: "reviews",
