@@ -11,6 +11,7 @@ import {
   FaChevronDown,
   FaChevronLeft,
   FaChevronRight,
+  FaRedo,
 } from "react-icons/fa";
 import DashboardNavigator from "../utils/DashboardNavigator";
 
@@ -27,6 +28,7 @@ const HireProfessionals = () => {
   );
   const [professionals, setProfessionals] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState(false);
   const [sortBy, setSortBy] = useState("distance_asc");
   const [minRating, setMinRating] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -47,10 +49,23 @@ const HireProfessionals = () => {
   const serviceName = services.find((s) => s._id === selectedServiceId)?.name;
 
   const fetchProfessionals = async (pageNo = 1) => {
-    const hasLocation = selectedLocation?.lat && selectedLocation?.lng;
+    const hasLocation = Boolean(selectedLocation?.lat && selectedLocation?.lng);
+    const hasService = Boolean(selectedServiceId);
+
+    // Do not call the search API until the user has supplied a search context.
+    // This prevents confusing "all professionals" results on an empty search.
+    if (!hasLocation && !hasService) {
+      setProfessionals([]);
+      setPage(1);
+      setHasMore(false);
+      setSearchError(false);
+      setLoading(false);
+      return;
+    }
 
     try {
       setLoading(true);
+      setSearchError(false);
 
       const params = {
         service: selectedServiceId || "",
@@ -81,9 +96,10 @@ const HireProfessionals = () => {
       setPage(pageNo);
       setHasMore(newPros.length === PAGE_SIZE);
     } catch (error) {
-      console.log("Error fetching professionals:", error);
+      console.error("Error fetching professionals:", error);
       setProfessionals([]);
       setHasMore(false);
+      setSearchError(true);
     } finally {
       setLoading(false);
     }
@@ -250,7 +266,7 @@ const HireProfessionals = () => {
               <div className="row g-2">
                 <div className="col-12 col-sm-6">
                   <label className="form-label small fw-semibold mb-1">
-                    <FaMapMarkerAlt className="me-1" /> Order results
+                    <FaMapMarkerAlt className="me-1" /> Sort by
                   </label>
                   <select
                     className="form-select"
@@ -306,74 +322,93 @@ const HireProfessionals = () => {
           </div>
         )}
 
-        {!selectedLocation && !selectedServiceId && !loading && (
-          <p className="text-center text-muted small">
-            Select a location or service to start searching professionals.
-          </p>
+        {!selectedLocation && !selectedServiceId && !loading && !searchError && (
+          <div className="text-center py-5 px-3">
+            <h5 className="fw-semibold mb-1">Start your search</h5>
+            <p className="text-muted small mb-0">
+              Select a location or service to find trusted professionals.
+            </p>
+          </div>
         )}
 
         {loading ? (
-          <div className="text-center py-5">
+          <div className="text-center py-5" role="status" aria-live="polite">
             <div
               className="spinner-border text-primary mb-3"
-              role="status"
               style={{ width: "2.5rem", height: "2.5rem" }}
+              aria-hidden="true"
             />
             <p className="text-muted fw-medium mb-0">
               Searching nearby professionals...
             </p>
           </div>
-        ) : professionals.length === 0 ? (
-          <div className="text-center py-5">
+        ) : searchError ? (
+          <div className="text-center py-5 px-3">
+            <h5 className="fw-semibold mb-1">We couldn't load professionals</h5>
+            <p className="text-muted small mb-3">
+              Please check your connection and try again.
+            </p>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm rounded-pill px-3"
+              onClick={() => fetchProfessionals(page)}
+            >
+              <FaRedo className="me-2" /> Try again
+            </button>
+          </div>
+        ) : professionals.length === 0 && (selectedLocation || selectedServiceId) ? (
+          <div className="text-center py-5 px-3">
             <h5 className="fw-semibold mb-1">No professionals found</h5>
             <p className="text-muted small mb-0">
               Try another service or change your location.
             </p>
           </div>
         ) : (
-          <>
-            <div className="row g-3 professional-results">
-              {professionals.map((pro) => (
-                <div
-                  key={pro._id}
-                  className="professional-col col-6 col-sm-6 col-lg-4"
+          professionals.length > 0 && (
+            <>
+              <div className="row g-3 professional-results">
+                {professionals.map((pro) => (
+                  <div
+                    key={pro._id}
+                    className="professional-col col-6 col-sm-6 col-lg-4"
+                  >
+                    <ProfessionalCard data={pro} />
+                  </div>
+                ))}
+              </div>
+
+              <div className="fixkar-pagination" aria-label="Professional results pagination">
+                <button
+                  type="button"
+                  className="fixkar-page-btn"
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page === 1 || loading}
+                  aria-label="Previous page"
                 >
-                  <ProfessionalCard data={pro} />
-                </div>
-              ))}
-            </div>
+                  <FaChevronLeft size={11} />
+                </button>
 
-            <div className="fixkar-pagination" aria-label="Professional results pagination">
-              <button
-                type="button"
-                className="fixkar-page-btn"
-                onClick={() => handlePageChange(page - 1)}
-                disabled={page === 1 || loading}
-                aria-label="Previous page"
-              >
-                <FaChevronLeft size={11} />
-              </button>
+                <button
+                  type="button"
+                  className="fixkar-page-btn active"
+                  aria-current="page"
+                  disabled
+                >
+                  {page}
+                </button>
 
-              <button
-                type="button"
-                className="fixkar-page-btn active"
-                aria-current="page"
-                disabled
-              >
-                {page}
-              </button>
-
-              <button
-                type="button"
-                className="fixkar-page-btn"
-                onClick={() => handlePageChange(page + 1)}
-                disabled={!hasMore || loading}
-                aria-label="Next page"
-              >
-                <FaChevronRight size={11} />
-              </button>
-            </div>
-          </>
+                <button
+                  type="button"
+                  className="fixkar-page-btn"
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={!hasMore || loading}
+                  aria-label="Next page"
+                >
+                  <FaChevronRight size={11} />
+                </button>
+              </div>
+            </>
+          )
         )}
       </div>
     </div>
