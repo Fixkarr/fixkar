@@ -48,5 +48,5 @@ bookingRouter.get('/get-wallet-transaction/:bookingId', isAuth, getWalletTransac
 
 // review route
 
-bookingRouter.post('/post-review', postReview);
+bookingRouter.post('/post-review', isAuth, postReview);
 export default bookingRouter;
