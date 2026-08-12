@@ -26,9 +26,9 @@ const bookingRouter = express.Router();
 bookingRouter.post('/create-booking', isAuth,  upload.array("audioMessages", 5),  multerErrorHandler, sendHireRequest);
 bookingRouter.get('/my-bookings', isAuth, getMyBookings);
 bookingRouter.get('/get-booking', getBookingById)
-bookingRouter.post('/reject-booking', rejectBooking)
+bookingRouter.post('/reject-booking', isAuth, rejectBooking)
 bookingRouter.post('/cancel-booking', isAuth, cancelCustomerBooking)
-bookingRouter.post('/accept-booking', acceptBooking)
+bookingRouter.post('/accept-booking', isAuth, acceptBooking)
 bookingRouter.post('/confirm-pickup-hire', isAuth, confirmPickupHire)
 bookingRouter.post('/mark-reached', isAuth, reachedToLocation)
 bookingRouter.post('/verify-reached-otp', isAuth, verifyReachedOtp);

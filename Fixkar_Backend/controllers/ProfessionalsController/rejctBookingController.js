@@ -1,4 +1,5 @@
 import { Booking } from "../../models/bookingModel.js"
+import { Professional } from "../../models/userModel.js";
 import { Notification } from "../../models/notificationModel.js";
 import { io } from "../../server.js";
 import { pushNotification } from "../../services/pushNotification.js";
@@ -13,10 +14,25 @@ export const rejectBooking = async (req,res)=>{
             })
         }
 
-      const updatedBooking =   await Booking.findByIdAndUpdate(bookingId, {
-            status : "rejected",
-            rejectMessage : finalReason
-        },{new : true}).populate({
+        const professional = await Professional.findOne({ userId: req.userId }).select('_id');
+        if (!professional) {
+            return res.status(403).json({ message: 'Professional access required' });
+        }
+
+      const updatedBooking = await Booking.findOneAndUpdate(
+        {
+          _id: bookingId,
+          professionalId: professional._id,
+          status: 'pending',
+        },
+        {
+          $set: {
+            status: "rejected",
+            rejectMessage: finalReason
+          }
+        },
+        {new : true}
+      ).populate({
     path: "customerId",
     populate: {
       path: "userId",
@@ -39,7 +55,7 @@ export const rejectBooking = async (req,res)=>{
 
    if (!updatedBooking) { 
       return res.status(404).json({
-        message: "Booking not found",
+        message: "Booking not found or not available for rejection",
       });
     }
 
@@ -57,7 +73,7 @@ export const rejectBooking = async (req,res)=>{
       userId: notification.userId,
       title: notification.title,
       message: notification.message,
-      redirectUrl: `/customer/bookings/${updatedBooking._id}`, // OPTIONAL
+      redirectUrl: `/customer/bookings/${updatedBooking._id}`,
     };
     
       await pushNotification(notificationPayload);

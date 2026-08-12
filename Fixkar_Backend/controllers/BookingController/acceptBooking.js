@@ -1,13 +1,27 @@
-import {Booking} from  '../../models/bookingModel.js'
+import { Booking } from '../../models/bookingModel.js'
+import { Professional } from '../../models/userModel.js'
 import { io } from '../../server.js';
 import { Notification } from '../../models/notificationModel.js';
 import { pushNotification } from '../../services/pushNotification.js';
 
-
 export const acceptBooking = async (req,res)=>{
     try {
         const {bookingId} = req.body;
-        const booking = await Booking.findById(bookingId).populate({
+        const professional = await Professional.findOne({ userId: req.userId }).select('_id');
+
+        if (!professional) {
+          return res.status(403).json({ message: 'Professional access required' });
+        }
+
+        const booking = await Booking.findOneAndUpdate(
+          {
+            _id: bookingId,
+            professionalId: professional._id,
+            status: 'pending',
+          },
+          { $set: { status: 'accepted' } },
+          { new: true }
+        ).populate({
     path: "customerId",
     populate: {
       path: "userId",
@@ -30,12 +44,9 @@ export const acceptBooking = async (req,res)=>{
 
   if(!booking){
     return res.status(404).json({
-        message : "Booking not found"
+        message : "Booking not found or not available for acceptance"
     })
   }
-
-  booking.status = "accepted";
-     await booking.save();
 
      const notification =  await Notification.create({
       userId: booking.customerId.userId._id,
@@ -62,7 +73,7 @@ export const acceptBooking = async (req,res)=>{
   userId: booking.customerId.userId._id,
   title: "Booking Accepted",
   message: `Your booking has been accepted. Professional Name : ${booking.professionalId.userId.fullName}`,
-  redirectUrl: `/customer/bookings/${booking._id}`, // OPTIONAL
+  redirectUrl: `/customer/bookings/${booking._id}`,
 };
 
   await pushNotification(notificationPayload);
