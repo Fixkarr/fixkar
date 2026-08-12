@@ -66,54 +66,52 @@ export const googleAuthSignup = async (req, res) => {
 
 export const googleAuthLogin = async (req, res) => {
   try {
-    // verifyFirebaseGoogleToken has already verified the Google identity and
-    // normalized its email into req.body. The raw client email is never trusted.
     const email = req.body?.email;
-    if (!email) return res.status(401).json({ message: "Verified Google identity required" });
+    if (!email) return res.status(401).json({ message: "Google sign-in could not be completed. Please try again." });
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: "User not found. Please signup with Google first." });
+    if (!user) return res.status(404).json({ message: "No Fixkar account was found for this Google account. Please sign up first." });
 
     const userData = await getUserResponse(user);
-    if (!userData) return res.status(400).json({ message: "Invalid user role" });
+    if (!userData) return res.status(400).json({ message: "Unable to complete sign-in." });
 
     await setAuthCookie(res, user._id);
     return res.status(200).json({ message: "Google login successful", user: userData });
   } catch (error) {
     console.error("Google login error:", error);
-    return res.status(500).json({ message: "Google login failed" });
+    return res.status(500).json({ message: "Google sign-in failed. Please try again." });
   }
 };
 
 export const googleAuthLoginNative = async (req, res) => {
   try {
     const { idToken } = req.body;
-    if (!idToken) return res.status(400).json({ message: "Firebase ID Token is required" });
+    if (!idToken) return res.status(400).json({ message: "Google sign-in could not be completed. Please try again." });
     const decodedToken = await admin.auth().verifyIdToken(idToken);
-    if (!decodedToken.email || !decodedToken.email_verified) return res.status(401).json({ message: "Email is not verified." });
+    if (!decodedToken.email || !decodedToken.email_verified) return res.status(401).json({ message: "Google sign-in could not be completed. Please try again." });
 
     const user = await User.findOne({ email: decodedToken.email });
-    if (!user) return res.status(404).json({ message: "User not found. Please signup with Google first." });
+    if (!user) return res.status(404).json({ message: "No Fixkar account was found for this Google account. Please sign up first." });
 
     const userData = await getUserResponse(user);
-    if (!userData) return res.status(400).json({ message: "Invalid user role" });
+    if (!userData) return res.status(400).json({ message: "Unable to complete sign-in." });
     await setAuthCookie(res, user._id);
-    return res.status(200).json({ message: "Native Google login successful", user: userData });
+    return res.status(200).json({ message: "Google login successful", user: userData });
   } catch (error) {
     console.error("Native Google Login Error:", error);
-    return res.status(500).json({ message: "Native Google login failed" });
+    return res.status(401).json({ message: "Google sign-in could not be completed. Please try again." });
   }
 };
 
 export const googleAuthSignupNative = async (req, res) => {
   try {
     const { idToken, role, acceptedTerms, acceptedProfessionalPolicy } = req.body;
-    if (!idToken) return res.status(400).json({ message: "Firebase ID Token is required" });
+    if (!idToken) return res.status(400).json({ message: "Google sign-in could not be completed. Please try again." });
     if (!acceptedTerms) return res.status(400).json({ message: "Terms acceptance required" });
     if (role === "professional" && !acceptedProfessionalPolicy) return res.status(400).json({ message: "Professional policy acceptance required" });
 
     const decodedToken = await admin.auth().verifyIdToken(idToken);
-    if (!decodedToken.email || !decodedToken.email_verified) return res.status(401).json({ message: "Email is not verified" });
+    if (!decodedToken.email || !decodedToken.email_verified) return res.status(401).json({ message: "Google sign-in could not be completed. Please try again." });
 
     const existingUser = await User.findOne({ email: decodedToken.email });
     if (existingUser) return res.status(409).json({ message: "User already exists with this email" });
@@ -138,6 +136,6 @@ export const googleAuthSignupNative = async (req, res) => {
     return res.status(201).json({ message: "Google signup successful", user: await getUserResponse(user) });
   } catch (error) {
     console.error("Native Google Signup Error:", error);
-    return res.status(500).json({ message: "Native Google signup failed" });
+    return res.status(401).json({ message: "Google sign-up could not be completed. Please try again." });
   }
 };
