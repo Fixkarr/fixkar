@@ -31,15 +31,24 @@ export const adminLogin = async (req, res) =>{
         }
 
         const token = await genToken(isExists._id);
+        const isProduction = process.env.NODE_ENV === "production";
 
         // Keep admin authentication completely separate from customer/
         // professional authentication. Both systems use JWTs, but they must
         // never share the same cookie name.
         res.cookie("adminToken", token, {
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
+            path: "/",
+        });
+
+        // An admin login must not leave a user JWT active in the same browser.
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
             path: "/",
         });
 
