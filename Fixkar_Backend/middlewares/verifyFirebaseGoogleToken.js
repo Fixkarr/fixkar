@@ -11,7 +11,7 @@ export const verifyFirebaseGoogleToken = async (req, res, next) => {
 
     if (!idToken) {
       return res.status(400).json({
-        message: "Firebase ID Token is required",
+        message: "Google sign-in could not be completed. Please try again.",
       });
     }
 
@@ -24,7 +24,7 @@ export const verifyFirebaseGoogleToken = async (req, res, next) => {
       provider !== "google.com"
     ) {
       return res.status(401).json({
-        message: "Valid Google authentication is required",
+        message: "Google sign-in could not be completed. Please try again.",
       });
     }
 
@@ -38,7 +38,7 @@ export const verifyFirebaseGoogleToken = async (req, res, next) => {
   } catch (error) {
     console.error("Google token verification error:", error);
     return res.status(401).json({
-      message: "Invalid or expired Google authentication token",
+      message: "Google sign-in could not be completed. Please try again.",
     });
   }
 };
