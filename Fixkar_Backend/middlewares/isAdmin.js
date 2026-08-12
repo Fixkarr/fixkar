@@ -3,7 +3,7 @@ import { Admin } from '../controllers/Admin/AdminModels/admin.model.js';
 
 export const isAdmin = async (req,res,next)=>{
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.adminToken;
         if(!token){
             return res.status(401).json({
                 message : "Admin not authorized"
