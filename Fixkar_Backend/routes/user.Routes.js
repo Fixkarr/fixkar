@@ -40,10 +40,10 @@ userRoute.get("/get-service-skills/:serviceId", getServiceSkills)
 
 // professionals routes
 
-userRoute.post("/onboard",   upload.fields([
+userRoute.post("/onboard", isAuth, upload.fields([
     { name: "profilePicture", maxCount: 1 },
     { name: "poi", maxCount: 1 },
-  ]), multerErrorHandler, isAuth, onboard);
+  ]), multerErrorHandler, onboard);
 
   
 
@@ -55,9 +55,9 @@ userRoute.post("/onboard",   upload.fields([
 
 
 // update profile
-userRoute.post("/update-profile-picture", upload.fields([
-    {name : "profilePicture", maxCount : 1}
-  ]), multerErrorHandler, isAuth ,updateProfilePicture)
+userRoute.post("/update-profile-picture", isAuth, upload.fields([
+    {name : "profilePicture", maxCount : 1 }
+  ]), multerErrorHandler, updateProfilePicture)
 
 
 userRoute.post("/update-profile-info", isAuth, updateProfileInfo)
