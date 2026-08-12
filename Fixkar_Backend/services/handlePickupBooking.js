@@ -72,88 +72,88 @@ export const handlePickupBooking = async ({
         // Only nearest 5 professionals
         const topProfessionals =
             nearbyProfessionals.slice(0, 5);
+
         // STEP-5
         // Create one unique pickup session
         // All professional requests belong to this session
         const professionalExpiresAt = new Date(
             Date.now() + 60 * 1000
-            );
+        );
 
-            const pickupSession = await PickupSession.create({
+        const pickupSession = await PickupSession.create({
             customerId,
             status: "searching",
             professionalExpiresAt,
-            });
-        // Customer gets 60 seconds to find a professional
-      
+        });
+
         // STEP-6
         // Send pickup request to nearest professionals
-            const pickupSessionId = pickupSession._id;
-    
+        const pickupSessionId = pickupSession._id;
+
         const calculateVisitingCharge = (distanceInKm) => {
-    const distance = Number(distanceInKm);
-    if (distance <= 10) {
-        return 25;
-    }
-    return Math.round(
-        distance + (distance - 5) * 3
-    );
-};
+            const distance = Number(distanceInKm);
+            if (distance <= 10) {
+                return 25;
+            }
+            return Math.round(
+                distance + (distance - 5) * 3
+            );
+        };
 
         for (const item of topProfessionals) {
             const professional = item.professional;
-                const taskPrice = task.pricingSource === "admin"
-        ? Number(task.fixedPrice)
-        : Number(
-            professional.taskPricing?.find(
-                (rate) =>
-                    rate.skill?.toString() ===
-                    task._id.toString()
-            )?.price
-        );
-        const visitingCharge =
-    service.serviceType === "specialized"
-        ? Number(professional.visitingCharge || 0)
-        : calculateVisitingCharge(item.distanceInKm);
+            const taskPrice = task.pricingSource === "admin"
+                ? Number(task.fixedPrice)
+                : Number(
+                    professional.taskPricing?.find(
+                        (rate) =>
+                            rate.skill?.toString() ===
+                            task._id.toString()
+                    )?.price
+                );
 
-        const totalAmount =
-    taskPrice + visitingCharge;
-        // Keep the pickup estimate aligned with the booking payment flow:
-        // commission applies to the full customer-payable amount.
-        const commissionPercentage = Number(service.commission) || 0;
-        const platformCommission = Number(
-            ((totalAmount * commissionPercentage) / 100).toFixed(2)
-        );
-        const professionalAmount = Number(
-            (totalAmount - platformCommission).toFixed(2)
-        );
+            const visitingCharge =
+                service.serviceType === "specialized"
+                    ? Number(professional.visitingCharge || 0)
+                    : calculateVisitingCharge(item.distanceInKm);
+
+            const totalAmount =
+                taskPrice + visitingCharge;
+
+            // Keep the pickup estimate aligned with the booking payment flow:
+            // commission applies to the full customer-payable amount.
+            const commissionPercentage = Number(service.commission) || 0;
+            const platformCommission = Number(
+                ((totalAmount * commissionPercentage) / 100).toFixed(2)
+            );
+            const professionalAmount = Number(
+                (totalAmount - platformCommission).toFixed(2)
+            );
 
             // Create pickup request
             const pickupRequest = await PickupRequest.create({
                 pickupSessionId: pickupSession._id,
-                // Booking does NOT exist yet
                 bookingId: null,
                 customerName,
                 serviceName: service.name,
                 taskName: task.name,
                 serviceId: service._id,
                 taskId: task._id,
-                charge : {
-                         taskPrice,
-                        visitingCharge,
-                        totalAmount,
-                        commissionPercentage, 
-                        platformCommission,
-                        professionalAmount,
-                    },
-                
+                charge: {
+                    taskPrice,
+                    visitingCharge,
+                    totalAmount,
+                    commissionPercentage,
+                    platformCommission,
+                    professionalAmount,
+                },
                 professionalId: professional._id,
                 customerId,
                 distanceInKm: item.distanceInKm,
                 durationInMinutes: item.durationValue,
                 attemptNo: 1,
                 status: "pending",
-                expiresAt : professionalExpiresAt,
+                expiresAt: professionalExpiresAt,
                 notificationSent: false,
                 socketDelivered: false,
                 customerLocation: {
@@ -168,7 +168,6 @@ export const handlePickupBooking = async ({
                 audioMessages,
             });
 
-            // Notification
             const notification = await Notification.create({
                 userId: professional.userId._id,
                 title: "New Pickup Request",
@@ -178,50 +177,66 @@ export const handlePickupBooking = async ({
                 isRead: false,
             });
 
-            // Push notification
+            // Push notification is the durable fallback when the professional
+            // is temporarily disconnected from Socket.IO.
             await pushNotification({
                 userId: professional.userId._id,
                 title: notification.title,
                 message: notification.message,
                 redirectUrl: `/professional/pickup`,
-            }); 
+            });
 
-            // Socket notification
-            io.to(
-                professional.userId._id.toString()
-            ).emit(
+            const socketPayload = {
+                pickupRequestId: pickupRequest._id,
+                pickupSessionId,
+                customerName,
+                serviceName: service.name,
+                taskName: task.name,
+                distanceInKm: item.distanceInKm,
+                durationInMinutes: item.durationValue,
+                workDate,
+                workTime,
+                expiresAt: professionalExpiresAt,
+                customerLocation: {
+                    customerLat: Number(customerLat),
+                    customerLng: Number(customerLng),
+                },
+                mobileNumber,
+                workAddress,
+                charge: {
+                    taskPrice,
+                    visitingCharge,
+                    totalAmount,
+                    commissionPercentage,
+                    platformCommission,
+                    professionalAmount,
+                },
+                problemDescription,
+                audioMessages,
+            };
+
+            const professionalUserId = professional.userId._id.toString();
+
+            // Deliver immediately when connected.
+            io.to(professionalUserId).emit(
                 "pickupRequest",
-                {
-                    pickupRequestId: pickupRequest._id,
-                    pickupSessionId,
-                    customerName,
-                    serviceName: service.name,
-                    taskName: task.name,
-                    distanceInKm: item.distanceInKm,
-                    durationInMinutes: item.durationValue,
-                    workDate,
-                    workTime,
-                    expiresAt : professionalExpiresAt,
-                    customerLocation : {
-                        customerLat: Number(customerLat),
-                        customerLng: Number(customerLng),
-                    },
-                    mobileNumber,
-                    workAddress,
-                    charge : {
-                         taskPrice,
-                        visitingCharge,
-                        totalAmount,
-                        commissionPercentage,
-                        platformCommission,
-                        professionalAmount,
-                    },
-                    problemDescription,
-                    audioMessages,
-                }
+                socketPayload
             );
 
-            // Mark delivery information
+            // A pickup request is time-sensitive. If the professional's
+            // socket connects/reconnects just after the initial emit, retrying
+            // the same event for a few seconds prevents a lost request. The
+            // frontend deduplicates by pickupRequestId.
+            const retryDelays = [1500, 3500, 6000, 9000];
+            retryDelays.forEach((delay) => {
+                setTimeout(() => {
+                    io.to(professionalUserId).emit(
+                        "pickupRequest",
+                        socketPayload
+                    );
+                }, delay);
+            });
+
             await PickupRequest.findByIdAndUpdate(
                 pickupRequest._id,
                 {
@@ -238,7 +253,7 @@ export const handlePickupBooking = async ({
             message: "Searching nearby professionals...",
             searching: true,
             pickupSessionId,
-            expiresAt : professionalExpiresAt,
+            expiresAt: professionalExpiresAt,
             professionalsNotified:
                 topProfessionals.length,
         });
