@@ -5,6 +5,7 @@ import {sendEmailOtp, sendMobileOtp, verifyMobileOtp} from "../controllers/auth/
 import { verifyEmailOtp } from "../controllers/auth/verifyEmailOtp.js";
 import rateLimit, { ipKeyGenerator } from "express-rate-limit"; 
 import { isAuth } from "../middlewares/isAuth.js";
+import { otpSendRateLimiter, otpVerifyRateLimiter } from "../middlewares/rateLimiters.js";
 
 const router = express.Router();
 
@@ -15,19 +16,16 @@ const limiter = rateLimit({
   legacyHeaders: false,
 
   keyGenerator: (req) => {
-    if (req.body?.phone) {
-      return req.body.phone;
-    }
-
-    return ipKeyGenerator(req);
+    const phone = String(req.body?.phone || "").trim();
+    return `${ipKeyGenerator(req)}:${phone}`;
   },
 });
 
 router.post("/send", isAuth, limiter, sendMobileOtp);
 router.post("/verify", isAuth, limiter, verifyMobileOtp);
-router.post("/firebase-phone-verify", isAuth, verifyMobileOtp); 
+router.post("/firebase-phone-verify", isAuth, limiter, verifyMobileOtp);
 
-router.post("/send-email-otp", sendEmailOtp);
-router.post("/verify-email-otp", verifyEmailOtp);
+router.post("/send-email-otp", otpSendRateLimiter, sendEmailOtp);
+router.post("/verify-email-otp", otpVerifyRateLimiter, verifyEmailOtp);
 
 export default router;

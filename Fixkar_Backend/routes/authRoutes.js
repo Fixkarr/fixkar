@@ -4,20 +4,20 @@ import { login, signOut, registerUserWithForm, googleAuthSignup, googleAuthLogin
 import { resetPassword } from '../controllers/auth/resetPassword.js';
 import { verifyFirebaseGoogleToken } from '../middlewares/verifyFirebaseGoogleToken.js';
 import { rejectPlaceholderPassword } from '../middlewares/rejectPlaceholderPassword.js';
+import { loginRateLimiter, passwordResetRateLimiter, signupRateLimiter } from '../middlewares/rateLimiters.js';
 
 const authRouter = express.Router();
 
-authRouter.post("/signup-customer", registerUserWithForm);
-authRouter.post("/login", rejectPlaceholderPassword, login);
+authRouter.post("/signup-customer", signupRateLimiter, registerUserWithForm);
+authRouter.post("/login", loginRateLimiter, rejectPlaceholderPassword, login);
 authRouter.post("/logout", signOut);
 
-authRouter.post("/google-auth-signup", verifyFirebaseGoogleToken, googleAuthSignup);
-authRouter.post("/google-auth-login", verifyFirebaseGoogleToken, googleAuthLogin);
+authRouter.post("/google-auth-signup", signupRateLimiter, verifyFirebaseGoogleToken, googleAuthSignup);
+authRouter.post("/google-auth-login", loginRateLimiter, verifyFirebaseGoogleToken, googleAuthLogin);
 
-authRouter.post("/google-auth-login-native", googleAuthLoginNative);
-authRouter.post("/google-auth-signup-native", googleAuthSignupNative);
+authRouter.post("/google-auth-login-native", loginRateLimiter, googleAuthLoginNative);
+authRouter.post("/google-auth-signup-native", signupRateLimiter, googleAuthSignupNative);
 
-// Password reset requires a reset authorization cookie issued after successful email OTP verification.
-authRouter.post("/request-reset-password", resetPassword);
+authRouter.post("/request-reset-password", passwordResetRateLimiter, resetPassword);
 
 export default authRouter;

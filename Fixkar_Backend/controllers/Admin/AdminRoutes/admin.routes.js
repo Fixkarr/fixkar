@@ -33,12 +33,13 @@ import { deleteEnquiry, getEnquiries, replyEnquiry } from '../../contact.control
 import { getPlatformTransactions } from '../AdminController/getPlatformTransactions.js';
 import { getSiteHealth } from '../AdminController/getSiteHealth.js';
 import { getRevenueHealth } from '../AdminController/getRevenueHealth.js';
+import { loginRateLimiter, signupRateLimiter } from '../../../middlewares/rateLimiters.js';
 const adminRouter = express.Router()
 
 // /api/admin
 
-adminRouter.post('/signup', adminSignup)
-adminRouter.post('/login', adminLogin)
+adminRouter.post('/signup', signupRateLimiter, adminSignup)
+adminRouter.post('/login', loginRateLimiter, adminLogin)
 adminRouter.post('/logout', adminLogout)
 adminRouter.get('/get-current-admin', isAdmin, getCurrentAdmin);
 
