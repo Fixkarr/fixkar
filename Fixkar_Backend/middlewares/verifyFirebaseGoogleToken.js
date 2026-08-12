@@ -1,7 +1,7 @@
 import admin from "../config/firebaseAdmin.js";
 
 /**
- * Verifies the Firebase ID token issued by the web/native Google sign-in flow.
+ * Verifies the Firebase ID token issued by the web Google sign-in flow.
  * The verified identity is written back to req.body so existing auth
  * controllers can continue using their current request contract.
  */
@@ -16,10 +16,15 @@ export const verifyFirebaseGoogleToken = async (req, res, next) => {
     }
 
     const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const provider = decodedToken?.firebase?.sign_in_provider;
 
-    if (!decodedToken?.email || !decodedToken.email_verified) {
+    if (
+      !decodedToken?.email ||
+      !decodedToken.email_verified ||
+      provider !== "google.com"
+    ) {
       return res.status(401).json({
-        message: "Google email is not verified",
+        message: "Valid Google authentication is required",
       });
     }
 
