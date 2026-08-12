@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Professional } from '../../models/userModel.js';
+import { FormResponse } from '../Admin/AdminModels/formResponse.js';
 
 export const getProfessionalInfo = async (req, res) => {
     try {
@@ -56,6 +57,7 @@ export const getProfessionalInfo = async (req, res) => {
 
         return res.status(200).json({ professionalInfo });
     } catch (error) {
+        console.error("getProfessionalInfo error:", error);
         return res.status(500).json({ message: "Server Error" });
     }
 };
