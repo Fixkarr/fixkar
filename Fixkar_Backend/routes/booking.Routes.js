@@ -18,12 +18,13 @@ import { confirmCashPayment } from '../controllers/BookingController/cashPayment
 import { confirmPickupHire } from '../controllers/BookingController/confirmPickupHire.js';
 import upload from '../middlewares/multer.js';
 import multerErrorHandler from '../middlewares/multerErrorHandler.js';
+import { setServerDistanceForDirectHire } from '../middlewares/setServerDistanceForDirectHire.js';
 
 const bookingRouter = express.Router();
 
 // /api/booking
 
-bookingRouter.post('/create-booking', isAuth,  upload.array("audioMessages", 5),  multerErrorHandler, sendHireRequest);
+bookingRouter.post('/create-booking', isAuth, setServerDistanceForDirectHire, upload.array("audioMessages", 5), multerErrorHandler, sendHireRequest);
 bookingRouter.get('/my-bookings', isAuth, getMyBookings);
 bookingRouter.get('/get-booking', getBookingById)
 bookingRouter.post('/reject-booking', isAuth, rejectBooking)
