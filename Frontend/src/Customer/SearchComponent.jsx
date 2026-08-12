@@ -130,7 +130,6 @@ const SearchSection = ({
     setTaskSearch("");
     onSkillsChange?.([]);
 
-    // Keep the Redux value consistent: selectedService is always the service ID.
     dispatch(setSelectedService(serviceId));
     onServiceSelect?.(serviceId);
 
@@ -142,8 +141,6 @@ const SearchSection = ({
 
       const skills = res.data.skills || [];
       setServiceSkills(skills);
-
-      // Store the selected ID, not a full object, to preserve the current search flow.
       dispatch(setSelectedService(serviceId));
     } catch (error) {
       console.log(error);
@@ -163,7 +160,8 @@ const SearchSection = ({
       setCoords({
         lat,
         lng,
-        address: status === "OK" && results[0] ? results[0].formatted_address : "",
+        address:
+          status === "OK" && results[0] ? results[0].formatted_address : "",
       });
     });
   };
@@ -225,7 +223,6 @@ const SearchSection = ({
           className="bg-white border rounded-4 p-2 p-md-4"
           style={{ maxWidth: "1100px", margin: "0 auto" }}
         >
-          {/* LOCATION */}
           <div className="mb-3 mb-md-4">
             <div className="d-flex align-items-center justify-content-between mb-2">
               <div className="min-w-0">
@@ -246,7 +243,10 @@ const SearchSection = ({
               )}
             </div>
 
-            <div className="input-group border rounded-3 overflow-hidden" style={{ minHeight: 46 }}>
+            <div
+              className="input-group border rounded-3 overflow-hidden"
+              style={{ minHeight: 46 }}
+            >
               <span className="input-group-text bg-white border-0 px-2 px-md-3">
                 <FaMapMarkerAlt className="text-primary" />
               </span>
@@ -283,12 +283,16 @@ const SearchSection = ({
                 <button
                   type="button"
                   className={`btn ${
-                    selectedLocation?.lat ? "btn-outline-success" : "btn-primary"
-                  } w-100 rounded-3 mt-2 mt-md-3"}
+                    selectedLocation?.lat
+                      ? "btn-outline-success"
+                      : "btn-primary"
+                  } w-100 rounded-3 mt-2 mt-md-3`}
                   onClick={handleConfirmLocation}
                 >
                   <FaCheck className="me-2" />
-                  {selectedLocation?.lat ? "Location Confirmed" : "Confirm Location"}
+                  {selectedLocation?.lat
+                    ? "Location Confirmed"
+                    : "Confirm Location"}
                 </button>
               </div>
             )}
@@ -296,7 +300,6 @@ const SearchSection = ({
 
           {!onlyLocation && (
             <div className="border-top pt-3 pt-md-4">
-              {/* SERVICE SELECTOR */}
               <div className="d-flex align-items-center justify-content-between gap-2 mb-2">
                 <div className="min-w-0">
                   <h6 className="fw-bold mb-0">Choose a service</h6>
@@ -344,7 +347,10 @@ const SearchSection = ({
                       const active = selectedServiceId === service._id;
 
                       return (
-                        <div className="col-6 col-sm-4 col-lg-3" key={service._id}>
+                        <div
+                          className="col-6 col-sm-4 col-lg-3"
+                          key={service._id}
+                        >
                           <button
                             type="button"
                             onClick={() => handleServiceChange(service)}
@@ -379,7 +385,11 @@ const SearchSection = ({
                                 active ? "service-check-active" : ""
                               }`}
                             >
-                              {active ? <FaCheck size={10} /> : <FaChevronRight size={9} />}
+                              {active ? (
+                                <FaCheck size={10} />
+                              ) : (
+                                <FaChevronRight size={9} />
+                              )}
                             </div>
                           </button>
                         </div>
@@ -390,7 +400,9 @@ const SearchSection = ({
                   <div className="service-empty-state py-4">
                     <FaSearch size={18} className="text-muted mb-2" />
                     <div className="fw-semibold">No services found</div>
-                    <small className="text-muted">Try another service name.</small>
+                    <small className="text-muted">
+                      Try another service name.
+                    </small>
                     <div>
                       <button
                         type="button"
@@ -404,7 +416,6 @@ const SearchSection = ({
                 )}
               </div>
 
-              {/* TASK SELECTOR - only appears after a service is chosen */}
               {selectedServiceId && (
                 <div className="mt-3 pt-3 border-top">
                   <div className="d-flex align-items-center justify-content-between gap-2 mb-2">
@@ -422,7 +433,10 @@ const SearchSection = ({
                   </div>
 
                   {serviceSkills.length > 6 && (
-                    <div className="input-group border rounded-3 overflow-hidden mb-2" style={{ height: 40 }}>
+                    <div
+                      className="input-group border rounded-3 overflow-hidden mb-2"
+                      style={{ height: 40 }}
+                    >
                       <span className="input-group-text bg-white border-0 px-3">
                         <FaSearch size={12} className="text-muted" />
                       </span>
@@ -456,17 +470,28 @@ const SearchSection = ({
                             key={skill._id}
                             type="button"
                             onClick={() => chooseTask(skill)}
-                            className={`task-option ${active ? "task-option-active" : ""}`}
+                            className={`task-option ${
+                              active ? "task-option-active" : ""
+                            }`}
                           >
                             <div className="min-w-0 text-start">
-                              <div className="fw-semibold text-truncate">{skill.name}</div>
+                              <div className="fw-semibold text-truncate">
+                                {skill.name}
+                              </div>
                               {skill.bookingType && (
                                 <small className="text-muted text-capitalize">
-                                  {skill.bookingType === "fixed" ? "Fixed price" : "Inspection"}
+                                  {skill.bookingType === "fixed"
+                                    ? "Fixed price"
+                                    : "Inspection"}
                                 </small>
                               )}
                             </div>
-                            {active && <FaCheck className="text-primary flex-shrink-0" size={12} />}
+                            {active && (
+                              <FaCheck
+                                className="text-primary flex-shrink-0"
+                                size={12}
+                              />
+                            )}
                           </button>
                         );
                       })}
