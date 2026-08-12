@@ -27,11 +27,6 @@ export const getReachedOtp = async (req, res) => {
             return res.status(404).json({ message: "Reached OTP not found" });
         }
 
-        if (reachedOtpRecord.expiresAt <= new Date()) {
-            await ReachedOtp.deleteOne({ _id: reachedOtpRecord._id });
-            return res.status(400).json({ message: "Reached OTP expired" });
-        }
-
         return res.status(200).json({ otp: reachedOtpRecord.otp });
     } catch (error) {
         console.error("getReachedOtp error:", error);
