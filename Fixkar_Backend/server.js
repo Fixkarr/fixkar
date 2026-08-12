@@ -16,7 +16,6 @@ import userRoute from './routes/user.Routes.js';
 import cookieParser from 'cookie-parser';
 import customerRouter from './routes/customer.Routes.js'
 import messageRouter from './routes/messageRoutes.js';
-import { Message } from './models/messageModel.js';
 import bookingRouter from './routes/booking.Routes.js';
 import adminRouter from './controllers/Admin/AdminRoutes/admin.routes.js';
 import notificationRouter from './routes/notification.routes.js';
@@ -24,6 +23,7 @@ import wakeRouter from './routes/wakeup.route.js';
 import seoRouter from './routes/seo.route.js';
 import { Professional } from './models/userModel.js';
 import { generateShortCode } from './utils/generateShortCode.js';
+import { csrfOriginCheck } from './middlewares/csrfOriginCheck.js';
 
 
 dotenv.config();
@@ -35,6 +35,7 @@ app.use(cors({
     credentials : true
 }))
 app.use(cookieParser())
+app.use(csrfOriginCheck)
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
 
