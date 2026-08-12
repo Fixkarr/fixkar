@@ -13,6 +13,7 @@ import PickupWaiting from "./PickupWaiting";
 
 const RequestHireForm = ({ proInfo, task, onClose }) => {
   const { selectedLocation, selectedTask: preselectedTask, selectedService } = useSelector((state) => state.location);
+  const { services = [] } = useSelector((state) => state.services);
   const { currentUserData } = useSelector((state) => state.user);
   const { distance } = useSelector((state) => state.distance);
   const [audioMessages, setAudioMessages] = useState([]);
@@ -27,20 +28,18 @@ const RequestHireForm = ({ proInfo, task, onClose }) => {
   const mobileNumber = currentUserData?.user?.userId?.mobile;
 
   const service = isDirectHire ? proInfo?.profession : selectedService;
-  const serviceName = typeof service === "string" ? service : service?.name || proInfo?.profession?.name || proInfo?.profession || "Professional service";
-  const isSkillBased = service?.serviceType === "skill_based";
+  const serviceObject = typeof service === "object" ? service : services.find((item) => item._id?.toString() === service?.toString());
+  const serviceName = serviceObject?.name || (isDirectHire ? proInfo?.profession?.name : null) || (typeof service === "string" ? "Selected service" : "Professional service");
+  const isSkillBased = serviceObject?.serviceType === "skill_based";
   const distanceInKm = parseFloat(distance?.distance?.text);
   const hasDistance = Number.isFinite(distanceInKm);
   const distanceCharge = hasDistance ? calculateVisitingCharge(distanceInKm) : 0;
   const visitingCharge = isDirectHire ? distanceCharge : isSkillBased ? distanceCharge : null;
-  const availableTasks = isDirectHire ? [] : selectedService?.skills || [];
+  const availableTasks = isDirectHire ? [] : serviceObject?.skills || [];
   const selectedTask = availableTasks.find((item) => item._id?.toString() === taskId?.toString());
   const specializedRate = (proInfo?.taskPricing || []).find((rate) => (rate?.skill?._id?.toString() || rate?.skill?.toString()) === taskId?.toString());
   let serviceCharge = null;
-  if (selectedTask) {
-    if (selectedTask.pricingSource === "admin") serviceCharge = Number(selectedTask.fixedPrice);
-    else if (isDirectHire) serviceCharge = Number(specializedRate?.price || 0);
-  }
+  if (selectedTask) { if (selectedTask.pricingSource === "admin") serviceCharge = Number(selectedTask.fixedPrice); else if (isDirectHire) serviceCharge = Number(specializedRate?.price || 0); }
   const isFixedTask = selectedTask?.bookingType === "fixed";
   const totalAmount = isFixedTask ? visitingCharge + serviceCharge : null;
   const busyDays = proInfo?.busyDays;
