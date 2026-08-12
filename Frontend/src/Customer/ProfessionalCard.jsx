@@ -59,7 +59,10 @@ const ProfessionalCard = ({ data }) => {
   };
 
   return (
-    <div className="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+    <div
+      className="card border-0 shadow-sm rounded-4 overflow-hidden mx-auto"
+      style={{ width: "100%", maxWidth: "330px" }}
+    >
       <div
         className="px-3 py-2"
         style={{
@@ -142,7 +145,7 @@ const ProfessionalCard = ({ data }) => {
           </div>
         )}
 
-        <div className="mt-auto pt-2">
+        <div className="pt-2">
           <button
             onClick={handleVisitProfile}
             className="btn btn-primary btn-sm w-100 rounded-3 fw-semibold"
