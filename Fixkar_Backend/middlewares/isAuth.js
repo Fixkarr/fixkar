@@ -1,24 +1,27 @@
 import jwt from 'jsonwebtoken';
 
-export const isAuth = (req,res,next) =>{
+export const isAuth = (req, res, next) => {
     try {
-        const {token} = req.cookies;
-        if(!token){
-              return res.status(401).json({ message: "Unauthorized" }); 
+        const { token } = req.cookies;
+
+        if (!token) {
+            return res.status(401).json({ message: "Unauthorized" });
         }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        if(!decoded){
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        if (!decoded?.userId) {
             return res.status(401).json({
-                message : "Token not verified"
-            })
+                message: "Token not verified"
+            });
         }
+
         req.userId = decoded.userId;
         next();
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message : "Internal Server Error"
-        })
-        
+        console.error("Authentication error:", error?.message || error);
+        return res.status(401).json({
+            message: "Invalid or expired token"
+        });
     }
-}
+};
