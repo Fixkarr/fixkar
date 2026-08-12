@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa";
 import DashboardNavigator from "../utils/DashboardNavigator";
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 5;
 
 const HireProfessionals = () => {
   const { currentUserData } = useSelector((state) => state.user);
@@ -77,7 +77,6 @@ const HireProfessionals = () => {
 
       const newPros = res.data.professionals || [];
 
-      // Pagination replaces the current page instead of appending results.
       setProfessionals(newPros);
       setPage(pageNo);
       setHasMore(newPros.length === PAGE_SIZE);
@@ -119,6 +118,18 @@ const HireProfessionals = () => {
           margin: 0 auto;
         }
 
+        .professional-results {
+          align-items: stretch;
+        }
+
+        .professional-col {
+          display: flex;
+        }
+
+        .professional-col > div {
+          width: 100%;
+        }
+
         .fixkar-pagination {
           display: flex;
           align-items: center;
@@ -158,29 +169,14 @@ const HireProfessionals = () => {
           cursor: not-allowed;
         }
 
-        .fixkar-page-info {
-          min-width: 70px;
-          height: 38px;
-          padding: 0 12px;
-          border-radius: 10px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background: #f8f9fa;
-          border: 1px solid #e9ecef;
-          color: #495057;
-          font-size: 13px;
-          font-weight: 600;
-        }
-
         @media (max-width: 575.98px) {
           .fixkar-results {
             padding-inline: 2px;
           }
 
           .professional-results {
-            --bs-gutter-x: .45rem;
-            --bs-gutter-y: .55rem;
+            --bs-gutter-x: .65rem;
+            --bs-gutter-y: .75rem;
           }
 
           .professional-results > .professional-col {
@@ -189,7 +185,8 @@ const HireProfessionals = () => {
           }
 
           .professional-results .card {
-            border-radius: 14px !important;
+            min-height: 275px;
+            border-radius: 15px !important;
           }
 
           .fixkar-pagination {
@@ -198,16 +195,9 @@ const HireProfessionals = () => {
           }
 
           .fixkar-page-btn {
-            min-width: 34px;
-            height: 34px;
+            min-width: 36px;
+            height: 36px;
             border-radius: 9px;
-          }
-
-          .fixkar-page-info {
-            height: 34px;
-            min-width: 58px;
-            font-size: 12px;
-            padding: 0 8px;
           }
         }
       `}</style>
@@ -360,13 +350,17 @@ const HireProfessionals = () => {
                   key={pro._id}
                   className="professional-col col-6 col-sm-6 col-lg-4"
                 >
-                  <ProfessionalCard data={pro} />
+                  <div className="h-100">
+                    <ProfessionalCard data={pro} />
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Proper page navigation */}
-            <div className="fixkar-pagination" aria-label="Professional results pagination">
+            <div
+              className="fixkar-pagination"
+              aria-label="Professional results pagination"
+            >
               <button
                 type="button"
                 className="fixkar-page-btn"
