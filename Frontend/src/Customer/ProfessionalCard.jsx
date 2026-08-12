@@ -1,161 +1,158 @@
-  // components/ProfessionalCard.jsx
-  import React, { useEffect, useState } from "react";
-  import { FaMapMarkerAlt, FaUserTie, FaRoute, FaStar } from "react-icons/fa";
-  import { useNavigate } from "react-router-dom";
-  import { useDispatch, useSelector } from "react-redux";
-  import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
-  import { getDistanceMatrixData } from "../utils/getDistanceMatrixData";
-  import { toast } from "react-toastify";
-  const MAX_SKILLS = 5;
+import React, { useEffect, useState } from "react";
+import { FaMapMarkerAlt, FaUserTie, FaRoute, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
+import { getDistanceMatrixData } from "../utils/getDistanceMatrixData";
+import { toast } from "react-toastify";
 
-  const ProfessionalCard = ({ data }) => {
-    const mapsLoaded = useLoadGoogleMaps();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const { selectedLocation } = useSelector((state) => state.location);
+const MAX_SKILLS = 3;
 
-    const [distance, SetDistance] = useState(null);
+const ProfessionalCard = ({ data }) => {
+  const mapsLoaded = useLoadGoogleMaps();
+  const navigate = useNavigate();
+  const { selectedLocation } = useSelector((state) => state.location);
+  const [distance, setDistance] = useState(null);
 
-    const skillsToShow = data?.selectedSkills?.slice(0, MAX_SKILLS) || [];
-    const hasMoreSkills =
-      data?.selectedSkills && data.selectedSkills.length > MAX_SKILLS;
+  const skillsToShow = data?.selectedSkills?.slice(0, MAX_SKILLS) || [];
+  const hasMoreSkills =
+    data?.selectedSkills && data.selectedSkills.length > MAX_SKILLS;
 
-    useEffect(() => {
-      if (
-        !mapsLoaded ||
-        !selectedLocation?.lat ||
-        !selectedLocation?.lng ||
-        Number.isFinite(data?.distance)
-      ) return;
+  useEffect(() => {
+    if (
+      !mapsLoaded ||
+      !selectedLocation?.lat ||
+      !selectedLocation?.lng ||
+      Number.isFinite(data?.distance)
+    ) {
+      return;
+    }
 
-      const fetchDistance = async () => {
-        try {
-          const result = await getDistanceMatrixData({
-            customerLat: selectedLocation?.lat,
-            customerLng: selectedLocation?.lng,
-            professionalLat: data?.address?.lat,
-            professionalLng: data?.address?.lng,
-          });
+    const fetchDistance = async () => {
+      try {
+        const result = await getDistanceMatrixData({
+          customerLat: selectedLocation.lat,
+          customerLng: selectedLocation.lng,
+          professionalLat: data?.address?.lat,
+          professionalLng: data?.address?.lng,
+        });
 
-          SetDistance(result);
-        } catch (err) {
-          toast.error(err.message);
-        }
-      };
-
-      fetchDistance();
-    }, [mapsLoaded, selectedLocation, data]);
-
-    const directDistance = Number.isFinite(data?.distance)
-      ? data.distance >= 1000
-        ? `${(data.distance / 1000).toFixed(1)} km`
-        : `${Math.round(data.distance)} m`
-      : null;
-
-    const handleVisitProfile = () => {
-     
-      navigate(`/professional/profile/visit/${data?.userId?._id}/${data?.slug}`);
+        setDistance(result);
+      } catch (err) {
+        toast.error(err.message);
+      }
     };
 
-    return (
-  <div className="card border-0 shadow h-100 rounded-4 overflow-hidden">
+    fetchDistance();
+  }, [mapsLoaded, selectedLocation, data]);
 
-    {/* ===== HEADER ===== */}
-    <div
-      className="p-3"
-      style={{
-        background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
-        color: "#fff",
-      }}
-    >
-      <div className="d-flex align-items-center gap-3">
-        <img
-          src={data?.profilePicture || "/Images/placeholderProfile.avif"}
-          alt={data?.userId?.fullName || "User"}
-          className="rounded-circle border border-2 border-white"
-          style={{ width: 70, height: 70, objectFit: "cover" }}
-        />
+  const directDistance = Number.isFinite(data?.distance)
+    ? data.distance >= 1000
+      ? `${(data.distance / 1000).toFixed(1)} km`
+      : `${Math.round(data.distance)} m`
+    : null;
 
-        <div className="flex-grow-1">
-          <h6 className="fw-bold mb-1">
-            {data?.userId?.fullName || "Unknown User"}
-          </h6>
+  const distanceText = directDistance || distance?.distance?.text;
 
-          <div className="d-flex align-items-center gap-2 small">
-            <FaUserTie />
-            <span>{data?.profession.name || "Not specified"}</span>
+  const handleVisitProfile = () => {
+    navigate(`/professional/profile/visit/${data?.userId?._id}/${data?.slug}`);
+  };
+
+  return (
+    <div className="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+      <div
+        className="px-3 py-2"
+        style={{
+          background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
+          color: "#fff",
+        }}
+      >
+        <div className="d-flex align-items-center gap-2">
+          <img
+            src={data?.profilePicture || "/Images/placeholderProfile.avif"}
+            alt={data?.userId?.fullName || "User"}
+            className="rounded-circle border border-2 border-white flex-shrink-0"
+            style={{ width: 50, height: 50, objectFit: "cover" }}
+          />
+
+          <div className="min-w-0 flex-grow-1">
+            <div className="fw-bold text-truncate">
+              {data?.userId?.fullName || "Unknown User"}
+            </div>
+            <div className="d-flex align-items-center gap-1 small opacity-90 text-truncate">
+              <FaUserTie size={11} className="flex-shrink-0" />
+              <span className="text-truncate">
+                {data?.profession?.name || "Not specified"}
+              </span>
+            </div>
+          </div>
+
+          <div className="text-end flex-shrink-0">
+            <div className="d-flex align-items-center gap-1 fw-semibold small">
+              <FaStar className="text-warning" size={11} />
+              {Number(data?.averageRating || 0).toFixed(1)}
+            </div>
+            <small className="opacity-75">
+              {data?.reviewCount || 0} reviews
+            </small>
           </div>
         </div>
       </div>
-    </div>
 
-    {/* ===== BODY ===== */}
-    <div className="card-body d-flex flex-column">
-
-      {/* SKILLS */}
-      {skillsToShow.length > 0 && (
-        <div className="mb-3">
-          <div className="fw-semibold small mb-2 text-muted">
-            Skills
-          </div>
-
-          <div className="d-flex flex-wrap gap-2">
+      <div className="card-body p-3 d-flex flex-column">
+        {skillsToShow.length > 0 && (
+          <div className="d-flex flex-wrap gap-1 mb-2">
             {skillsToShow.map((skill) => (
               <span
                 key={skill._id}
-                className="badge rounded-pill bg-primary-subtle text-primary px-3 py-2"
-                style={{ fontSize: "0.75rem" }}
+                className="badge rounded-pill bg-primary-subtle text-primary px-2 py-1"
+                style={{ fontSize: "0.68rem" }}
               >
                 {skill.name}
               </span>
             ))}
 
             {hasMoreSkills && (
-              <span className="badge rounded-pill bg-secondary-subtle text-secondary px-3 py-2">
-                + more
+              <span
+                className="badge rounded-pill bg-light text-muted border px-2 py-1"
+                style={{ fontSize: "0.68rem" }}
+              >
+                +{data.selectedSkills.length - MAX_SKILLS}
               </span>
             )}
           </div>
-        </div>
-      )}
+        )}
 
-      {/* ADDRESS */}
-      <div className="d-flex gap-2 mb-2">
-        <FaMapMarkerAlt className="text-primary mt-1" />
-        <p className="text-muted small mb-0">
-          {data?.address?.addressLine || "Address not provided"}
-        </p>
-      </div>
-
-      <div className="d-flex align-items-center gap-2 mb-3">
-        <FaStar className="text-warning" />
-        <span className="small fw-semibold">{Number(data?.averageRating || 0).toFixed(1)}</span>
-        <span className="small text-muted">({data?.reviewCount || 0} reviews)</span>
-      </div>
-
-      {/* DISTANCE */}
-      {(directDistance || distance?.distance?.text) && (
-        <div className="d-flex align-items-center gap-2 mb-3">
-          <FaRoute className="text-success" />
-          <span className="small fw-semibold text-success">
-            {directDistance || distance.distance.text} away
+        <div className="d-flex align-items-start gap-2 mb-2">
+          <FaMapMarkerAlt className="text-primary mt-1 flex-shrink-0" size={12} />
+          <span
+            className="text-muted small text-truncate"
+            title={data?.address?.addressLine || "Address not provided"}
+          >
+            {data?.address?.addressLine || "Address not provided"}
           </span>
         </div>
-      )}
 
-      {/* PUSH BUTTON TO BOTTOM */}
-      <div className="mt-auto pt-2">
-        <button
-          onClick={handleVisitProfile}
-          className="btn btn-primary w-100 rounded-pill fw-semibold"
-        >
-          Visit Profile
-        </button>
+        {distanceText && (
+          <div className="d-flex align-items-center gap-2 mb-2">
+            <FaRoute className="text-success flex-shrink-0" size={12} />
+            <span className="small fw-semibold text-success">
+              {distanceText} away
+            </span>
+          </div>
+        )}
+
+        <div className="mt-auto pt-2">
+          <button
+            onClick={handleVisitProfile}
+            className="btn btn-primary btn-sm w-100 rounded-3 fw-semibold"
+          >
+            Visit Profile
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  );
+};
 
-    );
-  };
-
-  export default ProfessionalCard;
+export default ProfessionalCard;
