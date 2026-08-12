@@ -66,7 +66,7 @@ userRoute.post('/professional/update-skills', isAuth, updateSkills)
 
 //gallery
 userRoute.post('/upload-media', isAuth, uploadMedia)
-userRoute.get('/signature', getCloudinarySignature);
+userRoute.get('/signature', isAuth, getCloudinarySignature);
 userRoute.delete('/delete-media/:mediaId', isAuth, deleteMedia)
 
 //service
