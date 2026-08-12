@@ -23,8 +23,9 @@ const DashboardLayout = () => {
 
   const adminpath = import.meta.env.VITE_ADMIN_PATH;
   const isAdminRoute =
-    location.pathname === adminpath ||
-    location.pathname.startsWith(`${adminpath}/`);
+    Boolean(adminpath) &&
+    (location.pathname === adminpath ||
+      location.pathname.startsWith(`${adminpath}/`));
 
   const isAdminAuthenticated = Boolean(isAdminRoute && currentAdmin);
   const isUserAuthenticated = Boolean(!isAdminRoute && currentUserData?.user);
@@ -68,7 +69,6 @@ const DashboardLayout = () => {
                 background: `linear-gradient(135deg, ${
                   isAdminAuthenticated ? "#0f2027" : "#0d6efd"
                 }, ${isAdminAuthenticated ? "#2c5364" : "#4f9cff"})`,
-                fontSize: "1vmax",
               }}
             >
               <div
@@ -77,20 +77,26 @@ const DashboardLayout = () => {
                   background: `linear-gradient(135deg, ${
                     isAdminAuthenticated ? "#0f2027" : "#0d6efd"
                   }, ${isAdminAuthenticated ? "#2c5364" : "#4f9cff"})`,
-                  fontSize: "1vmax",
                 }}
               >
                 <GiHamburgerMenu
                   size={18}
                   role="button"
+                  aria-label="Open dashboard menu"
                   onClick={() => setIsSidebarOpen(true)}
                 />
 
-                <div className="d-flex align-items-center gap-4 flex-wrap">
+                <div className="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
                   <div
                     className="d-flex align-items-center gap-2 fw-semibold"
                     role="button"
+                    tabIndex={0}
                     onClick={() => navigate(-1)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        navigate(-1);
+                      }
+                    }}
                   >
                     <IoMdArrowRoundBack size={18} />
                     <span>Back</span>
@@ -106,14 +112,14 @@ const DashboardLayout = () => {
                     info@fixkarr.com
                   </span>
 
-                  <span
-                    role="button"
+                  <button
+                    type="button"
                     onClick={handleLogout}
-                    className="d-flex align-items-center gap-1 text-warning fw-semibold"
+                    className="btn btn-link p-0 border-0 text-warning text-decoration-none fw-semibold d-flex align-items-center gap-1 small"
                   >
                     <RiLogoutCircleRLine />
                     Logout
-                  </span>
+                  </button>
                 </div>
               </div>
             </section>
