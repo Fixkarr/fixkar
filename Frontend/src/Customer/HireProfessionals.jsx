@@ -118,18 +118,6 @@ const HireProfessionals = () => {
           margin: 0 auto;
         }
 
-        .professional-results {
-          align-items: stretch;
-        }
-
-        .professional-col {
-          display: flex;
-        }
-
-        .professional-col > div {
-          width: 100%;
-        }
-
         .fixkar-pagination {
           display: flex;
           align-items: center;
@@ -179,14 +167,14 @@ const HireProfessionals = () => {
             --bs-gutter-y: .75rem;
           }
 
+          /* One professional card per row on phones */
           .professional-results > .professional-col {
-            width: 50%;
-            flex: 0 0 50%;
+            width: 100%;
+            flex: 0 0 100%;
           }
 
           .professional-results .card {
-            min-height: 275px;
-            border-radius: 15px !important;
+            border-radius: 16px !important;
           }
 
           .fixkar-pagination {
@@ -195,8 +183,8 @@ const HireProfessionals = () => {
           }
 
           .fixkar-page-btn {
-            min-width: 36px;
-            height: 36px;
+            min-width: 34px;
+            height: 34px;
             border-radius: 9px;
           }
         }
@@ -350,17 +338,12 @@ const HireProfessionals = () => {
                   key={pro._id}
                   className="professional-col col-6 col-sm-6 col-lg-4"
                 >
-                  <div className="h-100">
-                    <ProfessionalCard data={pro} />
-                  </div>
+                  <ProfessionalCard data={pro} />
                 </div>
               ))}
             </div>
 
-            <div
-              className="fixkar-pagination"
-              aria-label="Professional results pagination"
-            >
+            <div className="fixkar-pagination" aria-label="Professional results pagination">
               <button
                 type="button"
                 className="fixkar-page-btn"
