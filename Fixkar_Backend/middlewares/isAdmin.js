@@ -5,34 +5,26 @@ export const isAdmin = async (req,res,next)=>{
     try {
         const token = req.cookies.adminToken;
         if(!token){
-            return res.status(401).json({
-                message : "Admin not authorized"
-            })
+            return res.status(401).json({ message : "Admin not authorized" })
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if(!decoded){
-            return res.status(401).json({
-                message : "Token not verified"
-            })
+        const adminSecret = process.env.ADMIN_JWT_SECRET || process.env.JWT_SECRET;
+        const decoded = jwt.verify(token, adminSecret);
+        if(!decoded?.userId){
+            return res.status(401).json({ message : "Token not verified" })
         }
 
         const admin  = await Admin.findById(decoded.userId);
-
         if(!admin){
-              return res.status(401).json({
-                success: false,
-                message: "Admin not found",
-      });
+            return res.status(401).json({ success: false, message: "Admin not found" });
         }
 
         req.admin = admin;
         next();
-
     } catch (error) {
-         return res.status(401).json({
-      success: false,
-      message: "Invalid or expired admin token",
-    });
+        return res.status(401).json({
+            success: false,
+            message: "Invalid or expired admin token",
+        });
     }
 }
