@@ -36,13 +36,11 @@ const Login = () => {
      const {currentUserData} = useSelector(state=>state.user);
 
     const dispatch = useDispatch()
-    // 👁️ Show/Hide Password
     const handleShowPass = () => {
       setShowPass(!showPass);
     };
 
      const navigate = useNavigate();
-
 
        useEffect(() => {
     if (currentUserData?.user) {
@@ -74,7 +72,7 @@ const Login = () => {
           navigate(from, { replace: true }); 
           resetForm()
          } catch (error) {
-          toast.error(error.response.data.message)
+          toast.error(error?.response?.data?.message || "Login failed")
           setFloading(false)
          }
         }
@@ -83,203 +81,108 @@ const Login = () => {
       const handleLoginWithGoogle = async () => {
     try {
         setGloading(true)
-      // android
 
         if (Capacitor.getPlatform() === "android") {
-          console.log("ok1")
-      const login = await SocialLogin.login({
-        provider: "google",
-        // options: {
-        //   scopes: ["email"],
-        //   filterByAuthorizedAccounts: false,
-        // },
-      });
+          const login = await SocialLogin.login({
+            provider: "google",
+          });
 
-      console.log(login)
+          const googleIdToken = login.result?.idToken;
 
-      const googleIdToken = login.result?.idToken;
+          if (!googleIdToken) {
+            throw new Error("Google ID Token not received");
+          }
 
-      if (!googleIdToken) {
-        throw new Error("Google ID Token not received");
-      }
+          const credential = GoogleAuthProvider.credential(googleIdToken);
+          const firebaseCredential = await signInWithCredential(auth, credential);
+          const firebaseIdToken = await firebaseCredential.user.getIdToken();
 
-      // Convert Google Token -> Firebase Login
-      const credential =
-        GoogleAuthProvider.credential(googleIdToken);
+          const response = await axios.post(
+            `${server_url}/api/auth/google-auth-login-native`,
+            { idToken: firebaseIdToken },
+            { withCredentials: true }
+          );
 
-      const firebaseCredential =
-        await signInWithCredential(auth, credential);
+          dispatch(setCurrentUserData(response.data));
+          setGloading(false);
+          return;
+        }
 
-      // Firebase Token
-      const firebaseIdToken =
-        await firebaseCredential.user.getIdToken();
+      const result = await signInWithPopup(auth, provider);
+      const firebaseIdToken = await result.user.getIdToken();
 
       const response = await axios.post(
-        `${server_url}/api/auth/google-auth-login-native`,
-        {
-          idToken: firebaseIdToken,
-        },
-        {
-          withCredentials: true,
-        }
+        `${server_url}/api/auth/google-auth-login`,
+        { idToken: firebaseIdToken },
+        { withCredentials: true }
       );
 
       dispatch(setCurrentUserData(response.data));
-
-      return;
-    }
-
-
-
-      const result = await signInWithPopup(auth, provider);
-
-      const user = {
-        email : result.user.email,
-      }
-      
-      const response = await axios.post(`${server_url}/api/auth/google-auth-login`, user, {withCredentials : true})
-      dispatch(setCurrentUserData(response?.data))
       setGloading(false)
     } catch (error) {
-  
-      toast.error(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message || error?.message || "Google login failed")
       setGloading(false)
     }
   };
 
-
   return (
-    
     <>
-    
       <Navbar/>
-   <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
-  <div className="col-11 col-sm-9 col-md-6 col-lg-4">
+      <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+        <div className="col-11 col-sm-9 col-md-6 col-lg-4">
+          <div className="card border-0 shadow-lg rounded-4 p-4 p-md-5">
+            <div className="d-flex align-items-center mb-3">
+              <span role="button" className="text-primary fs-5 me-2" onClick={() => navigate("/")}>
+                <FaArrowLeft />
+              </span>
+              <h4 className="fw-bold text-primary mb-0 flex-grow-1 text-center">Welcome Back</h4>
+            </div>
 
-    <div className="card border-0 shadow-lg rounded-4 p-4 p-md-5">
+            <p className="text-muted small text-center mb-4">Login to continue using <strong>Fixkar</strong></p>
 
-      {/* Header */}
-      <div className="d-flex align-items-center mb-3">
-        <span
-          role="button"
-          className="text-primary fs-5 me-2"
-          onClick={() => navigate("/")}
-        >
-          <FaArrowLeft />
-        </span>
-        <h4 className="fw-bold text-primary mb-0 flex-grow-1 text-center">
-          Welcome Back
-        </h4>
-      </div>
+            <form onSubmit={formik.handleSubmit}>
+              <div className="mb-3">
+                <label className="form-label fw-semibold small">Email Address</label>
+                <div className="input-group">
+                  <span className="input-group-text bg-white"><MdEmail className="text-primary" /></span>
+                  <input type="email" className="form-control" id="email" name="email" placeholder="you@example.com" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                </div>
+                {formik.touched.email && formik.errors.email && <small className="text-danger">{formik.errors.email}</small>}
+              </div>
 
-      <p className="text-muted small text-center mb-4">
-        Login to continue using <strong>Fixkar</strong>
-      </p>
+              <div className="mb-3 position-relative">
+                <label className="form-label fw-semibold small">Password</label>
+                <div className="input-group">
+                  <span className="input-group-text bg-white"><FaLock className="text-primary" /></span>
+                  <input type={showPass ? "text" : "password"} className="form-control" id="password" name="password" placeholder="Enter your password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                </div>
+                <span role="button" onClick={handleShowPass} className="position-absolute top-50 end-0 translate-middle-y me-3" style={{ cursor: "pointer" }}>
+                  {showPass ? <FaRegEyeSlash /> : <FaRegEye />}
+                </span>
+                {formik.touched.password && formik.errors.password && <small className="text-danger">{formik.errors.password}</small>}
+              </div>
 
-      {/* Form */}
-      <form onSubmit={formik.handleSubmit}>
+              <button type="submit" disabled={floading || gloading} className="btn btn-primary w-100 rounded-pill py-2 fw-semibold mt-2">
+                {floading ? <ClipLoader size={18} color="#fff" /> : "Login"}
+              </button>
+            </form>
 
-        {/* Email */}
-        <div className="mb-3">
-          <label className="form-label fw-semibold small">
-            Email Address
-          </label>
-          <div className="input-group">
-            <span className="input-group-text bg-white">
-              <MdEmail className="text-primary" />
-            </span>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              placeholder="you@example.com"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
+            <div className="text-center my-3 text-muted small">OR</div>
+
+            <button className="btn btn-outline-secondary w-100 rounded-pill py-2 d-flex align-items-center justify-content-center gap-2" disabled={floading || gloading} onClick={handleLoginWithGoogle}>
+              <FcGoogle size={20} />
+              {gloading ? <ClipLoader size={18} /> : "Continue with Google"}
+            </button>
+
+            <div className="text-center mt-4">
+              <span role="button" className="text-danger fw-semibold small" onClick={() => navigate("/forget-password")}>
+                Forgotten Password?
+              </span>
+            </div>
           </div>
-          {formik.touched.email && formik.errors.email && (
-            <small className="text-danger">{formik.errors.email}</small>
-          )}
         </div>
-
-        {/* Password */}
-        <div className="mb-3 position-relative">
-          <label className="form-label fw-semibold small">
-            Password
-          </label>
-
-          <div className="input-group">
-            <span className="input-group-text bg-white">
-              <FaLock className="text-primary" />
-            </span>
-            <input
-              type={showPass ? "text" : "password"}
-              className="form-control"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </div>
-
-          <span
-            role="button"
-            onClick={handleShowPass}
-            className="position-absolute top-50 end-0 translate-middle-y me-3"
-            style={{ cursor: "pointer" }}
-          >
-            {showPass ? <FaRegEyeSlash /> : <FaRegEye />}
-          </span>
-
-          {formik.touched.password && formik.errors.password && (
-            <small className="text-danger">{formik.errors.password}</small>
-          )}
-        </div>
-
-        {/* Login Button */}
-        <button
-          type="submit"
-          disabled={floading || gloading}
-          className="btn btn-primary w-100 rounded-pill py-2 fw-semibold mt-2"
-        >
-          {floading ? <ClipLoader size={18} color="#fff" /> : "Login"}
-        </button>
-
-      </form>
-
-      {/* Divider */}
-      <div className="text-center my-3 text-muted small">OR</div>
-
-      {/* Google Login */}
-      <button
-        className="btn btn-outline-secondary w-100 rounded-pill py-2 d-flex align-items-center justify-content-center gap-2"
-        disabled={floading || gloading}
-        onClick={handleLoginWithGoogle}
-      >
-        <FcGoogle size={20} />
-        {gloading ? <ClipLoader size={18} /> : "Continue with Google"}
-      </button>
-
-      {/* Footer */}
-      <div className="text-center mt-4">
-        <span
-          role="button"
-          className="text-danger fw-semibold small"
-          onClick={() => navigate("/forget-password")}
-        >
-          Forgotten Password?
-        </span>
       </div>
-
-    </div>
-  </div>
-</div>
-
-        <Footer/>
+      <Footer/>
     </>
   )
 }
