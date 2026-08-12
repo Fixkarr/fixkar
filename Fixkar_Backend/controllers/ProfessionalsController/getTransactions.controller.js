@@ -1,3 +1,4 @@
+import { Professional } from "../../models/userModel.js";
 import { Wallet } from "../../models/walletModel.js";
 import { WalletTransaction } from "../../models/walletTransactionModel.js";
 
@@ -14,7 +15,12 @@ export const getTransaction = async (req,res)=>{
             })
         }
 
-        const wallet = await Wallet.findOne({professionalId : proId});
+        const professional = await Professional.findOne({ userId: req.userId }).select("_id");
+        if (!professional || professional._id.toString() !== proId.toString()) {
+            return res.status(403).json({ message: "You can only view your own transactions" });
+        }
+
+        const wallet = await Wallet.findOne({professionalId : professional._id});
         
         if(!wallet){
             return res.status(404).json({
