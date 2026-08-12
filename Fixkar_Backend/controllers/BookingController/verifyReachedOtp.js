@@ -1,14 +1,13 @@
 import {Booking} from '../../models/bookingModel.js'
-import bcrypt from 'bcryptjs';
 import {io} from '../../server.js'
 import { ReachedOtp } from '../../models/reachedOtpModel.js';
 
 export const verifyReachedOtp = async (req,res)=>{
     try {
         const {otp, bookingId} = req.body;
-        if(!otp){
-            return res.status(404).json({
-                message : "OTP required!"
+        if(!otp || !bookingId){
+            return res.status(400).json({
+                message : "OTP and bookingId are required!"
             })
         }
 
@@ -41,21 +40,41 @@ export const verifyReachedOtp = async (req,res)=>{
 
   const myId = req.userId
   if(myId !== booking.professionalId.userId._id.toString()){
-    return res.status(400).json({
-        message : "Unathorized Access"
+    return res.status(403).json({
+        message : "Unauthorized Access"
     })
+  }
+
+  if (booking.status !== "reached") {
+    return res.status(400).json({
+      message: "OTP can only be verified after the professional is marked as reached"
+    });
+  }
+
+  const otpRecord = await ReachedOtp.findOne({ bookingId }).select("otp attempts expiresAt");
+  if(!otpRecord){
+    return res.status(404).json({
+        message : "OTP not found or expired!"
+    })
+  }
+
+  if (otpRecord.expiresAt <= new Date()) {
+    await ReachedOtp.deleteOne({ _id: otpRecord._id });
+    return res.status(400).json({ message: "OTP expired!" });
+  }
+
+  if (otpRecord.attempts >= 5) {
+    await ReachedOtp.deleteOne({ _id: otpRecord._id });
+    return res.status(429).json({ message: "Too many invalid OTP attempts" });
   }
 
   const otpStr = otp.toString();
 
-  const isOtpExists = await ReachedOtp.findOne({ bookingId });
-  if(!isOtpExists){
-    return res.status(404).json({
-        message : "OTP not found!"
-    })
-  }
-
- if(isOtpExists.otp !== otpStr){
+  if(otpRecord.otp !== otpStr){
+    await ReachedOtp.updateOne(
+      { _id: otpRecord._id },
+      { $inc: { attempts: 1 } }
+    );
     return res.status(400).json({
         message : "Invalid OTP!"
     })
@@ -65,8 +84,9 @@ export const verifyReachedOtp = async (req,res)=>{
     booking.startedAt = Date.now()
 
     await booking.save();
+    await ReachedOtp.deleteOne({ _id: otpRecord._id });
 
-    io.to(booking.customerId.userId._id.toString()).emit(  
+    io.to(booking.customerId.userId._id.toString()).emit(
             "bookingUpdated",
              booking
             );
@@ -76,8 +96,8 @@ export const verifyReachedOtp = async (req,res)=>{
           status: "in-progress"
         });
 
-    io.to(booking.professionalId.userId._id.toString()).emit(  
-            "bookingUpdated",
+    io.to(booking.professionalId.userId._id.toString()).emit(
+             "bookingUpdated",
              booking
             );
 

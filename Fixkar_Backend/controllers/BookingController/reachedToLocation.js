@@ -2,8 +2,7 @@ import { Booking } from "../../models/bookingModel.js";
 import { Notification } from "../../models/notificationModel.js";
 import { ReachedOtp } from "../../models/reachedOtpModel.js";
 import {io} from '../../server.js'
-import bcrypt from "bcryptjs";
-import { pushNotification } from "../../services/pushNotification.js";
+import { pushNotification } from '../../services/pushNotification.js';
 export const reachedToLocation = async (req, res)=>{
     try{
     const {bookingId} = req.body;
@@ -57,6 +56,7 @@ export const reachedToLocation = async (req, res)=>{
      await ReachedOtp.create({
       bookingId: booking._id,
       otp,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     })
 
     booking.status = "reached";
@@ -77,7 +77,7 @@ export const reachedToLocation = async (req, res)=>{
       userId: notification.userId,
       title: notification.title,
       message: notification.message,
-      redirectUrl: `/customer/bookings/${booking._id}`, // OPTIONAL
+      redirectUrl: `/customer/bookings/${booking._id}`,
     };
     
       await pushNotification(notificationPayload);
