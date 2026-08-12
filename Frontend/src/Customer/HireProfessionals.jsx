@@ -28,8 +28,6 @@ const HireProfessionals = () => {
 
   const { services } = useSelector((state) => state.services);
 
-  // SearchComponent currently stores the selected service object in Redux.
-  // Keep this page tolerant of both the old object shape and an ID.
   const selectedServiceId =
     typeof selectedService === "object"
       ? selectedService?._id
@@ -156,6 +154,12 @@ const HireProfessionals = () => {
           .fixkar-search-shell .border-top.pt-4 {
             padding-top: 12px !important;
           }
+
+          /* Professional results: always two equal columns on phones */
+          .professional-results > .professional-col {
+            width: 50%;
+            flex: 0 0 50%;
+          }
         }
       `}</style>
 
@@ -189,7 +193,6 @@ const HireProfessionals = () => {
         <SearchSection onSkillsChange={setSelectedSkills} />
       </div>
 
-      {/* Compact mobile-friendly filters */}
       <div className="card border-0 shadow-sm rounded-4 mb-3">
         <button
           type="button"
@@ -206,7 +209,6 @@ const HireProfessionals = () => {
               )}
             </div>
             <FaChevronDown
-              className={showFilters ? "rotate-180" : ""}
               style={{
                 transition: "transform .2s ease",
                 transform: showFilters ? "rotate(180deg)" : "none",
@@ -261,8 +263,7 @@ const HireProfessionals = () => {
             <span className="fw-semibold text-dark">Results for:</span>
             {selectedLocation?.address && (
               <span className="badge bg-primary-subtle text-primary border">
-                <FaMapMarkerAlt className="me-1" />
-                Location selected
+                <FaMapMarkerAlt className="me-1" /> Location selected
               </span>
             )}
             {serviceName && (
@@ -300,10 +301,13 @@ const HireProfessionals = () => {
         </div>
       ) : (
         <>
-          <div className="row g-3 mt-1">
+          <div className="row g-2 mt-1 professional-results">
             {professionals.map((pro) => (
-              <div key={pro._id} className="col-12 col-sm-6 col-lg-4">
-                <div className="h-100 shadow-sm rounded-4">
+              <div
+                key={pro._id}
+                className="professional-col col-6 col-sm-6 col-lg-4"
+              >
+                <div className="h-100">
                   <ProfessionalCard data={pro} />
                 </div>
               </div>
