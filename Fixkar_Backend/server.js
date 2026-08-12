@@ -22,6 +22,7 @@ import notificationRouter from './routes/notification.routes.js';
 import wakeRouter from './routes/wakeup.route.js';
 import seoRouter from './routes/seo.route.js';
 import { Professional } from './models/userModel.js';
+import { generateShortCode } from './utils/generateShortCode.js';
 import { csrfOriginCheck } from './middlewares/csrfOriginCheck.js';
 
 
@@ -41,7 +42,7 @@ app.use((req, res, next) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("X-Frame-Options", "DENY");
     res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-    res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(self)");
+    res.setHeader("Permissions-Policy", "camera=(self), microphone=(self), geolocation=(self)");
 
     if (process.env.NODE_ENV === "production") {
         res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
