@@ -7,19 +7,12 @@ export const searchProfessionals = async (req, res) => {
       lat,
       lng,
       service,
-      skills = [],     // 🔥 NEW (optional)
+      skills = [],
       minRating,
       sortBy,
       page = 1,
       limit = 20,
     } = req.query;
-
-    // if (!lat || !lng) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Latitude and Longitude are required",
-    //   });
-    // }
 
     lat = parseFloat(lat);
     lng = parseFloat(lng);
@@ -32,7 +25,6 @@ export const searchProfessionals = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
-    // 🔁 skills string → array
     if (typeof skills === "string") {
       skills = skills.split(",");
     }
@@ -63,7 +55,6 @@ export const searchProfessionals = async (req, res) => {
   });
     }
 
-    // 🔍 Populate profession
     pipeline.push(
       {
         $lookup: {
@@ -76,16 +67,14 @@ export const searchProfessionals = async (req, res) => {
       { $unwind: "$profession" }
     );
 
-    // 🔍 Service filter (by name)
     if (service && mongoose.Types.ObjectId.isValid(service)) {
-  pipeline.push({
-    $match: {
-      "profession._id": new mongoose.Types.ObjectId(service),
-    },
-  });
-}
+      pipeline.push({
+        $match: {
+          "profession._id": new mongoose.Types.ObjectId(service),
+        },
+      });
+    }
 
-    // 🔥 OPTIONAL SKILLS FILTER (MAIN CHANGE)
     const validSkillIds = skills.filter((id) => mongoose.Types.ObjectId.isValid(id));
     if (validSkillIds.length > 0) {
       pipeline.push({
@@ -99,7 +88,6 @@ export const searchProfessionals = async (req, res) => {
       });
     }
 
-    // 🔗 Populate profession.skills
     pipeline.push({
       $lookup: {
         from: "skills",
@@ -139,7 +127,6 @@ export const searchProfessionals = async (req, res) => {
       pipeline.push({ $sort: { distance: 1, ...ratingSort } });
     }
 
-    // 🔗 Populate selectedSkills
     pipeline.push({
       $lookup: {
         from: "skills",
@@ -149,7 +136,6 @@ export const searchProfessionals = async (req, res) => {
       },
     });
 
-    // 🔗 Populate user
     pipeline.push(
       {
         $lookup: {
@@ -162,13 +148,11 @@ export const searchProfessionals = async (req, res) => {
       { $unwind: "$userId" }
     );
 
-    // ✅ PAGINATION (SAFE)
     pipeline.push(
       { $skip: skip },
       { $limit: limit }
     );
 
-    // 🔐 SECURITY PROJECTION
     pipeline.push({
       $project: {
         __v: 0,
@@ -180,6 +164,9 @@ export const searchProfessionals = async (req, res) => {
         dob: 0,
 
         "userId.password": 0,
+        "userId.email": 0,
+        "userId.mobile": 0,
+        "userId.role": 0,
         "userId.__v": 0,
         "userId.fcmTokens": 0,
         "userId.termsAcceptance": 0,
