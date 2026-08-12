@@ -10,6 +10,7 @@ dns.setDefaultResultOrder("ipv4first");
 
 import http from 'http';
 import { Server } from 'socket.io';
+import jwt from 'jsonwebtoken';
 
 import userRoute from './routes/user.Routes.js';
 import cookieParser from 'cookie-parser';
@@ -88,26 +89,51 @@ export const io = new Server(server,{
 
 export const userSocketMap = {};
 
+const getCookieValue = (cookieHeader, name) => {
+  if (!cookieHeader) return null;
+
+  const cookie = cookieHeader
+    .split(';')
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(`${name}=`));
+
+  return cookie ? decodeURIComponent(cookie.slice(name.length + 1)) : null;
+};
+
+io.use((socket, next) => {
+  try {
+    const token = getCookieValue(socket.handshake.headers.cookie, 'token');
+    if (!token) {
+      return next(new Error('Unauthorized'));
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded?.userId) {
+      return next(new Error('Unauthorized'));
+    }
+
+    socket.userId = decoded.userId.toString();
+    return next();
+  } catch (error) {
+    return next(new Error('Unauthorized'));
+  }
+});
 
 io.on("connection", (socket) => {
-    const userId = socket.handshake.query.userId;
+  const userId = socket.userId;
 
-  if(userId) {
-    userSocketMap[userId] = socket.id;
-      socket.join(userId.toString())
-  }
+  userSocketMap[userId] = socket.id;
+  socket.join(userId);
 
-
-  io.emit("getOnlineUsers", Object.keys(userSocketMap))
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", ()=>{
-    delete userSocketMap[userId];
-    io.emit("getOnlineUsers", Object.keys(userSocketMap))
-  })
-
+    if (userSocketMap[userId] === socket.id) {
+      delete userSocketMap[userId];
+    }
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
-
- 
+});
 
 
 
