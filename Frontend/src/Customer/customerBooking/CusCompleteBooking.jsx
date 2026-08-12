@@ -20,31 +20,56 @@ const CusCompleteBooking = ({ booking }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!rating) {
+      toast.error("Please select a rating.");
+      return;
+    }
+
+    if (!review.trim()) {
+      toast.error("Please write your review.");
+      return;
+    }
+
     try {
       setLoading(true);
+
       const result = await axios.post(
         `${server_url}/api/booking/post-review`,
-        { rating, review, bookingId: booking._id }
+        { rating, review: review.trim(), bookingId: booking._id },
+        {
+          // The review endpoint is protected by the same auth cookie as the
+          // rest of the booking APIs. Without this, browsers omit the cookie
+          // and the server correctly responds with 401 Unauthorized.
+          withCredentials: true,
+        }
       );
-      toast.success(result.data.message);
+
+      toast.success(result.data.message || "Review posted successfully!");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed");
+      toast.error(error.response?.data?.message || "Failed to post review");
     } finally {
       setLoading(false);
     }
   };
 
-  const fullAmount =
-    booking.isPriceLocked
-      ? (booking.totalAmount || 0)
-      : (booking.quoteAmount || 0) + (booking.visitingCharge || 0);
+  // Fixed-price bookings store the service amount in serviceCharge.
+  // Inspection/quote bookings may still use quoteAmount, so keep that as
+  // a backward-compatible fallback for older bookings.
+  const serviceCharge = Number(
+    booking.serviceCharge ?? booking.quoteAmount ?? 0
+  );
+  const visitingCharge = Number(booking.visitingCharge ?? 0);
 
-  const discountAmount =
-    booking.discountAmount || 0;
+  const fullAmount = booking.isPriceLocked
+    ? Number(booking.totalAmount ?? serviceCharge + visitingCharge)
+    : Number(booking.quoteAmount ?? 0) + visitingCharge;
+
+  const discountAmount = Number(booking.discountAmount ?? 0);
 
   const finalPaid =
-    booking.offerLocked && booking.finalCustomerPayable
-      ? booking.finalCustomerPayable
+    booking.offerLocked && Number(booking.finalCustomerPayable) > 0
+      ? Number(booking.finalCustomerPayable)
       : fullAmount;
 
   return (
@@ -86,7 +111,7 @@ const CusCompleteBooking = ({ booking }) => {
                 Service Charge
               </span>
               <span className="fw-semibold">
-                ₹{booking.quoteAmount}
+                ₹{serviceCharge.toFixed(2)}
               </span>
             </div>
 
@@ -95,7 +120,7 @@ const CusCompleteBooking = ({ booking }) => {
                 Visiting Charge
               </span>
               <span className="fw-semibold">
-                ₹{booking.visitingCharge}
+                ₹{visitingCharge.toFixed(2)}
               </span>
             </div>
 
@@ -104,7 +129,7 @@ const CusCompleteBooking = ({ booking }) => {
                 <span className="d-flex align-items-center gap-2">
                   <FaGift /> Discount Applied
                 </span>
-                <span>- ₹{discountAmount}</span>
+                <span>- ₹{discountAmount.toFixed(2)}</span>
               </div>
             )}
 
@@ -115,7 +140,7 @@ const CusCompleteBooking = ({ booking }) => {
                 Total Paid
               </span>
               <span className="fw-bold fs-4 text-success">
-                ₹{finalPaid}
+                ₹{finalPaid.toFixed(2)}
               </span>
             </div>
           </div>
