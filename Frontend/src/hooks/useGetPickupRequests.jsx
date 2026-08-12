@@ -7,7 +7,6 @@ import {
 } from "../redux/pickup.slice";
 import { server_url } from "../App";
 
-
 export const useGetPickupRequests = () => {
   const dispatch = useDispatch();
 
@@ -21,30 +20,21 @@ export const useGetPickupRequests = () => {
 
       const response = await axios.get(
         `${server_url}/api/user/professional/pickup-requests`,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-      console.log("🔥 PICKUP API RESPONSE:", response.data);
 
-
-      const requests =
-        response.data?.pickupRequests || [];
-        
-console.log("🔥 FETCHED PICKUP REQUESTS:", requests);
-
-
+      const requests = response.data?.pickupRequests || [];
       requests.forEach((request) => {
         dispatch(
           addIncomingRequest({
             ...request,
-            pickupRequestId:
-              request.pickupRequestId || request._id,
+            pickupRequestId: request.pickupRequestId || request._id,
           })
         );
       });
 
-      const waitingRequests = response.data?.waitingForCustomerConfirmation || [];
+      const waitingRequests =
+        response.data?.waitingForCustomerConfirmation || [];
       waitingRequests.forEach((request) => {
         dispatch(
           addWaitingForCustomerConfirmation({
@@ -56,13 +46,8 @@ console.log("🔥 FETCHED PICKUP REQUESTS:", requests);
           })
         );
       });
-
     } catch (error) {
-      console.error(
-        "Get Pickup Requests Error:",
-        error
-      );
-
+      console.error("Get Pickup Requests Error:", error);
       setError(
         error.response?.data?.message ||
           "Unable to load pickup requests."
@@ -74,6 +59,17 @@ console.log("🔥 FETCHED PICKUP REQUESTS:", requests);
 
   useEffect(() => {
     fetchPickupRequests();
+
+    // Socket.IO is the fast path. Polling recovers requests created while
+    // the professional was disconnected or reconnecting.
+    const intervalId = window.setInterval(fetchPickupRequests, 5000);
+    const handleFocus = () => fetchPickupRequests();
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", handleFocus);
+    };
   }, [fetchPickupRequests]);
 
   return {
@@ -82,4 +78,3 @@ console.log("🔥 FETCHED PICKUP REQUESTS:", requests);
     refetch: fetchPickupRequests,
   };
 };
-
