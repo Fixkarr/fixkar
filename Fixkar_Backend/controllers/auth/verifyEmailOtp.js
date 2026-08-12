@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import redis from "../../services/redisClient.js";
-import { generateOtpPlain, compareOtp } from "../../utils/otpHelper.js";
+import { compareOtp } from "../../utils/otpHelper.js";
 import { User } from "../../models/userModel.js";
 
 const RESET_TOKEN_TTL = 10 * 60; // 10 minutes
