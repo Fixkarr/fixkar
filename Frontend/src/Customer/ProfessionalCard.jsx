@@ -58,9 +58,9 @@ const ProfessionalCard = ({ data }) => {
   };
 
   return (
-    <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+    <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100 professional-card">
       <div
-        className="px-3 py-3"
+        className="px-3 py-3 professional-card-header"
         style={{
           background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
           color: "#fff",
@@ -100,7 +100,7 @@ const ProfessionalCard = ({ data }) => {
 
       <div className="card-body p-3 d-flex flex-column">
         {skillsToShow.length > 0 && (
-          <div className="d-flex flex-wrap gap-1 mb-3">
+          <div className="d-flex flex-wrap gap-1 mb-2">
             {skillsToShow.map((skill) => (
               <span
                 key={skill._id}
@@ -121,7 +121,7 @@ const ProfessionalCard = ({ data }) => {
           </div>
         )}
 
-        <div className="d-flex align-items-start gap-2 mb-3">
+        <div className="d-flex align-items-start gap-2 mb-2">
           <FaMapMarkerAlt className="text-primary mt-1 flex-shrink-0" size={12} />
           <span
             className="text-muted small text-truncate"
@@ -132,7 +132,7 @@ const ProfessionalCard = ({ data }) => {
         </div>
 
         {distanceText && (
-          <div className="d-flex align-items-center gap-2 mb-3">
+          <div className="d-flex align-items-center gap-2 mb-2">
             <FaRoute className="text-success flex-shrink-0" size={12} />
             <span className="small fw-semibold text-success">
               {distanceText} away
@@ -143,11 +143,42 @@ const ProfessionalCard = ({ data }) => {
         <button
           onClick={handleVisitProfile}
           className="btn btn-primary btn-sm w-100 rounded-3 fw-semibold mt-auto"
-          style={{ fontSize: "0.82rem", padding: "8px 10px" }}
+          style={{ fontSize: "0.82rem", padding: "7px 10px" }}
         >
           Visit Profile
         </button>
       </div>
+
+      <style>{`
+        .professional-card {
+          min-height: 245px;
+        }
+
+        @media (max-width: 575.98px) {
+          .professional-card {
+            min-height: 225px;
+          }
+
+          .professional-card-header {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+          }
+
+          .professional-card .card-body {
+            padding: 11px !important;
+          }
+
+          .professional-card .badge {
+            font-size: .66rem !important;
+            padding: 4px 7px !important;
+          }
+
+          .professional-card .btn {
+            padding-top: 6px !important;
+            padding-bottom: 6px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
