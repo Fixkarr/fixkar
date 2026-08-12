@@ -3,11 +3,12 @@ import express from 'express';
 import { login, signOut, registerUserWithForm, googleAuthSignup, googleAuthLogin, googleAuthLoginNative, googleAuthSignupNative } from '../controllers/auth/userAuth.js';
 import { resetPassword } from '../controllers/auth/resetPassword.js';
 import { verifyFirebaseGoogleToken } from '../middlewares/verifyFirebaseGoogleToken.js';
+import { rejectPlaceholderPassword } from '../middlewares/rejectPlaceholderPassword.js';
 
 const authRouter = express.Router();
 
 authRouter.post("/signup-customer", registerUserWithForm);
-authRouter.post("/login", login);
+authRouter.post("/login", rejectPlaceholderPassword, login);
 authRouter.post("/logout", signOut);
 
 authRouter.post("/google-auth-signup", verifyFirebaseGoogleToken, googleAuthSignup);
