@@ -27,20 +27,15 @@ const DashboardLayout = () => {
     location.pathname === adminpath ||
     location.pathname.startsWith(`${adminpath}/`);
 
-  // Admin state is only meaningful on admin URLs. This prevents a stale
-  // admin Redux value from changing the professional/customer dashboard UI.
   const isAdminAuthenticated = Boolean(isAdminRoute && currentAdmin);
   const isUserAuthenticated = Boolean(!isAdminRoute && currentUserData?.user);
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${server_url}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
-    } catch (error) {
-      // Continue clearing client state even if the logout request fails.
+      await Promise.allSettled([
+        axios.post(`${server_url}/api/auth/logout`, {}, { withCredentials: true }),
+        axios.post(`${server_url}/api/admin/logout`, {}, { withCredentials: true }),
+      ]);
     } finally {
       dispatch({ type: "LOGOUT" });
       dispatch(setCurrentUserData(null));
@@ -58,7 +53,6 @@ const DashboardLayout = () => {
           />
         )}
 
-        {/* Sidebar */}
         {(isUserAuthenticated || isAdminAuthenticated) && (
           <Sidebar
             isOpen={isSidebarOpen}
@@ -66,9 +60,7 @@ const DashboardLayout = () => {
           />
         )}
 
-        {/* Main Area */}
         <main className="dashboard-main bg-light">
-          {/* ===== Top Bar ===== */}
           {(isUserAuthenticated || isAdminAuthenticated) && (
             <section
               className="dashboard-topbar"
@@ -127,7 +119,6 @@ const DashboardLayout = () => {
             </section>
           )}
 
-          {/* ===== Page Content ===== */}
           <div className="card border-0 shadow-sm rounded-4 p-1">
             <Outlet />
           </div>
