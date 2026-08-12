@@ -2,6 +2,7 @@ import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import redis from "../../services/redisClient.js";
 import { User } from "../../models/userModel.js";
+import { validatePassword } from "../../utils/passwordPolicy.js";
 
 const RESET_TOKEN_TTL = 10 * 60;
 
@@ -11,13 +12,15 @@ const resetTokenHash = (token) =>
 export const resetPassword = async (req, res) => {
   try {
     const newPassword = req.body?.newPassword;
-    const resetToken = req.cookies?.passwordResetToken;
+    const passwordError = validatePassword(newPassword);
 
-    if (!newPassword || newPassword.length < 6) {
+    if (passwordError) {
       return res.status(400).json({
-        message: "Password must be at least 6 characters long",
+        message: passwordError,
       });
     }
+
+    const resetToken = req.cookies?.passwordResetToken;
 
     if (!resetToken) {
       return res.status(401).json({
@@ -47,7 +50,6 @@ export const resetPassword = async (req, res) => {
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
 
-    // A reset token is single-use.
     await redis.del(key);
 
     const isProduction = process.env.NODE_ENV === "production";
