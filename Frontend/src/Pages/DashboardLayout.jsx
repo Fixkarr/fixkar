@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import { Outlet, useLocation } from "react-router-dom";
-
 import "../css/sidebar.css";
 import { MdEmail } from "react-icons/md";
 import { IoCall } from "react-icons/io5";
@@ -57,6 +56,7 @@ const DashboardLayout = () => {
           <Sidebar
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
+            isAdminMode={isAdminAuthenticated}
           />
         )}
 
