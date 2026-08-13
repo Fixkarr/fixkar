@@ -22,7 +22,7 @@ export const applyCouponToBookingController = async (req, res) => {
     if (!req.userId) return res.status(401).json({ message: "Unauthorized" });
     const { bookingId, couponCode } = req.body;
     const result = await validateCoupon({ userId: req.userId, couponCode, bookingId });
-    const claim = await OfferClaim.findOne({ offerId: result.offer._id, userId: req.userId, status: "claimed" });
+    const claim = await OfferClaim.findOne({ offerId: result.offer._id, userId: req.userId, status: { $in: ["claimed", "redeemed"] } });
     if (!claim) return res.status(400).json({ message: "Claim this coupon before applying it to a booking" });
 
     result.booking.offerId = result.offer._id;
