@@ -21,7 +21,7 @@ import RecentTransactions from "./RecentTransactions";
 import NeedHelp from "../utils/NeedHelp";
 import { useProfileCompletion } from "../hooks/useProfileCompletion";
 import ProfileHealthCard from "./ProfileHealthCard/ProfileHealthCard";
-import ProfessionalCoupons from "./ProfessionalCoupons";
+import ProfessionalAchievementCard from "./ProfessionalAchievementCard";
 import "./professional-dashboard.css";
 
 const ProfessionalHome = () => {
@@ -71,6 +71,7 @@ const ProfessionalHome = () => {
       <div className="professional-dashboard__content">
         {showSelectedDays.length > 0 && <div className="card professional-dashboard__card border-0 rounded-4 mb-3"><div className="card-body"><h6 className="fw-bold mb-3 text-danger d-flex align-items-center gap-2"><MdOutlineEventBusy />Busy Schedule</h6><div className="d-flex flex-wrap gap-2">{showSelectedDays.map((d) => <span key={d.toISOString()} className="px-3 py-2 rounded-pill text-white fw-semibold small shadow-sm" style={{ background: "linear-gradient(90deg,#ff416c,#ff4b2b)" }}>{d.getDate()} {d.toLocaleString("default", { month: "short" })} {d.getFullYear()}</span>)}</div></div></div>}
         {profileCompletion && <ProfileHealthCard profileCompletion={profileCompletion} navigate={navigate} />}
+        <ProfessionalAchievementCard professional={user} />
 
         <div className={`professional-dashboard__overview-grid ${!hasOverviewSidePanel ? "professional-dashboard__overview-grid--single" : ""}`}><ProfessionalWallet /><div className="professional-dashboard__side-stack">
           {!isProfileComplete && <div className="card professional-dashboard__profile-alert border-0 rounded-4"><div className="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3"><div><h6 className="fw-bold text-dark mb-1"><FaExclamationTriangle className="me-2 text-warning" />Profile Incomplete</h6><small className="text-muted">Add service charges and description to improve booking rate.</small></div><button onClick={() => navigate("/professional/complete-profile")} className="btn btn-warning rounded-pill px-4 fw-semibold">Complete Now</button></div></div>}
@@ -78,7 +79,6 @@ const ProfessionalHome = () => {
           {bankVerificationStatus === "pending" && <div className="card professional-dashboard__card border-0 rounded-4 p-3 bg-white"><PendingBankReview /></div>}
         </div></div>
 
-        <div className="card border-0 shadow-sm rounded-4 mb-4"><div className="card-body"><ProfessionalCoupons /></div></div>
         <div className="professional-dashboard__activity-grid"><RecentBookings /><RecentTransactions professionalId={user?._id} /></div>
       </div>
 
