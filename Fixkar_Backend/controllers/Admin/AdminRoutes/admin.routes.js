@@ -1,4 +1,4 @@
-import express from 'express'
+import express from 'express';
 import { adminSignup } from '../AdminController/adminSignup.js';
 import { adminLogin } from '../AdminController/adminLogin.js';
 import { adminLogout } from '../AdminController/adminLogout.js';
@@ -6,7 +6,7 @@ import { getCurrentAdmin } from '../AdminController/getCurrentAdmin.js';
 import { isAdmin } from '../../../middlewares/isAdmin.js';
 import { adminPermission } from '../../../middlewares/adminPermission.js';
 import { addService } from '../AdminController/addService.js';
-import upload from '../../../middlewares/multer.js'
+import upload from '../../../middlewares/multer.js';
 import { getAllCustomers } from '../AdminController/getAllCustomers.js';
 import { getAllProfessionals } from '../../ProfessionalsController/getAllProfessionals.js';
 import { acceptApplication } from '../AdminController/acceptProApplication.js';
@@ -20,7 +20,7 @@ import { getWithdrawnRequests } from '../AdminController/getWithdrawnRequests.js
 import { manualPay } from '../AdminController/manualPay.controller.js';
 import { createForm } from '../AdminController/createForm.controller.js';
 import { getAllForms } from '../AdminController/fetchAllForm.js';
-import {isAuth} from '../../../middlewares/isAuth.js'
+import { isAuth } from '../../../middlewares/isAuth.js';
 import { getFormByService } from '../AdminController/getFormByService.js';
 import { getAllOffers } from '../AdminController/getAllOffers.js';
 import { postAnnouncement } from '../AdminController/postAnnouncement.js';
@@ -29,61 +29,50 @@ import { createOffer } from '../AdminController/createOffer.js';
 import { updateOfferById } from '../AdminController/updateOfferById.js';
 import { getOfferById } from '../AdminController/getOfferById.js';
 import { removeOffer } from '../AdminController/removeOffer.js';
+import { getOfferAnalytics } from '../AdminController/getOfferAnalytics.js';
 import { deleteEnquiry, getEnquiries, replyEnquiry } from '../../contact.controller.js';
 import { getPlatformTransactions } from '../AdminController/getPlatformTransactions.js';
 import { getSiteHealth } from '../AdminController/getSiteHealth.js';
 import { getRevenueHealth } from '../AdminController/getRevenueHealth.js';
 import { loginRateLimiter, signupRateLimiter } from '../../../middlewares/rateLimiters.js';
-const adminRouter = express.Router()
+const adminRouter = express.Router();
 
-// /api/admin
-
-adminRouter.post('/signup', signupRateLimiter, adminSignup)
-adminRouter.post('/login', loginRateLimiter, adminLogin)
-adminRouter.post('/logout', adminLogout)
+adminRouter.post('/signup', signupRateLimiter, adminSignup);
+adminRouter.post('/login', loginRateLimiter, adminLogin);
+adminRouter.post('/logout', adminLogout);
 adminRouter.get('/get-current-admin', isAdmin, getCurrentAdmin);
-
-adminRouter.post('/create-service', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), addService)
-adminRouter.post('/update-service/:serviceId', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), updateService)
-adminRouter.delete('/delete-service/:serviceId', isAdmin, adminPermission('super_admin'), deleteService)
-
+adminRouter.post('/create-service', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), addService);
+adminRouter.post('/update-service/:serviceId', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), updateService);
+adminRouter.delete('/delete-service/:serviceId', isAdmin, adminPermission('super_admin'), deleteService);
 adminRouter.get('/get-all-customers', isAdmin, adminPermission('super_admin', 'professional_admin'), getAllCustomers);
-adminRouter.get('/get-all-professionals', isAdmin, adminPermission('super_admin', 'professional_admin'), getAllProfessionals)
-
-adminRouter.get('/get-all-bookings', isAdmin, adminPermission('super_admin', 'booking_admin'),getBookings)
-adminRouter.get('/get-admin-booking/:bookingId', isAdmin, adminPermission('super_admin', 'booking_admin'),getAdminBookingById)
-
+adminRouter.get('/get-all-professionals', isAdmin, adminPermission('super_admin', 'professional_admin'), getAllProfessionals);
+adminRouter.get('/get-all-bookings', isAdmin, adminPermission('super_admin', 'booking_admin'), getBookings);
+adminRouter.get('/get-admin-booking/:bookingId', isAdmin, adminPermission('super_admin', 'booking_admin'), getAdminBookingById);
 adminRouter.post('/accept-professional-application', isAdmin, adminPermission('super_admin', 'professional_admin'), acceptApplication);
 adminRouter.post('/reject-professional-application', isAdmin, adminPermission('super_admin', 'professional_admin'), rejectApplication);
-
 adminRouter.post('/approve-bank/:proId', isAdmin, adminPermission('super_admin', 'professional_admin'), acceptBankDetail);
 adminRouter.post('/reject-bank/:proId', isAdmin, adminPermission('super_admin', 'professional_admin'), rejectBankDetail);
-
 adminRouter.get('/get-withdrawn-requests', isAdmin, adminPermission('super_admin', 'professional_admin'), getWithdrawnRequests);
-adminRouter.post('/manual-pay', isAdmin, adminPermission('super_admin'), manualPay)
-
+adminRouter.post('/manual-pay', isAdmin, adminPermission('super_admin'), manualPay);
 adminRouter.post('/forms', isAdmin, adminPermission('super_admin', 'content_admin'), createForm);
 adminRouter.get('/get-all-forms', isAdmin, adminPermission('super_admin', 'content_admin'), getAllForms);
 adminRouter.get('/get-form-by-service/:serviceId', isAuth, getFormByService);
 
+// Coupon management. Admin may see the full campaign list; end users never do.
 adminRouter.post('/create-offer', isAdmin, adminPermission('super_admin'), createOffer);
 adminRouter.get('/get-all-offers', isAdmin, adminPermission('super_admin', 'content_admin'), getAllOffers);
-adminRouter.post('/update-offer/:offerId', isAdmin, adminPermission('super_admin'), updateOfferById)
-adminRouter.get('/get-offer/:offerId', isAdmin, adminPermission('super_admin'), getOfferById)
-adminRouter.delete('/delete-offer/:offerId', isAdmin, adminPermission('super_admin'), removeOffer)
+adminRouter.post('/update-offer/:offerId', isAdmin, adminPermission('super_admin'), updateOfferById);
+adminRouter.get('/get-offer/:offerId', isAdmin, adminPermission('super_admin'), getOfferById);
+adminRouter.get('/get-offer-analytics/:offerId', isAdmin, adminPermission('super_admin'), getOfferAnalytics);
+adminRouter.delete('/delete-offer/:offerId', isAdmin, adminPermission('super_admin'), removeOffer);
 
-// Announcement routes
 adminRouter.post('/announcement', isAdmin, adminPermission('super_admin', 'content_admin'), upload.single('image'), postAnnouncement);
 adminRouter.get('/get-announcements', isAdmin, adminPermission('super_admin', 'content_admin'), getAllAnnouncements);
 adminRouter.delete('/delete-announcement/:id', isAdmin, adminPermission('super_admin', 'content_admin'), deleteAnnouncement);
-
-// Enquiries
 adminRouter.get('/get-enquiries', isAdmin, adminPermission('super_admin', 'support_admin'), getEnquiries);
 adminRouter.post('/reply-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), replyEnquiry);
 adminRouter.delete('/delete-enquiry/:enquiryId', isAdmin, adminPermission('super_admin', 'support_admin'), deleteEnquiry);
-
-// platform health
-adminRouter.get('/get-platform-transactions', isAdmin, adminPermission('super_admin'), getPlatformTransactions)
+adminRouter.get('/get-platform-transactions', isAdmin, adminPermission('super_admin'), getPlatformTransactions);
 adminRouter.get('/get-site-health', isAdmin, adminPermission('super_admin'), getSiteHealth);
 adminRouter.get('/get-revenue-health', isAdmin, adminPermission('super_admin'), getRevenueHealth);
 
