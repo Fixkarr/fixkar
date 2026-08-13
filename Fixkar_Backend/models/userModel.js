@@ -13,10 +13,22 @@ const professionalSchema = new mongoose.Schema({
     bankDetails:{bankName:{type:String,select:false},holderName:{type:String,select:false},accountNumber:{type:String,select:false},ifsc:{type:String,select:false},upi:{type:String,select:false},panNumber:{type:String,select:false},docPicUrl:{type:String,select:false}}, bankVerificationStatus:{type:String,default:'N/A',enum:['pending','approved','N/A']}, slug:{type:String,unique:true,sparse:true}, shortCode:{type:String}, taskPricing:[{skill:{type:mongoose.Schema.Types.ObjectId,ref:"Skill",required:true},price:{type:Number,required:true,min:0}}],
     achievements:{
         completedBookings:{type:Number,default:0,min:0},
-        rank:{type:String,enum:["NEWCOMER","BRONZE","SILVER","DIAMOND"],default:"NEWCOMER"},
+        rank:{type:String,enum:["NEWCOMER","BRONZE","SILVER","GOLD","PLATINUM","DIAMOND"],default:"NEWCOMER"},
         rankUpdatedAt:{type:Date,default:null},
         unlockedMilestones:[{type:Number,min:1}],
         unlockedRewardKeys:[{type:String}]
+    },
+    // Source of truth for the professional's visible rank snapshot.
+    // completedBookings remains the business metric; this object is updated
+    // whenever a booking reaches the completed state.
+    professionalRank:{
+        tier:{type:String,enum:["NEWCOMER","BRONZE","SILVER","GOLD","PLATINUM","DIAMOND"],default:"NEWCOMER"},
+        level:{type:Number,min:1,max:5,default:1},
+        score:{type:Number,min:0,default:0},
+        completedBookings:{type:Number,min:0,default:0},
+        milestoneBookings:{type:Number,min:0,default:0},
+        nextMilestoneBookings:{type:Number,min:0,default:1},
+        updatedAt:{type:Date,default:null}
     }
 },{timestamps:true});
 professionalSchema.index({shortCode:1},{unique:true,partialFilterExpression:{shortCode:{$type:"string"}}}); professionalSchema.index({location:"2dsphere"});
