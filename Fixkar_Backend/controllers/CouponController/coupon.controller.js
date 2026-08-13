@@ -5,7 +5,8 @@ export const claimCouponController = async (req, res) => {
   try {
     if (!req.userId) return res.status(401).json({ message: "Unauthorized" });
     const claim = await claimCoupon({ userId: req.userId, couponCode: req.body.couponCode });
-    return res.status(200).json({ success: true, message: "Coupon claimed successfully", claim });
+    const isProfessionalReward = claim?.status === "claimed" && claim?.rewardedMilestones?.length === 0;
+    return res.status(200).json({ success: true, message: isProfessionalReward ? "Reward campaign joined. Complete the milestones to unlock credits." : "Coupon claimed successfully", claim });
   } catch (error) { return res.status(400).json({ success: false, message: error.message || "Unable to claim coupon" }); }
 };
 
@@ -13,7 +14,7 @@ export const validateCouponController = async (req, res) => {
   try {
     if (!req.userId) return res.status(401).json({ message: "Unauthorized" });
     const result = await validateCoupon({ userId: req.userId, couponCode: req.body.couponCode, bookingId: req.body.bookingId });
-    return res.status(200).json({ success: true, couponCode: normalizeCouponCode(req.body.couponCode), title: result.offer.offerTitle, discount: result.discount ?? null, finalPayable: result.finalPayable ?? null, message: req.body.bookingId ? "Coupon is valid for this booking" : "Coupon is valid" });
+    return res.status(200).json({ success: true, couponCode: normalizeCouponCode(req.body.couponCode), title: result.offer.offerTitle, discount: result.discount ?? null, finalPayable: result.finalPayable ?? null, milestones: result.milestones ?? [], message: req.body.bookingId ? "Coupon is valid for this booking" : "Coupon is valid" });
   } catch (error) { return res.status(400).json({ success: false, message: error.message || "Invalid coupon" }); }
 };
 
@@ -33,15 +34,13 @@ export const applyCouponToBookingController = async (req, res) => {
     result.booking.offerLocked = true;
     await result.booking.save();
 
-    claim.bookingId = result.booking._id;
-    await claim.save();
     return res.status(200).json({ success: true, message: "Coupon applied successfully", couponCode: result.couponCode, discountAmount: result.discount, finalPayable: result.finalPayable });
   } catch (error) { return res.status(400).json({ success: false, message: error.message || "Unable to apply coupon" }); }
 };
 
 export const getMyCouponClaims = async (req, res) => {
   try {
-    const claims = await OfferClaim.find({ userId: req.userId }).populate("offerId", "couponCode offerTitle description discountType discountValue startDate endDate").sort({ createdAt: -1 });
+    const claims = await OfferClaim.find({ userId: req.userId }).populate("offerId", "couponCode offerTitle description discountType discountValue rewardType rewardValue rewardTrigger milestones startDate endDate").sort({ createdAt: -1 });
     return res.status(200).json({ success: true, claims });
   } catch (error) { return res.status(500).json({ message: "Failed to fetch coupon claims" }); }
 };
