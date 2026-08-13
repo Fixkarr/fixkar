@@ -32,7 +32,7 @@ export const confirmCashPayment = async (req, res) => {
     const commission = (fullAmount * COMMISSION_PERCENT) / 100;
     const professionalAmount = fullAmount - commission;
     const wallet = await Wallet.findOneAndUpdate({ professionalId: booking.professionalId._id }, { $inc: { pendingBalance: professionalAmount, totalEarned: professionalAmount }, $setOnInsert: { professionalId: booking.professionalId._id } }, { new: true, upsert: true, session });
-    await rewardCompletedBookingCredits({ booking, walletId: wallet._id, professionalEarnings: professionalAmount, session });
+    const milestoneResult = await rewardCompletedBookingCredits({ booking, walletId: wallet._id, professionalEarnings: professionalAmount, session });
     if (booking.offerLocked && booking.offerId) await redeemCustomerCoupon({ userId: booking.customerId.userId._id, bookingId: booking._id, discountAmount, paymentMode: "CASH", session });
 
     await PlatformTransaction.create([{ bookingId: booking._id, paymentId: payment[0]._id, professionalId: booking.professionalId._id, paymentMode: "CASH", grossAmount: fullAmount, customerPaidAmount: fullAmount - discountAmount, discountAmount, professionalAmount, commission, profitOrLoss: commission - discountAmount }], { session });
@@ -42,9 +42,10 @@ export const confirmCashPayment = async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
+    if (milestoneResult.rewards?.length) io.to(booking.professionalId.userId._id.toString()).emit("professionalMilestoneUnlocked", milestoneResult);
     io.to(booking.customerId.userId._id.toString()).emit("bookingUpdated", booking);
     io.to(booking.professionalId.userId._id.toString()).emit("bookingUpdated", booking);
-    return res.status(200).json({ success: true, message: "Cash payment confirmed successfully" });
+    return res.status(200).json({ success: true, message: "Cash payment confirmed successfully", milestones: milestoneResult });
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
