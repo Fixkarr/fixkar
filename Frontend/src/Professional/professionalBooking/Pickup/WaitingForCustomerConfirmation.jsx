@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaClock, FaMapMarkerAlt, FaRupeeSign, FaUserClock } from "react-icons/fa";
+import socket from "../../../socket.js";
 
 const getRemainingSeconds = (expiresAt) => {
     if (!expiresAt) return 60;
@@ -11,6 +13,7 @@ const getRemainingSeconds = (expiresAt) => {
 };
 
 const WaitingForCustomerConfirmation = ({ request, onExpired }) => {
+    const navigate = useNavigate();
     const expiresAt = request.customerConfirmationExpiresAt;
     const [remaining, setRemaining] = useState(() => getRemainingSeconds(expiresAt));
 
@@ -21,6 +24,27 @@ const WaitingForCustomerConfirmation = ({ request, onExpired }) => {
         const timer = setInterval(updateRemaining, 1000);
         return () => clearInterval(timer);
     }, [expiresAt]);
+
+    // Customer confirmation creates the booking and the backend emits
+    // bookingUpdated to the selected professional. Once that arrives, this
+    // waiting component must disappear immediately and the professional goes
+    // to the newly created booking details page instead of continuing the timer.
+    useEffect(() => {
+        const handleBookingConfirmed = (booking) => {
+            if (!booking?._id) return;
+
+            const isConfirmedBooking =
+                booking.status === "accepted" &&
+                booking.assignmentStatus === "assigned";
+
+            if (!isConfirmedBooking) return;
+
+            navigate(`/professional/bookings/${booking._id}`, { replace: true });
+        };
+
+        socket.on("bookingUpdated", handleBookingConfirmed);
+        return () => socket.off("bookingUpdated", handleBookingConfirmed);
+    }, [navigate]);
 
     useEffect(() => {
         if (remaining === 0) onExpired?.();
