@@ -8,11 +8,12 @@ const RANKS = [
   { tier: "DIAMOND", label: "Diamond", icon: "💎" },
 ];
 
+const LEVEL_BOOKING_OFFSETS = [0, 1, 3, 6, 10];
 const THRESHOLDS = RANKS.flatMap((rank, tierIndex) =>
-  Array.from({ length: 5 }, (_, levelIndex) => ({
+  LEVEL_BOOKING_OFFSETS.map((offset, levelIndex) => ({
     ...rank,
     level: levelIndex + 1,
-    requiredBookings: tierIndex * 25 + levelIndex * 5,
+    requiredBookings: tierIndex * 25 + offset,
   }))
 );
 
@@ -68,8 +69,8 @@ const ProfessionalAchievementCard = ({ professional }) => {
           })}
         </div>
 
-        {next && <div className="mt-4"><div className="d-flex justify-content-between small fw-semibold mb-1"><span>Next: {next.label} {next.level}</span><span>{completed}/{next.requiredBookings}</span></div><div className="progress" style={{ height: 8 }}><div className="progress-bar" style={{ width: `${Math.min(100, Math.round((completed / next.requiredBookings) * 100))}%` }} /></div></div>}
-        <div className="small text-muted mt-3">Every completed Fixkar booking adds one milestone score. Rank rewards are credited automatically when a new level is unlocked.</div>
+        {next && <div className="mt-4"><div className="d-flex justify-content-between small fw-semibold mb-1"><span>Next: {next.label} {next.level}</span><span>{completed}/{next.requiredBookings}</span></div><div className="progress" style={{ height: 8 }}><div className="progress-bar" style={{ width: `${Math.min(100, Math.round((completed / Math.max(1, next.requiredBookings)) * 100))}%` }} /></div></div>}
+        <div className="small text-muted mt-3">हर genuine completed Fixkar booking पर 1 milestone star बढ़ेगा। नया level unlock होने पर उसके credits automatically wallet में add होंगे।</div>
       </div>
     </div>
   );
