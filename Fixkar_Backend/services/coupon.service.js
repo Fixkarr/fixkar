@@ -24,9 +24,7 @@ export const getCoupon = async (code, session = null) => {
 const assertCommonEligibility = async ({ userId, offer, audience, session }) => {
   if (!offer || offer.archivedAt) throw new Error("Invalid coupon code");
   if (!offer.isActive) throw new Error("This coupon is inactive");
-  if (!Array.isArray(offer.audience) || offer.audience.length !== 1 || offer.audience[0] !== audience) {
-    throw new Error("This coupon is not available for your account");
-  }
+  if (!Array.isArray(offer.audience) || offer.audience.length !== 1 || offer.audience[0] !== audience) throw new Error("This coupon is not available for your account");
   if (offer.benefitType === "CUSTOMER_DISCOUNT" && audience !== "customer") throw new Error("This coupon is for customers only");
   if (offer.benefitType === "PROFESSIONAL_REWARD" && audience !== "professional") throw new Error("This coupon is for professionals only");
 
@@ -38,12 +36,8 @@ const assertCommonEligibility = async ({ userId, offer, audience, session }) => 
   if (audience === "professional") {
     const professional = await Professional.findOne({ userId }).select("_id profession status isVerified").session(session);
     if (!professional) throw new Error("Professional account not found");
-    if (professional.status && ["blocked", "suspended", "inactive"].includes(String(professional.status).toLowerCase())) {
-      throw new Error("Your professional account is not eligible for this coupon");
-    }
-    if (offer.serviceId?.length && (!professional.profession || !offer.serviceId.some(id => id.toString() === professional.profession.toString()))) {
-      throw new Error("This coupon is not available for your professional service");
-    }
+    if (professional.status && ["blocked", "suspended", "inactive"].includes(String(professional.status).toLowerCase())) throw new Error("Your professional account is not eligible for this coupon");
+    if (offer.serviceId?.length && (!professional.profession || !offer.serviceId.some(id => id.toString() === professional.profession.toString()))) throw new Error("This coupon is not available for your professional service");
   }
 
   if (offer.newCustomerOnly && audience === "customer") {
@@ -61,9 +55,7 @@ export const validateCoupon = async ({ userId, couponCode, bookingId = null, ses
   const offer = await getCoupon(normalizedCode, session);
   await assertCommonEligibility({ userId, offer, audience, session });
 
-  if (offer.benefitType === "PROFESSIONAL_REWARD" && !bookingId) {
-    return { offer, audience, couponCode: normalizedCode, rewardCredits: Number(offer.rewardValue || 0) };
-  }
+  if (offer.benefitType === "PROFESSIONAL_REWARD" && !bookingId) return { offer, audience, couponCode: normalizedCode, rewardCredits: Number(offer.rewardValue || 0) };
   if (!bookingId) return { offer, audience, couponCode: normalizedCode };
   if (audience !== "customer") throw new Error("This coupon cannot be applied to a customer booking");
   if (!mongoose.isValidObjectId(bookingId)) throw new Error("Invalid booking ID");
@@ -85,8 +77,7 @@ export const validateCoupon = async ({ userId, couponCode, bookingId = null, ses
   let discount = offer.discountType === "percentage" ? (baseAmount * offer.discountValue) / 100 : offer.discountValue;
   if (offer.maxDiscount != null) discount = Math.min(discount, offer.maxDiscount);
   discount = Math.round(discount * 100) / 100;
-  if (discount <= 0) throw new Error("Coupon discount is not valid for this booking");
-  discount = Math.min(discount, baseAmount);
+  if (discount <= 0 || discount >= baseAmount) throw new Error("This coupon cannot make the booking payable amount zero");
 
   return { offer, booking, audience, couponCode: normalizedCode, baseAmount, discount, finalPayable: Math.round((baseAmount - discount) * 100) / 100 };
 };
@@ -104,8 +95,11 @@ export const redeemCustomerCoupon = async ({ userId, bookingId, discountAmount, 
   );
   if (!claim) throw new Error("You have reached this coupon's usage limit");
 
-  const limitFilter = { _id: offer._id, $expr: { $or: [{ $eq: ["$usageLimit", null] }, { $lt: ["$usedCount", "$usageLimit"] }] } };
-  const reservedOffer = await Offer.findOneAndUpdate(limitFilter, { $inc: { usedCount: 1 } }, { new: true, session });
+  const reservedOffer = await Offer.findOneAndUpdate(
+    { _id: offer._id, $expr: { $or: [{ $eq: ["$usageLimit", null] }, { $lt: ["$usedCount", "$usageLimit"] }] } },
+    { $inc: { usedCount: 1 } },
+    { new: true, session }
+  );
   if (!reservedOffer) {
     await OfferClaim.findByIdAndUpdate(claim._id, { $inc: { redeemedCount: -1 }, $set: { status: "claimed", redeemedAt: null } }, { session });
     throw new Error("This coupon has reached its usage limit");
@@ -145,9 +139,7 @@ export const claimCoupon = async ({ userId, couponCode }) => {
     if (existing?.status === "revoked") throw new Error("This coupon claim has been revoked");
 
     if (validated.offer.benefitType === "PROFESSIONAL_REWARD") {
-      const limitFilter = validated.offer.usageLimit == null
-        ? { _id: validated.offer._id }
-        : { _id: validated.offer._id, $expr: { $lt: ["$usedCount", "$usageLimit"] } };
+      const limitFilter = validated.offer.usageLimit == null ? { _id: validated.offer._id } : { _id: validated.offer._id, $expr: { $lt: ["$usedCount", "$usageLimit"] } };
       const reservedOffer = await Offer.findOneAndUpdate(limitFilter, { $inc: { usedCount: 1 } }, { new: true, session });
       if (!reservedOffer) throw new Error("This coupon has reached its usage limit");
 
@@ -156,18 +148,8 @@ export const claimCoupon = async ({ userId, couponCode }) => {
       const credits = Number(validated.offer.rewardValue || 0);
       if (credits < 1) throw new Error("Professional reward is not configured correctly");
 
-      const claimData = {
-        offerId: validated.offer._id,
-        userId,
-        couponCode: normalizedCode,
-        status: "redeemed",
-        redeemedCount: 1,
-        redeemedAt: new Date(),
-      };
-      const claim = existing
-        ? await OfferClaim.findByIdAndUpdate(existing._id, claimData, { new: true, session })
-        : (await OfferClaim.create([claimData], { session }))[0];
-
+      const claimData = { offerId: validated.offer._id, userId, couponCode: normalizedCode, status: "redeemed", redeemedCount: 1, redeemedAt: new Date() };
+      const claim = existing ? await OfferClaim.findByIdAndUpdate(existing._id, claimData, { new: true, session }) : (await OfferClaim.create([claimData], { session }))[0];
       const wallet = await Wallet.findOneAndUpdate({ professionalId: professional._id }, { $setOnInsert: { professionalId: professional._id } }, { new: true, upsert: true, session });
       await Wallet.findByIdAndUpdate(wallet._id, { $inc: { "credits.balance": credits, "credits.lifetimeEarned": credits } }, { session });
       await CreditTransaction.create([{
@@ -181,24 +163,13 @@ export const claimCoupon = async ({ userId, couponCode }) => {
         description: `Coupon reward: ${normalizedCode}`,
         metadata: { offerId: validated.offer._id, couponCode: normalizedCode },
       }], { session });
-      await OfferUsage.create([{
-        offerId: validated.offer._id,
-        userId,
-        bookingId: null,
-        couponCode: normalizedCode,
-        rewardCredits: credits,
-        paymentMode: "REWARD",
-        status: "used",
-      }], { session });
-
+      await OfferUsage.create([{ offerId: validated.offer._id, userId, bookingId: null, couponCode: normalizedCode, rewardCredits: credits, paymentMode: "REWARD", status: "used" }], { session });
       await session.commitTransaction();
       return claim;
     }
 
     const claimData = { offerId: validated.offer._id, userId, couponCode: normalizedCode, status: "claimed", redeemedCount: existing?.redeemedCount || 0 };
-    const claim = existing
-      ? await OfferClaim.findByIdAndUpdate(existing._id, claimData, { new: true, session })
-      : (await OfferClaim.create([claimData], { session }))[0];
+    const claim = existing ? await OfferClaim.findByIdAndUpdate(existing._id, claimData, { new: true, session }) : (await OfferClaim.create([claimData], { session }))[0];
     await session.commitTransaction();
     return claim;
   } catch (error) {
