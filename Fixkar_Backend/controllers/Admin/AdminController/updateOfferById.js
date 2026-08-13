@@ -8,34 +8,73 @@ export const updateOfferById = async (req, res) => {
     const offer = await Offer.findById(offerId);
     if (!offer) return res.status(404).json({ message: "Coupon not found!" });
 
-    const { offerTitle, description, audience, benefitType, serviceId, discountType, discountValue, minBookingAmount, maxDiscount, startDate, endDate, usageLimit, perUserLimit, newCustomerOnly, isActive } = req.body;
+    const {
+      offerTitle, description, audience, benefitType, serviceId,
+      discountType, discountValue, minBookingAmount, maxDiscount,
+      rewardType, rewardValue, startDate, endDate, usageLimit,
+      perUserLimit, newCustomerOnly, isActive
+    } = req.body;
 
-    // Coupon code is immutable so historical claims and bookings remain auditable.
+    const nextAudience = audience === undefined ? offer.audience : (Array.isArray(audience) ? audience : [audience]);
+    const nextBenefit = benefitType === undefined ? offer.benefitType : benefitType;
+
+    if (!Array.isArray(nextAudience) || nextAudience.length !== 1 || !["customer", "professional"].includes(nextAudience[0])) {
+      return res.status(400).json({ message: "Select exactly one valid coupon audience" });
+    }
+    if (!["CUSTOMER_DISCOUNT", "PROFESSIONAL_REWARD"].includes(nextBenefit)) {
+      return res.status(400).json({ message: "Invalid coupon benefit type" });
+    }
+    if (offer.usedCount > 0 && (nextBenefit !== offer.benefitType || nextAudience[0] !== offer.audience[0])) {
+      return res.status(409).json({ message: "A redeemed coupon cannot change audience or benefit type. Create a new campaign instead." });
+    }
+
+    offer.audience = nextAudience;
+    offer.benefitType = nextBenefit;
     if (offerTitle !== undefined) offer.offerTitle = String(offerTitle).trim();
     if (description !== undefined) offer.description = description;
-    if (audience !== undefined) offer.audience = Array.isArray(audience) ? audience : [audience];
-    if (benefitType !== undefined) offer.benefitType = benefitType;
-    if (serviceId !== undefined) offer.serviceId = serviceId;
-    if (discountType !== undefined) offer.discountType = discountType;
-    if (discountValue !== undefined) offer.discountValue = Number(discountValue);
-    if (minBookingAmount !== undefined) offer.minBookingAmount = minBookingAmount === null || minBookingAmount === "" ? null : Number(minBookingAmount);
-    if (maxDiscount !== undefined) offer.maxDiscount = maxDiscount === null || maxDiscount === "" ? null : Number(maxDiscount);
+    if (serviceId !== undefined) offer.serviceId = Array.isArray(serviceId) ? serviceId : [];
     if (startDate !== undefined) offer.startDate = new Date(startDate);
     if (endDate !== undefined) offer.endDate = new Date(endDate);
     if (usageLimit !== undefined) offer.usageLimit = usageLimit === null || usageLimit === "" ? null : Number(usageLimit);
-    if (perUserLimit !== undefined) offer.perUserLimit = Number(perUserLimit);
-    if (newCustomerOnly !== undefined) offer.newCustomerOnly = Boolean(newCustomerOnly);
     if (isActive !== undefined) offer.isActive = Boolean(isActive);
 
-    if (offer.discountType === "percentage" && (offer.discountValue <= 0 || offer.discountValue > 100)) return res.status(400).json({ message: "Percentage discount must be between 0 and 100" });
-    if (offer.discountType === "flat" && offer.discountValue <= 0) return res.status(400).json({ message: "Flat discount must be greater than zero" });
-    if (offer.endDate <= offer.startDate) return res.status(400).json({ message: "End date must be after start date" });
-    if (!Array.isArray(offer.audience) || !offer.audience.length || !offer.audience.every((r) => ["customer", "professional"].includes(r))) return res.status(400).json({ message: "Invalid coupon audience" });
+    if (nextBenefit === "CUSTOMER_DISCOUNT") {
+      if (nextAudience[0] !== "customer") return res.status(400).json({ message: "Customer discounts are only for customers" });
+      if (discountType !== undefined) offer.discountType = discountType;
+      if (discountValue !== undefined) offer.discountValue = Number(discountValue);
+      if (minBookingAmount !== undefined) offer.minBookingAmount = minBookingAmount === null || minBookingAmount === "" ? null : Number(minBookingAmount);
+      if (maxDiscount !== undefined) offer.maxDiscount = maxDiscount === null || maxDiscount === "" ? null : Number(maxDiscount);
+      if (newCustomerOnly !== undefined) offer.newCustomerOnly = Boolean(newCustomerOnly);
+      if (!["percentage", "flat"].includes(offer.discountType)) return res.status(400).json({ message: "Invalid discount type" });
+      if (!Number.isFinite(Number(offer.discountValue)) || Number(offer.discountValue) <= 0) return res.status(400).json({ message: "Discount must be greater than zero" });
+      if (offer.discountType === "percentage" && Number(offer.discountValue) > 100) return res.status(400).json({ message: "Percentage discount cannot exceed 100" });
+      if (offer.discountType === "flat") offer.maxDiscount = null;
+      offer.rewardType = null;
+      offer.rewardValue = null;
+    } else {
+      if (nextAudience[0] !== "professional") return res.status(400).json({ message: "Professional rewards are only for professionals" });
+      if (rewardType !== undefined) offer.rewardType = rewardType;
+      if (rewardValue !== undefined) offer.rewardValue = Number(rewardValue);
+      if (offer.rewardType !== "wallet_credits") return res.status(400).json({ message: "Invalid professional reward type" });
+      if (!Number.isFinite(Number(offer.rewardValue)) || Number(offer.rewardValue) < 1) return res.status(400).json({ message: "Professional reward must be at least 1 credit" });
+      offer.perUserLimit = 1;
+      offer.discountType = null;
+      offer.discountValue = null;
+      offer.minBookingAmount = null;
+      offer.maxDiscount = null;
+      offer.newCustomerOnly = false;
+    }
+
+    if (offer.usageLimit != null && (!Number.isInteger(offer.usageLimit) || offer.usageLimit < offer.usedCount || offer.usageLimit < 1)) {
+      return res.status(400).json({ message: "Usage limit must be an integer greater than or equal to current redemptions" });
+    }
+    if (!Number.isInteger(Number(offer.perUserLimit)) || Number(offer.perUserLimit) < 1) return res.status(400).json({ message: "Per-user limit must be a positive integer" });
+    if (!offer.startDate || !offer.endDate || offer.endDate <= offer.startDate) return res.status(400).json({ message: "End date must be after start date" });
 
     await offer.save();
     return res.status(200).json({ message: "Coupon updated successfully", offer });
   } catch (error) {
     console.error("UPDATE COUPON ERROR:", error);
-    return res.status(500).json({ message: "Failed to update coupon" });
+    return res.status(400).json({ message: error.message || "Failed to update coupon" });
   }
 };
