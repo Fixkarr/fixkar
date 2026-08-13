@@ -5,14 +5,35 @@ import { Professional } from "../models/userModel.js";
 
 export const CREDIT_RULES = Object.freeze({ creditsPerRupee: 0.01 });
 
-// Professional achievements are intentionally independent from customer
-// coupons. Completing a real booking is the trigger; no coupon claim is
-// required. Keep the rules centralized so every completion path uses the same
-// milestones and rank calculation.
-export const PROFESSIONAL_MILESTONES = Object.freeze([
-  Object.freeze({ bookingCount: 1, rewardCredits: 500, rank: "BRONZE", title: "First Booking" }),
-  Object.freeze({ bookingCount: 5, rewardCredits: 1000, rank: "SILVER", title: "5 Completed Bookings" }),
-  Object.freeze({ bookingCount: 10, rewardCredits: 2000, rank: "DIAMOND", title: "10 Completed Bookings" }),
+// Professional progression is completely independent from customer coupons.
+// Every genuine completed booking advances the professional by one score.
+// There are 25 levels: 5 tiers x 5 levels.
+export const PROFESSIONAL_RANKS = Object.freeze([
+  Object.freeze({ tier: "BRONZE", level: 1, requiredBookings: 0, credits: 0 }),
+  Object.freeze({ tier: "BRONZE", level: 2, requiredBookings: 1, credits: 25 }),
+  Object.freeze({ tier: "BRONZE", level: 3, requiredBookings: 3, credits: 50 }),
+  Object.freeze({ tier: "BRONZE", level: 4, requiredBookings: 6, credits: 75 }),
+  Object.freeze({ tier: "BRONZE", level: 5, requiredBookings: 10, credits: 100 }),
+  Object.freeze({ tier: "SILVER", level: 1, requiredBookings: 15, credits: 150 }),
+  Object.freeze({ tier: "SILVER", level: 2, requiredBookings: 20, credits: 175 }),
+  Object.freeze({ tier: "SILVER", level: 3, requiredBookings: 25, credits: 200 }),
+  Object.freeze({ tier: "SILVER", level: 4, requiredBookings: 30, credits: 225 }),
+  Object.freeze({ tier: "SILVER", level: 5, requiredBookings: 35, credits: 250 }),
+  Object.freeze({ tier: "GOLD", level: 1, requiredBookings: 40, credits: 300 }),
+  Object.freeze({ tier: "GOLD", level: 2, requiredBookings: 45, credits: 325 }),
+  Object.freeze({ tier: "GOLD", level: 3, requiredBookings: 50, credits: 350 }),
+  Object.freeze({ tier: "GOLD", level: 4, requiredBookings: 55, credits: 375 }),
+  Object.freeze({ tier: "GOLD", level: 5, requiredBookings: 60, credits: 400 }),
+  Object.freeze({ tier: "PLATINUM", level: 1, requiredBookings: 65, credits: 450 }),
+  Object.freeze({ tier: "PLATINUM", level: 2, requiredBookings: 70, credits: 475 }),
+  Object.freeze({ tier: "PLATINUM", level: 3, requiredBookings: 75, credits: 500 }),
+  Object.freeze({ tier: "PLATINUM", level: 4, requiredBookings: 80, credits: 525 }),
+  Object.freeze({ tier: "PLATINUM", level: 5, requiredBookings: 85, credits: 550 }),
+  Object.freeze({ tier: "DIAMOND", level: 1, requiredBookings: 90, credits: 600 }),
+  Object.freeze({ tier: "DIAMOND", level: 2, requiredBookings: 95, credits: 625 }),
+  Object.freeze({ tier: "DIAMOND", level: 3, requiredBookings: 100, credits: 650 }),
+  Object.freeze({ tier: "DIAMOND", level: 4, requiredBookings: 105, credits: 675 }),
+  Object.freeze({ tier: "DIAMOND", level: 5, requiredBookings: 110, credits: 700 }),
 ]);
 
 const findCreditTransaction = (query, session) => {
@@ -25,117 +46,105 @@ const countCompletedBookings = (professionalId, session) => {
   return session ? request.session(session) : request;
 };
 
-const getRankForBookings = (completedBookings) => {
-  if (completedBookings >= 10) return "DIAMOND";
-  if (completedBookings >= 5) return "SILVER";
-  if (completedBookings >= 1) return "BRONZE";
-  return "NEWCOMER";
+export const getProfessionalRankForBookings = (completedBookings) => {
+  const count = Math.max(0, Number(completedBookings) || 0);
+  let current = PROFESSIONAL_RANKS[0];
+  for (const rank of PROFESSIONAL_RANKS) {
+    if (count >= rank.requiredBookings) current = rank;
+    else break;
+  }
+  return current;
+};
+
+export const getProfessionalRankProgress = (completedBookings) => {
+  const count = Math.max(0, Number(completedBookings) || 0);
+  const current = getProfessionalRankForBookings(count);
+  const index = PROFESSIONAL_RANKS.findIndex((item) => item.tier === current.tier && item.level === current.level);
+  const next = PROFESSIONAL_RANKS[index + 1] || null;
+  return {
+    ...current,
+    score: count,
+    nextTier: next?.tier || null,
+    nextLevel: next?.level || null,
+    nextRequiredBookings: next?.requiredBookings ?? null,
+    bookingsRemaining: next ? Math.max(0, next.requiredBookings - count) : 0,
+  };
 };
 
 export const rewardProfessionalMilestones = async ({ professionalId, walletId, bookingId, session }) => {
   const completedBookings = await countCompletedBookings(professionalId, session);
-  const rank = getRankForBookings(completedBookings);
+  const rank = getProfessionalRankProgress(completedBookings);
   const professional = await Professional.findById(professionalId)
-    .select("userId profession status onBoarded achievements")
+    .select("userId profession status onBoarded achievements professionalRank")
     .session(session);
 
   if (!professional) return { completedBookings, rank, rewards: [] };
 
-  // Only active, onboarded professionals can receive achievement rewards.
+  const rankSnapshot = {
+    tier: rank.tier,
+    level: rank.level,
+    score: rank.score,
+    completedBookings,
+    milestoneBookings: rank.requiredBookings,
+    nextMilestoneBookings: rank.nextRequiredBookings ?? 0,
+    updatedAt: new Date(),
+  };
+
   if (professional.status !== "approved" || !professional.onBoarded) {
-    await Professional.findByIdAndUpdate(
-      professionalId,
-      { $set: { "achievements.completedBookings": completedBookings, "achievements.rank": rank, "achievements.rankUpdatedAt": new Date() } },
-      { session }
-    );
+    await Professional.findByIdAndUpdate(professionalId, {
+      $set: {
+        "achievements.completedBookings": completedBookings,
+        "achievements.rank": rank.tier,
+        "achievements.rankUpdatedAt": new Date(),
+        professionalRank: rankSnapshot,
+      },
+    }, { session });
     return { completedBookings, rank, rewards: [] };
   }
 
-  const existingMilestones = new Set((professional.achievements?.unlockedMilestones || []).map(Number));
+  const currentIndex = PROFESSIONAL_RANKS.findIndex((item) => item.tier === rank.tier && item.level === rank.level);
+  const previousMilestones = new Set((professional.achievements?.unlockedMilestones || []).map(Number));
   const rewards = [];
 
-  // A milestone is rewarded only once. The atomic $addToSet gate makes the
-  // operation safe if payment/webhook/completion handling is retried.
-  const eligibleMilestones = PROFESSIONAL_MILESTONES.filter(
-    (milestone) => milestone.bookingCount <= completedBookings && !existingMilestones.has(milestone.bookingCount)
-  );
+  for (let index = 1; index <= currentIndex; index += 1) {
+    const milestone = PROFESSIONAL_RANKS[index];
+    if (previousMilestones.has(milestone.requiredBookings)) continue;
 
-  for (const milestone of eligibleMilestones) {
     const lockedProfessional = await Professional.findOneAndUpdate(
+      { _id: professionalId, "achievements.unlockedMilestones": { $ne: milestone.requiredBookings } },
       {
-        _id: professionalId,
-        "achievements.unlockedMilestones": { $ne: milestone.bookingCount },
-      },
-      {
-        $addToSet: { "achievements.unlockedMilestones": milestone.bookingCount },
-        $set: {
-          "achievements.completedBookings": completedBookings,
-          "achievements.rank": rank,
-          "achievements.rankUpdatedAt": new Date(),
-        },
+        $addToSet: { "achievements.unlockedMilestones": milestone.requiredBookings },
+        $set: { "achievements.completedBookings": completedBookings, "achievements.rank": rank.tier, "achievements.rankUpdatedAt": new Date(), professionalRank: rankSnapshot },
       },
       { new: true, session }
     );
-
     if (!lockedProfessional) continue;
 
-    const rewardSource = `professional_milestone:${milestone.bookingCount}`;
-    const alreadyRewarded = await findCreditTransaction(
-      { professionalId, source: rewardSource, referenceId: bookingId, type: "EARNED" },
-      session
-    );
-
-    if (alreadyRewarded) continue;
-
-    const credits = Number(milestone.rewardCredits);
-    await Wallet.findByIdAndUpdate(
-      walletId,
-      { $inc: { "credits.balance": credits, "credits.lifetimeEarned": credits } },
-      { session }
-    );
-
-    await CreditTransaction.create([{
-      walletId,
-      professionalId,
-      type: "EARNED",
-      source: rewardSource,
-      credits,
-      referenceId: bookingId,
-      referenceModel: "Booking",
-      description: `${milestone.title} milestone reward`,
-      metadata: {
-        milestoneBookings: milestone.bookingCount,
-        rank: milestone.rank,
-      },
-    }], { session });
-
-    existingMilestones.add(milestone.bookingCount);
-    rewards.push({
-      milestoneBookings: milestone.bookingCount,
-      credits,
-      rank: milestone.rank,
-      title: milestone.title,
-    });
+    const rewardSource = `professional_rank:${milestone.tier}:${milestone.level}`;
+    const alreadyRewarded = await findCreditTransaction({ professionalId, source: rewardSource, type: "EARNED" }, session);
+    if (!alreadyRewarded && milestone.credits > 0) {
+      await Wallet.findByIdAndUpdate(walletId, { $inc: { "credits.balance": milestone.credits, "credits.lifetimeEarned": milestone.credits } }, { session });
+      await CreditTransaction.create([{
+        walletId, professionalId, type: "EARNED", source: rewardSource, credits: milestone.credits,
+        referenceId: bookingId, referenceModel: "Booking",
+        description: `${milestone.tier} ${milestone.level} rank reward`,
+        metadata: { tier: milestone.tier, level: milestone.level, requiredBookings: milestone.requiredBookings },
+      }], { session });
+      rewards.push({ tier: milestone.tier, level: milestone.level, credits: milestone.credits, requiredBookings: milestone.requiredBookings });
+    }
   }
 
-  await Professional.findByIdAndUpdate(
-    professionalId,
-    {
-      $set: {
-        "achievements.completedBookings": completedBookings,
-        "achievements.rank": rank,
-        "achievements.rankUpdatedAt": new Date(),
-      },
+  await Professional.findByIdAndUpdate(professionalId, {
+    $set: {
+      "achievements.completedBookings": completedBookings,
+      "achievements.rank": rank.tier,
+      "achievements.rankUpdatedAt": new Date(),
+      professionalRank: rankSnapshot,
     },
-    { session }
-  );
+  }, { session });
 
   if (completedBookings >= 1) {
-    await Wallet.findByIdAndUpdate(
-      walletId,
-      { $set: { "credits.firstBookingRewarded": true } },
-      { session }
-    );
+    await Wallet.findByIdAndUpdate(walletId, { $set: { "credits.firstBookingRewarded": true } }, { session });
   }
 
   return { completedBookings, rank, rewards };
@@ -147,29 +156,14 @@ export const rewardCompletedBookingCredits = async ({ booking, walletId, profess
   const bookingCredits = Math.floor(Math.max(0, Number(professionalEarnings) || 0) * CREDIT_RULES.creditsPerRupee);
 
   if (bookingCredits > 0) {
-    const existingTransaction = await findCreditTransaction(
-      { source: "booking_completion", referenceId: bookingId, type: "EARNED" },
-      session
-    );
-
+    const existingTransaction = await findCreditTransaction({ source: "booking_completion", referenceId: bookingId, type: "EARNED" }, session);
     if (!existingTransaction) {
       await CreditTransaction.create([{
-        walletId,
-        professionalId,
-        type: "EARNED",
-        source: "booking_completion",
-        credits: bookingCredits,
-        referenceId: bookingId,
-        referenceModel: "Booking",
-        description: "Credits earned for completing a booking",
+        walletId, professionalId, type: "EARNED", source: "booking_completion", credits: bookingCredits,
+        referenceId: bookingId, referenceModel: "Booking", description: "Credits earned for completing a booking",
         metadata: { professionalEarnings: Number(professionalEarnings) || 0 },
       }], session ? { session } : {});
-
-      await Wallet.findByIdAndUpdate(
-        walletId,
-        { $inc: { "credits.balance": bookingCredits, "credits.lifetimeEarned": bookingCredits } },
-        session ? { session } : {}
-      );
+      await Wallet.findByIdAndUpdate(walletId, { $inc: { "credits.balance": bookingCredits, "credits.lifetimeEarned": bookingCredits } }, session ? { session } : {});
     }
   }
 
