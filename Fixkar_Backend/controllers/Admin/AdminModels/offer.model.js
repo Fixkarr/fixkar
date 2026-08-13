@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+const milestoneSchema = new mongoose.Schema({
+  bookingCount: { type: Number, required: true, min: 1 },
+  rewardCredits: { type: Number, required: true, min: 1 },
+  badge: { type: String, enum: ["BRONZE", "SILVER", "DIAMOND"], required: true },
+  title: { type: String, trim: true, maxlength: 80 },
+}, { _id: false });
+
 const offerSchema = new mongoose.Schema({
   couponCode: { type: String, required: true, uppercase: true, trim: true, minlength: 3, maxlength: 30, match: /^[A-Z0-9_-]+$/ },
   offerTitle: { type: String, required: true, trim: true, maxlength: 120 },
@@ -13,14 +20,8 @@ const offerSchema = new mongoose.Schema({
   maxDiscount: { type: Number, min: 0, default: null },
   rewardType: { type: String, enum: ["wallet_credits", null], default: null },
   rewardValue: { type: Number, min: 1, default: null },
-  // Professional rewards are unlocked by a business milestone, not by merely
-  // entering a public coupon code. Keeping the trigger on the campaign lets
-  // the existing Offer/Claim architecture evolve without replacing it.
-  rewardTrigger: {
-    type: String,
-    enum: ["FIRST_COMPLETED_BOOKING", null],
-    default: null,
-  },
+  rewardTrigger: { type: String, enum: ["FIRST_COMPLETED_BOOKING", "BOOKING_COUNT_MILESTONE", null], default: null },
+  milestones: { type: [milestoneSchema], default: [] },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   usageLimit: { type: Number, min: 1, default: null },
@@ -51,25 +52,32 @@ offerSchema.pre("validate", function (next) {
     if (!this.discountType || !Number.isFinite(Number(this.discountValue)) || Number(this.discountValue) <= 0) return next(new Error("A valid customer discount is required"));
     if (this.discountType === "percentage" && Number(this.discountValue) > 100) return next(new Error("Percentage discount cannot exceed 100"));
     if (this.discountType === "flat") this.maxDiscount = null;
-    this.rewardType = null;
-    this.rewardValue = null;
-    this.rewardTrigger = null;
+    this.rewardType = null; this.rewardValue = null; this.rewardTrigger = null; this.milestones = [];
   }
 
   if (this.benefitType === "PROFESSIONAL_REWARD") {
     if (audience[0] !== "professional") return next(new Error("Professional rewards are only for professionals"));
     if (!this.rewardType) this.rewardType = "wallet_credits";
-    const effectiveReward = this.rewardValue ?? this.discountValue;
-    if (!Number.isFinite(Number(effectiveReward)) || Number(effectiveReward) < 1) return next(new Error("A professional reward of at least 1 credit is required"));
-    if (this.rewardValue == null) this.rewardValue = Number(effectiveReward);
-    if (!this.rewardTrigger) this.rewardTrigger = "FIRST_COMPLETED_BOOKING";
-    if (this.rewardTrigger !== "FIRST_COMPLETED_BOOKING") return next(new Error("Unsupported professional reward trigger"));
-    this.discountType = null;
-    this.discountValue = null;
-    this.minBookingAmount = null;
-    this.maxDiscount = null;
-    this.newCustomerOnly = false;
-    this.perUserLimit = 1;
+    const trigger = this.rewardTrigger || "FIRST_COMPLETED_BOOKING";
+    this.rewardTrigger = trigger;
+    if (!["FIRST_COMPLETED_BOOKING", "BOOKING_COUNT_MILESTONE"].includes(trigger)) return next(new Error("Unsupported professional reward trigger"));
+
+    if (trigger === "FIRST_COMPLETED_BOOKING") {
+      const effectiveReward = this.rewardValue ?? this.discountValue;
+      if (!Number.isFinite(Number(effectiveReward)) || Number(effectiveReward) < 1) return next(new Error("A professional reward of at least 1 credit is required"));
+      this.rewardValue = Number(effectiveReward);
+      this.milestones = [{ bookingCount: 1, rewardCredits: Number(effectiveReward), badge: "BRONZE", title: "First Booking" }];
+    } else {
+      if (!Array.isArray(this.milestones) || this.milestones.length === 0) return next(new Error("At least one booking milestone is required"));
+      const sorted = [...this.milestones].sort((a, b) => a.bookingCount - b.bookingCount);
+      for (let i = 0; i < sorted.length; i += 1) {
+        if (i > 0 && sorted[i].bookingCount <= sorted[i - 1].bookingCount) return next(new Error("Milestone booking counts must be unique and increasing"));
+        if (sorted[i].bookingCount < 1 || sorted[i].rewardCredits < 1) return next(new Error("Milestone values must be positive"));
+      }
+      this.milestones = sorted;
+      this.rewardValue = sorted[0].rewardCredits;
+    }
+    this.discountType = null; this.discountValue = null; this.minBookingAmount = null; this.maxDiscount = null; this.newCustomerOnly = false; this.perUserLimit = 1;
   }
 
   if (this.usageLimit != null && (!Number.isInteger(Number(this.usageLimit)) || Number(this.usageLimit) < 1)) return next(new Error("Usage limit must be a positive integer or empty"));
