@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
-// A claim represents a user's ownership/eligibility for a coupon campaign.
-// Individual redemptions belong to OfferUsage, so a claim must not point to
-// one particular booking or store one particular discount amount.
+// A claim represents a user's enrollment in a coupon campaign. Individual
+// milestone redemptions belong to OfferUsage, not to a single booking field.
 const offerClaimSchema = new mongoose.Schema({
   offerId: { type: mongoose.Schema.Types.ObjectId, ref: "Offer", required: true, index: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, index: true },
   couponCode: { type: String, required: true, uppercase: true, trim: true },
   status: { type: String, enum: ["claimed", "redeemed", "revoked", "expired"], default: "claimed", index: true },
   redeemedCount: { type: Number, default: 0, min: 0 },
+  rewardedMilestones: { type: [Number], default: [] },
   claimedAt: { type: Date, default: Date.now },
   redeemedAt: { type: Date, default: null },
 }, { timestamps: true });
