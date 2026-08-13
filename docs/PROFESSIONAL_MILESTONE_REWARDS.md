@@ -2,184 +2,118 @@
 
 ## Purpose
 
-Professional rewards are **milestone-based**, not instant wallet giveaways.
+Professional milestone rewards are **not coupons and are not promotional offers**. A professional never enters a coupon code and never manually claims a milestone reward.
 
-A professional may claim a campaign coupon such as `PRO500`, but claiming only enrolls the professional in the campaign. Credits are released only after the professional completes the configured business milestones.
+The platform automatically evaluates milestones after a real booking is successfully completed. Rewards are credited to the professional wallet only when the milestone is achieved.
 
-## Example Campaign
+Customer coupon architecture remains separate and unchanged.
+
+## Fixed Milestones
+
+The current platform rules are:
 
 ```text
-Coupon: PRO500
-Audience: Professional
-
-1 completed booking  → 500 credits → Bronze
-5 completed bookings → 1,000 extra credits → Silver
-10 completed bookings → 2,000 extra credits → Diamond
+1 completed booking  → +500 credits → Bronze
+5 completed bookings → +1,000 extra credits → Silver
+10 completed bookings → +2,000 extra credits → Diamond
 ```
 
-The rewards are incremental. Reaching 10 completed bookings does not replace the earlier rewards; each configured milestone is rewarded once.
+Rewards are incremental. Reaching 10 completed bookings does not remove the earlier rewards.
+
+The milestone definitions are controlled by the application, not by the customer-coupon admin form.
 
 ## Flow
 
 ```text
-Admin creates professional campaign
+Professional completes a booking
         ↓
-Professional enters coupon code
+Backend marks booking completed
         ↓
-OfferClaim created
+Successful payment/settlement is confirmed
         ↓
-No wallet credit yet
+Milestone engine counts completed bookings
         ↓
-Professional completes eligible booking
+New milestone reached?
         ↓
-Backend counts completed bookings
+Atomic one-time reward gate
         ↓
-Milestone reached?
+Wallet credit + CreditTransaction
         ↓
-Credit wallet atomically
+Professional achievements/rank updated
         ↓
-Create CreditTransaction
-        ↓
-Create OfferUsage audit record
-        ↓
-Update professional rank/badge
+Dashboard/profile shows progress and badge
 ```
 
-## Milestone Configuration
+There is no `OfferClaim`, coupon code, or customer `OfferUsage` involved in this professional milestone flow.
 
-Each professional campaign can contain ordered milestone tiers:
+## Rank / Badge
 
-```text
-milestones: [
-  {
-    bookingCount: 1,
-    rewardCredits: 500,
-    badge: "BRONZE"
-  },
-  {
-    bookingCount: 5,
-    rewardCredits: 1000,
-    badge: "SILVER"
-  },
-  {
-    bookingCount: 10,
-    rewardCredits: 2000,
-    badge: "DIAMOND"
-  }
-]
-```
-
-A milestone can only be unlocked once for a professional/campaign.
-
-## Claim vs Reward
-
-```text
-Claim = enrollment in the campaign
-Reward = successful completion of a milestone
-```
-
-This prevents a public coupon announcement from becoming an unconditional wallet giveaway.
-
-## Completion Trigger
-
-The milestone engine runs from the existing successful booking completion/payment flow. It is not controlled by the frontend.
-
-A booking must reach:
-
-```text
-status = completed
-```
-
-and the normal payment/completion transaction must succeed before milestone rewards are evaluated.
-
-## Service-Specific Campaigns
-
-A professional campaign can optionally target selected services. The professional's primary service must match the campaign service scope before the milestone reward can be issued.
-
-Empty service scope means all professional services.
-
-## Rank System
-
-Ranks are derived from verified completed bookings:
+Rank is an achievement indicator, not a wallet feature and not an admin-configurable reward type.
 
 | Completed bookings | Rank |
 |---:|---|
-| 0–4 | Bronze |
-| 5–9 | Silver |
-| 10+ | Diamond |
+| 0 | NEWCOMER |
+| 1–4 | BRONZE |
+| 5–9 | SILVER |
+| 10+ | DIAMOND |
 
-The rank is stored in the professional profile for fast display, while completed booking count remains the authoritative source for recalculation.
+The rank is stored on the professional profile for fast display. The completed booking count remains the source used to recalculate it.
 
-The profile also stores unlocked milestone keys so reward processing is idempotent.
-
-## Anti-Duplicate Protection
-
-The system protects against duplicate rewards through:
-
-- `OfferClaim.rewardedMilestones`
-- `OfferUsage` milestone records
-- unique `CreditTransaction` references
-- transactional wallet updates
-- backend-only milestone evaluation
-
-A retried payment/completion request must not pay the same milestone twice.
-
-## Global Enrollment Limit
-
-For professional milestone campaigns, `usageLimit` means the maximum number of professionals who can **enroll/claim** the campaign.
-
-Once enrolled, a professional can receive each configured milestone reward once, subject to the campaign's validity and eligibility rules.
-
-## Example Professional Experience
-
-```text
-PRO500
-
-Claimed ✓
-
-Progress
-1 / 10 completed bookings
-
-🥉 Bronze
-✓ 1 booking → +500 credits
-
-🔒 Silver
-5 bookings → +1,000 credits
-
-🔒 Diamond
-10 bookings → +2,000 credits
-```
-
-After the 5th completion:
-
-```text
-🥈 Silver Professional
-
-+1,000 credits unlocked
-```
-
-After the 10th:
+Example profile:
 
 ```text
 💎 Diamond Professional
-
-+2,000 credits unlocked
+10 completed bookings
 ```
 
-## Business Value
+## Reward Safety
 
-The platform pays incentives only after measurable business outcomes occur:
+Each milestone can reward a professional only once. The reward gate is performed on the backend and inside the same transaction as the booking completion/payment flow.
+
+The system uses the professional achievement milestone list plus the credit transaction ledger to prevent duplicate wallet credits when completion/payment handling is retried.
+
+## Eligibility
+
+A professional must be an approved and onboarded professional to receive milestone rewards.
+
+Only bookings whose backend status is `completed` are counted. Creating, accepting, starting, cancelling, or merely paying for a booking does not independently unlock a milestone.
+
+## Service / Campaign Scope
+
+Professional milestones are platform-wide fixed achievements. They are not created as service-specific coupons and are not configured per campaign.
+
+## Customer Coupon Separation
+
+Customer coupons continue to use the existing Offer/Coupon architecture:
+
+```text
+Customer enters coupon
+        ↓
+Validate coupon
+        ↓
+Claim/apply
+        ↓
+Booking/payment
+        ↓
+OfferUsage
+```
+
+Professional milestone rewards do not modify this flow.
+
+## Business Value
 
 ```text
 Professional action
       ↓
 Completed customer work
       ↓
-Successful payment/settlement
+Successful settlement
       ↓
 Milestone reached
       ↓
-Reward
+Automatic reward
+      ↓
+Higher rank / stronger profile trust
 ```
 
-This makes professional rewards an activation/retention mechanism rather than a free-credit distribution system.
+This turns professional rewards into a measurable activation and retention mechanism instead of an unconditional wallet-credit giveaway.
