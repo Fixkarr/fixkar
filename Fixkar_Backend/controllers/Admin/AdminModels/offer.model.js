@@ -4,13 +4,33 @@ const offerSchema = new mongoose.Schema({
   couponCode: { type: String, required: true, uppercase: true, trim: true, minlength: 3, maxlength: 30, match: /^[A-Z0-9_-]+$/ },
   offerTitle: { type: String, required: true, trim: true, maxlength: 120 },
   description: { type: String, trim: true, maxlength: 500 },
-  audience: { type: [String], enum: ["customer", "professional"], required: true, validate: { validator: (value) => Array.isArray(value) && value.length > 0, message: "At least one audience is required" } },
-  benefitType: { type: String, enum: ["CUSTOMER_DISCOUNT", "PROFESSIONAL_REWARD"], default: "CUSTOMER_DISCOUNT" },
+  // A campaign has one commercial audience. Keeping this as an array preserves
+  // the existing data shape/API while preventing ambiguous customer+professional
+  // campaigns that cannot have two different benefit types at once.
+  audience: {
+    type: [String],
+    enum: ["customer", "professional"],
+    required: true,
+    validate: {
+      validator: (value) => Array.isArray(value) && value.length === 1,
+      message: "Select exactly one audience for a coupon",
+    },
+  },
+  benefitType: { type: String, enum: ["CUSTOMER_DISCOUNT", "PROFESSIONAL_REWARD"], required: true },
   serviceId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }],
-  discountType: { type: String, enum: ["percentage", "flat"], required: true },
-  discountValue: { type: Number, required: true, min: 0.01 },
-  minBookingAmount: { type: Number, min: 0 },
-  maxDiscount: { type: Number, min: 0 },
+
+  // Customer discount fields. They remain in the schema for backward
+  // compatibility with existing customer coupons.
+  discountType: { type: String, enum: ["percentage", "flat", null], default: null },
+  discountValue: { type: Number, min: 0.01, default: null },
+  minBookingAmount: { type: Number, min: 0, default: null },
+  maxDiscount: { type: Number, min: 0, default: null },
+
+  // Professional rewards are credited to the professional wallet when the
+  // coupon is claimed. rewardValue is the number of wallet credits granted.
+  rewardType: { type: String, enum: ["wallet_credits", null], default: null },
+  rewardValue: { type: Number, min: 1, default: null },
+
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   usageLimit: { type: Number, min: 1, default: null },
@@ -22,21 +42,69 @@ const offerSchema = new mongoose.Schema({
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "Admin", default: null },
 }, { timestamps: true });
 
-// Sparse is intentional for the one-time legacy migration: old offer documents
-// may not have a couponCode yet. The migration fills every legacy document.
 offerSchema.index({ couponCode: 1 }, { unique: true, sparse: true });
 offerSchema.index({ isActive: 1, startDate: 1, endDate: 1 });
 offerSchema.index({ serviceId: 1, isActive: 1 });
 
 offerSchema.pre("validate", function (next) {
   if (this.couponCode) this.couponCode = this.couponCode.trim().toUpperCase();
-  next();
-});
 
-offerSchema.pre("save", function (next) {
-  if (this.discountType === "percentage" && this.discountValue > 100) return next(new Error("Percentage discount cannot exceed 100"));
-  if (this.discountType === "flat" && this.maxDiscount != null) this.maxDiscount = null;
-  if (this.startDate && this.endDate && this.endDate <= this.startDate) return next(new Error("Offer end date must be after start date"));
+  const audience = Array.isArray(this.audience) ? this.audience : [];
+
+  if (audience.length !== 1) {
+    return next(new Error("Select exactly one audience for a coupon"));
+  }
+
+  if (this.benefitType === "CUSTOMER_DISCOUNT") {
+    if (audience[0] !== "customer") return next(new Error("Customer discount coupons are only for customers"));
+    if (!this.discountType || !Number.isFinite(Number(this.discountValue)) || Number(this.discountValue) <= 0) {
+      return next(new Error("A valid customer discount is required"));
+    }
+    if (this.discountType === "percentage" && Number(this.discountValue) > 100) {
+      return next(new Error("Percentage discount cannot exceed 100"));
+    }
+    if (this.discountType === "flat" && this.maxDiscount != null) {
+      this.maxDiscount = null;
+    }
+    if (this.rewardType != null || this.rewardValue != null) {
+      this.rewardType = null;
+      this.rewardValue = null;
+    }
+  }
+
+  if (this.benefitType === "PROFESSIONAL_REWARD") {
+    if (audience[0] !== "professional") return next(new Error("Professional rewards are only for professionals"));
+
+    // rewardValue is preferred. discountValue is accepted only for legacy
+    // migrated professional offers created before rewardValue was introduced.
+    if (!this.rewardType) this.rewardType = "wallet_credits";
+    const effectiveReward = this.rewardValue ?? this.discountValue;
+    if (!Number.isFinite(Number(effectiveReward)) || Number(effectiveReward) < 1) {
+      return next(new Error("A professional reward of at least 1 credit is required"));
+    }
+    if (this.rewardValue == null) this.rewardValue = Number(effectiveReward);
+
+    this.discountType = null;
+    this.discountValue = null;
+    this.minBookingAmount = null;
+    this.maxDiscount = null;
+    this.newCustomerOnly = false;
+
+    // A claim is the redemption for wallet-credit rewards, so one claim per
+    // professional is the unambiguous rule for this benefit type.
+    if (Number(this.perUserLimit) !== 1) this.perUserLimit = 1;
+  }
+
+  if (this.usageLimit != null && (!Number.isInteger(Number(this.usageLimit)) || Number(this.usageLimit) < 1)) {
+    return next(new Error("Usage limit must be a positive integer or empty"));
+  }
+  if (!Number.isInteger(Number(this.perUserLimit)) || Number(this.perUserLimit) < 1) {
+    return next(new Error("Per-user limit must be a positive integer"));
+  }
+  if (this.startDate && this.endDate && this.endDate <= this.startDate) {
+    return next(new Error("Offer end date must be after start date"));
+  }
+
   next();
 });
 
