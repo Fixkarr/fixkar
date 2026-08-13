@@ -1,666 +1,199 @@
 # Fixkar Coupon-Based Offer System
 
-## Overview
+## Architecture rules
 
-Fixkar now uses a **coupon-code-based offer architecture** instead of exposing a list of all active offers to customers.
+Fixkar uses **coupon-code-based campaigns**. Customers and professionals are not given a public list of every active offer. An eligible user must receive a coupon code and enter it.
 
-The core rule is simple:
+A coupon has exactly one commercial audience:
 
-> A customer must know and enter a valid coupon code before an offer can be claimed or applied to a booking.
+```text
+CUSTOMER_DISCOUNT  → customer
+PROFESSIONAL_REWARD → professional
+```
 
-This design separates **coupon definition**, **coupon claiming**, **booking application**, and **actual redemption** so that offer history, usage limits, payments, and analytics remain reliable.
+This prevents a single coupon from having contradictory financial meanings.
 
 ---
 
-## Why the architecture was changed
-
-### Previous model
-
-```text
-Active Offers
-    ↓
-Fetch all offers
-    ↓
-Show offers to customer
-    ↓
-Customer selects an offer
-    ↓
-Apply to booking
-```
-
-This exposed the complete offer inventory to customers and mixed offer discovery with offer redemption.
-
-### Current model
+## 1. Customer discount flow
 
 ```text
 Admin creates coupon
-        ↓
-Coupon code is distributed externally
-        ↓
-Customer enters coupon code
-        ↓
-Validate coupon
-        ↓
-Claim coupon
-        ↓
-Apply coupon to eligible booking
-        ↓
-Lock discount on booking
-        ↓
-Payment
-        ↓
-Record redemption / usage
+      ↓
+Coupon code is distributed
+      ↓
+Customer enters code
+      ↓
+Validate audience / dates / service / amount / limits
+      ↓
+OfferClaim(status=claimed)
+      ↓
+Apply to eligible booking
+      ↓
+Booking stores locked offer snapshot + discount
+      ↓
+Online or cash payment succeeds
+      ↓
+Atomic OfferUsage redemption
+      ↓
+OfferClaim(status=redeemed)
 ```
 
-There is no general customer-facing endpoint that fetches every active coupon for display.
+### Customer campaign options
 
----
+- All services or selected services
+- Flat discount
+- Percentage discount
+- Maximum discount for percentage campaigns
+- Minimum booking amount
+- New-customer-only campaign
+- Global usage limit
+- Per-customer usage limit
+- Start/end validity
+- Active/paused state
 
-# 1. Core Architecture
+### Example
 
 ```text
-                         ADMIN
-                           │
-                           ▼
-                  ┌─────────────────┐
-                  │  Create Coupon  │
-                  │   FIXKAR100     │
-                  └────────┬────────┘
-                           │
-                           ▼
-                    ┌────────────┐
-                    │   Offer    │
-                    │  Campaign  │
-                    └─────┬──────┘
-                          │
-             ┌────────────┼─────────────┐
-             ▼            ▼             ▼
-         Customer     Professional   Analytics
-             │            │
-             └──────┬─────┘
-                    ▼
-             Enter Coupon Code
-                    │
-                    ▼
-             Validate Coupon
-                    │
-                    ▼
-               OfferClaim
-                    │
-                    ▼
-          Apply to eligible booking
-                    │
-                    ▼
-             Booking Snapshot
-                    │
-                    ▼
-                 Payment
-                    │
-                    ▼
-               OfferUsage
-                    │
-                    ▼
-             Admin Analytics
+MONSOON200
+Audience: Customer
+Service: Plumbing
+Flat discount: ₹200
+Minimum booking: ₹1,000
+Per customer: 1
+Global limit: 500
 ```
 
----
-
-# 2. Offer / Coupon Model
-
-The existing `Offer` entity is now treated as a coupon campaign.
-
-Important fields include:
-
-- `couponCode` — unique, normalized coupon code.
-- `offerTitle` — internal/display title.
-- `description` — explanation of the coupon.
-- `audience` — who can use/claim it.
-- `serviceId` — services for which the coupon is valid.
-- `discountType` — percentage or flat.
-- `discountValue` — discount value.
-- `minBookingAmount` — minimum eligible booking amount.
-- `maxDiscount` — maximum discount for percentage coupons.
-- `startDate` / `endDate` — validity period.
-- `usageLimit` — global redemption limit.
-- `usedCount` — current redemption count.
-- `perUserLimit` — maximum redemptions per user.
-- `newCustomerOnly` — optional new-customer restriction.
-- `isActive` — operational activation flag.
-- `archivedAt` — soft-archive timestamp.
-
-The coupon code is intentionally immutable after creation. Historical records must continue to refer to the same coupon code.
+A ₹1,800 plumbing booking can receive ₹200 off. An electrical booking cannot use the coupon.
 
 ---
 
-# 3. OfferClaim
+## 2. Professional reward flow
 
-`OfferClaim` represents the relationship between a user and a coupon they have successfully claimed.
+Professional coupons are **not customer booking discounts**.
 
 ```text
-OfferClaim
-├── offerId
-├── userId
-├── couponCode
-├── status
-├── bookingId
-├── discountAmount
-├── claimedAt
-└── redeemedAt
+Admin creates professional reward coupon
+      ↓
+Professional receives code
+      ↓
+Professional enters code
+      ↓
+Validate professional audience + service + validity + limits
+      ↓
+Atomically reserve usage slot
+      ↓
+OfferClaim(status=redeemed)
+      ↓
+Wallet credits are added
+      ↓
+CreditTransaction(source=coupon_reward)
+      ↓
+OfferUsage(paymentMode=REWARD)
 ```
 
-The important distinction is:
+Professional rewards currently use wallet credits. A service-specific professional reward is matched against the professional's assigned `profession` service.
+
+Professional reward coupons are one-time per professional.
+
+---
+
+## 3. Offer model
+
+Important fields:
+
+- `couponCode` — unique normalized code.
+- `offerTitle`, `description` — campaign information.
+- `audience` — exactly one audience for new campaigns.
+- `benefitType` — customer discount or professional reward.
+- `serviceId[]` — empty means all services; selected IDs mean service-specific campaign.
+- Customer: `discountType`, `discountValue`, `minBookingAmount`, `maxDiscount`.
+- Professional: `rewardType=wallet_credits`, `rewardValue`.
+- `startDate`, `endDate`.
+- `usageLimit`, `usedCount`, `perUserLimit`.
+- `newCustomerOnly` for customer campaigns.
+- `isActive`, `archivedAt`.
+
+Legacy records that contain multiple audience values are safely normalized from `benefitType` during validation; new campaigns cannot create ambiguous audiences.
+
+---
+
+## 4. Claim vs redemption
 
 ```text
 Claimed ≠ Redeemed
 ```
 
-A user may claim a coupon but not use it on a booking.
+For customer coupons, claiming only associates the code with the user. The usage slot is consumed only after successful payment.
 
-A unique `(offerId, userId)` constraint prevents duplicate active claims for the same coupon/user combination.
-
----
-
-# 4. OfferUsage
-
-`OfferUsage` represents actual coupon consumption.
-
-```text
-OfferUsage
-├── offerId
-├── userId
-├── bookingId
-├── couponCode
-├── offerSnapshot
-├── discountAmount
-├── paymentMode
-├── status
-└── timestamps
-```
-
-This is the redemption/audit record.
-
-It is intentionally separate from `OfferClaim` so that the system can distinguish:
-
-```text
-User claimed coupon
-        ↓
-User actually redeemed coupon
-```
+For professional wallet-reward coupons, claim and redemption happen together because the reward is granted immediately.
 
 ---
 
-# 5. Booking Coupon Snapshot
+## 5. Limits and concurrency
 
-Once a coupon is applied to a booking, the booking stores the pricing information required to preserve historical correctness.
+Customer payment redemption and professional reward claiming use an atomic conditional increment for the global `usageLimit`.
 
-Relevant fields include:
+This prevents two concurrent requests from consuming the final global coupon slot at the same time.
 
-```text
-offerId
-offerCode
-offerSnapshot
-  ├── title
-  ├── discountType
-  ├── discountValue
-  └── maxDiscount
-
-discountAmount
-finalCustomerPayable
-offerLocked
-```
-
-This prevents future coupon edits from changing historical bookings.
-
-Example:
-
-```text
-Coupon at booking time:
-FIXKAR100 → ₹100 OFF
-
-Customer books → ₹100 discount locked
-
-Admin later changes FIXKAR100 → ₹200 OFF
-
-Old booking remains → ₹100 discount
-```
+Customer usage is recorded in `OfferUsage` and the booking snapshot remains the source of historical discount information.
 
 ---
 
-# 6. Coupon Validation Rules
+## 6. Service targeting
 
-Coupon validation checks:
+```text
+serviceId = []
+    → all services
 
-1. Coupon code exists.
-2. Coupon is not archived.
-3. Coupon is active.
-4. User belongs to an allowed audience.
-5. Current time is inside the coupon validity period.
-6. Global usage limit has not been reached.
-7. User has not exceeded their per-user limit.
-8. New-customer restriction is satisfied when enabled.
-9. For a booking application, the booking belongs to the current customer.
-10. Booking is in an eligible state.
-11. Coupon is valid for the booking's service.
-12. Booking amount satisfies the minimum amount.
-13. Calculated discount is positive and valid.
-14. Another coupon is not already locked on the booking.
+serviceId = [plumbingId]
+    → plumbing only
+
+serviceId = [plumbingId, electricalId]
+    → plumbing or electrical
+```
+
+Customer booking validation uses the booking service. Professional reward validation uses the professional's assigned service.
 
 ---
 
-# 7. Customer Flow
+## 7. Admin UX rules
 
-The customer does **not** receive all available coupons.
+The admin form explains each financial field instead of making the admin guess:
 
-The intended UI is:
+- `₹200` is a valid flat discount.
+- Percentage discounts are between 1 and 100.
+- Maximum discount is only relevant to percentage coupons.
+- Empty service selection means all services.
+- Global usage is total successful redemption count.
+- Per-user limit controls repeated customer usage.
+- Professional rewards are wallet credits and are one-time.
+- End date must be after start date.
 
-```text
-Have a coupon?
-
-[ ENTER COUPON CODE        ] [Apply]
-```
-
-Flow:
-
-```text
-Enter code
-   ↓
-Validate
-   ↓
-Claim
-   ↓
-Apply to booking
-   ↓
-Show discount
-   ↓
-Update final payable
-   ↓
-Lock coupon
-   ↓
-Pay
-```
-
-The frontend should never calculate the final discount as the source of truth. The backend must validate and calculate the authoritative discount.
+The form loads the current services and allows selecting specific services.
 
 ---
 
-# 8. Professional Coupon Flow
+## 8. Historical safety
 
-Professionals can also have coupon/reward codes, but their benefit is conceptually different from a customer discount.
+Once a coupon is applied to a booking, the booking keeps a snapshot of the coupon's financial terms. Later admin changes do not alter the historical booking price.
 
-The architecture therefore supports different benefit types, such as:
+Coupon code is immutable.
 
-```text
-CUSTOMER_DISCOUNT
-PROFESSIONAL_REWARD
-```
-
-Possible future professional rewards:
-
-- commission reduction
-- wallet credit
-- onboarding reward
-- promotional incentive
-
-A professional coupon should not automatically be treated as a customer booking discount.
+A redeemed campaign cannot be switched between customer discount and professional reward; create a new campaign when the commercial meaning needs to change.
 
 ---
 
-# 9. Admin Coupon Management
+## 9. Payment integration
 
-Admin can create and manage coupons with:
+Both online and cash final-payment flows call the same centralized customer coupon redemption service.
 
-- Coupon code
-- Offer title
-- Description
-- Audience
-- Applicable services
-- Discount type
-- Discount value
-- Minimum booking amount
-- Maximum discount
-- Start date
-- End date
-- Global usage limit
-- Per-user limit
-- New-customer restriction
-- Active/inactive state
-
-Admin dashboard also exposes coupon-oriented information such as:
-
-- coupon code
-- discount
-- audience
-- applicable services
-- redemption progress
-- validity dates
-- update action
-- archive action
-
----
-
-# 10. Soft Archive Instead of Hard Delete
-
-Coupons should not normally be physically deleted because they may be referenced by:
-
-- bookings
-- claims
-- usage records
-- payments
-- analytics
-
-Therefore the preferred lifecycle is:
+This prevents online and cash payments from having different coupon rules.
 
 ```text
-Active
-  ↓
-Inactive / Archived
+Online FINAL payment ─┐
+                      ├→ redeemCustomerCoupon()
+Cash FINAL payment ───┘
 ```
 
-rather than:
-
-```text
-Active
-  ↓
-DELETE FROM DATABASE
-```
-
-Historical records remain intact.
-
----
-
-# 11. Coupon Analytics
-
-Admin analytics are available per coupon.
-
-The analytics layer can report:
-
-- total claims
-- total redemptions
-- total discount granted
-- remaining usage
-- coupon status
-- validity period
-- coupon configuration
-
-This provides the foundation for future dashboards and campaign performance reporting.
-
----
-
-# 12. Migration of Existing Offers
-
-Existing offers created before the coupon architecture may not have coupon codes.
-
-A migration script was added:
-
-```bash
-npm run migrate:offers-to-coupons
-```
-
-The migration generates unique coupon codes for existing offers and assigns appropriate default coupon settings.
-
-This allows the existing database to move to the new architecture without manually recreating every old offer.
-
----
-
-# 13. Payment Integration
-
-Coupon discounts are integrated with final booking payments.
-
-The intended settlement flow is:
-
-```text
-Booking Amount
-      ↓
-Coupon Discount
-      ↓
-Customer Payable
-      ↓
-Payment
-      ↓
-Coupon Redemption
-      ↓
-OfferUsage
-```
-
-Both online and cash payment paths record coupon usage where the coupon has been locked on the booking.
-
-The coupon discount is also reflected in platform transaction calculations so that Fixkar's financial records distinguish:
-
-```text
-Gross Amount
-Customer Paid Amount
-Discount Amount
-Commission
-Professional Amount
-Profit / Loss
-```
-
----
-
-# 14. Concurrency and Production Hardening
-
-Coupon usage limits must be enforced atomically.
-
-A simple pattern such as:
-
-```text
-read usedCount
-↓
-if usedCount < usageLimit
-↓
-increment usedCount
-```
-
-can create a race condition when multiple customers redeem the final available coupon simultaneously.
-
-The production implementation should use an atomic conditional update, for example:
-
-```text
-Find coupon where:
-  _id = couponId
-  usedCount < usageLimit
-
-Then atomically:
-  usedCount += 1
-```
-
-The redemption record and payment settlement should also remain consistent with the transaction boundary used by the payment flow.
-
-This is a critical production-hardening requirement before high-volume coupon campaigns are launched.
-
----
-
-# 15. Main Backend Components
-
-Important coupon-related components include:
-
-```text
-Fixkar_Backend/
-├── controllers/
-│   ├── Admin/
-│   │   └── AdminModels/
-│   │       ├── offer.model.js
-│   │       └── offerUsage.model.js
-│   └── CouponController/
-│       └── coupon.controller.js
-│
-├── services/
-│   └── coupon.service.js
-│
-└── scripts/
-    └── migrateOffersToCoupons.js
-```
-
-The service layer contains the central validation and claim logic so that coupon rules are not duplicated across controllers.
-
----
-
-# 16. Main Frontend Components
-
-Coupon-related frontend work includes:
-
-```text
-Frontend/src/
-├── Admin/AdminComponents/
-│   ├── AllOffers.jsx
-│   ├── ManageOffers.jsx
-│   └── Utils/OfferForm.jsx
-│
-├── Customer/
-│   └── PayButton.jsx
-│
-└── Professional/
-    └── ProfessionalCoupons.jsx
-```
-
-The customer payment flow uses coupon validation/application instead of displaying an offer catalogue.
-
----
-
-# 17. API Responsibilities
-
-The coupon controller provides responsibilities for:
-
-### Claim coupon
-
-```text
-POST /api/coupon/claim
-```
-
-### Validate coupon
-
-```text
-POST /api/coupon/validate
-```
-
-### Apply coupon to booking
-
-```text
-POST /api/coupon/apply
-```
-
-### Get user's claimed coupons
-
-```text
-GET /api/coupon/my-claims
-```
-
-### Admin coupon analytics
-
-```text
-GET /api/admin/get-offer-analytics/:offerId
-```
-
-Actual route prefixes may depend on the application's route registration.
-
----
-
-# 18. Example
-
-Suppose Admin creates:
-
-```text
-Coupon Code: FIXKAR500
-Title: ₹500 Off Home Services
-Audience: Customer
-Services: Plumbing, Electrical
-Discount: ₹500
-Minimum Booking: ₹2,000
-Per User Limit: 1
-Global Limit: 100
-Validity: 15 Aug – 31 Aug
-```
-
-Customer has a ₹2,500 eligible booking.
-
-```text
-Booking Amount       ₹2,500
-Coupon Discount       -₹500
-----------------------------
-Customer Payable      ₹2,000
-```
-
-The booking stores the coupon snapshot and discount amount.
-
-After successful payment:
-
-```text
-OfferClaim → redeemed
-OfferUsage → created
-Offer.usedCount → +1
-Booking.offerLocked → true
-```
-
----
-
-# 19. Design Principles
-
-The coupon system follows these principles:
-
-### Coupon-first
-
-The customer must possess/know a coupon code to use an offer.
-
-### Backend authority
-
-Discount eligibility and amount are calculated on the server.
-
-### Historical immutability
-
-Past bookings must not change when coupon configuration changes later.
-
-### Separation of concerns
-
-```text
-Offer      = campaign definition
-Claim      = user's claim
-Booking    = coupon locked to a transaction
-Usage      = actual redemption
-Payment    = financial settlement
-```
-
-### Auditability
-
-Coupon actions should remain traceable for support, finance, and analytics.
-
-### Safe lifecycle
-
-Archive instead of deleting coupon records that may be referenced by historical data.
-
-### Concurrency safety
-
-Global and per-user limits must be enforced in a race-safe manner.
-
----
-
-# 20. Current Implementation Status
-
-| Feature | Status |
-|---|---|
-| Coupon code based architecture | ✅ Implemented |
-| Unique coupon codes | ✅ Implemented |
-| Audience targeting | ✅ Implemented |
-| Service targeting | ✅ Implemented |
-| Validity rules | ✅ Implemented |
-| Global usage limit | ✅ Implemented |
-| Per-user limit | ✅ Implemented |
-| New customer rule | ✅ Implemented |
-| Coupon claim model | ✅ Implemented |
-| Coupon usage model | ✅ Implemented |
-| Booking coupon snapshot | ✅ Implemented |
-| Customer coupon input flow | ✅ Implemented |
-| Professional coupon flow foundation | ✅ Implemented |
-| Admin coupon management | ✅ Implemented |
-| Coupon analytics | ✅ Implemented |
-| Soft archive | ✅ Implemented |
-| Existing offer migration | ✅ Implemented |
-| Cash payment integration | ✅ Implemented |
-| Online payment integration | ⚠️ Requires final atomic-redemption hardening |
-| Atomic high-concurrency redemption | ⚠️ Final production hardening |
-| Professional reward settlement rules | 🔶 To be finalized per business rules |
-
----
-
-## Final Description
-
-Fixkar's coupon system is designed as a **controlled, auditable, coupon-code-based promotion engine** rather than a generic offer listing system. Admin creates targeted coupon campaigns, customers or professionals claim coupons using explicit codes, eligibility is validated centrally on the backend, and eligible coupons are locked to bookings with a historical pricing snapshot. Actual redemption is recorded separately from claiming, allowing accurate usage limits, financial reconciliation, analytics, and support auditing. The architecture also preserves historical data through soft archiving and prepares the system for atomic redemption under concurrent traffic.
+The redemption records `OfferUsage`, increments `usedCount` atomically, and marks the user's `OfferClaim` as redeemed.
