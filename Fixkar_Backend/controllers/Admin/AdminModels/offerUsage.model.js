@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 const offerUsageSchema = new mongoose.Schema({
   offerId: { type: mongoose.Schema.Types.ObjectId, ref: "Offer", required: true, index: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, index: true },
-  bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "Booking", required: true },
+  // Customer discounts are linked to a booking. Professional reward coupons are
+  // redeemed at claim time and therefore intentionally have no bookingId.
+  bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "Booking", default: null },
   couponCode: { type: String, uppercase: true, trim: true, index: true },
   offerSnapshot: {
     title: { type: String },
@@ -11,8 +13,9 @@ const offerUsageSchema = new mongoose.Schema({
     discountValue: { type: Number },
     maxDiscount: { type: Number },
   },
-  discountAmount: { type: Number, required: true },
-  paymentMode: { type: String, enum: ["ONLINE", "CASH"] },
+  discountAmount: { type: Number, default: 0, min: 0 },
+  rewardCredits: { type: Number, default: 0, min: 0 },
+  paymentMode: { type: String, enum: ["ONLINE", "CASH", "REWARD"], default: null },
   status: { type: String, enum: ["used", "reversed"], default: "used", index: true },
 }, { timestamps: true });
 
