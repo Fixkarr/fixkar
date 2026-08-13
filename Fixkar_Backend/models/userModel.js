@@ -13,7 +13,7 @@ const professionalSchema = new mongoose.Schema({
     bankDetails:{bankName:{type:String,select:false},holderName:{type:String,select:false},accountNumber:{type:String,select:false},ifsc:{type:String,select:false},upi:{type:String,select:false},panNumber:{type:String,select:false},docPicUrl:{type:String,select:false}}, bankVerificationStatus:{type:String,default:'N/A',enum:['pending','approved','N/A']}, slug:{type:String,unique:true,sparse:true}, shortCode:{type:String}, taskPricing:[{skill:{type:mongoose.Schema.Types.ObjectId,ref:"Skill",required:true},price:{type:Number,required:true,min:0}}],
     achievements:{
         completedBookings:{type:Number,default:0,min:0},
-        rank:{type:String,enum:["BRONZE","SILVER","DIAMOND"],default:"BRONZE"},
+        rank:{type:String,enum:["NEWCOMER","BRONZE","SILVER","DIAMOND"],default:"NEWCOMER"},
         rankUpdatedAt:{type:Date,default:null},
         unlockedMilestones:[{type:Number,min:1}],
         unlockedRewardKeys:[{type:String}]
