@@ -9,6 +9,7 @@ const offerClaimSchema = new mongoose.Schema({
   status: { type: String, enum: ["claimed", "redeemed", "revoked", "expired"], default: "claimed", index: true },
   redeemedCount: { type: Number, default: 0, min: 0 },
   rewardedMilestones: { type: [Number], default: [] },
+  startingCompletedBookings: { type: Number, default: 0, min: 0 },
   claimedAt: { type: Date, default: Date.now },
   redeemedAt: { type: Date, default: null },
 }, { timestamps: true });
