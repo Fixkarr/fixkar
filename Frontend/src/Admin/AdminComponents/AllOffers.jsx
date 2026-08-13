@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { FaSearch, FaTag, FaCalendarAlt, FaPercent, FaRupeeSign, FaCopy, FaGift } from "react-icons/fa";
+import { FaSearch, FaTag, FaCalendarAlt, FaPercent, FaRupeeSign, FaCopy, FaGift, FaTrophy } from "react-icons/fa";
 import axios from "axios";
 import { server_url } from "../../App";
 import { toast } from "react-toastify";
@@ -65,8 +65,8 @@ const AllOffers = () => {
     <div className="container-fluid p-4" style={{ background: "#f8fafc", minHeight: "100vh" }}>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h2 className="fw-bold text-dark mb-1">Coupon Dashboard</h2>
-          <div className="text-muted small">Create, control and track coupon campaigns</div>
+          <h2 className="fw-bold text-dark mb-1">Customer Coupon Dashboard</h2>
+          <div className="text-muted small">Create, control and track customer discount coupons</div>
         </div>
       </div>
 
@@ -82,59 +82,59 @@ const AllOffers = () => {
           const status = getStatus(offer);
           const usageText = offer.usageLimit == null ? `${offer.usedCount || 0} used / Unlimited` : `${offer.usedCount || 0}/${offer.usageLimit}`;
           const usagePercent = offer.usageLimit ? Math.min(100, ((offer.usedCount || 0) / offer.usageLimit) * 100) : 0;
-          const isProfessionalReward = offer.benefitType === "PROFESSIONAL_REWARD";
+          const isLegacyProfessional = offer.benefitType === "PROFESSIONAL_REWARD" || offer.audience?.[0] === "professional";
 
           return (
             <div className="col-xl-4 col-md-6 mb-4" key={offer._id}>
               <div className="p-4 h-100 shadow-sm bg-white" style={{ borderRadius: 16, border: "1px solid #e5e7eb" }}>
-                <div className="d-flex justify-content-between align-items-start mb-3">
-                  <div>
-                    <div className="small text-muted mb-1">COUPON CODE</div>
-                    <div className="d-flex align-items-center gap-2">
-                      <span className="badge bg-primary fs-6">{offer.couponCode}</span>
-                      <button className="btn btn-sm btn-light" onClick={() => copyCode(offer.couponCode)} aria-label="Copy coupon code"><FaCopy /></button>
+                {isLegacyProfessional ? (
+                  <>
+                    <div className="d-flex justify-content-between align-items-start mb-3">
+                      <span className="badge bg-dark"><FaTrophy className="me-1" />Legacy Professional Reward</span>
+                      <span className="badge bg-secondary">Not a coupon</span>
                     </div>
-                  </div>
-                  <span className={`badge ${status === "Active" ? "bg-success" : status === "Scheduled" ? "bg-info" : status === "Paused" ? "bg-warning text-dark" : "bg-secondary"}`}>{status}</span>
-                </div>
+                    <h5 className="fw-bold">{offer.offerTitle || "Professional milestone reward"}</h5>
+                    <p className="small text-muted">This legacy record is kept for history. Professional milestones are now automatic and are not created, claimed or edited as coupons.</p>
+                    <div className="alert alert-info small mb-3">Professional rank and milestone credits are handled automatically from completed bookings.</div>
+                    {offer.isActive && !offer.archivedAt && <button className="btn btn-danger w-100" disabled={loading} onClick={() => handleArchiveOffer(offer._id)}>Archive Legacy Record</button>}
+                  </>
+                ) : (
+                  <>
+                    <div className="d-flex justify-content-between align-items-start mb-3">
+                      <div>
+                        <div className="small text-muted mb-1">COUPON CODE</div>
+                        <div className="d-flex align-items-center gap-2">
+                          <span className="badge bg-primary fs-6">{offer.couponCode}</span>
+                          <button className="btn btn-sm btn-light" onClick={() => copyCode(offer.couponCode)} aria-label="Copy coupon code"><FaCopy /></button>
+                        </div>
+                      </div>
+                      <span className={`badge ${status === "Active" ? "bg-success" : status === "Scheduled" ? "bg-info" : status === "Paused" ? "bg-warning text-dark" : "bg-secondary"}`}>{status}</span>
+                    </div>
 
-                <h5 className="fw-bold"><FaTag className="me-2 text-primary" />{offer.offerTitle}</h5>
-                {offer.description && <p className="small text-muted">{offer.description}</p>}
-
-                <div className="mb-3 text-success fw-bold fs-5">
-                  {isProfessionalReward ? (
-                    <><FaGift className="me-2" />{offer.rewardValue || 0} wallet credits</>
-                  ) : offer.discountType === "percentage" ? (
-                    <><FaPercent /> {offer.discountValue}% OFF {offer.maxDiscount != null && <span className="small text-muted">(Max ₹{offer.maxDiscount})</span>}</>
-                  ) : (
-                    <><FaRupeeSign /> ₹{offer.discountValue} OFF</>
-                  )}
-                </div>
-
-                <div className="small mb-2"><strong>Audience:</strong> {offer.audience?.[0] || "—"}</div>
-                <div className="small text-muted mb-3"><strong>Services:</strong> {offer.serviceId?.length ? offer.serviceId.map((s) => s.name || s).join(", ") : "All services"}</div>
-
-                <div className="small text-muted mb-3">
-                  {!isProfessionalReward && <>Min booking: ₹{offer.minBookingAmount || 0}<br />New customers: {offer.newCustomerOnly ? "Yes" : "No"}<br /></>}
-                  Per user: {offer.perUserLimit || 1}
-                </div>
-
-                <div className="mb-3">
-                  <div className="d-flex justify-content-between small mb-1"><span>Redemptions</span><span>{usageText}</span></div>
-                  {offer.usageLimit != null && <div className="progress" style={{ height: 6 }}><div className="progress-bar" style={{ width: `${usagePercent}%` }} /></div>}
-                </div>
-
-                <div className="small text-muted mb-3"><FaCalendarAlt className="me-1" />{new Date(offer.startDate).toLocaleDateString()} → {new Date(offer.endDate).toLocaleDateString()}</div>
-
-                <button className="btn btn-outline-primary w-100" onClick={() => navigate(`${adminpath}/offer/update-offer/${offer._id}`)}>Update Coupon</button>
-                {offer.isActive && !offer.archivedAt && <button className="btn btn-danger w-100 mt-2" disabled={loading} onClick={() => handleArchiveOffer(offer._id)}>Archive Coupon</button>}
+                    <h5 className="fw-bold"><FaTag className="me-2 text-primary" />{offer.offerTitle}</h5>
+                    {offer.description && <p className="small text-muted">{offer.description}</p>}
+                    <div className="mb-3 text-success fw-bold fs-5">
+                      {offer.discountType === "percentage" ? <><FaPercent /> {offer.discountValue}% OFF {offer.maxDiscount != null && <span className="small text-muted">(Max ₹{offer.maxDiscount})</span>}</> : <><FaRupeeSign /> ₹{offer.discountValue} OFF</>}
+                    </div>
+                    <div className="small mb-2"><strong>Audience:</strong> Customer</div>
+                    <div className="small text-muted mb-3"><strong>Services:</strong> {offer.serviceId?.length ? offer.serviceId.map((s) => s.name || s).join(", ") : "All services"}</div>
+                    <div className="small text-muted mb-3">Min booking: ₹{offer.minBookingAmount || 0}<br />New customers: {offer.newCustomerOnly ? "Yes" : "No"}<br />Per customer: {offer.perUserLimit || 1}</div>
+                    <div className="mb-3">
+                      <div className="d-flex justify-content-between small mb-1"><span>Redemptions</span><span>{usageText}</span></div>
+                      {offer.usageLimit != null && <div className="progress" style={{ height: 6 }}><div className="progress-bar" style={{ width: `${usagePercent}%` }} /></div>}
+                    </div>
+                    <div className="small text-muted mb-3"><FaCalendarAlt className="me-1" />{new Date(offer.startDate).toLocaleDateString()} → {new Date(offer.endDate).toLocaleDateString()}</div>
+                    <button className="btn btn-outline-primary w-100" onClick={() => navigate(`${adminpath}/offer/update-offer/${offer._id}`)}>Update Coupon</button>
+                    {offer.isActive && !offer.archivedAt && <button className="btn btn-danger w-100 mt-2" disabled={loading} onClick={() => handleArchiveOffer(offer._id)}>Archive Coupon</button>}
+                  </>
+                )}
               </div>
             </div>
           );
         })}
       </div>
 
-      {filteredOffers.length === 0 && <div className="text-center mt-5 text-muted">No coupons found</div>}
+      {filteredOffers.length === 0 && <div className="text-center mt-5 text-muted">No customer coupons found</div>}
     </div>
   );
 };
