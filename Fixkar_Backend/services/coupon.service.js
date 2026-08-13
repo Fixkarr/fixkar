@@ -27,22 +27,16 @@ const assertCommonEligibility = async ({ userId, offer, audience, session }) => 
   if (!Array.isArray(offer.audience) || offer.audience.length !== 1 || offer.audience[0] !== audience) {
     throw new Error("This coupon is not available for your account");
   }
-  if (offer.benefitType === "CUSTOMER_DISCOUNT" && audience !== "customer") {
-    throw new Error("This coupon is for customers only");
-  }
-  if (offer.benefitType === "PROFESSIONAL_REWARD" && audience !== "professional") {
-    throw new Error("This coupon is for professionals only");
-  }
+  if (offer.benefitType === "CUSTOMER_DISCOUNT" && audience !== "customer") throw new Error("This coupon is for customers only");
+  if (offer.benefitType === "PROFESSIONAL_REWARD" && audience !== "professional") throw new Error("This coupon is for professionals only");
 
   const now = new Date();
   if (now < offer.startDate) throw new Error("This coupon is not active yet");
   if (now > offer.endDate) throw new Error("This coupon has expired");
-  if (offer.usageLimit != null && offer.usedCount >= offer.usageLimit) {
-    throw new Error("This coupon has reached its usage limit");
-  }
+  if (offer.usageLimit != null && offer.usedCount >= offer.usageLimit) throw new Error("This coupon has reached its usage limit");
 
   if (audience === "professional") {
-    const professional = await Professional.findOne({ userId }).select("_id profession isVerified status").session(session);
+    const professional = await Professional.findOne({ userId }).select("_id profession status isVerified").session(session);
     if (!professional) throw new Error("Professional account not found");
     if (professional.status && ["blocked", "suspended", "inactive"].includes(String(professional.status).toLowerCase())) {
       throw new Error("Your professional account is not eligible for this coupon");
@@ -54,9 +48,7 @@ const assertCommonEligibility = async ({ userId, offer, audience, session }) => 
 
   if (offer.newCustomerOnly && audience === "customer") {
     const customer = await Customer.findOne({ userId }).select("_id").session(session);
-    const completedCount = customer
-      ? await Booking.countDocuments({ customerId: customer._id, status: "completed" }).session(session)
-      : 0;
+    const completedCount = customer ? await Booking.countDocuments({ customerId: customer._id, status: "completed" }).session(session) : 0;
     if (completedCount > 0) throw new Error("This coupon is for new customers only");
   }
 };
@@ -77,42 +69,26 @@ export const validateCoupon = async ({ userId, couponCode, bookingId = null, ses
   if (!mongoose.isValidObjectId(bookingId)) throw new Error("Invalid booking ID");
 
   const customer = await Customer.findOne({ userId }).select("_id").session(session);
-  const booking = await Booking.findOne({ _id: bookingId, customerId: customer?._id })
-    .populate({ path: "professionalId", select: "profession" })
-    .session(session);
+  const booking = await Booking.findOne({ _id: bookingId, customerId: customer?._id }).populate({ path: "professionalId", select: "profession" }).session(session);
   if (!booking) throw new Error("Booking not found");
   if (booking.status !== "in-progress") throw new Error("Coupon can only be applied while the service is in progress");
   if (!booking.isPriceLocked) throw new Error("The booking price must be finalized before applying a coupon");
   if (booking.offerLocked) throw new Error("A coupon is already locked on this booking");
 
   const serviceId = booking.service || booking.professionalId?.profession;
-  if (offer.serviceId?.length && (!serviceId || !offer.serviceId.some(id => id.toString() === serviceId.toString()))) {
-    throw new Error("This coupon is not valid for this service");
-  }
+  if (offer.serviceId?.length && (!serviceId || !offer.serviceId.some(id => id.toString() === serviceId.toString()))) throw new Error("This coupon is not valid for this service");
 
   const baseAmount = Number(booking.totalAmount || 0);
   if (baseAmount <= 0) throw new Error("Invalid booking amount");
-  if (offer.minBookingAmount != null && baseAmount < offer.minBookingAmount) {
-    throw new Error(`Minimum booking amount for this coupon is ₹${offer.minBookingAmount}`);
-  }
+  if (offer.minBookingAmount != null && baseAmount < offer.minBookingAmount) throw new Error(`Minimum booking amount for this coupon is ₹${offer.minBookingAmount}`);
 
-  let discount = offer.discountType === "percentage"
-    ? (baseAmount * offer.discountValue) / 100
-    : offer.discountValue;
+  let discount = offer.discountType === "percentage" ? (baseAmount * offer.discountValue) / 100 : offer.discountValue;
   if (offer.maxDiscount != null) discount = Math.min(discount, offer.maxDiscount);
   discount = Math.round(discount * 100) / 100;
   if (discount <= 0) throw new Error("Coupon discount is not valid for this booking");
-  if (discount > baseAmount) discount = baseAmount;
+  discount = Math.min(discount, baseAmount);
 
-  return {
-    offer,
-    booking,
-    audience,
-    couponCode: normalizedCode,
-    baseAmount,
-    discount,
-    finalPayable: Math.round((baseAmount - discount) * 100) / 100,
-  };
+  return { offer, booking, audience, couponCode: normalizedCode, baseAmount, discount, finalPayable: Math.round((baseAmount - discount) * 100) / 100 };
 };
 
 export const redeemCustomerCoupon = async ({ userId, bookingId, discountAmount, paymentMode, session = null }) => {
@@ -122,24 +98,13 @@ export const redeemCustomerCoupon = async ({ userId, bookingId, discountAmount, 
   if (!offer) throw new Error("Coupon campaign not found");
 
   const claim = await OfferClaim.findOneAndUpdate(
-    {
-      offerId: offer._id,
-      userId,
-      $expr: { $lt: ["$redeemedCount", Number(offer.perUserLimit || 1)] },
-      status: { $in: ["claimed", "redeemed"] },
-    },
-    {
-      $inc: { redeemedCount: 1 },
-      $set: { status: "redeemed", redeemedAt: new Date() },
-    },
+    { offerId: offer._id, userId, $expr: { $lt: ["$redeemedCount", Number(offer.perUserLimit || 1)] }, status: { $in: ["claimed", "redeemed"] } },
+    { $inc: { redeemedCount: 1 }, $set: { status: "redeemed", redeemedAt: new Date() } },
     { new: true, session }
   );
   if (!claim) throw new Error("You have reached this coupon's usage limit");
 
-  const limitFilter = {
-    _id: offer._id,
-    $expr: { $or: [{ $eq: ["$usageLimit", null] }, { $lt: ["$usedCount", "$usageLimit"] }] },
-  };
+  const limitFilter = { _id: offer._id, $expr: { $or: [{ $eq: ["$usageLimit", null] }, { $lt: ["$usedCount", "$usageLimit"] }] } };
   const reservedOffer = await Offer.findOneAndUpdate(limitFilter, { $inc: { usedCount: 1 } }, { new: true, session });
   if (!reservedOffer) {
     await OfferClaim.findByIdAndUpdate(claim._id, { $inc: { redeemedCount: -1 }, $set: { status: "claimed", redeemedAt: null } }, { session });
@@ -172,10 +137,12 @@ export const claimCoupon = async ({ userId, couponCode }) => {
     const validated = await validateCoupon({ userId, couponCode, session });
     const normalizedCode = validated.couponCode;
     const existing = await OfferClaim.findOne({ offerId: validated.offer._id, userId }).session(session);
+
     if (existing && ["claimed", "redeemed"].includes(existing.status)) {
       await session.commitTransaction();
       return existing;
     }
+    if (existing?.status === "revoked") throw new Error("This coupon claim has been revoked");
 
     if (validated.offer.benefitType === "PROFESSIONAL_REWARD") {
       const limitFilter = validated.offer.usageLimit == null
@@ -189,20 +156,19 @@ export const claimCoupon = async ({ userId, couponCode }) => {
       const credits = Number(validated.offer.rewardValue || 0);
       if (credits < 1) throw new Error("Professional reward is not configured correctly");
 
-      const claim = await OfferClaim.create([{
+      const claimData = {
         offerId: validated.offer._id,
         userId,
         couponCode: normalizedCode,
         status: "redeemed",
         redeemedCount: 1,
         redeemedAt: new Date(),
-      }], { session });
+      };
+      const claim = existing
+        ? await OfferClaim.findByIdAndUpdate(existing._id, claimData, { new: true, session })
+        : (await OfferClaim.create([claimData], { session }))[0];
 
-      const wallet = await Wallet.findOneAndUpdate(
-        { professionalId: professional._id },
-        { $setOnInsert: { professionalId: professional._id } },
-        { new: true, upsert: true, session }
-      );
+      const wallet = await Wallet.findOneAndUpdate({ professionalId: professional._id }, { $setOnInsert: { professionalId: professional._id } }, { new: true, upsert: true, session });
       await Wallet.findByIdAndUpdate(wallet._id, { $inc: { "credits.balance": credits, "credits.lifetimeEarned": credits } }, { session });
       await CreditTransaction.create([{
         walletId: wallet._id,
@@ -210,7 +176,7 @@ export const claimCoupon = async ({ userId, couponCode }) => {
         type: "EARNED",
         source: "coupon_reward",
         credits,
-        referenceId: claim[0]._id,
+        referenceId: claim._id,
         referenceModel: "OfferClaim",
         description: `Coupon reward: ${normalizedCode}`,
         metadata: { offerId: validated.offer._id, couponCode: normalizedCode },
@@ -226,18 +192,15 @@ export const claimCoupon = async ({ userId, couponCode }) => {
       }], { session });
 
       await session.commitTransaction();
-      return claim[0];
+      return claim;
     }
 
-    const claim = await OfferClaim.create([{
-      offerId: validated.offer._id,
-      userId,
-      couponCode: normalizedCode,
-      status: "claimed",
-      redeemedCount: 0,
-    }], { session });
+    const claimData = { offerId: validated.offer._id, userId, couponCode: normalizedCode, status: "claimed", redeemedCount: existing?.redeemedCount || 0 };
+    const claim = existing
+      ? await OfferClaim.findByIdAndUpdate(existing._id, claimData, { new: true, session })
+      : (await OfferClaim.create([claimData], { session }))[0];
     await session.commitTransaction();
-    return claim[0];
+    return claim;
   } catch (error) {
     await session.abortTransaction();
     throw error;
