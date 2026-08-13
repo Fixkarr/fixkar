@@ -6,6 +6,11 @@ const walletSchema = new mongoose.Schema({
     pendingBalance : {type : Number, default : 0},
     totalEarned : {type : Number, default : 0},
     totalWithdrawn : {type : Number, default : 0},
+    cashPlatformFeeDue: {
+    type: Number,
+    default: 0,
+    min: 0
+    },
     credits: {
         balance: { type: Number, default: 0, min: 0 },
         lifetimeEarned: { type: Number, default: 0, min: 0 },

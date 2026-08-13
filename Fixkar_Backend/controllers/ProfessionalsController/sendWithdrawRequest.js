@@ -37,11 +37,14 @@ export const sendWithDrawRequest = async(req,res)=>{
             })
         }
         
-        if(amount > pendingBalance){
-            return res.status(400).json({
-                message : `You can withdraw maximum ₹${pendingBalance} only`
-            })
-         }
+       const withdrawableBalance =
+    Math.max(0, pendingBalance - (proWallet.cashPlatformFeeDue || 0));
+
+if (amount > withdrawableBalance) {
+    return res.status(400).json({
+        message: "Insufficient withdrawable balance after platform fee adjustment"
+    });
+}
 
          proWallet.withdrawnRequest.amount = amount;
          proWallet.withdrawnRequest.pending = true;

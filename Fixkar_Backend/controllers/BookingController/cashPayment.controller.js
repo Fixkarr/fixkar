@@ -31,7 +31,9 @@ export const confirmCashPayment = async (req, res) => {
     const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
     const commission = (fullAmount * COMMISSION_PERCENT) / 100;
     const professionalAmount = fullAmount - commission;
-    const wallet = await Wallet.findOneAndUpdate({ professionalId: booking.professionalId._id }, { $inc: { pendingBalance: professionalAmount, totalEarned: professionalAmount }, $setOnInsert: { professionalId: booking.professionalId._id } }, { new: true, upsert: true, session });
+    const wallet = await Wallet.findOneAndUpdate({ professionalId: booking.professionalId._id }, {$inc: {
+    cashPlatformFeeDue: commission
+    }, $setOnInsert: { professionalId: booking.professionalId._id } }, { new: true, upsert: true, session });
     const milestoneResult = await rewardCompletedBookingCredits({ booking, walletId: wallet._id, professionalEarnings: professionalAmount, session });
     if (booking.offerLocked && booking.offerId) await redeemCustomerCoupon({ userId: booking.customerId.userId._id, bookingId: booking._id, discountAmount, paymentMode: "CASH", session });
 
