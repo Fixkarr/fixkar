@@ -69,6 +69,7 @@ const Login = () => {
           const result = await axios.post(`${server_url}/api/auth/login`, values, {withCredentials : true})
           setFloading(false)
           dispatch(setCurrentUserData(result.data))
+          dispatch(setCurrentAdmin(null));
           navigate(from, { replace: true }); 
           resetForm()
          } catch (error) {

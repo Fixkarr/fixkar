@@ -42,6 +42,9 @@ const AdminLogin = () => {
                 toast.success(result.data.message);
                 dispatch(setCurrentAdmin(result.data.admin))
                 resetForm();
+                navigate(`${import.meta.env.VITE_ADMIN_PATH}/home`, {
+                replace: true,
+              });
                } catch (error) {
                   console.log(error.message);
                   toast.error(error.response.data.message);
