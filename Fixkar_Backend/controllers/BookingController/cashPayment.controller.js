@@ -34,17 +34,16 @@ export const confirmCashPayment = async (req, res) => {
     const commission = (fullAmount * COMMISSION_PERCENT) / 100;
     const professionalAmount = fullAmount - commission;
 
-    // Cash is already collected directly by the professional. The platform
-    // commission must therefore be settled against the professional wallet
-    // instead of leaving the gross cash amount withdrawable.
+    // Cash is already collected directly by the professional. The gross
+    // amount is therefore already represented in the professional's pending
+    // balance. Only the platform commission needs to be adjusted from it.
+    // Do not add professionalAmount again, otherwise the wallet is credited twice.
     const wallet = await Wallet.findOneAndUpdate(
       { professionalId: booking.professionalId._id },
       {
         $inc: {
-          pendingBalance: professionalAmount,
-          totalEarned: professionalAmount,
+          pendingBalance: -commission,
         },
-        $set: { cashPlatformFeeDue: 0 },
         $setOnInsert: { professionalId: booking.professionalId._id },
       },
       { new: true, upsert: true, session }
