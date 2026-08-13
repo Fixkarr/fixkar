@@ -1,4 +1,15 @@
 import { Offer } from "../AdminModels/offer.model.js";
+import { OfferClaim } from "../AdminModels/offerClaim.model.js";
+
+const parseCampaignDate = (value, endOfDay = false) => {
+  const raw = String(value || "").trim();
+  if (!raw) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+    return new Date(`${raw}T${endOfDay ? "23:59:59.999" : "00:00:00.000"}+05:30`);
+  }
+  const parsed = new Date(raw);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
 
 export const updateOfferById = async (req, res) => {
   try {
@@ -12,20 +23,40 @@ export const updateOfferById = async (req, res) => {
       offerTitle, description, audience, benefitType, serviceId,
       discountType, discountValue, minBookingAmount, maxDiscount,
       rewardType, rewardValue, startDate, endDate, usageLimit,
-      perUserLimit, newCustomerOnly, isActive
+      perUserLimit, newCustomerOnly, isActive,
     } = req.body;
 
     const nextAudience = audience === undefined ? offer.audience : (Array.isArray(audience) ? audience : [audience]);
     const nextBenefit = benefitType === undefined ? offer.benefitType : benefitType;
+    if (!Array.isArray(nextAudience) || nextAudience.length !== 1 || !["customer", "professional"].includes(nextAudience[0])) return res.status(400).json({ message: "Select exactly one valid coupon audience" });
+    if (!["CUSTOMER_DISCOUNT", "PROFESSIONAL_REWARD"].includes(nextBenefit)) return res.status(400).json({ message: "Invalid coupon benefit type" });
 
-    if (!Array.isArray(nextAudience) || nextAudience.length !== 1 || !["customer", "professional"].includes(nextAudience[0])) {
-      return res.status(400).json({ message: "Select exactly one valid coupon audience" });
-    }
-    if (!["CUSTOMER_DISCOUNT", "PROFESSIONAL_REWARD"].includes(nextBenefit)) {
-      return res.status(400).json({ message: "Invalid coupon benefit type" });
-    }
-    if (offer.usedCount > 0 && (nextBenefit !== offer.benefitType || nextAudience[0] !== offer.audience[0])) {
-      return res.status(409).json({ message: "A redeemed coupon cannot change audience or benefit type. Create a new campaign instead." });
+    const claimCount = await OfferClaim.countDocuments({ offerId: offer._id });
+    const campaignTermsChanging = [benefitType, audience, serviceId, discountType, discountValue, minBookingAmount, maxDiscount, rewardType, rewardValue, newCustomerOnly]
+      .some((value) => value !== undefined);
+    if (claimCount > 0 && campaignTermsChanging) {
+      const audienceChanged = nextAudience[0] !== offer.audience[0];
+      const benefitChanged = nextBenefit !== offer.benefitType;
+      const currentServiceIds = (offer.serviceId || []).map(String).sort().join(",");
+      const nextServiceIds = (serviceId === undefined ? offer.serviceId || [] : Array.isArray(serviceId) ? serviceId : []).map(String).sort().join(",");
+      const serviceChanged = currentServiceIds !== nextServiceIds;
+      const financialChanged = nextBenefit === "customer"
+        ? false
+        : false;
+      const discountChanged = nextBenefit === "CUSTOMER_DISCOUNT" && (
+        (discountType !== undefined && discountType !== offer.discountType) ||
+        (discountValue !== undefined && Number(discountValue) !== Number(offer.discountValue)) ||
+        (minBookingAmount !== undefined && Number(minBookingAmount || 0) !== Number(offer.minBookingAmount || 0)) ||
+        (maxDiscount !== undefined && Number(maxDiscount || 0) !== Number(offer.maxDiscount || 0)) ||
+        (newCustomerOnly !== undefined && Boolean(newCustomerOnly) !== Boolean(offer.newCustomerOnly))
+      );
+      const rewardChanged = nextBenefit === "PROFESSIONAL_REWARD" && (
+        (rewardType !== undefined && rewardType !== offer.rewardType) ||
+        (rewardValue !== undefined && Number(rewardValue) !== Number(offer.rewardValue))
+      );
+      if (audienceChanged || benefitChanged || serviceChanged || discountChanged || rewardChanged || financialChanged) {
+        return res.status(409).json({ message: "This campaign already has claims. Financial terms, audience, benefit and service targeting cannot be changed. Create a new coupon campaign instead." });
+      }
     }
 
     offer.audience = nextAudience;
@@ -33,8 +64,13 @@ export const updateOfferById = async (req, res) => {
     if (offerTitle !== undefined) offer.offerTitle = String(offerTitle).trim();
     if (description !== undefined) offer.description = description;
     if (serviceId !== undefined) offer.serviceId = Array.isArray(serviceId) ? serviceId : [];
-    if (startDate !== undefined) offer.startDate = new Date(startDate);
-    if (endDate !== undefined) offer.endDate = new Date(endDate);
+
+    const nextStartDate = startDate === undefined ? offer.startDate : parseCampaignDate(startDate, false);
+    const nextEndDate = endDate === undefined ? offer.endDate : parseCampaignDate(endDate, true);
+    if (!nextStartDate || !nextEndDate) return res.status(400).json({ message: "Start and end dates are required and must be valid" });
+    offer.startDate = nextStartDate;
+    offer.endDate = nextEndDate;
+
     if (usageLimit !== undefined) offer.usageLimit = usageLimit === null || usageLimit === "" ? null : Number(usageLimit);
     if (isActive !== undefined) offer.isActive = Boolean(isActive);
 
@@ -65,11 +101,9 @@ export const updateOfferById = async (req, res) => {
       offer.newCustomerOnly = false;
     }
 
-    if (offer.usageLimit != null && (!Number.isInteger(offer.usageLimit) || offer.usageLimit < offer.usedCount || offer.usageLimit < 1)) {
-      return res.status(400).json({ message: "Usage limit must be an integer greater than or equal to current redemptions" });
-    }
+    if (offer.usageLimit != null && (!Number.isInteger(offer.usageLimit) || offer.usageLimit < offer.usedCount || offer.usageLimit < 1)) return res.status(400).json({ message: "Usage limit must be an integer greater than or equal to current redemptions" });
     if (!Number.isInteger(Number(offer.perUserLimit)) || Number(offer.perUserLimit) < 1) return res.status(400).json({ message: "Per-user limit must be a positive integer" });
-    if (!offer.startDate || !offer.endDate || offer.endDate <= offer.startDate) return res.status(400).json({ message: "End date must be after start date" });
+    if (offer.endDate <= offer.startDate) return res.status(400).json({ message: "End date must be after start date" });
 
     await offer.save();
     return res.status(200).json({ message: "Coupon updated successfully", offer });
