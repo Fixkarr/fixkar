@@ -26,14 +26,30 @@ export const confirmCashPayment = async (req, res) => {
     if (await Payment.findOne({ bookingId, status: "paid" }).session(session)) throw new Error("Payment already confirmed");
 
     const payment = await Payment.create([{ bookingId: booking._id, customerId: booking.customerId._id, professionalId: booking.professionalId._id, amount: fullAmount - discountAmount, status: "paid", reason: "SERVICE_PAYMENT", paymentType: "FINAL", paymentMode: "CASH", discountAmount, paidAt: new Date() }], { session });
-    booking.status = "completed"; booking.currentPaymentId = payment[0]._id; booking.completedAt = new Date();
+    booking.status = "completed";
+    booking.currentPaymentId = payment[0]._id;
+    booking.completedAt = new Date();
 
     const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
     const commission = (fullAmount * COMMISSION_PERCENT) / 100;
     const professionalAmount = fullAmount - commission;
-    const wallet = await Wallet.findOneAndUpdate({ professionalId: booking.professionalId._id }, {$inc: {
-    cashPlatformFeeDue: commission
-    }, $setOnInsert: { professionalId: booking.professionalId._id } }, { new: true, upsert: true, session });
+
+    // Cash is already collected directly by the professional. The platform
+    // commission must therefore be settled against the professional wallet
+    // instead of leaving the gross cash amount withdrawable.
+    const wallet = await Wallet.findOneAndUpdate(
+      { professionalId: booking.professionalId._id },
+      {
+        $inc: {
+          pendingBalance: professionalAmount,
+          totalEarned: professionalAmount,
+        },
+        $set: { cashPlatformFeeDue: 0 },
+        $setOnInsert: { professionalId: booking.professionalId._id },
+      },
+      { new: true, upsert: true, session }
+    );
+
     const milestoneResult = await rewardCompletedBookingCredits({ booking, walletId: wallet._id, professionalEarnings: professionalAmount, session });
     if (booking.offerLocked && booking.offerId) await redeemCustomerCoupon({ userId: booking.customerId.userId._id, bookingId: booking._id, discountAmount, paymentMode: "CASH", session });
 
