@@ -57,7 +57,8 @@ export const verifyPayment = async (req, res) => {
     const COMMISSION_PERCENT=Number(booking.professionalId.profession.commission);const quoteAmount=booking.isPriceLocked?Number(booking.serviceCharge)||0:Number(booking.quoteAmount)||0;const visitingCharge=Number(booking.visitingCharge)||0;let fullAmount=0,commission=0,professionalAmount=0;const lateCancellationFee=50;
     if(payment.paymentType==="FINAL"){fullAmount=booking.isPriceLocked?Number(booking.totalAmount)||0:quoteAmount+visitingCharge;commission=(fullAmount*COMMISSION_PERCENT)/100;professionalAmount=fullAmount-commission;}else{fullAmount=visitingCharge+lateCancellationFee;const commissionOnVisiting=(visitingCharge*COMMISSION_PERCENT)/100;commission=commissionOnVisiting;professionalAmount=(visitingCharge-commissionOnVisiting)+lateCancellationFee;}
     const wallet=await Wallet.findOneAndUpdate({professionalId:booking.professionalId._id},{$inc:{pendingBalance:professionalAmount,totalEarned:professionalAmount}},{new:true,upsert:true,session});
-    if(payment.paymentType==="FINAL")await rewardCompletedBookingCredits({booking,walletId:wallet._id,professionalEarnings:professionalAmount,session});
+    let milestoneResult={completedBookings:0,rank:null,rewards:[]};
+    if(payment.paymentType==="FINAL")milestoneResult=await rewardCompletedBookingCredits({booking,walletId:wallet._id,professionalEarnings:professionalAmount,session});
     if(payment.paymentType==="FINAL"&&booking.offerLocked&&booking.offerId){await redeemCustomerCoupon({userId:booking.customerId.userId._id,bookingId:booking._id,discountAmount:payment.discountAmount,paymentMode:"ONLINE",session});}
     let notificationTitle="",notificationMessage="",type="";
     if(payment.paymentType==="FINAL"){type="booking_completed";notificationTitle="Work Completed & Payment Received";notificationMessage=`${booking.customerName}'s Work has been completed successfully. ₹${professionalAmount} has been added to your wallet.`;}else{type="booking_cancelled";notificationTitle="Work Cancelled & Payment Settled";notificationMessage=`${booking.customerName} has cancelled the work. ₹${professionalAmount} has been added to your wallet as settlement.`;}
@@ -69,7 +70,8 @@ export const verifyPayment = async (req, res) => {
     const notification=await Notification.create({userId:booking.professionalId.userId._id,title:notificationTitle,message:notificationMessage,type,relatedId:booking._id,isRead:false});
     await pushNotification({userId:notification.userId,title:notification.title,message:notification.message,redirectUrl:`/professional/bookings/${booking._id}`});
     io.to(booking.professionalId.userId._id.toString()).emit("notification",{title:notification.title,message:notification.message,type:notification.type,relatedId:notification.relatedId,isRead:notification.isRead,createdAt:notification.createdAt});
+    if(milestoneResult.rewards?.length){io.to(booking.professionalId.userId._id.toString()).emit("professionalMilestoneUnlocked",milestoneResult);}
     io.to(booking.customerId.userId._id.toString()).emit("bookingUpdated",booking);io.to(booking.professionalId.userId._id.toString()).emit("bookingUpdated",booking);
-    return res.status(200).json({success:true,message:"Payment Successful!"});
+    return res.status(200).json({success:true,message:"Payment Successful!",milestones:milestoneResult});
   }catch(error){await session.abortTransaction();session.endSession();console.error(error);return res.status(500).json({message:"Payment verification failed"});}
 };
