@@ -30,6 +30,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
+    "start": "node server.js",
     "migrate:offers-to-coupons": "node scripts/migrateOffersToCoupons.js",
     "migrate:professional-achievements": "node scripts/migrateProfessionalAchievements.js",
     "migrate:professional-reward-claims": "node scripts/migrateProfessionalRewardClaims.js"
