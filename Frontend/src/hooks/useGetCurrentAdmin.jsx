@@ -1,14 +1,21 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { server_url } from "../App";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentAdmin } from "../redux/admin.Slice";
+import {
+  setCurrentAdmin,
+  setAdminLoading,
+} from "../redux/admin.Slice";
 
 const useGetCurrentAdmin = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const currentUserData = useSelector((state) => state.user.currentUserData);
+
+  const currentUserData = useSelector(
+    (state) => state.user.currentUserData
+  );
+
   const adminpath = import.meta.env.VITE_ADMIN_PATH;
 
   const isAdminRoute =
@@ -18,20 +25,35 @@ const useGetCurrentAdmin = () => {
   useEffect(() => {
     let cancelled = false;
 
-    // Admin and customer/professional sessions are intentionally isolated.
-    // Never resolve admin state while the user is inside the normal app.
-    if (!isAdminRoute || currentUserData) {
+    // Normal customer/professional area
+    if (!isAdminRoute) {
       dispatch(setCurrentAdmin(null));
+      dispatch(setAdminLoading(false));
+
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    // User session exists → never treat it as admin
+    if (currentUserData) {
+      dispatch(setCurrentAdmin(null));
+      dispatch(setAdminLoading(false));
+
       return () => {
         cancelled = true;
       };
     }
 
     const fetchAdmin = async () => {
+      dispatch(setAdminLoading(true));
+
       try {
         const result = await axios.get(
           `${server_url}/api/admin/get-current-admin`,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+          }
         );
 
         if (!cancelled) {
@@ -39,7 +61,6 @@ const useGetCurrentAdmin = () => {
         }
       } catch (error) {
         if (!cancelled) {
-          // Never keep stale admin state after the admin session is invalid.
           dispatch(setCurrentAdmin(null));
         }
       }

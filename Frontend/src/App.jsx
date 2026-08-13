@@ -93,6 +93,7 @@ import { toast } from "react-toastify";
 import PickupToast from "./Professional/PickupToast.jsx";
 import IncomingBooking from "./Professional/professionalBooking/Pickup/IncomingBooking.jsx";
 import IncomingRequests from "./Professional/professionalBooking/Pickup/IncomingRequests.jsx";
+import AdminProtectedRoute from "./Components/AdminProtectedRoute.jsx";
 
 const App = () => {
   useGetCurrentUser();
@@ -530,22 +531,27 @@ socket.on("pickupProfessionalAccepted", (data) => {
 
         {/* Admin  */}
 
-          <Route path={`${adminpath}/home`} element={currentAdmin ? <AdminHome/> : <Navigate to="/" />}/>
-          <Route path={`${adminpath}/signup`} element={currentAdmin?.role === "super_admin" ? <AdminSignup/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          
-          <Route path={`${adminpath}/manage-services`} element={currentAdmin?.role === "super_admin" ? <AdminServices/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-
-          <Route path={`${adminpath}/manage-users`} element={currentAdmin?.role === "super_admin" ? <AdminUsers/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          <Route path={`${adminpath}/manage-bookings`} element={currentAdmin?.role === "super_admin" ? <AdminBookings/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          <Route path={`${adminpath}/manage-bookings/:bookingId`} element={currentAdmin?.role === "super_admin" ? <AdminBookingDetail/> : (<Navigate to={`${adminpath}/home`}/>)}/>
-          <Route path={`${adminpath}/manage-forms`} element={currentAdmin?.role === "super_admin" ? <ManageForms/> : <Navigate to={`${adminpath}/home`}/>}/>
-          <Route path={`${adminpath}/manage-offers`} element={currentAdmin?.role === "super_admin" ? <ManageOffers/> : <Navigate to={`${adminpath}/home`}/>}/>
-          <Route path={`${adminpath}/manage-forms/create`} element={currentAdmin?.role === "super_admin" ? <CreateForm/> : <Navigate to={`${adminpath}/home`}/>}/>
-          <Route path={`${adminpath}/manage-announcements`} element={currentAdmin?.role === "super_admin" ? <ManageAnnouncements/> : <Navigate to={`${adminpath}/home`}/>}/>
-          <Route path={`${adminpath}/offer/update-offer/:offerId`} element={currentAdmin?.role === "super_admin" ? <UpdateOffer/> : <Navigate to={`${adminpath}/home`}/>}/>
-          <Route path={`${adminpath}/manage-enquiry`} element={currentAdmin?.role === "super_admin" ? <ManageEnquiry/> : <Navigate to={`${adminpath}/home`}/>}/>
       </Route>
 
+      <Route element={<DashboardLayout />}>
+  <Route element={<AdminProtectedRoute requiredRole="super_admin"/>}>
+          <Route path={`${adminpath}/home`} element={currentAdmin ? <AdminHome/> : <Navigate to="/" />}/>
+          <Route path={`${adminpath}/signup`} element={  <AdminSignup/>}/>
+          
+          <Route path={`${adminpath}/manage-services`} element={  <AdminServices/>}/>
+
+          <Route path={`${adminpath}/manage-users`} element={  <AdminUsers/>}/>
+          <Route path={`${adminpath}/manage-bookings`} element={  <AdminBookings/>}/>
+          <Route path={`${adminpath}/manage-bookings/:bookingId`} element={  <AdminBookingDetail/>}/>
+          <Route path={`${adminpath}/manage-forms`} element={  <ManageForms/>}/>
+          <Route path={`${adminpath}/manage-offers`} element={  <ManageOffers/>}/>
+          <Route path={`${adminpath}/manage-forms/create`} element={  <CreateForm/>}/>
+          <Route path={`${adminpath}/manage-announcements`} element={  <ManageAnnouncements/>}/>
+          <Route path={`${adminpath}/offer/update-offer/:offerId`} element={  <UpdateOffer/>}/>
+          <Route path={`${adminpath}/manage-enquiry`} element={  <ManageEnquiry/>}/>
+
+          </Route>
+          </Route>
      
       {/* Admin Pannel starts here */}
 
