@@ -41,9 +41,7 @@ app.use(cors({
     credentials : true
 }))
 
-// Lightweight security headers without introducing another dependency.
-// HSTS is enabled only in production because browsers should not be forced
-// to HTTPS while developing locally.
+
 app.use((req, res, next) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("X-Frame-Options", "DENY");
