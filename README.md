@@ -13,6 +13,7 @@ Fixkar is being developed as a MERN-stack platform where customers can discover 
 - Mason
 - Labour
 - Civil & Renovation Services
+- AC and Ro Services
 
 The platform is designed to manage the complete service journey, including professional onboarding, customer bookings, service management, payments, notifications, ratings, and reviews.
 
