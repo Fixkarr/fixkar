@@ -29,6 +29,9 @@ export const confirmCashPayment = async (req, res) => {
     booking.status = "completed";
     booking.currentPaymentId = payment[0]._id;
     booking.completedAt = new Date();
+    // Persist the completion before milestone counting so the transaction's
+    // completed-booking query includes this booking.
+    await booking.save({ session });
 
     const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
     const commission = (fullAmount * COMMISSION_PERCENT) / 100;

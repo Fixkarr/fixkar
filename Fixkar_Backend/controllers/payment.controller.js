@@ -53,7 +53,16 @@ export const verifyPayment = async (req, res) => {
     if(!payment){await session.abortTransaction();session.endSession();return res.status(400).json({message:"Payment already processed or invalid"});}
     const booking=await Booking.findById(bookingId).populate({path:"customerId",populate:{path:"userId",model:"User",select:"fullName"}}).populate({path:"professionalId",select:"profilePicture address userId",populate:[{path:"userId",model:"User",select:"fullName"},{path:"profession",select:"name image skills commission",populate:{path:"skills",select:"name"}},{path:"selectedSkills",select:"name"}]}).populate('review').session(session);
     if(["completed","cancelled"].includes(booking.status))throw new Error("Booking already completed!");
-    if(payment.paymentType==="FINAL")booking.status='completed';if(payment.paymentType==="CANCEL"){booking.status='cancelled';booking.cancellationType='late';}
+    if(payment.paymentType==="FINAL"){
+      booking.status='completed';
+      booking.completedAt=new Date();
+      await booking.save({session});
+    }
+    if(payment.paymentType==="CANCEL"){
+      booking.status='cancelled';
+      booking.cancellationType='late';
+      await booking.save({session});
+    }
     const COMMISSION_PERCENT=Number(booking.professionalId.profession.commission);const quoteAmount=booking.isPriceLocked?Number(booking.serviceCharge)||0:Number(booking.quoteAmount)||0;const visitingCharge=Number(booking.visitingCharge)||0;let fullAmount=0,commission=0,professionalAmount=0;const lateCancellationFee=50;
     if(payment.paymentType==="FINAL"){fullAmount=booking.isPriceLocked?Number(booking.totalAmount)||0:quoteAmount+visitingCharge;commission=(fullAmount*COMMISSION_PERCENT)/100;professionalAmount=fullAmount-commission;}else{fullAmount=visitingCharge+lateCancellationFee;const commissionOnVisiting=(visitingCharge*COMMISSION_PERCENT)/100;commission=commissionOnVisiting;professionalAmount=(visitingCharge-commissionOnVisiting)+lateCancellationFee;}
     const wallet=await Wallet.findOneAndUpdate({professionalId:booking.professionalId._id},{$inc:{pendingBalance:professionalAmount,totalEarned:professionalAmount}},{new:true,upsert:true,session});
@@ -62,7 +71,6 @@ export const verifyPayment = async (req, res) => {
     if(payment.paymentType==="FINAL"&&booking.offerLocked&&booking.offerId){await redeemCustomerCoupon({userId:booking.customerId.userId._id,bookingId:booking._id,discountAmount:payment.discountAmount,paymentMode:"ONLINE",session});}
     let notificationTitle="",notificationMessage="",type="";
     if(payment.paymentType==="FINAL"){type="booking_completed";notificationTitle="Work Completed & Payment Received";notificationMessage=`${booking.customerName}'s Work has been completed successfully. ₹${professionalAmount} has been added to your wallet.`;}else{type="booking_cancelled";notificationTitle="Work Cancelled & Payment Settled";notificationMessage=`${booking.customerName} has cancelled the work. ₹${professionalAmount} has been added to your wallet as settlement.`;}
-    await booking.save({session});
     const walletTransaction=await WalletTransaction.create([{walletId:wallet._id,type:"CREDIT",grossAmount:fullAmount,commission,professionalAmount,reason:payment.reason,bookingId:booking._id,paymentMode:"ONLINE"}],{session});
     const customerPaidAmount=payment.amount;
     await PlatformTransaction.create([{bookingId:booking._id,paymentId:payment._id,professionalId:booking.professionalId._id,paymentMode:"ONLINE",grossAmount:fullAmount,customerPaidAmount,discountAmount:payment.discountAmount,commission,professionalAmount,profitOrLoss:commission-payment.discountAmount}],{session});
