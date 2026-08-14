@@ -34,8 +34,6 @@ const port  = process.env.PORT || 3000
 // alias so cookies/API requests continue to work while DNS is being finalized.
 const allowedOrigins = [
     process.env.FRONTEND_URL,
-    "https://testing.fixkarr.com",
-    "https://test.fixkarr.com"
 ].filter(Boolean);
   
 app.use(cors({
