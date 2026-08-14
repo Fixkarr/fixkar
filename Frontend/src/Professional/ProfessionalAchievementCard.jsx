@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { FaArrowRight, FaCheck, FaLock, FaMedal, FaStar, FaTrophy } from "react-icons/fa";
 import socket from "../socket.js";
-import { server_url } from "../App.jsx";
 import { setCurrentUserData } from "../redux/user.slice.js";
+
+const server_url = import.meta.env.VITE_SERVER_URL;
 
 const RANKS = [
   { tier: "BRONZE", label: "Bronze", icon: "🥉", accent: "#cd7f32" },
@@ -52,12 +53,15 @@ const ProfessionalAchievementCard = ({ professional }) => {
   }, [professional]);
 
   useEffect(() => {
+    let refreshTimer;
+
     const refreshProfessional = async (milestone = null) => {
       const incoming = Number(milestone?.completedBookings);
       if (Number.isFinite(incoming) && incoming > 0) {
         setLiveCompleted(incoming);
         setCelebrating(true);
-        window.setTimeout(() => setCelebrating(false), 2200);
+        window.clearTimeout(refreshTimer);
+        refreshTimer = window.setTimeout(() => setCelebrating(false), 2200);
       }
 
       try {
@@ -80,6 +84,7 @@ const ProfessionalAchievementCard = ({ professional }) => {
     socket.on("bookingUpdated", handleBookingUpdate);
 
     return () => {
+      window.clearTimeout(refreshTimer);
       socket.off("professionalMilestoneUnlocked", handleMilestone);
       socket.off("bookingUpdated", handleBookingUpdate);
     };
@@ -144,9 +149,7 @@ const ProfessionalAchievementCard = ({ professional }) => {
               </div>
             </div>
           </div>
-          <span className="milestone-pill">
-            <FaStar className="text-warning" /> {completed}
-          </span>
+          <span className="milestone-pill"><FaStar className="text-warning" /> {completed}</span>
         </div>
 
         <div className="mt-4">
@@ -164,10 +167,7 @@ const ProfessionalAchievementCard = ({ professional }) => {
 
       <div className="p-3 p-md-4">
         <div className="d-flex align-items-center justify-content-between mb-3">
-          <div>
-            <div className="fw-bold">Your journey</div>
-            <div className="small text-secondary">Every genuine completed booking moves you forward.</div>
-          </div>
+          <div><div className="fw-bold">Your journey</div><div className="small text-secondary">Every genuine completed booking moves you forward.</div></div>
           <FaTrophy className="text-warning" />
         </div>
 
@@ -192,9 +192,7 @@ const ProfessionalAchievementCard = ({ professional }) => {
 
         <div className="d-flex align-items-center gap-2 mt-4 p-3 rounded-4" style={{ background: "#f8fafc" }}>
           <FaMedal style={{ color: currentRank.accent }} />
-          <div className="small text-secondary flex-grow-1">
-            Keep completing quality work to unlock the next milestone and its reward.
-          </div>
+          <div className="small text-secondary flex-grow-1">Keep completing quality work to unlock the next milestone and its reward.</div>
           {next && <span className="small fw-bold text-primary d-inline-flex align-items-center gap-1">{next.requiredBookings - completed} left <FaArrowRight size={10} /></span>}
         </div>
       </div>
