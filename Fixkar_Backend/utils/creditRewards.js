@@ -10,7 +10,7 @@ export const CREDIT_RULES = Object.freeze({ creditsPerRupee: 0.01 });
 // There are 25 levels: 5 tiers x 5 levels.
 export const PROFESSIONAL_RANKS = Object.freeze([
   Object.freeze({ tier: "BRONZE", level: 1, requiredBookings: 0, credits: 0 }),
-  Object.freeze({ tier: "BRONZE", level: 2, requiredBookings: 1, credits: 25 }),
+  Object.freeze({ tier: "BRONZE", level: 2, requiredBookings: 1, credits: 10000 }),
   Object.freeze({ tier: "BRONZE", level: 3, requiredBookings: 3, credits: 50 }),
   Object.freeze({ tier: "BRONZE", level: 4, requiredBookings: 6, credits: 75 }),
   Object.freeze({ tier: "BRONZE", level: 5, requiredBookings: 10, credits: 100 }),

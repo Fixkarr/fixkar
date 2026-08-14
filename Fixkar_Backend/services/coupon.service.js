@@ -48,12 +48,18 @@ export const validateCoupon = async ({ userId, couponCode, bookingId = null, ses
   const booking = await Booking.findOne({ _id: bookingId, customerId: customer?._id }).populate({ path: "professionalId", select: "profession" }).session(session);
   if (!booking) throw new Error("Booking not found");
   if (booking.status !== "in-progress") throw new Error("Coupon can only be applied while the service is in progress");
-  if (!booking.isPriceLocked) throw new Error("The booking price must be finalized before applying a coupon");
   if (booking.offerLocked) throw new Error("A coupon is already locked on this booking");
+
+  // Fixed-price bookings use totalAmount. Inspection/quote bookings use the
+  // professional's quote plus visiting charge as the finalized amount.
+  const baseAmount = booking.isPriceLocked
+    ? Number(booking.totalAmount || 0)
+    : Number(booking.quoteAmount || 0) + Number(booking.visitingCharge || 0);
+
+  if (baseAmount <= 0) throw new Error("The booking price must be finalized before applying a coupon");
+
   const serviceId = booking.service || booking.professionalId?.profession;
   if (offer.serviceId?.length && (!serviceId || !offer.serviceId.some(id => id.toString() === serviceId.toString()))) throw new Error("This coupon is not valid for this service");
-  const baseAmount = Number(booking.totalAmount || 0);
-  if (baseAmount <= 0) throw new Error("Invalid booking amount");
   if (offer.minBookingAmount != null && baseAmount < offer.minBookingAmount) throw new Error(`Minimum booking amount for this coupon is ₹${offer.minBookingAmount}`);
   let discount = offer.discountType === "percentage" ? (baseAmount * offer.discountValue) / 100 : offer.discountValue;
   if (offer.maxDiscount != null) discount = Math.min(discount, offer.maxDiscount);
