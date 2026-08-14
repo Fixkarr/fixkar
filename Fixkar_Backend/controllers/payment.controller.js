@@ -78,7 +78,9 @@ export const verifyPayment = async (req, res) => {
     const notification=await Notification.create({userId:booking.professionalId.userId._id,title:notificationTitle,message:notificationMessage,type,relatedId:booking._id,isRead:false});
     await pushNotification({userId:notification.userId,title:notification.title,message:notification.message,redirectUrl:`/professional/bookings/${booking._id}`});
     io.to(booking.professionalId.userId._id.toString()).emit("notification",{title:notification.title,message:notification.message,type:notification.type,relatedId:notification.relatedId,isRead:notification.isRead,createdAt:notification.createdAt});
-    if(milestoneResult.rewards?.length){io.to(booking.professionalId.userId._id.toString()).emit("professionalMilestoneUnlocked",milestoneResult);}
+    if(payment.paymentType==="FINAL"){
+      io.to(booking.professionalId.userId._id.toString()).emit("professionalMilestoneUnlocked",milestoneResult);
+    }
     io.to(booking.customerId.userId._id.toString()).emit("bookingUpdated",booking);io.to(booking.professionalId.userId._id.toString()).emit("bookingUpdated",booking);
     return res.status(200).json({success:true,message:"Payment Successful!",milestones:milestoneResult});
   }catch(error){await session.abortTransaction();session.endSession();console.error(error);return res.status(500).json({message:"Payment verification failed"});}
