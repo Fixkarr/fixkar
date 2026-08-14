@@ -108,6 +108,9 @@ export const rewardProfessionalMilestones = async ({ professionalId, walletId, b
     completedBookings,
     milestoneBookings: rank.requiredBookings,
     nextMilestoneBookings: rank.nextRequiredBookings ?? 0,
+    nextTier: rank.nextTier ?? null,
+    nextLevel: rank.nextLevel ?? null,
+    nextRewardCredits: rank.nextRewardCredits ?? 0,
     updatedAt: new Date(),
   };
 
