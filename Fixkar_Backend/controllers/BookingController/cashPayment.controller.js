@@ -62,7 +62,7 @@ export const confirmCashPayment = async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
-    if (milestoneResult.rewards?.length) io.to(booking.professionalId.userId._id.toString()).emit("professionalMilestoneUnlocked", milestoneResult);
+    io.to(booking.professionalId.userId._id.toString()).emit("professionalMilestoneUnlocked", milestoneResult);
     io.to(booking.customerId.userId._id.toString()).emit("bookingUpdated", booking);
     io.to(booking.professionalId.userId._id.toString()).emit("bookingUpdated", booking);
     return res.status(200).json({ success: true, message: "Cash payment confirmed successfully", milestones: milestoneResult });
