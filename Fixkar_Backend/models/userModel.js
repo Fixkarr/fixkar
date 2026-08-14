@@ -18,9 +18,8 @@ const professionalSchema = new mongoose.Schema({
         unlockedMilestones:[{type:Number,min:1}],
         unlockedRewardKeys:[{type:String}]
     },
-    // Source of truth for the professional's visible rank snapshot.
-    // completedBookings remains the business metric; this object is updated
-    // whenever a booking reaches the completed state.
+    // Canonical source of truth for the professional's visible rank snapshot.
+    // New next-* fields are additive so existing documents remain compatible.
     professionalRank:{
         tier:{type:String,enum:["NEWCOMER","BRONZE","SILVER","GOLD","PLATINUM","DIAMOND"],default:"NEWCOMER"},
         level:{type:Number,min:1,max:5,default:1},
@@ -28,6 +27,9 @@ const professionalSchema = new mongoose.Schema({
         completedBookings:{type:Number,min:0,default:0},
         milestoneBookings:{type:Number,min:0,default:0},
         nextMilestoneBookings:{type:Number,min:0,default:1},
+        nextTier:{type:String,enum:["NEWCOMER","BRONZE","SILVER","GOLD","PLATINUM","DIAMOND"],default:null},
+        nextLevel:{type:Number,min:1,max:5,default:null},
+        nextRewardCredits:{type:Number,min:0,default:0},
         updatedAt:{type:Date,default:null}
     }
 },{timestamps:true});

@@ -5,9 +5,8 @@ import { Professional } from "../models/userModel.js";
 
 export const CREDIT_RULES = Object.freeze({ creditsPerRupee: 0.01 });
 
-// Professional progression is completely independent from customer coupons.
-// Every genuine completed booking advances the professional by one score.
-// There are 25 levels: 5 tiers x 5 levels.
+// Bronze 1 at zero bookings is retained as the internal starting milestone for
+// backwards compatibility. The user-facing rank at zero bookings is NEWCOMER.
 export const PROFESSIONAL_RANKS = Object.freeze([
   Object.freeze({ tier: "BRONZE", level: 1, requiredBookings: 0, credits: 0 }),
   Object.freeze({ tier: "BRONZE", level: 2, requiredBookings: 1, credits: 10000 }),
@@ -36,6 +35,8 @@ export const PROFESSIONAL_RANKS = Object.freeze([
   Object.freeze({ tier: "DIAMOND", level: 5, requiredBookings: 110, credits: 700 }),
 ]);
 
+const NEWCOMER_RANK = Object.freeze({ tier: "NEWCOMER", level: 1, requiredBookings: 0, credits: 0 });
+
 const findCreditTransaction = (query, session) => {
   const request = CreditTransaction.findOne(query);
   return session ? request.session(session) : request;
@@ -48,8 +49,10 @@ const countCompletedBookings = (professionalId, session) => {
 
 export const getProfessionalRankForBookings = (completedBookings) => {
   const count = Math.max(0, Number(completedBookings) || 0);
-  let current = PROFESSIONAL_RANKS[0];
-  for (const rank of PROFESSIONAL_RANKS) {
+  if (count === 0) return NEWCOMER_RANK;
+
+  let current = PROFESSIONAL_RANKS[1];
+  for (const rank of PROFESSIONAL_RANKS.slice(1)) {
     if (count >= rank.requiredBookings) current = rank;
     else break;
   }
@@ -58,15 +61,33 @@ export const getProfessionalRankForBookings = (completedBookings) => {
 
 export const getProfessionalRankProgress = (completedBookings) => {
   const count = Math.max(0, Number(completedBookings) || 0);
+
+  if (count === 0) {
+    const firstMilestone = PROFESSIONAL_RANKS[1];
+    return {
+      ...NEWCOMER_RANK,
+      score: 0,
+      nextTier: firstMilestone.tier,
+      nextLevel: firstMilestone.level,
+      nextRequiredBookings: firstMilestone.requiredBookings,
+      nextRewardCredits: firstMilestone.credits,
+      bookingsRemaining: firstMilestone.requiredBookings,
+    };
+  }
+
   const current = getProfessionalRankForBookings(count);
-  const index = PROFESSIONAL_RANKS.findIndex((item) => item.tier === current.tier && item.level === current.level);
+  const index = PROFESSIONAL_RANKS.findIndex(
+    (item) => item.tier === current.tier && item.level === current.level
+  );
   const next = PROFESSIONAL_RANKS[index + 1] || null;
+
   return {
     ...current,
     score: count,
     nextTier: next?.tier || null,
     nextLevel: next?.level || null,
     nextRequiredBookings: next?.requiredBookings ?? null,
+    nextRewardCredits: next?.credits ?? 0,
     bookingsRemaining: next ? Math.max(0, next.requiredBookings - count) : 0,
   };
 };
@@ -87,6 +108,9 @@ export const rewardProfessionalMilestones = async ({ professionalId, walletId, b
     completedBookings,
     milestoneBookings: rank.requiredBookings,
     nextMilestoneBookings: rank.nextRequiredBookings ?? 0,
+    nextTier: rank.nextTier ?? null,
+    nextLevel: rank.nextLevel ?? null,
+    nextRewardCredits: rank.nextRewardCredits ?? 0,
     updatedAt: new Date(),
   };
 
@@ -102,7 +126,9 @@ export const rewardProfessionalMilestones = async ({ professionalId, walletId, b
     return { completedBookings, rank, rewards: [] };
   }
 
-  const currentIndex = PROFESSIONAL_RANKS.findIndex((item) => item.tier === rank.tier && item.level === rank.level);
+  const currentIndex = rank.tier === "NEWCOMER"
+    ? 0
+    : PROFESSIONAL_RANKS.findIndex((item) => item.tier === rank.tier && item.level === rank.level);
   const previousMilestones = new Set((professional.achievements?.unlockedMilestones || []).map(Number));
   const rewards = [];
 
@@ -114,7 +140,12 @@ export const rewardProfessionalMilestones = async ({ professionalId, walletId, b
       { _id: professionalId, "achievements.unlockedMilestones": { $ne: milestone.requiredBookings } },
       {
         $addToSet: { "achievements.unlockedMilestones": milestone.requiredBookings },
-        $set: { "achievements.completedBookings": completedBookings, "achievements.rank": rank.tier, "achievements.rankUpdatedAt": new Date(), professionalRank: rankSnapshot },
+        $set: {
+          "achievements.completedBookings": completedBookings,
+          "achievements.rank": rank.tier,
+          "achievements.rankUpdatedAt": new Date(),
+          professionalRank: rankSnapshot,
+        },
       },
       { new: true, session }
     );
@@ -125,8 +156,13 @@ export const rewardProfessionalMilestones = async ({ professionalId, walletId, b
     if (!alreadyRewarded && milestone.credits > 0) {
       await Wallet.findByIdAndUpdate(walletId, { $inc: { "credits.balance": milestone.credits, "credits.lifetimeEarned": milestone.credits } }, { session });
       await CreditTransaction.create([{
-        walletId, professionalId, type: "EARNED", source: rewardSource, credits: milestone.credits,
-        referenceId: bookingId, referenceModel: "Booking",
+        walletId,
+        professionalId,
+        type: "EARNED",
+        source: rewardSource,
+        credits: milestone.credits,
+        referenceId: bookingId,
+        referenceModel: "Booking",
         description: `${milestone.tier} ${milestone.level} rank reward`,
         metadata: { tier: milestone.tier, level: milestone.level, requiredBookings: milestone.requiredBookings },
       }], { session });
