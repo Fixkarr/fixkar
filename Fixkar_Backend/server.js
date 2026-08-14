@@ -29,9 +29,17 @@ import { csrfOriginCheck } from './middlewares/csrfOriginCheck.js';
 dotenv.config();
 const app = express();
 const port  = process.env.PORT || 3000
+
+// Staging supports both the current branch subdomain and the earlier test
+// alias so cookies/API requests continue to work while DNS is being finalized.
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    "https://testing.fixkarr.com",
+    "https://test.fixkarr.com"
+].filter(Boolean);
   
 app.use(cors({
-    origin : [process.env.FRONTEND_URL],
+    origin : allowedOrigins,
     credentials : true
 }))
 
@@ -98,7 +106,7 @@ const server = http.createServer(app);
 
 export const io = new Server(server,{
     cors : {
-        origin : [process.env.FRONTEND_URL],
+        origin : allowedOrigins,
         credentials : true
     }
 })
