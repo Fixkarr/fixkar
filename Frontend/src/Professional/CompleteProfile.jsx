@@ -15,6 +15,7 @@ import {
   FaInfoCircle,
   FaArrowRight,
   FaShieldAlt,
+  FaSearch,
 } from "react-icons/fa";
 import { MdDescription, MdPriceCheck } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -45,6 +46,27 @@ export default function CompleteProfile() {
         ? prev.filter((id) => id !== skillId)
         : [...prev, skillId]
     );
+  };
+
+  const getSkillPricing = (skill) => {
+    const hasFixedPrice =
+      skill?.fixedPrice !== null &&
+      skill?.fixedPrice !== undefined &&
+      Number.isFinite(Number(skill.fixedPrice));
+
+    if (hasFixedPrice) {
+      return {
+        label: `₹${Number(skill.fixedPrice).toLocaleString("en-IN")}`,
+        className: "bg-success-subtle text-success border border-success-subtle",
+        isFixed: true,
+      };
+    }
+
+    return {
+      label: "Inspection",
+      className: "bg-warning-subtle text-warning-emphasis border border-warning-subtle",
+      isFixed: false,
+    };
   };
 
   const formik = useFormik({
@@ -185,7 +207,8 @@ export default function CompleteProfile() {
                             <h5 className="fw-bold mb-1">Choose your skills</h5>
                             <p className="text-muted small mb-0">
                               Select only the work you are confident and available
-                              to provide.
+                              to provide. Fixed-price work shows the customer price;
+                              diagnostic work is marked as inspection.
                             </p>
                           </div>
                         </div>
@@ -193,6 +216,8 @@ export default function CompleteProfile() {
                         <div className="row g-2 g-md-3">
                           {availableSkills.map((skill) => {
                             const selected = selectedSkills.includes(skill._id);
+                            const pricing = getSkillPricing(skill);
+
                             return (
                               <div className="col-12 col-sm-6" key={skill._id}>
                                 <button
@@ -205,7 +230,7 @@ export default function CompleteProfile() {
                                   }`}
                                   style={{
                                     transition: "all .2s ease",
-                                    minHeight: "68px",
+                                    minHeight: "82px",
                                   }}
                                 >
                                   <span
@@ -216,20 +241,32 @@ export default function CompleteProfile() {
                                     }`}
                                     style={{ width: 40, height: 40 }}
                                   >
-                                    {selected ? (
-                                      <FaCheckCircle />
-                                    ) : (
-                                      <FaTools />
-                                    )}
+                                    {selected ? <FaCheckCircle /> : <FaTools />}
                                   </span>
-                                  <span className="flex-grow-1">
-                                    <span className="d-block fw-semibold text-dark">
+
+                                  <span className="flex-grow-1 overflow-hidden">
+                                    <span className="d-block fw-semibold text-dark mb-1">
                                       {skill.name}
                                     </span>
-                                    <small className="text-muted">
-                                      {selected ? "Selected" : "Tap to select"}
-                                    </small>
+                                    <span className="d-flex flex-wrap align-items-center gap-2">
+                                      <span
+                                        className={`badge rounded-pill fw-semibold ${pricing.className}`}
+                                      >
+                                        {pricing.isFixed ? (
+                                          <FaRupeeSign className="me-1" />
+                                        ) : (
+                                          <FaSearch className="me-1" />
+                                        )}
+                                        {pricing.isFixed
+                                          ? Number(skill.fixedPrice).toLocaleString("en-IN")
+                                          : "Inspection"}
+                                      </span>
+                                      <small className="text-muted">
+                                        {selected ? "Selected" : "Tap to select"}
+                                      </small>
+                                    </span>
                                   </span>
+
                                   {selected && (
                                     <FaCheckCircle className="text-primary flex-shrink-0" />
                                   )}
@@ -241,8 +278,9 @@ export default function CompleteProfile() {
 
                         <div className="alert alert-light border rounded-3 mt-3 mb-0 py-2 px-3 small">
                           <FaInfoCircle className="text-primary me-2" />
-                          Selecting relevant skills helps customers find the right
-                          professional for their work.
+                          Prices shown here are the task prices already defined for
+                          fixed-price services. Inspection tasks are priced after
+                          diagnosis according to the service flow.
                         </div>
                       </div>
                     )}
