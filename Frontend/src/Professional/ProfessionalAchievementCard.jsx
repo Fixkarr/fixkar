@@ -31,12 +31,12 @@ const getRankState = (professional) => {
 
   return {
     completedBookings,
-    tier: rank.tier || (completedBookings > 0 ? "BRONZE" : "NEWCOMER"),
+    tier: completedBookings === 0 ? "NEWCOMER" : (rank.tier || "BRONZE"),
     level: Number(rank.level || 1),
     requiredBookings: Math.max(0, Number(rank.milestoneBookings ?? 0)),
-    nextTier: rank.nextTier || null,
-    nextLevel: rank.nextLevel ?? null,
-    nextRequiredBookings: rank.nextMilestoneBookings ?? 0,
+    nextTier: rank.nextTier || (completedBookings === 0 ? "BRONZE" : null),
+    nextLevel: rank.nextLevel ?? (completedBookings === 0 ? 2 : null),
+    nextRequiredBookings: Number(rank.nextMilestoneBookings ?? (completedBookings === 0 ? 1 : 0)),
     nextRewardCredits: Number(rank.nextRewardCredits ?? 0),
   };
 };
@@ -62,6 +62,8 @@ const mergeMilestoneIntoUser = (currentUserData, milestone) => {
         completedBookings: milestone.completedBookings,
         milestoneBookings: rank.requiredBookings,
         nextMilestoneBookings: rank.nextRequiredBookings ?? 0,
+        nextTier: rank.nextTier ?? null,
+        nextLevel: rank.nextLevel ?? null,
         nextRewardCredits: rank.nextRewardCredits ?? 0,
       },
     },
