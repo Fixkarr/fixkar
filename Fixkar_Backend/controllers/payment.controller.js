@@ -34,7 +34,7 @@ export const createOrder = async (req, res) => {
     const order=await razorpayInstance.orders.create({amount:amount*100,currency:"INR",receipt:`booking_${booking._id}_${paymentType}`});
     if(!order)return res.status(400).json({message:"Failed to place order!"});
     payment.razorpayOrderId=order.id;await payment.save();booking.currentPaymentId=payment._id;await booking.save();
-    return res.status(200).json({success:true,order,paymentId:payment._id});
+    return res.status(200).json({success:true,order,key:process.env.RAZORPAY_API_KEY,paymentId:payment._id});
   }catch(err){console.error(err);return res.status(500).json({message:"Order creation failed"});}
 };
 
