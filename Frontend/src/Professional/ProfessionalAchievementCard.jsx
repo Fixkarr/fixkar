@@ -25,19 +25,60 @@ const RANK_META = {
 
 const TIER_ORDER = ["NEWCOMER", "BRONZE", "SILVER", "GOLD", "PLATINUM", "DIAMOND"];
 
+// Presentation fallback only. The backend remains the source of truth; these
+// thresholds let older professional records render the next milestone until
+// their persisted professionalRank metadata is refreshed by the backend.
+const RANK_MILESTONES = [
+  { tier: "BRONZE", level: 2, requiredBookings: 1, credits: 10000 },
+  { tier: "BRONZE", level: 3, requiredBookings: 3, credits: 50 },
+  { tier: "BRONZE", level: 4, requiredBookings: 6, credits: 75 },
+  { tier: "BRONZE", level: 5, requiredBookings: 10, credits: 100 },
+  { tier: "SILVER", level: 1, requiredBookings: 15, credits: 150 },
+  { tier: "SILVER", level: 2, requiredBookings: 20, credits: 175 },
+  { tier: "SILVER", level: 3, requiredBookings: 25, credits: 200 },
+  { tier: "SILVER", level: 4, requiredBookings: 30, credits: 225 },
+  { tier: "SILVER", level: 5, requiredBookings: 35, credits: 250 },
+  { tier: "GOLD", level: 1, requiredBookings: 40, credits: 300 },
+  { tier: "GOLD", level: 2, requiredBookings: 45, credits: 325 },
+  { tier: "GOLD", level: 3, requiredBookings: 50, credits: 350 },
+  { tier: "GOLD", level: 4, requiredBookings: 55, credits: 375 },
+  { tier: "GOLD", level: 5, requiredBookings: 60, credits: 400 },
+  { tier: "PLATINUM", level: 1, requiredBookings: 65, credits: 450 },
+  { tier: "PLATINUM", level: 2, requiredBookings: 70, credits: 475 },
+  { tier: "PLATINUM", level: 3, requiredBookings: 75, credits: 500 },
+  { tier: "PLATINUM", level: 4, requiredBookings: 80, credits: 525 },
+  { tier: "PLATINUM", level: 5, requiredBookings: 85, credits: 550 },
+  { tier: "DIAMOND", level: 1, requiredBookings: 90, credits: 600 },
+  { tier: "DIAMOND", level: 2, requiredBookings: 95, credits: 625 },
+  { tier: "DIAMOND", level: 3, requiredBookings: 100, credits: 650 },
+  { tier: "DIAMOND", level: 4, requiredBookings: 105, credits: 675 },
+  { tier: "DIAMOND", level: 5, requiredBookings: 110, credits: 700 },
+];
+
+const getFallbackMilestone = (completedBookings) =>
+  RANK_MILESTONES.find((milestone) => completedBookings < milestone.requiredBookings) || null;
+
 const getRankState = (professional) => {
   const rank = professional?.professionalRank || {};
-  const completedBookings = Math.max(0, Number(rank.completedBookings ?? professional?.achievements?.completedBookings ?? 0));
+  const completedBookings = Math.max(
+    0,
+    Number(rank.completedBookings ?? professional?.achievements?.completedBookings ?? 0)
+  );
+  const fallbackNext = getFallbackMilestone(completedBookings);
+  const hasPersistedNext = Number.isFinite(Number(rank.nextMilestoneBookings)) && Number(rank.nextMilestoneBookings) > completedBookings;
+  const nextRequiredBookings = hasPersistedNext
+    ? Number(rank.nextMilestoneBookings)
+    : fallbackNext?.requiredBookings ?? 0;
 
   return {
     completedBookings,
-    tier: completedBookings === 0 ? "NEWCOMER" : (rank.tier || "BRONZE"),
+    tier: completedBookings === 0 ? "NEWCOMER" : rank.tier || "BRONZE",
     level: Number(rank.level || 1),
     requiredBookings: Math.max(0, Number(rank.milestoneBookings ?? 0)),
-    nextTier: rank.nextTier || (completedBookings === 0 ? "BRONZE" : null),
-    nextLevel: rank.nextLevel ?? (completedBookings === 0 ? 2 : null),
-    nextRequiredBookings: Number(rank.nextMilestoneBookings ?? (completedBookings === 0 ? 1 : 0)),
-    nextRewardCredits: Number(rank.nextRewardCredits ?? 0),
+    nextTier: rank.nextTier || fallbackNext?.tier || null,
+    nextLevel: rank.nextLevel ?? fallbackNext?.level ?? null,
+    nextRequiredBookings,
+    nextRewardCredits: Number(rank.nextRewardCredits ?? fallbackNext?.credits ?? 0),
   };
 };
 
@@ -103,7 +144,8 @@ const ProfessionalAchievementCard = ({ professional }) => {
         nextRewardCredits: Number(data.rank.nextRewardCredits ?? 0),
       };
 
-      setLiveRank(nextState);
+      const fallback = getRankState({ professionalRank: nextState });
+      setLiveRank({ ...fallback, ...nextState });
       setCelebrating(true);
       window.clearTimeout(celebrationTimer);
       celebrationTimer = window.setTimeout(() => setCelebrating(false), 1800);
@@ -122,7 +164,7 @@ const ProfessionalAchievementCard = ({ professional }) => {
 
   const currentMeta = RANK_META[liveRank.tier] || RANK_META.NEWCOMER;
   const CurrentIcon = currentMeta.Icon;
-  const hasNext = Boolean(liveRank.nextTier && liveRank.nextRequiredBookings);
+  const hasNext = Boolean(liveRank.nextTier && liveRank.nextRequiredBookings > liveRank.completedBookings);
   const progress = hasNext
     ? Math.min(
         100,
