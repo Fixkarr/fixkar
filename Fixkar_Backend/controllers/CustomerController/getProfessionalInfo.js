@@ -55,7 +55,22 @@ export const getProfessionalInfo = async (req, res) => {
             return res.status(404).json({ message: "Professional not found" });
         }
 
-        return res.status(200).json({ professionalInfo });
+        // Keep this count derived from bookings so it cannot become stale.
+        // Only genuinely completed bookings are shown publicly.
+        const { Booking } = await import('../../models/bookingModel.js');
+        const completedBookings = await Booking.countDocuments({
+            professionalId: professionalInfo._id,
+            status: 'completed',
+        });
+
+        const professionalObject = professionalInfo.toObject();
+        professionalObject.completedBookings = completedBookings;
+        professionalObject.professionalRank = {
+            ...(professionalObject.professionalRank || {}),
+            completedBookings,
+        };
+
+        return res.status(200).json({ professionalInfo: professionalObject });
     } catch (error) {
         console.error("getProfessionalInfo error:", error);
         return res.status(500).json({ message: "Server Error" });
