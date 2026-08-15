@@ -74,7 +74,7 @@ export const login = async (req, res) => {
 
 if (!existingUser) {
     return res.status(400).json({
-        message: "Invalid credentials"
+        message: "User does not exists. Please register first"
     });
 }
 
