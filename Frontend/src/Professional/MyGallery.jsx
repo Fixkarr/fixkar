@@ -164,117 +164,210 @@ const MyGallery = () => {
 
         {/* ================= PREVIEW MODAL ================= */}
         {selectedMedia && (
-          <div
-            className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-2 p-md-4"
+  <div
+    className="position-fixed top-0 start-0 w-100 h-100 d-flex flex-column"
+    style={{
+      background:
+        "radial-gradient(circle at top, #1f2937 0%, #080c14 45%, #030508 100%)",
+      zIndex: 1055,
+      overflow: "hidden",
+    }}
+  >
+    {/* ================= TOP BAR ================= */}
+    <div
+      className="d-flex align-items-center justify-content-between px-3 px-md-4 py-3 flex-shrink-0"
+      style={{
+        background: "rgba(8, 12, 20, 0.72)",
+        backdropFilter: "blur(18px)",
+        WebkitBackdropFilter: "blur(18px)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+      }}
+    >
+      {/* LEFT */}
+      <button
+        type="button"
+        onClick={() => setSelectedMedia(null)}
+        className="btn btn-light rounded-pill d-flex align-items-center gap-2 px-3 shadow-sm"
+      >
+        <IoArrowBack size={18} />
+
+        <span className="d-none d-sm-inline fw-semibold">
+          Back
+        </span>
+      </button>
+
+      {/* CENTER TITLE */}
+      <div className="position-absolute start-50 translate-middle-x text-center d-none d-md-block">
+        <div className="text-white fw-semibold small">
+          Media Preview
+        </div>
+
+        <div
+          className="text-white-50"
+          style={{ fontSize: "11px" }}
+        >
+          Your gallery
+        </div>
+      </div>
+
+      {/* RIGHT ACTIONS */}
+      <div className="d-flex align-items-center gap-2">
+        {/* MEDIA TYPE */}
+        <div
+          className="d-flex align-items-center gap-2 text-white rounded-pill px-3 py-2"
+          style={{
+            background: "rgba(255,255,255,0.09)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            fontSize: "12px",
+          }}
+        >
+          {selectedMedia.mediaType === "image" ? (
+            <>
+              <FaImages className="text-info" />
+              <span className="d-none d-sm-inline">
+                Image
+              </span>
+            </>
+          ) : (
+            <>
+              <FaVideo className="text-warning" />
+              <span className="d-none d-sm-inline">
+                Video
+              </span>
+            </>
+          )}
+        </div>
+
+        {/* DELETE */}
+        <button
+          type="button"
+          disabled={loading}
+          className="btn btn-danger rounded-pill d-flex align-items-center gap-2 px-3 shadow-sm"
+          onClick={() =>
+            handleDelete(selectedMedia._id)
+          }
+        >
+          {loading ? (
+            <ClipLoader size={14} color="#fff" />
+          ) : (
+            <FaTrashAlt size={13} />
+          )}
+
+          <span className="d-none d-sm-inline fw-semibold">
+            {loading ? "Deleting..." : "Delete"}
+          </span>
+        </button>
+      </div>
+    </div>
+
+    {/* ================= MEDIA AREA ================= */}
+    <div className="flex-grow-1 d-flex align-items-center justify-content-center position-relative p-2 p-md-4">
+      {/* Subtle background glow */}
+      <div
+        className="position-absolute top-50 start-50 translate-middle rounded-circle"
+        style={{
+          width: "35vw",
+          height: "35vw",
+          maxWidth: "500px",
+          maxHeight: "500px",
+          background:
+            "radial-gradient(circle, rgba(13,110,253,.12), transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Media Frame */}
+      <div
+        className="position-relative d-flex align-items-center justify-content-center overflow-hidden rounded-4 shadow-lg"
+        style={{
+          width: "100%",
+          height: "100%",
+          maxWidth: "1200px",
+          maxHeight: "calc(100vh - 145px)",
+          background: "rgba(0,0,0,0.35)",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        {selectedMedia.mediaType === "image" ? (
+          <img
+            src={selectedMedia.mediaUrl}
+            alt="preview"
+            className="img-fluid"
             style={{
-              backgroundColor: "rgba(8, 12, 20, 0.94)",
-              zIndex: 1055,
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              userSelect: "none",
             }}
-          >
-            <div
-              className="w-100"
-              style={{
-                maxWidth: "1100px",
-                maxHeight: "95vh",
-              }}
-            >
-              {/* Modal Header */}
-              <div className="d-flex align-items-center justify-content-between gap-2 mb-2 mb-md-3">
-                <button
-                  type="button"
-                  className="btn btn-light rounded-pill px-3 d-flex align-items-center gap-2"
-                  onClick={() => setSelectedMedia(null)}
-                >
-                  <IoArrowBack size={18} />
-                  <span className="d-none d-sm-inline">
-                    Back
-                  </span>
-                </button>
-
-                <div className="d-flex align-items-center gap-2">
-                  <span className="badge bg-dark bg-opacity-75 text-white rounded-pill px-3 py-2">
-                    {selectedMedia.mediaType === "image" ? (
-                      <>
-                        <FaImages className="me-1" />
-                        Image
-                      </>
-                    ) : (
-                      <>
-                        <FaVideo className="me-1" />
-                        Video
-                      </>
-                    )}
-                  </span>
-
-                  <button
-                    type="button"
-                    disabled={loading}
-                    className="btn btn-danger rounded-pill px-3 d-flex align-items-center gap-2"
-                    onClick={() =>
-                      handleDelete(selectedMedia._id)
-                    }
-                  >
-                    {loading ? (
-                      <ClipLoader size={14} color="#fff" />
-                    ) : (
-                      <FaTrashAlt size={14} />
-                    )}
-
-                    <span className="d-none d-sm-inline">
-                      Delete
-                    </span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Media */}
-              <div
-                className="bg-black rounded-4 overflow-hidden d-flex align-items-center justify-content-center"
-                style={{
-                  minHeight: "300px",
-                  maxHeight: "82vh",
-                }}
-              >
-                {selectedMedia.mediaType === "image" ? (
-                  <img
-                    src={selectedMedia.mediaUrl}
-                    alt="preview"
-                    className="img-fluid"
-                    style={{
-                      maxHeight: "82vh",
-                      width: "auto",
-                      maxWidth: "100%",
-                      objectFit: "contain",
-                    }}
-                  />
-                ) : (
-                  <video
-                    src={selectedMedia.mediaUrl}
-                    controls
-                    autoPlay
-                    className="w-100"
-                    style={{
-                      maxHeight: "82vh",
-                      objectFit: "contain",
-                    }}
-                  />
-                )}
-              </div>
-
-              {/* Close */}
-              <div className="text-center mt-3">
-                <button
-                  type="button"
-                  onClick={() => setSelectedMedia(null)}
-                  className="btn btn-outline-light rounded-pill px-4 d-inline-flex align-items-center gap-2"
-                >
-                  <IoClose />
-                  Close preview
-                </button>
-              </div>
-            </div>
-          </div>
+          />
+        ) : (
+          <video
+            src={selectedMedia.mediaUrl}
+            controls
+            autoPlay
+            playsInline
+            className="w-100 h-100"
+            style={{
+              objectFit: "contain",
+              background: "#000",
+            }}
+          />
         )}
+
+        {/* MEDIA TYPE FLOATING LABEL */}
+        <div
+          className="position-absolute top-0 start-0 m-3 d-flex align-items-center gap-2 text-white rounded-pill px-3 py-2"
+          style={{
+            background: "rgba(0,0,0,0.55)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            fontSize: "11px",
+          }}
+        >
+          {selectedMedia.mediaType === "image" ? (
+            <>
+              <FaImages />
+              Image
+            </>
+          ) : (
+            <>
+              <FaVideo />
+              Video
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+
+    {/* ================= BOTTOM BAR ================= */}
+    <div
+      className="d-flex justify-content-center align-items-center px-3 py-2 flex-shrink-0"
+      style={{
+        background: "rgba(8, 12, 20, 0.72)",
+        backdropFilter: "blur(18px)",
+        WebkitBackdropFilter: "blur(18px)",
+        borderTop: "1px solid rgba(255,255,255,0.08)",
+      }}
+    >
+      <div className="d-flex align-items-center gap-2 text-white-50 small">
+        <span
+          className="d-inline-block rounded-circle bg-success"
+          style={{
+            width: "7px",
+            height: "7px",
+          }}
+        />
+
+        <span>
+          {selectedMedia.mediaType === "image"
+            ? "Image preview"
+            : "Video preview"}
+        </span>
+      </div>
+    </div>
+  </div>
+)}
       </div>
     </div>
   ) : (

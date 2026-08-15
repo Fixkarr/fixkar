@@ -10,38 +10,45 @@ const GalleryPlaceholder = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="card border-0 shadow rounded-4 p-4 text-center bg-light">
-      
-      {/* Icon */}
-      <div className="mb-3">
-        <div
-          className="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10"
-          style={{ width: "100px", height: "100px" }}
-        >
-          <FaImages className="text-primary fs-1" />
+    <div className="card border-0 shadow-sm rounded-4 overflow-hidden">
+      <div className="card-body p-3 p-md-4">
+        {/* ================= HEADER ================= */}
+        <div className="d-flex align-items-center gap-3 mb-3">
+          <div
+            className="bg-primary bg-opacity-10 text-primary rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+            style={{
+              width: "44px",
+              height: "44px",
+            }}
+          >
+            <FaImages size={20} />
+          </div>
+
+          <div className="flex-grow-1">
+            <h6 className="fw-bold text-dark mb-1">
+              Showcase Your Work
+            </h6>
+
+            <p className="text-muted small mb-0">
+              Add photos or videos to make your profile more trustworthy.
+            </p>
+          </div>
         </div>
-      </div>
 
-      {/* Heading */}
-      <h5 className="fw-bold text-dark mb-1">
-        Showcase Your Work
-      </h5>
+        {/* ================= UPLOAD ================= */}
+        <UploadMedia />
 
-      {/* Description */}
-      <p className="text-muted small mb-3">
-        Upload photos or videos of your previous work to build customer
-        trust and increase booking chances. A strong gallery makes
-        your profile stand out.
-      </p>
+        {/* ================= FOOTER ================= */}
+        <div className="d-flex align-items-center justify-content-center gap-2 mt-3">
+          <FaCloudUploadAlt
+            className="text-muted"
+            size={14}
+          />
 
-        <UploadMedia/>
-
-
-      {/* Footer Note */}
-      <div className="mt-3">
-        <span className="badge bg-secondary bg-opacity-10 text-secondary">
-          Supported: JPG · PNG · MP4
-        </span>
+          <small className="text-muted">
+            JPG · PNG · MP4 supported
+          </small>
+        </div>
       </div>
     </div>
   );
