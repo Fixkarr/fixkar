@@ -367,28 +367,40 @@ const OnBoard = () => {
               </div>
 
               {/* ACTIONS */}
-              <div className="fixkar-onboard-actions">
+            {/* ACTIONS */}
+<div className="fixkar-onboard-actions">
 
-                <span className="fixkar-contact-item">
-                  <IoCall />
-                  <span>+91 8795213106</span>
-                </span>
+  {/* CALL */}
+  <a
+    href="tel:+918795213106"
+    className="fixkar-contact-item text-decoration-none"
+    aria-label="Call Fixkar support"
+  >
+    <IoCall />
+    <span>+91 8795213106</span>
+  </a>
 
-                <span className="fixkar-contact-item">
-                  <MdEmail />
-                  <span>info@fixkarr.com</span>
-                </span>
+  {/* EMAIL */}
+  <a
+    href="mailto:info@fixkarr.com"
+    className="fixkar-contact-item text-decoration-none"
+    aria-label="Email Fixkar support"
+  >
+    <MdEmail />
+    <span>info@fixkarr.com</span>
+  </a>
 
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="fixkar-logout-btn"
-                >
-                  <RiLogoutCircleRLine size={16} />
-                  <span>Logout</span>
-                </button>
+  {/* LOGOUT */}
+  <button
+    type="button"
+    onClick={handleLogout}
+    className="fixkar-logout-btn"
+  >
+    <RiLogoutCircleRLine size={16} />
+    <span>Logout</span>
+  </button>
 
-              </div>
+</div>
 
             </div>
 
