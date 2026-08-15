@@ -6,31 +6,43 @@ const Pending = () => {
   return (
     <>
       <style>{`
-        .fixkar-pending-page {
-          position: relative;
-          min-height: 100vh;
-          overflow: hidden;
+     html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
-          display: flex;
-          align-items: center;
-          justify-content: center;
+.fixkar-pending-page {
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
 
-          padding: 80px 14px 35px;
+  overflow: hidden;
 
-          background:
-            radial-gradient(
-              circle at 8% 10%,
-              rgba(13, 110, 253, 0.13),
-              transparent 30%
-            ),
-            radial-gradient(
-              circle at 92% 90%,
-              rgba(25, 135, 84, 0.10),
-              transparent 30%
-            ),
-            #f7faff;
-        }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  padding: 20px 14px;
+
+  box-sizing: border-box;
+}
+
+
+
+@media (max-width: 575.98px) {
+  .fixkar-pending-page {
+    height: 100dvh;
+    min-height: 100dvh;
+
+    padding: 8px;
+  }
+
+  .pending-card {
+    max-height: calc(100dvh - 16px);
+  }
+}
         /* ================= BACKGROUND ================= */
 
         .pending-bg {
@@ -106,11 +118,11 @@ const Pending = () => {
         .pending-card {
           position: relative;
           z-index: 2;
-
+  max-height: calc(100vh - 30px);
+  overflow: hidden;
           width: 100%;
           max-width: 510px;
 
-          overflow: hidden;
 
           border-radius: 25px;
 
@@ -558,20 +570,6 @@ const Pending = () => {
         /* ================= MOBILE ================= */
 
         @media (max-width: 575.98px) {
-
-          .fixkar-pending-page {
-            align-items: center;
-
-            padding:
-              75px
-              10px
-              25px;
-          }
-
-          .pending-card {
-            border-radius: 20px;
-          }
-
           .pending-header {
             padding: 21px 15px 19px;
           }
