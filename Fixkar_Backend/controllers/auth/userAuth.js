@@ -70,11 +70,30 @@ export const login = async (req, res) => {
     try {
         if (!email || !password) return res.status(400).json({ message: "All Fields are required" });
 
-        const existingUser = await User.findOne({ email }).select('+password');
-        if (!existingUser) return res.status(400).json({ message: "User does not exist with this email" });
+       const existingUser = await User.findOne({ email }).select("+password");
 
-        const isValidPassword = await bcrypt.compare(password, existingUser.password);
-        if (!isValidPassword) return res.status(400).json({ message: "Invalid credentials" });
+if (!existingUser) {
+    return res.status(400).json({
+        message: "Invalid credentials"
+    });
+}
+
+if (!existingUser.password) {
+    return res.status(400).json({
+        message: "Invalid credentials"
+    });
+}
+
+const isValidPassword = await bcrypt.compare(
+    password,
+    existingUser.password
+);
+
+if (!isValidPassword) {
+    return res.status(400).json({
+        message: "Invalid credentials"
+    });
+}
 
         const token = await genToken(existingUser._id);
         res.cookie("token", token, { ...userCookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
