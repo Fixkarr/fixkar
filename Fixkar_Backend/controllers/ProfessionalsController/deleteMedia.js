@@ -38,26 +38,29 @@ export const deleteMedia = async(req,res)=>{
       const updatedProfessional =  await Professional.findByIdAndUpdate(professional._id, {
             $pull : {gallery : mediaId}
         }).select('-poi -dob').populate('userId', '-password').populate({
-            path: "reviews",
-            options: {
-              sort: { createdAt: -1 },
-              limit: 10   // latest 5 reviews
-            }
-          })
-          .populate({
-            path: "gallery",
-            options: {
-              sort: { createdAt: -1 },
-              limit: 20   // latest 6 images
-            }
-          }).populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 5 reviews
+    }
+  })
+  .populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 6 images
+    }
+  }).populate({
     path : "profession",
     select : "name image skills",
     populate : {
       path : "skills",
       select : "name"
     }
-  });
+  }).populate({
+    path : "selectedSkills",
+    select : "name"
+  }).populate('charges');
 
          return res.status(200).json({
       message: "Media deleted successfully",

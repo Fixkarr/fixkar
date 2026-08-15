@@ -154,94 +154,621 @@ const Signup = () => {
   };
 
   return (
-    <>
-      <Navbar />
-      <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light mt-5">
-        <div className="col-11 col-sm-9 col-md-6 col-lg-4">
-          <div className="card border-0 shadow-lg rounded-4 p-4">
-            <div className="d-flex align-items-center mb-4">
-              <span className="text-primary fs-5 me-2" role="button" onClick={() => navigate("/")}><FaArrowLeft /></span>
-              <h4 className="fw-bold text-primary m-0 text-center flex-grow-1">Create Account</h4>
-            </div>
+  <>
+    <Navbar />
 
-            <form onSubmit={formik.handleSubmit}>
-              <div className="mb-3">
-                <label className="form-label fw-semibold small">Full Name</label>
-                <div className="input-group">
-                  <span className="input-group-text bg-white"><FaUser className="text-primary" /></span>
-                  <input type="text" className="form-control" id="fullName" name="fullName" placeholder="Enter your full name" value={formik.values.fullName} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+    <main className="fixkar-signup-page">
+      {/* ================= BACKGROUND GRAPHICS ================= */}
+      <div className="fixkar-signup-bg">
+        <span className="fixkar-signup-orb signup-orb-one" />
+        <span className="fixkar-signup-orb signup-orb-two" />
+        <span className="fixkar-signup-orb signup-orb-three" />
+
+        <div className="fixkar-signup-grid" />
+      </div>
+
+      <div className="container position-relative">
+        <div className="row align-items-center justify-content-center g-4 g-lg-5">
+
+          {/* =====================================================
+              LEFT BRAND / INTRO
+          ===================================================== */}
+          <div className="col-lg-6 d-none d-lg-block">
+            <div className="fixkar-signup-intro">
+
+              <div className="fixkar-signup-brand">
+                <div className="fixkar-signup-brand-icon">
+                  <FaCheck />
                 </div>
-                {formik.touched.fullName && formik.errors.fullName && <small className="text-danger">{formik.errors.fullName}</small>}
+
+                <span>Fixkar</span>
               </div>
 
-              <div className="mb-3 d-flex flex-column">
-                <label className="form-label fw-semibold small">Email Address</label>
-                <div className="input-group">
-                  <span className="input-group-text bg-white"><MdEmail className="text-primary" /></span>
-                  <input type="email" className="form-control" id="email" name="email" placeholder="Enter your email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} disabled={emailVerified}/>
-                </div>
-                {formik.touched.email && formik.errors.email && <small className="text-danger">{formik.errors.email}</small>}
-                {!otpSent && <button type="button" className="btn btn-outline-dark btn-sm mt-2" onClick={handleSendOtp} disabled={!formik.values.email || wait}>Send OTP</button>}
+              <div className="fixkar-signup-role-badge">
+                {role === "professional"
+                  ? "Professional account"
+                  : "Customer account"}
               </div>
 
-              {otpSent && !emailVerified && (
-                <div className="mb-3">
-                  <label className="form-label">Enter OTP</label>
-                  <input type="text" className="form-control" value={otp} onChange={(e) => setOtp(e.target.value)} maxLength={6}/>
-                  <button type="button" className="btn btn-success btn-sm mt-2" onClick={handleVerifyOtp} disabled={wait}>Verify OTP</button>
-                </div>
-              )}
+              <h1>
+                Start your journey with
+                <span> Fixkar.</span>
+              </h1>
 
-              {emailVerified && <div className="alert alert-success py-2"><FaCheck className="text-success" size={10}/> Email verified</div>}
+              <p>
+                Create your account and get started with
+                Fixkar's smart service platform.
+              </p>
 
-              <div className="mb-3 position-relative">
-                <label className="form-label fw-semibold small">Password</label>
-                <div className="input-group">
-                  <span className="input-group-text bg-white"><FaLock className="text-primary" /></span>
-                  <input type={showPass ? "text" : "password"} className="form-control" id="password" name="password" placeholder="Create a password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                </div>
-                <span onClick={handleShowPass} className="position-absolute top-50 end-0 translate-middle-y me-3" style={{ cursor: "pointer" }}>{showPass ? <FaRegEyeSlash /> : <FaRegEye />}</span>
-                {formik.touched.password && formik.errors.password && <small className="text-danger">{formik.errors.password}</small>}
-              </div>
+              <div className="fixkar-signup-points">
 
-              <div className="form-check mb-2">
-                <input type="checkbox" className="form-check-input" id="acceptedTerms" name="acceptedTerms" onChange={formik.handleChange} checked={formik.values.acceptedTerms} role="button" required/>
-                <label className="form-check-label small" htmlFor="acceptedTerms">I agree to the <a href="/terms-and-conditions" target="_blank">Terms & Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a></label>
-                {formik.touched.acceptedTerms && formik.errors.acceptedTerms && <small className="text-danger d-block">{formik.errors.acceptedTerms}</small>}
-              </div>
+                <div>
+                  <span className="signup-point-number">
+                    01
+                  </span>
 
-              {role === "professional" && (
-                <>
-                  <div className="form-check mb-2">
-                    <input type="checkbox" className="form-check-input" id="acceptedProfessionalPolicy" name="acceptedProfessionalPolicy" onChange={formik.handleChange} checked={formik.values.acceptedProfessionalPolicy} role="button" required/>
-                    <label className="form-check-label small" htmlFor="acceptedProfessionalPolicy">I agree to the <a href="/professional-policy" target="_blank">Professional Onboarding Policy</a></label>
+                  <div>
+                    <strong>
+                      {role === "professional"
+                        ? "Build your professional profile"
+                        : "Find trusted professionals"}
+                    </strong>
+
+                    <small>
+                      {role === "professional"
+                        ? "Showcase your skills and services to customers."
+                        : "Discover skilled professionals for your service needs."}
+                    </small>
                   </div>
-                  {formik.touched.acceptedProfessionalPolicy && formik.errors.acceptedProfessionalPolicy && <small className="text-danger">{formik.errors.acceptedProfessionalPolicy}</small>}
-                </>
+                </div>
+
+                <div>
+                  <span className="signup-point-number">
+                    02
+                  </span>
+
+                  <div>
+                    <strong>
+                      Simple and convenient
+                    </strong>
+
+                    <small>
+                      Manage your Fixkar experience from one place.
+                    </small>
+                  </div>
+                </div>
+
+                <div>
+                  <span className="signup-point-number">
+                    03
+                  </span>
+
+                  <div>
+                    <strong>
+                      Secure account
+                    </strong>
+
+                    <small>
+                      Your account information is protected.
+                    </small>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          {/* =====================================================
+              SIGNUP CARD
+          ===================================================== */}
+          <div className="col-12 col-sm-10 col-md-8 col-lg-5">
+
+            <div className="fixkar-signup-card">
+
+              {/* ================= MOBILE BRAND ================= */}
+              <div className="fixkar-signup-mobile-brand d-lg-none">
+
+                <div className="signup-mobile-brand-icon">
+                  <FaCheck />
+                </div>
+
+                <div>
+                  <strong>Fixkar</strong>
+                  <small>
+                    Smart service platform
+                  </small>
+                </div>
+
+              </div>
+
+              {/* ================= HEADER ================= */}
+              <div className="fixkar-signup-header">
+
+                <button
+                  type="button"
+                  className="fixkar-signup-back"
+                  onClick={() => navigate("/")}
+                  aria-label="Go back"
+                >
+                  <FaArrowLeft size={14} />
+                </button>
+
+                <div>
+                  <h2>Create Account</h2>
+
+                  <p>
+                    Create your account to get started with{" "}
+                    <strong>Fixkar</strong>
+                  </p>
+                </div>
+
+              </div>
+
+              {/* ================= ROLE INDICATOR ================= */}
+              <div className="fixkar-role-indicator">
+
+                <div className="role-indicator-dot" />
+
+                <span>
+                  Creating{" "}
+                  <strong>
+                    {role === "professional"
+                      ? "Professional"
+                      : "Customer"}
+                  </strong>{" "}
+                  account
+                </span>
+
+              </div>
+
+              {/* ================= FORM ================= */}
+              <form
+                onSubmit={formik.handleSubmit}
+                className="fixkar-signup-form"
+              >
+
+                {/* FULL NAME */}
+                <div className="fixkar-signup-field">
+
+                  <label htmlFor="fullName">
+                    Full Name
+                  </label>
+
+                  <div
+                    className={`fixkar-signup-input ${
+                      formik.touched.fullName &&
+                      formik.errors.fullName
+                        ? "signup-input-error"
+                        : ""
+                    }`}
+                  >
+                    <FaUser />
+
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      placeholder="Enter your full name"
+                      value={formik.values.fullName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                  </div>
+
+                  {formik.touched.fullName &&
+                    formik.errors.fullName && (
+                      <small className="fixkar-signup-error">
+                        {formik.errors.fullName}
+                      </small>
+                    )}
+
+                </div>
+
+                {/* EMAIL */}
+                <div className="fixkar-signup-field">
+
+                  <label htmlFor="email">
+                    Email Address
+                  </label>
+
+                  <div
+                    className={`fixkar-signup-input ${
+                      formik.touched.email &&
+                      formik.errors.email
+                        ? "signup-input-error"
+                        : ""
+                    } ${
+                      emailVerified
+                        ? "signup-input-verified"
+                        : ""
+                    }`}
+                  >
+                    <MdEmail />
+
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      disabled={emailVerified}
+                    />
+
+                    {emailVerified && (
+                      <FaCheck className="signup-verified-icon" />
+                    )}
+                  </div>
+
+                  {formik.touched.email &&
+                    formik.errors.email && (
+                      <small className="fixkar-signup-error">
+                        {formik.errors.email}
+                      </small>
+                    )}
+
+                  {/* SEND OTP */}
+                  {!otpSent && (
+                    <button
+                      type="button"
+                      className="fixkar-send-otp"
+                      onClick={handleSendOtp}
+                      disabled={
+                        !formik.values.email || wait
+                      }
+                    >
+                      {wait ? (
+                        <>
+                          <ClipLoader
+                            size={12}
+                            color="#0d6efd"
+                          />
+                          Sending...
+                        </>
+                      ) : (
+                        "Send OTP"
+                      )}
+                    </button>
+                  )}
+
+                </div>
+
+                {/* ================= OTP ================= */}
+                {otpSent && !emailVerified && (
+                  <div className="fixkar-otp-box">
+
+                    <div className="fixkar-otp-header">
+
+                      <div>
+                        <strong>
+                          Verify your email
+                        </strong>
+
+                        <small>
+                          Enter the 6-digit OTP sent to your email.
+                        </small>
+                      </div>
+
+                      <div className="otp-icon">
+                        <MdEmail />
+                      </div>
+
+                    </div>
+
+                    <div className="fixkar-otp-row">
+
+                      <input
+                        type="text"
+                        className="fixkar-otp-input"
+                        placeholder="000000"
+                        value={otp}
+                        onChange={(e) =>
+                          setOtp(e.target.value)
+                        }
+                        maxLength={6}
+                        inputMode="numeric"
+                      />
+
+                      <button
+                        type="button"
+                        className="fixkar-verify-btn"
+                        onClick={handleVerifyOtp}
+                        disabled={wait}
+                      >
+                        {wait ? (
+                          <ClipLoader
+                            size={14}
+                            color="#fff"
+                          />
+                        ) : (
+                          "Verify"
+                        )}
+                      </button>
+
+                    </div>
+
+                  </div>
+                )}
+
+                {/* VERIFIED */}
+                {emailVerified && (
+                  <div className="fixkar-email-success">
+
+                    <div className="email-success-icon">
+                      <FaCheck />
+                    </div>
+
+                    <div>
+                      <strong>
+                        Email verified
+                      </strong>
+
+                      <small>
+                        Your email address has been verified successfully.
+                      </small>
+                    </div>
+
+                  </div>
+                )}
+
+                {/* PASSWORD */}
+                <div className="fixkar-signup-field">
+
+                  <label htmlFor="password">
+                    Password
+                  </label>
+
+                  <div
+                    className={`fixkar-signup-input ${
+                      formik.touched.password &&
+                      formik.errors.password
+                        ? "signup-input-error"
+                        : ""
+                    }`}
+                  >
+                    <FaLock />
+
+                    <input
+                      type={
+                        showPass
+                          ? "text"
+                          : "password"
+                      }
+                      id="password"
+                      name="password"
+                      placeholder="Create a password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+
+                    <button
+                      type="button"
+                      className="fixkar-password-toggle"
+                      onClick={handleShowPass}
+                      aria-label={
+                        showPass
+                          ? "Hide password"
+                          : "Show password"
+                      }
+                    >
+                      {showPass ? (
+                        <FaRegEyeSlash />
+                      ) : (
+                        <FaRegEye />
+                      )}
+                    </button>
+
+                  </div>
+
+                  {formik.touched.password &&
+                    formik.errors.password && (
+                      <small className="fixkar-signup-error">
+                        {formik.errors.password}
+                      </small>
+                    )}
+
+                </div>
+
+                {/* TERMS */}
+                <div className="fixkar-policy-box">
+
+                  <div className="form-check">
+
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="acceptedTerms"
+                      name="acceptedTerms"
+                      onChange={formik.handleChange}
+                      checked={
+                        formik.values.acceptedTerms
+                      }
+                      role="button"
+                      required
+                    />
+
+                    <label
+                      className="form-check-label"
+                      htmlFor="acceptedTerms"
+                    >
+                      I agree to the{" "}
+                      <a
+                        href="/terms-and-conditions"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Terms & Conditions
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="/privacy-policy"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Privacy Policy
+                      </a>
+                    </label>
+
+                  </div>
+
+                  {formik.touched.acceptedTerms &&
+                    formik.errors.acceptedTerms && (
+                      <small className="fixkar-signup-error d-block">
+                        {formik.errors.acceptedTerms}
+                      </small>
+                    )}
+
+                </div>
+
+                {/* PROFESSIONAL POLICY */}
+                {role === "professional" && (
+                  <div className="fixkar-policy-box professional-policy">
+
+                    <div className="form-check">
+
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="acceptedProfessionalPolicy"
+                        name="acceptedProfessionalPolicy"
+                        onChange={formik.handleChange}
+                        checked={
+                          formik.values
+                            .acceptedProfessionalPolicy
+                        }
+                        role="button"
+                        required
+                      />
+
+                      <label
+                        className="form-check-label"
+                        htmlFor="acceptedProfessionalPolicy"
+                      >
+                        I agree to the{" "}
+                        <a
+                          href="/professional-policy"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Professional Onboarding Policy
+                        </a>
+                      </label>
+
+                    </div>
+
+                    {formik.touched
+                      .acceptedProfessionalPolicy &&
+                      formik.errors
+                        .acceptedProfessionalPolicy && (
+                        <small className="fixkar-signup-error d-block">
+                          {
+                            formik.errors
+                              .acceptedProfessionalPolicy
+                          }
+                        </small>
+                      )}
+
+                  </div>
+                )}
+
+                {/* CREATE ACCOUNT */}
+                <button
+                  type="submit"
+                  disabled={!emailVerified || loading}
+                  className="fixkar-create-account"
+                >
+                  {loading ? (
+                    <ClipLoader
+                      size={18}
+                      color="#fff"
+                    />
+                  ) : (
+                    <>
+                      Create Account
+                      <span>→</span>
+                    </>
+                  )}
+                </button>
+
+              </form>
+
+              {/* ================= DIVIDER ================= */}
+              <div className="fixkar-signup-divider">
+                <span>or continue with</span>
+              </div>
+
+              {/* ================= GOOGLE ================= */}
+              <button
+                type="button"
+                className="fixkar-google-signup"
+                disabled={
+                  loading ||
+                  !formik.values.acceptedTerms ||
+                  (role === "professional" &&
+                    !formik.values
+                      .acceptedProfessionalPolicy)
+                }
+                onClick={handleSignupWithGoogle}
+              >
+                {loading ? (
+                  <ClipLoader size={18} />
+                ) : (
+                  <FcGoogle size={21} />
+                )}
+
+                <span>
+                  {loading
+                    ? "Creating account..."
+                    : "Continue with Google"}
+                </span>
+              </button>
+
+              {(!formik.values.acceptedTerms ||
+                (role === "professional" &&
+                  !formik.values
+                    .acceptedProfessionalPolicy)) && (
+                <small className="fixkar-google-note">
+                  Please accept the required policies to
+                  continue with Google
+                </small>
               )}
 
-              <button type="submit" disabled={!emailVerified || loading} className="btn btn-primary w-100 rounded-pill py-2 fw-semibold mt-2">
-                {loading ? <ClipLoader size={18} /> : "Create Account"}
-              </button>
-            </form>
+              {/* ================= LOGIN ================= */}
+              <div className="fixkar-login-link">
+                <span>
+                  Already have an account?
+                </span>
 
-            <div className="text-center my-3 text-muted small">OR</div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    navigate("/login")
+                  }
+                >
+                  Login
+                </button>
+              </div>
 
-            <button className="btn btn-outline-secondary w-100 rounded-pill py-2 d-flex align-items-center justify-content-center gap-2" disabled={loading || !formik.values.acceptedTerms || (role === "professional" && !formik.values.acceptedProfessionalPolicy)} onClick={handleSignupWithGoogle}>
-              <FcGoogle size={20} />
-              {loading ? <ClipLoader size={18} /> : "Continue with Google"}
-            </button>
-            {(!formik.values.acceptedTerms || (role === "professional" && !formik.values.acceptedProfessionalPolicy)) && <small className="text-muted d-block text-center mt-2">Please accept the required policies to continue with Google</small>}
+              {/* SECURITY */}
+              <div className="fixkar-signup-security">
+                <FaCheck />
 
-            <div className="text-center mt-4">
-              <span className="text-primary fw-semibold" role="button" onClick={() => navigate("/login")}>Already have an account? Login</span>
+                <span>
+                  Your account information is securely protected.
+                </span>
+              </div>
+
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
-    </>
-  );
+    </main>
+
+    <Footer />
+  </>
+);
 };
 
 export default Signup

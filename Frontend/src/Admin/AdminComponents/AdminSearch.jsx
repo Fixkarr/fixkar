@@ -28,7 +28,7 @@ const AdminSearch = ({
   fetchCustomers,
   fetchProfessionals,
 }) => {
-  const [selectedType, setSelectedType] = useState("customer");
+  const [selectedType, setSelectedType] = useState("professional");
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [verified, setVerified] = useState("");

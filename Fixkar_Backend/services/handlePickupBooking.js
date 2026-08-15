@@ -33,7 +33,7 @@ export const handlePickupBooking = async ({
                 workDate,
                 customerLat,
                 customerLng,
-                radiusInKm: 15,
+                radiusInKm: 50,
                 limit: 10,
             });
 
