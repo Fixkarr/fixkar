@@ -1154,7 +1154,7 @@ const ProfessionalDetailCard = ({ p }) => {
 
             <div className="col-6 col-md-3">
               <div className="fixkar-wallet-box">
-                <small>Balance</small>
+                <small>Credit Balance</small>
                 <strong>
                   ₹{Number(
                     p.wallet?.credits?.balance ?? 0
@@ -1203,7 +1203,7 @@ const ProfessionalDetailCard = ({ p }) => {
 
             <div className="col-6 col-md-3">
               <div className="fixkar-wallet-sub">
-                Lifetime Earned:
+                Lifetime credit Earned:
                 <strong>
                   ₹{Number(
                     p.wallet?.credits?.lifetimeEarned ?? 0
