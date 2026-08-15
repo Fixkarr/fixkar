@@ -94,6 +94,7 @@ import PickupToast from "./Professional/PickupToast.jsx";
 import IncomingBooking from "./Professional/professionalBooking/Pickup/IncomingBooking.jsx";
 import IncomingRequests from "./Professional/professionalBooking/Pickup/IncomingRequests.jsx";
 import AdminProtectedRoute from "./Components/AdminProtectedRoute.jsx";
+import { PushNotifications } from "@capacitor/push-notifications";
 
 const App = () => {
   useGetCurrentUser();
@@ -104,6 +105,7 @@ const App = () => {
   const {currentAdmin} = useSelector(state => state.admin);
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const role = currentUserData?.user?.userId?.role;
   const isOnboarded = currentUserData?.user?.onBoarded;
   const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
@@ -135,6 +137,61 @@ const App = () => {
 
     initSocialLogin();
   },[])
+  useEffect(() => {
+  if (Capacitor.getPlatform() !== "android") return;
+
+  let listener;
+
+  const setupNotificationClick = async () => {
+    listener = await PushNotifications.addListener(
+      "pushNotificationActionPerformed",
+      (notification) => {
+        const redirectUrl =
+          notification?.notification?.data?.redirectUrl;
+
+        console.log("Notification clicked:", redirectUrl);
+
+        if (!redirectUrl) return;
+
+        navigate(redirectUrl);
+      }
+    );
+  };
+
+  setupNotificationClick();
+
+  return () => {
+    if (listener) {
+      listener.remove();
+    }
+  };
+}, [navigate]);
+
+useEffect(() => {
+  if (Capacitor.getPlatform() !== "android") return;
+
+  let listener;
+
+  const setupForegroundNotification = async () => {
+    listener = await PushNotifications.addListener(
+      "pushNotificationReceived",
+      (notification) => {
+        console.log(
+          "Foreground notification received:",
+          notification
+        );
+      }
+    );
+  };
+
+  setupForegroundNotification();
+
+  return () => {
+    if (listener) {
+      listener.remove();
+    }
+  };
+}, []);
  
   useEffect(() => {
     const checkBackend = async () => {
@@ -152,20 +209,15 @@ const App = () => {
     checkBackend();
   }, []);
 
-
-    useEffect(() => {
+useEffect(() => {
   const setupFCM = async () => {
-      if (
-      currentUserData?.user?.userId?._id &&
-      typeof window !== "undefined" &&
-      "Notification" in window
-    ) {
-      if (window.Notification.permission === "granted") {
-      
-        await generateFCMToken();
-      }
+    if (!currentUserData?.user?.userId?._id) {
+      return;
     }
+
+    await generateFCMToken();
   };
+
   setupFCM();
 }, [currentUserData]);
 

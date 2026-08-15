@@ -24,6 +24,14 @@ export const pushNotification = async ({
       link: redirectUrl || "/",   // 🔥 IMPORTANT
     },
   },
+  android: {
+  notification: {
+    title,
+    body: message,
+    channelId: "fixkar_notifications",
+    icon: "ic_stat_fixkar",
+  },
+},
   tokens: user.fcmTokens,
 };
 
