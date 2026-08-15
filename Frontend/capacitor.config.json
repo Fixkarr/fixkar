@@ -3,7 +3,7 @@
   "appName": "Fixkar Smart Solutions",
   "webDir": "dist",
   "server" : {
-    "url": "https://testing.fixkarr.com",
+    "url": "https://fixkarr.com",
     "cleartext" : false
   }
 }
