@@ -41,6 +41,7 @@ import Section from "./Section";
 import Info from "./Info";
 import BankVerificationActions from "./BankVerificationActions";
 import FormResponseSummary from "./FormResponseSummary";
+import { ClipLoader } from "react-spinners";
 
 const ProfessionalDetailCard = ({ p }) => {
   const [reason, setReason] = useState("");
