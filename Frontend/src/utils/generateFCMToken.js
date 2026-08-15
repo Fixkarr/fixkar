@@ -41,11 +41,19 @@ const registerAndroidFCM = async () => {
   androidRegistrationPromise = new Promise(async (resolve, reject) => {
     try {
       let permission = await PushNotifications.checkPermissions();
-
+      console.log("🔔 Android notification permission:", permission);
       if (permission.receive === "prompt") {
         permission = await PushNotifications.requestPermissions();
       }
+        console.log(
+    "🔔 Android notification permission after request:",
+    permission
+  );
 
+    console.log(
+  "🔔 Final notification permission:",
+  permission.receive
+);
       if (permission.receive !== "granted") {
         console.warn("Android notification permission denied");
         resolve(null);
