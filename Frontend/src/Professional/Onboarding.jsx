@@ -124,185 +124,690 @@ const Onboarding = ({ userData }) => {
 }, [googleLoaded]);
 
 
-  return (
-    <>
-<div className="mt-5">
+ return (
+  <>
+    <div className="fixkar-onboarding">
 
-  <div className="card border-0 rounded-4 shadow overflow-hidden">
-
-  {/* ===== Header ===== */}
-  <div
-    className="p-4 text-white"
-    style={{
-      background: "linear-gradient(135deg, #0d6efd, #6ea8fe)",
-    }}
-  >
-    <div className="d-flex align-items-center gap-3">
-      <FaUserCheck size={36} />
-      <div>
-        <h4 className="mb-0 fw-bold">
-          Welcome, {userData?.user?.userId?.fullName || "Professional"}
-        </h4>
-        <small className="opacity-75">
-          Complete your onboarding to start getting jobs
-        </small>
+      {/* ================= DECORATIVE BACKGROUND ================= */}
+      <div className="fixkar-onboarding-bg" aria-hidden="true">
+        <span className="onboard-orb onboard-orb-1"></span>
+        <span className="onboard-orb onboard-orb-2"></span>
+        <span className="onboard-orb onboard-orb-3"></span>
+        <div className="onboard-grid"></div>
       </div>
+
+      <div className="container position-relative py-3 py-md-4">
+
+        {/* ================= TOP INTRO ================= */}
+        <div className="row justify-content-center mb-3 mb-md-4">
+          <div className="col-12 col-xl-11">
+
+            <div className="onboard-hero">
+
+              <div className="d-flex align-items-center gap-3">
+
+                <div className="onboard-hero-icon">
+                  <FaUserCheck />
+                </div>
+
+                <div className="flex-grow-1 min-w-0">
+
+                  <div className="d-flex align-items-center gap-2 flex-wrap mb-1">
+
+                    <h4 className="mb-0 fw-bold">
+                      Welcome,{" "}
+                      {userData?.user?.userId?.fullName ||
+                        "Professional"}
+                    </h4>
+
+                    <span className="badge rounded-pill onboard-status">
+                      <span className="onboard-status-dot"></span>
+                      Professional Onboarding
+                    </span>
+
+                  </div>
+
+                  <p className="mb-0">
+                    Complete your profile carefully to start receiving
+                    customer requests.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* ================= MAIN CONTENT ================= */}
+        <div className="row justify-content-center">
+
+          <div className="col-12 col-xl-11">
+
+            <div className="onboard-main-card">
+
+              {/* ================= TOP PROGRESS ================= */}
+              <div className="onboard-progress-wrap">
+
+                <div className="d-flex align-items-center justify-content-between mb-2">
+
+                  <div>
+                    <span className="onboard-eyebrow">
+                      PROFILE SETUP
+                    </span>
+
+                    <h5 className="mb-0 fw-bold">
+                      Tell us about yourself
+                    </h5>
+                  </div>
+
+                  <span className="onboard-progress-label">
+                    Step 1 of 1
+                  </span>
+
+                </div>
+
+                <div className="progress onboard-progress">
+                  <div
+                    className="progress-bar"
+                    role="progressbar"
+                    style={{ width: "100%" }}
+                  />
+                </div>
+
+              </div>
+
+              {/* ================= FORM ================= */}
+              <form
+                onSubmit={formik.handleSubmit}
+                encType="multipart/form-data"
+                className="onboard-form"
+              >
+
+                <div className="row g-3 g-lg-4">
+
+                  {/* ==================================================
+                      BASIC INFORMATION
+                  ================================================== */}
+                  <div className="col-12 col-lg-6">
+
+                    <div className="onboard-section h-100">
+
+                      <div className="onboard-section-head">
+
+                        <div className="onboard-section-icon blue">
+                          <FaBirthdayCake />
+                        </div>
+
+                        <div>
+                          <h6 className="mb-0 fw-bold">
+                            Basic Information
+                          </h6>
+
+                          <small>
+                            Tell us about your age and profession.
+                          </small>
+                        </div>
+
+                      </div>
+
+                      {/* DOB */}
+                      <div className="onboard-field">
+
+                        <label className="onboard-label">
+                          Date of Birth
+                          <span className="required-star">*</span>
+                        </label>
+
+                        <div className="onboard-input-wrap">
+
+                          <FaBirthdayCake />
+
+                          <input
+                            type="date"
+                            name="dob"
+                            max={maxDate}
+                            value={formik.values.dob}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            className="form-control"
+                          />
+
+                        </div>
+
+                        <div className="onboard-helper">
+                          <FaInfoCircle />
+                          You must be at least 18 years old.
+                        </div>
+
+                        {formik.touched.dob &&
+                          formik.errors.dob && (
+                            <div className="onboard-error">
+                              {formik.errors.dob}
+                            </div>
+                          )}
+
+                      </div>
+
+                      {/* PROFESSION */}
+                      <div className="onboard-field mb-0">
+
+                        <label className="onboard-label">
+                          Profession
+                          <span className="required-star">*</span>
+                        </label>
+
+                        <div className="onboard-input-wrap">
+
+                          <MdWork />
+
+                          <select
+                            name="profession"
+                            className="form-select"
+                            value={formik.values.profession}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          >
+                            <option value="">
+                              Select your profession
+                            </option>
+
+                            {services?.map((srv) => (
+                              <option
+                                value={srv._id}
+                                key={srv._id}
+                              >
+                                {srv.name}
+                              </option>
+                            ))}
+                          </select>
+
+                        </div>
+
+                        <div className="onboard-helper">
+                          <FaInfoCircle />
+                          Choose the service you are skilled in.
+                        </div>
+
+                        {formik.touched.profession &&
+                          formik.errors.profession && (
+                            <div className="onboard-error">
+                              {formik.errors.profession}
+                            </div>
+                          )}
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* ==================================================
+                      LOCATION
+                  ================================================== */}
+                  <div className="col-12 col-lg-6">
+
+                    <div className="onboard-section h-100">
+
+                      <div className="onboard-section-head">
+
+                        <div className="onboard-section-icon purple">
+                          <FaMapMarkerAlt />
+                        </div>
+
+                        <div>
+                          <h6 className="mb-0 fw-bold">
+                            Service Location
+                          </h6>
+
+                          <small>
+                            Tell customers where you provide services.
+                          </small>
+                        </div>
+
+                      </div>
+
+                      <div className="onboard-field mb-0">
+
+                        <label className="onboard-label">
+                          Full Address
+                          <span className="required-star">*</span>
+                        </label>
+
+                        <div className="onboard-input-wrap">
+
+                          <FaMapMarkerAlt />
+
+                          <input
+                            type="text"
+                            ref={addressInputRef}
+                            name="address"
+                            placeholder="Start typing your address..."
+                            value={formik.values.address}
+                            onChange={(e) => {
+                              formik.handleChange(e);
+
+                              // Existing architecture/logic remains intact.
+                              // Coordinates are still populated only through
+                              // Google Places selection.
+                              setLatLng({
+                                lat: null,
+                                lng: null,
+                              });
+                            }}
+                            onBlur={formik.handleBlur}
+                            className="form-control"
+                          />
+
+                        </div>
+
+                        <div className="onboard-location-tip">
+
+                          <div className="location-tip-icon">
+                            <FaMapMarkerAlt />
+                          </div>
+
+                          <div>
+                            <strong>
+                              Select from Google suggestions
+                            </strong>
+
+                            <small>
+                              This helps Fixkar find nearby customers
+                              and accurately locate your service area.
+                            </small>
+                          </div>
+
+                        </div>
+
+                        {latLng.lat && latLng.lng ? (
+                          <div className="onboard-location-success">
+                            <span>
+                              <FaUserCheck />
+                            </span>
+
+                            <div>
+                              <strong>
+                                Location selected
+                              </strong>
+
+                              <small>
+                                Your service location has been detected
+                                successfully.
+                              </small>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="onboard-helper">
+                            <FaInfoCircle />
+                            Do not type a random address. Select a
+                            suggestion from the dropdown.
+                          </div>
+                        )}
+
+                        {formik.touched.address &&
+                          formik.errors.address && (
+                            <div className="onboard-error">
+                              {formik.errors.address}
+                            </div>
+                          )}
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* ==================================================
+                      PROFILE PHOTO
+                  ================================================== */}
+                  <div className="col-12 col-lg-6">
+
+                    <div className="onboard-section">
+
+                      <div className="onboard-section-head">
+
+                        <div className="onboard-section-icon green">
+                          <FaCamera />
+                        </div>
+
+                        <div>
+                          <h6 className="mb-0 fw-bold">
+                            Profile Photo
+                          </h6>
+
+                          <small>
+                            Help customers recognise you easily.
+                          </small>
+                        </div>
+
+                      </div>
+
+                      <div className="onboard-upload-card">
+
+                        <input
+                          type="file"
+                          id="profilePicture"
+                          accept="image/*"
+                          hidden
+                          onChange={(e) =>
+                            formik.setFieldValue(
+                              "profilePicture",
+                              e.target.files[0]
+                            )
+                          }
+                        />
+
+                        <label
+                          htmlFor="profilePicture"
+                          className="onboard-upload-zone"
+                        >
+
+                          {formik.values.profilePicture ? (
+                            <div className="onboard-profile-preview">
+
+                              <img
+                                src={URL.createObjectURL(
+                                  formik.values.profilePicture
+                                )}
+                                alt="Profile Preview"
+                              />
+
+                              <div className="profile-preview-overlay">
+                                <FaCamera />
+                                <span>
+                                  Change photo
+                                </span>
+                              </div>
+
+                            </div>
+                          ) : (
+                            <>
+                              <div className="upload-zone-icon">
+                                <FaCamera />
+                              </div>
+
+                              <strong>
+                                Upload your profile photo
+                              </strong>
+
+                              <small>
+                                Tap here to choose an image
+                              </small>
+                            </>
+                          )}
+
+                        </label>
+
+                        <div className="onboard-instruction">
+
+                          <div className="instruction-icon">
+                            <FaInfoCircle />
+                          </div>
+
+                          <div>
+                            <strong>
+                              Photo guidelines
+                            </strong>
+
+                            <ul>
+                              <li>Use a clear front-facing photo.</li>
+                              <li>Face should be clearly visible.</li>
+                              <li>Avoid sunglasses or heavy blur.</li>
+                              <li>Use a recent photo of yourself.</li>
+                            </ul>
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                      {formik.touched.profilePicture &&
+                        formik.errors.profilePicture && (
+                          <div className="onboard-error">
+                            {formik.errors.profilePicture}
+                          </div>
+                        )}
+
+                    </div>
+
+                  </div>
+
+                  {/* ==================================================
+                      IDENTITY PROOF
+                  ================================================== */}
+                  <div className="col-12 col-lg-6">
+
+                    <div className="onboard-section">
+
+                      <div className="onboard-section-head">
+
+                        <div className="onboard-section-icon orange">
+                          <FaIdCard />
+                        </div>
+
+                        <div>
+                          <h6 className="mb-0 fw-bold">
+                            Identity Verification
+                          </h6>
+
+                          <small>
+                            Upload a valid government identity document.
+                          </small>
+                        </div>
+
+                      </div>
+
+                      <div className="onboard-upload-card">
+
+                        <input
+                          type="file"
+                          id="poi"
+                          accept="image/*,application/pdf"
+                          hidden
+                          onChange={(e) =>
+                            formik.setFieldValue(
+                              "poi",
+                              e.target.files[0]
+                            )
+                          }
+                        />
+
+                        <label
+                          htmlFor="poi"
+                          className="onboard-upload-zone poi-zone"
+                        >
+
+                          {formik.values.poi ? (
+                            formik.values.poi.type?.startsWith(
+                              "image/"
+                            ) ? (
+                              <div className="poi-preview">
+
+                                <img
+                                  src={URL.createObjectURL(
+                                    formik.values.poi
+                                  )}
+                                  alt="POI Preview"
+                                />
+
+                                <div>
+                                  <strong>
+                                    ID selected
+                                  </strong>
+
+                                  <small>
+                                    Click to replace
+                                  </small>
+                                </div>
+
+                              </div>
+                            ) : (
+                              <div className="poi-file-preview">
+
+                                <div className="pdf-icon">
+                                  <FaIdCard />
+                                </div>
+
+                                <div>
+                                  <strong>
+                                    PDF document selected
+                                  </strong>
+
+                                  <small>
+                                    Click to replace
+                                  </small>
+                                </div>
+
+                              </div>
+                            )
+                          ) : (
+                            <>
+                              <div className="upload-zone-icon orange-icon">
+                                <FaIdCard />
+                              </div>
+
+                              <strong>
+                                Upload identity proof
+                              </strong>
+
+                              <small>
+                                Aadhaar, PAN, Driving Licence or PDF
+                              </small>
+                            </>
+                          )}
+
+                        </label>
+
+                        <div className="onboard-instruction warning">
+
+                          <div className="instruction-icon">
+                            <FaInfoCircle />
+                          </div>
+
+                          <div>
+                            <strong>
+                              Important before uploading
+                            </strong>
+
+                            <ul>
+                              <li>
+                                Document must be valid and readable.
+                              </li>
+
+                              <li>
+                                Aadhaar / PAN / Driving Licence accepted.
+                              </li>
+
+                              <li>
+                                Upload both sides where applicable.
+                              </li>
+
+                              <li>
+                                PDF or clear image is supported.
+                              </li>
+                            </ul>
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                      {formik.touched.poi &&
+                        formik.errors.poi && (
+                          <div className="onboard-error">
+                            {formik.errors.poi}
+                          </div>
+                        )}
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                {/* ==================================================
+                    FINAL NOTE
+                ================================================== */}
+                <div className="onboard-final-note">
+
+                  <div className="final-note-icon">
+                    <FaUserCheck />
+                  </div>
+
+                  <div>
+                    <strong>
+                      Almost there!
+                    </strong>
+
+                    <span>
+                      Make sure all information and documents are
+                      correct before submitting. Your details will be
+                      reviewed during the professional verification process.
+                    </span>
+                  </div>
+
+                </div>
+
+                {/* ================= SUBMIT ================= */}
+
+                <div className="onboard-submit-area">
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="btn onboard-submit-btn"
+                  >
+                    {loading ? (
+                      <>
+                        <ClipLoader
+                          size={18}
+                          color="#fff"
+                        />
+
+                        <span>
+                          Submitting...
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <FaUserCheck />
+
+                        <span>
+                          Complete Onboarding
+                        </span>
+
+                        <span className="submit-arrow">
+                          →
+                        </span>
+                      </>
+                    )}
+                  </button>
+
+                  <small>
+                    By submitting, you confirm that the information
+                    provided is accurate.
+                  </small>
+
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <ToastContainer />
+
     </div>
-  </div>
-
-  {/* ===== Body ===== */}
-  <div className="card-body bg-light">
-
-    <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-
-      {/* DOB */}
-      <div className="mb-3">
-        <label className="form-label fw-semibold text-primary">
-          <FaBirthdayCake className="me-2" />
-          Date of Birth
-        </label>
-        <input
-          type="date"
-          name="dob"
-          max={maxDate}
-          value={formik.values.dob}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          className="form-control rounded-3"
-        />
-        {formik.touched.dob && formik.errors.dob && (
-          <div className="text-danger small">{formik.errors.dob}</div>
-        )}
-      </div>
-
-      {/* Profession */}
-      <div className="mb-3">
-        <label className="form-label fw-semibold text-primary">
-          <MdWork className="me-2" />
-          Profession
-        </label>
-        <select
-          name="profession"
-          className="form-select rounded-3"
-          value={formik.values.profession}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        >
-          <option value="">Select Profession</option>
-          {services?.map((srv)=>{
-            return <option value={srv._id} key={srv._id}>{srv.name}</option>
-          })}
-        </select>
-      </div>
-
-      {/* Address */}
-      <div className="mb-3">
-        <label className="form-label fw-semibold text-primary">
-          <FaMapMarkerAlt className="me-2" />
-          Address
-        </label>
-        <input
-          type="text"
-          ref={addressInputRef}
-          name="address"
-          placeholder="Enter your full address"
-          value={formik.values.address}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          className="form-control rounded-3"
-        />
-        {formik.touched.address && formik.errors.address && (
-          <div className="text-danger small">{formik.errors.address}</div>
-        )}
-      </div>
-
-      {/* Profile Picture */}
-      <div className="mb-4">
-        <label className="form-label fw-semibold text-primary">
-          <FaCamera className="me-2" />
-          Profile Picture
-        </label>
-
-        <div className="alert alert-warning py-2 small mb-2">
-          <FaInfoCircle className="me-1" />
-          Upload a clear photo of your face, front-facing, no sunglasses or blur.
-        </div>
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) =>
-            formik.setFieldValue("profilePicture", e.target.files[0])
-          }
-          className="form-control rounded-3"
-        />
-
-        {/* Preview (UI only) */}
-        {formik.values.profilePicture && (
-          <div className="mt-3 text-center">
-            <img
-              src={URL.createObjectURL(formik.values.profilePicture)}
-              alt="Profile Preview"
-              className="rounded-circle border shadow"
-              style={{ width: "120px", height: "120px", objectFit: "cover" }}
-            />
-            <div className="small text-muted mt-1">Profile Preview</div>
-          </div>
-        )}
-      </div>
-
-      {/* POI */}
-      <div className="mb-4">
-        <label className="form-label fw-semibold text-primary">
-          <FaIdCard className="me-2" />
-          Proof of Identity
-        </label>
-
-        <div className="alert alert-warning py-2 small mb-2">
-          <FaInfoCircle className="me-1" />
-          Upload a valid government ID (Aadhaar / PAN / Driving License).  
-          Image must be readable or PDF only, , should contain both side of id.
-        </div>
-
-        <input
-          type="file"
-          accept="image/*,application/pdf"
-          onChange={(e) => formik.setFieldValue("poi", e.target.files[0])}
-          className="form-control rounded-3"
-        />
-
-        {/* POI Preview (image only) */}
-        {formik.values.poi && formik.values.poi.type.startsWith("image/") && (
-          <div className="mt-3 text-center">
-            <img
-              src={URL.createObjectURL(formik.values.poi)}
-              alt="POI Preview"
-              className="rounded border shadow-sm"
-              style={{ maxWidth: "220px" }}
-            />
-            <div className="small text-muted mt-1">ID Preview</div>
-          </div>
-        )}
-      </div>
-
-      {/* Submit */}
-      <div className="text-center">
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn btn-primary px-5 rounded-pill fw-semibold"
-        >
-          {loading ? <ClipLoader size={20} /> : "Complete Onboarding"}
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
-</div>
-
-    </>
-  );
+  </>
+);
 };
 
 export default Onboarding;

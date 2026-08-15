@@ -47,8 +47,7 @@ const VerifyMobile = () => {
     }
     try {
       setLoading(true)
-      // const result = await axios.post(`${server_url}/api/otp/send`, {phone : `+91${mobile}`}, {withCredentials : true});
-      // toast.success(result.data.message)
+      
          const appVerifier = window.recaptchaVerifier;
 
     const confirmationResult = await signInWithPhoneNumber(
@@ -62,7 +61,7 @@ const VerifyMobile = () => {
       setLoading(false)
       setStep("otp");
     } catch (error) {
-      // toast.error(error.response.data.message)
+      
       toast.error("Otp send failed!")
       setLoading(false)
     }
@@ -87,8 +86,6 @@ const VerifyMobile = () => {
       { token },
       { withCredentials: true }
     );
-
-    toast.success("Mobile Verified Successfully");
 
     if (res.data.user) {
       dispatch(setCurrentUserData({ user: res.data.user }));
