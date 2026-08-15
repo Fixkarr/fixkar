@@ -465,6 +465,247 @@ border-radius: 25px;
 }
 
 
+/* home css */
+/* =========================================================
+   FIXKAR HOME HERO
+========================================================= */
+
+.fixkar-home-hero {
+  width: 100%;
+  margin-top: 78px;
+  margin-bottom: 28px;
+  padding: 0 16px;
+}
+
+.fixkar-hero-carousel {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.fixkar-hero-inner {
+  position: relative;
+
+  border-radius: 22px;
+  overflow: hidden;
+
+  background: #f1f5f9;
+
+  box-shadow:
+    0 12px 35px rgba(15, 23, 42, 0.10);
+}
+
+.fixkar-hero-image-wrapper {
+  width: 100%;
+  height: clamp(260px, 38vw, 520px);
+
+  overflow: hidden;
+}
+
+.fixkar-hero-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* =========================================================
+   CAROUSEL CONTROLS
+========================================================= */
+
+.fixkar-carousel-control {
+  width: 8%;
+
+  opacity: 1;
+
+  transition: opacity 0.2s ease;
+}
+
+.fixkar-carousel-arrow {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(15, 23, 42, 0.52);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.fixkar-carousel-control:hover .fixkar-carousel-arrow {
+  background: rgba(13, 110, 253, 0.85);
+  transform: scale(1.06);
+}
+
+.fixkar-carousel-control .carousel-control-prev-icon,
+.fixkar-carousel-control .carousel-control-next-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* =========================================================
+   INDICATORS
+========================================================= */
+
+.fixkar-carousel-indicators {
+  margin-bottom: 14px;
+
+  gap: 5px;
+
+  align-items: center;
+}
+
+.fixkar-carousel-indicators button {
+  width: 22px;
+  height: 4px;
+
+  margin: 0;
+
+  border: 0;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.65);
+
+  opacity: 1;
+
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.fixkar-carousel-indicators button.active {
+  width: 38px;
+
+  background: #ffffff;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991.98px) {
+  .fixkar-home-hero {
+    margin-top: 72px;
+    padding: 0 12px;
+    margin-bottom: 22px;
+  }
+
+  .fixkar-hero-inner {
+    border-radius: 18px;
+  }
+
+  .fixkar-hero-image-wrapper {
+    height: clamp(220px, 42vw, 380px);
+  }
+
+  .fixkar-carousel-arrow {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767.98px) {
+  .fixkar-home-hero {
+    margin-top: 70px;
+    padding: 0 8px;
+    margin-bottom: 18px;
+  }
+
+  .fixkar-hero-inner {
+    border-radius: 14px;
+
+    box-shadow:
+      0 7px 22px rgba(15, 23, 42, 0.09);
+  }
+
+  .fixkar-hero-image-wrapper {
+    height: 185px;
+  }
+
+  .fixkar-hero-image {
+    object-position: center;
+  }
+
+  .fixkar-carousel-control {
+    width: 13%;
+  }
+
+  .fixkar-carousel-arrow {
+    width: 30px;
+    height: 30px;
+
+    background: rgba(15, 23, 42, 0.58);
+  }
+
+  .fixkar-carousel-control
+    .carousel-control-prev-icon,
+  .fixkar-carousel-control
+    .carousel-control-next-icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  .fixkar-carousel-indicators {
+    margin-bottom: 8px;
+  }
+
+  .fixkar-carousel-indicators button {
+    width: 16px;
+    height: 3px;
+  }
+
+  .fixkar-carousel-indicators button.active {
+    width: 28px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+  .fixkar-home-hero {
+    margin-top: 66px;
+    padding: 0 6px;
+  }
+
+  .fixkar-hero-inner {
+    border-radius: 12px;
+  }
+
+  .fixkar-hero-image-wrapper {
+    height: 165px;
+  }
+
+  .fixkar-carousel-arrow {
+    width: 27px;
+    height: 27px;
+  }
+}
+
+
 
 
 /* FormResponse Summary  */

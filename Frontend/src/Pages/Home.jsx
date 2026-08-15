@@ -150,67 +150,74 @@ const Home = () => {
   <Navbar />
 
   {/* ===== HERO SECTION ===== */}
-<section className="mb-4 mt-5">
+{/* ===== HERO SECTION ===== */}
+<section className="fixkar-home-hero">
   <div
     id="homepageBanner"
-    className="carousel slide"
+    className="carousel slide fixkar-hero-carousel"
     data-bs-ride="carousel"
     data-bs-interval="3000"
     data-bs-pause="false"
   >
     {/* Slides */}
-    <div className="carousel-inner rounded-4 overflow-hidden shadow-sm">
-
+    <div className="carousel-inner fixkar-hero-inner">
       {(banners?.length > 0
         ? banners
         : [
-            {image : "/Images/banner3.jpg"},
+            { image: "/Images/banner3.jpg" },
             { image: "/Images/banner.webp" },
             { image: "/Images/banner2.webp" },
           ]
       ).map((item, index) => (
         <div
           key={index}
-          className={`carousel-item ${index === 0 ? "active" : ""}`}
+          className={`carousel-item ${
+            index === 0 ? "active" : ""
+          }`}
         >
-          <img
-            src={item?.image}
-            alt={`Fixkar home services in varanasi`}
-            className="w-100 d-block"
-            style={{
-              height: "auto",
-            }}
-          />
+          <div className="fixkar-hero-image-wrapper">
+            <img
+              src={item?.image}
+              alt="Fixkar home services in varanasi"
+              className="fixkar-hero-image"
+            />
+          </div>
         </div>
       ))}
     </div>
 
-    {/* Prev Button */}
+    {/* Previous */}
     <button
-      className="carousel-control-prev"
+      className="carousel-control-prev fixkar-carousel-control"
       type="button"
       data-bs-target="#homepageBanner"
       data-bs-slide="prev"
+      aria-label="Previous banner"
     >
-      <span className="carousel-control-prev-icon" />
+      <span className="fixkar-carousel-arrow">
+        <span className="carousel-control-prev-icon" />
+      </span>
     </button>
 
-    {/* Next Button */}
+    {/* Next */}
     <button
-      className="carousel-control-next"
+      className="carousel-control-next fixkar-carousel-control"
       type="button"
       data-bs-target="#homepageBanner"
       data-bs-slide="next"
+      aria-label="Next banner"
     >
-      <span className="carousel-control-next-icon" />
+      <span className="fixkar-carousel-arrow">
+        <span className="carousel-control-next-icon" />
+      </span>
     </button>
 
     {/* Indicators */}
-    <div className="carousel-indicators mb-2">
+    <div className="carousel-indicators fixkar-carousel-indicators">
       {(banners?.length > 0
         ? banners
         : [
-          {image : "/Images/banner3.jpg"},
+            { image: "/Images/banner3.jpg" },
             { image: "/Images/banner.webp" },
             { image: "/Images/banner2.webp" },
           ]
@@ -221,7 +228,10 @@ const Home = () => {
           data-bs-target="#homepageBanner"
           data-bs-slide-to={index}
           className={index === 0 ? "active" : ""}
-          aria-current={index === 0 ? "true" : undefined}
+          aria-current={
+            index === 0 ? "true" : undefined
+          }
+          aria-label={`Go to banner ${index + 1}`}
         />
       ))}
     </div>
