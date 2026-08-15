@@ -17,9 +17,6 @@ body {
   width: 100%;
   height: 100vh;
   min-height: 100vh;
-
-  overflow: hidden;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,7 +116,6 @@ body {
           position: relative;
           z-index: 2;
   max-height: calc(100vh - 30px);
-  overflow: hidden;
           width: 100%;
           max-width: 510px;
 
