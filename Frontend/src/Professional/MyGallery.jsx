@@ -38,7 +38,6 @@ const MyGallery = () => {
 
       dispatch(setCurrentUserData(result.data));
       setSelectedMedia(null);
-      toast.success(result.data.message);
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data.message);
