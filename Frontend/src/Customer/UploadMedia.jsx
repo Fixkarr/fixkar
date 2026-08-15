@@ -56,7 +56,7 @@ const UploadMedia = () => {
 
   // 2️⃣ Get signature from backend
   const getSignature = async () => {
-    const res = await axios.get(`${server_url}/api/user/signature`);
+    const res = await axios.get(`${server_url}/api/user/signature`, {withCredentials : true});
     return res.data;
   };
 
