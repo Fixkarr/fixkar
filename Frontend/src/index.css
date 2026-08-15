@@ -706,6 +706,813 @@ border-radius: 25px;
 }
 
 
+/* login page */
+/* =========================================================
+   FIXKAR AUTH PAGE
+========================================================= */
+
+.fixkar-auth-page {
+  position: relative;
+
+  min-height: calc(100vh - 72px);
+
+  padding: 110px 0 70px;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(13, 110, 253, 0.13),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(111, 66, 193, 0.10),
+      transparent 30%
+    ),
+    #f7faff;
+}
+
+/* =========================================================
+   BACKGROUND GRAPHICS
+========================================================= */
+
+.fixkar-auth-bg {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.fixkar-orb {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(2px);
+
+  opacity: 0.65;
+}
+
+.fixkar-orb-one {
+  width: 320px;
+  height: 320px;
+
+  top: -150px;
+  left: -100px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(13, 110, 253, 0.18),
+      transparent 70%
+    );
+}
+
+.fixkar-orb-two {
+  width: 380px;
+  height: 380px;
+
+  right: -150px;
+  bottom: -170px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(111, 66, 193, 0.15),
+      transparent 70%
+    );
+}
+
+.fixkar-orb-three {
+  width: 150px;
+  height: 150px;
+
+  top: 25%;
+  right: 25px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(13, 110, 253, 0.10),
+      transparent 70%
+    );
+}
+
+.fixkar-grid-pattern {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.28;
+
+  background-image:
+    linear-gradient(
+      rgba(13, 110, 253, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(13, 110, 253, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size: 42px 42px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 85%
+  );
+}
+
+/* =========================================================
+   LEFT INTRO
+========================================================= */
+
+.fixkar-auth-intro {
+  max-width: 560px;
+
+  padding: 30px;
+}
+
+.fixkar-auth-brand {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 10px;
+
+  color: #0d6efd;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  margin-bottom: 24px;
+}
+
+.fixkar-brand-icon {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0d6efd,
+      #6f42c1
+    );
+
+  box-shadow:
+    0 10px 25px rgba(13, 110, 253, 0.22);
+}
+
+.fixkar-auth-intro h1 {
+  color: #172033;
+
+  font-size: clamp(38px, 4vw, 58px);
+
+  line-height: 1.08;
+
+  letter-spacing: -1.8px;
+
+  font-weight: 800;
+
+  margin-bottom: 20px;
+}
+
+.fixkar-auth-intro h1 span {
+  display: block;
+
+  color: #0d6efd;
+}
+
+.fixkar-auth-intro > p {
+  max-width: 470px;
+
+  color: #64748b;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+
+  margin-bottom: 32px;
+}
+
+/* =========================================================
+   INTRO POINTS
+========================================================= */
+
+.fixkar-auth-points {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.fixkar-auth-points > div {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 13px;
+
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.55);
+
+  border: 1px solid rgba(255, 255, 255, 0.8);
+
+  backdrop-filter: blur(10px);
+}
+
+.fixkar-auth-points > div > span {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  color: #0d6efd;
+
+  background: #eaf2ff;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.fixkar-auth-points div div {
+  display: flex;
+  flex-direction: column;
+}
+
+.fixkar-auth-points strong {
+  color: #273449;
+
+  font-size: 13px;
+}
+
+.fixkar-auth-points small {
+  color: #94a3b8;
+
+  font-size: 11px;
+
+  margin-top: 2px;
+}
+
+/* =========================================================
+   LOGIN CARD
+========================================================= */
+
+.fixkar-login-card {
+  position: relative;
+
+  width: 100%;
+
+  padding: 32px;
+
+  border-radius: 26px;
+
+  background: rgba(255, 255, 255, 0.90);
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 30px 70px rgba(15, 23, 42, 0.12);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.fixkar-login-header {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  margin-bottom: 27px;
+}
+
+.fixkar-back-btn {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  color: #64748b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s ease;
+}
+
+.fixkar-back-btn:hover {
+  color: #0d6efd;
+
+  border-color: #b9d2fa;
+
+  background: #f4f8ff;
+
+  transform: translateX(-2px);
+}
+
+.fixkar-login-header h2 {
+  color: #172033;
+
+  font-size: 25px;
+
+  font-weight: 800;
+
+  margin: 0 0 4px;
+}
+
+.fixkar-login-header p {
+  color: #94a3b8;
+
+  font-size: 12px;
+
+  margin: 0;
+}
+
+.fixkar-login-header strong {
+  color: #0d6efd;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.fixkar-login-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 17px;
+}
+
+.fixkar-field label {
+  display: block;
+
+  color: #334155;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  margin-bottom: 7px;
+}
+
+.fixkar-input {
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 0 13px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.fixkar-input:focus-within {
+  border-color: #78aaf5;
+
+  box-shadow:
+    0 0 0 4px rgba(13, 110, 253, 0.08);
+}
+
+.fixkar-input.error {
+  border-color: #dc3545;
+}
+
+.fixkar-input > svg {
+  color: #94a3b8;
+
+  flex-shrink: 0;
+}
+
+.fixkar-input:focus-within > svg {
+  color: #0d6efd;
+}
+
+.fixkar-input input {
+  width: 100%;
+
+  height: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #1e293b;
+
+  font-size: 13px;
+}
+
+.fixkar-input input::placeholder {
+  color: #b0bac8;
+}
+
+.fixkar-password-toggle {
+  border: 0;
+
+  padding: 4px;
+
+  background: transparent;
+
+  color: #94a3b8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.fixkar-password-toggle:hover {
+  color: #0d6efd;
+}
+
+.fixkar-field-error {
+  display: block;
+
+  color: #dc3545;
+
+  font-size: 10px;
+
+  margin-top: 5px;
+}
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.fixkar-login-submit {
+  width: 100%;
+
+  min-height: 50px;
+
+  border: 0;
+
+  border-radius: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0d6efd,
+      #4f8dfd
+    );
+
+  box-shadow:
+    0 10px 22px rgba(13, 110, 253, 0.20);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.fixkar-login-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 28px rgba(13, 110, 253, 0.28);
+}
+
+.fixkar-login-submit span {
+  font-size: 19px;
+
+  transition: transform 0.2s ease;
+}
+
+.fixkar-login-submit:hover span {
+  transform: translateX(4px);
+}
+
+.fixkar-login-submit:disabled {
+  opacity: 0.7;
+
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.fixkar-divider {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin: 21px 0 14px;
+
+  color: #a0acbb;
+
+  font-size: 10px;
+}
+
+.fixkar-divider::before,
+.fixkar-divider::after {
+  content: "";
+
+  height: 1px;
+
+  flex: 1;
+
+  background: #e9edf3;
+}
+
+/* =========================================================
+   GOOGLE
+========================================================= */
+
+.fixkar-google-btn {
+  width: 100%;
+
+  min-height: 48px;
+
+  border: 1px solid #e1e7ef;
+
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  color: #334155;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.fixkar-google-btn:hover:not(:disabled) {
+  background: #f8fafc;
+
+  border-color: #cbd5e1;
+
+  transform: translateY(-1px);
+}
+
+.fixkar-google-btn:disabled {
+  opacity: 0.65;
+}
+
+/* =========================================================
+   FORGOT
+========================================================= */
+
+.fixkar-forgot {
+  text-align: center;
+
+  margin-top: 18px;
+}
+
+.fixkar-forgot button {
+  border: 0;
+
+  padding: 0;
+
+  background: transparent;
+
+  color: #0d6efd;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.fixkar-forgot button:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   SECURITY NOTE
+========================================================= */
+
+.fixkar-security-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  margin-top: 20px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #edf1f5;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+}
+
+.fixkar-security-note svg {
+  color: #22a06b;
+}
+
+/* =========================================================
+   MOBILE BRAND
+========================================================= */
+
+.fixkar-mobile-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 22px;
+}
+
+.fixkar-mobile-brand-icon {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0d6efd,
+      #6f42c1
+    );
+}
+
+.fixkar-mobile-brand div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.fixkar-mobile-brand strong {
+  color: #0d6efd;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.fixkar-mobile-brand small {
+  color: #94a3b8;
+
+  font-size: 9px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991.98px) {
+  .fixkar-auth-page {
+    padding-top: 100px;
+  }
+
+  .fixkar-login-card {
+    padding: 28px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767.98px) {
+  .fixkar-auth-page {
+    min-height: calc(100vh - 62px);
+
+    padding:
+      88px
+      12px
+      40px;
+
+    align-items: flex-start;
+
+    background:
+      radial-gradient(
+        circle at 90% 0%,
+        rgba(13, 110, 253, 0.16),
+        transparent 32%
+      ),
+      radial-gradient(
+        circle at 0% 70%,
+        rgba(111, 66, 193, 0.10),
+        transparent 35%
+      ),
+      #f7faff;
+  }
+
+  .fixkar-login-card {
+    padding: 22px 18px;
+
+    border-radius: 22px;
+
+    box-shadow:
+      0 18px 45px rgba(15, 23, 42, 0.10);
+  }
+
+  .fixkar-login-header {
+    margin-bottom: 22px;
+  }
+
+  .fixkar-login-header h2 {
+    font-size: 22px;
+  }
+
+  .fixkar-input {
+    height: 48px;
+  }
+
+  .fixkar-login-submit {
+    min-height: 48px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+  .fixkar-auth-page {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .fixkar-login-card {
+    padding: 20px 15px;
+
+    border-radius: 20px;
+  }
+
+  .fixkar-login-header h2 {
+    font-size: 20px;
+  }
+
+  .fixkar-input {
+    height: 46px;
+  }
+}
+
+
 
 
 /* FormResponse Summary  */
