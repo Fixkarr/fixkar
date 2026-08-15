@@ -6,12 +6,6 @@ const Pending = () => {
   return (
     <>
       <style>{`
-     html,
-body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
 
 .fixkar-pending-page {
   width: 100%;
