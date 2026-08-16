@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "229725846095-a5d3q84rta383e779p24u941kg3n8g1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fixkarr.app",
+            "certificate_hash": "fce983bdc1fa86f896eeb7cc68f5dbe95a2f758d"
+          }
+        },
+        {
           "client_id": "229725846095-vlvpmggbs9fhecmsa857do4k3vcfks2k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
