@@ -129,7 +129,7 @@ const App = () => {
       if(Capacitor.getPlatform()=== 'android'){
         await SocialLogin.initialize({
           google : {
-            webClientId : "229725846095-a5d3q84rta383e779p24u941kg3n8g1n.apps.googleusercontent.com"
+            webClientId : "229725846095-vd23276c954sa16562q6jm8n8ie3io33.apps.googleusercontent.com"
           }
         })
       }
