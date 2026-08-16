@@ -41,13 +41,27 @@ const UpdateSkills = ({ professional }) => {
 
   /* 🔁 Toggle skill */
   const toggleSkill = (skillId) => {
-    setSelectedSkills((prev) =>
-      prev.includes(skillId)
-        ? prev.filter((id) => id !== skillId)
-        : [...prev, skillId]
-    );
-  };
+  setSelectedSkills((prev) => {
+    const isAlreadySelected = prev.includes(skillId);
 
+    if (isAlreadySelected) {
+      setTaskPrices((current) => {
+        const updated = { ...current };
+        delete updated[skillId];
+        return updated;
+      });
+
+      return prev.filter((id) => id !== skillId);
+    }
+
+    setTaskPrices((current) => ({
+      ...current,
+      [skillId]: current[skillId] ?? "",
+    }));
+
+    return [...prev, skillId];
+  });
+};
   /* 🚀 Submit */
   const handleSubmit = async () => {
     if (selectedSkills.length === 0) {

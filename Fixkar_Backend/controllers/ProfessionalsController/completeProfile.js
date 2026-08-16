@@ -21,6 +21,12 @@ export const completeProfile =async (req,res)=>{
        }
         const service = await Service.findById(professional.profession).select("serviceType");
 
+        if (!service) {
+  return res.status(400).json({
+    message: "Professional service not found"
+  });
+}
+
     let validatedSkills = [];
     let skillDocs = [];
 

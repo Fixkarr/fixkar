@@ -315,8 +315,11 @@ export const updateSkills = async (req, res) => {
         validatedTaskPricing.push({ skill: skill._id, price });
       }
     }
-
+        
+    
     // 3️⃣ OPTIONAL: allow empty array (skill reset)
+
+    
     professional.selectedSkills = selectedSkills;
    if (service.serviceType === "specialized") {
   professional.visitingCharge = Number(visitingCharge);
