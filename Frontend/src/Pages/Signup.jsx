@@ -42,7 +42,13 @@ const Signup = () => {
       setLoading(true)
 
       if (Capacitor.getPlatform() === "android") {
-        const login = await SocialLogin.login({ provider: "google" });
+        const login = await SocialLogin.login({ provider: "google",
+            options: {
+    scopes: ["email", "profile"],
+    style: "standard",
+    filterByAuthorizedAccounts: false,
+  },
+         });
         const googleIdToken = login.result?.idToken;
         if (!googleIdToken) throw new Error("Google ID Token not received");
 

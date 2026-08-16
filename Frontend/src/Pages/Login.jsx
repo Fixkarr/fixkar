@@ -114,6 +114,11 @@ const Login = () => {
       if (Capacitor.getPlatform() === "android") {
         const login = await SocialLogin.login({
           provider: "google",
+            options: {
+            scopes: ["email", "profile"],
+            style: "standard",
+            filterByAuthorizedAccounts: false,
+          },
         });
 
         const googleIdToken = login.result?.idToken;
