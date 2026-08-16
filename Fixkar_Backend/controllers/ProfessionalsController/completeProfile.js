@@ -84,25 +84,30 @@ export const completeProfile =async (req,res)=>{
        },{new : true})
 
 
-    const updatedProfessional = await Professional.findById(professional._id).populate("userId", "-password")
-.populate({
-  path: "reviews",
-  options: { sort: { createdAt: -1 }, limit: 10 } // latest reviews
-})
-.populate({
-  path: "gallery",
-  options: { sort: { createdAt: -1 }, limit: 20 } // latest gallery
-}).populate({
-    path : "profession",
-    select : "name image skills serviceType",
-    populate : {
-      path : "skills",
-      select : "name bookingType fixedPrice pricingSource isActive"
-    }
-  }).populate({
-    path : "selectedSkills",
-    select : "name bookingType fixedPrice pricingSource isActive"
-  });
+    const updatedProfessional = await Professional.findById(professional._id).select('-poi -dob').populate('userId', '-password').populate({
+        path: "reviews",
+        options: {
+          sort: { createdAt: -1 },
+          limit: 10   // latest 5 reviews
+        }
+      })
+      .populate({
+        path: "gallery",
+        options: {
+          sort: { createdAt: -1 },
+          limit: 20   // latest 6 images
+        }
+      }).populate({
+        path : "profession",
+        select : "name image skills",
+        populate : {
+          path : "skills",
+          select : "name"
+        }
+      }).populate({
+        path : "selectedSkills",
+        select : "name"
+      }).populate('charges');
   
   
        if(updatedProfessional){
