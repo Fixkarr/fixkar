@@ -121,8 +121,8 @@ export default function AIAssistant() {
         id: Date.now() + 1,
         role: "assistant",
         content:
-          "I'm having trouble connecting right now. Please try again.",
-        error: true,
+         aiResponse ||
+          "Sorry, I couldn't generate a response right now.",
       },
     ]);
     } catch (error) {
