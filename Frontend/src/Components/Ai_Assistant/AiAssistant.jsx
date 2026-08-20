@@ -113,7 +113,7 @@ export default function AIAssistant() {
       }
       );
 
-      const aiResponse = response.data?.reply?.response;
+      const aiResponse = response.data?.reply
 
      setMessages((prev) => [
       ...prev,
