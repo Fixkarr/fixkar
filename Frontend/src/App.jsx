@@ -629,10 +629,11 @@ socket.on("pickupProfessionalAccepted", (data) => {
           <Route path="/professional-join-process" element={<JoinProcess/>}/>
 
 
-          <AIAssistant />
+          
       {/* 404 */}
       <Route path="*" element={<PageNotFound />} />
     </Routes>
+    <AIAssistant />
    </>
   );
 };
