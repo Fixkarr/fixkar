@@ -14,6 +14,8 @@ import {
 } from "react-icons/fa";
 import { MdVerified, MdOutlineTrackChanges } from "react-icons/md";
 import "./AiAssistant.css";
+import { server_url } from "../../App";
+import axios from 'axios'
 
 const quickActions = [
   {
@@ -99,8 +101,8 @@ export default function AIAssistant() {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/ai/chat`,
+      const response = await axios(
+        `${server_url}/api/ai/chat`,
         {
           method: "POST",
           headers: {
