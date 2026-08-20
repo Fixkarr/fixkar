@@ -95,6 +95,7 @@ import IncomingBooking from "./Professional/professionalBooking/Pickup/IncomingB
 import IncomingRequests from "./Professional/professionalBooking/Pickup/IncomingRequests.jsx";
 import AdminProtectedRoute from "./Components/AdminProtectedRoute.jsx";
 import { PushNotifications } from "@capacitor/push-notifications";
+import AIAssistant from "./Components/Ai_Assistant/AiAssistant.jsx";
 
 const App = () => {
   useGetCurrentUser();
@@ -628,7 +629,7 @@ socket.on("pickupProfessionalAccepted", (data) => {
           <Route path="/professional-join-process" element={<JoinProcess/>}/>
 
 
-        
+          <AIAssistant />
       {/* 404 */}
       <Route path="*" element={<PageNotFound />} />
     </Routes>

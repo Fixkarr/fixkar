@@ -1,57 +1,22 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import { customAlphabet } from "nanoid";
-import { Professional } from "./models/userModel.js";
-        import dns from "dns";
-dotenv.config();
+import { generateAIResponse } from "./Ai_Assistant/AiServices/ai.service.js";
 
-const nanoid = customAlphabet(
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-  8
-);
 
-async function generateUniqueShortCode() {
-  let shortCode;
-  let exists = true;
+const testMessages = [
+  "Hello",
+  "What is Fixkar?",
+  "I want to build a website",
+  "How can I contact you?",
+  "What is the price?",
+  "Tell me about quantum physics",
+  "Can you help me with my car repair?",
+  "I need assistance with my plumbing issue",
+  "What are your working hours?",
+];
 
-  while (exists) {
-    shortCode = nanoid();
-    exists = await Professional.exists({ shortCode });
-  }
+for (const message of testMessages) {
+  const result = await generateAIResponse(message);
 
-  return shortCode;
+  console.log("\nUser:", message);
+  console.log("Intent:", result.intent);
+  console.log("AI:", result.response);
 }
-
-async function addShortCodes() {
-  try {
-        console.log(process.env.MONGO_URL)
-    await mongoose.connect(process.env.MONGO_URL)
-        const professionals = await Professional.find({
-      $or: [
-        { shortCode: { $exists: false } },
-        { shortCode: null },
-        { shortCode: "" }
-      ]
-    });
-
-    console.log(`Found ${professionals.length} professionals.`);
-
-    for (const professional of professionals) {
-      professional.shortCode = await generateUniqueShortCode();
-      await professional.save();
-
-      console.log(
-        `${professional._id} -> ${professional.shortCode}`
-      );
-    }
-
-    console.log("✅ All short codes generated.");
-    process.exit(0);
-
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
-}
-
-addShortCodes();
