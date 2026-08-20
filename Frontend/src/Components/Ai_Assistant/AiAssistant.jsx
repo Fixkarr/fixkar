@@ -13,7 +13,7 @@ import {
   FaBolt,
 } from "react-icons/fa";
 import { MdVerified, MdOutlineTrackChanges } from "react-icons/md";
-import "./AIAssistant.css";
+import "./AiAssistant.css";
 
 const quickActions = [
   {
