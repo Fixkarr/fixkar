@@ -1,4 +1,4 @@
-import ai from "../ai.config";
+import ai from "../ai.config.js";
 
 
 export const generateAIResponse = async (message) => {
