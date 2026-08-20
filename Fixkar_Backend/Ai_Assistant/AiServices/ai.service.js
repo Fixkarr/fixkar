@@ -46,7 +46,7 @@ const findIntent = (message) => {
 
 export const generateAIResponse = async (message) => {
   const intent = findIntent(message);
-
+    console.log(intent)
   const responses = mockAIData[intent].responses;
 
   const randomResponse =

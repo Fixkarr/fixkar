@@ -11,9 +11,9 @@ export const chatWithAI = async (req, res) => {
         message: "Message is required",
       });
     }
-
+    
     const reply = await generateAIResponse(message);
-
+    
     return res.status(200).json({
       success: true,
       reply,

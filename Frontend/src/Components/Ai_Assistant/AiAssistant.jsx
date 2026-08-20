@@ -101,37 +101,30 @@ export default function AIAssistant() {
     setLoading(true);
 
     try {
-      const response = await axios(
+      const response = await axios.post(
         `${server_url}/api/ai/chat`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: trimmedMessage,
-          }),
-        }
+         {
+        message: trimmedMessage,
+      },
+       {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
       );
 
-      if (!response.ok) {
-        throw new Error("AI request failed");
-      }
+      const aiResponse = response.data?.reply;
 
-      const result = await response.json();
-
-      const aiResponse = result?.data?.response;
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          role: "assistant",
-          content:
-            aiResponse ||
-            "Sorry, I couldn't process that request right now.",
-        },
-      ]);
+     setMessages((prev) => [
+      ...prev,
+      {
+        id: Date.now() + 1,
+        role: "assistant",
+        content:
+          "I'm having trouble connecting right now. Please try again.",
+        error: true,
+      },
+    ]);
     } catch (error) {
       console.error("Fixkar AI Error:", error);
 
