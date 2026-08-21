@@ -216,35 +216,266 @@ Professionals are different from customers because their primary purpose on the 
 
 ---
 
-# 7. Becoming a Fixkar Professional
+# 7. How a Professional Registers on Fixkar
 
-A working professional who wants to provide services through Fixkar can register as a professional.
+A working professional who wants to provide services through Fixkar can register as a professional and complete the professional onboarding process.
 
-The general professional onboarding journey is:
+The registration and onboarding journey is important because a professional does not become an approved service provider immediately after creating an account. The professional must complete verification and wait for admin approval before accessing the approved professional workflow.
+
+## Step 1 — Create a Fixkar Account
+
+The professional first needs to register on Fixkar.
+
+They can create an account using the normal registration process by providing:
+
+- Name
+- Email
+- Password
+
+Where supported, the professional can also register using Google authentication.
+
+Google registration/login is recommended when available because it provides a convenient authentication experience.
+
+The simplified flow is:
 
 ```text
 Professional
     ↓
-Register as Professional
+Register with Name + Email + Password
+          OR
+    Continue with Google
     ↓
-Complete Onboarding
-    ↓
-Submit Required Information / Documents
-    ↓
-Admin Review
-    ↓
-Document Approval
-    ↓
-Professional Account Approval
-    ↓
-Complete Professional Profile
-    ↓
-Start Professional Journey on Fixkar
+Account Created
 ```
 
-A professional should complete the required onboarding and verification process before becoming an approved professional on the platform.
+The AI should explain the registration method that is actually available in the current Fixkar application.
 
-The AI should not claim that a newly registered professional is immediately approved unless the platform data confirms approval.
+---
+
+## Step 2 — Verify Mobile Number
+
+After registration, the professional must verify their mobile phone number.
+
+Fixkar uses an OTP-based verification process for mobile verification.
+
+The flow is:
+
+```text
+Registration
+    ↓
+Enter Mobile Number
+    ↓
+Receive OTP
+    ↓
+Enter OTP
+    ↓
+Mobile Number Verified
+```
+
+The professional should complete mobile verification before continuing with the professional onboarding process.
+
+If a user asks how to verify their mobile number, the AI should explain the OTP process rather than suggesting that verification can be skipped.
+
+---
+
+## Step 3 — Start Professional Onboarding
+
+After successful mobile verification, the professional can start the onboarding process.
+
+The onboarding process collects important identity and profile information required to proceed with professional verification.
+
+The professional should provide accurate information.
+
+The onboarding information includes:
+
+- Name
+- Professional/service category selection
+- Address
+- Date of birth
+- Profile picture
+- Identity document
+
+---
+
+## Step 4 — Enter Professional Information
+
+During onboarding, the professional provides their basic information.
+
+### Name
+
+The professional provides their name.
+
+### Professional
+
+The professional selects the relevant professional/service category according to the services they want to provide through Fixkar.
+
+### Address
+
+The professional enters their address.
+
+The address flow can involve typing the address and selecting an appropriate suggestion from the available address suggestions.
+
+The professional should provide an accurate address because location information can be important for professional discovery and service availability.
+
+### Date of Birth
+
+The professional provides their date of birth as required by the onboarding process.
+
+---
+
+## Step 5 — Upload a Profile Picture
+
+The professional must provide a clear profile picture.
+
+The profile picture should:
+
+- Be clear and recognizable
+- Clearly show the professional's face
+- Be suitable for use as a professional profile image
+
+A recognizable profile picture helps customers identify the professional when viewing their profile.
+
+The AI should advise the professional to upload a clear image in which their face can be recognized.
+
+---
+
+## Step 6 — Submit Identity Document
+
+The professional must provide an identity document as required by the onboarding process.
+
+Supported identity documents can include documents such as:
+
+- Aadhaar
+- PAN
+- Driving Licence
+- Other supported identity documents
+
+The professional should upload a valid document and ensure that the information is clear and readable.
+
+The purpose of this step is to support the professional verification process.
+
+The AI should not promise approval merely because a document has been uploaded. The submitted information and documents must first be reviewed by Fixkar's admin/verification process.
+
+---
+
+## Step 7 — Submit Onboarding Application
+
+After completing the required onboarding information and uploading the required documents, the professional submits the onboarding application.
+
+The flow becomes:
+
+```text
+Account Registration
+        ↓
+Mobile OTP Verification
+        ↓
+Professional Onboarding
+        ↓
+Basic Information
+        ↓
+Professional Selection
+        ↓
+Address
+        ↓
+Date of Birth
+        ↓
+Clear Profile Picture
+        ↓
+Identity Document
+        ↓
+Submit Onboarding
+```
+
+---
+
+## Step 8 — Pending Approval Screen
+
+After the onboarding information is submitted, the professional may see a pending/approval status screen.
+
+This means the application has been submitted and is waiting for admin review.
+
+The professional should not assume that they are already an approved professional at this stage.
+
+The flow is:
+
+```text
+Onboarding Submitted
+        ↓
+Pending Approval
+        ↓
+Admin Reviews Application / Documents
+```
+
+---
+
+## Step 9 — Wait for Admin Approval
+
+The professional must wait for the Fixkar admin team to review and approve the submitted information and documents.
+
+Approval can take **up to 24 hours** according to the current Fixkar onboarding guidance.
+
+The professional should wait for the approval process to complete rather than repeatedly submitting the same application.
+
+The AI should communicate the expected waiting period carefully and should not guarantee approval within an exact time.
+
+A useful explanation is:
+
+> Your onboarding application is under admin review. Approval may take up to 24 hours, so please wait for the verification process to complete.
+
+---
+
+## Step 10 — Professional Dashboard After Approval
+
+After the professional's application and documents are approved, the professional can proceed to the approved professional workflow and access the relevant dashboard.
+
+The flow becomes:
+
+```text
+Pending Approval
+       ↓
+Admin Approval
+       ↓
+Professional Dashboard
+```
+
+The professional can then start completing and improving their professional profile.
+
+---
+
+## Step 11 — Complete the Professional Profile
+
+After approval, the professional can continue with the profile completion process.
+
+The professional can improve their profile by adding relevant information such as:
+
+- Skills
+- Services
+- Service charges
+- Work gallery
+- Availability
+- Other supported professional profile information
+
+A complete profile can help customers understand the professional's capabilities and can improve the professional's chances of receiving suitable booking opportunities.
+
+The professional journey after approval is:
+
+```text
+Admin Approval
+      ↓
+Professional Dashboard
+      ↓
+Complete Profile
+      ↓
+Add Skills / Services
+      ↓
+Define Charges
+      ↓
+Upload Work Gallery
+      ↓
+Set Availability
+      ↓
+Ready for Professional Activity
+```
 
 ---
 
@@ -397,9 +628,15 @@ A simplified journey is:
 ```text
 Registration
     ↓
-Onboarding
+Mobile OTP Verification
     ↓
-Verification / Admin Approval
+Professional Onboarding
+    ↓
+Identity / Document Submission
+    ↓
+Admin Approval
+    ↓
+Professional Dashboard
     ↓
 Complete Profile
     ↓
