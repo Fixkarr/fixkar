@@ -1,4 +1,5 @@
 import { generateAIResponse } from "../AiServices/ai.service.js";
+import { loadKnowledgeBase } from "../AiServices/knowledge.service.js";
 
 
 export const chatWithAI = async (req, res) => {
@@ -12,6 +13,10 @@ export const chatWithAI = async (req, res) => {
       });
     }
     
+    const knowledge = await loadKnowledgeBase();
+
+    console.log(knowledge);
+
     const reply = await generateAIResponse(message);
     
     return res.status(200).json({
