@@ -24,6 +24,7 @@ import seoRouter from './routes/seo.route.js';
 import { Professional } from './models/userModel.js';
 import { generateShortCode } from './utils/generateShortCode.js';
 import { csrfOriginCheck } from './middlewares/csrfOriginCheck.js';
+import Airouter from './Ai_Assistant/AiRoutes/ai.routes.js';
 
 
 dotenv.config();
@@ -71,6 +72,7 @@ app.use("/api/booking", bookingRouter);
 app.use('/api/admin', adminRouter)
 app.use('/api/notification', notificationRouter)
 app.use('/api/seo', seoRouter);
+app.use('/api/ai', Airouter);
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({

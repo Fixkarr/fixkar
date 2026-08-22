@@ -52,7 +52,6 @@ const CustomerHome = () => {
    }
   }, []);
 
-  
      const handleEnableNotifications = async () => {
       try {
           if (Notification.permission === "denied") {
