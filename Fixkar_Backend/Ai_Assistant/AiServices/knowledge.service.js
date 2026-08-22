@@ -15,6 +15,7 @@ export const loadKnowledgeBase = async () => {
     const markdownFiles = files.filter((file) => file.endsWith(".md"));
 
     const knowledgeParts = [];
+    
 
     for (const file of markdownFiles) {
       const filePath = path.join(knowledgeDir, file);
