@@ -175,7 +175,7 @@ export default function AIAssistant() {
           <span className="fixkar-ai-launcher-ring"></span>
 
           <span className="fixkar-ai-launcher-icon">
-            <FaRobot />
+            <FaRobot size={20}/>
           </span>
 
           <span className="fixkar-ai-notification">1</span>
