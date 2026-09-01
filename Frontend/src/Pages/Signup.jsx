@@ -278,7 +278,7 @@ sessionStorage.setItem(
   const handleVerifyOtp = async () => {
     try {
       setWait(true);
-      await axios.post(
+      const response = await axios.post(
         `${server_url}/api/otp/verify-email-otp`,
         {
           email: formik.values.email,
@@ -286,8 +286,20 @@ sessionStorage.setItem(
         },
         { withCredentials: true },
       );
+      sessionStorage.setItem(
+  "fixkar:signupDraft",
+  JSON.stringify({
+    fullName: formik.values.fullName,
+    email: formik.values.email,
+    acceptedTerms: formik.values.acceptedTerms,
+    acceptedProfessionalPolicy:
+      formik.values.acceptedProfessionalPolicy,
+    otpSent : true,
+    emailVerified : true,
+    role,
+  })
+);
       setEmailVerified(true);
-      toast.success("Email verified successfully");
       setWait(false);
     } catch (error) {
       toast.error("Invalid OTP");

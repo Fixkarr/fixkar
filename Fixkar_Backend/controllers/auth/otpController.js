@@ -306,10 +306,23 @@ export const verifyEmailOtp = async (req, res) => {
       15 * 60 // ⏱️ 15 minutes validity
     );
 
+     const signupSessionId = crypto.randomUUID();
+
+await redis.set(
+  `signup_session:${signupSessionId}`,
+  JSON.stringify({
+    email,
+    otpSent: true,
+    emailVerified: false,
+  }),
+  "EX",
+  15 * 60
+);
+
     await redis.del(`email_otp:${email}`);
     await redis.del(`email_otp_resend:${email}`);
 
-    return res.status(200).json({ message: "OTP verified successfully." });
+    return res.status(200).json({ message: "OTP verified successfully."});
   } catch (error) {
     return res.status(500).json({ message: "Failed to verify OTP." });
   }
