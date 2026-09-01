@@ -1129,3 +1129,39 @@
     transition: none;
   }
 }
+
+.fixkar-ai-bubble p {
+  margin-bottom: 10px;
+}
+
+.fixkar-ai-bubble h1,
+.fixkar-ai-bubble h2,
+.fixkar-ai-bubbleh3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.fixkar-ai-bubble ul,
+.fixkar-ai-bubble ol {
+  padding-left: 22px;
+  margin-bottom: 10px;
+}
+
+.fixkar-ai-bubble li {
+  margin-bottom: 4px;
+}
+
+.fixkar-ai-bubble strong {
+  font-weight: 700;
+}
+
+.fixkar-ai-bubble code {
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.fixkar-ai-bubble pre {
+  overflow-x: auto;
+  padding: 12px;
+  border-radius: 8px;
+}
