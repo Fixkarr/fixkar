@@ -1,6 +1,5 @@
 import {Booking} from '../../models/bookingModel.js'
 import {io} from '../../server.js'
-import { ReachedOtp } from '../../models/reachedOtpModel.js';
 
 export const verifyReachedOtp = async (req,res)=>{
     try {
@@ -51,30 +50,17 @@ export const verifyReachedOtp = async (req,res)=>{
     });
   }
 
-  const otpRecord = await ReachedOtp.findOne({ bookingId }).select("otp attempts expiresAt");
+  const otpRecord = booking.reachedOTP;
   if(!otpRecord){
     return res.status(404).json({
         message : "OTP not found or expired!"
     })
   }
 
-  if (otpRecord.expiresAt <= new Date()) {
-    await ReachedOtp.deleteOne({ _id: otpRecord._id });
-    return res.status(400).json({ message: "OTP expired!" });
-  }
-
-  if (otpRecord.attempts >= 5) {
-    await ReachedOtp.deleteOne({ _id: otpRecord._id });
-    return res.status(429).json({ message: "Too many invalid OTP attempts" });
-  }
 
   const otpStr = otp.toString();
 
-  if(otpRecord.otp !== otpStr){
-    await ReachedOtp.updateOne(
-      { _id: otpRecord._id },
-      { $inc: { attempts: 1 } }
-    );
+  if(otpRecord !== otpStr){
     return res.status(400).json({
         message : "Invalid OTP!"
     })
@@ -84,17 +70,11 @@ export const verifyReachedOtp = async (req,res)=>{
     booking.startedAt = Date.now()
 
     await booking.save();
-    await ReachedOtp.deleteOne({ _id: otpRecord._id });
 
     io.to(booking.customerId.userId._id.toString()).emit(
             "bookingUpdated",
              booking
             );
-
-    io.to(booking.customerId.userId._id.toString()).emit("bookingStatusUpdated", {
-          bookingId,
-          status: "in-progress"
-        });
 
     io.to(booking.professionalId.userId._id.toString()).emit(
              "bookingUpdated",
@@ -107,7 +87,6 @@ export const verifyReachedOtp = async (req,res)=>{
     })
 
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({
             message : "Internal Server Error!"
         })

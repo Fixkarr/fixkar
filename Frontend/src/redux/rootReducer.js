@@ -5,7 +5,7 @@ import locationSlice from './location.slice.js'
 import professionalInfoSlice from './professionalInfo.slice.js'
 import distanceSlice from './distance.slice.js'
 import bookingSlice from './booking.Slice.js'
-import reachedOtpSlice from './otp.Slice.js'
+
 import walletSlice from './wallet.slice.js'
 import gallerySlice from './gallery.Slice.js'
 import adminSlice from './admin.Slice.js'
@@ -23,7 +23,6 @@ const appReducer = combineReducers({
         professionalInfo : professionalInfoSlice,
         distance : distanceSlice,
         bookings : bookingSlice,
-        reachedOtp : reachedOtpSlice,
         wallet : walletSlice,
         gallery : gallerySlice,
         admin : adminSlice,
@@ -37,7 +36,7 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === "LOGOUT") {
-    state = undefined; // 🔥 PURE RESET
+    state = undefined; 
   }
   return appReducer(state, action);
 };

@@ -30,7 +30,6 @@ import CusInprogress from './CusInprogress';
 import PayButton from '../PayButton';
 import CusCancelBooking from './CusCancelBooking';
 import CusCompleteBooking from './CusCompleteBooking';
-import useGetReachedOtp from '../../hooks/useGetReachedOtp'
 import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
 import { server_url } from '../../App';
 import axios from 'axios';
@@ -49,7 +48,6 @@ const CusBookingDetail = () => {
      const navigate = useNavigate()
 
     const {bookingId} = useParams();
-    const otp = useGetReachedOtp(bookingId)
      const booking = myBookings.find(book => book._id == bookingId)
 
     useEffect(() => {
@@ -396,10 +394,10 @@ if (!booking) {
     {booking.status == "accepted" && (
         <CusAcceptBooking booking={booking}/>
     )}
-    {booking.status == "reached" && otp && (
+    {booking.status == "reached" && booking.reachedOTP && (
         <div className="alert alert-warning text-center">
                   <h6>Professional has arrived</h6>
-                  <h3 className="fw-bold">{otp}</h3>
+                  <h3 className="fw-bold">{booking.reachedOTP}</h3>
                   <p className="small">
                     Share this OTP with the professional to start work
                   </p>

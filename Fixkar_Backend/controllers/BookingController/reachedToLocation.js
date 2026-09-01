@@ -1,8 +1,8 @@
 import { Booking } from "../../models/bookingModel.js";
 import { Notification } from "../../models/notificationModel.js";
-import { ReachedOtp } from "../../models/reachedOtpModel.js";
 import {io} from '../../server.js'
 import { pushNotification } from '../../services/pushNotification.js';
+import { generateOtpPlain } from "../../utils/otpHelper.js";
 export const reachedToLocation = async (req, res)=>{
     try{
     const {bookingId} = req.body;
@@ -45,24 +45,20 @@ export const reachedToLocation = async (req, res)=>{
       });
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = generateOtpPlain(6);
 
-    const isExistOtp = await ReachedOtp.findOne({ bookingId: booking._id });
+    const isExistOtp = booking.reachedOTP;
 
     if (isExistOtp) {
       return res.status(400).json({ message: "OTP already generated for this booking" });
     }
 
-     await ReachedOtp.create({
-      bookingId: booking._id,
-      otp,
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-    })
-
+    
+    booking.reachedOTP = otp;
+    booking.reachedAt = new Date();
     booking.status = "reached";
     await booking.save();
 
-    
     const notification = await Notification.create({
       userId: booking.customerId.userId._id,
       title: "Professional Reached to your Location",

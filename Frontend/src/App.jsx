@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.js";
 
 import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector,  useDispatch  } from "react-redux";
 import useGetCurrentUser from "./hooks/useGetCurrentUser";
 
 import Home from "./Pages/Home";
@@ -91,7 +88,6 @@ import NoInternet from "./Components/NoInternet.jsx";
 import { addAcceptedProfessional, addIncomingRequest, setPickupRequest } from "./redux/pickup.slice.js";
 import { toast } from "react-toastify";
 import PickupToast from "./Professional/PickupToast.jsx";
-import IncomingBooking from "./Professional/professionalBooking/Pickup/IncomingBooking.jsx";
 import IncomingRequests from "./Professional/professionalBooking/Pickup/IncomingRequests.jsx";
 import AdminProtectedRoute from "./Components/AdminProtectedRoute.jsx";
 import { PushNotifications } from "@capacitor/push-notifications";
@@ -291,7 +287,6 @@ useEffect(() => {
     );
   });
 
-    // ✅ PROFESSIONAL SIDE
     socket.on("newBookingRequest", (booking) => {
       if (role === "professional") {
         dispatch(addNewBooking(booking));
@@ -351,11 +346,6 @@ socket.on("pickupRequest", (data) => {
 
 socket.on("pickupProfessionalAccepted", (data) => {
    if (role !== "customer") return;
-    console.log(
-        "🔥 PROFESSIONAL ACCEPTED:",
-        data
-    );
-
     dispatch(
         addAcceptedProfessional(data)
     );
@@ -377,10 +367,7 @@ socket.on("pickupProfessionalAccepted", (data) => {
     };
   }, [userId, role]);
 
-  useEffect(() => {
-  const savedTheme = localStorage.getItem("theme") || "light";
-  document.documentElement.setAttribute("data-bs-theme", savedTheme);
-}, []);
+
 
 
    if (!backendReady || isAuthLoading) {

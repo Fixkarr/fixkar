@@ -12,7 +12,6 @@ import { createOrder, verifyPayment } from '../controllers/payment.controller.js
 import { getProfessionalWallet } from '../controllers/ProfessionalsController/getProfessionalWallet.js';
 import { getBookingById } from '../controllers/BookingController/getBookingById.js';
 import { postReview } from '../controllers/review.controller.js';
-import { getReachedOtp } from '../controllers/BookingController/getReachedOtp.js';
 import { getWalletTransaction } from '../controllers/ProfessionalsController/getWalletTransaction.js';
 import { confirmCashPayment } from '../controllers/BookingController/cashPayment.controller.js';
 import { confirmPickupHire } from '../controllers/BookingController/confirmPickupHire.js';
@@ -34,7 +33,7 @@ bookingRouter.post('/confirm-pickup-hire', isAuth, confirmPickupHire)
 bookingRouter.post('/mark-reached', isAuth, reachedToLocation)
 bookingRouter.post('/verify-reached-otp', isAuth, verifyReachedOtp);
 bookingRouter.post('/send-quote-amount', isAuth, sendQuoteAmount)
-bookingRouter.get('/get-reached-otp/:bookingId', isAuth, getReachedOtp);
+
 
 
 //payment route
