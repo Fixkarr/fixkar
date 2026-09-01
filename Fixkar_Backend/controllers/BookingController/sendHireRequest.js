@@ -16,7 +16,7 @@ export const sendHireRequest = async (req, res) => {
     const { professionalId, workDate, workTime, mobileNumber, problemDescription, workAddress, distanceInKm, customerLat,
       customerLng, customerName, taskId } = req.body;
 
-    console.log(customerLng, customerLat, "CUSTOMER LOCATION")
+
     const dateMatch = /^\d{4}-\d{2}-\d{2}$/.test(workDate || "");
     const timeMatch = /^([01]\d|2[0-3]):[0-5]\d$/.test(workTime || "");
 

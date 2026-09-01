@@ -4,13 +4,13 @@ import { login, signOut, registerUserWithForm } from '../controllers/auth/userAu
 import { googleAuthSignup, googleAuthLogin, googleAuthLoginNative, googleAuthSignupNative } from '../controllers/auth/googleAuth.js';
 import { resetPassword } from '../controllers/auth/resetPassword.js';
 import { verifyFirebaseGoogleToken } from '../middlewares/verifyFirebaseGoogleToken.js';
-import { rejectPlaceholderPassword } from '../middlewares/rejectPlaceholderPassword.js';
+
 import { loginRateLimiter, passwordResetRateLimiter, signupRateLimiter } from '../middlewares/rateLimiters.js';
 
 const authRouter = express.Router();
 
 authRouter.post("/signup-customer", signupRateLimiter, registerUserWithForm);
-authRouter.post("/login", loginRateLimiter, rejectPlaceholderPassword, login);
+authRouter.post("/login", loginRateLimiter, login);
 authRouter.post("/logout", signOut);
 
 authRouter.post("/google-auth-signup", signupRateLimiter, verifyFirebaseGoogleToken, googleAuthSignup);

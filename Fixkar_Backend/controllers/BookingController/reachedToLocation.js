@@ -94,7 +94,6 @@ export const reachedToLocation = async (req, res)=>{
       }
     );
 
-
     io.to(booking.customerId.userId._id.toString()).emit(
       "bookingUpdated",
       booking
