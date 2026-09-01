@@ -33,6 +33,7 @@ const Signup = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [otp, setOtp] = useState("");
+  const [resendCooldown, setResendCooldown] = useState(0);
   const navigate = useNavigate();
 
   const handleShowPass = () => setShowPass(!showPass);
@@ -128,6 +129,24 @@ const Signup = () => {
     }),
   });
 
+  useEffect(() => {
+  if (resendCooldown <= 0) return;
+
+  const timer = setInterval(() => {
+    setResendCooldown((prev) => {
+      if (prev <= 1) {
+        clearInterval(timer);
+        return 0;
+      }
+
+      return prev - 1;
+    });
+  }, 1000);
+
+  return () => clearInterval(timer);
+}, [resendCooldown]);
+
+
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -174,6 +193,7 @@ useEffect(() => {
     });
 
     setOtpSent(data.otpSent || false);
+    setResendCooldown(60);
     setEmailVerified(data.emailVerified || false);
   } catch (error) {
     sessionStorage.removeItem("fixkar:signupDraft");
@@ -205,7 +225,6 @@ sessionStorage.setItem(
     role,
   })
 );
-
       setOtpSent(true);
       setWait(false);
     } catch (error) {
@@ -213,6 +232,48 @@ sessionStorage.setItem(
       setWait(false);
     }
   };
+
+  const handleResendOtp = async () => {
+  if (resendCooldown > 0 || wait) return;
+
+  try {
+    setWait(true);
+
+    const response = await axios.post(
+      `${server_url}/api/otp/send-email-otp`,
+      {
+        email: formik.values.email,
+      }
+    );
+     sessionStorage.setItem(
+  "fixkar:signupSession",
+  response.data.signupSessionId
+);
+
+sessionStorage.setItem(
+  "fixkar:signupDraft",
+  JSON.stringify({
+    fullName: formik.values.fullName,
+    email: formik.values.email,
+    acceptedTerms: formik.values.acceptedTerms,
+    acceptedProfessionalPolicy:
+      formik.values.acceptedProfessionalPolicy,
+    otpSent : true,
+    emailVerified : false,
+    role,
+  })
+);
+    setResendCooldown(60);
+    setOtpSent(true);
+    setOtp("")
+  } catch (error) {
+    toast.error(
+        "Failed to resend OTP"
+    );
+  } finally {
+    setWait(false);
+  }
+};
 
   const handleVerifyOtp = async () => {
     try {
@@ -506,6 +567,24 @@ sessionStorage.setItem(
                           )}
                         </button>
                       </div>
+                      <div className="fixkar-resend-otp">
+                    <span>Didn't receive the OTP?</span>
+
+                    {resendCooldown > 0 ? (
+                      <span className="resend-countdown">
+                        Resend OTP in {resendCooldown}s
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleResendOtp}
+                        disabled={wait}
+                        className="fixkar-resend-btn"
+                      >
+                        Resend OTP
+                      </button>
+                    )}
+                  </div>
                     </div>
                   )}
 
