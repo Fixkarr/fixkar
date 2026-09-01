@@ -7,6 +7,7 @@ import { Customer, Professional, User } from "../../models/userModel.js";
 import { sendEmail } from "../../utils/mailer.js";
 import axios from "axios";
 import admin from '../../config/firebaseAdmin.js';
+import crypto from 'crypto';
 
 
 const OTP_EXPIRY = parseInt(process.env.OTP_EXPIRY_SECONDS || "300"); // seconds
@@ -177,6 +178,7 @@ export const verifyMobileOtp = async (req, res) => {
 export const sendEmailOtp = async (req, res) => {
   try {
     const { email } = req.body;
+
     if (!email) return res.status(400).json({ message: "Email is required" });
 
     const canResend = await redis.get(`email_otp_resend:${email}`);
@@ -191,6 +193,19 @@ export const sendEmailOtp = async (req, res) => {
       hashedOtp,
       createdAt: Date.now()
     }), "EX", OTP_EXPIRY);
+
+  const signupSessionId = crypto.randomUUID();
+
+await redis.set(
+  `signup_session:${signupSessionId}`,
+  JSON.stringify({
+    email,
+    otpSent: true,
+    emailVerified: false,
+  }),
+  "EX",
+  15 * 60
+);
 
     await redis.set(`email_otp_resend:${email}`, OTP_RESEND_COOLDOWN, "EX", OTP_RESEND_COOLDOWN);
 
@@ -261,7 +276,7 @@ export const sendEmailOtp = async (req, res) => {
       });
     }
 
-    return res.status(200).json({ message: "OTP sent to email successfully." });
+    return res.status(200).json({ message: "OTP sent to email successfully.", signupSessionId });
   } catch (error) {
     console.error("sendEmailOtp error:", error);
     return res.status(500).json({ message: "Failed to send OTP" });
@@ -293,9 +308,6 @@ export const verifyEmailOtp = async (req, res) => {
 
     await redis.del(`email_otp:${email}`);
     await redis.del(`email_otp_resend:${email}`);
-
-    // ✅ Here you can mark user verified or allow password reset
-    // e.g. set a temporary token for reset page access
 
     return res.status(200).json({ message: "OTP verified successfully." });
   } catch (error) {
