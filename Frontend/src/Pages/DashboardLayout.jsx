@@ -12,6 +12,8 @@ import { server_url } from "../App";
 import axios from "axios";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -38,6 +40,7 @@ const DashboardLayout = () => {
       ]);
     } finally {
       dispatch({ type: "LOGOUT" });
+      await signOut(auth);
       dispatch(setCurrentUserData(null));
       navigate("/");
     }
