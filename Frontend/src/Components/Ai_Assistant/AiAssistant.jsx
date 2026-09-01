@@ -16,6 +16,8 @@ import { MdVerified, MdOutlineTrackChanges } from "react-icons/md";
 import "./AiAssistant.css";
 import { server_url } from "../../App";
 import axios from 'axios'
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm";
 
 const quickActions = [
   {
@@ -272,7 +274,9 @@ export default function AIAssistant() {
                         : ""
                     }`}
                   >
-                    {message.content}
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+    {message.content}
+  </ReactMarkdown>
                   </div>
 
                   {message.role === "user" && (

@@ -101,7 +101,7 @@ const Signup = () => {
 sessionStorage.removeItem("fixkar:returnTo");
 navigate(returnTo || "/", { replace: true });
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message || "Google signup failed");
+      toast.error("Google signup failed");
       setLoading(false)
     }
   };

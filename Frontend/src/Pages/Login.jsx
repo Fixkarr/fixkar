@@ -99,7 +99,7 @@ const Login = () => {
         resetForm();
       } catch (error) {
         toast.error(
-          error?.response?.data?.message || "Login failed"
+          "Login failed"
         );
 
         setFloading(false);
