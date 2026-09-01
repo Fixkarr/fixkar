@@ -1,6 +1,6 @@
 import {initializeApp } from 'firebase/app';
 import {getMessaging } from 'firebase/messaging';
-import {getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification , signInWithPopup, signOut } from 'firebase/auth';
+import {getAuth, setPersistence, browserLocalPersistence , GoogleAuthProvider, createUserWithEmailAndPassword, sendEmailVerification , signInWithPopup, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -16,6 +16,7 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+setPersistence(auth, browserLocalPersistence);
 
 export const messaging = getMessaging(app);
 export {auth, provider, signInWithPopup, signOut, createUserWithEmailAndPassword, sendEmailVerification };

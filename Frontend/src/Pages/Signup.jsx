@@ -49,6 +49,14 @@ const Signup = () => {
     filterByAuthorizedAccounts: false,
   },
          });
+
+           sessionStorage.setItem(
+  "fixkar:returnTo",
+  window.location.pathname +
+  window.location.search +
+  window.location.hash
+);
+
         const googleIdToken = login.result?.idToken;
         if (!googleIdToken) throw new Error("Google ID Token not received");
 
@@ -89,6 +97,9 @@ const Signup = () => {
 
       dispatch(setCurrentUserData(response.data));
       setLoading(false)
+      const returnTo = sessionStorage.getItem("fixkar:returnTo");
+sessionStorage.removeItem("fixkar:returnTo");
+navigate(returnTo || "/", { replace: true });
     } catch (error) {
       toast.error(error?.response?.data?.message || error?.message || "Google signup failed");
       setLoading(false)

@@ -110,6 +110,7 @@ const Login = () => {
   const handleLoginWithGoogle = async () => {
     try {
       setGloading(true);
+      
 
       if (Capacitor.getPlatform() === "android") {
          const loginOptions = {
@@ -121,11 +122,17 @@ const Login = () => {
         },
       };
 
-      console.log("🔥 GOOGLE LOGIN OPTIONS:", loginOptions);
+     sessionStorage.setItem(
+  "fixkar:returnTo",
+  window.location.pathname +
+  window.location.search +
+  window.location.hash
+);
+
 
       const login = await SocialLogin.login(loginOptions);
 
-      console.log("🔥 GOOGLE LOGIN RESULT:", login);
+    
 
         const googleIdToken = login.result?.idToken;
 
@@ -172,6 +179,9 @@ const Login = () => {
       dispatch(setCurrentUserData(response.data));
 
       setGloading(false);
+      const returnTo = sessionStorage.getItem("fixkar:returnTo");
+      sessionStorage.removeItem("fixkar:returnTo");
+      navigate(returnTo || "/", { replace: true });
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
