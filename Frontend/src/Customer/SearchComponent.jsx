@@ -38,6 +38,7 @@ const SearchSection = ({
   const googleLoaded = useLoadGoogleMaps();
   const inputRef = useRef(null);
   const [coords, setCoords] = useState({ lat: null, lng: null, address: "" });
+  const [isChangingLocation, setIsChangingLocation] = useState(false);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [serviceSkills, setServiceSkills] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
@@ -91,6 +92,18 @@ const SearchSection = ({
       onTaskSelect?.(skill);
     }
   };
+
+  useEffect(() => {
+  if (selectedLocation?.lat != null && selectedLocation?.lng != null) {
+    setCoords({
+      lat: Number(selectedLocation.lat),
+      lng: Number(selectedLocation.lng),
+      address: selectedLocation.address || "",
+    });
+
+    setIsChangingLocation(false);
+  }
+}, [selectedLocation]);
 
   useEffect(() => {
     if (!googleLoaded || !inputRef.current) return;
@@ -172,6 +185,19 @@ const SearchSection = ({
     );
   };
 
+  const handleChangeLocation = () => {
+  setIsChangingLocation(true);
+
+  setCoords({
+    lat: null,
+    lng: null,
+    address: "",
+  });
+
+  setServiceSearch("");
+  setTaskSearch("");
+};
+
   const handleConfirmLocation = async() => {
     const finalLocation = {
       lat: Number(coords.lat),
@@ -184,7 +210,6 @@ const SearchSection = ({
       finalLocation,
       { withCredentials: true }
     );
-    toast.success("Location Saved!");
     // Redux mein location tab update karo jab request successfully process ho
     dispatch(setSelectedLocation(finalLocation));
     onLocationSelect?.(finalLocation);
@@ -225,68 +250,103 @@ const SearchSection = ({
           style={{ maxWidth: "1100px", margin: "0 auto" }}
         >
           <div className="mb-3 mb-md-4">
-            <div className="d-flex align-items-center justify-content-between mb-2">
-              <div className="min-w-0">
-                <div className="fw-bold text-dark">
-                  <FaMapMarkerAlt className="text-primary me-2" />
-                  Service Location
-                </div>
-                <small className="text-muted d-block text-truncate">
-                  Search your address or use your current location
-                </small>
-              </div>
-              {selectedLocation?.lat && (
-                <span className="badge rounded-pill bg-success-subtle text-success px-2 py-2 flex-shrink-0">
-                  <FaCheck size={10} className="me-1" />
-                  Confirmed
-                </span>
-              )}
-            </div>
-            <div className="input-group rounded-3 overflow-hidden location-input">
-              <span className="input-group-text bg-white border-0 px-2 px-md-3">
-                <FaMapMarkerAlt className="text-primary" />
-              </span>
-              <input
-                ref={inputRef}
-                type="text"
-                className="form-control border-0 shadow-none px-1"
-                placeholder="Enter service location"
-              />
-              <button
-                type="button"
-                className="btn btn-primary detect-btn"
-                onClick={handleUseCurrentLocation}
-              >
-                <FaLocationArrow className="me-1" />
-                <span>Detect</span>
-              </button>
-            </div>
-            {coords.lat && coords.lng && (
-              <div className="mt-2 mt-md-3">
-                <MapPinDrop coords={coords} setCoords={setCoords} />
-                <div className="d-flex align-items-start gap-2 mt-2 small text-muted">
-                  <FaMapMarkerAlt className="text-primary mt-1 flex-shrink-0" />
-                  <span className="text-truncate">
-                    {coords.address || "Updating address..."}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  className={`btn ${
-                    selectedLocation?.lat
-                      ? "btn-outline-success"
-                      : "btn-primary"
-                  } w-100 rounded-3 mt-2 mt-md-3`}
-                  onClick={handleConfirmLocation}
-                >
-                  <FaCheck className="me-2" />
-                  {selectedLocation?.lat
-                    ? "Location Confirmed"
-                    : "Confirm Location"}
-                </button>
-              </div>
-            )}
+
+  {!isChangingLocation &&
+  selectedLocation?.lat != null &&
+  selectedLocation?.lng != null ? (
+    <div className="selected-location-card">
+
+      <div className="selected-location-icon">
+        <FaMapMarkerAlt />
+      </div>
+
+      <div className="selected-location-info">
+        <div className="selected-location-label">
+          Service location
+        </div>
+
+        <div className="selected-location-address">
+          {selectedLocation.address || "Selected location"}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        className="change-location-btn"
+        onClick={handleChangeLocation}
+      >
+        Change
+      </button>
+
+    </div>
+  ) : (
+    <>
+      <div className="location-heading">
+        <div>
+          <div className="fw-bold text-dark">
+            <FaMapMarkerAlt className="text-primary me-2" />
+            Where do you need the service?
           </div>
+
+          <small className="text-muted">
+            Search your address or use your current location
+          </small>
+        </div>
+      </div>
+
+      <div className="input-group location-input">
+        <span className="input-group-text bg-white border-0">
+          <FaMapMarkerAlt className="text-primary" />
+        </span>
+
+        <input
+          ref={inputRef}
+          type="text"
+          className="form-control border-0 shadow-none"
+          placeholder="Search your location"
+        />
+
+        <button
+          type="button"
+          className="btn btn-primary detect-btn"
+          onClick={handleUseCurrentLocation}
+        >
+          <FaLocationArrow className="me-1" />
+          Detect
+        </button>
+      </div>
+
+      {coords.lat != null && coords.lng != null && (
+        <div className="location-confirm-area">
+
+          <MapPinDrop
+            coords={coords}
+            setCoords={setCoords}
+          />
+
+          <div className="location-address-preview">
+            <FaMapMarkerAlt className="text-primary flex-shrink-0" />
+
+            <span>
+              {coords.address || "Updating address..."}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            className="btn btn-primary w-100 location-confirm-btn"
+            onClick={handleConfirmLocation}
+          >
+            <FaCheck className="me-2" />
+            Confirm location
+          </button>
+
+        </div>
+      )}
+    </>
+  )}
+
+</div>
           {!onlyLocation && (
             <div className="border-top pt-3 pt-md-4">
               <div className="d-flex align-items-center justify-content-between gap-2 mb-2">
