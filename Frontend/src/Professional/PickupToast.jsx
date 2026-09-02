@@ -46,7 +46,7 @@ const PickupToast = ({ data, closeToast }) => {
 
                        <button
                                 type="button"
-                                onClick={onClose}
+                                onClick={closeToast}
                                 className="btn btn-sm p-0 ms-2"
                                 style={{
                                     width: 28,
