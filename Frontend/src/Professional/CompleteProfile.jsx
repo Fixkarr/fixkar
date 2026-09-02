@@ -138,285 +138,370 @@ export default function CompleteProfile() {
   }
 
   return (
-    <div className="bg-light min-vh-100 py-3 py-md-5">
+     <div className="cp-page py-3 py-md-4">
       <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-12 col-xl-9">
-            <div className="card border-0 shadow-sm rounded-4 overflow-hidden">
-              <div className="p-4 p-md-5 text-white bg-primary">
-                <div className="d-flex align-items-start gap-3">
-                  <div className="bg-white bg-opacity-25 rounded-3 p-3 flex-shrink-0">
-                    <FaUserEdit size={24} />
-                  </div>
-                  <div className="flex-grow-1">
-                    <div className="d-flex flex-wrap align-items-center gap-2 mb-2">
-                      <span className="badge rounded-pill bg-white text-primary px-3 py-2">
-                        Professional setup
-                      </span>
-                      <span className="small opacity-75">
-                        Help customers understand your work
-                      </span>
-                    </div>
-                    <h2 className="h3 fw-bold mb-2">Complete your profile</h2>
-                    <p className="mb-0 opacity-75">
-                      Add your experience, skills and pricing so customers can
-                      confidently choose you.
-                    </p>
-                  </div>
+        <div className="cp-shell">
+
+          <div className="cp-card">
+
+            {/* HEADER */}
+            <div className="cp-header">
+              <div className="d-flex align-items-center gap-3">
+
+                <div className="cp-header-icon">
+                  <FaUserEdit size={21} />
                 </div>
-              </div>
 
-              <div className="card-body p-3 p-md-5">
-                {!isProfileComplete && (
-                  <form onSubmit={formik.handleSubmit}>
-                    <div className="mb-4">
-                      <div className="d-flex align-items-center gap-2 mb-2">
-                        <MdDescription className="text-primary" size={22} />
-                        <h5 className="fw-bold mb-0">About your work</h5>
-                      </div>
-                      <p className="text-muted small mb-3">
-                        Write a short introduction about your experience, work
-                        quality and the type of customers you help.
-                      </p>
-                      <textarea
-                        rows="5"
-                        maxLength={500}
-                        className={`form-control form-control-lg rounded-3 ${
-                          formik.touched.description && formik.errors.description
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        placeholder="Example: I have 7 years of experience in residential electrical work..."
-                        {...formik.getFieldProps("description")}
-                      />
-                      <div className="d-flex justify-content-between mt-2">
-                        <div className="invalid-feedback d-block">
-                          {formik.touched.description && formik.errors.description}
+                <div className="flex-grow-1 position-relative">
+
+                  <div className="d-flex align-items-center gap-2 mb-1">
+                    <span className="cp-header-pill">
+                      Professional setup
+                    </span>
+                  </div>
+
+                  <div className="cp-header-title mb-1">
+                    Complete your profile
+                  </div>
+
+                  <div className="cp-header-description">
+                    Add your experience, skills and pricing so customers
+                    can confidently choose you.
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            {/* BODY */}
+            <div className="cp-body">
+
+              {!isProfileComplete && (
+                <form onSubmit={formik.handleSubmit}>
+
+                  {/* DESCRIPTION */}
+                  <div className="cp-section">
+
+                    <div className="cp-section-head">
+                      <div className="cp-section-title-wrap">
+
+                        <div className="cp-section-icon">
+                          <MdDescription size={17} />
                         </div>
-                        <small className="text-muted ms-auto">
-                          {formik.values.description.length}/500
-                        </small>
+
+                        <div>
+                          <h5 className="cp-section-title">
+                            About your work
+                          </h5>
+
+                          <p className="cp-section-subtitle">
+                            Tell customers about your experience and work quality.
+                          </p>
+                        </div>
+
                       </div>
                     </div>
 
-                    {availableSkills.length > 0 && (
-                      <div className="mb-4">
-                        <div className="d-flex align-items-start gap-2 mb-3">
-                          <FaTools className="text-primary mt-1" size={19} />
+                    <textarea
+                      rows="4"
+                      maxLength={500}
+                      className={`form-control cp-description ${
+                        formik.touched.description &&
+                        formik.errors.description
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      placeholder="Example: I have 7 years of experience in residential electrical work..."
+                      {...formik.getFieldProps("description")}
+                    />
+
+                    <div className="d-flex justify-content-between mt-1">
+                      <div className="invalid-feedback d-block">
+                        {formik.touched.description &&
+                          formik.errors.description}
+                      </div>
+
+                      <small className="cp-counter ms-auto">
+                        {formik.values.description.length}/500
+                      </small>
+                    </div>
+
+                  </div>
+
+                  {/* SKILLS + INLINE PRICING */}
+                  {availableSkills.length > 0 && (
+                    <div className="cp-section">
+
+                      <div className="cp-section-head">
+
+                        <div className="cp-section-title-wrap">
+
+                          <div className="cp-section-icon">
+                            <FaTools size={15} />
+                          </div>
+
                           <div>
-                            <h5 className="fw-bold mb-1">Choose your skills</h5>
-                            <p className="text-muted small mb-0">
-                              Select only the work you are confident and available
-                              to provide. Fixed-price work shows the customer price;
-                              diagnostic work is marked as inspection.
+                            <h5 className="cp-section-title">
+                              Choose your skills
+                            </h5>
+
+                            <p className="cp-section-subtitle">
+                              Select a task and set its price right here.
                             </p>
                           </div>
+
                         </div>
 
-                        <div className="row g-2 g-md-3">
-                          {availableSkills.map((skill) => {
-                            const selected = selectedSkills.includes(skill._id);
-                            const pricing = getSkillPricing(skill);
+                        <span className="cp-count">
+                          {selectedSkills.length} selected
+                        </span>
 
-                            return (
-                              <div className="col-12 col-sm-6" key={skill._id}>
-                                <button
-                                  type="button"
-                                  onClick={() => handleSkillChange(skill._id)}
-                                  className={`w-100 text-start border rounded-3 p-3 bg-white d-flex align-items-center gap-3 ${
-                                    selected
-                                      ? "border-primary shadow-sm"
-                                      : "border-light-subtle"
-                                  }`}
-                                  style={{
-                                    transition: "all .2s ease",
-                                    minHeight: "82px",
-                                  }}
-                                >
-                                  <span
-                                    className={`rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 ${
-                                      selected
-                                        ? "bg-primary text-white"
-                                        : "bg-light text-primary"
-                                    }`}
-                                    style={{ width: 40, height: 40 }}
-                                  >
-                                    {selected ? <FaCheckCircle /> : <FaTools />}
-                                  </span>
+                      </div>
 
-                                  <span className="flex-grow-1 overflow-hidden">
-                                    <span className="d-block fw-semibold text-dark mb-1">
-                                      {skill.name}
-                                    </span>
-                                    <span className="d-flex flex-wrap align-items-center gap-2">
-                                      <span
-                                        className={`badge rounded-pill fw-semibold ${pricing.className}`}
-                                      >
-                                        {pricing.isFixed ? (
-                                          <FaRupeeSign className="me-1" />
-                                        ) : (
-                                          <FaSearch className="me-1" />
-                                        )}
-                                        {pricing.isFixed
-                                          ? Number(skill.fixedPrice).toLocaleString("en-IN")
-                                          : "Inspection"}
-                                      </span>
-                                      <small className="text-muted">
-                                        {selected ? "Selected" : "Tap to select"}
-                                      </small>
-                                    </span>
-                                  </span>
+                      <div className="cp-skills-grid">
 
-                                  {selected && (
-                                    <FaCheckCircle className="text-primary flex-shrink-0" />
+                        {availableSkills.map((skill) => {
+
+                          const selected =
+                            selectedSkills.includes(skill._id);
+
+                          const pricing =
+                            getSkillPricing(skill);
+
+                          return (
+                            <div
+                              key={skill._id}
+                              className={`cp-skill ${
+                                selected ? "selected" : ""
+                              }`}
+                              onClick={() =>
+                                handleSkillChange(skill._id)
+                              }
+                            >
+
+                              <div className="cp-skill-top">
+
+                                <span className="cp-skill-check">
+                                  {selected ? (
+                                    <FaCheckCircle size={14} />
+                                  ) : (
+                                    <FaTools size={12} />
                                   )}
-                                </button>
-                              </div>
-                            );
-                          })}
-                        </div>
+                                </span>
 
-                        <div className="alert alert-light border rounded-3 mt-3 mb-0 py-2 px-3 small">
-                          <FaInfoCircle className="text-primary me-2" />
-                          Prices shown here are the task prices already defined for
-                          fixed-price services. Inspection tasks are priced after
-                          diagnosis according to the service flow.
-                        </div>
-                      </div>
-                    )}
+                                <span className="cp-skill-info">
 
-                    {isSpecialized && (
-                      <div className="border rounded-4 p-3 p-md-4 mb-4 bg-light">
-                        <div className="d-flex align-items-start gap-3 mb-3">
-                          <div className="bg-primary-subtle text-primary rounded-3 p-2">
-                            <FaRupeeSign size={20} />
-                          </div>
-                          <div>
-                            <h5 className="fw-bold mb-1">Visiting charge</h5>
-                            <p className="text-muted small mb-0">
-                              Set what you charge when a customer books an
-                              inspection or visit.
-                            </p>
-                          </div>
-                        </div>
-                        <div className="input-group input-group-lg">
-                          <span className="input-group-text bg-white border-end-0">
-                            <FaRupeeSign className="text-muted" />
-                          </span>
-                          <input
-                            type="number"
-                            min="0"
-                            className="form-control border-start-0 rounded-end-3"
-                            placeholder="Enter visiting charge"
-                            value={visitingCharge}
-                            onChange={(e) => setVisitingCharge(e.target.value)}
-                            required
-                          />
-                        </div>
-                      </div>
-                    )}
+                                  <span className="cp-skill-name">
+                                    {skill.name}
+                                  </span>
 
-                    {isSpecialized && selectedSkills.length > 0 && (
-                      <div className="mb-4">
-                        <div className="d-flex align-items-start gap-2 mb-3">
-                          <MdPriceCheck className="text-primary mt-1" size={24} />
-                          <div>
-                            <h5 className="fw-bold mb-1">Set your task prices</h5>
-                            <p className="text-muted small mb-0">
-                              Add the starting price customers will see for each
-                              selected task.
-                            </p>
-                          </div>
-                        </div>
+                                  <span className="cp-skill-type">
 
-                        <div className="row g-3">
-                          {availableSkills
-                            .filter((skill) => selectedSkills.includes(skill._id))
-                            .map((skill) => (
-                              <div className="col-12 col-md-6" key={skill._id}>
-                                <div className="border rounded-3 p-3 h-100 bg-white shadow-sm">
-                                  <div className="d-flex align-items-center justify-content-between gap-2 mb-3">
-                                    <div>
-                                      <span className="fw-semibold text-dark d-block">
-                                        {skill.name}
-                                      </span>
-                                      <small className="text-muted">
-                                        Customer-facing task price
-                                      </small>
-                                    </div>
-                                    <FaCheckCircle className="text-success" />
-                                  </div>
-                                  <div className="input-group">
-                                    <span className="input-group-text bg-light">
-                                      <FaRupeeSign className="text-muted" />
+                                    <span
+                                      className={`cp-price-badge ${pricing.className}`}
+                                    >
+                                      {pricing.isFixed ? (
+                                        <FaRupeeSign />
+                                      ) : (
+                                        <FaSearch />
+                                      )}
+
+                                      {pricing.isFixed
+                                        ? Number(
+                                            skill.fixedPrice
+                                          ).toLocaleString("en-IN")
+                                        : "Inspection"}
                                     </span>
+
+                                    {selected && (
+                                      <span className="cp-selected-label">
+                                        Selected
+                                      </span>
+                                    )}
+
+                                  </span>
+
+                                </span>
+
+                              </div>
+
+                              {/* INLINE PRICE ONLY FOR SPECIALIZED */}
+                              {isSpecialized && selected && (
+                                <div
+                                  className="cp-inline-price"
+                                  onClick={(e) =>
+                                    e.stopPropagation()
+                                  }
+                                >
+                                  <label className="cp-inline-price-label">
+                                    Your customer-facing price
+                                  </label>
+
+                                  <div className="d-flex">
+
+                                    <span className="cp-price-prefix">
+                                      <FaRupeeSign />
+                                    </span>
+
                                     <input
                                       type="number"
                                       min="0"
-                                      className="form-control"
+                                      className="form-control cp-price-input"
                                       placeholder="Enter price"
-                                      value={taskPrices[skill._id] ?? ""}
+                                      value={
+                                        taskPrices[skill._id] ?? ""
+                                      }
                                       onChange={(event) =>
-                                        setTaskPrices((current) => ({
-                                          ...current,
-                                          [skill._id]: event.target.value,
-                                        }))
+                                        setTaskPrices(
+                                          (current) => ({
+                                            ...current,
+                                            [skill._id]:
+                                              event.target.value,
+                                          })
+                                        )
                                       }
                                       required
                                     />
+
                                   </div>
                                 </div>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    )}
+                              )}
 
-                    <div className="border-top pt-4 mt-4">
-                      <div className="d-flex align-items-start gap-2 mb-3">
-                        <FaShieldAlt className="text-success mt-1" />
-                        <small className="text-muted">
-                          Keep your information accurate. Customers use these
-                          details to decide whether your service matches their
-                          needs.
-                        </small>
+                            </div>
+                          );
+                        })}
+
                       </div>
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className="btn btn-primary btn-lg w-100 rounded-3 fw-semibold py-3 d-flex align-items-center justify-content-center gap-2"
-                      >
-                        {loading ? (
-                          <ClipLoader size={20} color="#fff" />
-                        ) : (
-                          <>
-                            Save profile
-                            <FaArrowRight />
-                          </>
-                        )}
-                      </button>
+
+                      <div className="cp-info">
+                        <FaInfoCircle />
+
+                        <span>
+                          Fixed-price tasks already have a predefined price.
+                          Inspection tasks are priced after diagnosis according
+                          to the service flow.
+                        </span>
+                      </div>
+
                     </div>
-                  </form>
-                )}
+                  )}
 
-                {!ChargesDefined && (
-                  <div className="mt-4 pt-2 border-top">
-                    <div className="d-flex align-items-start gap-2 mb-3">
-                      <FaInfoCircle className="text-primary mt-1" />
+                  {/* VISITING CHARGE */}
+                  {isSpecialized && (
+                    <div className="cp-section">
+
+                      <div className="cp-visiting">
+
+                        <div className="cp-visiting-info">
+
+                          <div className="cp-visiting-icon">
+                            <FaRupeeSign size={15} />
+                          </div>
+
+                          <div>
+                            <div className="cp-visiting-title">
+                              Visiting charge
+                            </div>
+
+                            <div className="cp-visiting-description">
+                              Amount charged for inspection or visit.
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div className="input-group cp-visiting-input">
+
+                          <span className="input-group-text bg-white border-end-0">
+                            <FaRupeeSign className="text-muted" />
+                          </span>
+
+                          <input
+                            type="number"
+                            min="0"
+                            className="form-control border-start-0"
+                            placeholder="Visiting charge"
+                            value={visitingCharge}
+                            onChange={(e) =>
+                              setVisitingCharge(e.target.value)
+                            }
+                            required
+                          />
+
+                        </div>
+
+                      </div>
+
+                    </div>
+                  )}
+
+                  {/* SAVE */}
+                  <div className="cp-save-area">
+
+                    <div className="cp-security">
+                      <FaShieldAlt />
+
+                      <span>
+                        Keep your information accurate. Customers use these
+                        details to decide whether your service matches their needs.
+                      </span>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="btn btn-primary cp-save w-100 d-flex align-items-center justify-content-center gap-2"
+                    >
+                      {loading ? (
+                        <ClipLoader size={18} color="#fff" />
+                      ) : (
+                        <>
+                          Save profile
+                          <FaArrowRight size={13} />
+                        </>
+                      )}
+                    </button>
+
+                  </div>
+
+                </form>
+              )}
+
+              {/* DYNAMIC FORM */}
+              {!ChargesDefined && (
+                <div className="cp-extra">
+
+                  <div className="cp-section-head">
+
+                    <div className="cp-section-title-wrap">
+
+                      <div className="cp-section-icon">
+                        <FaInfoCircle size={15} />
+                      </div>
+
                       <div>
-                        <h5 className="fw-bold mb-1">A few more details</h5>
-                        <p className="text-muted small mb-0">
-                          Complete the remaining service-specific information to
-                          finish your professional profile.
+                        <h5 className="cp-section-title">
+                          A few more details
+                        </h5>
+
+                        <p className="cp-section-subtitle">
+                          Complete the remaining service-specific information.
                         </p>
                       </div>
+
                     </div>
-                    <DynamicForm form={form} />
+
                   </div>
-                )}
-              </div>
+
+                  <DynamicForm form={form} />
+
+                </div>
+              )}
+
             </div>
           </div>
+
         </div>
       </div>
     </div>

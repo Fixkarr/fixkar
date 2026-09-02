@@ -6271,3 +6271,593 @@ border-radius: 25px;
 .booking-experience ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+
+/*
+  Complete Profile
+*/
+
+      .cp-page {
+        min-height: 100vh;
+        background:
+          radial-gradient(
+            circle at 10% 0%,
+            rgba(13, 110, 253, 0.06),
+            transparent 28%
+          ),
+          #f6f8fb;
+      }
+
+      .cp-shell {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+
+      .cp-card {
+        border: 1px solid #e8edf4 !important;
+        border-radius: 22px !important;
+        background: #fff;
+        box-shadow:
+          0 16px 45px rgba(15, 23, 42, 0.07),
+          0 2px 8px rgba(15, 23, 42, 0.03);
+        overflow: hidden;
+      }
+
+      /* HEADER */
+      .cp-header {
+        position: relative;
+        padding: 22px 24px;
+        color: #fff;
+        background:
+          radial-gradient(
+            circle at 90% 10%,
+            rgba(255,255,255,.14),
+            transparent 28%
+          ),
+          linear-gradient(135deg, #0d6efd, #1459c7);
+      }
+
+      .cp-header::after {
+        content: "";
+        position: absolute;
+        right: -80px;
+        top: -100px;
+        width: 230px;
+        height: 230px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,.10);
+      }
+
+      .cp-header-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: rgba(255,255,255,.14);
+        border: 1px solid rgba(255,255,255,.14);
+        backdrop-filter: blur(8px);
+      }
+
+      .cp-header-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.14);
+        border: 1px solid rgba(255,255,255,.14);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: .3px;
+      }
+
+      .cp-header-title {
+        font-size: 20px;
+        font-weight: 750;
+        letter-spacing: -.4px;
+      }
+
+      .cp-header-description {
+        max-width: 600px;
+        font-size: 11px;
+        line-height: 1.5;
+        opacity: .78;
+      }
+
+      /* BODY */
+      .cp-body {
+        padding: 22px;
+      }
+
+      .cp-section {
+        margin-bottom: 20px;
+      }
+
+      .cp-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .cp-section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 11px;
+      }
+
+      .cp-section-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
+      }
+
+      .cp-section-icon {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: #eff5ff;
+        color: #0d6efd;
+      }
+
+      .cp-section-title {
+        font-size: 13px;
+        font-weight: 750;
+        color: #172033;
+        margin: 0;
+      }
+
+      .cp-section-subtitle {
+        color: #8992a2;
+        font-size: 10px;
+        margin: 2px 0 0;
+      }
+
+      .cp-count {
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: #f1f5f9;
+        color: #64748b;
+        font-size: 9px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      /* DESCRIPTION */
+      .cp-description {
+        min-height: 108px;
+        resize: vertical;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px !important;
+        padding: 12px 13px !important;
+        font-size: 12px !important;
+        line-height: 1.5;
+        box-shadow: none !important;
+      }
+
+      .cp-description:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 3px rgba(13,110,253,.08) !important;
+      }
+
+      .cp-counter {
+        color: #94a3b8;
+        font-size: 9px;
+      }
+
+      /* SKILLS */
+      .cp-skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .cp-skill {
+        position: relative;
+        width: 100%;
+        min-width: 0;
+        text-align: left;
+        padding: 11px;
+        border: 1px solid #e7ebf1;
+        border-radius: 13px;
+        background: #fff;
+        cursor: pointer;
+        transition:
+          border-color .16s ease,
+          background .16s ease,
+          box-shadow .16s ease,
+          transform .16s ease;
+      }
+
+      .cp-skill:hover {
+        border-color: #b9d2fa;
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(15,23,42,.05);
+      }
+
+      .cp-skill.selected {
+        border-color: rgba(13,110,253,.55);
+        background:
+          linear-gradient(
+            145deg,
+            #f7faff,
+            #fff
+          );
+        box-shadow:
+          0 5px 16px rgba(13,110,253,.08),
+          inset 0 0 0 1px rgba(13,110,253,.05);
+      }
+
+      .cp-skill-top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .cp-skill-check {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f4f6f9;
+        color: #94a3b8;
+        transition: all .16s ease;
+      }
+
+      .cp-skill.selected .cp-skill-check {
+        background: #0d6efd;
+        color: #fff;
+      }
+
+      .cp-skill-info {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .cp-skill-name {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #172033;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .cp-skill-type {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 3px;
+      }
+
+      .cp-price-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 3px 6px;
+        border-radius: 6px;
+        font-size: 8px;
+        font-weight: 700;
+      }
+
+      .cp-selected-label {
+        font-size: 8px;
+        color: #0d6efd;
+        font-weight: 700;
+      }
+
+      /* INLINE PRICE */
+      .cp-inline-price {
+        margin-top: 9px;
+        padding-top: 9px;
+        border-top: 1px dashed #dce5f1;
+      }
+
+      .cp-inline-price-label {
+        display: block;
+        color: #64748b;
+        font-size: 8px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .cp-price-input {
+        height: 34px !important;
+        border-radius: 9px !important;
+        border: 1px solid #dce3ec !important;
+        font-size: 11px !important;
+        font-weight: 650;
+        box-shadow: none !important;
+      }
+
+      .cp-price-input:focus {
+        border-color: #86b7fe !important;
+        box-shadow: 0 0 0 3px rgba(13,110,253,.08) !important;
+      }
+
+      .cp-price-prefix {
+        height: 34px;
+        min-width: 32px;
+        padding: 0 7px;
+        border: 1px solid #dce3ec;
+        border-right: 0;
+        border-radius: 9px 0 0 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8fafc;
+        color: #64748b;
+        font-size: 10px;
+      }
+
+      /* INFO */
+      .cp-info {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: 10px;
+        padding: 9px 11px;
+        border: 1px solid #e8eef7;
+        border-radius: 10px;
+        background: #f8fafc;
+        color: #718096;
+        font-size: 9px;
+        line-height: 1.45;
+      }
+
+      .cp-info svg {
+        color: #0d6efd;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      /* VISITING CHARGE */
+      .cp-visiting {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 13px;
+        border: 1px solid #e4eaf2;
+        border-radius: 14px;
+        background:
+          linear-gradient(135deg, #fbfcfe, #f7faff);
+      }
+
+      .cp-visiting-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .cp-visiting-icon {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        color: #0d6efd;
+        background: #eaf2ff;
+      }
+
+      .cp-visiting-title {
+        color: #172033;
+        font-size: 11px;
+        font-weight: 750;
+      }
+
+      .cp-visiting-description {
+        color: #8992a2;
+        font-size: 9px;
+        margin-top: 2px;
+      }
+
+      .cp-visiting-input {
+        width: 150px;
+        flex-shrink: 0;
+      }
+
+      /* SAVE */
+      .cp-save-area {
+        margin-top: 20px;
+        padding-top: 17px;
+        border-top: 1px solid #edf0f4;
+      }
+
+      .cp-security {
+        display: flex;
+        align-items: flex-start;
+        gap: 7px;
+        color: #7c8798;
+        font-size: 9px;
+        line-height: 1.4;
+        margin-bottom: 11px;
+      }
+
+      .cp-security svg {
+        color: #198754;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .cp-save {
+        height: 44px;
+        border-radius: 11px !important;
+        font-size: 12px !important;
+        font-weight: 750 !important;
+        box-shadow: 0 7px 18px rgba(13,110,253,.18);
+      }
+
+      /* DYNAMIC FORM */
+      .cp-extra {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #edf0f4;
+      }
+
+      /* TABLET */
+      @media (max-width: 800px) {
+        .cp-skills-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .cp-body {
+          padding: 17px;
+        }
+      }
+
+      /* MOBILE */
+      @media (max-width: 576px) {
+        .cp-page {
+          padding: 8px !important;
+        }
+
+        .cp-shell {
+          width: 100%;
+        }
+
+        .cp-card {
+          border-radius: 16px !important;
+        }
+
+        .cp-header {
+          padding: 15px;
+        }
+
+        .cp-header-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 11px;
+        }
+
+        .cp-header-title {
+          font-size: 16px;
+        }
+
+        .cp-header-description {
+          font-size: 9.5px;
+        }
+
+        .cp-body {
+          padding: 13px;
+        }
+
+        .cp-section {
+          margin-bottom: 16px;
+        }
+
+        .cp-section-head {
+          margin-bottom: 9px;
+        }
+
+        .cp-section-title {
+          font-size: 12px;
+        }
+
+        .cp-section-subtitle {
+          font-size: 9px;
+        }
+
+        .cp-skills-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 7px;
+        }
+
+        .cp-skill {
+          padding: 9px;
+          border-radius: 11px;
+        }
+
+        .cp-skill-check {
+          width: 27px;
+          height: 27px;
+          min-width: 27px;
+          border-radius: 8px;
+        }
+
+        .cp-skill-name {
+          font-size: 10px;
+        }
+
+        .cp-price-badge {
+          font-size: 7px;
+          padding: 2px 5px;
+        }
+
+        .cp-selected-label {
+          font-size: 7px;
+        }
+
+        .cp-inline-price {
+          margin-top: 7px;
+          padding-top: 7px;
+        }
+
+        .cp-inline-price-label {
+          font-size: 7.5px;
+        }
+
+        .cp-price-input,
+        .cp-price-prefix {
+          height: 31px !important;
+        }
+
+        .cp-visiting {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .cp-visiting-input {
+          width: 100%;
+        }
+
+        .cp-save {
+          height: 42px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .cp-skills-grid {
+          gap: 6px;
+        }
+
+        .cp-skill {
+          padding: 8px;
+        }
+
+        .cp-skill-top {
+          gap: 6px;
+        }
+
+        .cp-skill-check {
+          width: 25px;
+          height: 25px;
+          min-width: 25px;
+        }
+
+        .cp-skill-name {
+          font-size: 9px;
+        }
+
+        .cp-price-badge {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
