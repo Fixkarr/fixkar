@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FaMapMarkerAlt, FaArrowRight, FaTools, FaUserCircle, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
