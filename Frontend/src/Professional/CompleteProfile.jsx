@@ -121,7 +121,6 @@ export default function CompleteProfile() {
         );
         dispatch(setCurrentUserData(result.data));
       } catch (err) {
-        console.log(err);
         toast.error(
           err.response?.data?.message || "Unable to save your profile right now."
         );

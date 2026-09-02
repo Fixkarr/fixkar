@@ -7,17 +7,19 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import {Provider} from 'react-redux'
 import { store } from './redux/store.js'
 import { ToastContainer } from 'react-toastify'
-  import {HelmetProvider} from 'react-helmet-async'
+import {HelmetProvider} from 'react-helmet-async'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
   if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/firebase-messaging-sw.js")
       .then((reg) => {
-        // console.log("SW registered:", reg.scope);
+       
       })
       .catch((err) => {
-        // console.error("SW registration failed:", err);
+        
       });
   });
 }
