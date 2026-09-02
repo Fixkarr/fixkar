@@ -11,6 +11,15 @@ const PickupToast = ({ data, closeToast }) => {
     };
 
     return (
+         <div
+            className="position-fixed top-0 end-0 m-3"
+            style={{
+                width: "380px",
+                maxWidth: "calc(100vw - 30px)",
+                zIndex: 99999
+            }}
+        >
+            <div className="bg-white border rounded-4 shadow-lg p-3">
         <div className="d-flex">
             <div
                 className="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0"
@@ -58,6 +67,8 @@ const PickupToast = ({ data, closeToast }) => {
                 </button>
 
             </div>
+        </div>
+        </div>
         </div>
     );
 };

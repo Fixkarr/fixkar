@@ -19,8 +19,6 @@ const saveFCMToken = async (token) => {
       { withCredentials: true }
     );
 
-    console.log("FCM token saved successfully");
-
     return token;
   } catch (error) {
     console.warn(

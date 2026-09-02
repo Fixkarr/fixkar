@@ -13,9 +13,6 @@ const pickupSlice = createSlice({
     name: "pickup",
     initialState,
     reducers: {
-        setPickupRequest: (state, action) => {
-            state.currentPickupRequest = action.payload;
-        },
         addAcceptedProfessional: (state, action) => {
     const exists =
         state.acceptedProfessionals.some(
@@ -104,7 +101,6 @@ clearAcceptedProfessionals: (state) => {
 });
 
 export const {
-    setPickupRequest,
     clearPickupRequest,
     addIncomingRequest,
     removeIncomingRequest,

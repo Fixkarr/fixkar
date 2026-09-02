@@ -85,7 +85,7 @@ import {Capacitor} from '@capacitor/core'
 import {SocialLogin} from '@capgo/capacitor-social-login'
 import useNetworkStatus from "./hooks/useNetworkStatus.jsx";
 import NoInternet from "./Components/NoInternet.jsx";
-import { addAcceptedProfessional, addIncomingRequest, setPickupRequest } from "./redux/pickup.slice.js";
+import { addAcceptedProfessional, addIncomingRequest,} from "./redux/pickup.slice.js";
 import { toast } from "react-toastify";
 import PickupToast from "./Professional/PickupToast.jsx";
 import IncomingRequests from "./Professional/professionalBooking/Pickup/IncomingRequests.jsx";
@@ -100,6 +100,7 @@ const App = () => {
   const { currentUserData , isAuthLoading} = useSelector((state) => state.user);
   
   const {currentAdmin} = useSelector(state => state.admin);
+  const [pickupRequest, setPickupRequest] = useState(null);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -145,8 +146,6 @@ const App = () => {
       (notification) => {
         const redirectUrl =
           notification?.notification?.data?.redirectUrl;
-
-        console.log("Notification clicked:", redirectUrl);
 
         if (!redirectUrl) return;
 
@@ -331,17 +330,8 @@ socket.on("pickupRequest", (data) => {
 
     dispatch(addIncomingRequest(data));
     console.log("app :", data)
-    toast.info(
-        <PickupToast data={data} />,
-        {
-            toastId: `pickup-${data.pickupRequestId}`,
-            autoClose: 8000,
-            closeOnClick: false,
-            closeButton: false,
-            hideProgressBar: false,
-            position: "top-right",
-        }
-    );
+    
+    setPickupRequest(data);
 });
 
 socket.on("pickupProfessionalAccepted", (data) => {
@@ -380,6 +370,12 @@ socket.on("pickupProfessionalAccepted", (data) => {
 
   return (
    <>
+   {pickupRequest && (
+    <PickupToast
+        data={pickupRequest}
+        onClose={() => setPickupRequest(null)}
+    />
+)}
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<Home/>} />
