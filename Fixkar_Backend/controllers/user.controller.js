@@ -18,11 +18,29 @@ export const getCurrentUser = async (req, res)=>{
         }
         
         if(user.role === "customer"){
-            const customer = await Customer.findOne({userId : user._id}).populate("userId")
+            const customer = await Customer.findOne({userId : user._id}).populate("userId");
+             const redisKey = `user:${userId}:selectedLocation`;
+
+                let selectedLocation = null;
+
+                try {
+                    const savedLocation = await redis.get(redisKey);
+
+                    if (savedLocation) {
+                        selectedLocation = JSON.parse(savedLocation);
+                    }
+                } catch (redisError) {
+                    console.error("Redis location fetch error:", redisError);
+                }
             return res.status(200).json({
                 message  : "current user fetched successfully",
-                user : customer
+                user : customer,
+                selectedLocation
             })
+
+           
+
+
         }else if(user.role === "professional"){
         const professional = await Professional.findOne({userId : user._id}).select('-poi -dob').populate("userId", '-password').populate({
     path: "reviews",
