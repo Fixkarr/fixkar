@@ -327,10 +327,7 @@ useEffect(() => {
 
 socket.on("pickupRequest", (data) => {
     if (role !== "professional") return;
-
     dispatch(addIncomingRequest(data));
-    console.log("app :", data)
-    
     setPickupRequest(data);
 });
 
