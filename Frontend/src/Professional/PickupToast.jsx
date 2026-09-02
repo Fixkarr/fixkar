@@ -2,7 +2,7 @@ import { FaMapMarkerAlt, FaArrowRight, FaTools, FaUserCircle } from "react-icons
 import { useNavigate } from "react-router-dom";
 
 const PickupToast = ({ data, closeToast }) => {
-    console.log(data);
+    console.log("taost :", data);
     const navigate = useNavigate();
 
     const handleView = () => {

@@ -330,7 +330,7 @@ socket.on("pickupRequest", (data) => {
     if (role !== "professional") return;
 
     dispatch(addIncomingRequest(data));
-    console.log(data)
+    console.log("app :", data)
     toast.info(
         <PickupToast data={data} />,
         {
