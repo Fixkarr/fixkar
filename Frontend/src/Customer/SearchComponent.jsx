@@ -37,6 +37,7 @@ const SearchSection = ({
   const dispatch = useDispatch();
   const googleLoaded = useLoadGoogleMaps();
   const inputRef = useRef(null);
+  const autocompleteRef = useRef(null);
   const [coords, setCoords] = useState({ lat: null, lng: null, address: "" });
   const [isChangingLocation, setIsChangingLocation] = useState(false);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
@@ -105,24 +106,41 @@ const SearchSection = ({
   }
 }, [selectedLocation]);
 
-  useEffect(() => {
-    if (!googleLoaded || !inputRef.current) return;
-    const autocomplete = new window.google.maps.places.Autocomplete(
+ useEffect(() => {
+  if (!googleLoaded || !inputRef.current) return;
+
+  autocompleteRef.current =
+    new window.google.maps.places.Autocomplete(
       inputRef.current,
-      { types: ["geocode"], componentRestrictions: { country: "in" } },
+      {
+        types: ["geocode"],
+        componentRestrictions: { country: "in" },
+      }
     );
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      if (place.geometry)
+
+  const listener = autocompleteRef.current.addListener(
+    "place_changed",
+    () => {
+      const place = autocompleteRef.current.getPlace();
+
+      if (place.geometry) {
         setCoords({
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
-          address: place.formatted_address,
+          address: place.formatted_address || "",
         });
-    });
-    return () =>
-      window.google?.maps?.event?.clearInstanceListeners(autocomplete);
-  }, [googleLoaded]);
+      }
+    }
+  );
+
+  return () => {
+    if (listener) {
+      window.google.maps.event.removeListener(listener);
+    }
+
+    autocompleteRef.current = null;
+  };
+}, [googleLoaded, isChangingLocation]);
 
   const handleServiceChange = async (service) => {
     const serviceId = service._id;
@@ -193,7 +211,9 @@ const SearchSection = ({
     lng: null,
     address: "",
   });
-
+   if (inputRef.current) {
+    inputRef.current.value = "";
+  }
   setServiceSearch("");
   setTaskSearch("");
 };
