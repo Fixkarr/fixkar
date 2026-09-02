@@ -243,7 +243,89 @@ const SearchSection = ({
       .fixkar-search .service-card-content{min-width:0;flex:1}.fixkar-search .service-name{font-size:14px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fixkar-search .service-card-hint{color:#8a94a3;font-size:10px}.fixkar-search .service-check{width:24px;height:24px;min-width:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f1f3f5;color:#8a94a3}.fixkar-search .service-check-active{background:#0d6efd;color:#fff}
       .fixkar-hire-modal{position:fixed;inset:0;z-index:1060;background:rgba(15,23,42,.58);display:flex;align-items:center;justify-content:center;padding:12px}.fixkar-hire-modal-content{width:min(720px,100%);max-height:94vh;overflow-y:auto;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
       @media(max-width:575.98px){.fixkar-search .service-scroll-area{max-height:230px}.fixkar-search .service-card{min-height:70px;padding:7px;gap:6px}.fixkar-search .service-icon{width:34px;height:34px;min-width:34px;border-radius:9px}.fixkar-search .service-name{font-size:12px}.fixkar-search .service-card-hint{display:none}.fixkar-search .task-chip{flex-basis:100%;padding:10px}.fixkar-search .detect-btn{min-width:74px;min-height:40px;font-size:14px}}
-    `}</style>
+      .fixkar-search .selected-location-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e8edf3;
+  border-radius: 16px;
+  background: #f8fbff;
+}
+
+.fixkar-search .selected-location-icon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #eaf2ff;
+  color: #0d6efd;
+}
+
+.fixkar-search .selected-location-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.fixkar-search .selected-location-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #7b8794;
+  margin-bottom: 2px;
+}
+
+.fixkar-search .selected-location-address {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fixkar-search .change-location-btn {
+  border: 0;
+  background: transparent;
+  color: #0d6efd;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 4px;
+  flex-shrink: 0;
+}
+
+.fixkar-search .change-location-btn:hover {
+  color: #084298;
+}
+
+.fixkar-search .location-confirm-area {
+  margin-top: 10px;
+}
+
+.fixkar-search .location-address-preview {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 9px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #59636e;
+}
+
+.fixkar-search .location-confirm-btn {
+  margin-top: 9px;
+  border-radius: 12px;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 700;
+}
+      
+      `}</style>
       <div className="container my-2 my-md-4 px-0 fixkar-search">
         <div
           className="bg-white border rounded-4 p-2 p-md-4"
