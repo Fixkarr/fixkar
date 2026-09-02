@@ -24,7 +24,7 @@ const PickupToast = ({ data, closeToast }) => {
             className="position-fixed top-0 end-0 m-3"
             style={{
                 width: "380px",
-                maxWidth: "calc(100vw - 40px)",
+                maxWidth: "calc(100vw - 50px)",
                 zIndex: 99999
             }}
         >

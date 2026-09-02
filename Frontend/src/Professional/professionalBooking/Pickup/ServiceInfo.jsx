@@ -8,6 +8,8 @@ import {
     FaRupeeSign,
 } from "react-icons/fa";
 
+import { formatDate, formatTime } from "../../../utils/formatTime&Date";
+
 const ServiceInfo = ({ request }) => {
     const serviceName =
         request?.serviceName || "Service";
@@ -30,18 +32,7 @@ const ServiceInfo = ({ request }) => {
     const totalAmount =
         Number(request?.charge?.totalAmount || 0);
 
-    const formatDate = (date) => {
-        if (!date) return "Not specified";
-
-        return new Date(`${date}T00:00:00`).toLocaleDateString(
-            "en-IN",
-            {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-            }
-        );
-    };
+    
 
     return (
         <div className="row g-3 mb-4">
@@ -173,7 +164,7 @@ const ServiceInfo = ({ request }) => {
                             </small>
 
                             <span className="fw-semibold">
-                                {request?.workTime || "N/A"}
+                                {formatTime(request?.workTime) || "N/A"}
                             </span>
                         </div>
 

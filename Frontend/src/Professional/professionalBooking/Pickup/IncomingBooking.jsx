@@ -37,10 +37,7 @@ const IncomingBooking = ({ request }) => {
                 }
             );
 
-            console.log(
-                "Pickup accepted:",
-                response.data
-            );
+         
 
             // Request ab pending nahi hai
             // isliye incoming list se remove karo
@@ -65,13 +62,9 @@ const IncomingBooking = ({ request }) => {
             );
 
         } catch (error) {
-            console.error(
-                "Accept pickup error:",
-                error
-            );
+        
 
             toast.error(
-                error.response?.data?.message ||
                 "Unable to accept request."
             );
 
@@ -115,13 +108,8 @@ const IncomingBooking = ({ request }) => {
             );
 
         } catch (error) {
-            console.error(
-                "Reject pickup error:",
-                error
-            );
 
             toast.error(
-                error.response?.data?.message ||
                 "Unable to reject request."
             );
 
