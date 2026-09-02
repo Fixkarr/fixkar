@@ -1,4 +1,5 @@
 import { Customer, Professional, User } from "../models/userModel.js";
+import redis from "../services/redisClient.js";
 
 export const getCurrentUser = async (req, res)=>{
     try {
@@ -62,3 +63,59 @@ export const getCurrentUser = async (req, res)=>{
         })
     }
 }
+
+export const saveSelectedLocation = async (req, res) => {
+  try {
+    // Guest user: location Redis mein save nahi karni
+    if (!req.userId) {
+      return res.status(200).json({
+        success: true,
+        saved: false,
+        message: "Guest location not saved",
+      });
+    }
+
+    const { lat, lng, address, source, placeId } = req.body;
+
+    // Basic validation
+    if (
+      !Number.isFinite(Number(lat)) ||
+      !Number.isFinite(Number(lng)) ||
+      !address
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid location details are required",
+      });
+    }
+
+    const selectedLocation = {
+      lat: Number(lat),
+      lng: Number(lng),
+      address,
+      source: source || "map",
+      placeId: placeId || null,
+      updatedAt: new Date().toISOString(),
+    };
+
+    const redisKey = `user:${req.userId}:selectedLocation`;
+
+    await redis.set(
+      redisKey,
+      JSON.stringify(selectedLocation)
+    );
+
+    return res.status(200).json({
+      success: true,
+      saved: true,
+      message: "Location saved successfully",
+      selectedLocation,
+    });
+  } catch (error) {
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to save selected location",
+    });
+  }
+};

@@ -172,15 +172,26 @@ const SearchSection = ({
     );
   };
 
-  const handleConfirmLocation = () => {
+  const handleConfirmLocation = async() => {
     const finalLocation = {
       lat: Number(coords.lat),
       lng: Number(coords.lng),
       address: coords.address,
     };
+     try {
+    const response = await axios.put(
+      `${server_url}/api/user/selected-location`,
+      finalLocation,
+      { withCredentials: true }
+    );
+    toast.success("Location Saved!");
+    // Redux mein location tab update karo jab request successfully process ho
     dispatch(setSelectedLocation(finalLocation));
     onLocationSelect?.(finalLocation);
-    toast.success("Location confirmed");
+  } catch (error) {
+    dispatch(setSelectedLocation(finalLocation));
+    onLocationSelect?.(finalLocation);
+  }
   };
 
   const closeHireForm = () => {
