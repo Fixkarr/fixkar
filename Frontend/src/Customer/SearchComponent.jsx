@@ -705,6 +705,14 @@ const SearchSection = ({
       : services || [];
   }, [services, serviceSearch]);
 
+  // UI-only presentation state: keeps the existing service data/selection logic intact.
+  const [showAllServices, setShowAllServices] = useState(false);
+
+  const visibleServices = useMemo(() => {
+    const list = filteredServices || [];
+    return showAllServices ? list : list.slice(0, 7);
+  }, [filteredServices, showAllServices]);
+
   const getTaskPrice = (skill) => {
     const price =
       skill?.price ?? skill?.fixedPrice ?? skill?.amount ?? skill?.rate;
@@ -890,300 +898,620 @@ const SearchSection = ({
   --fk-primary-soft:#eef2ff;
   --fk-text:#111827;
   --fk-muted:#6b7280;
-  --fk-border:#e8eaf2;
+  --fk-border:#e7e9f1;
+  color:var(--fk-text);
 }
+
+/* Main shell: premium but deliberately conservative so Bootstrap layout remains stable */
 .fixkar-search .search-shell{
   width:min(1100px,100%);
   margin:0 auto;
   padding:clamp(10px,1.8vw,20px);
-  border:1px solid #e9eaf2;
+  border:1px solid #e8eaf1;
   border-radius:22px;
   background:#fff;
   box-shadow:0 10px 34px rgba(31,41,55,.06);
 }
-.fixkar-search .section-eyebrow{
-  display:flex;align-items:center;gap:9px;margin-bottom:0;
-}
-.fixkar-search .step-number{
-  width:28px;height:28px;min-width:28px;display:inline-flex;
-  align-items:center;justify-content:center;border-radius:9px;
-  background:linear-gradient(135deg,#6366f1,#4338ca);color:#fff;
-  font-size:13px;font-weight:800;box-shadow:0 6px 16px rgba(79,70,229,.22);
-}
-.fixkar-search .section-title{
-  margin:0;color:var(--fk-text);font-size:clamp(16px,1.8vw,21px);
-  line-height:1.2;font-weight:800;letter-spacing:-.02em;
-}
-.fixkar-search .section-subtitle{
-  margin:5px 0 0 37px;color:#8a91a2;font-size:12px;line-height:1.45;
-}
+
+/* Location */
 .fixkar-search .selected-location-card{
-  display:flex;align-items:center;gap:12px;padding:13px 15px;
-  border:1px solid #e5e8f3;border-radius:18px;
-  background:linear-gradient(135deg,#f8faff,#fff);
-  box-shadow:0 5px 18px rgba(31,41,55,.045);
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 12px;
+  border:1px solid #e5e8f1;
+  border-radius:14px;
+  background:linear-gradient(135deg,#fafbff,#fff);
+  box-shadow:0 4px 15px rgba(31,41,55,.04);
 }
+
 .fixkar-search .selected-location-icon{
-  width:42px;height:42px;min-width:42px;display:flex;align-items:center;
-  justify-content:center;border-radius:13px;background:var(--fk-primary-soft);
+  width:34px;
+  height:34px;
+  min-width:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:#eef2ff;
   color:var(--fk-primary);
 }
-.fixkar-search .selected-location-info{min-width:0;flex:1}
+
+.fixkar-search .selected-location-info{
+  min-width:0;
+  flex:1;
+}
+
 .fixkar-search .selected-location-label{
-  margin-bottom:2px;color:#8b93a5;font-size:10px;line-height:1.2;
-  font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  margin-bottom:2px;
+  color:#8b93a5;
+  font-size:9px;
+  line-height:1.2;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.06em;
 }
+
 .fixkar-search .selected-location-address{
-  color:#374151;font-size:clamp(11px,1.3vw,13px);font-weight:600;
-  line-height:1.45;white-space:normal;overflow:visible;word-break:break-word;
+  color:#374151;
+  font-size:clamp(10.5px,1.25vw,12.5px);
+  line-height:1.4;
+  font-weight:600;
+  white-space:normal;
+  overflow:visible;
+  word-break:break-word;
+  overflow-wrap:anywhere;
 }
+
 .fixkar-search .change-location-btn{
-  flex-shrink:0;border:1px solid #e2e5f0;background:#fff;color:var(--fk-primary);
-  border-radius:10px;padding:7px 11px;font-size:12px;font-weight:800;transition:.18s ease;
+  flex-shrink:0;
+  align-self:center;
+  border:1px solid #e1e4ee;
+  background:#fff;
+  color:var(--fk-primary);
+  border-radius:9px;
+  padding:6px 9px;
+  font-size:11px;
+  line-height:1;
+  font-weight:800;
 }
-.fixkar-search .change-location-btn:hover{border-color:#c7c9ff;background:var(--fk-primary-soft)}
+
+.fixkar-search .change-location-btn:hover{
+  border-color:#c9ccfa;
+  background:#f5f5ff;
+}
+
 .fixkar-search .location-heading{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px;
+  margin-bottom:10px;
 }
+
 .fixkar-search .location-input{
-  min-height:52px;border:1px solid var(--fk-border)!important;border-radius:14px!important;
-  background:#fff;box-shadow:0 5px 18px rgba(31,41,55,.045);overflow:hidden;
+  min-height:50px;
+  border:1px solid #e7eaf1!important;
+  border-radius:13px!important;
+  background:#fff;
+  box-shadow:0 3px 13px rgba(31,41,55,.04);
+  overflow:hidden;
 }
+
 .fixkar-search .location-input:focus-within{
-  border-color:#a5b4fc!important;box-shadow:0 0 0 4px rgba(99,102,241,.09);
+  border-color:#a5b4fc!important;
+  box-shadow:0 0 0 4px rgba(99,102,241,.08);
 }
-.fixkar-search .location-input .input-group-text{padding-left:15px}
+
 .fixkar-search .detect-btn{
-  min-width:88px;min-height:42px;margin:4px;border:0;border-radius:11px!important;
-  background:var(--fk-primary);font-size:12px;font-weight:800;padding:6px 12px!important;
-  box-shadow:0 5px 13px rgba(79,70,229,.18);
+  min-width:76px;
+  min-height:40px;
+  margin:4px;
+  border:0;
+  border-radius:10px!important;
+  font-size:12px;
+  font-weight:800;
+  padding:5px 9px!important;
 }
+
 .fixkar-search .location-confirm-area{
-  margin-top:12px;padding:10px;border:1px solid var(--fk-border);
-  border-radius:17px;background:#fff;
+  margin-top:10px;
+  padding:9px;
+  border:1px solid #e8eaf1;
+  border-radius:15px;
+  background:#fff;
 }
+
 .fixkar-search .location-address-preview{
-  display:flex;align-items:flex-start;gap:8px;margin-top:9px;padding:10px 11px;
-  border:1px solid #edf0f5;border-radius:12px;background:#f8f9fc;
-  color:#59636e;font-size:11px;line-height:1.45;
+  display:flex;
+  align-items:flex-start;
+  gap:7px;
+  margin-top:8px;
+  padding:8px 9px;
+  border-radius:10px;
+  background:#f7f8fb;
+  color:#59636e;
+  font-size:11px;
+  line-height:1.4;
+  word-break:break-word;
 }
+
 .fixkar-search .location-confirm-btn{
-  margin-top:9px;min-height:45px;border:0;border-radius:12px;
-  background:linear-gradient(135deg,#5b55e8,#4338ca);font-size:13px;font-weight:800;
-  box-shadow:0 8px 18px rgba(79,70,229,.18);
+  margin-top:8px;
+  min-height:43px;
+  border:0;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:800;
 }
+
+/* Section */
 .fixkar-search .service-section{
-  margin-top:18px;padding-top:19px;border-top:1px solid #eceef4;
+  margin-top:17px;
+  padding-top:17px;
+  border-top:1px solid #eceef3;
 }
-.fixkar-search .service-header,.fixkar-search .task-header{
-  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;
+
+.fixkar-search .section-eyebrow{
+  display:flex;
+  align-items:center;
+  gap:9px;
 }
-.fixkar-search .header-count{
-  display:inline-flex;align-items:center;justify-content:center;min-width:31px;height:27px;
-  padding:0 9px;border:1px solid #e3e5ee;border-radius:999px;background:#fff;
-  color:var(--fk-primary);font-size:11px;font-weight:800;
+
+.fixkar-search .section-title{
+  margin:0;
+  color:#111827;
+  font-size:clamp(16px,1.7vw,20px);
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:-.02em;
 }
-.fixkar-search .search-field{
-  display:flex;align-items:center;gap:9px;min-height:46px;margin-bottom:14px;
-  padding:0 13px;border:1px solid var(--fk-border);border-radius:14px;background:#fff;
-  box-shadow:0 4px 15px rgba(31,41,55,.035);transition:.18s ease;
+
+.fixkar-search .section-subtitle{
+  margin:4px 0 0 37px;
+  color:#8b93a3;
+  font-size:11px;
+  line-height:1.4;
 }
-.fixkar-search .search-field:focus-within{
-  border-color:#a5b4fc;box-shadow:0 0 0 4px rgba(99,102,241,.08);
+
+.fixkar-search .step-number{
+  width:27px;
+  height:27px;
+  min-width:27px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  background:linear-gradient(135deg,#6366f1,#4338ca);
+  color:#fff;
+  font-size:12px;
+  font-weight:800;
+  box-shadow:0 5px 14px rgba(79,70,229,.2);
 }
-.fixkar-search .search-field svg{flex-shrink:0;color:#9299aa}
-.fixkar-search .search-field input{
-  width:100%;min-width:0;border:0;outline:0;background:transparent;
-  color:var(--fk-text);font-size:13px;
-}
-.fixkar-search .search-field input::placeholder{color:#a0a7b5}
+
+/* Services: no search, only cards + More */
 .fixkar-search .service-scroll-area{
-  max-height:310px;
-  overflow-y:auto;
-  overflow-x:hidden;
-  padding:2px;
-  scrollbar-width:thin;
-  scrollbar-color:#d8dbe8 transparent;
+  max-height:none;
+  overflow:visible;
+  padding:1px;
 }
-.fixkar-search .service-scroll-area::-webkit-scrollbar{
-  width:5px;
-}
-.fixkar-search .service-scroll-area::-webkit-scrollbar-track{
-  background:transparent;
-}
-.fixkar-search .service-scroll-area::-webkit-scrollbar-thumb{
-  background:#d8dbe8;
-  border-radius:99px;
-}
+
 .fixkar-search .service-card{
   position:relative;
   width:100%;
-  min-height:82px;
-  padding:9px 9px;
-  border:1px solid #e7eaf1;
+  min-height:78px;
+  padding:8px;
+  border:1px solid #e6e8ef;
   border-radius:14px;
   background:#fff;
   display:flex;
   align-items:center;
-  gap:9px;
+  gap:8px;
   text-align:left;
   cursor:pointer;
-  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease,transform .18s ease;
+  transition:.18s ease;
 }
+
 .fixkar-search .service-card:hover{
   transform:translateY(-1px);
-  border-color:#cfd2f8;
-  box-shadow:0 7px 18px rgba(31,41,55,.06);
+  border-color:#cdd0f7;
+  box-shadow:0 7px 17px rgba(31,41,55,.06);
 }
+
 .fixkar-search .service-card-active{
-  border-color:#8f8af7;background:linear-gradient(180deg,#f8f8ff,#f1f1ff);
-  box-shadow:0 8px 22px rgba(79,70,229,.11);
+  border-color:#9894f5;
+  background:#f7f7ff;
+  box-shadow:0 6px 17px rgba(79,70,229,.09);
 }
+
 .fixkar-search .service-icon{
-  width:42px;height:42px;min-width:42px;border-radius:11px;overflow:hidden;
-  background:#f3f4f8;box-shadow:inset 0 0 0 1px rgba(0,0,0,.035);
+  width:38px;
+  height:38px;
+  min-width:38px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#f2f4f8;
 }
-.fixkar-search .service-icon img{width:100%;height:100%;object-fit:cover}
-.fixkar-search .service-card-content{min-width:0;flex:1}
+
+.fixkar-search .service-icon img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.fixkar-search .service-card-content{
+  min-width:0;
+  flex:1;
+}
+
 .fixkar-search .service-name{
-  font-size:13px;font-weight:800;line-height:1.25;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-size:12.5px;
+  font-weight:800;
+  line-height:1.25;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
+
 .fixkar-search .service-card-hint{
-  display:block;margin-top:3px;color:#9299aa;font-size:10px;line-height:1.2;
+  display:block;
+  margin-top:2px;
+  color:#9299a8;
+  font-size:9px;
+  line-height:1.2;
 }
+
 .fixkar-search .service-check{
-  width:22px;height:22px;min-width:22px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  background:#f0f1f5;color:#9299aa;
+  width:21px;
+  height:21px;
+  min-width:21px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f1f2f5;
+  color:#9299a8;
 }
+
 .fixkar-search .service-check-active{
-  background:var(--fk-primary);color:#fff;box-shadow:0 4px 10px rgba(79,70,229,.22);
+  background:var(--fk-primary);
+  color:#fff;
+  box-shadow:0 3px 9px rgba(79,70,229,.2);
 }
+
+.fixkar-search .more-service-card{
+  width:100%;
+  min-height:78px;
+  padding:8px;
+  border:1px dashed #cfd3e1;
+  border-radius:14px;
+  background:linear-gradient(180deg,#fafaff,#f7f7fc);
+  color:var(--fk-primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  text-align:center;
+  font-size:12px;
+  font-weight:800;
+  transition:.18s ease;
+}
+
+.fixkar-search .more-service-card:hover{
+  border-color:#9c99ef;
+  background:#f2f2ff;
+  transform:translateY(-1px);
+}
+
+.fixkar-search .more-service-count{
+  display:block;
+  margin-top:2px;
+  color:#9299a8;
+  font-size:9px;
+  font-weight:600;
+}
+
+/* Tasks: search stays */
 .fixkar-search .task-section{
-  margin-top:18px;padding:18px;border:1px solid #e9eaf2;border-radius:20px;
+  margin-top:17px;
+  padding:14px;
+  border:1px solid #e8e9f1;
+  border-radius:17px;
   background:linear-gradient(180deg,#fbfbff,#fff);
 }
-.fixkar-search .selected-service-pill{
-  display:inline-flex;align-items:center;gap:6px;margin-top:5px;padding:5px 9px;
-  border-radius:999px;background:var(--fk-primary-soft);color:var(--fk-primary-dark);
-  font-size:10px;font-weight:800;
+
+.fixkar-search .task-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
 }
+
+.fixkar-search .search-icon-btn{
+  width:38px;
+  height:38px;
+  min-width:38px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #e3e5ed;
+  background:#fff;
+  color:var(--fk-primary);
+  border-radius:11px;
+}
+
+.fixkar-search .task-search{
+  height:43px;
+  border:1px solid #e5e7ee;
+  border-radius:11px;
+  box-shadow:none;
+}
+
 .fixkar-search .task-list{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:8px;
-  max-height:360px;
+  max-height:330px;
   overflow-y:auto;
   overflow-x:hidden;
-  padding:2px 3px 2px 2px;
+  padding:2px 3px 2px 1px;
   scrollbar-width:thin;
-  scrollbar-color:#d8dbe8 transparent;
+  scrollbar-color:#d7dae5 transparent;
 }
-.fixkar-search .task-list::-webkit-scrollbar{width:5px}
-.fixkar-search .task-list::-webkit-scrollbar-track{background:transparent}
+
+.fixkar-search .task-list::-webkit-scrollbar{
+  width:5px;
+}
+
+.fixkar-search .task-list::-webkit-scrollbar-track{
+  background:transparent;
+}
+
 .fixkar-search .task-list::-webkit-scrollbar-thumb{
-  background:#d8dbe8;
+  background:#d7dae5;
   border-radius:99px;
 }
+
 .fixkar-search .task-chip{
   width:100%;
   min-width:0;
-  min-height:82px;
-  border:1px solid #e7e9f1;
+  min-height:78px;
+  border:1px solid #e5e7ef;
   background:#fff;
-  border-radius:14px;
-  padding:11px 12px;
+  border-radius:13px;
+  padding:10px 11px;
   text-align:left;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:9px;
-  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;
+  gap:8px;
+  transition:.18s ease;
 }
+
 .fixkar-search .task-chip:hover{
-  transform:translateY(-1px);border-color:#cfd2f8;
-  box-shadow:0 8px 20px rgba(31,41,55,.06);
+  transform:translateY(-1px);
+  border-color:#cdd0f7;
+  box-shadow:0 6px 16px rgba(31,41,55,.05);
 }
+
 .fixkar-search .task-chip-active{
-  border-color:#8f8af7;background:#f7f7ff;box-shadow:0 7px 18px rgba(79,70,229,.09);
+  border-color:#8e89f2;
+  background:#f6f6ff;
+  box-shadow:0 5px 15px rgba(79,70,229,.08);
 }
-.fixkar-search .task-name{color:#172033;font-size:14px;line-height:1.3;font-weight:800}
-.fixkar-search .task-description{margin-top:5px;color:#8b93a3;font-size:10.5px;line-height:1.4}
-.fixkar-search .task-price-wrap{flex-shrink:0;min-width:74px;text-align:right}
+
+.fixkar-search .task-name{
+  color:#172033;
+  font-size:13px;
+  line-height:1.25;
+  font-weight:800;
+}
+
+.fixkar-search .task-description{
+  margin-top:4px;
+  color:#8b93a3;
+  font-size:9.5px;
+  line-height:1.35;
+}
+
+.fixkar-search .task-price-wrap{
+  flex-shrink:0;
+  min-width:65px;
+  text-align:right;
+}
+
 .fixkar-search .task-price{
   display:block;
   color:#111827;
-  background:transparent;
-  border-radius:0;
-  padding:0;
-  font-size:16px;
+  font-size:15px;
   line-height:1.1;
   font-weight:800;
-  letter-spacing:-.02em;
 }
+
 .fixkar-search .task-price-label{
-  display:block;margin-top:4px;color:#159447;font-size:9px;font-weight:800;
+  display:block;
+  margin-top:3px;
+  color:#159447;
+  font-size:8.5px;
+  font-weight:800;
 }
+
 .fixkar-search .task-inspection{
-  display:inline-block;color:#b45309;background:#fff7ed;border:1px solid #ffedd5;
-  border-radius:8px;padding:5px 7px;font-size:9px;font-weight:800;
+  display:inline-block;
+  color:#b45309;
+  background:#fff7ed;
+  border:1px solid #ffedd5;
+  border-radius:7px;
+  padding:4px 6px;
+  font-size:8.5px;
+  font-weight:800;
 }
+
 .fixkar-search .task-arrow{
-  width:25px;height:25px;display:inline-flex;align-items:center;justify-content:center;
-  border-radius:50%;background:#f5f6fa;color:#8c94a4;flex-shrink:0;
+  width:23px;
+  height:23px;
+  min-width:23px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#f4f5f8;
+  color:#8c94a4;
 }
-.fixkar-search .empty-state{
-  padding:28px 15px;border:1px dashed #dfe2eb;border-radius:15px;
-  background:#fafbfe;text-align:center;color:#7b8494;font-size:12px;
-}
+
 .fixkar-search .fixkar-hire-modal{
-  position:fixed;inset:0;z-index:1060;background:rgba(15,23,42,.58);
-  backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:12px;
+  position:fixed!important;
+  inset:0!important;
+  z-index:99999!important;
+  width:100vw;
+  height:100dvh;
+  background:rgba(15,23,42,.58);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  box-sizing:border-box;
+  overflow:hidden;
 }
+
 .fixkar-search .fixkar-hire-modal-content{
-  width:min(720px,100%);max-height:94vh;overflow-y:auto;background:#fff;
-  border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.25);
+  position:relative;
+  width:min(720px,100%);
+  max-height:94dvh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:#fff;
+  border-radius:20px;
+  box-shadow:0 24px 70px rgba(0,0,0,.25);
 }
+
 @media(max-width:991.98px){
-  .fixkar-search .task-list{max-height:330px}
+  .fixkar-search .task-list{max-height:310px}
 }
-@media(max-width:767.98px){
+
+@media(max-width:575.98px){
   .fixkar-search .search-shell{
-    padding:10px;
-    border-radius:18px;
+    padding:9px;
+    border-radius:17px;
     box-shadow:0 7px 24px rgba(31,41,55,.05);
   }
-  .fixkar-search .service-scroll-area{max-height:250px}
-  .fixkar-search .service-card{min-height:70px;padding:7px;border-radius:12px;gap:6px}
-  .fixkar-search .service-icon{width:34px;height:34px;min-width:34px;border-radius:9px}
-  .fixkar-search .service-name{font-size:12px}
-  .fixkar-search .service-card-hint{display:none}
-  .fixkar-search .service-check{width:20px;height:20px;min-width:20px}
-  .fixkar-search .task-section{padding:12px;border-radius:16px}
+
+  .fixkar-search .selected-location-card{
+    gap:8px;
+    padding:9px 10px;
+    border-radius:13px;
+  }
+
+  .fixkar-search .selected-location-icon{
+    width:32px;
+    height:32px;
+    min-width:32px;
+    border-radius:9px;
+  }
+
+  .fixkar-search .selected-location-address{
+    font-size:10.5px;
+    line-height:1.38;
+  }
+
+  .fixkar-search .change-location-btn{
+    padding:6px 8px;
+    font-size:10px;
+  }
+
+  .fixkar-search .service-section{
+    margin-top:14px;
+    padding-top:14px;
+  }
+
+  .fixkar-search .section-title{
+    font-size:16px;
+  }
+
+  .fixkar-search .section-subtitle{
+    margin-left:36px;
+    font-size:10px;
+  }
+
+  .fixkar-search .service-card{
+    min-height:68px;
+    padding:6px;
+    border-radius:12px;
+    gap:6px;
+  }
+
+  .fixkar-search .service-icon{
+    width:32px;
+    height:32px;
+    min-width:32px;
+    border-radius:9px;
+  }
+
+  .fixkar-search .service-name{
+    font-size:11px;
+  }
+
+  .fixkar-search .service-card-hint{
+    display:none;
+  }
+
+  .fixkar-search .service-check{
+    width:19px;
+    height:19px;
+    min-width:19px;
+  }
+
+  .fixkar-search .more-service-card{
+    min-height:68px;
+    border-radius:12px;
+    font-size:11px;
+  }
+
+  .fixkar-search .task-section{
+    margin-top:14px;
+    padding:10px;
+    border-radius:15px;
+  }
+
   .fixkar-search .task-list{
     grid-template-columns:1fr;
+    max-height:300px;
     gap:7px;
-    max-height:330px;
   }
-  .fixkar-search .task-chip{min-height:72px;padding:10px;border-radius:13px}
-  .fixkar-search .task-name{font-size:13px}
-  .fixkar-search .task-description{font-size:10px}
-  .fixkar-search .task-price{font-size:15px}
-  .fixkar-search .selected-location-card{gap:9px;padding:11px;border-radius:15px}
-  .fixkar-search .selected-location-icon{width:36px;height:36px;min-width:36px;border-radius:11px}
-  .fixkar-search .selected-location-address{font-size:10.5px}
-  .fixkar-search .change-location-btn{padding:6px 9px;font-size:11px}
-  .fixkar-search .location-input{min-height:48px}
-  .fixkar-search .detect-btn{min-width:78px;min-height:39px;font-size:11px}
-  .fixkar-search .section-subtitle{font-size:10.5px}
-}
-@media(max-width:390px){
-  .fixkar-search .service-card{min-height:68px;padding:6px}
-  .fixkar-search .service-icon{width:32px;height:32px;min-width:32px}
-  .fixkar-search .service-name{font-size:11.5px}
-  .fixkar-search .section-title{font-size:15px}
-  .fixkar-search .task-list{max-height:300px}
+
+  .fixkar-search .task-chip{
+    min-height:70px;
+    padding:9px;
+    border-radius:12px;
+  }
+
+  .fixkar-search .task-name{
+    font-size:12.5px;
+  }
+
+  .fixkar-search .task-description{
+    font-size:9px;
+  }
+
+  .fixkar-search .task-price{
+    font-size:14px;
+  }
+
+  .fixkar-search .search-icon-btn{
+    width:35px;
+    height:35px;
+    min-width:35px;
+  }
+
+  .fixkar-search .fixkar-hire-modal{
+    align-items:flex-end;
+    padding:0;
+  }
+
+  .fixkar-search .fixkar-hire-modal-content{
+    width:100%;
+    max-height:94dvh;
+    border-radius:20px 20px 0 0;
+  }
 }
 `}</style>
       <div className="container my-2 my-md-4 px-0 fixkar-search">
@@ -1291,46 +1619,28 @@ const SearchSection = ({
 </div>
           {!onlyLocation && (
             <div className="service-section">
-              <div className="service-header">
+              <div className="d-flex align-items-center justify-content-between gap-2 mb-3">
                 <div className="min-w-0">
                   <div className="section-eyebrow">
                     <span className="step-number">1</span>
                     <h2 className="section-title">What service do you need?</h2>
                   </div>
                   <div className="section-subtitle">
-                    Explore services and choose what you need help with
+                    Choose a service to explore available tasks and prices
                   </div>
                 </div>
-                <span className="header-count">{filteredServices.length}</span>
-              </div>
-
-              <div className="search-field">
-                <FaSearch size={13} />
-                <input
-                  type="text"
-                  placeholder="Search services..."
-                  value={serviceSearch}
-                  onChange={(e) => setServiceSearch(e.target.value)}
-                />
-                {serviceSearch && (
-                  <button
-                    type="button"
-                    className="btn p-0 border-0 text-muted"
-                    onClick={() => setServiceSearch("")}
-                    aria-label="Clear service search"
-                  >
-                    <FaTimes size={12} />
-                  </button>
-                )}
               </div>
 
               <div className="service-scroll-area">
                 {filteredServices.length ? (
                   <div className="row g-2">
-                    {filteredServices.map((service) => {
+                    {visibleServices.map((service) => {
                       const active = selectedServiceId === service._id;
                       return (
-                        <div className="col-6 col-sm-4 col-lg-3" key={service._id}>
+                        <div
+                          className="col-6 col-sm-4 col-lg-2"
+                          key={service._id}
+                        >
                           <button
                             type="button"
                             onClick={() => handleServiceChange(service)}
@@ -1341,6 +1651,7 @@ const SearchSection = ({
                             <div className="service-icon">
                               <img src={service.image} alt={service.name} />
                             </div>
+
                             <div className="service-card-content">
                               <div
                                 className={`service-name ${
@@ -1350,24 +1661,43 @@ const SearchSection = ({
                                 {service.name}
                               </div>
                               <small className="service-card-hint">
-                                {active ? "Selected" : "Tap to select"}
+                                {active ? "Selected" : "Explore"}
                               </small>
                             </div>
+
                             <div
                               className={`service-check ${
                                 active ? "service-check-active" : ""
                               }`}
                             >
                               {active ? (
-                                <FaCheck size={10} />
+                                <FaCheck size={9} />
                               ) : (
-                                <FaChevronRight size={9} />
+                                <FaChevronRight size={8} />
                               )}
                             </div>
                           </button>
                         </div>
                       );
                     })}
+
+                    {!showAllServices && filteredServices.length > 7 && (
+                      <div className="col-6 col-sm-4 col-lg-2">
+                        <button
+                          type="button"
+                          className="more-service-card"
+                          onClick={() => setShowAllServices(true)}
+                        >
+                          <div>
+                            <FaChevronRight size={11} />
+                            <div>More services</div>
+                            <span className="more-service-count">
+                              +{filteredServices.length - 7} more
+                            </span>
+                          </div>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="text-center py-4">
@@ -1376,54 +1706,42 @@ const SearchSection = ({
                   </div>
                 )}
               </div>
+
               {selectedServiceId && (
                 <div className="task-section">
                   <div className="task-header">
                     <div className="min-w-0">
-                      <div className="section-eyebrow">
+                      <div className="d-flex align-items-center gap-2">
                         <span className="step-number">2</span>
                         <div>
                           <h2 className="section-title">What do you need help with?</h2>
-                          <span className="selected-service-pill">
-                            {serviceSkills.length} available options
-                          </span>
+                          <small className="text-muted">
+                            Explore tasks and pricing
+                          </small>
                         </div>
                       </div>
                     </div>
 
-                    {serviceSkills.length > 0 && (
+                    {serviceSkills.length > 6 && (
                       <button
                         type="button"
-                        className="btn btn-sm border rounded-pill px-3 bg-white"
-                        style={{ fontSize: 11, fontWeight: 800, color: "#4f46e5" }}
+                        className="search-icon-btn"
                         onClick={() => setShowTaskSearch((v) => !v)}
+                        aria-label="Search tasks"
                       >
-                        {showTaskSearch ? "Close search" : "Search"}
+                        {showTaskSearch ? <FaTimes size={13} /> : <FaSearch size={13} />}
                       </button>
                     )}
                   </div>
 
                   {showTaskSearch && (
-                    <div className="search-field mb-3">
-                      <FaSearch size={13} />
-                      <input
-                        autoFocus
-                        type="text"
-                        placeholder="Search tasks..."
-                        value={taskSearch}
-                        onChange={(e) => setTaskSearch(e.target.value)}
-                      />
-                      {taskSearch && (
-                        <button
-                          type="button"
-                          className="btn p-0 border-0 text-muted"
-                          onClick={() => setTaskSearch("")}
-                          aria-label="Clear task search"
-                        >
-                          <FaTimes size={12} />
-                        </button>
-                      )}
-                    </div>
+                    <input
+                      autoFocus
+                      className="form-control task-search mb-2"
+                      placeholder="Search task"
+                      value={taskSearch}
+                      onChange={(e) => setTaskSearch(e.target.value)}
+                    />
                   )}
 
                   <div className="task-list">
@@ -1435,15 +1753,17 @@ const SearchSection = ({
                         <button
                           type="button"
                           key={skill._id}
-                          className={`task-chip ${active ? "task-chip-active" : ""}`}
+                          className={`task-chip ${
+                            active ? "task-chip-active" : ""
+                          }`}
                           onClick={() => chooseTask(skill)}
                         >
                           <div className="min-w-0">
                             <div className="task-name">{skill.name}</div>
                             <div className="task-description">
                               {skill.bookingType === "fixed"
-                                ? "Fixed-price service"
-                                : "Price confirmed after professional inspection"}
+                                ? "Fixed price service"
+                                : "Professional will quote after inspection"}
                             </div>
                           </div>
 
@@ -1454,29 +1774,27 @@ const SearchSection = ({
                                 <span className="task-price-label">
                                   {skill.bookingType === "fixed"
                                     ? "Fixed Price"
-                                    : "Starting price"}
+                                    : "Price available"}
                                 </span>
                               </>
                             ) : (
-                              <span className="task-inspection">On inspection</span>
+                              <span className="task-inspection">
+                                Inspection
+                              </span>
                             )}
                           </div>
 
                           <span className="task-arrow">
-                            {active ? <FaCheck size={10} /> : <FaChevronRight size={9} />}
+                            {active ? (
+                              <FaCheck size={9} />
+                            ) : (
+                              <FaChevronRight size={8} />
+                            )}
                           </span>
                         </button>
                       );
                     })}
                   </div>
-
-                  {!filteredTasks.length && (
-                    <div className="empty-state">
-                      <FaSearch className="mb-2" />
-                      <div className="fw-semibold">No tasks found</div>
-                      <div className="mt-1">Try another search.</div>
-                    </div>
-                  )}
                 </div>
               )}
             </div>
