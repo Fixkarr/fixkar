@@ -14,8 +14,6 @@ const IncomingRequests = () => {
         (state) => state.pickup
     );
 
-    console.log( "requets : ",incomingRequests);
-
     return (
         <section className="container-fluid min-vh-100 bg-light py-3 py-md-4">
             <div className="container">

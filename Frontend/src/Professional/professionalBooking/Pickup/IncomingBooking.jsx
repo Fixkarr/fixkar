@@ -18,10 +18,7 @@ import {
 const IncomingBooking = ({ request }) => {
     const dispatch = useDispatch();
 
-    console.log("Incoming Pickup Request:", request);
-
     // Apne project ke according import/use karo
-    
 
     // ==========================================
     // ACCEPT
