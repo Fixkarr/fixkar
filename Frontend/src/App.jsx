@@ -373,7 +373,7 @@ socket.on("pickupProfessionalAccepted", (data) => {
    {pickupRequest && (
     <PickupToast
         data={pickupRequest}
-        onClose={() => setPickupRequest(null)}
+        closeToast={() => setPickupRequest(null)}
     />
 )}
     <Routes>
