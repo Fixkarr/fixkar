@@ -1,9 +1,17 @@
-import { FaMapMarkerAlt, FaArrowRight, FaTools, FaUserCircle } from "react-icons/fa";
+import { FaMapMarkerAlt, FaArrowRight, FaTools, FaUserCircle, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const PickupToast = ({ data, closeToast }) => {
-    console.log("taost :", data);
     const navigate = useNavigate();
+     useEffect(() => {
+        if (!data) return;
+
+        const timer = setTimeout(() => {
+            closeToast();
+        }, 8000);
+
+        return () => clearTimeout(timer);
+    }, [data, closeToast]);
 
     const handleView = () => {
         navigate("/professional/pickup");
@@ -15,7 +23,7 @@ const PickupToast = ({ data, closeToast }) => {
             className="position-fixed top-0 end-0 m-3"
             style={{
                 width: "380px",
-                maxWidth: "calc(100vw - 30px)",
+                maxWidth: "calc(100vw - 40px)",
                 zIndex: 99999
             }}
         >
@@ -35,9 +43,17 @@ const PickupToast = ({ data, closeToast }) => {
                         New Pickup Request
                     </h6>
 
-                    <span className="badge text-bg-danger">
-                        Live
-                    </span>
+                       <button
+                                type="button"
+                                onClick={onClose}
+                                className="btn btn-sm p-0 ms-2"
+                                style={{
+                                    width: 28,
+                                    height: 28
+                                }}
+                            >
+                                <FaTimes />
+                            </button>
                 </div>
 
                 <small className="text-secondary d-block mt-1">
