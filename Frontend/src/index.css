@@ -6524,15 +6524,15 @@ border-radius: 25px;
         flex: 1;
       }
 
-      .cp-skill-name {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: #172033;
-        font-size: 11px;
-        font-weight: 700;
-      }
+          .cp-skill-name {
+          display: block;
+          color: #172033;
+          font-size: 11px;
+          font-weight: 700;
+          line-height: 1.25;
+          overflow-wrap: anywhere;
+          word-break: normal;
+        }
 
       .cp-skill-type {
         display: flex;
@@ -6782,6 +6782,16 @@ border-radius: 25px;
           border-radius: 11px;
         }
 
+
+        .cp-skill-name {
+          font-size: 8.5px;
+          line-height: 1.2;
+          white-space: normal;
+          overflow: visible;
+          text-overflow: unset;
+        }
+
+
         .cp-skill-check {
           width: 27px;
           height: 27px;
@@ -6789,9 +6799,7 @@ border-radius: 25px;
           border-radius: 8px;
         }
 
-        .cp-skill-name {
-          font-size: 10px;
-        }
+       
 
         .cp-price-badge {
           font-size: 7px;
@@ -6829,6 +6837,15 @@ border-radius: 25px;
         .cp-save {
           height: 42px;
         }
+
+         .cp-skill-info {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .cp-skill-top {
+          align-items: flex-start;
+        }
       }
 
       @media (max-width: 360px) {
@@ -6851,8 +6868,9 @@ border-radius: 25px;
         }
 
         .cp-skill-name {
-          font-size: 9px;
-        }
+    font-size: 8px;
+    line-height: 1.15;
+  }
 
         .cp-price-badge {
           max-width: 100%;
