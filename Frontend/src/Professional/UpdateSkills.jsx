@@ -16,6 +16,11 @@ const UpdateSkills = ({ professional }) => {
   const dispatch = useDispatch()
   const isSpecialized = professional?.profession?.serviceType === "specialized";
 
+  console.log("SERVICE TYPE:", professional?.profession?.serviceType);
+console.log("IS SPECIALIZED:", isSpecialized);
+console.log("VISITING CHARGE:", professional?.visitingCharge);
+console.log("TASK PRICING:", professional?.taskPricing);
+
   /* ✅ Init skills from props */
   useEffect(() => {
     if (!professional) return;
