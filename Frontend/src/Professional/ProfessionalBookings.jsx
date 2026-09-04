@@ -207,39 +207,25 @@ export default function ProfessionalBookings() {
       </div>
 
       {/* Quick filters */}
-      <div
-        className={`professional-bookings-filter-pill ${
-  activeFilter === value ? "active" : ""
-}`}
-      >
-        {[
-          ["all", "All"],
-          ["today", "Today"],
-          ["upcoming", "Upcoming"],
-          ["completed", "Completed"],
-        ].map(([value, label]) => (
-          <button
-            key={value}
-            type="button"
-            onClick={() => setActiveFilter(value)}
-            className="btn btn-sm rounded-pill px-3 flex-shrink-0"
-            style={{
-              background:
-                activeFilter === value
-                  ? "#0d6efd"
-                  : "#f1f5f9",
-              color:
-                activeFilter === value
-                  ? "#fff"
-                  : "#475569",
-              border: "none",
-              fontWeight: 600,
-            }}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+     <div className="professional-bookings-filter-pill">
+  {[
+    ["all", "All"],
+    ["today", "Today"],
+    ["upcoming", "Upcoming"],
+    ["completed", "Completed"],
+  ].map(([value, label]) => (
+    <button
+      key={value}
+      type="button"
+      onClick={() => setActiveFilter(value)}
+      className={`btn btn-sm rounded-pill px-3 flex-shrink-0 ${
+        activeFilter === value ? "active" : ""
+      }`}
+    >
+      {label}
+    </button>
+  ))}
+</div>
 
       {/* Result count */}
       <div className="d-flex justify-content-between align-items-center mt-3">
