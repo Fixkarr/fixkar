@@ -14,7 +14,7 @@ import {
   FaRedo,
 } from "react-icons/fa";
 import DashboardNavigator from "../utils/DashboardNavigator";
-
+import '../css/hireProfessionals.css'
 const PAGE_SIZE = 5;
 
 const HireProfessionals = () => {
@@ -127,149 +127,76 @@ const HireProfessionals = () => {
   };
 
   return (
-    <div className="professionals container px-2 px-md-4 mt-3 mt-md-5">
-      <style>{`
-        .fixkar-results {
-          max-width: 980px;
-          margin: 0 auto;
-        }
-
-        .fixkar-pagination {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          margin: 22px 0 32px;
-        }
-
-        .fixkar-page-btn {
-          min-width: 38px;
-          height: 38px;
-          border: 1px solid #dee2e6;
-          background: #fff;
-          color: #495057;
-          border-radius: 10px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          transition: .15s ease;
-        }
-
-        .fixkar-page-btn:hover:not(:disabled) {
-          border-color: #86b7fe;
-          color: #0d6efd;
-          background: #f5f9ff;
-        }
-
-        .fixkar-page-btn.active {
-          border-color: #0d6efd;
-          background: #0d6efd;
-          color: #fff;
-          font-weight: 700;
-        }
-
-        .fixkar-page-btn:disabled {
-          opacity: .45;
-          cursor: not-allowed;
-        }
-
-        @media (max-width: 575.98px) {
-          .fixkar-results {
-            padding-inline: 2px;
-          }
-
-          .professional-results {
-            --bs-gutter-x: .65rem;
-            --bs-gutter-y: .75rem;
-          }
-
-          /* One professional card per row on phones */
-          .professional-results > .professional-col {
-            width: 100%;
-            flex: 0 0 100%;
-          }
-
-          .professional-results .card {
-            border-radius: 16px !important;
-          }
-
-          .fixkar-pagination {
-            margin-top: 18px;
-            margin-bottom: 24px;
-          }
-
-          .fixkar-page-btn {
-            min-width: 34px;
-            height: 34px;
-            border-radius: 9px;
-          }
-        }
-      `}</style>
-
+    <div className="professionals hire-professionals-page">
       {currentUserData && (
         <div
-          className="text-white p-3 p-md-4"
+          className="hire-professionals-hero"
           style={{
             background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
             borderBottomLeftRadius: "25px",
             borderBottomRightRadius: "25px",
           }}
         >
-          <div className="d-flex justify-content-between align-items-center">
-            <h5 className="fw-bold mb-0">Hire Professionals</h5>
+          <div className="hire-professionals-hero-inner">
+            <h5 className="fw-bold mb-0 hire-hero-title">Hire Professionals</h5>
             <DashboardNavigator />
           </div>
-          <p className="mt-2 mb-0 small opacity-75">
+          <p className="mt-2 mb-0 small opacity-75 hire-hero-description">
             Find Best Professionals near you!
           </p>
         </div>
       )}
 
-      <div className="text-center mb-3 mt-3">
-        <h2 className="fw-bold mb-1 fs-4 fs-md-2">Search Professionals</h2>
-        <p className="text-muted small mb-0">
+      <div className="hire-search-heading">
+        <h2>Search Professionals</h2>
+        <p>
           Find trusted professionals near your location
         </p>
       </div>
 
-      <div className="mb-3 fixkar-search-shell">
+      <div className="mb-3 hire-search-shell">
         <SearchSection onSkillsChange={setSelectedSkills} />
       </div>
 
-      <div className="fixkar-results">
-        <div className="card border-0 shadow-sm rounded-4 mb-3">
+      <div className="hire-results">
+        <div className="hire-filter-card">
           <button
             type="button"
-            className="btn w-100 text-start p-3"
+            className="hire-filter-toggle"
             onClick={() => setShowFilters((current) => !current)}
             aria-expanded={showFilters}
           >
-            <div className="d-flex align-items-center justify-content-between">
-              <div className="d-flex align-items-center gap-2 text-primary fw-semibold">
+            <div className="hire-filter-row">
+              <div className="hire-filter-left">
+              <span className="hire-filter-icon">
                 <FaFilter />
-                <span>Sort & Filter</span>
+              </span>
+               <span className="hire-filter-title">
+                Sort & Filter
+              </span>
                 {(minRating || sortBy !== "distance_asc") && (
-                  <span className="badge bg-primary rounded-pill">Active</span>
+                 <span className="hire-filter-active">
+                    ACTIVE
+                  </span>
                 )}
               </div>
-              <FaChevronDown
-                style={{
-                  transition: "transform .2s ease",
-                  transform: showFilters ? "rotate(180deg)" : "none",
-                }}
-              />
+             <FaChevronDown
+              className={`hire-filter-chevron ${
+                showFilters ? "open" : ""
+              }`}
+            />
             </div>
           </button>
 
           {showFilters && (
-            <div className="card-body pt-0 px-3 pb-3">
+            <div className="hire-filter-body">
               <div className="row g-2">
                 <div className="col-12 col-sm-6">
-                  <label className="form-label small fw-semibold mb-1">
+                  <label className="hire-filter-label">
                     <FaMapMarkerAlt className="me-1" /> Sort by
                   </label>
                   <select
-                    className="form-select"
+                   className="form-select hire-filter-select"
                     value={sortBy}
                     onChange={(event) => setSortBy(event.target.value)}
                   >
@@ -305,18 +232,21 @@ const HireProfessionals = () => {
         </div>
 
         {selectedServiceId && (
-          <div className="alert alert-light border rounded-4 shadow-sm mb-3 py-2 px-3">
-            <div className="d-flex flex-wrap gap-2 align-items-center small">
-              <span className="fw-semibold text-dark">Results for:</span>
+         <div className="hire-context-card">
+           <div className="hire-context-inner">
+             <span className="hire-context-title">
+              Results for:
+            </span>
               {selectedLocation?.address && (
-                <span className="badge bg-primary-subtle text-primary border">
-                  <FaMapMarkerAlt className="me-1" /> Location selected
-                </span>
+                <span className="hire-context-chip location">
+  <FaMapMarkerAlt className="me-1" />
+  Location selected
+</span>
               )}
               {serviceName && (
-                <span className="badge bg-success-subtle text-success border">
-                  {serviceName}
-                </span>
+                <span className="hire-context-chip service">
+  {serviceName}
+</span>
               )}
             </div>
           </div>
@@ -366,7 +296,7 @@ const HireProfessionals = () => {
         ) : (
           professionals.length > 0 && (
             <>
-              <div className="row g-3 professional-results">
+              <div className="row professional-results">
                 {professionals.map((pro) => (
                   <div
                     key={pro._id}

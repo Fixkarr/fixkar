@@ -179,22 +179,6 @@ const Notifications = () => {
           ))}
         </div>
       )}
-
-      {/* 🔵 Floating Clear Button */}
-      {total > 0 && (
-        <button
-          className="btn btn-danger rounded-circle shadow-lg"
-          style={{
-            position: "fixed",
-            bottom: "80px",
-            right: "20px",
-            width: "60px",
-            height: "60px",
-          }}
-        >
-          <FaTrash />
-        </button>
-      )}
     </div>
   );
 };
