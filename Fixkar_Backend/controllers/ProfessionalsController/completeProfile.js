@@ -75,10 +75,6 @@ export const completeProfile =async (req,res)=>{
         validatedTaskPricing.push({ skill: skill._id, price });
       }
     }
-
-
-
-
         await Professional.findByIdAndUpdate(professional._id, {
         description,
         selectedSkills: validatedSkills,
