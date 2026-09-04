@@ -91,12 +91,12 @@ export const saveFormResponse = async (req,res)=>{
               limit: 20   // latest 6 images
             }
           }).populate({
-            path : "profession",
-            select : "name image skills",
-            populate : {
-              path : "skills",
-              select : "name"
-            }
+    path : "profession",
+    select : "name image skills serviceType",
+    populate : {
+      path : "skills",
+      select : "name bookingType fixedPrice pricingSource isActive"
+    }
           }).populate({
             path : "selectedSkills",
           }).populate('charges');
