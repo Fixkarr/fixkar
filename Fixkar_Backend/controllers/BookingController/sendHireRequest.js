@@ -294,7 +294,6 @@ if (isDirectHire) {
             });
         }
     }
-}
 
 
     const newBooking = new Booking({
@@ -343,7 +342,6 @@ if (isDirectHire) {
         ],
       }).populate('review');
 
-    if (isDirectHire) {
       const notification = await Notification.create({
         userId: booking.professionalId.userId._id,
         title: "New Booking Request",
@@ -401,7 +399,7 @@ if (isDirectHire) {
         booking
       })
 
-    } else {
+    }else {
       return await handlePickupBooking({
         req,
         res,
@@ -417,12 +415,8 @@ if (isDirectHire) {
         customerLat,
         customerLng,
         audioMessages,
-
       });
     }
-
-
-
 
   } catch (error) {
     console.error(error.message)
