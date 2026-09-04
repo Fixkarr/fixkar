@@ -4,7 +4,10 @@ import {
   FaHome,
   FaClipboardList,
   FaClock,
-  FaCheckCircle
+  FaCheckCircle,
+  FaSearch,
+  FaCalendarAlt,
+  FaTimes,
 } from "react-icons/fa";
 
 import NoBookingsPlaceholder from "../Components/NoBookingsPlaceholder";
@@ -12,16 +15,91 @@ import ProBookingCard from "./professionalBooking/ProBookingCard";
 import useGetMyBookings from "../hooks/useGetMyBookings";
 import FixkarLoader from "../Components/FixkarLoader";
 import DashboardNavigator from "../utils/DashboardNavigator";
-
+  import { useMemo, useState } from "react";
 export default function ProfessionalBookings() {
   useGetMyBookings();
 
   const navigate = useNavigate();
   const { myBookings } = useSelector((state) => state.bookings);
-
+  const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [activeFilter, setActiveFilter] = useState("all");
   const total = myBookings?.length || 0;
   const completed = myBookings?.filter(b => b.status === "completed").length;
   const pending = myBookings?.filter(b => b.status !== "completed").length;
+
+  const filteredBookings = useMemo(() => {
+  if (!myBookings) return [];
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return myBookings.filter((booking) => {
+    // 🔎 Search
+    const query = search.trim().toLowerCase();
+
+    const matchesSearch =
+      !query ||
+      booking?.customerName?.toLowerCase().includes(query) ||
+      booking?._id?.toLowerCase().includes(query) ||
+      booking?.workAddress?.toLowerCase().includes(query);
+
+    if (!matchesSearch) return false;
+
+    // 📅 Booking date
+    const bookingDate = booking?.workDate
+      ? new Date(booking.workDate)
+      : null;
+
+    if (bookingDate) {
+      bookingDate.setHours(0, 0, 0, 0);
+    }
+
+    // From date
+    if (fromDate && bookingDate) {
+      const from = new Date(fromDate);
+      from.setHours(0, 0, 0, 0);
+
+      if (bookingDate < from) return false;
+    }
+
+    // To date
+    if (toDate && bookingDate) {
+      const to = new Date(toDate);
+      to.setHours(23, 59, 59, 999);
+
+      if (bookingDate > to) return false;
+    }
+
+    // Quick filters
+    if (activeFilter === "today") {
+      if (!bookingDate || bookingDate.getTime() !== today.getTime()) {
+        return false;
+      }
+    }
+
+    if (activeFilter === "upcoming") {
+      if (!bookingDate || bookingDate < today) {
+        return false;
+      }
+    }
+
+    if (activeFilter === "completed") {
+      if (booking?.status !== "completed") {
+        return false;
+      }
+    }
+
+    return true;
+  });
+}, [
+  myBookings,
+  search,
+  fromDate,
+  toDate,
+  activeFilter,
+]);
 
   if (!myBookings) {
   return <FixkarLoader />
@@ -49,6 +127,167 @@ export default function ProfessionalBookings() {
           Manage and track your assigned Fixkar bookings
         </p>
       </div>
+
+      <div className="container mt-4">
+
+  <div
+    className="card border-0 rounded-4 shadow-sm overflow-hidden"
+    style={{
+      background: "#ffffff",
+      border: "1px solid #edf2f7",
+    }}
+  >
+
+    <div className="p-3 p-md-4">
+
+      {/* Search */}
+      <div
+        className="d-flex align-items-center gap-2 px-3"
+        style={{
+          height: "48px",
+          borderRadius: "14px",
+          background: "#f7faff",
+          border: "1px solid #e5edf8",
+        }}
+      >
+        <FaSearch className="text-primary" />
+
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search customer, booking ID or address..."
+          className="border-0 bg-transparent w-100"
+          style={{
+            outline: "none",
+            fontSize: "14px",
+          }}
+        />
+
+        {search && (
+          <button
+            type="button"
+            className="btn btn-sm p-0 text-muted"
+            onClick={() => setSearch("")}
+          >
+            <FaTimes />
+          </button>
+        )}
+      </div>
+
+      {/* Date filters */}
+      <div className="row g-2 mt-2">
+
+        <div className="col-6">
+          <div
+            className="d-flex align-items-center gap-2 px-3"
+            style={{
+              height: "46px",
+              borderRadius: "13px",
+              background: "#f8fafc",
+              border: "1px solid #e8edf3",
+            }}
+          >
+            <FaCalendarAlt className="text-primary" />
+
+            <input
+              type="date"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+              className="border-0 bg-transparent w-100"
+              style={{ outline: "none", fontSize: "13px" }}
+            />
+          </div>
+        </div>
+
+        <div className="col-6">
+          <div
+            className="d-flex align-items-center gap-2 px-3"
+            style={{
+              height: "46px",
+              borderRadius: "13px",
+              background: "#f8fafc",
+              border: "1px solid #e8edf3",
+            }}
+          >
+            <FaCalendarAlt className="text-primary" />
+
+            <input
+              type="date"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+              className="border-0 bg-transparent w-100"
+              style={{ outline: "none", fontSize: "13px" }}
+            />
+          </div>
+        </div>
+
+      </div>
+
+      {/* Quick filters */}
+      <div
+        className="d-flex gap-2 mt-3 overflow-auto pb-1"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {[
+          ["all", "All"],
+          ["today", "Today"],
+          ["upcoming", "Upcoming"],
+          ["completed", "Completed"],
+        ].map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => setActiveFilter(value)}
+            className="btn btn-sm rounded-pill px-3 flex-shrink-0"
+            style={{
+              background:
+                activeFilter === value
+                  ? "#0d6efd"
+                  : "#f1f5f9",
+              color:
+                activeFilter === value
+                  ? "#fff"
+                  : "#475569",
+              border: "none",
+              fontWeight: 600,
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Result count */}
+      <div className="d-flex justify-content-between align-items-center mt-3">
+        <small className="text-muted">
+          Showing{" "}
+          <strong className="text-dark">
+            {filteredBookings.length}
+          </strong>{" "}
+          of {total} bookings
+        </small>
+
+        {(search || fromDate || toDate || activeFilter !== "all") && (
+          <button
+            type="button"
+            className="btn btn-sm text-primary fw-semibold"
+            onClick={() => {
+              setSearch("");
+              setFromDate("");
+              setToDate("");
+              setActiveFilter("all");
+            }}
+          >
+            Clear filters
+          </button>
+        )}
+      </div>
+
+    </div>
+  </div>
+
+</div>
 
       {/* 🔵 Stats Section */}
       <div className="container mt-4">
@@ -89,30 +328,60 @@ export default function ProfessionalBookings() {
 
       {/* 🔵 Booking List */}
       <div className="container mt-4 mb-5">
-        {myBookings.map((booking) => (
-          <div
-            key={booking._id}
-            className="card border-0 shadow-sm mb-4 rounded-4"
-          >
-            <ProBookingCard booking={booking} />
-          </div>
-        ))}
-      </div>
+       {filteredBookings.length === 0 ? (
+  <div
+    className="text-center py-5"
+    style={{
+      background: "#f8fafc",
+      borderRadius: "20px",
+      border: "1px dashed #dbe4ef",
+    }}
+  >
+    <div
+      className="mx-auto mb-3 d-flex align-items-center justify-content-center"
+      style={{
+        width: 54,
+        height: 54,
+        borderRadius: "16px",
+        background: "#eaf3ff",
+        color: "#0d6efd",
+      }}
+    >
+      <FaSearch />
+    </div>
 
-      {/* 🔵 Floating Home Button */}
-      <button
-        className="btn btn-primary rounded-circle shadow-lg"
-        style={{
-          position: "fixed",
-          bottom: "80px",
-          right: "20px",
-          width: "60px",
-          height: "60px"
-        }}
-        onClick={() => navigate("/professional/home")}
-      >
-        <FaHome />
-      </button>
+    <h6 className="fw-bold mb-1">
+      No bookings found
+    </h6>
+
+    <p className="text-muted small mb-3">
+      Try another customer, booking ID or date range.
+    </p>
+
+    <button
+      type="button"
+      className="btn btn-sm btn-primary rounded-pill px-4"
+      onClick={() => {
+        setSearch("");
+        setFromDate("");
+        setToDate("");
+        setActiveFilter("all");
+      }}
+    >
+      Clear filters
+    </button>
+  </div>
+) : (
+  filteredBookings.map((booking) => (
+    <div
+      key={booking._id}
+      className="card border-0 shadow-sm mb-4 rounded-4"
+    >
+      <ProBookingCard booking={booking} />
+    </div>
+  ))
+)}
+      </div>
 
     </div>
   ) : (
