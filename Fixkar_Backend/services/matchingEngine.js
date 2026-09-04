@@ -78,8 +78,7 @@ export const findEligibleProfessionals = async (
       ).limit(limit);
 
     return professionals;
-
-
+    
     } catch (error) {
         console.error("findEligibleProfessionals Error:", error);
     throw error; 
