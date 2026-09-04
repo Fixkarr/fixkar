@@ -182,7 +182,7 @@ export const verifyPayment = async (req, res) => {
       })
       .populate({
         path: "professionalId",
-        select: "profilePicture address userId",
+        select: "profilePicture address userId shortCode",
         populate: [
           { path: "userId", model: "User", select: "fullName" },
           {

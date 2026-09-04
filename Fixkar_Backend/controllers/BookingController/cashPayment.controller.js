@@ -15,7 +15,7 @@ export const confirmCashPayment = async (req, res) => {
     const { bookingId } = req.body;
     const booking = await Booking.findById(bookingId)
       .populate({ path: "customerId", populate: { path: "userId", model: "User", select: "fullName" } })
-      .populate({ path: "professionalId", select: "profilePicture address userId", populate: [{ path: "userId", model: "User", select: "fullName" }, { path: "profession", select: "name image skills commission", populate: { path: "skills", select: "name" } }, { path: "selectedSkills", select: "name" }] })
+      .populate({ path: "professionalId", select: "profilePicture address userId profession, shortCode", populate: [{ path: "userId", model: "User", select: "fullName" }, { path: "profession", select: "name image skills commission", populate: { path: "skills", select: "name" } }, { path: "selectedSkills", select: "name" }] })
       .populate("review").session(session);
     if (!booking) throw new Error("Booking not found");
     if (booking.professionalId.userId._id.toString() !== req.userId.toString()) throw new Error("Not authorized to confirm this payment");
