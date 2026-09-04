@@ -40,8 +40,7 @@ const CustomerBookings = () => {
     (b) => b.status !== "completed"
   ).length;
 
-  return total !== 0 ? (
-    <div className="customer-bookings-page">
+  return <div className="customer-bookings-page">
 
       {/* =========================================
           PREMIUM HERO SECTION
@@ -274,9 +273,7 @@ const CustomerBookings = () => {
       </button>
 
     </div>
-  ) : (
-    <NoBookingsPlaceholder />
-  );
+
 };
 
 export default CustomerBookings;

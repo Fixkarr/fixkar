@@ -108,7 +108,7 @@ export default function ProfessionalBookings() {
   return <FixkarLoader />
 }
 
-  return total !== 0 ? (
+  return (
     <div className="professional-bookings-page container-fluid p-0">
 
       {/* 🔵 Gradient Header */}
@@ -353,7 +353,5 @@ export default function ProfessionalBookings() {
       </div>
 
     </div>
-  ) : (
-    <NoBookingsPlaceholder />
-  );
+  ) 
 }
