@@ -1,0 +1,1002 @@
+/* =========================================================
+   FIXKAR - CUSTOMER BOOKINGS
+   Premium SaaS UI
+========================================================= */
+
+.customer-bookings-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(13, 110, 253, 0.06),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(0, 198, 255, 0.05),
+      transparent 30%
+    ),
+    #f6f9fd;
+  padding-bottom: 110px;
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.customer-bookings-container {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.customer-bookings-hero {
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #071b46 0%,
+      #0b4fbd 48%,
+      #008fd5 100%
+    );
+
+  border-radius: 0 0 34px 34px;
+
+  box-shadow:
+    0 18px 50px rgba(7, 44, 105, 0.22);
+}
+
+
+.customer-bookings-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,0.08),
+      transparent 35%,
+      rgba(255,255,255,0.04)
+    );
+
+  pointer-events: none;
+}
+
+
+.customer-bookings-hero::after {
+  content: "";
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  right: -180px;
+  top: -230px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    0 0 0 45px rgba(255,255,255,0.025),
+    0 0 0 90px rgba(255,255,255,0.018);
+}
+
+
+.customer-bookings-hero-content {
+  position: relative;
+  z-index: 2;
+
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+
+  min-height: 270px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  padding: 45px 0 50px;
+}
+
+
+/* =========================================================
+   HERO GLOWS
+========================================================= */
+
+.customer-bookings-glow {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(2px);
+
+  pointer-events: none;
+}
+
+
+.customer-bookings-glow-one {
+  width: 280px;
+  height: 280px;
+
+  left: -130px;
+  bottom: -170px;
+
+  background: rgba(0, 198, 255, 0.15);
+}
+
+
+.customer-bookings-glow-two {
+  width: 230px;
+  height: 230px;
+
+  right: 20%;
+  top: -170px;
+
+  background: rgba(74, 144, 255, 0.13);
+}
+
+
+/* =========================================================
+   HERO TEXT
+========================================================= */
+
+.customer-bookings-hero-text {
+  max-width: 650px;
+}
+
+
+.customer-bookings-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-bottom: 14px;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+
+  color: rgba(255,255,255,0.72);
+}
+
+
+.customer-bookings-live-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #62e6a8;
+
+  box-shadow:
+    0 0 0 5px rgba(98,230,168,0.12),
+    0 0 14px rgba(98,230,168,0.7);
+
+  animation: customerPulse 2s ease-in-out infinite;
+}
+
+
+@keyframes customerPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(0.72);
+    opacity: 0.65;
+  }
+}
+
+
+.customer-bookings-hero h1 {
+  margin: 0;
+
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.05;
+
+  font-weight: 800;
+  letter-spacing: -1.8px;
+}
+
+
+.customer-bookings-hero p {
+  margin: 14px 0 0;
+
+  max-width: 590px;
+
+  font-size: 15px;
+  line-height: 1.7;
+
+  color: rgba(255,255,255,0.72);
+}
+
+
+/* =========================================================
+   HERO META
+========================================================= */
+
+.customer-bookings-hero-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+
+  margin-top: 25px;
+  padding: 10px 15px;
+
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.08);
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  backdrop-filter: blur(12px);
+}
+
+
+.customer-bookings-meta-icon {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: rgba(255,255,255,0.13);
+
+  color: #ffffff;
+
+  font-size: 14px;
+}
+
+
+.customer-bookings-hero-meta span {
+  display: block;
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+
+  color: rgba(255,255,255,0.55);
+}
+
+
+.customer-bookings-hero-meta strong {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   DASHBOARD NAV
+========================================================= */
+
+.customer-bookings-dashboard-nav {
+  position: relative;
+  z-index: 5;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.customer-bookings-stats-section {
+  position: relative;
+  z-index: 4;
+
+  margin-top: -34px;
+}
+
+
+.customer-bookings-stats-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+
+.customer-stat-card {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 170px;
+
+  padding: 23px;
+
+  border-radius: 22px;
+
+  background: rgba(255,255,255,0.94);
+
+  border: 1px solid rgba(226,232,240,0.85);
+
+  box-shadow:
+    0 12px 35px rgba(15,23,42,0.07);
+
+  backdrop-filter: blur(12px);
+
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+
+.customer-stat-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 20px 42px rgba(15,23,42,0.12);
+}
+
+
+.customer-stat-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 120px;
+  height: 120px;
+
+  right: -55px;
+  bottom: -65px;
+
+  border-radius: 50%;
+
+  background: rgba(13,110,253,0.045);
+}
+
+
+.customer-stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.customer-stat-icon {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  font-size: 17px;
+}
+
+
+.customer-stat-total .customer-stat-icon {
+  color: #0d6efd;
+  background: #eaf3ff;
+}
+
+
+.customer-stat-active .customer-stat-icon {
+  color: #e09a00;
+  background: #fff6d9;
+}
+
+
+.customer-stat-completed .customer-stat-icon {
+  color: #14965b;
+  background: #e8f9f0;
+}
+
+
+.customer-stat-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+
+  color: #94a3b8;
+}
+
+
+.customer-stat-value {
+  margin-top: 18px;
+
+  font-size: 30px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  color: #0f172a;
+}
+
+
+.customer-stat-description {
+  margin-top: 9px;
+
+  font-size: 12px;
+
+  color: #64748b;
+}
+
+
+.customer-stat-line {
+  width: 34px;
+  height: 3px;
+
+  margin-top: 18px;
+
+  border-radius: 99px;
+
+  background: #0d6efd;
+}
+
+
+.customer-stat-active .customer-stat-line {
+  background: #f2b705;
+}
+
+
+.customer-stat-completed .customer-stat-line {
+  background: #20a464;
+}
+
+
+/* =========================================================
+   BOOKING LIST SECTION
+========================================================= */
+
+.customer-bookings-list-section {
+  padding-top: 46px;
+}
+
+
+.customer-bookings-list-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 25px;
+}
+
+
+.customer-section-eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+
+  color: #0d6efd;
+}
+
+
+.customer-bookings-list-header h2 {
+  margin: 5px 0 5px;
+
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+
+  color: #0f172a;
+}
+
+
+.customer-bookings-list-header p {
+  margin: 0;
+
+  font-size: 13px;
+
+  color: #64748b;
+}
+
+
+.customer-bookings-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 14px;
+
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  border: 1px solid #e6edf5;
+
+  box-shadow:
+    0 6px 20px rgba(15,23,42,0.05);
+}
+
+
+.customer-bookings-count span {
+  font-size: 17px;
+  font-weight: 800;
+
+  color: #0d6efd;
+}
+
+
+.customer-bookings-count small {
+  font-size: 11px;
+  font-weight: 600;
+
+  color: #64748b;
+}
+
+
+/* =========================================================
+   BOOKING LIST
+========================================================= */
+
+.customer-bookings-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+
+.customer-booking-wrapper {
+  position: relative;
+
+  border-radius: 22px;
+
+  transition:
+    transform 0.28s ease,
+    filter 0.28s ease;
+}
+
+
+.customer-booking-wrapper:hover {
+  transform: translateY(-3px);
+}
+
+
+/*
+   CusBookingCard ke around existing card/shadow
+   ko clean rakhne ke liye.
+*/
+.customer-booking-wrapper > .card {
+  margin-bottom: 0 !important;
+}
+
+
+/* =========================================================
+   FLOATING HIRE BUTTON
+========================================================= */
+
+.customer-hire-floating-btn {
+  position: fixed;
+
+  right: 24px;
+  bottom: 28px;
+
+  z-index: 1000;
+
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 9px 11px 9px 9px;
+
+  border: 1px solid rgba(255,255,255,0.25);
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0d6efd,
+      #0069d9
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 15px 35px rgba(13,110,253,0.32),
+    0 4px 12px rgba(15,23,42,0.14);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.customer-hire-floating-btn:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 20px 42px rgba(13,110,253,0.4),
+    0 6px 16px rgba(15,23,42,0.16);
+}
+
+
+.customer-hire-floating-btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+
+.customer-hire-icon {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.15);
+
+  font-size: 17px;
+}
+
+
+.customer-hire-text {
+  display: flex;
+  flex-direction: column;
+
+  text-align: left;
+
+  padding-right: 7px;
+}
+
+
+.customer-hire-text strong {
+  font-size: 12px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+
+.customer-hire-text small {
+  margin-top: 2px;
+
+  font-size: 9px;
+
+  color: rgba(255,255,255,0.68);
+
+  white-space: nowrap;
+}
+
+
+.customer-hire-arrow {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: rgba(255,255,255,0.1);
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .customer-bookings-hero-content {
+    align-items: flex-start;
+    flex-direction: column;
+
+    padding: 38px 0 58px;
+  }
+
+
+  .customer-bookings-dashboard-nav {
+    align-self: flex-end;
+  }
+
+
+  .customer-bookings-stats-section {
+    margin-top: -28px;
+  }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+  .customer-bookings-page {
+    padding-bottom: 95px;
+  }
+
+
+  .customer-bookings-container {
+    width: min(100% - 22px, 1180px);
+  }
+
+
+  .customer-bookings-hero {
+    border-radius: 0 0 26px 26px;
+  }
+
+
+  .customer-bookings-hero-content {
+    width: calc(100% - 24px);
+
+    min-height: auto;
+
+    gap: 24px;
+
+    padding: 30px 0 48px;
+  }
+
+
+  .customer-bookings-hero h1 {
+    font-size: 34px;
+    letter-spacing: -1.2px;
+  }
+
+
+  .customer-bookings-hero p {
+    font-size: 13px;
+    line-height: 1.6;
+
+    max-width: 330px;
+  }
+
+
+  .customer-bookings-eyebrow {
+    font-size: 9px;
+  }
+
+
+  .customer-bookings-hero-meta {
+    margin-top: 19px;
+  }
+
+
+  .customer-bookings-dashboard-nav {
+    align-self: stretch;
+  }
+
+
+  /* Stats */
+
+  .customer-bookings-stats-section {
+    margin-top: -22px;
+  }
+
+
+  .customer-bookings-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 8px;
+  }
+
+
+  .customer-stat-card {
+    min-height: 128px;
+
+    padding: 13px 10px;
+
+    border-radius: 17px;
+  }
+
+
+  .customer-stat-icon {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+  }
+
+
+  .customer-stat-label {
+    display: none;
+  }
+
+
+  .customer-stat-value {
+    margin-top: 14px;
+
+    font-size: 23px;
+  }
+
+
+  .customer-stat-description {
+    margin-top: 6px;
+
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+
+  .customer-stat-line {
+    width: 25px;
+    height: 2px;
+
+    margin-top: 10px;
+  }
+
+
+  /* Booking heading */
+
+  .customer-bookings-list-section {
+    padding-top: 34px;
+  }
+
+
+  .customer-bookings-list-header {
+    align-items: center;
+
+    margin-bottom: 19px;
+  }
+
+
+  .customer-bookings-list-header h2 {
+    font-size: 22px;
+  }
+
+
+  .customer-bookings-list-header p {
+    max-width: 230px;
+
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+
+  .customer-bookings-count {
+    padding: 7px 10px;
+
+    border-radius: 11px;
+  }
+
+
+  .customer-bookings-count span {
+    font-size: 14px;
+  }
+
+
+  .customer-bookings-count small {
+    font-size: 9px;
+  }
+
+
+  .customer-bookings-list {
+    gap: 14px;
+  }
+
+
+  /* Floating button */
+
+  .customer-hire-floating-btn {
+    right: 15px;
+    bottom: 18px;
+
+    min-height: 54px;
+
+    padding: 7px 8px 7px 7px;
+
+    gap: 8px;
+
+    border-radius: 16px;
+  }
+
+
+  .customer-hire-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 11px;
+
+    font-size: 15px;
+  }
+
+
+  .customer-hire-text strong {
+    font-size: 10px;
+  }
+
+
+  .customer-hire-text small {
+    font-size: 8px;
+  }
+
+
+  .customer-hire-arrow {
+    width: 26px;
+    height: 26px;
+
+    border-radius: 8px;
+
+    font-size: 9px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .customer-bookings-hero h1 {
+    font-size: 30px;
+  }
+
+
+  .customer-stat-card {
+    padding: 11px 8px;
+  }
+
+
+  .customer-stat-value {
+    font-size: 21px;
+  }
+
+
+  .customer-stat-description {
+    font-size: 8px;
+  }
+
+
+  .customer-hire-text {
+    display: none;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .customer-bookings-live-dot {
+    animation: none;
+  }
+
+
+  .customer-stat-card,
+  .customer-booking-wrapper,
+  .customer-hire-floating-btn {
+    transition: none;
+  }
+
+}
