@@ -15,7 +15,10 @@ import ProBookingCard from "./professionalBooking/ProBookingCard";
 import useGetMyBookings from "../hooks/useGetMyBookings";
 import FixkarLoader from "../Components/FixkarLoader";
 import DashboardNavigator from "../utils/DashboardNavigator";
-  import { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+
+import '../css/professionalBooking.css'
+
 export default function ProfessionalBookings() {
   useGetMyBookings();
 
@@ -106,49 +109,42 @@ export default function ProfessionalBookings() {
 }
 
   return total !== 0 ? (
-    <div className="container-fluid p-0">
+    <div className="professional-bookings-page container-fluid p-0">
 
       {/* 🔵 Gradient Header */}
-      <div
-        className="text-white p-4"
-        style={{
-          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
-          borderBottomLeftRadius: "25px",
-          borderBottomRightRadius: "25px"
-        }}
-      >
-        <div className="d-flex justify-content-between align-items-center">
-          <h5 className="fw-bold mb-0">My Bookings</h5>
+      <div className="professional-bookings-hero">
+  <div className="professional-bookings-hero-glow professional-bookings-glow-one" />
+  <div className="professional-bookings-hero-glow professional-bookings-glow-two" />
 
-          <DashboardNavigator/>
-        </div>
-
-        <p className="mt-2 small opacity-75">
-          Manage and track your assigned Fixkar bookings
-        </p>
+  <div className="professional-bookings-hero-content">
+    <div>
+      <div className="professional-bookings-eyebrow">
+        <span className="professional-bookings-live-dot" />
+        PROFESSIONAL DASHBOARD
       </div>
 
-      <div className="container mt-4">
+      <h1>My Bookings</h1>
+
+      <p>
+        Manage, track and organize your Fixkar bookings effortlessly.
+      </p>
+    </div>
+
+    <DashboardNavigator />
+  </div>
+</div>
+
+      <div className="container professional-bookings-search-wrap">
 
   <div
-    className="card border-0 rounded-4 shadow-sm overflow-hidden"
-    style={{
-      background: "#ffffff",
-      border: "1px solid #edf2f7",
-    }}
+    className="professional-bookings-filter-card"
   >
 
     <div className="p-3 p-md-4">
 
       {/* Search */}
       <div
-        className="d-flex align-items-center gap-2 px-3"
-        style={{
-          height: "48px",
-          borderRadius: "14px",
-          background: "#f7faff",
-          border: "1px solid #e5edf8",
-        }}
+       className="professional-bookings-search-box"
       >
         <FaSearch className="text-primary" />
 
@@ -178,16 +174,9 @@ export default function ProfessionalBookings() {
       {/* Date filters */}
       <div className="row g-2 mt-2">
 
-        <div className="col-6">
-          <div
-            className="d-flex align-items-center gap-2 px-3"
-            style={{
-              height: "46px",
-              borderRadius: "13px",
-              background: "#f8fafc",
-              border: "1px solid #e8edf3",
-            }}
-          >
+     <div className="col-6">
+  <div className="professional-bookings-date-box">
+
             <FaCalendarAlt className="text-primary" />
 
             <input
@@ -201,15 +190,8 @@ export default function ProfessionalBookings() {
         </div>
 
         <div className="col-6">
-          <div
-            className="d-flex align-items-center gap-2 px-3"
-            style={{
-              height: "46px",
-              borderRadius: "13px",
-              background: "#f8fafc",
-              border: "1px solid #e8edf3",
-            }}
-          >
+  <div className="professional-bookings-date-box">
+
             <FaCalendarAlt className="text-primary" />
 
             <input
@@ -226,8 +208,9 @@ export default function ProfessionalBookings() {
 
       {/* Quick filters */}
       <div
-        className="d-flex gap-2 mt-3 overflow-auto pb-1"
-        style={{ scrollbarWidth: "none" }}
+        className={`professional-bookings-filter-pill ${
+  activeFilter === value ? "active" : ""
+}`}
       >
         {[
           ["all", "All"],
@@ -290,11 +273,11 @@ export default function ProfessionalBookings() {
 </div>
 
       {/* 🔵 Stats Section */}
-      <div className="container mt-4">
+      <div className="container professional-bookings-stats">
         <div className="row g-3">
 
           <div className="col-4">
-            <div className="card border-0 shadow-sm text-center rounded-4">
+           <div className="professional-stat-card">
               <div className="card-body">
                 <FaClipboardList className="text-primary mb-2" />
                 <h6 className="fw-bold">{total}</h6>
@@ -304,7 +287,7 @@ export default function ProfessionalBookings() {
           </div>
 
           <div className="col-4">
-            <div className="card border-0 shadow-sm text-center rounded-4">
+           <div className="professional-stat-card">
               <div className="card-body">
                 <FaClock className="text-warning mb-2" />
                 <h6 className="fw-bold">{pending}</h6>
@@ -314,7 +297,7 @@ export default function ProfessionalBookings() {
           </div>
 
           <div className="col-4">
-            <div className="card border-0 shadow-sm text-center rounded-4">
+          <div className="professional-stat-card">
               <div className="card-body">
                 <FaCheckCircle className="text-success mb-2" />
                 <h6 className="fw-bold">{completed}</h6>
@@ -327,7 +310,7 @@ export default function ProfessionalBookings() {
       </div>
 
       {/* 🔵 Booking List */}
-      <div className="container mt-4 mb-5">
+     <div className="container professional-bookings-list mt-4 mb-5">
        {filteredBookings.length === 0 ? (
   <div
     className="text-center py-5"

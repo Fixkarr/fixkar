@@ -1,0 +1,449 @@
+/* =========================================================
+   FIXKAR PROFESSIONAL BOOKINGS
+   Premium SaaS UI
+========================================================= */
+
+.professional-bookings-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(13, 110, 253, 0.08),
+      transparent 28%
+    ),
+    #f6f9fd;
+  color: #172033;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.professional-bookings-hero {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  padding: 28px clamp(18px, 4vw, 52px) 34px;
+  border-radius: 0 0 30px 30px;
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(255,255,255,.18),
+      transparent 22%
+    ),
+    linear-gradient(
+      135deg,
+      #0757d5 0%,
+      #0d6efd 48%,
+      #00b8e6 100%
+    );
+  box-shadow:
+    0 16px 45px rgba(13, 110, 253, .18);
+}
+
+.professional-bookings-hero-content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 1200px;
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.professional-bookings-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 8px;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  opacity: .78;
+}
+
+.professional-bookings-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8fffcf;
+  box-shadow: 0 0 0 5px rgba(143,255,207,.12);
+  animation: professionalPulse 2s infinite;
+}
+
+.professional-bookings-hero h1 {
+  margin: 0;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.professional-bookings-hero p {
+  margin: 8px 0 0;
+  max-width: 520px;
+  color: rgba(255,255,255,.76);
+  font-size: 13px;
+}
+
+.professional-bookings-hero-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.professional-bookings-glow-one {
+  right: -70px;
+  top: -110px;
+  background: rgba(255,255,255,.08);
+  animation: professionalGlow 6s ease-in-out infinite;
+}
+
+.professional-bookings-glow-two {
+  left: 35%;
+  bottom: -170px;
+  background: rgba(0,255,255,.07);
+  animation: professionalGlow 8s ease-in-out infinite reverse;
+}
+
+/* =========================================================
+   FILTER AREA
+========================================================= */
+
+.professional-bookings-search-wrap {
+  position: relative;
+  z-index: 5;
+  margin-top: -18px;
+}
+
+.professional-bookings-filter-card {
+  padding: 18px;
+  border: 1px solid #e6edf6;
+  border-radius: 22px;
+  background: rgba(255,255,255,.92);
+  box-shadow:
+    0 14px 40px rgba(30, 55, 90, .08),
+    0 2px 8px rgba(30, 55, 90, .04);
+  backdrop-filter: blur(16px);
+}
+
+/* Search */
+
+.professional-bookings-search-box {
+  height: 52px;
+  padding: 0 15px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border: 1px solid #dfe8f3;
+  border-radius: 15px;
+
+  background: #f8fbff;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+.professional-bookings-search-box:focus-within {
+  background: #fff;
+  border-color: #86b7fe;
+  box-shadow:
+    0 0 0 4px rgba(13,110,253,.08);
+}
+
+.professional-bookings-search-box input {
+  color: #172033;
+}
+
+/* Dates */
+
+.professional-bookings-date-box {
+  min-height: 48px;
+  padding: 0 13px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  border: 1px solid #e2e9f2;
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  transition: .2s ease;
+}
+
+.professional-bookings-date-box:focus-within {
+  background: #fff;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 3px rgba(13,110,253,.07);
+}
+
+.professional-bookings-date-box input {
+  min-width: 0;
+  color: #334155;
+}
+
+/* Filter pills */
+
+.professional-bookings-filter-pill {
+  border: 1px solid #e1e8f1;
+  border-radius: 999px;
+
+  padding: 8px 15px;
+
+  background: #fff;
+  color: #526174;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    color .2s ease,
+    box-shadow .2s ease;
+}
+
+.professional-bookings-filter-pill:hover {
+  transform: translateY(-1px);
+  background: #f3f8ff;
+  color: #0d6efd;
+}
+
+.professional-bookings-filter-pill.active {
+  color: #fff;
+  border-color: transparent;
+
+  background: linear-gradient(
+    135deg,
+    #0d6efd,
+    #0757d5
+  );
+
+  box-shadow:
+    0 6px 16px rgba(13,110,253,.24);
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.professional-bookings-stats {
+  margin-top: 22px;
+}
+
+.professional-stat-card {
+  height: 100%;
+  padding: 18px 12px;
+
+  text-align: center;
+
+  border: 1px solid #e6edf5;
+  border-radius: 18px;
+
+  background: #fff;
+
+  box-shadow:
+    0 7px 24px rgba(30,55,90,.055);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.professional-stat-card:hover {
+  transform: translateY(-4px);
+  border-color: #cfe0f7;
+
+  box-shadow:
+    0 15px 32px rgba(30,55,90,.10);
+}
+
+.professional-stat-card svg {
+  margin-bottom: 7px;
+  font-size: 18px;
+}
+
+.professional-stat-card h6 {
+  margin-bottom: 2px;
+  font-size: 19px;
+}
+
+.professional-stat-card small {
+  color: #8491a3;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   BOOKING LIST
+========================================================= */
+
+.professional-bookings-list {
+  padding-bottom: 80px;
+}
+
+.professional-bookings-list > div > div {
+  transition:
+    transform .25s ease,
+    filter .25s ease;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.professional-bookings-list [style*="dashed"] {
+  box-shadow: 0 10px 30px rgba(30,55,90,.04);
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes professionalPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .55;
+    transform: scale(.82);
+  }
+}
+
+@keyframes professionalGlow {
+  0%, 100% {
+    transform: translate3d(0,0,0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-15px,10px,0) scale(1.08);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+  .professional-bookings-hero {
+    padding:
+      20px
+      16px
+      30px;
+
+    border-radius: 0 0 24px 24px;
+  }
+
+  .professional-bookings-hero-content {
+    align-items: flex-start;
+  }
+
+  .professional-bookings-hero h1 {
+    font-size: 27px;
+  }
+
+  .professional-bookings-hero p {
+    font-size: 11px;
+    max-width: 280px;
+  }
+
+  .professional-bookings-search-wrap {
+    margin-top: -14px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .professional-bookings-filter-card {
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .professional-bookings-search-box {
+    height: 48px;
+  }
+
+  .professional-bookings-date-box {
+    padding: 0 9px;
+  }
+
+  .professional-bookings-date-box input {
+    font-size: 11px;
+  }
+
+  .professional-stat-card {
+    padding: 14px 7px;
+    border-radius: 15px;
+  }
+
+  .professional-stat-card h6 {
+    font-size: 17px;
+  }
+
+  .professional-stat-card small {
+    font-size: 9px;
+  }
+
+  .professional-bookings-list {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+
+  .professional-bookings-hero-content {
+    gap: 8px;
+  }
+
+  .professional-bookings-hero h1 {
+    font-size: 24px;
+  }
+
+  .professional-bookings-hero p {
+    font-size: 10px;
+  }
+
+  .professional-bookings-eyebrow {
+    font-size: 8px;
+  }
+
+  .professional-bookings-filter-pill {
+    padding: 7px 12px;
+    font-size: 10px;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .professional-bookings-live-dot,
+  .professional-bookings-glow-one,
+  .professional-bookings-glow-two {
+    animation: none;
+  }
+
+  .professional-stat-card,
+  .professional-bookings-filter-pill {
+    transition: none;
+  }
+}
