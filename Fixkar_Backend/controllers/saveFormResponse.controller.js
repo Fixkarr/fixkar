@@ -99,7 +99,6 @@ export const saveFormResponse = async (req,res)=>{
             }
           }).populate({
             path : "selectedSkills",
-            select : "name"
           }).populate('charges');
 
          return res.status(201).json({
