@@ -67,8 +67,18 @@ export default function AIAssistant() {
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([initialMessage]);
 
+
   const messagesRef = useRef(null);
   const inputRef = useRef(null);
+  const launcherRef = useRef(null);
+    const dragDataRef = useRef({
+      dragging: false,
+      moved: false,
+      startX: 0,
+      startY: 0,
+      startRight: 0,
+      startBottom: 0,
+    });
 
   useEffect(() => {
     if (messagesRef.current) {
@@ -161,6 +171,78 @@ export default function AIAssistant() {
     sendMessage(message);
   };
 
+  const handleLauncherPointerDown = (e) => {
+  const launcher = launcherRef.current;
+  if (!launcher) return;
+
+  const rect = launcher.getBoundingClientRect();
+
+  dragDataRef.current = {
+    dragging: true,
+    moved: false,
+    startX: e.clientX,
+    startY: e.clientY,
+    startRight: window.innerWidth - rect.right,
+    startBottom: window.innerHeight - rect.bottom,
+  };
+
+  launcher.setPointerCapture?.(e.pointerId);
+};
+
+const handleLauncherPointerMove = (e) => {
+  const drag = dragDataRef.current;
+
+  if (!drag.dragging) return;
+
+  const deltaX = e.clientX - drag.startX;
+  const deltaY = e.clientY - drag.startY;
+
+  if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) {
+    drag.moved = true;
+  }
+
+  if (!drag.moved) return;
+
+  const launcher = launcherRef.current;
+  if (!launcher) return;
+
+  const width = launcher.offsetWidth;
+  const height = launcher.offsetHeight;
+
+  const maxRight = window.innerWidth - width - 8;
+  const maxBottom = window.innerHeight - height - 8;
+
+  const newRight = Math.min(
+    Math.max(8, drag.startRight - deltaX),
+    maxRight
+  );
+
+  const newBottom = Math.min(
+    Math.max(8, drag.startBottom - deltaY),
+    maxBottom
+  );
+
+  launcher.style.right = `${newRight}px`;
+  launcher.style.bottom = `${newBottom}px`;
+};
+
+const handleLauncherPointerUp = (e) => {
+  const drag = dragDataRef.current;
+
+  if (!drag.dragging) return;
+
+  drag.dragging = false;
+
+  launcherRef.current?.releasePointerCapture?.(e.pointerId);
+
+  // Drag ke baad click/open mat karo
+  if (drag.moved) {
+    setTimeout(() => {
+      dragDataRef.current.moved = false;
+    }, 0);
+  }
+};
+
   return (
     <>
       {/* =========================
@@ -168,19 +250,24 @@ export default function AIAssistant() {
       ========================== */}
 
       {!isOpen && (
-        <button
-          type="button"
-          className="fixkar-ai-launcher"
-          onClick={() => setIsOpen(true)}
-          aria-label="Open Fixkar AI Assistant"
-        >
+      <button
+        ref={launcherRef}
+        type="button"
+        className="fixkar-ai-launcher"
+        onPointerDown={handleLauncherPointerDown}
+        onPointerMove={handleLauncherPointerMove}
+        onPointerUp={handleLauncherPointerUp}
+        onClick={() => {
+          if (dragDataRef.current.moved) return;
+          setIsOpen(true);
+        }}
+        aria-label="Open Fixkar AI Assistant"
+      >
           <span className="fixkar-ai-launcher-ring"></span>
 
           <span className="fixkar-ai-launcher-icon">
             <FaRobot size={20}/>
           </span>
-
-          <span className="fixkar-ai-notification">1</span>
 
           <span className="fixkar-ai-tooltip">
             Need help? Ask Fixkar AI
