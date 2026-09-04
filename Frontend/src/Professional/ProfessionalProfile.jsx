@@ -358,20 +358,46 @@ const ProfessionalProfile = () => {
                 )}
                 {ProfessionalDetails.selectedSkills.length > 0 && (
                   <div className="d-flex flex-wrap gap-2">
-                    {ProfessionalDetails.selectedSkills.map((skill) => (
-                      <span
-                        key={skill._id}
-                        className="badge px-3 py-2 rounded-pill fw-semibold"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, rgba(13,110,253,0.15), rgba(110,168,254,0.15))",
-                          color: "#0d6efd",
-                          fontSize: "0.85rem",
-                        }}
-                      >
-                        {skill.name}
-                      </span>
-                    ))}
+                        {ProfessionalDetails.selectedSkills.map((skill) => {
+                          const taskPrice = ProfessionalDetails?.taskPricing?.find(
+                            (item) => (item.skill?._id || item.skill) === skill._id
+                          )?.price;
+
+                        const isSpecialized =
+                          ProfessionalDetails?.profession?.serviceType === "specialized";
+
+                        const displayPrice = isSpecialized
+                          ? taskPrice
+                          : skill?.fixedPrice;
+                          return (<span
+                                    key={skill._id}
+                                    className="badge px-3 py-2 rounded-pill fw-semibold d-inline-flex align-items-center gap-2"
+                                    style={{
+                                      background:
+                                        "linear-gradient(135deg, rgba(13,110,253,0.15), rgba(110,168,254,0.15))",
+                                      color: "#0d6efd",
+                                      fontSize: "0.85rem",
+                                    }}
+                                  >
+                                <span>{skill.name}</span>
+
+                                {displayPrice !== undefined &&
+                                  displayPrice !== null &&
+                                  displayPrice !== "" && (
+                                    <span
+                                      className="px-2 py-1 rounded-pill"
+                                      style={{
+                                        background: "rgba(25,135,84,0.12)",
+                                        color: "#198754",
+                                        fontSize: "0.72rem",
+                                        fontWeight: 700,
+                                      }}
+                                    >
+                                      ₹{displayPrice}
+                                    </span>
+                                  )}
+                              </span>);
+                          })}
                   </div>
                 )}
                 <div className="mt-3 small text-muted">

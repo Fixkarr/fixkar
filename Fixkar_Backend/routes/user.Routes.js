@@ -1,5 +1,5 @@
 import express from 'express'
-import { getCurrentUser } from '../controllers/user.controller.js';
+import { getCurrentUser, saveSelectedLocation } from '../controllers/user.controller.js';
 import { isAuth } from '../middlewares/isAuth.js';
 import { onboard } from '../controllers/ProfessionalsController/onboardController.js';
 import upload from '../middlewares/multer.js';
@@ -25,6 +25,7 @@ import { sendEnquiry } from '../controllers/contact.controller.js';
 import { getProfessionalPickupRequests } from '../controllers/ProfessionalsController/getPickupRequests.controller.js';
 import { acceptPickupRequest, rejectPickupRequest } from '../controllers/ProfessionalsController/pickup.controller.js';
 import { claimCouponController, validateCouponController, applyCouponToBookingController, getMyCouponClaims } from '../controllers/CouponController/coupon.controller.js';
+import { optionalAuth } from '../middlewares/optionalAuth.js';
 const userRoute = express.Router();
 
 userRoute.get("/current", isAuth ,getCurrentUser);
@@ -32,6 +33,7 @@ userRoute.get("/professionals", isAuth, isAdmin, getAllProfessionals);
 userRoute.get("/verifiedProfessionals", isAuth, getAllVerifiedProfessionals);
 userRoute.get("/getUserById/:userId", getUserById);
 userRoute.get("/professionals/search", searchProfessionals);
+userRoute.put("/selected-location", optionalAuth, saveSelectedLocation)
 userRoute.get("/get-service-skills/:serviceId", getServiceSkills)
 
 userRoute.post("/onboard", isAuth, upload.fields([

@@ -16,6 +16,11 @@ const UpdateSkills = ({ professional }) => {
   const dispatch = useDispatch()
   const isSpecialized = professional?.profession?.serviceType === "specialized";
 
+  console.log("SERVICE TYPE:", professional?.profession?.serviceType);
+console.log("IS SPECIALIZED:", isSpecialized);
+console.log("VISITING CHARGE:", professional?.visitingCharge);
+console.log("TASK PRICING:", professional?.taskPricing);
+
   /* ✅ Init skills from props */
   useEffect(() => {
     if (!professional) return;
@@ -164,7 +169,7 @@ if (
     <div className="row g-2">
       {allSkills.map((skill) => {
         const isSelected = selectedSkills.includes(skill._id);
-
+        const currentPrice = taskPrices[skill._id];
         return (
           <div key={skill._id} className="col-6 col-md-4">
             <div
@@ -200,9 +205,75 @@ if (
                 {skill.name}
               </div>
 
-              {!isSpecialized && skill.bookingType === "fixed" && (
-                <small className={isSelected ? "opacity-75" : "text-success"}>Admin price: ₹{skill.fixedPrice}</small>
-              )}
+            {/* PRICE */}
+{isSpecialized ? (
+  isSelected ? (
+    <div
+      className="mt-2"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div
+        className="text-start mb-1"
+        style={{
+          fontSize: "0.7rem",
+          opacity: 0.8,
+        }}
+      >
+        Your price
+      </div>
+
+      <div className="input-group input-group-sm">
+        <span className="input-group-text">₹</span>
+
+        <input
+          type="number"
+          min="0"
+          className="form-control"
+          value={currentPrice ?? ""}
+          placeholder="Enter price"
+          onChange={(e) =>
+            setTaskPrices((current) => ({
+              ...current,
+              [skill._id]: e.target.value,
+            }))
+          }
+        />
+      </div>
+    </div>
+  ) : (
+    currentPrice !== undefined &&
+    currentPrice !== null &&
+    currentPrice !== "" && (
+      <div
+        className="mt-2"
+        style={{
+          fontSize: "0.78rem",
+          color: "#198754",
+          fontWeight: 600,
+        }}
+      >
+        ₹{currentPrice}
+      </div>
+    )
+  )
+) : (
+  skill.bookingType === "fixed" && (
+    <div
+      className={`mt-2 fw-semibold ${
+        isSelected ? "text-white" : "text-success"
+      }`}
+      style={{ fontSize: "0.78rem" }}
+    >
+      ₹{skill.fixedPrice}
+      <span
+        className="fw-normal ms-1"
+        style={{ fontSize: "0.68rem", opacity: 0.8 }}
+      >
+        fixed price
+      </span>
+    </div>
+  )
+)}
 
               {/* Selected indicator */}
               {isSelected && (
@@ -221,23 +292,6 @@ if (
     </div>
   )}
 
-  {isSpecialized && selectedSkills.length > 0 && (
-    <div className="mt-4 card border-0 bg-light">
-      <div className="card-body">
-        <h6 className="fw-semibold">Your specialised task prices</h6>
-        <small className="text-muted d-block mb-3">Customers will see these prices before booking.</small>
-        {allSkills.filter((skill) => selectedSkills.includes(skill._id)).map((skill) => (
-          <div className="row align-items-center mb-2" key={skill._id}>
-            <label className="col-7 col-form-label">{skill.name}</label>
-            <div className="col-5"><input type="number" min="0" className="form-control"
-              value={taskPrices[skill._id] ?? ""}
-              onChange={(event) => setTaskPrices((current) => ({ ...current, [skill._id]: event.target.value }))}
-              placeholder="Price" /></div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )}
 
   {/* ===== ACTION ===== */}
   <div className="mt-4 text-end">

@@ -75,10 +75,6 @@ export const completeProfile =async (req,res)=>{
         validatedTaskPricing.push({ skill: skill._id, price });
       }
     }
-
-
-
-
         await Professional.findByIdAndUpdate(professional._id, {
         description,
         selectedSkills: validatedSkills,
@@ -104,15 +100,14 @@ export const completeProfile =async (req,res)=>{
           limit: 20   // latest 6 images
         }
       }).populate({
-        path : "profession",
-        select : "name image skills",
-        populate : {
-          path : "skills",
-          select : "name"
-        }
+    path : "profession",
+    select : "name image skills serviceType",
+    populate : {
+      path : "skills",
+      select : "name bookingType fixedPrice pricingSource isActive"
+    }
       }).populate({
         path : "selectedSkills",
-        select : "name"
       }).populate('charges');
   
   

@@ -57,14 +57,13 @@ export const updateProfilePicture = async (req,res)=>{
     }
   }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate : {
       path : "skills",
-      select : "name"
+      select : "name bookingType fixedPrice pricingSource isActive"
     }
   }).populate({
     path : "selectedSkills",
-    select : "name"
   }).populate('charges');
 
         if(!updatedPicture){
@@ -159,14 +158,13 @@ export const updateProfileInfo = async (req, res) => {
     }
   }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate : {
       path : "skills",
-      select : "name"
+      select : "name bookingType fixedPrice pricingSource isActive"
     }
   }).populate({
     path : "selectedSkills",
-    select : "name"
   }).populate('charges');
 
     return res.status(200).json({
@@ -228,14 +226,13 @@ export const uploadMedia = async (req,res)=>{
     }
   }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate : {
       path : "skills",
-      select : "name"
+      select : "name bookingType fixedPrice pricingSource isActive"
     }
   }).populate({
     path : "selectedSkills",
-    select : "name"
   }).populate('charges');
   
 
