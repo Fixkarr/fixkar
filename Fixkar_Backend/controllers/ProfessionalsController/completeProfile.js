@@ -112,7 +112,6 @@ export const completeProfile =async (req,res)=>{
         }
       }).populate({
         path : "selectedSkills",
-        select : "name"
       }).populate('charges');
   
   
