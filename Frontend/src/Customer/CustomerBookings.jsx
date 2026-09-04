@@ -18,7 +18,7 @@ import useGetMyBookings from "../hooks/useGetMyBookings";
 import FixkarLoader from "../Components/FixkarLoader";
 import DashboardNavigator from "../utils/DashboardNavigator";
 
-import "../css/customerBookings.css";
+import "../css/customerBooking.css";
 
 const CustomerBookings = () => {
   useGetMyBookings();
