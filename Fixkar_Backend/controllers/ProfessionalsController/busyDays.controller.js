@@ -27,23 +27,30 @@ export const setBusyDays = async (req,res)=>{
     $addToSet: { busyDays: { $each: formattedDays } }
   },
   { new: true }
-)
-.populate("userId", "-password")
-.populate({
-  path: "reviews",
-  options: { sort: { createdAt: -1 }, limit: 10 } // latest reviews
-})
-.populate({
-  path: "gallery",
-  options: { sort: { createdAt: -1 }, limit: 20 } // latest gallery
-}).populate({
+).select('-poi -dob').populate("userId", '-password').populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 10   // latest 5 reviews
+    }
+  })
+  .populate({
+    path: "gallery",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 20   // latest 6 images
+    }
+  }).populate({
     path : "profession",
-    select : "name image skills",
+    select : "name image skills serviceType",
     populate : {
       path : "skills",
-      select : "name"
+      select : "name bookingType fixedPrice pricingSource isActive"
     }
-  });
+  }).populate({
+    path : "selectedSkills",
+  }).populate('charges');
+
   
         return res.status(200).json({
             message : "Dates updated!",
