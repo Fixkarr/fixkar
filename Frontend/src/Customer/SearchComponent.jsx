@@ -96,25 +96,6 @@ const SearchSection = ({
   };
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (!googleLoaded || !inputRef.current) return;
-    const autocomplete = new window.google.maps.places.Autocomplete(
-      inputRef.current,
-      { types: ["geocode"], componentRestrictions: { country: "in" } },
-    );
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      if (place.geometry)
-        setCoords({
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-          address: place.formatted_address,
-        });
-    });
-    return () =>
-      window.google?.maps?.event?.clearInstanceListeners(autocomplete);
-  }, [googleLoaded]);
-=======
   if (selectedLocation?.lat != null && selectedLocation?.lng != null) {
     setCoords({
       lat: Number(selectedLocation.lat),
@@ -161,7 +142,6 @@ const SearchSection = ({
     autocompleteRef.current = null;
   };
 }, [googleLoaded, isChangingLocation]);
->>>>>>> testing
 
   const handleServiceChange = async (service) => {
     const serviceId = service._id;
@@ -224,9 +204,6 @@ const SearchSection = ({
     );
   };
 
-<<<<<<< HEAD
-  const handleConfirmLocation = () => {
-=======
   const handleChangeLocation = () => {
   setIsChangingLocation(true);
 
@@ -243,14 +220,11 @@ const SearchSection = ({
 };
 
   const handleConfirmLocation = async() => {
->>>>>>> testing
     const finalLocation = {
       lat: Number(coords.lat),
       lng: Number(coords.lng),
       address: coords.address,
     };
-<<<<<<< HEAD
-=======
      try {
     const response = await axios.put(
       `${server_url}/api/user/selected-location`,
@@ -258,7 +232,6 @@ const SearchSection = ({
       { withCredentials: true }
     );
     // Redux mein location tab update karo jab request successfully process ho
->>>>>>> testing
     dispatch(setSelectedLocation(finalLocation));
     onLocationSelect?.(finalLocation);
   } catch (error) {
@@ -274,266 +247,12 @@ const SearchSection = ({
 
   return (
     <>
-<<<<<<< HEAD
-      <style>{`
-      .fixkar-search .search-icon-btn{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #e9ecef;background:#fff;color:#0d6efd;border-radius:12px}
-      .fixkar-search .location-input{min-height:50px;border:1px solid #e8edf3!important;box-shadow:0 2px 10px rgba(20,40,70,.05)}
-      .fixkar-search .detect-btn{min-width:74px;min-height:40px;margin:3px;border-radius:10px!important;font-size:14px;font-weight:600;padding:5px 8px!important}
-      .fixkar-search .service-scroll-area{max-height:310px;overflow-y:auto;overflow-x:hidden;padding:2px}
-      .fixkar-search .task-list{display:flex;flex-wrap:wrap;gap:8px;max-height:250px;overflow-y:auto;padding:2px}
-      .fixkar-search .task-chip{flex:1 1 230px;min-width:0;border:1px solid #e5e9ef;background:#fff;border-radius:14px;padding:11px 12px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:.18s ease}
-      .fixkar-search .task-chip-active{border-color:#0d6efd;background:#f4f8ff;box-shadow:0 4px 12px rgba(13,110,253,.1)}
-      .fixkar-search .task-price{white-space:nowrap;font-size:13px;font-weight:700;color:#198754;background:#eaf7ef;border-radius:8px;padding:5px 8px}
-      .fixkar-search .task-inspection{white-space:nowrap;font-size:11px;font-weight:600;color:#6c757d;background:#f1f3f5;border-radius:8px;padding:5px 8px}
-      .fixkar-search .service-card{width:100%;min-height:82px;padding:10px;border:1px solid #e7ebf0;border-radius:14px;background:#fff;display:flex;align-items:center;gap:9px;text-align:left}
-      .fixkar-search .service-card-active{border-color:#0d6efd;background:#f4f8ff}
-      .fixkar-search .service-icon{width:42px;height:42px;min-width:42px;border-radius:11px;overflow:hidden;background:#f1f4f8}
-      .fixkar-search .service-icon img{width:100%;height:100%;object-fit:cover}
-      .fixkar-search .service-card-content{min-width:0;flex:1}.fixkar-search .service-name{font-size:14px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fixkar-search .service-card-hint{color:#8a94a3;font-size:10px}.fixkar-search .service-check{width:24px;height:24px;min-width:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f1f3f5;color:#8a94a3}.fixkar-search .service-check-active{background:#0d6efd;color:#fff}
-      .fixkar-hire-modal{position:fixed;inset:0;z-index:1060;background:rgba(15,23,42,.58);display:flex;align-items:center;justify-content:center;padding:12px}.fixkar-hire-modal-content{width:min(720px,100%);max-height:94vh;overflow-y:auto;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
-      @media(max-width:575.98px){.fixkar-search .service-scroll-area{max-height:230px}.fixkar-search .service-card{min-height:70px;padding:7px;gap:6px}.fixkar-search .service-icon{width:34px;height:34px;min-width:34px;border-radius:9px}.fixkar-search .service-name{font-size:12px}.fixkar-search .service-card-hint{display:none}.fixkar-search .task-chip{flex-basis:100%;padding:10px}.fixkar-search .detect-btn{min-width:74px;min-height:40px;font-size:14px}}
-    `}</style>
-=======
->>>>>>> testing
       <div className="container my-2 my-md-4 px-0 fixkar-search">
         <div
           className="bg-white border rounded-4 p-2 p-md-4"
           style={{ maxWidth: "1100px", margin: "0 auto" }}
         >
           <div className="mb-3 mb-md-4">
-<<<<<<< HEAD
-            <div className="d-flex align-items-center justify-content-between mb-2">
-              <div className="min-w-0">
-                <div className="fw-bold text-dark">
-                  <FaMapMarkerAlt className="text-primary me-2" />
-                  Service Location
-                </div>
-                <small className="text-muted d-block text-truncate">
-                  Search your address or use your current location
-                </small>
-              </div>
-              {selectedLocation?.lat && (
-                <span className="badge rounded-pill bg-success-subtle text-success px-2 py-2 flex-shrink-0">
-                  <FaCheck size={10} className="me-1" />
-                  Confirmed
-                </span>
-              )}
-            </div>
-            <div className="input-group rounded-3 overflow-hidden location-input">
-              <span className="input-group-text bg-white border-0 px-2 px-md-3">
-                <FaMapMarkerAlt className="text-primary" />
-              </span>
-              <input
-                ref={inputRef}
-                type="text"
-                className="form-control border-0 shadow-none px-1"
-                placeholder="Enter service location"
-              />
-              <button
-                type="button"
-                className="btn btn-primary detect-btn"
-                onClick={handleUseCurrentLocation}
-              >
-                <FaLocationArrow className="me-1" />
-                <span>Detect</span>
-              </button>
-            </div>
-            {coords.lat && coords.lng && (
-              <div className="mt-2 mt-md-3">
-                <MapPinDrop coords={coords} setCoords={setCoords} />
-                <div className="d-flex align-items-start gap-2 mt-2 small text-muted">
-                  <FaMapMarkerAlt className="text-primary mt-1 flex-shrink-0" />
-                  <span className="text-truncate">
-                    {coords.address || "Updating address..."}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  className={`btn ${
-                    selectedLocation?.lat
-                      ? "btn-outline-success"
-                      : "btn-primary"
-                  } w-100 rounded-3 mt-2 mt-md-3`}
-                  onClick={handleConfirmLocation}
-                >
-                  <FaCheck className="me-2" />
-                  {selectedLocation?.lat
-                    ? "Location Confirmed"
-                    : "Confirm Location"}
-                </button>
-              </div>
-            )}
-          </div>
-          {!onlyLocation && (
-            <div className="border-top pt-3 pt-md-4">
-              <div className="d-flex align-items-center justify-content-between gap-2 mb-2">
-                <div className="min-w-0">
-                  <h6 className="fw-bold mb-0">Choose a service</h6>
-                  <small className="text-muted d-none d-sm-block">
-                    Select what you need help with
-                  </small>
-                </div>
-                <div className="d-flex align-items-center gap-2">
-                  <span className="badge bg-light text-primary border rounded-pill px-2 py-2">
-                    {filteredServices.length}
-                  </span>
-                  <button
-                    type="button"
-                    className="search-icon-btn"
-                    onClick={() => {
-                      setShowServiceSearch((v) => !v);
-                      if (showServiceSearch) setServiceSearch("");
-                    }}
-                  >
-                    {showServiceSearch ? (
-                      <FaTimes size={14} />
-                    ) : (
-                      <FaSearch size={14} />
-                    )}
-                  </button>
-                </div>
-              </div>
-              {showServiceSearch && (
-                <div
-                  className="input-group border rounded-3 overflow-hidden mb-2 mb-md-3"
-                  style={{ height: 44 }}
-                >
-                  <span className="input-group-text bg-white border-0 px-3">
-                    <FaSearch size={13} />
-                  </span>
-                  <input
-                    autoFocus
-                    className="form-control border-0 shadow-none ps-0"
-                    placeholder="Search service"
-                    value={serviceSearch}
-                    onChange={(e) => setServiceSearch(e.target.value)}
-                  />
-                </div>
-              )}
-              <div className="service-scroll-area">
-                {filteredServices.length ? (
-                  <div className="row g-2">
-                    {filteredServices.map((service) => {
-                      const active = selectedServiceId === service._id;
-                      return (
-                        <div
-                          className="col-6 col-sm-4 col-lg-3"
-                          key={service._id}
-                        >
-                          <button
-                            type="button"
-                            onClick={() => handleServiceChange(service)}
-                            className={`service-card ${
-                              active ? "service-card-active" : ""
-                            }`}
-                          >
-                            <div className="service-icon">
-                              <img src={service.image} alt={service.name} />
-                            </div>
-                            <div className="service-card-content">
-                              <div
-                                className={`service-name ${
-                                  active ? "text-primary" : "text-dark"
-                                }`}
-                              >
-                                {service.name}
-                              </div>
-                              <small className="service-card-hint">
-                                {active ? "Selected" : "Tap to select"}
-                              </small>
-                            </div>
-                            <div
-                              className={`service-check ${
-                                active ? "service-check-active" : ""
-                              }`}
-                            >
-                              {active ? (
-                                <FaCheck size={10} />
-                              ) : (
-                                <FaChevronRight size={9} />
-                              )}
-                            </div>
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-4">
-                    <FaSearch className="text-muted mb-2" />
-                    <div className="fw-semibold">No services found</div>
-                  </div>
-                )}
-              </div>
-              {selectedServiceId && (
-                <div className="mt-3 pt-3 border-top">
-                  <div className="d-flex align-items-center justify-content-between mb-2">
-                    <div>
-                      <h6 className="fw-bold mb-0">Choose a task</h6>
-                      <small className="text-muted">
-                        Select the exact work you need
-                      </small>
-                    </div>
-                    {serviceSkills.length > 6 && (
-                      <button
-                        type="button"
-                        className="search-icon-btn"
-                        onClick={() => setShowTaskSearch((v) => !v)}
-                      >
-                        {showTaskSearch ? <FaTimes /> : <FaSearch />}
-                      </button>
-                    )}
-                  </div>
-                  {showTaskSearch && (
-                    <input
-                      autoFocus
-                      className="form-control mb-2"
-                      placeholder="Search task"
-                      value={taskSearch}
-                      onChange={(e) => setTaskSearch(e.target.value)}
-                    />
-                  )}
-                  <div className="task-list">
-                    {filteredTasks.map((skill) => {
-                      const price = getTaskPrice(skill);
-                      return (
-                        <button
-                          type="button"
-                          key={skill._id}
-                          className="task-chip"
-                          onClick={() => chooseTask(skill)}
-                        >
-                          <div className="min-w-0">
-                            <div className="fw-semibold text-truncate">
-                              {skill.name}
-                            </div>
-                            <small className="text-muted">
-                              {skill.bookingType === "fixed"
-                                ? "Fixed price service"
-                                : "Professional will quote after inspection"}
-                            </small>
-                          </div>
-                          <div className="d-flex align-items-center gap-1 flex-shrink-0">
-                            {price !== null ? (
-                              <span className="task-price">₹{price}</span>
-                            ) : (
-                              <span className="task-inspection">
-                                Inspection
-                              </span>
-                            )}
-                            <FaChevronRight size={10} className="text-muted" />
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-=======
 
   {!isChangingLocation &&
   selectedLocation?.lat != null &&
@@ -800,7 +519,6 @@ const SearchSection = ({
           )}
         </div>
       </div>
->>>>>>> testing
       {showHireForm && selectedFixedTask && (
         <div className="fixkar-hire-modal" role="dialog" aria-modal="true">
           <div className="fixkar-hire-modal-content">
