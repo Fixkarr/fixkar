@@ -89,18 +89,12 @@ const Login = () => {
         );
 
         setFloading(false);
-
         dispatch(setCurrentUserData(result.data));
-
         dispatch(setCurrentAdmin(null));
-
         navigate(from, { replace: true });
-
         resetForm();
       } catch (error) {
-        toast.error(
-          "Login failed"
-        );
+       
 
         setFloading(false);
       }
@@ -184,8 +178,6 @@ const Login = () => {
       navigate(returnTo || "/", { replace: true });
     } catch (error) {
       toast.error(
-        error?.response?.data?.message ||
-          error?.message ||
           "Google login failed"
       );
 

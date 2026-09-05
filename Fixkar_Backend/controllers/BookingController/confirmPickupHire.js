@@ -13,7 +13,7 @@ const populateBooking = (query) => query
   })
   .populate({
     path: "professionalId",
-    select: "profilePicture address userId profession selectedSkills",
+    select: "profilePicture address userId profession selectedSkills shortCode",
     populate: [
       { path: "userId", model: "User", select: "fullName mobile" },
       { path: "profession", select: "name image skills commission" },

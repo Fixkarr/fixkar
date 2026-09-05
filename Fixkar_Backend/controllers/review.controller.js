@@ -88,7 +88,7 @@ export const postReview = async (req, res) => {
             },
         }).populate({
             path: 'professionalId',
-            select: 'profilePicture address userId profession',
+            select: 'profilePicture address userId profession shortCode',
             populate: [{
                 path: 'userId',
                 model: 'User',

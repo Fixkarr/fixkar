@@ -176,22 +176,6 @@ const CustomerHome = () => {
 
   <Working/>
 
-
-  {/* 🔵 Floating Hire Button */}
-  <button
-    className="btn btn-primary rounded-circle shadow-lg"
-    style={{
-      position: "fixed",
-      bottom: "80px",
-      right: "20px",
-      width: "65px",
-      height: "65px"
-    }}
-    onClick={()=>navigate("/customer/hire-professionals")}
-  >
-    <FaTools />
-  </button>
-
 </div>
 </>
 )

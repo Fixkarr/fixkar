@@ -177,7 +177,7 @@ if (!booking) {
                 style={{ objectFit: "cover", cursor: "pointer" }}
                 onClick={() =>
                   navigate(
-                    `/professional/profile/visit/${booking.professionalId.shortCode }`
+                    `/s/${booking.professionalId.shortCode }`
                   )
                 }
               />
