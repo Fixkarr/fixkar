@@ -60,9 +60,9 @@ const CustomerBookings = () => {
               CUSTOMER DASHBOARD
             </div>
 
-            <h1>
+            <h3>
               My Bookings
-            </h1>
+            </h3>
 
             <p>
               Track, manage and review your Fixkar services

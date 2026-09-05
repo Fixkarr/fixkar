@@ -7,6 +7,7 @@ import { io } from "../../server.js";
 import { PlatformTransaction } from "../Admin/AdminModels/platformTransaction.js";
 import { rewardCompletedBookingCredits } from "../../utils/creditRewards.js";
 import { redeemCustomerCoupon } from "../../services/coupon.service.js";
+import { processReferralReward } from "../../services/referral.service.js";
 
 export const confirmCashPayment = async (req, res) => {
   const session = await mongoose.startSession();
@@ -32,7 +33,10 @@ export const confirmCashPayment = async (req, res) => {
     // Persist the completion before milestone counting so the transaction's
     // completed-booking query includes this booking.
     await booking.save({ session });
-
+    await processReferralReward({
+            completedBookingId: booking._id,
+          });
+    
     const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
     const commission = (fullAmount * COMMISSION_PERCENT) / 100;
     const professionalAmount = fullAmount - commission;

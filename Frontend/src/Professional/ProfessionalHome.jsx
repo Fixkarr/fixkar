@@ -23,6 +23,7 @@ import { useProfileCompletion } from "../hooks/useProfileCompletion";
 import ProfileHealthCard from "./ProfileHealthCard/ProfileHealthCard";
 import ProfessionalAchievementCard from "./ProfessionalAchievementCard";
 import "./professional-dashboard.css";
+import ReferEarnBanner from "../Components/ReferEarnBanner";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -232,6 +233,8 @@ const ProfessionalHome = () => {
             <AnnouncementBanner key={a._id} announcement={a} />
           ))
         )}
+
+        <ReferEarnBanner/>
 
         <div
           className="modal fade"

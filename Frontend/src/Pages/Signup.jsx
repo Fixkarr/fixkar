@@ -26,6 +26,7 @@ const Signup = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const role = queryParams.get("role") || "customer";
+  const referralCode = queryParams.get("ref") || null;
   const [wait, setWait] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -71,6 +72,7 @@ const Signup = () => {
           {
             idToken: firebaseIdToken,
             role,
+            referralCode,
             acceptedTerms: true,
             acceptedProfessionalPolicy: role === "professional",
           },
@@ -91,6 +93,7 @@ const Signup = () => {
           idToken: firebaseIdToken,
           fullName: result.user.displayName,
           role,
+          referralCode,
           acceptedTerms: true,
           acceptedProfessionalPolicy: role === "professional",
         },
@@ -161,7 +164,7 @@ const Signup = () => {
         setLoading(true);
         const result = await axios.post(
           `${server_url}/api/auth/signup-customer`,
-          { ...values, role },
+          { ...values, role, referralCode },
           { withCredentials: true },
         );
         dispatch(setCurrentUserData(result.data));
@@ -341,7 +344,30 @@ sessionStorage.setItem(
                     ? "Professional account"
                     : "Customer account"}
                 </div>
+                {/* ================= REFERRAL STATUS ================= */}
+<div
+  className={`fixkar-referral-status ${
+    referralCode ? "referral-applied" : "referral-not-applied"
+  }`}
+>
+  <div className="referral-status-icon">
+    {referralCode ? "✓" : "!"}
+  </div>
 
+  <div className="referral-status-content">
+    <strong>
+      {referralCode
+        ? "Referral code applied"
+        : "Referral code not applied"}
+    </strong>
+
+    <span>
+      {referralCode
+        ? `Referral code: ${referralCode}`
+        : "No referral code was found in your signup link."}
+    </span>
+  </div>
+</div>
                 <h1>
                   Start your journey with
                   <span> Fixkar.</span>

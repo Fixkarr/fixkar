@@ -1,22 +1,71 @@
-import { generateAIResponse } from "./Ai_Assistant/AiServices/ai.service.js";
+import mongoose from "mongoose";
 
+import crypto from "crypto";
+import { User } from "./models/userModel.js";
+import dns from "dns";
 
-const testMessages = [
-  "Hello",
-  "What is Fixkar?",
-  "I want to build a website",
-  "How can I contact you?",
-  "What is the price?",
-  "Tell me about quantum physics",
-  "Can you help me with my car repair?",
-  "I need assistance with my plumbing issue",
-  "What are your working hours?",
-];
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
-for (const message of testMessages) {
-  const result = await generateAIResponse(message);
+const generateReferralCode = () => {
+  return `FXK${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
+};
 
-  console.log("\nUser:", message);
-  console.log("Intent:", result.intent);
-  console.log("AI:", result.response);
-}
+const generateUniqueReferralCode = async () => {
+  while (true) {
+    const code = generateReferralCode();
+
+    const exists = await User.exists({
+      referralCode: code,
+    });
+
+    if (!exists) {
+      return code;
+    }
+  }
+};
+
+const migrateReferralCodes = async () => {
+  try {
+    await mongoose.connect('mongodb+srv://hg852106_db_user:oascqCUAhXedM8zS@fixkar.bk39e3l.mongodb.net/fixkar_db');
+
+    console.log("MongoDB connected");
+
+    // Sirf un users ko find karo jinke paas referralCode nahi hai
+    const users = await User.find({
+      $or: [
+        { referralCode: { $exists: false } },
+        { referralCode: null },
+        { referralCode: "" },
+      ],
+    }).select("_id fullName email referralCode");
+
+    console.log(`Users requiring referral code: ${users.length}`);
+
+    let updated = 0;
+
+    for (const user of users) {
+      const referralCode = await generateUniqueReferralCode();
+
+      await User.updateOne(
+        { _id: user._id },
+        { $set: { referralCode } }
+      );
+
+      updated++;
+
+      console.log(
+        `${updated}/${users.length} → ${user.email} → ${referralCode}`
+      );
+    }
+
+    console.log("\nMigration completed successfully.");
+    console.log(`Total users updated: ${updated}`);
+  } catch (error) {
+    console.error("Migration failed:", error);
+  } finally {
+    await mongoose.disconnect();
+    console.log("MongoDB disconnected");
+  }
+};
+
+migrateReferralCodes();

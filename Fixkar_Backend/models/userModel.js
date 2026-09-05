@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema(
       policyVersion: { type: String, select: false },
     },
     fcmTokens: { type: [String], default: [], select: false },
+    referralCode: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true,
+        uppercase: true,
+        trim: true,
+      },
   },
   { timestamps: true },
 );
@@ -140,6 +148,11 @@ const customerSchema = new mongoose.Schema(
     },
     address: { type: String },
     totalBookings: { type: Number, default: 0 },
+    rewardCredits: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   { timestamps: true },
 );

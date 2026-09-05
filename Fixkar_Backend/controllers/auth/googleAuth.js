@@ -1,6 +1,8 @@
 import { User, Customer, Professional } from "../../models/userModel.js";
 import { genToken } from "../../utils/AuthToken.js";
 import admin from "../../config/firebaseAdmin.js";
+import { generateUniqueReferralCode } from "../../utils/generateShortCode.js";
+import { processReferral } from "../../services/referral.service.js";
 
 const setAuthCookie = async (res, userId) => {
   const token = await genToken(userId);
@@ -32,7 +34,7 @@ const getUserResponse = async (user) => {
 
 export const googleAuthSignup = async (req, res) => {
   try {
-    const { fullName, email, role, acceptedTerms, acceptedProfessionalPolicy } = req.body;
+    const { fullName, email, role, referralCode, acceptedTerms, acceptedProfessionalPolicy } = req.body;
     if (!email) return res.status(400).json({ message: "Email is required" });
     if (!acceptedTerms) return res.status(400).json({ message: "Terms acceptance required" });
     if (role === "professional" && !acceptedProfessionalPolicy) return res.status(400).json({ message: "Professional policy acceptance required" });
@@ -41,10 +43,13 @@ export const googleAuthSignup = async (req, res) => {
     if (existingUser) return res.status(409).json({ message: "User already exists with this email" });
 
     const userIP = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
+    const referCode = await generateUniqueReferralCode();
+    
     const user = await User.create({
       fullName: fullName || "",
       email,
       role,
+      referralCode : referCode,
       termsAcceptance: { accepted: true, acceptedAt: new Date(), acceptedIP: userIP, policyVersion: "v1.0" },
       professionalAcceptance: role === "professional" ? { accepted: true, acceptedAt: new Date(), acceptedIP: userIP, policyVersion: "v1.0" } : undefined,
     });
@@ -55,7 +60,14 @@ export const googleAuthSignup = async (req, res) => {
       await User.deleteOne({ _id: user._id });
       return res.status(400).json({ message: "Invalid role" });
     }
-
+      try {
+      await processReferral({
+        referralCode,
+        referredUser: user,
+      });
+    } catch (referralError) {
+      console.error("Referral processing failed:", referralError);
+    }
     await setAuthCookie(res, user._id);
     return res.status(201).json({ message: "Google signup successful", user: await getUserResponse(user) });
   } catch (error) {
@@ -105,7 +117,7 @@ export const googleAuthLoginNative = async (req, res) => {
 
 export const googleAuthSignupNative = async (req, res) => {
   try {
-    const { idToken, role, acceptedTerms, acceptedProfessionalPolicy } = req.body;
+    const { idToken, role, referralCode, acceptedTerms, acceptedProfessionalPolicy } = req.body;
     if (!idToken) return res.status(400).json({ message: "Google sign-in could not be completed. Please try again." });
     if (!acceptedTerms) return res.status(400).json({ message: "Terms acceptance required" });
     if (role === "professional" && !acceptedProfessionalPolicy) return res.status(400).json({ message: "Professional policy acceptance required" });
@@ -117,10 +129,12 @@ export const googleAuthSignupNative = async (req, res) => {
     if (existingUser) return res.status(409).json({ message: "User already exists with this email" });
 
     const userIP = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
+    const referCode = await generateUniqueReferralCode();
     const user = await User.create({
       fullName: decodedToken.name || "",
       email: decodedToken.email,
       role,
+      referralCode : referCode,
       termsAcceptance: { accepted: true, acceptedAt: new Date(), acceptedIP: userIP, policyVersion: "v1.0" },
       professionalAcceptance: role === "professional" ? { accepted: true, acceptedAt: new Date(), acceptedIP: userIP, policyVersion: "v1.0" } : undefined,
     });
@@ -131,7 +145,14 @@ export const googleAuthSignupNative = async (req, res) => {
       await User.deleteOne({ _id: user._id });
       return res.status(400).json({ message: "Invalid role" });
     }
-
+   try {
+  await processReferral({
+    referralCode,
+    referredUser: user,
+  });
+} catch (referralError) {
+  console.error("Referral processing failed:", referralError);
+}
     await setAuthCookie(res, user._id);
     return res.status(201).json({ message: "Google signup successful", user: await getUserResponse(user) });
   } catch (error) {

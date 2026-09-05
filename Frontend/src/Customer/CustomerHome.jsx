@@ -20,6 +20,7 @@ import AnnouncementBanner from '../Components/AnnouncementBanner'
 import { ClipLoader } from 'react-spinners'
 import Working from './Working'
 import NeedHelp from '../utils/NeedHelp'
+import ReferEarnBanner from '../Components/ReferEarnBanner'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -173,6 +174,7 @@ const CustomerHome = () => {
   ))
 )}
 
+  <ReferEarnBanner/>
 
   <Working/>
 

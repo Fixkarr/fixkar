@@ -12,6 +12,7 @@ import mongoose from "mongoose";
 import { PlatformTransaction } from "./Admin/AdminModels/platformTransaction.js";
 import { rewardCompletedBookingCredits } from "../utils/creditRewards.js";
 import { redeemCustomerCoupon } from "../services/coupon.service.js";
+import { processReferralReward } from "../services/referral.service.js";
 export const createOrder = async (req, res) => {
   try {
     const { bookingId, paymentType } = req.body;
@@ -200,7 +201,11 @@ export const verifyPayment = async (req, res) => {
     if (payment.paymentType === "FINAL") {
       booking.status = "completed";
       booking.completedAt = new Date();
+
       await booking.save({ session });
+      await processReferralReward({
+        completedBookingId: booking._id,
+      });
     }
     if (payment.paymentType === "CANCEL") {
       booking.status = "cancelled";

@@ -1,0 +1,666 @@
+.refer-earn-banner {
+  --refer-purple: #7c3aed;
+  --refer-pink: #ec4899;
+  --refer-orange: #f97316;
+  --refer-yellow: #facc15;
+
+  position: relative;
+  width: 100%;
+  min-height: 142px;
+
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  padding: 22px 24px;
+
+  overflow: hidden;
+  cursor: pointer;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 22px;
+
+  background:
+    radial-gradient(
+      circle at 82% 20%,
+      rgba(250, 204, 21, 0.28),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 55% 100%,
+      rgba(236, 72, 153, 0.3),
+      transparent 35%
+    ),
+    linear-gradient(
+      110deg,
+      #5b21b6 0%,
+      #7c3aed 35%,
+      #db2777 72%,
+      #ea580c 100%
+    );
+
+  box-shadow:
+    0 14px 35px rgba(91, 33, 182, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* Hover */
+
+.refer-earn-banner:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 20px 45px rgba(91, 33, 182, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.refer-earn-banner:active {
+  transform: scale(0.992);
+}
+
+/* Shine animation */
+
+.refer-banner-shine {
+  position: absolute;
+
+  top: -100%;
+  left: -45%;
+
+  width: 35%;
+  height: 300%;
+
+  transform: rotate(25deg);
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+
+  pointer-events: none;
+
+  animation: referShine 6s ease-in-out infinite;
+}
+
+@keyframes referShine {
+  0% {
+    left: -45%;
+  }
+
+  35% {
+    left: 130%;
+  }
+
+  100% {
+    left: 130%;
+  }
+}
+
+/* Content */
+
+.refer-banner-content {
+  position: relative;
+  z-index: 2;
+
+  flex: 1;
+  min-width: 0;
+}
+
+.refer-banner-badge {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 10px;
+  padding: 5px 9px;
+
+  color: rgba(255, 255, 255, 0.92);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.11);
+  backdrop-filter: blur(8px);
+}
+
+.refer-banner-badge svg {
+  color: #fde047;
+  font-size: 10px;
+
+  animation: referSparkle 1.8s ease-in-out infinite;
+}
+
+@keyframes referSparkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.25) rotate(12deg);
+  }
+}
+
+/* Title */
+
+.refer-banner-title-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.refer-gift-icon {
+  flex: 0 0 auto;
+
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 8px 20px rgba(0, 0, 0, 0.12);
+
+  animation: referGiftFloat 3s ease-in-out infinite;
+}
+
+.refer-gift-icon svg {
+  font-size: 21px;
+}
+
+@keyframes referGiftFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-4px) rotate(-3deg);
+  }
+}
+
+.refer-banner-title-row h3 {
+  margin: 0;
+
+  color: #fff;
+
+  font-size: clamp(17px, 2vw, 23px);
+  line-height: 1.2;
+  font-weight: 800;
+
+  letter-spacing: -0.4px;
+}
+
+.refer-banner-title-row p {
+  max-width: 520px;
+
+  margin: 5px 0 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* Reward Area */
+
+.refer-reward-area {
+  position: relative;
+  z-index: 2;
+
+  width: 190px;
+  min-width: 190px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refer-reward-card {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 11px 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 12px 25px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+
+  animation: rewardCardFloat 3.2s ease-in-out infinite;
+}
+
+@keyframes rewardCardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.refer-reward-card-icon {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fde047;
+
+  border-radius: 11px;
+
+  background: rgba(250, 204, 21, 0.18);
+
+  box-shadow:
+    0 0 18px rgba(250, 204, 21, 0.18);
+}
+
+.refer-reward-card-icon svg {
+  font-size: 17px;
+}
+
+.refer-reward-card-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.refer-reward-card-text span {
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.refer-reward-card-text strong {
+  color: #fff;
+
+  font-size: 22px;
+  line-height: 1;
+
+  font-weight: 900;
+}
+
+/* Mini reward */
+
+.refer-mini-reward {
+  position: absolute;
+
+  right: 0;
+  bottom: 2px;
+
+  z-index: 4;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 5px 8px;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 8px;
+  font-weight: 700;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.refer-mini-reward svg {
+  color: #fde047;
+  font-size: 9px;
+}
+
+/* Orbit */
+
+.refer-reward-orbit {
+  position: absolute;
+
+  border: 1px dashed rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.refer-orbit-one {
+  width: 92px;
+  height: 92px;
+
+  animation: orbitRotate 10s linear infinite;
+}
+
+.refer-orbit-two {
+  width: 125px;
+  height: 125px;
+
+  animation: orbitRotateReverse 14s linear infinite;
+}
+
+@keyframes orbitRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitRotateReverse {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+/* CTA */
+
+.refer-banner-action {
+  position: relative;
+  z-index: 2;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding-left: 10px;
+
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.refer-arrow {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.refer-arrow svg {
+  font-size: 12px;
+}
+
+.refer-earn-banner:hover .refer-arrow {
+  transform: translateX(4px);
+
+  background: rgba(255, 255, 255, 0.23);
+}
+
+/* Floating icons */
+
+.refer-floating-icon {
+  position: absolute;
+
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: rgba(255, 255, 255, 0.45);
+
+  pointer-events: none;
+
+  animation: floatingIcon 4s ease-in-out infinite;
+}
+
+.refer-floating-one {
+  top: 12px;
+  right: 25%;
+
+  font-size: 13px;
+}
+
+.refer-floating-two {
+  right: 12%;
+  top: 22%;
+
+  color: rgba(253, 224, 71, 0.55);
+
+  font-size: 10px;
+
+  animation-delay: 0.8s;
+}
+
+.refer-floating-three {
+  right: 31%;
+  bottom: 13%;
+
+  font-size: 10px;
+
+  animation-delay: 1.4s;
+}
+
+@keyframes floatingIcon {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(8deg);
+  }
+}
+
+/* =========================
+   Tablet
+========================= */
+
+@media (max-width: 850px) {
+  .refer-earn-banner {
+    gap: 15px;
+    padding: 18px 19px;
+    min-height: 130px;
+    border-radius: 19px;
+  }
+
+  .refer-reward-area {
+    width: 155px;
+    min-width: 155px;
+    transform: scale(0.9);
+  }
+
+  .refer-banner-title-row p {
+    font-size: 11px;
+  }
+
+  .refer-banner-action span {
+    display: none;
+  }
+
+  .refer-banner-action {
+    padding-left: 0;
+  }
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 600px) {
+  .refer-earn-banner {
+    min-height: 118px;
+
+    gap: 10px;
+
+    padding: 15px 14px;
+
+    border-radius: 17px;
+  }
+
+  .refer-banner-badge {
+    margin-bottom: 7px;
+
+    padding: 4px 7px;
+
+    font-size: 7px;
+    letter-spacing: 0.55px;
+  }
+
+  .refer-banner-title-row {
+    gap: 9px;
+  }
+
+  .refer-gift-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 11px;
+  }
+
+  .refer-gift-icon svg {
+    font-size: 17px;
+  }
+
+  .refer-banner-title-row h3 {
+    font-size: 15px;
+  }
+
+  .refer-banner-title-row p {
+    margin-top: 3px;
+
+    font-size: 9.5px;
+
+    line-height: 1.35;
+  }
+
+  .refer-reward-area {
+    width: 100px;
+    min-width: 100px;
+    height: 75px;
+
+    transform: scale(0.78);
+    transform-origin: center right;
+  }
+
+  .refer-mini-reward {
+    display: none;
+  }
+
+  .refer-banner-action {
+    position: absolute;
+
+    right: 10px;
+    bottom: 9px;
+  }
+
+  .refer-arrow {
+    width: 27px;
+    height: 27px;
+  }
+
+  .refer-arrow svg {
+    font-size: 9px;
+  }
+
+  .refer-floating-icon {
+    display: none;
+  }
+}
+
+/* =========================
+   Very Small Devices
+========================= */
+
+@media (max-width: 390px) {
+  .refer-earn-banner {
+    min-height: 108px;
+    padding: 13px 12px;
+  }
+
+  .refer-gift-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .refer-banner-title-row h3 {
+    font-size: 13px;
+  }
+
+  .refer-banner-title-row p {
+    font-size: 8.5px;
+  }
+
+  .refer-reward-area {
+    width: 75px;
+    min-width: 75px;
+    transform: scale(0.68);
+  }
+}
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .refer-earn-banner,
+  .refer-banner-shine,
+  .refer-gift-icon,
+  .refer-reward-card,
+  .refer-reward-orbit,
+  .refer-floating-icon,
+  .refer-banner-badge svg {
+    animation: none;
+  }
+
+  .refer-earn-banner,
+  .refer-arrow {
+    transition: none;
+  }
+}
