@@ -1,0 +1,340 @@
+/* =========================================
+   DASHBOARD NAVIGATOR
+========================================= */
+
+.dashboard-navigator {
+  position: fixed;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Desktop floating position */
+  right: 24px;
+  bottom: 24px;
+
+  padding: 8px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+
+  background: rgba(20, 20, 30, 0.72);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.28),
+    0 4px 14px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  animation: dashboardNavigatorEnter 0.45s ease-out;
+}
+
+@keyframes dashboardNavigatorEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================================
+   INNER
+========================================= */
+
+.dashboard-navigator-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.dashboard-nav-button {
+  position: relative;
+
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 13px;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* Hover */
+
+.dashboard-nav-button:hover {
+  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.11);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 16px rgba(0, 0, 0, 0.16);
+}
+
+
+/* Click */
+
+.dashboard-nav-button:active {
+  transform: scale(0.91);
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.dashboard-nav-button svg {
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+}
+
+.dashboard-nav-button:hover svg {
+  transform: scale(1.08);
+
+  filter:
+    drop-shadow(0 3px 8px rgba(255, 255, 255, 0.16));
+}
+
+
+/* =========================================
+   UNREAD DOT
+========================================= */
+
+.dashboard-nav-unread-dot {
+  top: 7px;
+  right: 7px;
+
+  width: 8px;
+  height: 8px;
+
+  border: 2px solid rgba(20, 20, 30, 0.9);
+
+  border-radius: 50%;
+
+  background: #ff3b5c;
+
+  box-shadow:
+    0 0 0 2px rgba(255, 59, 92, 0.12),
+    0 0 10px rgba(255, 59, 92, 0.5);
+
+  animation: unreadPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes unreadPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.18);
+    opacity: 0.78;
+  }
+}
+
+
+/* =========================================
+   DESKTOP SIZE
+========================================= */
+
+@media (min-width: 992px) {
+  .dashboard-navigator {
+    right: 28px;
+    bottom: 28px;
+
+    padding: 9px;
+
+    border-radius: 20px;
+  }
+
+  .dashboard-navigator-inner {
+    gap: 5px;
+  }
+
+  .dashboard-nav-button {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 14px;
+  }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991px) and (min-width: 601px) {
+  .dashboard-navigator {
+    right: 18px;
+    bottom: 18px;
+
+    padding: 7px;
+
+    border-radius: 17px;
+  }
+
+  .dashboard-nav-button {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .dashboard-navigator {
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+
+    padding:
+      7px
+      max(10px, env(safe-area-inset-right))
+      calc(7px + env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
+
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+
+    border-radius: 20px 20px 0 0;
+
+    background: rgba(18, 18, 27, 0.88);
+
+    box-shadow:
+      0 -10px 30px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.11);
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+  }
+
+  .dashboard-navigator-inner {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 2px;
+  }
+
+  .dashboard-nav-button {
+    width: 100%;
+    height: 48px;
+
+    border-radius: 13px;
+  }
+
+  .dashboard-nav-button svg {
+    font-size: 19px;
+  }
+
+  .dashboard-nav-unread-dot {
+    top: 8px;
+    right: calc(50% - 14px);
+
+    width: 7px;
+    height: 7px;
+  }
+
+  .dashboard-nav-button:hover {
+    transform: none;
+
+    background: rgba(255, 255, 255, 0.09);
+
+    box-shadow: none;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+  .dashboard-navigator {
+    padding-top: 5px;
+  }
+
+  .dashboard-nav-button {
+    height: 44px;
+
+    border-radius: 11px;
+  }
+
+  .dashboard-nav-button svg {
+    font-size: 18px;
+  }
+}
+
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+.dashboard-nav-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 2px;
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-navigator,
+  .dashboard-nav-unread-dot {
+    animation: none;
+  }
+
+  .dashboard-nav-button,
+  .dashboard-nav-button svg {
+    transition: none;
+  }
+}

@@ -49,7 +49,7 @@ const ReferEarnBanner = () => {
       {/* Left Content */}
       <div className="refer-banner-content">
         <div className="refer-banner-badge">
-          <FaHandSparkles />
+          <FaHandSparkles size={20}/>
           <span>EXCLUSIVE REWARD</span>
         </div>
 
