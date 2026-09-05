@@ -7,7 +7,7 @@ import {
   FaStar,
   FaBolt,
   FaUserPlus,
-  FaSparkles,
+  FaHandSparkles,
 } from "react-icons/fa6";
 
 import "../css/referEarn.css";
@@ -49,7 +49,7 @@ const ReferEarnBanner = () => {
       {/* Left Content */}
       <div className="refer-banner-content">
         <div className="refer-banner-badge">
-          <FaSparkles />
+          <FaHandSparkles />
           <span>EXCLUSIVE REWARD</span>
         </div>
 
