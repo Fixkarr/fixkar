@@ -180,7 +180,7 @@ const Referrals = () => {
           <h1>
             Refer friends.
             <br />
-            <span>Earn rewards.</span>
+            <h3>Earn rewards.</h3>
           </h1>
 
           <p>
