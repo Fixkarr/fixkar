@@ -87,7 +87,6 @@ const Login = () => {
           values,
           { withCredentials: true }
         );
-
         setFloading(false);
         dispatch(setCurrentUserData(result.data));
         dispatch(setCurrentAdmin(null));
@@ -103,8 +102,6 @@ const Login = () => {
   const handleLoginWithGoogle = async () => {
     try {
       setGloading(true);
-      
-
       if (Capacitor.getPlatform() === "android") {
          const loginOptions = {
         provider: "google",
