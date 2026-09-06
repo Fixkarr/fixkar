@@ -1,4 +1,4 @@
-.public-profile {
+/* .public-profile {
   min-height: 100vh;
   background: linear-gradient(180deg, #f6f9ff 0%, #eef5ff 55%, #fff 100%);
 }
@@ -253,4 +253,989 @@
   }
 }
 
+ */
 
+
+ /* =========================================================
+   PREMIUM PUBLIC PROFILE HERO
+========================================================= */
+
+.public-profile__hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  border-radius: 26px !important;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 20px 55px rgba(15, 50, 110, 0.14),
+    0 5px 18px rgba(15, 23, 42, 0.06);
+}
+
+
+/* =========================================================
+   HERO BACKGROUND
+========================================================= */
+
+.public-profile__hero-bg {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  width: 100%;
+  min-height: 220px;
+
+  padding: 28px;
+
+  border-radius: 26px;
+
+  background:
+    linear-gradient(
+      125deg,
+      #071f55 0%,
+      #0b3f94 34%,
+      #116bd1 67%,
+      #0788a5 100%
+    );
+}
+
+
+/* =========================================================
+   DECORATIVE GLOWS
+========================================================= */
+
+.public-profile__hero-glow {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+.public-profile__hero-glow--one {
+  width: 380px;
+  height: 380px;
+
+  top: -250px;
+  right: -80px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0) 70%
+    );
+}
+
+.public-profile__hero-glow--two {
+  width: 300px;
+  height: 300px;
+
+  bottom: -220px;
+  left: 20%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(37, 211, 255, 0.22) 0%,
+      rgba(37, 211, 255, 0) 70%
+    );
+}
+
+
+/* subtle diagonal shine */
+
+.public-profile__hero-bg::after {
+  content: "";
+
+  position: absolute;
+
+  width: 55%;
+  height: 180%;
+
+  top: -40%;
+  left: -15%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.035),
+      transparent
+    );
+
+  transform: rotate(20deg);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   MAIN HERO CONTENT
+========================================================= */
+
+.public-profile__hero-content {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 28px;
+
+  min-height: 164px;
+}
+
+
+/* =========================================================
+   PROFILE IDENTITY
+========================================================= */
+
+.public-profile__identity {
+  display: flex;
+
+  align-items: center;
+
+  min-width: 0;
+
+  gap: 20px;
+}
+
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+.public-profile__avatar-wrap {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  width: 108px;
+  height: 108px;
+}
+
+
+.public-profile__avatar {
+  display: block;
+
+  width: 108px;
+  height: 108px;
+
+  object-fit: cover;
+
+  border-radius: 50% !important;
+
+  border: 4px solid rgba(255, 255, 255, 0.95);
+
+  background: #fff;
+
+  box-shadow:
+    0 15px 35px rgba(2, 20, 55, 0.35),
+    0 0 0 7px rgba(255, 255, 255, 0.08);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.public-profile__avatar:hover {
+  transform: translateY(-3px) scale(1.02);
+
+  box-shadow:
+    0 20px 40px rgba(2, 20, 55, 0.40),
+    0 0 0 8px rgba(255, 255, 255, 0.10);
+}
+
+
+/* =========================================================
+   ONLINE / ACTIVE DOT
+========================================================= */
+
+.public-profile__online-dot {
+  position: absolute;
+
+  right: 4px;
+  bottom: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.18);
+}
+
+
+.public-profile__online-dot span {
+  width: 12px;
+  height: 12px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+
+  box-shadow:
+    0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+
+/* =========================================================
+   IDENTITY INFO
+========================================================= */
+
+.public-profile__identity-info {
+  min-width: 0;
+}
+
+
+/* Name */
+
+.public-profile__name-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  min-width: 0;
+}
+
+
+.public-profile__name-row h4 {
+  margin: 0;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+
+  line-height: 1.2;
+
+  font-weight: 800 !important;
+
+  letter-spacing: -0.45px;
+
+  color: #ffffff;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+
+/* Verified check */
+
+.public-profile__verified-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  width: 21px;
+  height: 21px;
+
+  border-radius: 50%;
+
+  background: #20a96b;
+
+  color: #ffffff;
+
+  font-size: 10px;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   PROFESSION
+========================================================= */
+
+.public-profile__profession {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 7px;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 0.9rem;
+
+  font-weight: 500;
+}
+
+
+.public-profile__profession-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 27px;
+  height: 27px;
+
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.11);
+
+  color: #bceeff;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   META BADGES
+========================================================= */
+
+.public-profile__meta {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+
+/* Verified */
+
+.public-profile__verified-badge {
+  display: inline-flex !important;
+
+  align-items: center;
+
+  gap: 6px;
+
+  min-height: 30px;
+
+  padding: 5px 11px !important;
+
+  border-radius: 999px !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+
+  background:
+    rgba(16, 126, 82, 0.88) !important;
+
+  color: #effff7 !important;
+
+  font-size: 0.7rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.1px;
+
+  box-shadow:
+    0 5px 14px rgba(0, 0, 0, 0.12);
+}
+
+
+.public-profile__verified-badge svg {
+  font-size: 11px;
+}
+
+
+/* Rating */
+
+.public-profile__rating {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  min-height: 30px;
+
+  padding: 5px 10px;
+
+  border-radius: 999px;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+
+  background: rgba(255, 255, 255, 0.10);
+
+  color: #ffe79a;
+
+  font-size: 0.78rem;
+
+  font-weight: 600;
+
+  backdrop-filter: blur(10px);
+}
+
+
+.public-profile__rating svg {
+  color: #ffd43b;
+
+  font-size: 12px;
+}
+
+
+.public-profile__rating strong {
+  color: #ffffff;
+
+  font-weight: 800;
+}
+
+
+.public-profile__rating small {
+  color: rgba(255, 255, 255, 0.68) !important;
+
+  font-size: 0.68rem;
+}
+
+
+/* =========================================================
+   ACTION AREA
+========================================================= */
+
+.public-profile__actions {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(82px, auto))
+    minmax(110px, auto);
+
+  align-items: center;
+
+  gap: 9px;
+}
+
+
+/* =========================================================
+   COMMON ACTION BUTTON
+========================================================= */
+
+.public-profile__action-btn,
+.public-profile__hire-btn {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  min-height: 48px;
+
+  padding: 0 14px;
+
+  border-radius: 13px;
+
+  font-family: inherit;
+
+  font-size: 0.82rem;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease;
+}
+
+
+/* Secondary */
+
+.public-profile__action-btn {
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.24);
+
+  background: rgba(255, 255, 255, 0.09);
+
+  backdrop-filter: blur(12px);
+}
+
+
+.public-profile__action-btn:hover {
+  color: #0a4698;
+
+  border-color: #ffffff;
+
+  background: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+
+.public-profile__action-btn:active,
+.public-profile__hire-btn:active {
+  transform: translateY(0);
+}
+
+
+/* Action icon */
+
+.public-profile__action-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 15px;
+}
+
+
+.public-profile__action-text {
+  line-height: 1;
+}
+
+
+/* =========================================================
+   CALL BUTTON WRAPPER
+========================================================= */
+
+.public-profile__call-wrapper {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+}
+
+
+/* Make CallButton fit hero */
+
+.public-profile__call-wrapper > * {
+  width: 100%;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   HIRE BUTTON
+========================================================= */
+
+.public-profile__hire-btn {
+  min-width: 112px;
+
+  color: #0754b8;
+
+  border: 1px solid rgba(255, 255, 255, 0.95);
+
+  background: #ffffff;
+
+  box-shadow:
+    0 9px 22px rgba(0, 0, 0, 0.15);
+}
+
+
+.public-profile__hire-btn:hover {
+  color: #063e8c;
+
+  background: #edf7ff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 13px 28px rgba(0, 0, 0, 0.19);
+}
+
+
+.public-profile__hire-icon {
+  display: inline-flex;
+
+  font-size: 15px;
+}
+
+
+.public-profile__hire-arrow {
+  margin-left: 2px;
+
+  font-size: 11px;
+
+  transition:
+    transform 0.22s ease;
+}
+
+
+.public-profile__hire-btn:hover .public-profile__hire-arrow {
+  transform: translateX(3px);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .public-profile__hero-bg {
+    padding: 24px;
+  }
+
+  .public-profile__hero-content {
+    grid-template-columns: 1fr;
+
+    gap: 20px;
+  }
+
+  .public-profile__actions {
+    width: 100%;
+
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+  }
+
+  .public-profile__action-btn,
+  .public-profile__hire-btn {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+  .public-profile__hero {
+    margin-bottom: 16px !important;
+
+    border-radius: 20px !important;
+  }
+
+  .public-profile__hero-bg {
+    padding: 19px;
+
+    border-radius: 20px;
+  }
+
+  .public-profile__hero-content {
+    gap: 18px;
+  }
+
+  .public-profile__identity {
+    gap: 14px;
+  }
+
+  .public-profile__avatar-wrap,
+  .public-profile__avatar {
+    width: 82px;
+    height: 82px;
+  }
+
+  .public-profile__avatar {
+    border-width: 3px;
+  }
+
+  .public-profile__online-dot {
+    width: 21px;
+    height: 21px;
+
+    right: 2px;
+    bottom: 2px;
+  }
+
+  .public-profile__online-dot span {
+    width: 10px;
+    height: 10px;
+  }
+
+  .public-profile__name-row h4 {
+    font-size: 1.15rem;
+  }
+
+  .public-profile__profession {
+    font-size: 0.8rem;
+  }
+
+  .public-profile__meta {
+    margin-top: 9px;
+
+    gap: 6px;
+  }
+
+  .public-profile__verified-badge,
+  .public-profile__rating {
+    min-height: 27px;
+  }
+
+  .public-profile__actions {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    gap: 7px;
+  }
+
+  .public-profile__action-btn,
+  .public-profile__hire-btn {
+    min-height: 44px;
+
+    padding: 0 8px;
+
+    border-radius: 11px;
+
+    font-size: 0.74rem;
+  }
+
+  .public-profile__action-icon,
+  .public-profile__hire-icon {
+    font-size: 14px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 575.98px) {
+
+  .public-profile__hero {
+    border-radius: 18px !important;
+  }
+
+  .public-profile__hero-bg {
+    padding: 16px;
+
+    border-radius: 18px;
+  }
+
+
+  /* Profile */
+
+  .public-profile__identity {
+    align-items: center;
+
+    gap: 12px;
+  }
+
+  .public-profile__avatar-wrap,
+  .public-profile__avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .public-profile__avatar {
+    border-width: 2px;
+
+    box-shadow:
+      0 10px 25px rgba(2, 20, 55, 0.30),
+      0 0 0 4px rgba(255, 255, 255, 0.08);
+  }
+
+  .public-profile__online-dot {
+    width: 19px;
+    height: 19px;
+
+    right: 0;
+    bottom: 0;
+  }
+
+  .public-profile__online-dot span {
+    width: 9px;
+    height: 9px;
+  }
+
+
+  /* Name */
+
+  .public-profile__name-row {
+    gap: 5px;
+  }
+
+  .public-profile__name-row h4 {
+    font-size: 1rem;
+
+    letter-spacing: -0.25px;
+  }
+
+  .public-profile__verified-icon {
+    width: 18px;
+    height: 18px;
+
+    font-size: 8px;
+  }
+
+
+  /* Profession */
+
+  .public-profile__profession {
+    margin-top: 5px;
+
+    gap: 5px;
+
+    font-size: 0.73rem;
+  }
+
+  .public-profile__profession-icon {
+    width: 23px;
+    height: 23px;
+
+    border-radius: 7px;
+
+    font-size: 10px;
+  }
+
+
+  /* Badges */
+
+  .public-profile__meta {
+    margin-top: 7px;
+
+    gap: 5px;
+  }
+
+  .public-profile__verified-badge {
+    min-height: 23px;
+
+    padding: 3px 7px !important;
+
+    font-size: 0.57rem;
+  }
+
+  .public-profile__verified-badge svg {
+    font-size: 9px;
+  }
+
+  .public-profile__rating {
+    min-height: 23px;
+
+    padding: 3px 7px;
+
+    font-size: 0.64rem;
+  }
+
+  .public-profile__rating svg {
+    font-size: 10px;
+  }
+
+  .public-profile__rating small {
+    font-size: 0.57rem;
+  }
+
+
+  /* Actions */
+
+  .public-profile__actions {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+  .public-profile__action-btn,
+  .public-profile__hire-btn {
+    width: 100%;
+
+    min-height: 44px;
+
+    padding: 0 10px;
+
+    border-radius: 11px;
+
+    font-size: 0.76rem;
+  }
+
+  .public-profile__action-icon,
+  .public-profile__hire-icon {
+    font-size: 14px;
+  }
+
+  .public-profile__call-wrapper {
+    width: 100%;
+  }
+
+  .public-profile__hire-btn {
+    min-width: 0;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 370px) {
+
+  .public-profile__hero-bg {
+    padding: 14px;
+  }
+
+  .public-profile__identity {
+    gap: 10px;
+  }
+
+  .public-profile__avatar-wrap,
+  .public-profile__avatar {
+    width: 62px;
+    height: 62px;
+  }
+
+  .public-profile__name-row h4 {
+    font-size: 0.92rem;
+  }
+
+  .public-profile__profession {
+    font-size: 0.68rem;
+  }
+
+  .public-profile__verified-badge {
+    font-size: 0.52rem;
+
+    padding-inline: 6px !important;
+  }
+
+  .public-profile__rating {
+    font-size: 0.59rem;
+
+    padding-inline: 6px;
+  }
+
+  .public-profile__rating small {
+    font-size: 0.52rem;
+  }
+
+  .public-profile__actions {
+    gap: 6px;
+  }
+
+  .public-profile__action-btn,
+  .public-profile__hire-btn {
+    min-height: 42px;
+
+    font-size: 0.7rem;
+  }
+}

@@ -5,7 +5,7 @@ import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
 import { CiLocationOn } from "react-icons/ci";
 import { IoChatbubbleEllipsesOutline} from "react-icons/io5";
-import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools, FaCalendar, FaShareAlt, FaStar } from "react-icons/fa";
+import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools, FaCalendar, FaShareAlt, FaStar, FaShieldAlt } from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProfessional } from "../redux/professionalInfo.slice";
@@ -26,6 +26,7 @@ import { generateAbout, generateFaqs } from "../utils/generateFaqs";
 import FAQSection from "../Components/FAQSection";
 import FixkarLoader from "../Components/FixkarLoader";
 import "./professional-public-profile.css";
+import { FaArrowRight, FaCheck } from "react-icons/fa6";
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -357,55 +358,135 @@ useEffect(() => {
 )}
 
       {/* ================= HEADER CARD ================= */}
-      <div className="card public-profile__hero border-0 rounded-4 mb-4">
-        <div
-          className="public-profile__hero-bg p-3 p-md-4 text-white rounded-4"
-        >
-          <div className="row align-items-center g-4">
-            <div className="col-12 col-lg-7 d-flex align-items-center gap-3">
-              <img
-                src={professionalInfo?.profilePicture || "/Images/placeholderProfile.avif"}
-                alt="Profile"
-                className="public-profile__avatar rounded-circle"
-              />
-              <div>
-                <h4 className="fw-bold mb-1">
-                  {professionalInfo?.userId?.fullName}
-                </h4>
-                <div className="d-flex align-items-center gap-2 small">
-                  <FaUserTie />
-                  <span>{professionalInfo?.profession.name}</span>
-                </div>
-                <div className="d-flex align-items-center gap-2 flex-wrap mt-2">
-                  <span className="badge public-profile__verified-badge">Verified professional</span>
-                  <span className="public-profile__rating"><FaStar /> {averageRating} <small>({reviewCount})</small></span>
-                </div>
-              </div>
-            </div>
+     {/* ================= PREMIUM PROFILE HERO ================= */}
+<div className="card public-profile__hero border-0 mb-4">
+  <div className="public-profile__hero-bg">
 
-            <div className="col-12 col-lg-5 d-flex gap-2 justify-content-lg-end flex-wrap">
-              <button className="btn public-profile__action-btn" onClick={handleShareProfile}>
-                <FaShareAlt /> <span>Share</span>
-              </button>
-              <button
-                className="btn public-profile__action-btn"
-                onClick={handleChatClick}
-              >
-                <IoChatbubbleEllipsesOutline /> Chat
-              </button>
+    {/* Decorative background elements */}
+    <div className="public-profile__hero-glow public-profile__hero-glow--one" />
+    <div className="public-profile__hero-glow public-profile__hero-glow--two" />
 
-              <CallButton currentUserData={currentUserData} professionalInfo={professionalInfo}/>
+    <div className="public-profile__hero-content">
 
-              <button
-                className="btn public-profile__hire-btn fw-semibold"
-                onClick={handleHireClick}
-              >
-                Hire
-              </button>
-            </div>
+      {/* ================= PROFILE ================= */}
+      <div className="public-profile__identity">
+
+        <div className="public-profile__avatar-wrap">
+          <img
+            src={
+              professionalInfo?.profilePicture ||
+              "/Images/placeholderProfile.avif"
+            }
+            alt="Profile"
+            className="public-profile__avatar"
+          />
+
+          <span className="public-profile__online-dot">
+            <span />
+          </span>
+        </div>
+
+        <div className="public-profile__identity-info">
+
+          <div className="public-profile__name-row">
+            <h4>
+              {professionalInfo?.userId?.fullName}
+            </h4>
+
+            <span className="public-profile__verified-icon">
+              <FaCheck />
+            </span>
           </div>
+
+          <div className="public-profile__profession">
+            <span className="public-profile__profession-icon">
+              <FaUserTie />
+            </span>
+
+            <span>
+              {professionalInfo?.profession.name}
+            </span>
+          </div>
+
+          <div className="public-profile__meta">
+
+            <span className="public-profile__verified-badge">
+              <FaShieldAlt />
+              <span>Verified Professional</span>
+            </span>
+
+            <span className="public-profile__rating">
+              <FaStar />
+              <strong>{averageRating}</strong>
+              <small>({reviewCount} reviews)</small>
+            </span>
+
+          </div>
+
         </div>
       </div>
+
+
+      {/* ================= ACTIONS ================= */}
+      <div className="public-profile__actions">
+
+        <button
+          type="button"
+          className="public-profile__action-btn"
+          onClick={handleShareProfile}
+        >
+          <span className="public-profile__action-icon">
+            <FaShareAlt />
+          </span>
+
+          <span className="public-profile__action-text">
+            Share
+          </span>
+        </button>
+
+
+        <button
+          type="button"
+          className="public-profile__action-btn"
+          onClick={handleChatClick}
+        >
+          <span className="public-profile__action-icon">
+            <IoChatbubbleEllipsesOutline />
+          </span>
+
+          <span className="public-profile__action-text">
+            Chat
+          </span>
+        </button>
+
+
+        <div className="public-profile__call-wrapper">
+          <CallButton
+            currentUserData={currentUserData}
+            professionalInfo={professionalInfo}
+          />
+        </div>
+
+
+        <button
+          type="button"
+          className="public-profile__hire-btn"
+          onClick={handleHireClick}
+        >
+          <span className="public-profile__hire-icon">
+            <FaUserTie />
+          </span>
+
+          <span>Hire Now</span>
+
+          <FaArrowRight className="public-profile__hire-arrow" />
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
 
       {/* ================= ABOUT & ADDRESS ================= */}
   <div className="public-profile__primary-grid">
