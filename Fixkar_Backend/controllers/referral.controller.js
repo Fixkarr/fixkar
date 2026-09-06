@@ -5,7 +5,7 @@ import { Referral } from "../models/referralModel.js";
 export const getMyReferral = async (req, res) => {
   try {
     // Auth middleware se user ID
-    const userId = req.userid;
+    const userId = req.userId;
     // --------------------------------------------------
     // 1. Logged-in user
     // --------------------------------------------------
