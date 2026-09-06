@@ -398,29 +398,38 @@
     font-size: 8px;
   }
 
-  .customer-home-contact {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+   .customer-home-contact {
+    grid-template-columns: 1fr;
     gap: 5px;
     padding: 7px;
-    border-radius: 12px;
   }
 
   .customer-home-contact-item {
+    width: 100%;
     min-width: 0;
-    justify-content: center;
-    padding: 5px;
+    justify-content: flex-start;
+    padding: 6px 8px;
   }
 
   .customer-home-contact-icon {
-    width: 27px;
-    height: 27px;
-    flex-basis: 27px;
-    border-radius: 7px;
-    font-size: 12px;
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+    font-size: 13px;
   }
 
   .customer-home-contact-text {
-    display: none;
+    display: block;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 10px;
+  }
+
+  .customer-home-reward {
+    background: rgba(var(--ch-primary-rgb), .055);
   }
 
   .customer-home-help {

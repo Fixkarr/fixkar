@@ -129,36 +129,49 @@ return (
 
             </div>
 
-            <div className="customer-home-contact">
+          <div className="customer-home-contact">
 
-              <div className="customer-home-contact-item">
-                <span className="customer-home-contact-icon">
-                  <FaIdBadge />
-                </span>
-                <span className="customer-home-contact-text">
-                  {currentUserData?.user?.userId._id}
-                </span>
-              </div>
+  <div className="customer-home-contact-item">
+    <span className="customer-home-contact-icon">
+      <FaIdBadge />
+    </span>
 
-              <div className="customer-home-contact-item">
-                <span className="customer-home-contact-icon">
-                  <FaPhone />
-                </span>
-                <span className="customer-home-contact-text">
-                  {currentUserData?.user?.userId?.mobile}
-                </span>
-              </div>
+    <span className="customer-home-contact-text">
+      {currentUserData?.user?.userId?._id}
+    </span>
+  </div>
 
-              <div className="customer-home-contact-item">
-                <span className="customer-home-contact-icon">
-                  <FaEnvelope />
-                </span>
-                <span className="customer-home-contact-text">
-                  {currentUserData?.user?.userId?.email}
-                </span>
-              </div>
+  <div className="customer-home-contact-item">
+    <span className="customer-home-contact-icon">
+      <FaPhone />
+    </span>
 
-            </div>
+    <span className="customer-home-contact-text">
+      {currentUserData?.user?.userId?.mobile}
+    </span>
+  </div>
+
+  <div className="customer-home-contact-item">
+    <span className="customer-home-contact-icon">
+      <FaEnvelope />
+    </span>
+
+    <span className="customer-home-contact-text">
+      {currentUserData?.user?.userId?.email}
+    </span>
+  </div>
+
+  <div className="customer-home-contact-item customer-home-reward">
+    <span className="customer-home-contact-icon">
+      🪙
+    </span>
+
+    <span className="customer-home-contact-text">
+      {currentUserData?.user?.rewardCredits ?? 0} Reward Credits
+    </span>
+  </div>
+
+</div>
 
           </div>
 
