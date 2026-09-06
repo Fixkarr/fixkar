@@ -89,6 +89,8 @@ const Notifications = () => {
   const role = currentUserData?.user?.userId?.role;
 
   return (
+    <>
+  
     <div className="container-fluid p-0">
 
       {/* 🔵 Gradient Header */}
@@ -102,8 +104,6 @@ const Notifications = () => {
       >
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="fw-bold mb-0">Notifications</h5>
-
-          <DashboardNavigator/>
         </div>
 
         <p className="mt-2 small opacity-75">
@@ -180,6 +180,8 @@ const Notifications = () => {
         </div>
       )}
     </div>
+
+    </>
   );
 };
 

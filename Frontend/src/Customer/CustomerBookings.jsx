@@ -40,7 +40,10 @@ const CustomerBookings = () => {
     (b) => b.status !== "completed"
   ).length;
 
-  return <div className="customer-bookings-page">
+  return (
+    <>
+  
+  <div className="customer-bookings-page">
 
       {/* =========================================
           PREMIUM HERO SECTION
@@ -83,11 +86,6 @@ const CustomerBookings = () => {
             </div>
 
           </div>
-
-          <div className="customer-bookings-dashboard-nav">
-            <DashboardNavigator />
-          </div>
-
         </div>
       </section>
 
@@ -273,6 +271,8 @@ const CustomerBookings = () => {
       </button>
 
     </div>
+
+    </>)
 
 };
 

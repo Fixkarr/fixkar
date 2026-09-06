@@ -51,7 +51,6 @@ const DashboardNavigator = () => {
   );
 
   return (
-  <>
       <nav className="dashboard-navigator">
       <div className="dashboard-navigator-inner">
 
@@ -123,8 +122,8 @@ const DashboardNavigator = () => {
       </div>
     </nav>
 
-     <div className="dashboard-navigator-spacer" />
-  </>
+     
+ 
   );
 };
 

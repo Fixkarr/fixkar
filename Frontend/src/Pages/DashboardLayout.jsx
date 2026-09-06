@@ -14,6 +14,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -129,7 +130,9 @@ const DashboardLayout = () => {
           )}
 
           <div className="card border-0 shadow-sm rounded-4 p-1">
+            {isUserAuthenticated && <DashboardNavigator/>}
             <Outlet />
+             {isUserAuthenticated && <div className="dashboard-navigator-spacer" />}
           </div>
         </main>
       </div>

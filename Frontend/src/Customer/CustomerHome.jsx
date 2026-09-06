@@ -89,6 +89,7 @@ const CustomerHome = () => {
   loading={notifLoading}
 />
 
+
 <div className="container-fluid p-0 bg-light min-vh-100">
 
   {/* 🔵 Modern Gradient Hero */}
@@ -103,8 +104,6 @@ const CustomerHome = () => {
     {/* Top Icons */}
     <div className="d-flex justify-content-between align-items-center mb-3">
       <h5 className="fw-bold mb-0">Fixkar</h5>
-
-      <DashboardNavigator/>
     </div>
 
   <div className='d-flex justify-content-between'>
@@ -179,6 +178,8 @@ const CustomerHome = () => {
   <Working/>
 
 </div>
+
+
 </>
 )
 }

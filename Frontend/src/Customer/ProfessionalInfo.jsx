@@ -308,8 +308,6 @@ useEffect(() => {
       >
         <div className="d-flex justify-content-between align-items-center">
           <h5 className="fw-bold mb-0">Professional Information</h5>
-
-          <DashboardNavigator/>
         </div>
 
         <p className="mt-2 small opacity-75">

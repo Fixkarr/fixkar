@@ -99,7 +99,7 @@ const ProfessionalHome = () => {
                   Manage availability & earnings
                 </small>
               </div>
-              <DashboardNavigator />
+            
             </div>
             <NeedHelp user="professional" />
             <div className="d-flex flex-wrap gap-2 mt-3">
