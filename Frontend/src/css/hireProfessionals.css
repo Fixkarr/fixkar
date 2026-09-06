@@ -1,698 +1,706 @@
+
 /* =========================================================
    FIXKAR - HIRE PROFESSIONALS
-========================================================= */
+   Bootstrap Primary / Light Premium Theme
+   UI ONLY — logic and component architecture untouched
+   ========================================================= */
 
 .hire-professionals-page {
+  --hp-primary: var(--bs-primary, #0d6efd);
+  --hp-primary-rgb: var(--bs-primary-rgb, 13, 110, 253);
+  --hp-primary-soft: rgba(var(--hp-primary-rgb), .08);
+  --hp-primary-soft-2: rgba(var(--hp-primary-rgb), .14);
+  --hp-primary-border: rgba(var(--hp-primary-rgb), .17);
+  --hp-text: #172033;
+  --hp-muted: #667085;
+  --hp-border: #e8edf3;
+  --hp-bg: #f7f9fc;
+  --hp-white: #fff;
+
   min-height: 100vh;
-  padding-bottom: 40px;
-
+  padding-bottom: 45px;
   background:
-    radial-gradient(
-      circle at 10% 5%,
-      rgba(13, 110, 253, 0.06),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 90% 20%,
-      rgba(0, 198, 255, 0.05),
-      transparent 30%
-    ),
-    #f6f9fd;
-
+    radial-gradient(circle at 8% 0%, rgba(var(--hp-primary-rgb), .045), transparent 28%),
+    var(--hp-bg);
+  color: var(--hp-text);
   overflow-x: hidden;
 }
 
-
 /* =========================================================
-   HERO
-========================================================= */
+   COMPACT HERO
+   ========================================================= */
 
 .hire-professionals-hero {
   position: relative;
-
-  padding: 34px 24px 38px;
-
-  color: #fff;
-
+  overflow: hidden;
+  padding: 22px max(20px, calc((100vw - 1180px) / 2)) 30px;
+  border-radius: 0 0 24px 24px;
   background:
     linear-gradient(
       135deg,
-      #071b46,
-      #0b4fbd 52%,
-      #008fd5
-    );
-
-  border-radius: 0 0 32px 32px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 16px 42px rgba(7, 44, 105, 0.2);
+      rgba(var(--hp-primary-rgb), .11),
+      rgba(var(--hp-primary-rgb), .035) 52%,
+      #fff 100%
+    ) !important;
+  color: var(--hp-text) !important;
+  border-bottom: 1px solid var(--hp-primary-border);
 }
-
 
 .hire-professionals-hero::before {
   content: "";
-
   position: absolute;
-
-  width: 360px;
-  height: 360px;
-
-  right: -150px;
-  top: -220px;
-
-  border-radius: 50%;
-
-  border: 1px solid rgba(255,255,255,0.12);
-
-  box-shadow:
-    0 0 0 45px rgba(255,255,255,0.025),
-    0 0 0 90px rgba(255,255,255,0.018);
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--hp-primary-rgb), .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--hp-primary-rgb), .035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to right, rgba(0,0,0,.8), transparent 85%);
 }
-
 
 .hire-professionals-hero::after {
   content: "";
-
   position: absolute;
-
-  width: 180px;
-  height: 180px;
-
-  left: -100px;
-  bottom: -120px;
-
+  width: 270px;
+  height: 270px;
+  right: 5%;
+  top: -205px;
   border-radius: 50%;
-
-  background:
-    rgba(0,198,255,0.12);
+  background: rgba(var(--hp-primary-rgb), .07);
+  pointer-events: none;
 }
 
-
-.hire-hero-content {
+.hire-professionals-hero-inner,
+.hire-hero-title,
+.hire-hero-description {
   position: relative;
-
   z-index: 2;
-
-  max-width: 1180px;
-
-  margin: 0 auto;
 }
-
 
 .hire-hero-title {
-  font-size: clamp(27px, 5vw, 43px);
-
-  letter-spacing: -1px;
-
-  font-weight: 800;
+  color: var(--hp-text) !important;
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.1;
+  letter-spacing: -.035em;
 }
-
 
 .hire-hero-description {
-  color: rgba(255,255,255,0.7) !important;
-
-  font-size: 13px !important;
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+  color: var(--hp-muted) !important;
+  font-size: 12px;
+  line-height: 1.5;
 }
-
 
 /* =========================================================
    SEARCH HEADING
-========================================================= */
+   ========================================================= */
 
 .hire-search-heading {
-  text-align: center;
-
-  padding: 30px 0 16px;
+  width: min(1180px, calc(100% - 40px));
+  margin: 25px auto 13px;
 }
-
 
 .hire-search-heading h2 {
   margin: 0;
-
-  color: #172033;
-
-  font-size: 25px;
-
+  color: var(--hp-text);
+  font-size: clamp(22px, 3vw, 29px);
+  line-height: 1.15;
   font-weight: 800;
-
-  letter-spacing: -0.6px;
+  letter-spacing: -.025em;
 }
-
 
 .hire-search-heading p {
   margin: 5px 0 0;
-
-  color: #7b8798;
-
-  font-size: 11px;
+  color: var(--hp-muted);
+  font-size: 12px;
 }
 
-
 /* =========================================================
-   SEARCH
-========================================================= */
+   SEARCH CARD
+   ========================================================= */
 
 .hire-search-shell {
-  padding: 4px;
-
-  border-radius: 20px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(13,110,253,0.15),
-      rgba(0,198,255,0.08)
-    );
-
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto 18px !important;
+  padding: 16px;
+  border: 1px solid var(--hp-border);
+  border-radius: 18px;
+  background: var(--hp-white);
   box-shadow:
-    0 10px 30px rgba(15,23,42,0.06);
+    0 12px 32px rgba(16,24,40,.065),
+    0 2px 7px rgba(16,24,40,.025);
 }
 
+/* SearchSection internals remain untouched; this only gives it a clean shell. */
+.hire-search-shell > * {
+  min-width: 0;
+}
 
 /* =========================================================
-   RESULTS
-========================================================= */
+   RESULTS AREA
+   ========================================================= */
 
 .hire-results {
-  max-width: 1080px;
-
-  margin: 18px auto 0;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
 }
 
-
 /* =========================================================
-   FILTER
-========================================================= */
+   FILTER CARD
+   ========================================================= */
 
 .hire-filter-card {
   overflow: hidden;
-
-  background: rgba(255,255,255,0.94);
-
-  border: 1px solid #e5edf6;
-
-  border-radius: 17px;
-
-  box-shadow:
-    0 7px 23px rgba(15,23,42,0.055);
+  margin-bottom: 12px;
+  border: 1px solid var(--hp-border);
+  border-radius: 16px;
+  background: var(--hp-white);
+  box-shadow: 0 7px 20px rgba(16,24,40,.04);
 }
-
 
 .hire-filter-toggle {
   width: 100%;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  padding: 12px 14px;
-
+  padding: 0;
   border: 0;
-
   background: transparent;
-
-  cursor: pointer;
+  color: inherit;
+  text-align: left;
 }
 
+.hire-filter-toggle:focus-visible {
+  outline: 3px solid rgba(var(--hp-primary-rgb), .18);
+  outline-offset: -3px;
+}
 
 .hire-filter-row {
-  width: 100%;
-
+  min-height: 58px;
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
+  gap: 12px;
+  padding: 9px 14px;
 }
-
 
 .hire-filter-left {
+  min-width: 0;
   display: flex;
-
   align-items: center;
-
-  gap: 9px;
+  gap: 10px;
 }
-
 
 .hire-filter-icon {
-  width: 34px;
-  height: 34px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  border: 1px solid var(--hp-primary-border);
   border-radius: 10px;
-
-  color: #0d6efd;
-
-  background: #eaf3ff;
-
-  font-size: 12px;
+  color: var(--hp-primary);
+  background: var(--hp-primary-soft);
+  font-size: 16px;
 }
-
 
 .hire-filter-title {
-  font-size: 12px;
-
-  font-weight: 800;
-
-  color: #172033;
+  color: var(--hp-text);
+  font-size: 13px;
+  font-weight: 750;
 }
-
 
 .hire-filter-active {
-  padding: 4px 8px;
-
-  border-radius: 99px;
-
-  background: #eaf3ff;
-
-  color: #0d6efd;
-
-  font-size: 8px;
-
-  font-weight: 800;
+  padding: 4px 7px;
+  border: 1px solid var(--hp-primary-border);
+  border-radius: 999px;
+  color: var(--hp-primary);
+  background: var(--hp-primary-soft);
+  font-size: 7px;
+  font-weight: 850;
+  letter-spacing: .1em;
 }
-
 
 .hire-filter-chevron {
-  color: #64748b;
-
-  transition: transform .25s ease;
+  flex: 0 0 auto;
+  color: var(--hp-muted);
+  font-size: 13px;
+  transition: transform .2s ease, color .2s ease;
 }
 
-
 .hire-filter-chevron.open {
+  color: var(--hp-primary);
   transform: rotate(180deg);
 }
 
-
 .hire-filter-body {
-  padding: 0 14px 14px;
-
-  border-top: 1px solid #edf2f7;
+  padding: 13px 14px 15px;
+  border-top: 1px solid var(--hp-border);
+  background: #fcfdff;
 }
 
-
-.hire-filter-label {
-  display: flex;
-
-  align-items: center;
-
-  gap: 5px;
-
-  margin: 12px 0 5px;
-
-  font-size: 9px;
-
-  font-weight: 800;
-
-  color: #64748b;
-}
-
-
-.hire-filter-select {
-  height: 39px;
-
-  border-radius: 11px !important;
-
-  border: 1px solid #e1e8f0 !important;
-
-  background: #f8fafc !important;
-
-  font-size: 11px !important;
-
-  box-shadow: none !important;
-}
-
-
-.hire-filter-select:focus {
-  border-color: #86b7fe !important;
-
-  background: #fff !important;
-}
-
-
-/* =========================================================
-   CONTEXT
-========================================================= */
-
-.hire-context-card {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 12px;
-
-  margin-top: 10px;
-
-  padding: 9px 12px;
-
-  border-radius: 14px;
-
-  background: #fff;
-
-  border: 1px solid #e5edf5;
-
-  box-shadow:
-    0 5px 16px rgba(15,23,42,0.035);
-}
-
-
-.hire-context-inner {
-  display: flex;
-
-  flex-wrap: wrap;
-
-  align-items: center;
-
-  gap: 7px;
-}
-
-
-.hire-context-title {
+.hire-filter-label,
+.hire-filter-body .form-label {
+  display: block;
+  margin-bottom: 5px !important;
+  color: var(--hp-text);
   font-size: 10px;
-
-  font-weight: 800;
-
-  color: #475569;
-}
-
-
-.hire-context-chip {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 4px;
-
-  padding: 5px 8px;
-
-  border-radius: 99px;
-
-  font-size: 8px;
-
   font-weight: 700;
 }
 
-
-.hire-context-chip.location {
-  color: #0d6efd;
-
-  background: #eaf3ff;
-
-  border: 1px solid #d7e9ff;
+.hire-filter-label svg,
+.hire-filter-body .form-label svg {
+  color: var(--hp-primary);
 }
 
-
-.hire-context-chip.service {
-  color: #148253;
-
-  background: #e9f9f0;
-
-  border: 1px solid #d6f0e1;
+.hire-filter-select,
+.hire-filter-body .form-select {
+  min-height: 40px;
+  border-color: var(--hp-border);
+  border-radius: 10px;
+  color: var(--hp-text);
+  background-color: #fff;
+  font-size: 11px;
+  box-shadow: none;
 }
 
+.hire-filter-select:focus,
+.hire-filter-body .form-select:focus {
+  border-color: rgba(var(--hp-primary-rgb), .45);
+  box-shadow: 0 0 0 .2rem rgba(var(--hp-primary-rgb), .09);
+}
 
 /* =========================================================
-   PROFESSIONAL GRID
-========================================================= */
+   SEARCH CONTEXT
+   ========================================================= */
+
+.hire-context-card {
+  margin-bottom: 13px;
+  padding: 11px 13px;
+  border: 1px solid var(--hp-primary-border);
+  border-radius: 14px;
+  background: rgba(var(--hp-primary-rgb), .035);
+}
+
+.hire-context-inner {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.hire-context-title {
+  color: var(--hp-muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.hire-context-chip {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: 25px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.hire-context-chip.location {
+  color: var(--hp-primary);
+  background: var(--hp-primary-soft);
+}
+
+.hire-context-chip.service {
+  color: #344054;
+  background: #fff;
+  border: 1px solid var(--hp-border);
+}
+
+/* =========================================================
+   EMPTY / LOADING / ERROR STATES
+   ========================================================= */
+
+.hire-results > .text-center {
+  width: 100%;
+  margin: 14px 0;
+  padding: 42px 20px !important;
+  border: 1px solid var(--hp-border);
+  border-radius: 18px;
+  background: var(--hp-white);
+  box-shadow: 0 7px 20px rgba(16,24,40,.035);
+}
+
+.hire-results > .text-center h5 {
+  color: var(--hp-text);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.hire-results > .text-center p {
+  max-width: 420px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.hire-results > .text-center .spinner-border {
+  width: 2.2rem !important;
+  height: 2.2rem !important;
+  border-width: .22em;
+}
+
+/* =========================================================
+   PROFESSIONAL RESULTS
+   ========================================================= */
 
 .professional-results {
-  --bs-gutter-x: .85rem;
-  --bs-gutter-y: .85rem;
+  --bs-gutter-x: 14px;
+  --bs-gutter-y: 14px;
+  margin-top: 0;
 }
-
 
 .professional-col {
-  animation:
-    hireCardAppear .35s ease both;
+  min-width: 0;
 }
-
-
-@keyframes hireCardAppear {
-
-  from {
-    opacity: 0;
-
-    transform: translateY(7px);
-  }
-
-  to {
-    opacity: 1;
-
-    transform: translateY(0);
-  }
-
-}
-
 
 /* =========================================================
    PAGINATION
-========================================================= */
+   ========================================================= */
 
 .fixkar-pagination {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  gap: 6px;
-
-  margin: 22px 0 30px;
+  gap: 7px;
+  padding: 23px 0 8px;
 }
-
 
 .fixkar-page-btn {
-  min-width: 36px;
-
+  width: 36px;
   height: 36px;
-
   display: inline-flex;
-
   align-items: center;
-
   justify-content: center;
-
-  border: 1px solid #dfe7f0;
-
+  padding: 0;
+  border: 1px solid var(--hp-border);
   border-radius: 10px;
-
   background: #fff;
-
-  color: #64748b;
-
-  transition:
-    .2s ease;
+  color: var(--hp-muted);
+  font-size: 11px;
+  font-weight: 750;
+  box-shadow: 0 3px 9px rgba(16,24,40,.035);
+  transition: all .18s ease;
 }
-
 
 .fixkar-page-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-
-  border-color: #86b7fe;
-
-  color: #0d6efd;
-
-  background: #f5f9ff;
+  border-color: var(--hp-primary-border);
+  color: var(--hp-primary);
+  background: var(--hp-primary-soft);
+  transform: translateY(-1px);
 }
-
 
 .fixkar-page-btn.active {
-  border-color: #0d6efd;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0d6efd,
-      #008fd5
-    );
-
+  border-color: var(--hp-primary);
+  background: var(--hp-primary);
   color: #fff;
-
-  font-weight: 800;
-
-  box-shadow:
-    0 6px 15px rgba(13,110,253,0.2);
+  box-shadow: 0 5px 13px rgba(var(--hp-primary-rgb), .2);
 }
-
 
 .fixkar-page-btn:disabled {
   opacity: .45;
-
   cursor: not-allowed;
 }
 
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+  .hire-professionals-hero {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hire-search-heading,
+  .hire-search-shell,
+  .hire-results {
+    width: calc(100% - 30px);
+  }
+
+  .professional-results {
+    --bs-gutter-x: 11px;
+    --bs-gutter-y: 11px;
+  }
+}
 
 /* =========================================================
    MOBILE
-========================================================= */
+   ========================================================= */
 
-@media (max-width: 575.98px) {
-
+@media (max-width: 767.98px) {
   .hire-professionals-page {
-    padding-bottom: 25px;
+    padding-bottom: 30px;
   }
-
 
   .hire-professionals-hero {
-    padding: 27px 12px 35px;
-
-    border-radius: 0 0 25px 25px;
+    padding: 17px 10px 27px;
+    border-radius: 0 0 18px 18px;
   }
-
-
-  .hire-hero-content {
-    align-items: flex-start !important;
-
-    gap: 18px;
-  }
-
 
   .hire-hero-title {
-    font-size: 29px;
+    font-size: 25px;
   }
-
 
   .hire-hero-description {
-    max-width: 300px;
-
-    font-size: 11px !important;
+    margin-top: 5px !important;
+    font-size: 10.5px;
   }
-
 
   .hire-search-heading {
-    padding: 25px 0 13px;
+    width: calc(100% - 20px);
+    margin: 19px auto 9px;
   }
-
 
   .hire-search-heading h2 {
     font-size: 21px;
   }
 
-
   .hire-search-heading p {
+    margin-top: 4px;
     font-size: 10px;
   }
 
-
   .hire-search-shell {
-    border-radius: 17px;
+    width: calc(100% - 20px);
+    margin-bottom: 11px !important;
+    padding: 10px;
+    border-radius: 14px;
   }
-
 
   .hire-results {
-    margin-top: 14px;
+    width: calc(100% - 20px);
   }
 
-
-  .hire-filter-toggle {
-    padding: 10px 11px;
+  .hire-filter-card {
+    margin-bottom: 9px;
+    border-radius: 13px;
   }
 
-
-  .hire-filter-body {
-    padding: 0 11px 11px;
+  .hire-filter-row {
+    min-height: 50px;
+    padding: 7px 10px;
   }
 
-
-  .hire-context-card {
-    align-items: flex-start;
-
-    flex-direction: column;
-
-    gap: 7px;
+  .hire-filter-left {
+    gap: 8px;
   }
 
-
-  .hire-context-inner {
-    width: 100%;
-  }
-
-
-  .professional-results {
-    --bs-gutter-x: 0;
-    --bs-gutter-y: .75rem;
-  }
-
-
-  .professional-results > .professional-col {
-    width: 100%;
-
-    flex: 0 0 100%;
-  }
-
-
-  .fixkar-pagination {
-    margin-top: 18px;
-
-    margin-bottom: 22px;
-  }
-
-
-  .fixkar-page-btn {
-    min-width: 34px;
-
+  .hire-filter-icon {
+    width: 34px;
     height: 34px;
-
+    flex-basis: 34px;
     border-radius: 9px;
+    font-size: 14px;
   }
-
-}
-
-
-/* =========================================================
-   SMALL PHONES
-========================================================= */
-
-@media (max-width: 380px) {
-
-  .hire-hero-title {
-    font-size: 27px;
-  }
-
-
-  .hire-search-heading h2 {
-    font-size: 19px;
-  }
-
 
   .hire-filter-title {
     font-size: 11px;
   }
 
-
-  .hire-context-chip {
-    font-size: 8px;
-
-    padding: 4px 7px;
+  .hire-filter-active {
+    padding: 3px 6px;
+    font-size: 6.5px;
   }
 
+  .hire-filter-chevron {
+    font-size: 11px;
+  }
+
+  .hire-filter-body {
+    padding: 10px;
+  }
+
+  .hire-filter-label,
+  .hire-filter-body .form-label {
+    font-size: 9px;
+  }
+
+  .hire-filter-select,
+  .hire-filter-body .form-select {
+    min-height: 37px;
+    font-size: 10px;
+  }
+
+  .hire-context-card {
+    margin-bottom: 9px;
+    padding: 9px 10px;
+    border-radius: 12px;
+  }
+
+  .hire-context-inner {
+    gap: 5px;
+  }
+
+  .hire-context-title {
+    width: 100%;
+    font-size: 8px;
+  }
+
+  .hire-context-chip {
+    min-height: 23px;
+    padding: 3px 8px;
+    font-size: 8px;
+  }
+
+  .professional-results {
+    --bs-gutter-x: 8px;
+    --bs-gutter-y: 9px;
+  }
+
+  .hire-results > .text-center {
+    margin: 9px 0;
+    padding: 35px 13px !important;
+    border-radius: 14px;
+  }
+
+  .hire-results > .text-center h5 {
+    font-size: 14px;
+  }
+
+  .hire-results > .text-center p {
+    font-size: 10px;
+  }
+
+  .fixkar-pagination {
+    gap: 6px;
+    padding-top: 17px;
+  }
+
+  .fixkar-page-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
 }
 
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 390px) {
+  .hire-professionals-hero {
+    padding: 15px 8px 24px;
+  }
+
+  .hire-hero-title {
+    font-size: 23px;
+  }
+
+  .hire-hero-description {
+    font-size: 9.5px;
+  }
+
+  .hire-search-heading,
+  .hire-search-shell,
+  .hire-results {
+    width: calc(100% - 16px);
+  }
+
+  .hire-search-heading {
+    margin-top: 16px;
+  }
+
+  .hire-search-heading h2 {
+    font-size: 19px;
+  }
+
+  .hire-search-heading p {
+    font-size: 9px;
+  }
+
+  .hire-search-shell {
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .hire-filter-row {
+    padding-inline: 8px;
+  }
+
+  .hire-filter-icon {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+
+  .hire-filter-title {
+    font-size: 10.5px;
+  }
+
+  .hire-filter-active {
+    font-size: 6px;
+  }
+
+  .professional-results {
+    --bs-gutter-x: 6px;
+    --bs-gutter-y: 8px;
+  }
+
+  .fixkar-page-btn {
+    width: 32px;
+    height: 32px;
+  }
+}
 
 /* =========================================================
-   ACCESSIBILITY
-========================================================= */
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 340px) {
+  .hire-search-heading,
+  .hire-search-shell,
+  .hire-results {
+    width: calc(100% - 12px);
+  }
+
+  .hire-hero-title {
+    font-size: 21px;
+  }
+
+  .hire-hero-description {
+    font-size: 9px;
+  }
+
+  .hire-search-heading h2 {
+    font-size: 18px;
+  }
+
+  .hire-search-heading p {
+    font-size: 8.5px;
+  }
+
+  .hire-filter-title {
+    font-size: 10px;
+  }
+
+  .hire-context-chip {
+    font-size: 7.5px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
-  .professional-col,
   .hire-filter-chevron,
   .fixkar-page-btn {
-    animation: none;
-
     transition: none;
   }
 
+  .fixkar-page-btn:hover:not(:disabled) {
+    transform: none;
+  }
 }
