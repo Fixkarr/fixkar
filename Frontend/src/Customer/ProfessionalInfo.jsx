@@ -635,7 +635,7 @@ useEffect(() => {
           <div className="public-profile__trust-item">
 
             <span className="public-profile__trust-icon">
-              <FaCommentDot />
+              <FaCommentDots />
             </span>
 
             <div>
