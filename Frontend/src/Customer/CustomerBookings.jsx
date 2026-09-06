@@ -248,27 +248,6 @@ const CustomerBookings = () => {
       {/* =========================================
           FLOATING HIRE BUTTON
       ========================================= */}
-      <button
-        type="button"
-        className="customer-hire-floating-btn"
-        onClick={() =>
-          navigate("/customer/hire-professionals")
-        }
-        aria-label="Hire a professional"
-      >
-        <span className="customer-hire-icon">
-          <FaPlus />
-        </span>
-
-        <span className="customer-hire-text">
-          <strong>Hire Professional</strong>
-          <small>Book a new service</small>
-        </span>
-
-        <span className="customer-hire-arrow">
-          <FaArrowRight />
-        </span>
-      </button>
 
     </div>
 
