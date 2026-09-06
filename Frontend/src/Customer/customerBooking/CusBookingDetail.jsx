@@ -574,7 +574,7 @@ if (!booking) {
   {booking.status === "in-progress" && (
     <div>
       <PayButton
-        bookingId={bookingId}
+        booking={booking}
         paymentType="FINAL"
         label={`Pay ₹${finalPayable}`}
       />
