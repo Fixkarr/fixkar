@@ -57,7 +57,7 @@ const DashboardLayout = () => {
           />
         )}
 
-        {(isUserAuthenticated || isAdminAuthenticated) && (
+        {(isAdminAuthenticated) && (
           <Sidebar
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
