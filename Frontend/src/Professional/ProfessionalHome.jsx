@@ -24,6 +24,7 @@ import ProfileHealthCard from "./ProfileHealthCard/ProfileHealthCard";
 import ProfessionalAchievementCard from "./ProfessionalAchievementCard";
 import "./professional-dashboard.css";
 import ReferEarnBanner from "../Components/ReferEarnBanner";
+import useGetMyConversations from "../hooks/useGetMyConversations";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -31,6 +32,7 @@ const ProfessionalHome = () => {
   const { announcements, loading } = useGetAnnouncements();
   useGetMyBookings();
   useGetNotifications();
+  useGetMyConversations()
   const navigate = useNavigate();
   const { currentUserData } = useSelector((state) => state.user);
   const user = currentUserData?.user;

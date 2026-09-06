@@ -20,13 +20,15 @@ import Working from './Working'
 import NeedHelp from '../utils/NeedHelp'
 import ReferEarnBanner from '../Components/ReferEarnBanner'
 import '../css/customerHome.css'
+import useGetMyConversations from '../hooks/useGetMyConversations'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [notifLoading, setNotifLoading] = useState(false);
   const { announcements, loading, error, refetch } = useGetAnnouncements();
   useGetMyBookings();
-  useGetNotifications()
+  useGetNotifications();
+  useGetMyConversations()
   const {currentUserData} = useSelector((state)=>state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
