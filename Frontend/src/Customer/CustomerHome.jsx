@@ -80,108 +80,194 @@ const CustomerHome = () => {
   setShowNotificationModal(false);
 };
   
- return (
-<>
-<EnableNotificationModal
-  show={showNotificationModal}
-  onClose={handleCloseModal}
-  onEnable={handleEnableNotifications}
-  loading={notifLoading}
-/>
+return (
+  <>
+    <EnableNotificationModal
+      show={showNotificationModal}
+      onClose={handleCloseModal}
+      onEnable={handleEnableNotifications}
+      loading={notifLoading}
+    />
+
+    <div className="customer-home-page">
+
+      {/* =========================================
+          COMPACT HERO
+      ========================================= */}
+      <section className="customer-home-hero">
+
+        <div className="customer-home-glow customer-home-glow-one" />
+        <div className="customer-home-glow customer-home-glow-two" />
+
+        <div className="customer-home-hero-content">
+
+          <div className="customer-home-brand">
+            <h5>Fixkar</h5>
+          </div>
+
+          <div className="customer-home-profile-row">
+
+            <div className="customer-home-intro">
+
+              <span className="customer-home-eyebrow">
+                <span className="customer-home-live-dot" />
+                CUSTOMER DASHBOARD
+              </span>
+
+              <h2>
+                Hi, {currentUserData?.user?.userId?.fullName} 👋
+              </h2>
+
+              <p>
+                Book trusted professionals in seconds
+              </p>
+
+              <div className="customer-home-feature-badges">
+                <span>Verified</span>
+                <span>Fast Booking</span>
+                <span>Nearby Experts</span>
+              </div>
+
+            </div>
+
+            <div className="customer-home-contact">
+
+              <div className="customer-home-contact-item">
+                <span className="customer-home-contact-icon">
+                  <FaIdBadge />
+                </span>
+                <span className="customer-home-contact-text">
+                  {currentUserData?.user?.userId._id}
+                </span>
+              </div>
+
+              <div className="customer-home-contact-item">
+                <span className="customer-home-contact-icon">
+                  <FaPhone />
+                </span>
+                <span className="customer-home-contact-text">
+                  {currentUserData?.user?.userId?.mobile}
+                </span>
+              </div>
+
+              <div className="customer-home-contact-item">
+                <span className="customer-home-contact-icon">
+                  <FaEnvelope />
+                </span>
+                <span className="customer-home-contact-text">
+                  {currentUserData?.user?.userId?.email}
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="customer-home-help">
+            <NeedHelp user={"customer"} />
+          </div>
+
+        </div>
+      </section>
 
 
-<div className="container-fluid p-0 bg-light min-vh-100">
+      {/* =========================================
+          SEARCH SECTION
+      ========================================= */}
+      <section className="customer-home-search-section">
 
-  {/* 🔵 Modern Gradient Hero */}
-  <div
-    className="text-white p-4 pb-5"
-    style={{
-      background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
-      borderBottomLeftRadius: "30px",
-      borderBottomRightRadius: "30px"
-    }}
-  >
-    {/* Top Icons */}
-    <div className="d-flex justify-content-between align-items-center mb-3">
-      <h5 className="fw-bold mb-0">Fixkar</h5>
+        <div className="customer-home-container">
+
+          <div className="customer-home-search-card">
+
+            <div className="customer-home-search-heading">
+              <div className="customer-home-search-icon">
+                <span>⌕</span>
+              </div>
+
+              <div>
+                <span>FIND A PROFESSIONAL</span>
+                <h6>Search & Hire Professionals</h6>
+              </div>
+            </div>
+
+            <SearchSection
+              onLocationSelect={handleLocationSelect}
+              onServiceSelect={handleServiceSelect}
+              onTaskSelect={() => navigate("/customer/hire-professionals")}
+            />
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* =========================================
+          MOBILE VERIFICATION
+      ========================================= */}
+      {!currentUserData?.user?.userId?.isMobileVerified && (
+        <section className="customer-home-alert-section">
+
+          <div className="customer-home-container">
+            <MobileNotVerified />
+          </div>
+
+        </section>
+      )}
+
+
+      {/* =========================================
+          ANNOUNCEMENTS
+      ========================================= */}
+      {loading ? (
+        <div className="customer-home-loader">
+          <ClipLoader size={30} color="blue" />
+        </div>
+      ) : (
+        announcements?.length > 0 &&
+        announcements.map((a) => (
+          <AnnouncementBanner
+            key={a._id}
+            announcement={a}
+          />
+        ))
+      )}
+
+
+      {/* =========================================
+          REFERRAL
+      ========================================= */}
+      <section className="customer-home-content-section">
+        <div className="customer-home-container">
+          <ReferEarnBanner />
+        </div>
+      </section>
+
+
+      {/* =========================================
+          SERVICES
+      ========================================= */}
+      <section className="customer-home-services-section">
+
+        <div className="customer-home-container">
+
+          <div className="customer-home-section-heading">
+            <div>
+              <span>SERVICES</span>
+              <h3>What do you need?</h3>
+            </div>
+          </div>
+
+          <Working />
+
+        </div>
+
+      </section>
+
     </div>
-
-  <div className='d-flex justify-content-between'>
-     <div>
-     <h4 className="fw-bold">
-      Hi, {currentUserData?.user?.userId?.fullName} 👋
-    </h4>
-
-    <p className="small opacity-75 mb-3">
-      Book trusted professionals in seconds
-    </p>
-     <div className="d-flex gap-2 flex-wrap">
-      <span className="badge bg-light text-primary rounded-pill px-3 py-2">
-        Verified
-      </span>
-      <span className="badge bg-light text-primary rounded-pill px-3 py-2">
-        Fast Booking
-      </span>
-      <span className="badge bg-light text-primary rounded-pill px-3 py-2">
-        Nearby Experts
-      </span>
-    </div>
-   </div>
-   <div>
-    <p><FaIdBadge/> {currentUserData?.user?.userId._id}</p>
-    <p><FaPhone/> {currentUserData?.user?.userId?.mobile}</p>
-    <p><FaEnvelope/> {currentUserData?.user?.userId?.email}</p>
-   </div>
-  </div>
-
-    {/* Feature Badges */}
-   <NeedHelp user={"customer"}/>
-  </div>
-
-  {/* 🔵 Floating Search Section */}
-  <div className="container" style={{marginTop:"40px"}}>
-    <div className="card border-0 shadow-lg rounded-4 p-3">
-
-      <h6 className="fw-semibold text-primary mb-3">
-        Search & Hire Professionals
-      </h6>
-
-      <SearchSection
-        onLocationSelect={handleLocationSelect}
-        onServiceSelect={handleServiceSelect}
-        onTaskSelect={() => navigate("/customer/hire-professionals")}
-      />
-    </div>
-  </div>
-
-  {/* 🔵 Mobile Verification Alert */}
-  {!currentUserData?.user?.userId?.isMobileVerified && (
-    <div className="container mt-4">
-      <MobileNotVerified />
-    </div>
-  )}
-
-
-  {loading ? (
-  <center>
-    <ClipLoader size={30} color="blue" />
-  </center>
-) : (
-  announcements?.length > 0 &&
-  announcements.map((a) => (
-    <AnnouncementBanner key={a._id} announcement={a} />
-  ))
-)}
-
-  <ReferEarnBanner/>
-
-  <Working/>
-
-</div>
-
-
-</>
-)
+  </>
+);
 }
 
 export default CustomerHome

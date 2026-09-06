@@ -74,7 +74,7 @@ const CustomerBookings = () => {
 
             <div className="customer-bookings-hero-meta">
               <div className="customer-bookings-meta-icon">
-                <FaCalendarCheck />
+                <FaCalendarCheck size={20}/>
               </div>
 
               <div>
@@ -105,7 +105,7 @@ const CustomerBookings = () => {
               <div className="customer-stat-top">
 
                 <div className="customer-stat-icon">
-                  <FaClipboardList />
+                  <FaClipboardList size={20}/>
                 </div>
 
                 <span className="customer-stat-label">
@@ -133,7 +133,7 @@ const CustomerBookings = () => {
               <div className="customer-stat-top">
 
                 <div className="customer-stat-icon">
-                  <FaClock />
+                  <FaClock size={20}/>
                 </div>
 
                 <span className="customer-stat-label">
@@ -161,7 +161,7 @@ const CustomerBookings = () => {
               <div className="customer-stat-top">
 
                 <div className="customer-stat-icon">
-                  <FaCheckCircle />
+                  <FaCheckCircle size={20}/>
                 </div>
 
                 <span className="customer-stat-label">
