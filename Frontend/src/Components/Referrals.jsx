@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import {
   FaArrowRight,
   FaCheck,
@@ -20,27 +20,15 @@ import {
 } from "react-icons/fa6";
 import "../css/Referrals.css";
 import { formatDate } from "../utils/formatTime&Date";
+import axios from 'axios'
+import { server_url } from "../App";
 
 const Referrals = () => {
   const [copied, setCopied] = useState(null);
   const [shareOpen, setShareOpen] = useState(false);
 
-  /*
-    API connect karne ke baad is object ko
-    API response se replace kar dena.
-
-    Expected:
-    referralCode
-    links.customer
-    links.professional
-    stats
-    rewardCredits
-    referrals
-  */
-
-  const referralData = {
+  const [referralData, setReferralData] = useState({
     referralCode: "FIXKAR8A92",
-
     links: {
       customer:
         "https://fixkarr.com/signup?role=customer&ref=FIXKAR8A92",
@@ -48,7 +36,6 @@ const Referrals = () => {
       professional:
         "https://fixkarr.com/signup?role=professional&ref=FIXKAR8A92",
     },
-
     stats: {
       totalReferrals: 12,
       successfulReferrals: 8,
@@ -56,9 +43,7 @@ const Referrals = () => {
       reversedReferrals: 1,
       totalEarned: 860,
     },
-
     rewardCredits: 160,
-
     referrals: [
       {
         id: "1",
@@ -83,7 +68,17 @@ const Referrals = () => {
         createdAt: "2026-09-04",
       },
     ],
-  };
+  });
+
+  useEffect(()=>{
+    const getReferrals = async ()=>{
+        const referralsResponse = await axios.get(`${server_url}/api/referral/get-my-referral`, {withCredentials : true});
+        console.log(referralsResponse)
+    }
+
+    getReferrals();
+  },[])
+
 
   const copyLink = async (type, link) => {
     try {
