@@ -5,7 +5,25 @@ import { server_url } from "../App";
 import { ClipLoader } from "react-spinners";
 import { CiLocationOn } from "react-icons/ci";
 import { IoChatbubbleEllipsesOutline} from "react-icons/io5";
-import { FaUserTie, FaMoneyBillWave, FaInfoCircle, FaTools, FaCalendar, FaShareAlt, FaStar, FaShieldAlt } from "react-icons/fa";
+import {
+  FaUserTie,
+  FaStar,
+  FaShareAlt,
+  FaCheck,
+  FaShieldAlt,
+  FaArrowRight,
+  FaCommentDots,
+  FaTools,
+  FaUserCircle,
+  FaChevronRight,
+  FaQuoteLeft,
+  FaInfoCircle,
+  FaCheckCircle,
+  FaCalendar,
+  FaIndianRupeeSign,
+  FaImages,
+  FaLocationDot,
+} from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedProfessional } from "../redux/professionalInfo.slice";
@@ -20,13 +38,12 @@ import CallButton from "../Components/CallButton";
 import FormResponseSummary from "../Admin/AdminComponents/Utils/FormResponseSummary";
 import DayCard from "../Professional/DayCard";
 import Navbar from "../Components/Navbar";
-import DashboardNavigator from "../utils/DashboardNavigator";
 import { Helmet } from "react-helmet-async";
 import { generateAbout, generateFaqs } from "../utils/generateFaqs";
 import FAQSection from "../Components/FAQSection";
 import FixkarLoader from "../Components/FixkarLoader";
 import "./professional-public-profile.css";
-import { FaArrowRight, FaCheck } from "react-icons/fa6";
+
 
 const ProfessionalInfo = () => {
   const mapsLoaded = useLoadGoogleMaps();
@@ -266,414 +283,836 @@ useEffect(() => {
   }
 
   return (
-    <>
+  <>
     <Helmet>
-        <title>
-  {professionalInfo
-    ? `${professionalInfo.userId.fullName} - Verified ${professionalInfo.profession.name} in ${professionalInfo.address.addressLine} | FixKar`
-    : "FixKar"}
-  </title>
+      <title>
+        {professionalInfo
+          ? `${professionalInfo.userId.fullName} - Verified ${professionalInfo.profession.name} in ${professionalInfo.address.addressLine} | FixKar`
+          : "FixKar"}
+      </title>
 
-  <meta
-  name="description"
-  content={
-    about
-  }
-/>
+      <meta
+        name="description"
+        content={about}
+      />
 
-  <link
-  rel="canonical"
-  href={`https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo?.slug}`}
-/>
-<script type="application/ld+json">
-{JSON.stringify(personSchema)}
-</script>
+      <link
+        rel="canonical"
+        href={`https://www.fixkarr.com/professional/profile/visit/${id}/${professionalInfo?.slug}`}
+      />
 
-<script type="application/ld+json">
-{JSON.stringify(serviceSchema)}
-</script>
+      <script type="application/ld+json">
+        {JSON.stringify(personSchema)}
+      </script>
 
-{faqSchema && (
-  <script type="application/ld+json">
-    {JSON.stringify(faqSchema)}
-  </script>
-)}
+      <script type="application/ld+json">
+        {JSON.stringify(serviceSchema)}
+      </script>
+
+      {faqSchema && (
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      )}
     </Helmet>
+
+
+    {/* =====================================================
+        LOGGED OUT HEADER
+    ====================================================== */}
+
     {!currentUserData?.user ? (
       <>
-        <Navbar/>
-      <div className="mt-5"/>
+        <Navbar />
+        <div className="mt-5" />
       </>
-    ):  <div
-        className="text-white p-4"
-        style={{
-          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
-          borderBottomLeftRadius: "25px",
-          borderBottomRightRadius: "25px"
-        }}
-      >
-        <div className="d-flex justify-content-between align-items-center">
-          <h5 className="fw-bold mb-0">Professional Information</h5>
-        </div>
-
-        <p className="mt-2 small opacity-75">
-         Here is the professional Details!
-        </p>
-      </div>
-}
-    <div className="public-profile">
-    <div className="container public-profile__container py-4">
-      {showLocationGate && (
-  <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
-    <div className="modal-dialog modal-dialog-centered modal-lg">
-      <div className="modal-content rounded-4">
-
-        <div className="modal-header">
-          <h5 className="modal-title fw-semibold">
-            📍 Select Your Location
-          </h5>
-          <button
-            className="btn-close"
-            onClick={() => setShowLocationGate(false)}
-          />
-        </div>
-
-        <div className="modal-body">
-          <p className="text-muted small mb-3">
-            We need your exact location to calculate visiting charges
-          </p>
-
-          {/* 🔥 ONLY LOCATION PICKER */}
-          <SearchSection
-            onlyLocation
-            onLocationSelect={() => {
-              setShowLocationGate(false);
-              toast.success("Location confirmed. You can now hire.");
-            }}
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
-      {/* ================= HEADER CARD ================= */}
-     {/* ================= PREMIUM PROFILE HERO ================= */}
-<div className="card public-profile__hero border-0 mb-4">
-  <div className="public-profile__hero-bg">
-
-    {/* Decorative background elements */}
-    <div className="public-profile__hero-glow public-profile__hero-glow--one" />
-    <div className="public-profile__hero-glow public-profile__hero-glow--two" />
-
-    <div className="public-profile__hero-content">
-
-      {/* ================= PROFILE ================= */}
-      <div className="public-profile__identity">
-
-        <div className="public-profile__avatar-wrap">
-          <img
-            src={
-              professionalInfo?.profilePicture ||
-              "/Images/placeholderProfile.avif"
-            }
-            alt="Profile"
-            className="public-profile__avatar"
-          />
-
-          <span className="public-profile__online-dot">
-            <span />
-          </span>
-        </div>
-
-        <div className="public-profile__identity-info">
-
-          <div className="public-profile__name-row">
-            <h4>
-              {professionalInfo?.userId?.fullName}
-            </h4>
-
-            <span className="public-profile__verified-icon">
-              <FaCheck />
-            </span>
-          </div>
-
-          <div className="public-profile__profession">
-            <span className="public-profile__profession-icon">
-              <FaUserTie />
-            </span>
-
-            <span>
-              {professionalInfo?.profession.name}
-            </span>
-          </div>
-
-          <div className="public-profile__meta">
-
-            <span className="public-profile__verified-badge">
-              <FaShieldAlt />
-              <span>Verified Professional</span>
-            </span>
-
-            <span className="public-profile__rating">
-              <FaStar />
-              <strong>{averageRating}</strong>
-              <small>({reviewCount} reviews)</small>
-            </span>
-
-          </div>
-
-        </div>
-      </div>
-
-
-      {/* ================= ACTIONS ================= */}
-      <div className="public-profile__actions">
-
-        <button
-          type="button"
-          className="public-profile__action-btn"
-          onClick={handleShareProfile}
-        >
-          <span className="public-profile__action-icon">
-            <FaShareAlt />
-          </span>
-
-          <span className="public-profile__action-text">
-            Share
-          </span>
-        </button>
-
-
-        <button
-          type="button"
-          className="public-profile__action-btn"
-          onClick={handleChatClick}
-        >
-          <span className="public-profile__action-icon">
-            <IoChatbubbleEllipsesOutline />
-          </span>
-
-          <span className="public-profile__action-text">
-            Chat
-          </span>
-        </button>
-
-
-        <div className="public-profile__call-wrapper">
-          <CallButton
-            currentUserData={currentUserData}
-            professionalInfo={professionalInfo}
-          />
-        </div>
-
-
-        <button
-          type="button"
-          className="public-profile__hire-btn"
-          onClick={handleHireClick}
-        >
-          <span className="public-profile__hire-icon">
-            <FaUserTie />
-          </span>
-
-          <span>Hire Now</span>
-
-          <FaArrowRight className="public-profile__hire-arrow" />
-        </button>
-
-      </div>
-
-    </div>
-  </div>
-</div>
-
-      {/* ================= ABOUT & ADDRESS ================= */}
-  <div className="public-profile__primary-grid">
-  <div className="card public-profile__section public-profile__details-card border-0 rounded-4 overflow-hidden">
-
-  {/* Header */}
-  <div
-    className="public-profile__section-header px-4 py-3 text-white"
-  >
-    <div className="d-flex align-items-center gap-2">
-      <FaInfoCircle size={18} />
-      <h6 className="mb-0 fw-semibold">Professional Details</h6>
-    </div>
-    <small className="opacity-75">
-      About the professional & service location
-    </small>
-  </div>
-
-  {/* Body */}
-  <div className="card-body public-profile__section-body">
-
-    {/* About */}
-    {professionalInfo?.description && (
-      <div className="mb-4">
-        <div className="d-flex align-items-start gap-2 mb-1">
-          <FaInfoCircle className="text-primary mt-1" />
-          <h6 className="fw-semibold mb-0">About</h6>
-        </div>
-
-        <p className="text-muted small mb-0 ps-4">
-          {professionalInfo.description}
-        </p>
-      </div>
-    )}
-
-    {/* Address */}
-    {professionalInfo?.address?.addressLine && (
-      <div>
-        <div className="d-flex align-items-start gap-2 mb-1">
-          <CiLocationOn className="text-danger mt-1" />
-          <h6 className="fw-semibold mb-0">Service Address</h6>
-        </div>
-
-        <p className="text-muted small mb-0 ps-4">
-          {professionalInfo.address.addressLine}
-        </p>
-      </div>
-    )}
-
-  </div>
-</div>
-
-{ professionalInfo.busyDays?.length !== 0 &&
-<div className="card public-profile__section public-profile__availability-card border-0 rounded-4 overflow-hidden">
- <div
-    className="public-profile__section-header px-4 py-3 text-white"
-  >
-    <div className="d-flex align-items-center gap-2">
-      <FaCalendar size={18} />
-      <h6 className="mb-0 fw-semibold">Not Available on these dates</h6>
-    </div>
-     <small className="opacity-75">
-      Dates this professional is not Available
-    </small>
-  </div>
-
-    <div className="public-profile__busy-days d-flex p-3 gap-3">
-   {professionalInfo.busyDays?.map((date, idx) => {
-  return (
-      <DayCard  
-        key={idx}
-        year={new Date(date).getFullYear()}
-        day={String(new Date(date).getDate()).padStart(2, "0")}
-        month={new Date(date).toLocaleString("default", {
-          month: "short",
-        })}
-      />
-    
-  );
-})}
-</div>
-
-  </div>
-  }
-
-
-
-{/* ================= SKILLS & EXPERTISE ================= */}
-<div className="card public-profile__section public-profile__skills-card border-0 rounded-4 overflow-hidden">
-
-  {/* Header */}
-  <div
-    className="public-profile__section-header px-4 py-3 text-white"
-  >
-    <div className="d-flex align-items-center gap-2">
-      <FaTools size={18} />
-      <h6 className="mb-0 fw-semibold">Skills & Expertise</h6>
-    </div>
-    <small className="opacity-75">
-      Services this professional is experienced in
-    </small>
-  </div>
-
-  {/* Body */}
-  <div className="card-body public-profile__section-body">
-    {professionalInfo?.selectedSkills &&
-    professionalInfo.selectedSkills.length > 0 ? (
-      <div className="d-flex flex-wrap gap-2">
-        {professionalInfo.selectedSkills.map((skill) => (
-          <span
-            key={skill._id}
-            className="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-semibold"
-            style={{ fontSize: "0.85rem" }}
-          >
-            {skill.name}
-          </span>
-        ))}
-      </div>
     ) : (
-      <div className="alert alert-warning border-0 rounded-4 mb-0">
-        <strong>No skills listed.</strong><br />
-        This professional has not added specific skills yet.
+      <div className="public-profile__logged-header">
+        <div className="public-profile__logged-header-inner">
+          <div className="public-profile__logged-icon">
+            <FaUserTie />
+          </div>
+
+          <div>
+            <h5>Professional Profile</h5>
+            <p>
+              Explore professional details, expertise & availability
+            </p>
+          </div>
+        </div>
       </div>
     )}
-  </div>
-</div>
- </div>
 
 
+    {/* =====================================================
+        PAGE
+    ====================================================== */}
 
-      {/* ================= CHARGES ================= */}
-   <div className="public-profile__charges">
-     <FormResponseSummary summary={professionalInfo?.charges?.summary}/>
-   </div>
+    <div className="public-profile">
 
-      {/* {=======================Reviews=============} */}
+      <div className="container public-profile__container py-4">
 
-      {professionalInfo?.reviews.length !==0 && <div className="review">
-            <ProReviews reviews={professionalInfo?.reviews}/>
-          </div>}
-      
-      {faqs && <FAQSection faqs={faqs}/>}
-          
-          {/* ================gallery============== */}
-      {professionalInfo?.gallery.length !==0 && <ProfessionalGallerySection professionalInfo={professionalInfo}/>}
 
-      <div className="public-profile__mobile-cta d-md-none">
-        <button type="button" className="btn btn-light" onClick={handleChatClick}>
-          <IoChatbubbleEllipsesOutline />
-          <span>Chat</span>
-        </button>
-        <button type="button" className="btn btn-primary" onClick={handleHireClick}>
-          <FaUserTie />
-          <span>Hire now</span>
-        </button>
-      </div>
+        {/* =================================================
+            LOCATION GATE
+        ================================================== */}
 
-      {/* ================= MODAL ================= */}
-     {showHireModal && (
-  <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,0.5)" }}>
-    <div className="modal-dialog modal-dialog-centered">
-      <div className="modal-content rounded-4">
+        {showLocationGate && (
+          <div
+            className="modal fade show d-block"
+            style={{ background: "rgba(0,0,0,0.5)" }}
+          >
+            <div className="modal-dialog modal-dialog-centered modal-lg">
 
-        <div className="modal-header">
-          <h5 className="modal-title fw-semibold">
-            Request Hiring
-          </h5>
-          <button
-            className="btn-close"
-            onClick={() => setShowHireModal(false)}
+              <div className="modal-content rounded-4">
+
+                <div className="modal-header">
+
+                  <h5 className="modal-title fw-semibold">
+                    <FaLocationDot className="me-2 text-primary" />
+                    Select Your Location
+                  </h5>
+
+                  <button
+                    className="btn-close"
+                    onClick={() => setShowLocationGate(false)}
+                  />
+
+                </div>
+
+                <div className="modal-body">
+
+                  <p className="text-muted small mb-3">
+                    We need your exact location to calculate visiting charges
+                  </p>
+
+                  <SearchSection
+                    onlyLocation
+                    onLocationSelect={() => {
+                      setShowLocationGate(false);
+                      toast.success(
+                        "Location confirmed. You can now hire."
+                      );
+                    }}
+                  />
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        )}
+
+
+        {/* =================================================
+            PREMIUM PROFILE HERO
+        ================================================== */}
+
+        <section className="public-profile__hero">
+
+          <div className="public-profile__hero-background">
+
+            <span className="public-profile__hero-orb orb-one" />
+            <span className="public-profile__hero-orb orb-two" />
+            <span className="public-profile__hero-shine" />
+
+
+            <div className="public-profile__hero-inner">
+
+
+              {/* ================= PROFILE IDENTITY ================= */}
+
+              <div className="public-profile__identity">
+
+                <div className="public-profile__avatar-container">
+
+                  <img
+                    src={
+                      professionalInfo?.profilePicture ||
+                      "/Images/placeholderProfile.avif"
+                    }
+                    alt={
+                      professionalInfo?.userId?.fullName ||
+                      "Professional"
+                    }
+                    className="public-profile__avatar"
+                  />
+
+                  <span className="public-profile__avatar-status">
+                    <span />
+                  </span>
+
+                </div>
+
+
+                <div className="public-profile__identity-content">
+
+                  <div className="public-profile__name-line">
+
+                    <h1>
+                      {professionalInfo?.userId?.fullName}
+                    </h1>
+
+                    <span className="public-profile__verified-check">
+                      <FaCheck />
+                    </span>
+
+                  </div>
+
+
+                  <div className="public-profile__profession-line">
+
+                    <span className="public-profile__profession-icon">
+                      <FaUserTie />
+                    </span>
+
+                    <span>
+                      {professionalInfo?.profession?.name}
+                    </span>
+
+                  </div>
+
+
+                  <div className="public-profile__profile-meta">
+
+                    <span className="public-profile__verified-pill">
+                      <FaShieldAlt />
+                      <span>Verified Professional</span>
+                    </span>
+
+                    <span className="public-profile__rating-pill">
+                      <FaStar />
+                      <strong>{averageRating}</strong>
+                      <span>•</span>
+                      <small>
+                        {reviewCount} reviews
+                      </small>
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              {/* ================= ACTIONS ================= */}
+
+              <div className="public-profile__desktop-actions">
+
+                <button
+                  type="button"
+                  className="public-profile__hero-action"
+                  onClick={handleShareProfile}
+                >
+                  <span className="public-profile__hero-action-icon">
+                    <FaShareAlt />
+                  </span>
+
+                  <span>Share</span>
+                </button>
+
+
+                <button
+                  type="button"
+                  className="public-profile__hero-action"
+                  onClick={handleChatClick}
+                >
+                  <span className="public-profile__hero-action-icon">
+                    <IoChatbubbleEllipsesOutline />
+                  </span>
+
+                  <span>Chat</span>
+                </button>
+
+
+                <div className="public-profile__call-action">
+                  <CallButton
+                    currentUserData={currentUserData}
+                    professionalInfo={professionalInfo}
+                  />
+                </div>
+
+
+                <button
+                  type="button"
+                  className="public-profile__hire-action"
+                  onClick={handleHireClick}
+                >
+                  <FaUserTie />
+                  <span>Hire Now</span>
+                  <FaArrowRight />
+                </button>
+
+              </div>
+
+            </div>
+
+
+            {/* ================= MOBILE ACTIONS ================= */}
+
+            <div className="public-profile__mobile-actions">
+
+              <button
+                type="button"
+                onClick={handleShareProfile}
+              >
+                <FaShareAlt />
+                <span>Share</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleChatClick}
+              >
+                <IoChatbubbleEllipsesOutline />
+                <span>Chat</span>
+              </button>
+
+              <div className="public-profile__mobile-call">
+                <CallButton
+                  currentUserData={currentUserData}
+                  professionalInfo={professionalInfo}
+                />
+              </div>
+
+              <button
+                type="button"
+                className="is-hire"
+                onClick={handleHireClick}
+              >
+                <FaUserTie />
+                <span>Hire</span>
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        {/* =================================================
+            QUICK TRUST STRIP
+        ================================================== */}
+
+        <section className="public-profile__trust-strip">
+
+          <div className="public-profile__trust-item">
+
+            <span className="public-profile__trust-icon">
+              <FaShieldAlt />
+            </span>
+
+            <div>
+              <strong>Verified</strong>
+              <small>Professional</small>
+            </div>
+
+          </div>
+
+
+          <div className="public-profile__trust-divider" />
+
+
+          <div className="public-profile__trust-item">
+
+            <span className="public-profile__trust-icon">
+              <FaStar />
+            </span>
+
+            <div>
+              <strong>{averageRating}</strong>
+              <small>Rating</small>
+            </div>
+
+          </div>
+
+
+          <div className="public-profile__trust-divider" />
+
+
+          <div className="public-profile__trust-item">
+
+            <span className="public-profile__trust-icon">
+              <FaCommentDots />
+            </span>
+
+            <div>
+              <strong>{reviewCount}</strong>
+              <small>Reviews</small>
+            </div>
+
+          </div>
+
+
+          <div className="public-profile__trust-divider" />
+
+
+          <div className="public-profile__trust-item">
+
+            <span className="public-profile__trust-icon">
+              <FaTools />
+            </span>
+
+            <div>
+              <strong>
+                {professionalInfo?.selectedSkills?.length || 0}
+              </strong>
+              <small>Skills</small>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        {/* =================================================
+            MAIN INFORMATION GRID
+        ================================================== */}
+
+        <div className="public-profile__information-grid">
+
+
+          {/* ================= ABOUT ================= */}
+
+          <section className="public-profile__info-card">
+
+            <div className="public-profile__card-header">
+
+              <div className="public-profile__card-heading">
+
+                <span className="public-profile__card-icon">
+                  <FaUserCircle />
+                </span>
+
+                <div>
+                  <h2>About Professional</h2>
+                  <p>Know more about this professional</p>
+                </div>
+
+              </div>
+
+              <FaChevronRight className="public-profile__header-arrow" />
+
+            </div>
+
+
+            <div className="public-profile__card-body">
+
+              {professionalInfo?.description ? (
+
+                <div className="public-profile__about-content">
+
+                  <div className="public-profile__about-icon">
+                    <FaQuoteLeft />
+                  </div>
+
+                  <p>
+                    {professionalInfo.description}
+                  </p>
+
+                </div>
+
+              ) : (
+
+                <div className="public-profile__empty-state">
+
+                  <FaInfoCircle />
+
+                  <span>
+                    No professional description available.
+                  </span>
+
+                </div>
+
+              )}
+
+            </div>
+
+          </section>
+
+
+          {/* ================= SERVICE LOCATION ================= */}
+
+          <section className="public-profile__info-card">
+
+            <div className="public-profile__card-header">
+
+              <div className="public-profile__card-heading">
+
+                <span className="public-profile__card-icon location">
+                  <CiLocationOn />
+                </span>
+
+                <div>
+                  <h2>Service Location</h2>
+                  <p>Professional service area</p>
+                </div>
+
+              </div>
+
+              <FaChevronRight className="public-profile__header-arrow" />
+
+            </div>
+
+
+            <div className="public-profile__card-body">
+
+              {professionalInfo?.address?.addressLine ? (
+
+                <div className="public-profile__location-box">
+
+                  <div className="public-profile__location-icon">
+                    <CiLocationOn />
+                  </div>
+
+                  <div>
+
+                    <span>Service Address</span>
+
+                    <p>
+                      {professionalInfo.address.addressLine}
+                    </p>
+
+                  </div>
+
+                </div>
+
+              ) : (
+
+                <div className="public-profile__empty-state">
+
+                  <CiLocationOn />
+
+                  <span>
+                    Service location not available.
+                  </span>
+
+                </div>
+
+              )}
+
+            </div>
+
+          </section>
+
+
+          {/* =================================================
+              SKILLS
+          ================================================== */}
+
+          <section className="public-profile__info-card public-profile__skills-card">
+
+            <div className="public-profile__card-header">
+
+              <div className="public-profile__card-heading">
+
+                <span className="public-profile__card-icon skills">
+                  <FaTools />
+                </span>
+
+                <div>
+                  <h2>Skills & Expertise</h2>
+                  <p>Professional expertise & capabilities</p>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div className="public-profile__card-body">
+
+              {professionalInfo?.selectedSkills &&
+              professionalInfo.selectedSkills.length > 0 ? (
+
+                <div className="public-profile__skills-list">
+
+                  {professionalInfo.selectedSkills.map((skill) => (
+
+                    <span
+                      key={skill._id}
+                      className="public-profile__skill-chip"
+                    >
+                      <FaCheckCircle />
+                      {skill.name}
+                    </span>
+
+                  ))}
+
+                </div>
+
+              ) : (
+
+                <div className="public-profile__empty-state">
+
+                  <FaTools />
+
+                  <span>
+                    No specific skills have been listed yet.
+                  </span>
+
+                </div>
+
+              )}
+
+            </div>
+
+          </section>
+
+
+          {/* =================================================
+              AVAILABILITY
+          ================================================== */}
+
+          {professionalInfo?.busyDays?.length !== 0 && (
+
+            <section className="public-profile__info-card public-profile__availability-card">
+
+              <div className="public-profile__card-header">
+
+                <div className="public-profile__card-heading">
+
+                  <span className="public-profile__card-icon calendar">
+                    <FaCalendar />
+                  </span>
+
+                  <div>
+                    <h2>Unavailable Dates</h2>
+                    <p>
+                      This professional is not available on
+                      these dates
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div className="public-profile__card-body">
+
+                <div className="public-profile__busy-days">
+
+                  {professionalInfo.busyDays?.map(
+                    (date, idx) => {
+
+                      return (
+                        <DayCard
+                          key={idx}
+                          year={new Date(date).getFullYear()}
+                          day={String(
+                            new Date(date).getDate()
+                          ).padStart(2, "0")}
+                          month={new Date(
+                            date
+                          ).toLocaleString(
+                            "default",
+                            {
+                              month: "short",
+                            }
+                          )}
+                        />
+                      );
+
+                    }
+                  )}
+
+                </div>
+
+              </div>
+
+            </section>
+
+          )}
+
+        </div>
+
+
+        {/* =================================================
+            CHARGES
+        ================================================== */}
+
+        <section className="public-profile__charges">
+
+          <div className="public-profile__section-title">
+
+            <div className="public-profile__section-title-icon">
+              <FaIndianRupeeSign />
+            </div>
+
+            <div>
+              <h2>Service Charges</h2>
+              <p>
+                Transparent pricing for professional services
+              </p>
+            </div>
+
+          </div>
+
+          <FormResponseSummary
+            summary={professionalInfo?.charges?.summary}
           />
+
+        </section>
+
+
+        {/* =================================================
+            REVIEWS
+        ================================================== */}
+
+        {professionalInfo?.reviews.length !== 0 && (
+
+          <section className="public-profile__reviews">
+
+            <div className="public-profile__section-title">
+
+              <div className="public-profile__section-title-icon review">
+                <FaStar />
+              </div>
+
+              <div>
+                <h2>Customer Reviews</h2>
+                <p>
+                  What customers say about this professional
+                </p>
+              </div>
+
+            </div>
+
+            <ProReviews
+              reviews={professionalInfo?.reviews}
+            />
+
+          </section>
+
+        )}
+
+
+        {/* =================================================
+            FAQ
+        ================================================== */}
+
+        {faqs && (
+          <section className="public-profile__faq">
+            <FAQSection faqs={faqs} />
+          </section>
+        )}
+
+
+        {/* =================================================
+            GALLERY
+        ================================================== */}
+
+        {professionalInfo?.gallery.length !== 0 && (
+
+          <section className="public-profile__gallery">
+
+            <div className="public-profile__section-title">
+
+              <div className="public-profile__section-title-icon gallery">
+                <FaImages />
+              </div>
+
+              <div>
+                <h2>Professional Work</h2>
+                <p>
+                  Previous work & service gallery
+                </p>
+              </div>
+
+            </div>
+
+            <ProfessionalGallerySection
+              professionalInfo={professionalInfo}
+            />
+
+          </section>
+
+        )}
+
+
+        {/* =================================================
+            MOBILE STICKY CTA
+        ================================================== */}
+
+        <div className="public-profile__mobile-cta">
+
+          <button
+            type="button"
+            className="public-profile__mobile-chat"
+            onClick={handleChatClick}
+          >
+            <IoChatbubbleEllipsesOutline />
+            <span>Chat</span>
+          </button>
+
+          <button
+            type="button"
+            className="public-profile__mobile-hire"
+            onClick={handleHireClick}
+          >
+            <FaUserTie />
+            <span>Hire Now</span>
+            <FaArrowRight />
+          </button>
+
         </div>
 
-        <div className="modal-body">
-          <RequestHireForm proInfo={professionalInfo} />
-        </div>
+
+        {/* =================================================
+            HIRE MODAL
+        ================================================== */}
+
+        {showHireModal && (
+
+          <div
+            className="modal fade show d-block"
+            style={{
+              background: "rgba(0,0,0,0.5)",
+            }}
+          >
+
+            <div className="modal-dialog modal-dialog-centered">
+
+              <div className="modal-content rounded-4">
+
+                <div className="modal-header">
+
+                  <h5 className="modal-title fw-semibold">
+                    Request Hiring
+                  </h5>
+
+                  <button
+                    className="btn-close"
+                    onClick={() => setShowHireModal(false)}
+                  />
+
+                </div>
+
+                <div className="modal-body">
+
+                  <RequestHireForm
+                    proInfo={professionalInfo}
+                  />
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        )}
 
       </div>
-    </div>
-  </div>
-)}
-
 
     </div>
-    </div>
-    </>
-  );
+  </>
+);
 };
 
 export default ProfessionalInfo;
