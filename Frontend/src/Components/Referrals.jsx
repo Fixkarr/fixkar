@@ -22,11 +22,12 @@ import "../css/Referrals.css";
 import { formatDate } from "../utils/formatTime&Date";
 import axios from 'axios'
 import { server_url } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const Referrals = () => {
   const [copied, setCopied] = useState(null);
   const [shareOpen, setShareOpen] = useState(false);
-
+  const navigate = useNavigate();
   const [referralData, setReferralData] = useState({
     referralCode: "",
     links: {
@@ -466,7 +467,7 @@ const Referrals = () => {
               </strong>
             </div>
 
-            <button type="button">
+            <button type="button" onClick={()=> navigate('/customer/hire-professionals')}>
               Use Credits
               <FaArrowRight />
             </button>

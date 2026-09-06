@@ -94,8 +94,7 @@ const Login = () => {
         navigate(from, { replace: true });
         resetForm();
       } catch (error) {
-       
-
+       toast.error(error?.response.data.message)
         setFloading(false);
       }
     },
@@ -178,7 +177,7 @@ const Login = () => {
       navigate(returnTo || "/", { replace: true });
     } catch (error) {
       toast.error(
-          "Google login failed"
+          error.response.data.message || "Google login failed"
       );
 
       setGloading(false);

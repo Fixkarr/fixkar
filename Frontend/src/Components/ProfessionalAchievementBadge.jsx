@@ -31,7 +31,7 @@ const ProfessionalAchievementBadge = ({ professional, variant = "light" }) => {
         <span>{level}</span>
       </span>
       <span className="professional-achievement-bookings">
-         completed <strong>{completedBookings}</strong> {completedBookings === 1 ? "job" : "jobs"} on Fixkar
+         completed <strong> {completedBookings} </strong> {completedBookings === 1 ? "job" : "jobs"} on Fixkar
       </span>
     <style>{`
   /* =========================================================
