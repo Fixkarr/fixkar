@@ -43,10 +43,10 @@ const Referrals = () => {
 
     links: {
       customer:
-        "https://fixkar.com/signup?role=customer&ref=FIXKAR8A92",
+        "https://fixkarr.com/signup?role=customer&ref=FIXKAR8A92",
 
       professional:
-        "https://fixkar.com/signup?role=professional&ref=FIXKAR8A92",
+        "https://fixkarr.com/signup?role=professional&ref=FIXKAR8A92",
     },
 
     stats: {
