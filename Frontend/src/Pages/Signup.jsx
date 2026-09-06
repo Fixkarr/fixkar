@@ -345,29 +345,6 @@ sessionStorage.setItem(
                     : "Customer account"}
                 </div>
                 {/* ================= REFERRAL STATUS ================= */}
-<div
-  className={`fixkar-referral-status ${
-    referralCode ? "referral-applied" : "referral-not-applied"
-  }`}
->
-  <div className="referral-status-icon">
-    {referralCode ? "✓" : "!"}
-  </div>
-
-  <div className="referral-status-content">
-    <strong>
-      {referralCode
-        ? "Referral code applied"
-        : "Referral code not applied"}
-    </strong>
-
-    <span>
-      {referralCode
-        ? `Referral code: ${referralCode}`
-        : "No referral code was found in your signup link."}
-    </span>
-  </div>
-</div>
                 <h1>
                   Start your journey with
                   <span> Fixkar.</span>
@@ -427,17 +404,29 @@ sessionStorage.setItem(
           ===================================================== */}
             <div className="col-12 col-sm-10 col-md-8 col-lg-5">
               <div className="fixkar-signup-card">
-                {/* ================= MOBILE BRAND ================= */}
-                <div className="fixkar-signup-mobile-brand d-lg-none">
-                  <div className="signup-mobile-brand-icon">
-                    <FaCheck />
-                  </div>
+                <div
+  className={`fixkar-referral-status ${
+    referralCode ? "referral-applied" : "referral-not-applied"
+  }`}
+>
+  <div className="referral-status-icon">
+    {referralCode ? "✓" : "!"}
+  </div>
 
-                  <div>
-                    <strong>Fixkar</strong>
-                    <small>Smart service platform</small>
-                  </div>
-                </div>
+  <div className="referral-status-content">
+    <strong>
+      {referralCode
+        ? "Referral code applied"
+        : "Referral code not applied"}
+    </strong>
+
+    <span>
+      {referralCode
+        ? `Referral code: ${referralCode}`
+        : "No referral code was found in your signup link."}
+    </span>
+  </div>
+</div>
 
                 {/* ================= HEADER ================= */}
                 <div className="fixkar-signup-header">
