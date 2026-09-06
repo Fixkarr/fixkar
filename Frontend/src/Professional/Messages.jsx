@@ -3,15 +3,15 @@ import { FaBell, FaClipboardList, FaHome, FaUserCircle } from "react-icons/fa";
 import { BsCheck2All } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { MdOutlineEngineering } from "react-icons/md";
-import DashboardNavigator from "../utils/DashboardNavigator";
 import '../css/messages.css'
+import useGetMyConversations from "../hooks/useGetMyConversations";
 const Messages = () => {
   const navigate = useNavigate();
    const { currentUserData } = useSelector((state) => state.user);
   const role = currentUserData?.user?.userId?.role;
+  useGetMyConversations();
   const {conversations} = useSelector(state => state.messages);
-  
+
 return (
   <div className="customer-conversations-page">
 
