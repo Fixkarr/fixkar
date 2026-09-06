@@ -92,6 +92,7 @@ import IncomingRequests from "./Professional/professionalBooking/Pickup/Incoming
 import AdminProtectedRoute from "./Components/AdminProtectedRoute.jsx";
 import { PushNotifications } from "@capacitor/push-notifications";
 import AIAssistant from "./Components/Ai_Assistant/AiAssistant.jsx";
+import Referrals from "./Components/Referrals.jsx";
 
 const App = () => {
   useGetCurrentUser();
@@ -492,6 +493,8 @@ socket.on("pickupProfessionalAccepted", (data) => {
           }
         />
 
+        <Route path="/referrals" element={<Referrals />} />
+
         {/* Professional */}
           <Route element={<ProtectedRoute 
           allowedRole="professional"
@@ -571,7 +574,7 @@ socket.on("pickupProfessionalAccepted", (data) => {
       </Route>
 
       <Route element={<DashboardLayout />}>
-  <Route element={<AdminProtectedRoute requiredRole="super_admin"/>}>
+          <Route element={<AdminProtectedRoute requiredRole="super_admin"/>}>
           <Route path={`${adminpath}/home`} element={currentAdmin ? <AdminHome/> : <Navigate to="/" />}/>
           <Route path={`${adminpath}/signup`} element={  <AdminSignup/>}/>
           
