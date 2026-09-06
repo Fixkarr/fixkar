@@ -737,28 +737,22 @@
   display: flex;
   align-items: center;
   gap: 18px;
-
   width: 100%;
   padding: 20px 22px;
   margin-top: 24px;
-
   border: 1px solid rgba(129, 140, 248, 0.2);
   border-radius: 20px;
-
   background: linear-gradient(
     135deg,
     rgba(99, 102, 241, 0.15),
     rgba(168, 85, 247, 0.08),
     rgba(255, 255, 255, 0.04)
   );
-
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-
   box-shadow:
     0 12px 35px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-
   overflow: hidden;
 }
 
@@ -775,7 +769,7 @@
   top: -75px;
   left: -50px;
 
-  background: rgba(99, 102, 241, 0.16);
+  background: rgba(99, 101, 230);
   filter: blur(45px);
 
   border-radius: 50%;
@@ -788,23 +782,16 @@
 .referral-wallet-banner .referral-credit-icon {
   position: relative;
   flex-shrink: 0;
-
   width: 52px;
   height: 52px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 15px;
-
-  color: #a5b4fc;
+  color: rgba(111, 127, 209, 0.8);
   font-size: 23px;
-
-  background: rgba(99, 102, 241, 0.14);
-
+  background: rgba(95, 97, 228, 0.14);
   border: 1px solid rgba(129, 140, 248, 0.22);
-
   box-shadow:
     0 8px 24px rgba(99, 102, 241, 0.14),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -858,7 +845,7 @@
 
   font-size: 18px;
 
-  color: rgba(165, 180, 252, 0.8);
+  color: rgba(111, 127, 209, 0.8);
 
   transition: transform 0.25s ease;
 }
