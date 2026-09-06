@@ -26,13 +26,12 @@ const ProfessionalAchievementBadge = ({ professional, variant = "light" }) => {
   return (
     <div className={`professional-achievement ${variant === "dark" ? "professional-achievement-dark" : ""}`}>
       <span className={`professional-achievement-rank ${meta.className}`}>
-        <FaAward size={10} />
         <span>{meta.icon}</span>
         <span>{meta.label}</span>
         <span>{level}</span>
       </span>
       <span className="professional-achievement-bookings">
-        <strong>{completedBookings}</strong> completed {completedBookings === 1 ? "booking" : "bookings"} on Fixkar
+         completed <strong>{completedBookings}</strong> {completedBookings === 1 ? "job" : "jobs"} on Fixkar
       </span>
     <style>{`
   /* =========================================================

@@ -489,13 +489,10 @@ useEffect(() => {
                         {reviewCount} reviews
                       </small>
                     </span>
-
-                    <span className="public-profile__verified-pill">
                        <ProfessionalAchievementBadge
                           professional={professionalInfo}
                           variant="dark"
                         />
-                    </span>
 
                   </div>
 
@@ -532,16 +529,10 @@ useEffect(() => {
 
                   <span>Chat</span>
                 </button>
-
-
-                <div className="public-profile__call-action">
                   <CallButton
                     currentUserData={currentUserData}
                     professionalInfo={professionalInfo}
                   />
-                </div>
-
-
                 <button
                   type="button"
                   className="public-profile__hire-action"
@@ -613,8 +604,8 @@ useEffect(() => {
             </span>
 
             <div>
-              <strong>Verified</strong>
-              <small>Professional</small>
+              <strong>{professionalInfo?.achievements?.completedBookings ?? 0}</strong>
+              <small>Completed Jobs</small>
             </div>
 
           </div>

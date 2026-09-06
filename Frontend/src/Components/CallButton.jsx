@@ -19,14 +19,16 @@ const CallButton = ({ currentUserData, professionalInfo }) => {
   };
 
   return (
-    <div className="d-flex align-items-center gap-2 flex-wrap">
       <button
         onClick={handleCallClick}
         className="public-profile__hero-action"
       >
-        <IoCallOutline /> Call
+        <span className="public-profile__hero-action-icon">
+          <IoCallOutline />
+          </span> 
+        <span>Call</span>
       </button>
-    </div>
+
   );
 };
 
