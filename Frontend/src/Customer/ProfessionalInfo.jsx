@@ -298,7 +298,12 @@ useEffect(() => {
   </script>
 )}
     </Helmet>
-    {!currentUserData?.user ? <Navbar/> :  <div
+    {!currentUserData?.user ? (
+      <>
+        <Navbar/>
+      <div className="mt-5"/>
+      </>
+    ):  <div
         className="text-white p-4"
         style={{
           background: "linear-gradient(135deg,#0d6efd,#00c6ff)",

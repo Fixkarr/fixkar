@@ -247,7 +247,7 @@ const SearchSection = ({
 
   return (
     <>
-      <div className="container my-2 my-md-4 px-0 fixkar-search">
+      <div className="container mt-5 my-2 my-md-4 px-0 fixkar-search">
         <div
           className="bg-white border rounded-4 p-2 p-md-4"
           style={{ maxWidth: "1100px", margin: "0 auto" }}
