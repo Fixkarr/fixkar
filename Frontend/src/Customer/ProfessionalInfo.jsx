@@ -20,7 +20,6 @@ import {
   FaInfoCircle,
   FaCheckCircle,
   FaCalendar,
-  FaIndianRupeeSign,
   FaImages,
 } from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
@@ -42,7 +41,7 @@ import { generateAbout, generateFaqs } from "../utils/generateFaqs";
 import FAQSection from "../Components/FAQSection";
 import FixkarLoader from "../Components/FixkarLoader";
 import "./professional-public-profile.css";
-import { FaMapLocationDot } from "react-icons/fa6";
+import { FaMapLocationDot, FaRupeeSign } from "react-icons/fa6";
 
 
 const ProfessionalInfo = () => {
@@ -636,7 +635,7 @@ useEffect(() => {
           <div className="public-profile__trust-item">
 
             <span className="public-profile__trust-icon">
-              <FaCommentDots />
+              <FaCommentDot />
             </span>
 
             <div>
@@ -940,7 +939,7 @@ useEffect(() => {
           <div className="public-profile__section-title">
 
             <div className="public-profile__section-title-icon">
-              <FaIndianRupeeSign />
+              <FaRupeeSign />
             </div>
 
             <div>
