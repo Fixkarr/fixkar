@@ -42,6 +42,7 @@ import FAQSection from "../Components/FAQSection";
 import FixkarLoader from "../Components/FixkarLoader";
 import "./professional-public-profile.css";
 import { FaMapLocationDot, FaRupeeSign } from "react-icons/fa6";
+import ProfessionalAchievementBadge from '../Components/ProfessionalAchievementBadge'
 
 
 const ProfessionalInfo = () => {
@@ -487,6 +488,13 @@ useEffect(() => {
                       <small>
                         {reviewCount} reviews
                       </small>
+                    </span>
+
+                    <span className="public-profile__verified-pill">
+                       <ProfessionalAchievementBadge
+                          professional={professionalInfo}
+                          variant="dark"
+                        />
                     </span>
 
                   </div>
@@ -943,7 +951,7 @@ useEffect(() => {
             </div>
 
             <div>
-              <h2>Service Charges</h2>
+              <h2>Service Info</h2>
               <p>
                 Transparent pricing for professional services
               </p>
