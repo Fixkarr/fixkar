@@ -22,7 +22,6 @@ import {
   FaCalendar,
   FaIndianRupeeSign,
   FaImages,
-  FaLocationDot,
 } from "react-icons/fa";
 import RequestHireForm from "./RequestHireForm";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,6 +42,7 @@ import { generateAbout, generateFaqs } from "../utils/generateFaqs";
 import FAQSection from "../Components/FAQSection";
 import FixkarLoader from "../Components/FixkarLoader";
 import "./professional-public-profile.css";
+import { FaMapLocationDot } from "react-icons/fa6";
 
 
 const ProfessionalInfo = () => {
@@ -369,7 +369,7 @@ useEffect(() => {
                 <div className="modal-header">
 
                   <h5 className="modal-title fw-semibold">
-                    <FaLocationDot className="me-2 text-primary" />
+                    <FaMapLocationDot className="me-2 text-primary" />
                     Select Your Location
                   </h5>
 
