@@ -13,14 +13,13 @@ import { generateFCMToken } from '../utils/generateFCMToken'
 import EnableNotificationModal from '../Components/EnableNotificationModal'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { FiMessageSquare } from 'react-icons/fi'
-import DashboardNavigator from '../utils/DashboardNavigator'
 import useGetAnnouncements from '../hooks/useGetAnnouncements'
 import AnnouncementBanner from '../Components/AnnouncementBanner'
 import { ClipLoader } from 'react-spinners'
 import Working from './Working'
 import NeedHelp from '../utils/NeedHelp'
 import ReferEarnBanner from '../Components/ReferEarnBanner'
+import '../css/customerHome.css'
 
 const CustomerHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
