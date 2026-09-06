@@ -83,12 +83,13 @@ const DashboardLayout = () => {
                   }, ${isAdminAuthenticated ? "#2c5364" : "#4f9cff"})`,
                 }}
               >
+               { isAdminAuthenticated && (
                 <GiHamburgerMenu
                   size={18}
                   role="button"
                   aria-label="Open dashboard menu"
                   onClick={() => setIsSidebarOpen(true)}
-                />
+                />)}
 
                 <div className="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
                   <div
