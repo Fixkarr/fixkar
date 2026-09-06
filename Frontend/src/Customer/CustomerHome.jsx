@@ -167,7 +167,7 @@ return (
     </span>
 
     <span className="customer-home-contact-text">
-      {currentUserData?.user?.userId?.rewardCredits ?? 0} Reward Credits
+      {currentUserData?.user?.rewardCredits ?? 0} Reward Credits
     </span>
   </div>
 
