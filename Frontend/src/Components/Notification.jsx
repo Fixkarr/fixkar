@@ -10,6 +10,7 @@ import {
   FaCalendarTimes,
   FaHome,
   FaClipboardList,
+  FaBell,
 } from "react-icons/fa";
 import { LuCalendarCheck2 } from "react-icons/lu";
 import { MdOutlinePendingActions } from "react-icons/md";
@@ -126,7 +127,7 @@ const Notifications = () => {
             <div className="customer-notifications-stat-card">
 
               <div className="customer-notifications-stat-icon">
-                <FaBell />
+                <FaBell/>
               </div>
 
               <div className="customer-notifications-stat-content">
