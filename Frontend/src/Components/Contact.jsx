@@ -117,18 +117,13 @@ const contactPageSchema = {
       {pathname == "/contact" && <Navbar/>} 
       
       {currentUserData && <div
-        className="text-white p-4 contact-topbar"
-        style={{
-          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
-          borderBottomLeftRadius: "25px",
-          borderBottomRightRadius: "25px"
-        }}
+        className="contact-topbar"
       >
-        <div className="d-flex justify-content-between align-items-center contact-topbar-inner">
-          <h5 className="fw-bold mb-0 contact-topbar-title">Contact & Support</h5>
+        <div className="contact-topbar-inner">
+          <h5 className="contact-topbar-title">Contact & Support</h5>
         </div>
 
-        <p className="mt-2 small opacity-75 contact-topbar-description">
+        <p className="contact-topbar-description">
           Feel free to contact us anytime!
         </p>
       </div>}
@@ -136,15 +131,11 @@ const contactPageSchema = {
       </>
       }
     <div
-      className="contact contact-page contact-main d-flex align-items-center"
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
-      }}
+      className="contact contact-page contact-main"
     >
       <div className="container contact-container">
         {/* HEADER */}
-        <div className="text-center text-white contact-heading">
+        <div className="contact-heading">
           <h1 className="fw-bold">Contact <span className="contact-heading-brand">Fixkar</span></h1>
           <p className="opacity-75">
             We’re always ready to help you. Get in touch with us anytime.
@@ -152,16 +143,16 @@ const contactPageSchema = {
         </div>
 
         {/* CONTENT */}
-        <div className="row g-4 align-items-stretch justify-content-center contact-content-row">
+        <div className="contact-content-row">
 
           {/* LEFT: COMPANY DETAILS */}
-          <div className="col-lg-5 col-md-6 contact-info-col">
-            <div className="bg-white h-100 p-4 rounded-4 shadow contact-info-card">
+          <div className="contact-info-col">
+            <div className="contact-info-card">
              <div className="contact-info-icon">
               <FaMessage size={36} />
             </div>
 
-              <h2 className="fw-bold contact-info-title">Fixkar – Service Support</h2>
+              <h2 className="contact-info-title">Fixkar – Service Support</h2>
 
               <p className="contact-info-description">
                 Fixkar Smart Solutions is a professional service platform connecting customers
@@ -171,7 +162,7 @@ const contactPageSchema = {
 
               <hr className="contact-divider" />
 
-              <ul className="list-unstyled contact-details">
+              <ul className="contact-details">
                 <li className="contact-detail-item">
                   <FaEnvelope className="contact-detail-icon" />
                     info@fixkarr.com
@@ -192,7 +183,7 @@ const contactPageSchema = {
 
               <hr className="contact-divider" />
 
-              <h6 className="fw-semibold mb-2 contact-follow-title">Follow Us</h6>
+              <h6 className="contact-follow-title">Follow Us</h6>
               <div className="contact-socials">
                 <a href="https://www.facebook.com/profile.php?id=61591695204940" className="contact-social-link"><FaFacebook /></a>
                 <a href="https://www.instagram.com/fixkar.official" className="contact-social-instagram contact-social-link"><FaInstagram /></a>
@@ -206,23 +197,23 @@ const contactPageSchema = {
           </div>
 
           {/* RIGHT: CONTACT FORM */}
-          <div className="col-lg-6 col-md-6 contact-form-col">
-            <div className="bg-white h-100 p-4 rounded-4 shadow contact-form-card">
-              <h5 className="fw-bold mb-4 text-primary contact-form-title">
+          <div className="contact-form-col">
+            <div className="contact-form-card">
+              <h5 className="contact-form-title">
                 Send us a Message
               </h5>
 
               <form onSubmit={handleSubmit}>
                 {/* NAME */}
                 <div className="contact-form-group">
-                  <label className="form-label fw-semibold contact-form-label">
-                    <FaUser className="me-2 text-primary" />
+                  <label className="contact-form-label">
+                    <FaUser size={20}/>
                     Your Name
                   </label>
                   <input
                     type="text"
                     name="name"
-                    className="form-control rounded-3 contact-form-control"
+                    className="contact-form-control"
                     placeholder="Enter your name"
                     value={formData.name}
                     onChange={handleChange}
@@ -232,14 +223,14 @@ const contactPageSchema = {
 
                 {/* EMAIL */}
                 <div className="contact-form-group">
-                  <label className="form-label fw-semibold contact-form-label">
-                    <FaEnvelope className="me-2 text-primary" />
+                  <label className="contact-form-label">
+                    <FaEnvelope size={20}/>
                     Email Address
                   </label>
                   <input
                     type="email"
                     name="email"
-                    className="form-control rounded-3 contact-form-control"
+                    className="contact-form-control"
                     placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleChange}
@@ -247,14 +238,14 @@ const contactPageSchema = {
                   />
                 </div>
                 <div className="contact-form-group">
-                  <label className="form-label fw-semibold contact-form-label">
-                    <FaPhone className="me-2 text-primary" />
+                  <label className="contact-form-label">
+                    <FaPhone size={20}/>
                     Phone Number
                   </label>
                   <input
                     type="number"
                     name="phone"
-                    className="form-control rounded-3 contact-form-control"
+                    className=" contact-form-control"
                     placeholder="Enter your phone number"
                     value={formData.phone}
                     onChange={handleChange}
@@ -263,15 +254,15 @@ const contactPageSchema = {
                 </div>
 
                 {/* MESSAGE */}
-                <div className="mb-4 contact-form-group">
-                  <label className="form-label fw-semibold contact-form-label">
-                    <FaMessage className="me-2 text-primary" />
+                <div className="contact-form-group">
+                  <label className="contact-form-label">
+                    <FaMessage size={20} />
                     Message
                   </label>
                   <textarea
                     name="message"
                     rows={4}
-                    className="form-control rounded-3 contact-form-control"
+                    className="contact-form-control"
                     placeholder="Type your message here..."
                     value={formData.message}
                     onChange={handleChange}
@@ -282,10 +273,10 @@ const contactPageSchema = {
                 {/* SUBMIT */}
                 <button
                   type="submit"
-                  className="btn btn-primary w-100 rounded-pill py-2 fw-semibold contact-submit"
+                  className="contact-submit"
                   disabled={loading}
                 >
-                  <FaPaperPlane className="me-2" />
+                  <FaPaperPlane size={20}/>
                   {loading ?  "Sending message!" : "Send Message"}
                 </button>
               </form>
