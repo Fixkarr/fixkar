@@ -194,10 +194,10 @@ const contactPageSchema = {
 
               <h6 className="fw-semibold mb-2 contact-follow-title">Follow Us</h6>
               <div className="contact-socials">
-                <a href="https://www.facebook.com/profile.php?id=61591695204940" className="text-primary contact-social-link"><FaFacebook /></a>
-                <a href="https://www.instagram.com/fixkar.official" className=" contact-social-instagram contact-social-link"><FaInstagram /></a>
-                <a href="https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd" className="text-primary contact-social-link"><FaLinkedin /></a>
-                <a href="https://www.youtube.com/@fixkarofficial" className="text-primary contact-social-link"><FaYoutube /></a>
+                <a href="https://www.facebook.com/profile.php?id=61591695204940" className="contact-social-link"><FaFacebook /></a>
+                <a href="https://www.instagram.com/fixkar.official" className="contact-social-instagram contact-social-link"><FaInstagram /></a>
+                <a href="https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd" className="contact-social-link"><FaLinkedin /></a>
+                <a href="https://www.youtube.com/@fixkarofficial" className="contact-social-link"><FaYoutube /></a>
               </div>
               <hr className="contact-divider" />
               <h2 className="fw-semibold mb-2 fs-3"> <a href="https://fixkarr.com/about" target="_blank" className="contact-about-link">About Fixkar Smart Solutions</a></h2>
