@@ -1,6 +1,7 @@
 import { IoCallOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProfessionalAchievementBadge from "./ProfessionalAchievementBadge";
+import '../css/professional-public-profile.css'
 
 const CallButton = ({ currentUserData, professionalInfo }) => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const CallButton = ({ currentUserData, professionalInfo }) => {
       />
       <button
         onClick={handleCallClick}
-        className="btn btn-outline-light btn-sm"
+        className="public-profile__hero-action"
       >
         <IoCallOutline /> Call
       </button>
