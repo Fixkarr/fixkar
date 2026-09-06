@@ -28,52 +28,29 @@ const Referrals = () => {
   const [shareOpen, setShareOpen] = useState(false);
 
   const [referralData, setReferralData] = useState({
-    referralCode: "FIXKAR8A92",
+    referralCode: "",
     links: {
       customer:
-        "https://fixkarr.com/signup?role=customer&ref=FIXKAR8A92",
+        "",
 
       professional:
-        "https://fixkarr.com/signup?role=professional&ref=FIXKAR8A92",
+        "",
     },
     stats: {
-      totalReferrals: 12,
-      successfulReferrals: 8,
-      pendingReferrals: 3,
-      reversedReferrals: 1,
-      totalEarned: 860,
+      totalReferrals: 0,
+      successfulReferrals: 0,
+      pendingReferrals: 0,
+      reversedReferrals: 0,
+      totalEarned: 0,
     },
-    rewardCredits: 160,
-    referrals: [
-      {
-        id: "1",
-        referredUser: {
-          fullName: "Rahul Kumar",
-          role: "customer",
-        },
-        referredRole: "customer",
-        rewardAmount: 20,
-        status: "REWARDED",
-        createdAt: "2026-09-02",
-      },
-      {
-        id: "2",
-        referredUser: {
-          fullName: "Amit Sharma",
-          role: "professional",
-        },
-        referredRole: "professional",
-        rewardAmount: 100,
-        status: "REGISTERED",
-        createdAt: "2026-09-04",
-      },
-    ],
+    rewardCredits: null,
+    referrals: [],
   });
 
   useEffect(()=>{
     const getReferrals = async ()=>{
         const referralsResponse = await axios.get(`${server_url}/api/referral/get-my-referral`, {withCredentials : true});
-        console.log(referralsResponse)
+        setReferralData(referralsResponse?.data?.referral)
     }
 
     getReferrals();
@@ -474,7 +451,7 @@ const Referrals = () => {
       ========================================= */}
 
       {referralData.rewardCredits !== null &&
-        referralData.rewardCredits !== undefined && (
+        referralData.rewardCredits !== undefined ? (
           <section className="referral-credit-banner">
 
             <div className="referral-credit-icon">
@@ -495,7 +472,31 @@ const Referrals = () => {
             </button>
 
           </section>
-        )}
+        ) :  <section className="referral-credit-banner referral-wallet-banner">
+
+    <div className="referral-credit-icon">
+      <FaWallet />
+    </div>
+
+    <div className="referral-credit-content">
+      <span>Your referral rewards</span>
+
+      <strong>
+        Go to your wallet
+      </strong>
+
+      <p>
+        Your referral rewards will be transferred to your wallet
+        as pending balance and will be available for withdrawal
+        according to the wallet terms.
+      </p>
+    </div>
+
+    <FaArrowRight className="referral-wallet-arrow" />
+
+  </section>
+  
+  }
 
 
       {/* =========================================
