@@ -9,13 +9,13 @@ import {
   FaLink,
   FaPeopleGroup,
   FaShareNodes,
-  FaSparkles,
   FaUserCheck,
   FaUserClock,
   FaUserGroup,
   FaUserPlus,
   FaUsers,
   FaWallet,
+  FaWandSparkles,
   FaXmark,
 } from "react-icons/fa6";
 import "../css/Referrals.css";
@@ -173,7 +173,7 @@ const Referrals = () => {
         <div className="referrals-hero-content">
 
           <div className="referrals-eyebrow">
-            <FaSparkles />
+            <FaWandSparkles />
             <span>FIXKAR REFER & EARN</span>
           </div>
 
