@@ -1,7 +1,7 @@
 import { IoCallOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProfessionalAchievementBadge from "./ProfessionalAchievementBadge";
-import '../css/professional-public-profile.css'
+import '../Customer/professional-public-profile.css'
 
 const CallButton = ({ currentUserData, professionalInfo }) => {
   const navigate = useNavigate();
