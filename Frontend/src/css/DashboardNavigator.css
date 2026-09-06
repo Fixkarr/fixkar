@@ -338,3 +338,14 @@
     transition: none;
   }
 }
+
+.dashboard-navigator-spacer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .dashboard-navigator-spacer {
+    display: block;
+    height: calc(90px + env(safe-area-inset-bottom));
+  }
+}
