@@ -6,7 +6,7 @@ import { setSelectedLocation, setSelectedService } from '../redux/location.slice
 import { useNavigate } from 'react-router-dom'
 
 import MobileNotVerified from './MobileNotVerified'
-import { FaEnvelope, FaIdBadge, FaPhone, FaTools } from "react-icons/fa";
+import { FaEnvelope, FaIdBadge, FaPhone, FaSearch, FaTools } from "react-icons/fa";
 import useGetMyBookings from '../hooks/useGetMyBookings'
 import useGetNotifications from '../hooks/useGetNotifications'
 import { generateFCMToken } from '../utils/generateFCMToken'
@@ -194,7 +194,10 @@ return (
 
             <div className="customer-home-search-heading">
               <div className="customer-home-search-icon">
-                <span>⌕</span>
+                <span>
+                <FaSearch size={14}/>
+
+                </span>
               </div>
 
               <div>
