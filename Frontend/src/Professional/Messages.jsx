@@ -5,145 +5,145 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineEngineering } from "react-icons/md";
 import DashboardNavigator from "../utils/DashboardNavigator";
-
+import '../css/messages.css'
 const Messages = () => {
   const navigate = useNavigate();
    const { currentUserData } = useSelector((state) => state.user);
   const role = currentUserData?.user?.userId?.role;
   const {conversations} = useSelector(state => state.messages);
 return (
-<div
-  className="min-vh-100"
-  style={{
-    background: "linear-gradient(180deg,#f8fbff,#eef4ff)"
-  }}
->
+  <div className="customer-conversations-page">
 
-  {/* 🔵 PREMIUM HEADER */}
-  <div
-         className="text-white p-4"
-         style={{
-           background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
-           borderBottomLeftRadius: "25px",
-           borderBottomRightRadius: "25px",
-         }}
-       >
-         <div className="d-flex justify-content-between align-items-center">
-           <h5 className="fw-bold mb-0">My Conversations</h5>
- 
-           
-         </div>
- 
-         <p className="mt-2 small opacity-75">
-          Your recent conversations
-         </p>
-       </div>
+    {/* 🔵 COMPACT PREMIUM HEADER */}
+    <section className="customer-conversations-hero">
 
+      <div className="customer-conversations-glow customer-conversations-glow-one" />
+      <div className="customer-conversations-glow customer-conversations-glow-two" />
 
-  {/* 🔵 MESSAGE LIST CONTAINER */}
-  <div className="container py-4">
+      <div className="customer-conversations-hero-content">
 
-    <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
-
-      {/* EMPTY STATE */}
-      {conversations.length === 0 && (
-        <div className="d-flex flex-column align-items-center justify-content-center text-center py-5">
-          <FaUserCircle size={70} className="text-secondary mb-3" />
-          <h6 className="fw-semibold mb-1">No recent messages</h6>
-          <p className="text-muted small mb-0">
-            Conversations will appear here
-          </p>
+        <div className="customer-conversations-eyebrow">
+          <span className="customer-conversations-live-dot" />
+          MESSAGES
         </div>
-      )}
+
+        <h2>My Conversations</h2>
+
+        <p>
+          Your recent conversations
+        </p>
+
+      </div>
+    </section>
 
 
-      {/* CONVERSATION LIST */}
-      {conversations?.map((conv, index) => (
-        <div
-          key={conv.user._id}
-          className={`d-flex align-items-center px-4 py-3 ${
-            index !== conversations.length - 1 ? "border-bottom" : ""
-          }`}
-          style={{
-            cursor: "pointer",
-            transition: "all 0.2s ease"
-          }}
-          onClick={() => navigate(`/${role}/chat/${conv.user._id}`)}
-        >
+    {/* 🔵 MESSAGE LIST CONTAINER */}
+    <section className="customer-conversations-section">
 
-          {/* Avatar */}
-          <div className="position-relative me-3">
-            {conv.user.profilePicture ? (
-              <img
-                src={conv.user.profilePicture}
-                alt="profile"
-                className="rounded-circle shadow-sm"
-                style={{
-                  width: 50,
-                  height: 50,
-                  objectFit: "cover"
-                }}
-              />
-            ) : (
-              <FaUserCircle size={50} className="text-secondary" />
-            )}
+      <div className="customer-conversations-container">
 
-            {/* Online Indicator */}
-            <span
-              className={`position-absolute bottom-0 end-0 rounded-circle border border-white ${
-                conv.isOnline ? "bg-success" : "bg-secondary"
-              }`}
-              style={{ width: 12, height: 12 }}
-            />
-          </div>
+        <div className="customer-conversations-card">
 
-          {/* Message Info */}
-          <div className="flex-grow-1">
+          {/* EMPTY STATE */}
+          {conversations.length === 0 && (
+            <div className="customer-conversations-empty">
 
-            <div className="d-flex justify-content-between align-items-center">
-              <h6 className="mb-0 fw-semibold text-dark">
-                {conv.user.fullName}
-              </h6>
+              <div className="customer-conversations-empty-icon">
+                <FaUserCircle />
+              </div>
 
-              <small className="text-muted">
-                {new Date(conv.lastMessageTime).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </small>
-            </div>
+              <h6>No recent messages</h6>
 
-            <div className="d-flex justify-content-between align-items-center mt-1">
-
-              <p className="mb-0 text-muted small text-truncate">
-                <BsCheck2All className="me-1 text-primary" />
-                {conv.lastMessage}
+              <p>
+                Conversations will appear here
               </p>
 
-              {conv.unseenCount > 0 && (
+            </div>
+          )}
+
+
+          {/* CONVERSATION LIST */}
+          {conversations?.map((conv, index) => (
+            <div
+              key={conv.user._id}
+              className={`customer-conversation-item ${
+                index !== conversations.length - 1
+                  ? "customer-conversation-divider"
+                  : ""
+              }`}
+              onClick={() => navigate(`/${role}/chat/${conv.user._id}`)}
+            >
+
+              {/* Avatar */}
+              <div className="customer-conversation-avatar-wrap">
+
+                {conv.user.profilePicture ? (
+                  <img
+                    src={conv.user.profilePicture}
+                    alt="profile"
+                    className="customer-conversation-avatar"
+                  />
+                ) : (
+                  <FaUserCircle className="customer-conversation-avatar-fallback" />
+                )}
+
                 <span
-                  className="badge rounded-pill"
-                  style={{
-                    background: "linear-gradient(90deg,#ff416c,#ff4b2b)",
-                    fontSize: "0.7rem",
-                    padding: "6px 8px"
-                  }}
-                >
-                  {conv.unseenCount}
-                </span>
-              )}
+                  className={`customer-conversation-online ${
+                    conv.isOnline
+                      ? "customer-conversation-online-active"
+                      : "customer-conversation-online-offline"
+                  }`}
+                />
+
+              </div>
+
+
+              {/* Message Info */}
+              <div className="customer-conversation-content">
+
+                <div className="customer-conversation-top">
+
+                  <h6>
+                    {conv.user.fullName}
+                  </h6>
+
+                  <small>
+                    {new Date(conv.lastMessageTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </small>
+
+                </div>
+
+
+                <div className="customer-conversation-bottom">
+
+                  <p>
+                    <BsCheck2All />
+                    <span>{conv.lastMessage}</span>
+                  </p>
+
+                  {conv.unseenCount > 0 && (
+                    <span className="customer-conversation-unread">
+                      {conv.unseenCount}
+                    </span>
+                  )}
+
+                </div>
+
+              </div>
 
             </div>
-          </div>
+          ))}
 
         </div>
-      ))}
 
-    </div>
+      </div>
+
+    </section>
 
   </div>
-
-</div>
 );
 };
 
