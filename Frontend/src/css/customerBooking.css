@@ -44,7 +44,7 @@
 
 .customer-bookings-hero {
   position: relative;
-  min-height: 260px;
+  min-height: 205px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -75,7 +75,7 @@
   z-index: 2;
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 38px 0 46px;
+  padding: 27px 0 32px;
 }
 
 .customer-bookings-hero-text {
@@ -104,8 +104,8 @@
 }
 
 .customer-bookings-hero h3 {
-  margin: 11px 0 7px;
-  font-size: clamp(30px, 4vw, 43px);
+  margin: 7px 0 4px;
+  font-size: clamp(28px, 3.4vw, 38px);
   line-height: 1.08;
   font-weight: 800;
   letter-spacing: -.035em;
@@ -122,8 +122,8 @@
 
 .customer-bookings-hero-meta {
   width: fit-content;
-  min-width: 260px;
-  margin-top: 22px;
+  min-width: 245px;
+  margin-top: 14px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -206,7 +206,7 @@
 .customer-stat-card {
   position: relative;
   min-width: 0;
-  padding: 21px 21px 20px;
+  padding: 22px 22px 21px;
   overflow: hidden;
   border: 1px solid var(--cb-border);
   border-radius: 18px;
@@ -247,11 +247,11 @@
 }
 
 .customer-stat-icon {
-  width: 55px;
-  height: 55px;
+  width: 70px;
+  height: 70px;
   display: grid;
   place-items: center;
-  flex: 0 0 55px;
+  flex: 0 0 70px;
   border-radius: 15px;
   color: var(--cb-primary);
   background: linear-gradient(
@@ -260,7 +260,7 @@
     rgba(var(--cb-primary-rgb), .055)
   );
   border: 1px solid var(--cb-primary-border);
-  font-size: 25px;
+  font-size: 32px;
 }
 
 .customer-stat-label {
@@ -410,11 +410,11 @@
 
 @media (max-width: 991.98px) {
   .customer-bookings-hero {
-    min-height: 235px;
+    min-height: 195px;
   }
 
   .customer-bookings-hero-content {
-    padding: 34px 0 42px;
+    padding: 25px 0 31px;
   }
 
   .customer-bookings-stats-section {
@@ -431,14 +431,14 @@
   }
 
   .customer-stat-icon {
-    width: 49px;
-    height: 49px;
-    flex-basis: 49px;
-    font-size: 22px;
+    width: 62px;
+    height: 62px;
+    flex-basis: 62px;
+    font-size: 29px;
   }
 
   .customer-stat-value {
-    font-size: 31px;
+    font-size: 29px;
   }
 }
 
@@ -457,7 +457,7 @@
   }
 
   .customer-bookings-hero-content {
-    padding: 27px 0 45px;
+    padding: 22px 0 39px;
   }
 
   .customer-bookings-hero h3 {
@@ -509,10 +509,10 @@
   }
 
   .customer-stat-icon {
-    width: 52px;
-    height: 52px;
-    flex-basis: 52px;
-    font-size: 23px;
+    width: 60px;
+    height: 60px;
+    flex-basis: 60px;
+    font-size: 28px;
   }
 
   .customer-stat-label {
@@ -590,10 +590,10 @@
   }
 
   .customer-stat-icon {
-    width: 47px;
-    height: 47px;
-    flex-basis: 47px;
-    font-size: 21px;
+    width: 54px;
+    height: 54px;
+    flex-basis: 54px;
+    font-size: 25px;
   }
 
   .customer-stat-value {
@@ -632,10 +632,10 @@
   }
 
   .customer-stat-icon {
-    width: 43px;
-    height: 43px;
-    flex-basis: 43px;
-    font-size: 19px;
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+    font-size: 23px;
   }
 
   .customer-stat-value {
