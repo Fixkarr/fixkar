@@ -13,8 +13,9 @@ import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { FaCamera, FaIdCard, FaUserCheck } from "react-icons/fa6";
 import { FaBirthdayCake, FaInfoCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import useGetServices from "../hooks/useGetServices.jsx";
+import { setCurrentUserData } from "../redux/user.slice.js";
 
 const Onboarding = ({ userData }) => {
   useGetServices()
@@ -24,7 +25,7 @@ const Onboarding = ({ userData }) => {
   const googleLoaded = useLoadGoogleMaps(); // ✅ Google script load status
   const addressInputRef = useRef(null);
   const [isCustomService, setIsCustomService] = useState(false);
-
+  const dispatch = useDispatch();
    const [latLng, setLatLng] = useState({ lat: null, lng: null });
 
   // Date Validation
@@ -111,6 +112,7 @@ description: Yup.string().when([], {
 
         if (response.data.success) {
           toast.success("Onboarding completed successfully!");
+          dispatch(setCurrentUserData(response.data));
           resetForm();
           navigate("/application/pending");
         }
