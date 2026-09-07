@@ -155,33 +155,35 @@ const mergedPoi = await canvas
 ),
     ]);
 
-    if(service){
-       const baseSlug = slugify(
-  `${user.fullName}-${service.name}-${address}`,
-  {
-    lower: true,
-    strict: true,
-    trim: true,
+  let slug = null;
+
+if (service) {
+  const baseSlug = slugify(
+    `${user.fullName}-${service.name}-${address}`,
+    {
+      lower: true,
+      strict: true,
+      trim: true,
+    }
+  );
+
+  slug = baseSlug;
+  let count = 1;
+
+  while (true) {
+    const existingProfessional = await Professional.findOne({ slug });
+
+    if (
+      !existingProfessional ||
+      existingProfessional.userId.toString() === req.userId.toString()
+    ) {
+      break;
+    }
+
+    slug = `${baseSlug}-${count}`;
+    count++;
   }
-);
-
-let slug = baseSlug;
-let count = 1;
-
-while (true) {
-  const existingProfessional = await Professional.findOne({ slug });
-
-  if (
-    !existingProfessional ||
-    existingProfessional.userId.toString() === req.userId.toString()
-  ) {
-    break;
-  }
-
-  slug = `${baseSlug}-${count}`;
-  count++;
 }
-} 
     // Step 5: Update professional data
    await Professional.findOneAndUpdate(
       { userId: req.userId },
