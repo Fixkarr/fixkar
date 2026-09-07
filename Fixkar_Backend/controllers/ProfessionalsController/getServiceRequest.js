@@ -3,21 +3,21 @@ import {Professional} from '../../models/userModel.js'
 
 export const getServiceRequest = async (req,res)=>{
     try {
-        const userId = req.userId;
-        if(!userId){
+        const {professionalId} = req.body;
+        if(!professionalId){
             return res.status(400).json({
-                message : "UserId is required!"
+                message : "ProfessionalId is required!"
             })
         }
 
-        const professional = await Professional.findOne({userId});
+        const professional = await Professional.findById({professionalId});
         if(!professional){
              return res.status(400).json({
                 message : "professional not found!"
             })
         }
 
-        const serviceRequest = await ServiceRequest.findOne({professional : professional._id});
+        const serviceRequest = await ServiceRequest.findOne({professional : professionalId});
         if(!serviceRequest){
             return res.status(400).json({
                 message : "service is not requested!"

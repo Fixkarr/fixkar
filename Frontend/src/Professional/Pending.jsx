@@ -3,15 +3,17 @@ import { FaClock, FaShieldAlt} from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";
 import axios from 'axios'
 import {server_url} from '../App'
+import { useSelector } from "react-redux";
 
 const Pending = () => {
-
+  const {currentUserData} = useSelector(state=> state.user);
+  const professionalId = currentUserData.user._id;
   const [serviceRequest, setServiceRequest] = useState({});
 
     useEffect(()=>{
       const getServiceRequest = async ()=>{
         try {
-          const response = await axios.get(`${server_url}/api/user/get-service-request`, {withCredentials : true});
+          const response = await axios.get(`${server_url}/api/user/get-service-request`, {professionalId}, {withCredentials : true});
 
           setServiceRequest(response?.data?.serviceRequest);
         } catch (error) {
