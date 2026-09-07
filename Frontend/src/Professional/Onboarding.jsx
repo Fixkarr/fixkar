@@ -23,7 +23,7 @@ const Onboarding = ({ userData }) => {
   const navigate = useNavigate();
   const googleLoaded = useLoadGoogleMaps(); // ✅ Google script load status
   const addressInputRef = useRef(null);
-
+  const [isCustomService, setIsCustomService] = useState(false);
 
    const [latLng, setLatLng] = useState({ lat: null, lng: null });
 
@@ -38,7 +38,29 @@ const Onboarding = ({ userData }) => {
       .required("Date of Birth is required")
       .max(new Date(maxDate), "You must be at least 18 years old"),
     address: Yup.string().required("Address is required"),
-    profession: Yup.string().required("Please select your profession"),
+   profession: Yup.string().when("serviceName", {
+            is: (serviceName) => !serviceName,
+            then: (schema) => schema.required("Please select a profession"),
+            otherwise: (schema) => schema.notRequired(),
+          }),
+
+    serviceName: Yup.string().when("profession", {
+  is: (profession) => !profession,
+  then: (schema) =>
+    schema
+      .required("Service name is required")
+      .max(100, "Service name is too long"),
+  otherwise: (schema) => schema.notRequired(),
+}),
+
+description: Yup.string().when("profession", {
+  is: (profession) => !profession,
+  then: (schema) =>
+    schema
+      .required("Service description is required")
+      .max(500, "Description is too long"),
+  otherwise: (schema) => schema.notRequired(),
+}),
     profilePicture: Yup.mixed().required("Profile picture is required"),
     poiFront: Yup.mixed()
     .required("Front side of ID proof is required"),
@@ -52,6 +74,8 @@ const Onboarding = ({ userData }) => {
       dob: "",
       address: "",
       profession: "",
+      serviceName: "",
+      description: "",
       profilePicture: null,
       poiFront: null,
       poiBack : null
@@ -70,6 +94,8 @@ const Onboarding = ({ userData }) => {
         formData.append("dob", values.dob);
         formData.append("address", values.address);
         formData.append("profession", values.profession);
+        formData.append("serviceName", values.serviceName);
+        formData.append("description", values.description);
         formData.append("profilePicture", values.profilePicture);
         formData.append("poiFront", values.poiFront);
         formData.append("poiBack", values.poiBack);
@@ -304,7 +330,8 @@ const Onboarding = ({ userData }) => {
                           Profession
                           <span className="required-star">*</span>
                         </label>
-
+                    {!isCustomService ? (
+                      <>
                         <div className="onboard-input-wrap">
 
                           <MdWork />
@@ -329,20 +356,130 @@ const Onboarding = ({ userData }) => {
                               </option>
                             ))}
                           </select>
-
                         </div>
-
                         <div className="onboard-helper">
                           <FaInfoCircle />
                           Choose the service you are skilled in.
                         </div>
-
                         {formik.touched.profession &&
                           formik.errors.profession && (
                             <div className="onboard-error">
                               {formik.errors.profession}
                             </div>
                           )}
+                            <button
+                              type="button"
+                              className="custom-service-trigger"
+                              onClick={() => {
+                                setIsCustomService(true);
+                                formik.setFieldValue("profession", "");
+                              }}
+                            >
+                              Can't find your service? <span>Add your service</span>
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                           <div className="custom-service-form">
+  <div className="custom-service-header">
+    <div>
+      <span className="custom-service-eyebrow">
+        SERVICE NOT LISTED?
+      </span>
+
+      <h3>Tell us what service you provide</h3>
+
+      <p>
+        Don't worry if you can't find your service. Tell us about it and
+        our team will review your request.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      className="custom-service-back"
+      onClick={() => {
+        setIsCustomService(false);
+        formik.setFieldValue("serviceName", "");
+        formik.setFieldValue("description", "");
+      }}
+    >
+      ← Choose from list
+    </button>
+  </div>
+
+  <div className="custom-service-fields">
+
+    {/* Service Name */}
+    <div className="custom-service-field">
+      <label htmlFor="serviceName">
+        Service Name
+        <span>*</span>
+      </label>
+
+      <input
+        type="text"
+        id="serviceName"
+        name="serviceName"
+        placeholder="e.g. AC Repair, Home Painting, RO Service"
+        value={formik.values.serviceName}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+
+      {formik.touched.serviceName &&
+        formik.errors.serviceName && (
+          <small className="custom-service-error">
+            {formik.errors.serviceName}
+          </small>
+        )}
+    </div>
+
+    {/* Description */}
+    <div className="custom-service-field">
+      <label htmlFor="description">
+        Describe Your Service
+        <span>*</span>
+      </label>
+
+      <textarea
+        id="description"
+        name="description"
+        rows={5}
+        maxLength={500}
+        placeholder="Briefly explain what service you provide, what kind of work you handle, and what customers can expect..."
+        value={formik.values.description}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+
+      <div className="custom-service-description-footer">
+        <span>
+          {formik.values.description?.length || 0}/500
+        </span>
+      </div>
+
+      {formik.touched.description &&
+        formik.errors.description && (
+          <small className="custom-service-error">
+            {formik.errors.description}
+          </small>
+        )}
+    </div>
+
+  </div>
+
+  <div className="custom-service-info">
+    <span>ⓘ</span>
+    <p>
+      Your service request will be reviewed by the Fixkar team.
+      You can continue with your onboarding while we review it.
+    </p>
+  </div>
+</div>
+
+                          </>
+                        )}
 
                       </div>
 
