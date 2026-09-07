@@ -199,7 +199,7 @@ if (service) {
           coordinates : [lng, lat]
         },
         profession : service ? service._id : null,
-        isServiceRequested: !!service,
+        isServiceRequested: !service ? true : false,
         profilePicture: profileResult.secure_url,
         public_id : profileResult.public_id,
         poi: poiResult.secure_url,
