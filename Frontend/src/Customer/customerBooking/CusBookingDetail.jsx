@@ -122,59 +122,45 @@ if (!booking) {
   return <FixkarLoader />
 }
 
- return (
+return (
   <div
-    className="min-vh-100 py-4 booking-details-page"
-    style={{
-      background: "linear-gradient(180deg,#f8fbff 0%,#eef4ff 100%)"
-    }}
+    className="booking-details-page"
   >
     <div
         className="booking-details-topbar"
-        style={{
-          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
-          borderBottomLeftRadius: "25px",
-          borderBottomRightRadius: "25px"
-        }}
+
       >
-        <div className="booking-details-topbar-inner d-flex justify-content-between align-items-center">
-          <h5 className="fw-bold mb-0 booking-details-topbar-title">Booking Details</h5>
+        <div className="booking-details-topbar-inner">
+          <h5 className="booking-details-topbar-title">Booking Details</h5>
 
     
         </div>
 
-        <p className="mt-2 small booking-details-topbar-description">
+        <p className="booking-details-topbar-description">
           Manage and track booking
         </p>
       </div>
-    <div className="container booking-details-container">
+    <div className="booking-details-container">
 
       {/* 🔵 FLOATING MAIN CARD */}
       <div
-        className="booking-details-shell rounded-4 shadow-lg overflow-hidden"
-        style={{
-          background: "#ffffff",
-          border: "1px solid #e6f0ff"
-        }}
+        className="booking-details-shell"
       >
 
         {/* ================= TOP PROFILE SECTION ================= */}
         <div
-          className="booking-details-profile p-4"
-          style={{
-            background: "linear-gradient(135deg,#0d6efd,#3a86ff)"
-          }}
+          className="booking-details-profile"
         >
-          <div className="d-flex justify-content-between align-items-start flex-wrap gap-3 booking-details-profile-row">
+          <div className="booking-details-profile-row">
 
-            <div className="d-flex align-items-center gap-3 booking-details-profile-info">
+            <div className="booking-details-profile-info">
 
               <img
                 src={booking.professionalId.profilePicture}
                 alt="professional"
                 width="80"
                 height="80"
-                className="booking-details-avatar rounded-circle border border-3 border-white shadow"
+                className="booking-details-avatar"
                 style={{ objectFit: "cover", cursor: "pointer" }}
                 onClick={() =>
                   navigate(
@@ -183,64 +169,56 @@ if (!booking) {
                 }
               />
 
-              <div className="text-white">
-                <h5 className="fw-bold mb-1 booking-details-professional-name">
+              <div className="">
+                <h5 className="booking-details-professional-name">
                   {booking.professionalId.userId.fullName}
                 </h5>
 
-                <small className="d-block opacity-75">
-                  <MdHomeRepairService className="me-1" />
+                <small className="">
+                  <MdHomeRepairService className="" />
                   {booking.professionalId.profession.name}
                 </small>
 
-                <small className="opacity-75">
-                  <FaMapMarkerAlt className="me-1" />
+                <small className="">
+                  <FaMapMarkerAlt className="" />
                   {booking.professionalId.address.addressLine}
                 </small>
               </div>
             </div>
 
             <div>
-              <GetStatusBadge status={booking.status} />
+              <div className="booking-details-status"><GetStatusBadge status={booking.status} /></div>
             </div>
           </div>
         </div>
 
         {/* ================= BODY CONTENT ================= */}
-        <div className="booking-details-body p-4">
+        <div className="booking-details-body">
 
           {/* ---------- META GRID ---------- */}
-          <div className="row g-3 mb-4">
+          <div className="">
 
-            <div className="col-md-4">
+            <div className="">
               <div
-                className="p-3 rounded-4 h-100 booking-details-info-tile"
-                style={{
-                  background: "#f1f5ff",
-                  border: "1px solid #e0e7ff"
-                }}
+                className="booking-details-info-tile"
               >
-                <small className="text-muted d-block">
-                  <FaIdBadge className="me-1 text-warning" />
+                <small className="">
+                  <FaIdBadge className="" />
                   Booking ID
                 </small>
-                <span className="fw-bold">{booking._id}</span>
+                <span className="">{booking._id}</span>
               </div>
             </div>
 
-            <div className="col-md-4">
+            <div className="">
               <div
-                className="p-3 rounded-4 h-100 booking-details-info-tile"
-                style={{
-                  background: "#ecfdf5",
-                  border: "1px solid #bbf7d0"
-                }}
+                className="booking-details-info-tile"
               >
-                <small className="text-muted d-block">
-                  <FaRupeeSign className="text-success me-1" />
+                <small className="">
+                  <FaRupeeSign className="" />
                   Visiting Charge
                 </small>
-                <span className="fw-bold text-success">
+                <span className="">
                   ₹{booking.visitingCharge}
                 </span>
               </div>
@@ -248,39 +226,31 @@ if (!booking) {
           </div>
 
           {/* ---------- DATE & TIME ---------- */}
-          <div className="row g-3 mb-4">
+          <div className="">
 
-            <div className="col-md-6">
+            <div className="">
               <div
-                className="p-3 rounded-4 h-100 booking-details-info-tile"
-                style={{
-                  background: "#eef2ff",
-                  border: "1px solid #c7d2fe"
-                }}
+                className="booking-details-info-tile"
               >
-                <p className="fw-semibold mb-1 text-primary">
-                  <FaCalendarAlt className="me-2" />
+                <p className="">
+                  <FaCalendarAlt className="" />
                   Work Date
                 </p>
-                <h6 className="mb-0">
+                <h6 className="">
                   {formatDate(booking.workDate)}
                 </h6>
               </div>
             </div>
 
-            <div className="col-md-6">
+            <div className="">
               <div
-                className="p-3 rounded-4 h-100 booking-details-info-tile"
-                style={{
-                  background: "#fef9c3",
-                  border: "1px solid #fde68a"
-                }}
+                className="booking-details-info-tile"
               >
-                <p className="fw-semibold mb-1 text-warning">
-                  <FaClock className="me-2" />
+                <p className="">
+                  <FaClock className="" />
                   Work Time
                 </p>
-                <h6 className="mb-0">
+                <h6 className="">
                   {formatTime(booking.workTime)}
                 </h6>
               </div>
@@ -288,37 +258,29 @@ if (!booking) {
           </div>
 
           {/* ---------- ADDRESS ---------- */}
-          <div className="mb-4">
+          <div className="">
             <div
-              className="p-3 rounded-4 booking-details-info-tile"
-              style={{
-                background: "#fdf2f8",
-                border: "1px solid #fbcfe8"
-              }}
+              className="booking-details-info-tile"
             >
-              <p className="fw-semibold mb-1">
-                <FaMapMarkerAlt className="text-danger me-2" />
+              <p className="">
+                <FaMapMarkerAlt className="" />
                 Work Address
               </p>
-              <p className="mb-0 text-muted">
+              <p className="">
                 {booking.workAddress}
               </p>
             </div>
           </div>
 
           {/* ---------- PROBLEM ---------- */}
-          <div className="mb-4">
+          <div className="">
             <div
-              className="p-3 rounded-4 booking-details-info-tile"
-              style={{
-                background: "#f8fafc",
-                border: "1px solid #e2e8f0"
-              }}
+              className="booking-details-info-tile"
             >
-              <p className="fw-semibold mb-1">
+              <p className="">
                 Problem Description
               </p>
-              <p className="text-muted small mb-0">
+              <p className="">
                 {booking.problemDescription}
               </p>
             </div>
@@ -326,37 +288,36 @@ if (!booking) {
 
          {/* Voice Descriptions */}
 {booking.audioMessages && booking.audioMessages.length > 0 && (
-  <div className="mb-4">
-    <div className="booking-details-audio-card bg-white rounded-4 shadow-sm border p-3">
+  <div className="">
+    <div className="booking-details-audio-card">
 
       {/* Header */}
-      <div className="d-flex align-items-center justify-content-between mb-3">
-        <h6 className="fw-bold mb-0 d-flex align-items-center gap-2">
+      <div className="">
+        <h6 className="">
           <FaMicrophone/> Voice Descriptions
         </h6>
 
-        <span className="badge bg-primary-subtle text-primary">
+        <span className="badge">
           {booking.audioMessages.length}
         </span>
       </div>
 
       {/* Audio List */}
-      <div className="d-flex flex-column gap-3">
+      <div className="">
         {booking.audioMessages?.map((audio, index) => (
           <div
             key={index}
-            className="booking-details-audio-item bg-light rounded-3 p-2 d-flex align-items-center gap-3 border"
+            className="booking-details-audio-item rounded-3 p-2"
           >
             {/* Icon */}
             <div
-              className="booking-details-audio-icon rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
-              style={{ width: 36, height: 36, fontSize: "14px" }}
+              className="booking-details-audio-icon justify-content-center"
             >
               <FaMicrophone/>
             </div>
 
             {/* Audio Player */}
-            <div className="flex-grow-1">
+            <div className="">
               <CustomAudioPlayer src={audio.url} />
             </div>
 
@@ -364,7 +325,7 @@ if (!booking) {
             <a
               href={audio.url}
               download
-              className="btn btn-sm btn-outline-secondary"
+              className=""
             >
               <FaDownload/>
             </a>
@@ -375,16 +336,16 @@ if (!booking) {
     </div>
   </div>
 )}
-    <div className="g-3 mt-2">
+    <div className="">
               {(booking.status == "pending" ||
                 booking.status == "accepted" ||
                 booking.status == "reached") && (
-               <CusHandleCancel booking={booking}/>
+               <div className="booking-details-action"><CusHandleCancel booking={booking}/></div>
               )}
             </div>
 
     {booking.rejectMessage && (
-         <p className="bg-danger-subtle text-danger p-2 rounded-2">
+         <p className="p-2 rounded-2">
                 Your booking has been rejected by the professional. <br />{" "}
                 <b>Message from {booking.professionalId.userId.fullName} :</b> '
                 {booking.rejectMessage}'{" "}
@@ -393,25 +354,25 @@ if (!booking) {
 
     {/* Accept message */}
     {booking.status == "accepted" && (
-        <CusAcceptBooking booking={booking}/>
+        <div className="booking-details-action"><CusAcceptBooking booking={booking}/></div>
     )}
     {booking.status == "reached" && booking.reachedOTP && (
-        <div className="alert alert-warning text-center">
+        <div className="">
                   <h6>Professional has arrived</h6>
-                  <h3 className="fw-bold">{booking.reachedOTP}</h3>
-                  <p className="small">
+                  <h3 className="">{booking.reachedOTP}</h3>
+                  <p className="">
                     Share this OTP with the professional to start work
                   </p>
                 </div>
     )}
 
     {booking.status === "in-progress" && (
-        <CusInprogress booking={booking}/>
+        <div className="booking-details-action"><CusInprogress booking={booking}/></div>
     )}
 
      {(booking.quoteAmount || booking.isPriceLocked) && !["cancelled", "rejected", "completed"].includes(booking.status) && (
             <div
-  className="booking-details-payment mt-4 p-4 rounded-4 shadow-sm"
+  className="booking-details-payment"
   style={{
     background: "linear-gradient(145deg, #ffffff, #f8fafc)",
     border: "1px solid #e5e7eb"
@@ -419,10 +380,10 @@ if (!booking) {
 >
 
   {/* HEADER */}
-  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-    <div className="d-flex align-items-center gap-2">
+  <div className="">
+    <div className="">
       <div
-        className="p-2 rounded-circle"
+        className="p-2"
         style={{
           background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
           color: "white"
@@ -430,40 +391,36 @@ if (!booking) {
       >
         <MdPayment size={18} />
       </div>
-      <h5 className="fw-bold mb-0 text-dark">
+      <h5 className="">
         Payment Summary
       </h5>
     </div>
 
-    <span className="badge bg-light text-success border border-success-subtle px-3 py-2 rounded-pill">
+    <span className="badge">
       🔒 Secure
     </span>
   </div>
 
   {/* PRICE CARD */}
   <div
-    className="booking-details-price-card rounded-4 p-4 mb-4"
-    style={{
-      background: "#f9fafb",
-      border: "1px solid #eef2f7"
-    }}
+    className="booking-details-price-card"
   >
-    <div className="d-flex justify-content-between mb-2 text-muted">
+    <div className="mb-2">
       <span>Service Charge</span>
-      <span className="fw-semibold text-dark">
+      <span className="">
         ₹{booking.isPriceLocked ? booking.serviceCharge : booking.quoteAmount}
       </span>
     </div>
 
-    <div className="d-flex justify-content-between mb-2 text-muted">
+    <div className="mb-2">
       <span>Visiting Charge</span>
-      <span className="fw-semibold text-dark">
+      <span className="">
         ₹{booking.visitingCharge}
       </span>
     </div>
 
     {booking.discountAmount > 0 && (
-      <div className="d-flex justify-content-between mb-2 text-success fw-semibold">
+      <div className="mb-2">
         <span>Discount</span>
         <span>- ₹{discountAmount}</span>
       </div>
@@ -471,12 +428,12 @@ if (!booking) {
 
     <hr />
 
-    <div className="booking-details-topbar-inner d-flex justify-content-between align-items-center">
-      <span className="fw-bold fs-5 text-dark">
+    <div className="booking-details-topbar-inner">
+      <span className="">
         Total Payable
       </span>
       <span
-        className="fw-bold fs-4"
+        className=""
         style={{
           color: "#16a34a"
         }}
@@ -486,7 +443,7 @@ if (!booking) {
     </div>
         
      {booking.offerLocked && (
-              <div className="alert alert-success mt-3">
+              <div className="alert-success">
                 Offer applied successfully.
               </div>
             )}
@@ -495,18 +452,18 @@ if (!booking) {
 
   {/* OFFERS */}
   {loadingOffers ? (
-    <div className="text-center py-3">
-      <div className="spinner-border spinner-border-sm text-primary"></div>
-      <small className="text-muted ms-2">
+    <div className="">
+      <div className="spinner-border spinner-border-sm"></div>
+      <small className="">
         Checking best offers...
       </small>
     </div>
   ) : !booking.offerLocked && offers.length > 0? (
-    <div className="mb-4">
+    <div className="">
 
-      <div className="d-flex align-items-center mb-3">
-        <FaGift className="text-danger me-2" />
-        <h6 className="fw-bold mb-0 text-dark">
+      <div className="">
+        <FaGift className="" />
+        <h6 className="">
           Available Offers
         </h6>
       </div>
@@ -518,7 +475,7 @@ if (!booking) {
         return (
           <div
             key={offer.offerId}
-            className="booking-details-offer rounded-4 p-3 mb-3 position-relative"
+            className="booking-details-offer"
             style={{
               background: isSelected
                 ? "linear-gradient(135deg,#ecfdf5,#d1fae5)"
@@ -535,15 +492,15 @@ if (!booking) {
           >
 
             {/* LEFT SIDE */}
-            <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div className="">
 
               <div>
-                <div className="fw-semibold text-dark d-flex align-items-center gap-2">
-                  <MdLocalOffer className="text-danger" />
+                <div className="">
+                  <MdLocalOffer className="" />
                   {offer.title}
                 </div>
 
-                <small className="text-muted">
+                <small className="">
                   You save ₹{offer.discount}
                 </small>
               </div>
@@ -551,7 +508,7 @@ if (!booking) {
              {!booking.offerLocked && (
               <button
                 disabled={applyingOffer}
-                className="booking-details-offer-btn btn btn-sm rounded-pill fw-semibold px-4"
+                className="booking-details-offer-btn"
                 style={{
                   background:
                     "linear-gradient(135deg,#6366f1,#8b5cf6)",
@@ -587,10 +544,10 @@ if (!booking) {
              )}
 
     {booking.status == 'cancelled' && (
-            <CusCancelBooking booking={booking}/>
+            <div className="booking-details-action"><CusCancelBooking booking={booking}/></div>
     )}
     {booking.status === "completed" && (
-        <CusCompleteBooking booking={booking}/>
+        <div className="booking-details-action"><CusCompleteBooking booking={booking}/></div>
     )}
 
         </div>
