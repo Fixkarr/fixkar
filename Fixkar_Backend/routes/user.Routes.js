@@ -42,7 +42,7 @@ userRoute.post("/onboard", isAuth, upload.fields([
   { name: "poiFront", maxCount: 1 },
   { name: "poiBack", maxCount: 1 },
 ]), multerErrorHandler, onboard);
-userRoute.get("/get-service-request", isAuth, getServiceRequest)
+userRoute.get("/get-service-request", getServiceRequest)
 
 userRoute.post("/professional/complete-profile", isAuth, completeProfile);
 userRoute.post("/professional/set-busy-days", isAuth, setBusyDays)
