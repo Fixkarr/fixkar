@@ -423,11 +423,11 @@ socket.on("pickupProfessionalAccepted", (data) => {
         />
         <Route
           path="/application/pending"
-          element={status === "pending" ? <Pending /> : <Navigate to="/" />}
+          element={isMobileVerified && isOnboarded && status === "pending" ? <Pending /> : <Navigate to="/" />}
         />
         <Route
           path="/application/rejected"
-          element={status === "rejected" ? <Rejected /> : <Navigate to="/" />}
+          element={isMobileVerified && isOnboarded && status === "rejected" ? <Rejected /> : <Navigate to="/" />}
         />
       </Route> 
 
