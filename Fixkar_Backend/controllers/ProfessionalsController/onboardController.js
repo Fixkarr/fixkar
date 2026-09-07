@@ -1,17 +1,31 @@
 import sharp from "sharp";
-import cloudinary from "../../config/cloudinary.js";
 import { Service } from "../../models/serviceModel.js";
 import { Professional, User } from "../../models/userModel.js";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
 import slugify from "slugify";
+import { ServiceRequest } from "../../models/serviceRequest.js";
 
 export const onboard = async (req, res) => {
   try {
-    const { dob, address, profession,  lat,lng } = req.body;
+    const { dob, address, profession, serviceName, description,  lat,lng } = req.body;
 
     // Step 1: Validation
-    if (!dob || !address || !profession) {
-      return res.status(400).json({ message: "All fields are required" });
+    if (!dob || !address) {
+      return res.status(400).json({ message: "DOB and address are required" });
+    }
+    const hasExistingService = Boolean(profession);
+    const hasServiceRequest = Boolean(serviceName && description);
+
+    if (!hasExistingService && !hasServiceRequest) {
+      return res.status(400).json({
+        message: "Please select a profession or provide your service details",
+      });
+    }
+
+    if (!hasExistingService && (!serviceName || !description)) {
+      return res.status(400).json({
+        message: "Service name and description are required",
+      });
     }
 
     const profilePicture = req.files?.profilePicture?.[0];
@@ -24,12 +38,17 @@ export const onboard = async (req, res) => {
         .json({ message: "Profile picture and ID proof required" });
     }
 
-        const service = await Service.findById(profession);
-      if (!service) {
-      return res.status(400).json({
-        message: "Invalid profession selected",
-      });
-    }
+     let service = null;
+
+      if (profession) {
+        service = await Service.findById(profession);
+
+        if (!service) {
+          return res.status(400).json({
+            message: "Invalid profession selected",
+          });
+        }
+      }
 
         // Step 4: Find the professional by userId
     const professional = await Professional.findOne({ userId: req.userId });
@@ -43,6 +62,22 @@ export const onboard = async (req, res) => {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
+
+    if (!service) {
+      const existingRequest = await ServiceRequest.findOne({
+        professional: professional._id,
+        status: "pending_review",
+      });
+
+      if (existingRequest) {
+        return res.status(400).json({
+          message:
+            "You already have a service request under review",
+        });
+      }
+    }
+
+
 
       const frontImage = await sharp(poiFront.buffer)
   .rotate()
@@ -120,8 +155,8 @@ const mergedPoi = await canvas
 ),
     ]);
 
-
-    const baseSlug = slugify(
+    if(service){
+       const baseSlug = slugify(
   `${user.fullName}-${service.name}-${address}`,
   {
     lower: true,
@@ -146,7 +181,7 @@ while (true) {
   slug = `${baseSlug}-${count}`;
   count++;
 }
-    
+} 
     // Step 5: Update professional data
    await Professional.findOneAndUpdate(
       { userId: req.userId },
@@ -161,7 +196,8 @@ while (true) {
           type : 'Point',
           coordinates : [lng, lat]
         },
-        profession : service._id,
+        profession : service ? service._id : null,
+        isServiceRequested: !!service,
         profilePicture: profileResult.secure_url,
         public_id : profileResult.public_id,
         poi: poiResult.secure_url,
@@ -200,11 +236,36 @@ while (true) {
       });
     
     // Step 6: Response
+        if (service) {
+        return res.status(200).json({
+          success: true,
+          message: "Onboarding completed successfully",
+          user: updatedProfessional,
+        });
+      }
+
+    // --------------------------------------------------
+    // Step 11: Create service request
+    // --------------------------------------------------
+
+    await ServiceRequest.create({
+      professional: professional._id,
+      serviceName: serviceName.trim(),
+      description: description.trim(),
+      status: "pending_review",
+    });
+
+    // --------------------------------------------------
+    // Step 12: Response for pending service request
+    // --------------------------------------------------
     return res.status(200).json({
       success: true,
-      message: "Onboarding completed successfully",
-      user: updatedProfessional,
+      serviceRequestPending: true,
+      message:
+        "Your onboarding application has been submitted. Your requested service is under review. We will notify you once it is approved.",
+      user: updatedProfessional
     });
+   
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });

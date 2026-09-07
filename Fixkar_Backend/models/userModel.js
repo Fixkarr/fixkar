@@ -44,6 +44,7 @@ const professionalSchema = new mongoose.Schema(
     },
     dob: { type: Date },
     profession: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
+    isServiceRequested: { type: Boolean, default: false },
     selectedSkills: [{ type: mongoose.Schema.Types.ObjectId, ref: "Skill" }],
     description: { type: String },
     address: { addressLine: String, lat: Number, lng: Number },

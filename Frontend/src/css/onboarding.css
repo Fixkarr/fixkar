@@ -351,3 +351,217 @@ input[type="date"]{
     padding: 12px;
   }
 }
+
+.custom-service-form {
+  margin-top: 16px;
+  padding: 20px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.custom-service-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.custom-service-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+.custom-service-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.custom-service-header p {
+  margin: 6px 0 0;
+  max-width: 620px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+.custom-service-back {
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0;
+}
+
+.custom-service-fields {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 16px;
+}
+
+.custom-service-field {
+  min-width: 0;
+}
+
+.custom-service-field label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.custom-service-field label span {
+  margin-left: 3px;
+  color: #dc2626;
+}
+
+.custom-service-field input,
+.custom-service-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.custom-service-field input {
+  height: 46px;
+  padding: 0 13px;
+}
+
+.custom-service-field textarea {
+  min-height: 120px;
+  padding: 12px 13px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.custom-service-field input:focus,
+.custom-service-field textarea:focus {
+  background: #fff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.custom-service-field input::placeholder,
+.custom-service-field textarea::placeholder {
+  color: #94a3b8;
+}
+
+.custom-service-description-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.custom-service-error {
+  display: block;
+  margin-top: 5px;
+  color: #dc2626;
+  font-size: 11px;
+}
+
+.custom-service-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 11px 13px;
+  border-radius: 11px;
+  background: #f8fafc;
+  color: #64748b;
+}
+
+.custom-service-info span {
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.custom-service-info p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .custom-service-form {
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .custom-service-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .custom-service-header h3 {
+    font-size: 18px;
+  }
+
+  .custom-service-back {
+    padding: 0;
+  }
+
+  .custom-service-fields {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+}
+
+.custom-service-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: 9px;
+  background: rgba(37, 99, 235, 0.045);
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.custom-service-trigger span {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.custom-service-trigger:hover {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.22);
+  color: #334155;
+  transform: translateY(-1px);
+}
+
+.custom-service-trigger:active {
+  transform: translateY(0);
+}
