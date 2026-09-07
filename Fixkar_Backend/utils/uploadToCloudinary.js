@@ -1,36 +1,40 @@
 import cloudinary from "../config/cloudinary.js";
 
-export const uploadToCloudinary = (file, folder) => {
+export const uploadToCloudinary = (file, folder, resourceTypeOverride) => {
   return new Promise((resolve, reject) => {
-     let resourceType = "image";
+     let resourceType =  resourceTypeOverride || "image";;
     let flags;
 
+     const mimetype = file?.mimetype || "image/jpeg";
+    const originalname = file?.originalname || `upload_${Date.now()}.jpg`;
+
     // 📄 PDF / DOC
-    if (file.mimetype === "application/pdf") {
+   if (!resourceTypeOverride && mimetype === "application/pdf") {
       resourceType = "raw";
-      flags = "attachment:false"; // browser mein open ho
+      flags = "attachment:false";
     }
 
-    // 🎥 Video
-    else if (file.mimetype.startsWith("video/")) {
+    // Video
+    else if (!resourceTypeOverride && mimetype.startsWith("video/")) {
       resourceType = "video";
     }
 
-        else if (file.mimetype.startsWith("audio/")) {
-      resourceType = "video"; // Cloudinary rule
+    // Audio
+    else if (!resourceTypeOverride && mimetype.startsWith("audio/")) {
+      resourceType = "video";
     }
 
-
-    // 🖼️ Image → default image
-    else if (file.mimetype.startsWith("image/")) {
+    // Image
+    else if (!resourceTypeOverride && mimetype.startsWith("image/")) {
       resourceType = "image";
     }
 
-     else {
+    else if (!resourceTypeOverride && !mimetype.startsWith("image/")) {
       return reject(new Error("Unsupported file type"));
     }
 
-   const fileName = file.originalname
+
+   const fileName = originalname
   .replace(/\.[^/.]+$/, "")      // extension remove
   .trim()                        // start/end spaces remove
   .replace(/\s+/g, "_")          // spaces -> underscore

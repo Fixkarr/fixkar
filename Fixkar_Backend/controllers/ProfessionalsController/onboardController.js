@@ -1,3 +1,4 @@
+import sharp from "sharp";
 import cloudinary from "../../config/cloudinary.js";
 import { Service } from "../../models/serviceModel.js";
 import { Professional, User } from "../../models/userModel.js";
@@ -6,7 +7,7 @@ import slugify from "slugify";
 
 export const onboard = async (req, res) => {
   try {
-    const { dob, address, profession, lat,lng } = req.body;
+    const { dob, address, profession,  lat,lng } = req.body;
 
     // Step 1: Validation
     if (!dob || !address || !profession) {
@@ -14,9 +15,10 @@ export const onboard = async (req, res) => {
     }
 
     const profilePicture = req.files?.profilePicture?.[0];
-    const poi = req.files?.poi?.[0];
+    const poiFront = req.files?.poiFront?.[0];
+    const poiBack = req.files?.poiBack?.[0];
 
-    if (!profilePicture || !poi) {
+    if (!profilePicture || !poiFront || !poiBack) {
       return res
         .status(400)
         .json({ message: "Profile picture and ID proof required" });
@@ -42,10 +44,80 @@ export const onboard = async (req, res) => {
         return res.status(404).json({ message: "User not found" });
       }
 
+      const frontImage = await sharp(poiFront.buffer)
+  .rotate()
+  .resize({
+    width: 1200,
+    height: 1600,
+    fit: "inside",
+    withoutEnlargement: true,
+  })
+  .png()
+  .toBuffer();
+
+  const backImage = await sharp(poiBack.buffer)
+  .rotate()
+  .resize({
+    width: 1200,
+    height: 1600,
+    fit: "inside",
+    withoutEnlargement: true,
+  })
+  .png()
+  .toBuffer();
+
+  const frontMeta = await sharp(frontImage).metadata();
+const backMeta = await sharp(backImage).metadata();
+
+const mergedHeight =
+  frontMeta.height +
+  30 +
+  backMeta.height;
+
+const canvas = sharp({
+  create: {
+    width: Math.max(frontMeta.width, backMeta.width),
+    height: mergedHeight,
+    channels: 4,
+    background: {
+      r: 255,
+      g: 255,
+      b: 255,
+      alpha: 1,
+    },
+  },
+});
+
+const mergedPoi = await canvas
+  .composite([
+    {
+      input: frontImage,
+      top: 0,
+      left: 0,
+    },
+    {
+      input: backImage,
+      top: frontMeta.height + 30,
+      left: 0,
+    },
+  ])
+  .jpeg({
+    quality: 90,
+  })
+  .toBuffer();
+
     // Step 3: Upload both files
     const [profileResult, poiResult] = await Promise.all([
       uploadToCloudinary(profilePicture, "professionals/profile_pictures", "image"),
-      uploadToCloudinary(poi, "professionals/poi_documents", "image"),
+      uploadToCloudinary(
+  {
+    buffer: mergedPoi,
+    mimetype: "image/jpeg",
+    originalname: `${user._id}_poi.jpg`,
+  },
+  "professionals/poi_documents",
+  "image"
+),
     ]);
 
 

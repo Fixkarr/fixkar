@@ -40,8 +40,12 @@ const Onboarding = ({ userData }) => {
     address: Yup.string().required("Address is required"),
     profession: Yup.string().required("Please select your profession"),
     profilePicture: Yup.mixed().required("Profile picture is required"),
-    poi: Yup.mixed().required("Proof of identity is required"),
-  });
+    poiFront: Yup.mixed()
+    .required("Front side of ID proof is required"),
+
+    poiBack: Yup.mixed()
+      .required("Back side of ID proof is required"),
+    });
 
   const formik = useFormik({
     initialValues: {
@@ -49,7 +53,8 @@ const Onboarding = ({ userData }) => {
       address: "",
       profession: "",
       profilePicture: null,
-      poi: null,
+      poiFront: null,
+      poiBack : null
     },
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
@@ -66,7 +71,8 @@ const Onboarding = ({ userData }) => {
         formData.append("address", values.address);
         formData.append("profession", values.profession);
         formData.append("profilePicture", values.profilePicture);
-        formData.append("poi", values.poi);
+        formData.append("poiFront", values.poiFront);
+        formData.append("poiBack", values.poiBack);
         formData.append("lat", latLng.lat);
         formData.append("lng", latLng.lng);
 
@@ -578,153 +584,293 @@ const Onboarding = ({ userData }) => {
                   {/* ==================================================
                       IDENTITY PROOF
                   ================================================== */}
-                  <div className="col-12 col-lg-6">
+                {/* ==================================================
+    IDENTITY PROOF
+================================================== */}
+<div className="col-12 col-lg-6">
 
-                    <div className="onboard-section">
+  <div className="onboard-section">
 
-                      <div className="onboard-section-head">
+    <div className="onboard-section-head">
 
-                        <div className="onboard-section-icon orange">
-                          <FaIdCard />
-                        </div>
+      <div className="onboard-section-icon orange">
+        <FaIdCard />
+      </div>
 
-                        <div>
-                          <h6 className="mb-0 fw-bold">
-                            Identity Verification
-                          </h6>
+      <div>
+        <h6 className="mb-0 fw-bold">
+          Identity Verification
+        </h6>
 
-                          <small>
-                            Upload a valid government identity document.
-                          </small>
-                        </div>
+        <small>
+          Upload both sides of your government ID.
+        </small>
+      </div>
 
-                      </div>
+    </div>
 
-                      <div className="onboard-upload-card">
 
-                        <input
-                          type="file"
-                          id="poi"
-                          accept="image/*,application/pdf"
-                          hidden
-                          onChange={(e) =>
-                            formik.setFieldValue(
-                              "poi",
-                              e.target.files[0]
-                            )
-                          }
-                        />
+    <div className="onboard-upload-card poi-upload-card">
 
-                        <label
-                          htmlFor="poi"
-                          className="onboard-upload-zone poi-zone"
-                        >
+      {/* ================= FRONT ================= */}
 
-                          {formik.values.poi ? (
-                            formik.values.poi.type?.startsWith(
-                              "image/"
-                            ) ? (
-                              <div className="poi-preview">
+      <div className="poi-side-block">
 
-                                <img
-                                  src={URL.createObjectURL(
-                                    formik.values.poi
-                                  )}
-                                  alt="POI Preview"
-                                />
+        <div className="poi-side-header">
+          <div>
+            <strong>Front Side</strong>
+            <small>
+              Upload the front of your ID
+            </small>
+          </div>
 
-                                <div>
-                                  <strong>
-                                    ID selected
-                                  </strong>
+          <span className="poi-required">
+            Required
+          </span>
+        </div>
 
-                                  <small>
-                                    Click to replace
-                                  </small>
-                                </div>
+        <input
+          type="file"
+          id="poiFront"
+          accept="image/*"
+          hidden
+          onChange={(e) => {
+            const file = e.target.files?.[0];
 
-                              </div>
-                            ) : (
-                              <div className="poi-file-preview">
+            if (file) {
+              formik.setFieldValue("poiFront", file);
+            }
+          }}
+        />
 
-                                <div className="pdf-icon">
-                                  <FaIdCard />
-                                </div>
+        <label
+          htmlFor="poiFront"
+          className={`poi-upload-zone ${
+            formik.values.poiFront
+              ? "has-file"
+              : ""
+          }`}
+        >
 
-                                <div>
-                                  <strong>
-                                    PDF document selected
-                                  </strong>
+          {formik.values.poiFront ? (
+            <div className="poi-preview-modern">
 
-                                  <small>
-                                    Click to replace
-                                  </small>
-                                </div>
+              <img
+                src={URL.createObjectURL(
+                  formik.values.poiFront
+                )}
+                alt="ID front preview"
+              />
 
-                              </div>
-                            )
-                          ) : (
-                            <>
-                              <div className="upload-zone-icon orange-icon">
-                                <FaIdCard />
-                              </div>
+              <div className="poi-preview-overlay">
+                <FaCamera />
+                <span>Change image</span>
+              </div>
 
-                              <strong>
-                                Upload identity proof
-                              </strong>
+            </div>
+          ) : (
+            <div className="poi-empty-state">
 
-                              <small>
-                                Aadhaar, PAN, Driving Licence or PDF
-                              </small>
-                            </>
-                          )}
+              <div className="poi-upload-icon">
+                <FaIdCard />
+              </div>
 
-                        </label>
+              <strong>
+                Upload front side
+              </strong>
 
-                        <div className="onboard-instruction warning">
+              <small>
+                JPG, PNG or WEBP
+              </small>
 
-                          <div className="instruction-icon">
-                            <FaInfoCircle />
-                          </div>
+            </div>
+          )}
 
-                          <div>
-                            <strong>
-                              Important before uploading
-                            </strong>
+        </label>
 
-                            <ul>
-                              <li>
-                                Document must be valid and readable.
-                              </li>
+        {formik.values.poiFront && (
+          <div className="poi-file-meta">
 
-                              <li>
-                                Aadhaar / PAN / Driving Licence accepted.
-                              </li>
+            <FaIdCard />
 
-                              <li>
-                                Upload both sides where applicable.
-                              </li>
+            <div>
+              <strong>
+                Front side selected
+              </strong>
 
-                              <li>
-                                PDF or clear image is supported.
-                              </li>
-                            </ul>
-                          </div>
+              <span>
+                {formik.values.poiFront.name}
+              </span>
+            </div>
 
-                        </div>
+            <span className="poi-check">
+              ✓
+            </span>
 
-                      </div>
+          </div>
+        )}
 
-                      {formik.touched.poi &&
-                        formik.errors.poi && (
-                          <div className="onboard-error">
-                            {formik.errors.poi}
-                          </div>
-                        )}
+      </div>
 
-                    </div>
 
-                  </div>
+      {/* ================= BACK ================= */}
+
+      <div className="poi-side-block">
+
+        <div className="poi-side-header">
+          <div>
+            <strong>Back Side</strong>
+            <small>
+              Upload the back of your ID
+            </small>
+          </div>
+
+          <span className="poi-required">
+            Required
+          </span>
+        </div>
+
+        <input
+          type="file"
+          id="poiBack"
+          accept="image/*"
+          hidden
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+
+            if (file) {
+              formik.setFieldValue("poiBack", file);
+            }
+          }}
+        />
+
+        <label
+          htmlFor="poiBack"
+          className={`poi-upload-zone ${
+            formik.values.poiBack
+              ? "has-file"
+              : ""
+          }`}
+        >
+
+          {formik.values.poiBack ? (
+            <div className="poi-preview-modern">
+
+              <img
+                src={URL.createObjectURL(
+                  formik.values.poiBack
+                )}
+                alt="ID back preview"
+              />
+
+              <div className="poi-preview-overlay">
+                <FaCamera />
+                <span>Change image</span>
+              </div>
+
+            </div>
+          ) : (
+            <div className="poi-empty-state">
+
+              <div className="poi-upload-icon">
+                <FaIdCard />
+              </div>
+
+              <strong>
+                Upload back side
+              </strong>
+
+              <small>
+                JPG, PNG or WEBP
+              </small>
+
+            </div>
+          )}
+
+        </label>
+
+        {formik.values.poiBack && (
+          <div className="poi-file-meta">
+
+            <FaIdCard />
+
+            <div>
+              <strong>
+                Back side selected
+              </strong>
+
+              <span>
+                {formik.values.poiBack.name}
+              </span>
+            </div>
+
+            <span className="poi-check">
+              ✓
+            </span>
+
+          </div>
+        )}
+
+      </div>
+
+
+      {/* ================= GUIDELINE ================= */}
+
+      <div className="onboard-instruction warning poi-guideline">
+
+        <div className="instruction-icon">
+          <FaInfoCircle />
+        </div>
+
+        <div>
+          <strong>
+            Identity document guidelines
+          </strong>
+
+          <ul>
+            <li>
+              Upload clear and readable images.
+            </li>
+
+            <li>
+              Make sure all important details are visible.
+            </li>
+
+            <li>
+              Upload both front and back sides.
+            </li>
+
+            <li>
+              Avoid glare, blur and cropped edges.
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    {/* FRONT ERROR */}
+
+    {formik.touched.poiFront &&
+      formik.errors.poiFront && (
+        <div className="onboard-error">
+          {formik.errors.poiFront}
+        </div>
+      )}
+
+
+    {/* BACK ERROR */}
+
+    {formik.touched.poiBack &&
+      formik.errors.poiBack && (
+        <div className="onboard-error">
+          {formik.errors.poiBack}
+        </div>
+      )}
+  </div>
+</div>
 
                 </div>
 

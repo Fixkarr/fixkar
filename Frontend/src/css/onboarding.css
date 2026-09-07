@@ -68,3 +68,286 @@ input[type="date"]{
     width: 60%;
     padding: 15px;
 }
+
+/* =========================================
+   POI TWO-SIDE UPLOAD
+========================================= */
+
+.poi-upload-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+
+/* =========================================
+   SIDE BLOCK
+========================================= */
+
+.poi-side-block {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  background: rgba(248, 250, 252, 0.72);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.poi-side-block:hover {
+  border-color: rgba(13, 110, 253, 0.18);
+  background: #ffffff;
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   SIDE HEADER
+========================================= */
+
+.poi-side-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.poi-side-header > div {
+  min-width: 0;
+}
+
+.poi-side-header strong {
+  display: block;
+  color: #172033;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.poi-side-header small {
+  display: block;
+  margin-top: 3px;
+  color: #7a8495;
+  font-size: 11px;
+}
+
+.poi-required {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(220, 53, 69, 0.08);
+  color: #dc3545;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+
+/* =========================================
+   UPLOAD ZONE
+========================================= */
+
+.poi-upload-zone {
+  display: block;
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+  border: 1.5px dashed rgba(15, 23, 42, 0.14);
+  border-radius: 14px;
+  background: #ffffff;
+  cursor: pointer;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.poi-upload-zone:hover {
+  border-color: #0d6efd;
+  background: rgba(13, 110, 253, 0.025);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.poi-upload-zone.has-file {
+  border-style: solid;
+  border-color: rgba(25, 135, 84, 0.25);
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.poi-empty-state {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 18px;
+}
+
+.poi-upload-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border-radius: 13px;
+  background: rgba(255, 159, 67, 0.1);
+  color: #f08a24;
+  font-size: 18px;
+}
+
+.poi-empty-state strong {
+  color: #263247;
+  font-size: 13px;
+}
+
+.poi-empty-state small {
+  margin-top: 4px;
+  color: #8a94a6;
+  font-size: 11px;
+}
+
+
+/* =========================================
+   IMAGE PREVIEW
+========================================= */
+
+.poi-preview-modern {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #eef1f5;
+}
+
+.poi-preview-modern img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.poi-upload-zone:hover .poi-preview-modern img {
+  transform: scale(1.03);
+}
+
+.poi-preview-overlay {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px;
+  color: #ffffff;
+  background: linear-gradient(
+    to top,
+    rgba(15, 23, 42, 0.82),
+    rgba(15, 23, 42, 0)
+  );
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   FILE META
+========================================= */
+
+.poi-file-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(25, 135, 84, 0.06);
+  color: #198754;
+}
+
+.poi-file-meta > svg {
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.poi-file-meta > div {
+  min-width: 0;
+  flex: 1;
+}
+
+.poi-file-meta strong,
+.poi-file-meta span {
+  display: block;
+}
+
+.poi-file-meta strong {
+  font-size: 11px;
+}
+
+.poi-file-meta div span {
+  margin-top: 2px;
+  overflow: hidden;
+  color: #758092;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.poi-check {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #198754;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   GUIDELINE
+========================================= */
+
+.poi-guideline {
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 767px) {
+
+  .poi-upload-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .poi-upload-zone {
+    height: 180px;
+  }
+
+  .poi-guideline {
+    grid-column: auto;
+  }
+
+  .poi-side-block {
+    padding: 12px;
+  }
+}
