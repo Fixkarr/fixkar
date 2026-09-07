@@ -35,9 +35,14 @@ const ProtectedRoute = ({ allowedRole, requireMobileVerified = false, requireOnb
   const isOnboarded = currentUserData?.user?.onBoarded;
   const isMobileVerified = currentUserData?.user?.userId?.isMobileVerified;
 
-  if (requireMobileVerified && !isMobileVerified && requireOnboarded && !isOnboarded  ) {
-    return <Navigate to="/onboard" replace />;
-  }
+ if (requireMobileVerified && !isMobileVerified) {
+  return <Navigate to="/onboard/verify-mobile" replace />;
+}
+
+// 4. Professional onboarding check
+if (requireOnboarded && !isOnboarded) {
+  return <Navigate to="/onboard" replace />;
+}
 
   return <Outlet />;
 };
