@@ -13,7 +13,10 @@ const Pending = () => {
     useEffect(()=>{
       const getServiceRequest = async ()=>{
         try {
-          const response = await axios.get(`${server_url}/api/user/get-service-request`, {professionalId}, {withCredentials : true});
+          const response = await axios.get(`${server_url}/api/user/get-service-request`,  {
+            params: { professionalId },
+            withCredentials: true
+          });
 
           setServiceRequest(response?.data?.serviceRequest);
         } catch (error) {
