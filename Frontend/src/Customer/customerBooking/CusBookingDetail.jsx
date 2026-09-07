@@ -37,7 +37,8 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import useGetMyBookings from '../../hooks/useGetMyBookings';
 import FixkarLoader from '../../Components/FixkarLoader';
-import DashboardNavigator from '../../utils/DashboardNavigator';
+
+import './cusBookingDetails.css'
 
 const CusBookingDetail = () => {
     useGetMyBookings()
@@ -123,34 +124,34 @@ if (!booking) {
 
  return (
   <div
-    className="min-vh-100 py-4"
+    className="min-vh-100 py-4 booking-details-page"
     style={{
       background: "linear-gradient(180deg,#f8fbff 0%,#eef4ff 100%)"
     }}
   >
     <div
-        className="text-white p-4"
+        className="booking-details-topbar"
         style={{
           background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
           borderBottomLeftRadius: "25px",
           borderBottomRightRadius: "25px"
         }}
       >
-        <div className="d-flex justify-content-between align-items-center">
-          <h5 className="fw-bold mb-0">Booking Details</h5>
+        <div className="booking-details-topbar-inner d-flex justify-content-between align-items-center">
+          <h5 className="fw-bold mb-0 booking-details-topbar-title">Booking Details</h5>
 
     
         </div>
 
-        <p className="mt-2 small opacity-75">
+        <p className="mt-2 small booking-details-topbar-description">
           Manage and track booking
         </p>
       </div>
-    <div className="container">
+    <div className="container booking-details-container">
 
       {/* 🔵 FLOATING MAIN CARD */}
       <div
-        className="rounded-4 shadow-lg overflow-hidden"
+        className="booking-details-shell rounded-4 shadow-lg overflow-hidden"
         style={{
           background: "#ffffff",
           border: "1px solid #e6f0ff"
@@ -159,21 +160,21 @@ if (!booking) {
 
         {/* ================= TOP PROFILE SECTION ================= */}
         <div
-          className="p-4"
+          className="booking-details-profile p-4"
           style={{
             background: "linear-gradient(135deg,#0d6efd,#3a86ff)"
           }}
         >
-          <div className="d-flex justify-content-between align-items-start flex-wrap gap-3">
+          <div className="d-flex justify-content-between align-items-start flex-wrap gap-3 booking-details-profile-row">
 
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex align-items-center gap-3 booking-details-profile-info">
 
               <img
                 src={booking.professionalId.profilePicture}
                 alt="professional"
                 width="80"
                 height="80"
-                className="rounded-circle border border-3 border-white shadow"
+                className="booking-details-avatar rounded-circle border border-3 border-white shadow"
                 style={{ objectFit: "cover", cursor: "pointer" }}
                 onClick={() =>
                   navigate(
@@ -183,7 +184,7 @@ if (!booking) {
               />
 
               <div className="text-white">
-                <h5 className="fw-bold mb-1">
+                <h5 className="fw-bold mb-1 booking-details-professional-name">
                   {booking.professionalId.userId.fullName}
                 </h5>
 
@@ -206,14 +207,14 @@ if (!booking) {
         </div>
 
         {/* ================= BODY CONTENT ================= */}
-        <div className="p-4">
+        <div className="booking-details-body p-4">
 
           {/* ---------- META GRID ---------- */}
           <div className="row g-3 mb-4">
 
             <div className="col-md-4">
               <div
-                className="p-3 rounded-4 h-100"
+                className="p-3 rounded-4 h-100 booking-details-info-tile"
                 style={{
                   background: "#f1f5ff",
                   border: "1px solid #e0e7ff"
@@ -229,7 +230,7 @@ if (!booking) {
 
             <div className="col-md-4">
               <div
-                className="p-3 rounded-4 h-100"
+                className="p-3 rounded-4 h-100 booking-details-info-tile"
                 style={{
                   background: "#ecfdf5",
                   border: "1px solid #bbf7d0"
@@ -251,7 +252,7 @@ if (!booking) {
 
             <div className="col-md-6">
               <div
-                className="p-3 rounded-4 h-100"
+                className="p-3 rounded-4 h-100 booking-details-info-tile"
                 style={{
                   background: "#eef2ff",
                   border: "1px solid #c7d2fe"
@@ -269,7 +270,7 @@ if (!booking) {
 
             <div className="col-md-6">
               <div
-                className="p-3 rounded-4 h-100"
+                className="p-3 rounded-4 h-100 booking-details-info-tile"
                 style={{
                   background: "#fef9c3",
                   border: "1px solid #fde68a"
@@ -289,7 +290,7 @@ if (!booking) {
           {/* ---------- ADDRESS ---------- */}
           <div className="mb-4">
             <div
-              className="p-3 rounded-4"
+              className="p-3 rounded-4 booking-details-info-tile"
               style={{
                 background: "#fdf2f8",
                 border: "1px solid #fbcfe8"
@@ -308,7 +309,7 @@ if (!booking) {
           {/* ---------- PROBLEM ---------- */}
           <div className="mb-4">
             <div
-              className="p-3 rounded-4"
+              className="p-3 rounded-4 booking-details-info-tile"
               style={{
                 background: "#f8fafc",
                 border: "1px solid #e2e8f0"
@@ -326,7 +327,7 @@ if (!booking) {
          {/* Voice Descriptions */}
 {booking.audioMessages && booking.audioMessages.length > 0 && (
   <div className="mb-4">
-    <div className="bg-white rounded-4 shadow-sm border p-3">
+    <div className="booking-details-audio-card bg-white rounded-4 shadow-sm border p-3">
 
       {/* Header */}
       <div className="d-flex align-items-center justify-content-between mb-3">
@@ -344,11 +345,11 @@ if (!booking) {
         {booking.audioMessages?.map((audio, index) => (
           <div
             key={index}
-            className="bg-light rounded-3 p-2 d-flex align-items-center gap-3 border"
+            className="booking-details-audio-item bg-light rounded-3 p-2 d-flex align-items-center gap-3 border"
           >
             {/* Icon */}
             <div
-              className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+              className="booking-details-audio-icon rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
               style={{ width: 36, height: 36, fontSize: "14px" }}
             >
               <FaMicrophone/>
@@ -410,7 +411,7 @@ if (!booking) {
 
      {(booking.quoteAmount || booking.isPriceLocked) && !["cancelled", "rejected", "completed"].includes(booking.status) && (
             <div
-  className="mt-4 p-4 rounded-4 shadow-sm"
+  className="booking-details-payment mt-4 p-4 rounded-4 shadow-sm"
   style={{
     background: "linear-gradient(145deg, #ffffff, #f8fafc)",
     border: "1px solid #e5e7eb"
@@ -441,7 +442,7 @@ if (!booking) {
 
   {/* PRICE CARD */}
   <div
-    className="rounded-4 p-4 mb-4"
+    className="booking-details-price-card rounded-4 p-4 mb-4"
     style={{
       background: "#f9fafb",
       border: "1px solid #eef2f7"
@@ -470,7 +471,7 @@ if (!booking) {
 
     <hr />
 
-    <div className="d-flex justify-content-between align-items-center">
+    <div className="booking-details-topbar-inner d-flex justify-content-between align-items-center">
       <span className="fw-bold fs-5 text-dark">
         Total Payable
       </span>
@@ -517,7 +518,7 @@ if (!booking) {
         return (
           <div
             key={offer.offerId}
-            className="rounded-4 p-3 mb-3 position-relative"
+            className="booking-details-offer rounded-4 p-3 mb-3 position-relative"
             style={{
               background: isSelected
                 ? "linear-gradient(135deg,#ecfdf5,#d1fae5)"
@@ -550,7 +551,7 @@ if (!booking) {
              {!booking.offerLocked && (
               <button
                 disabled={applyingOffer}
-                className="btn btn-sm rounded-pill fw-semibold px-4"
+                className="booking-details-offer-btn btn btn-sm rounded-pill fw-semibold px-4"
                 style={{
                   background:
                     "linear-gradient(135deg,#6366f1,#8b5cf6)",
