@@ -38,14 +38,14 @@ const Onboarding = ({ userData }) => {
       .required("Date of Birth is required")
       .max(new Date(maxDate), "You must be at least 18 years old"),
     address: Yup.string().required("Address is required"),
-   profession: Yup.string().when("serviceName", {
-            is: (serviceName) => !serviceName,
-            then: (schema) => schema.required("Please select a profession"),
-            otherwise: (schema) => schema.notRequired(),
-          }),
+  profession: Yup.string().when([], {
+  is: () => !isCustomService,
+  then: (schema) => schema.required("Please select a profession"),
+  otherwise: (schema) => schema.notRequired(),
+}),
 
-    serviceName: Yup.string().when("profession", {
-  is: (profession) => !profession,
+serviceName: Yup.string().when([], {
+  is: () => isCustomService,
   then: (schema) =>
     schema
       .required("Service name is required")
@@ -53,8 +53,8 @@ const Onboarding = ({ userData }) => {
   otherwise: (schema) => schema.notRequired(),
 }),
 
-description: Yup.string().when("profession", {
-  is: (profession) => !profession,
+description: Yup.string().when([], {
+  is: () => isCustomService,
   then: (schema) =>
     schema
       .required("Service description is required")
