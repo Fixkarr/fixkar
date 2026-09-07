@@ -23,7 +23,7 @@
 .fixkar-ai-launcher {
   position: fixed;
   right: 28px;
-  bottom: 80px;
+  bottom: 100px;
   width: 48px;
   height: 48px;
   z-index: 9999;
@@ -168,7 +168,7 @@
   position: fixed;
 
   right: 28px;
-  bottom: 80px;
+  bottom: 100px;
 
   z-index: 9998;
 
