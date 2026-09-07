@@ -37,9 +37,10 @@ userRoute.put("/selected-location", optionalAuth, saveSelectedLocation)
 userRoute.get("/get-service-skills/:serviceId", getServiceSkills)
 
 userRoute.post("/onboard", isAuth, upload.fields([
-    { name: "profilePicture", maxCount: 1 },
-    { name: "poi", maxCount: 1 },
-  ]), multerErrorHandler, onboard);
+  { name: "profilePicture", maxCount: 1 },
+  { name: "poiFront", maxCount: 1 },
+  { name: "poiBack", maxCount: 1 },
+]), multerErrorHandler, onboard);
 
 userRoute.post("/professional/complete-profile", isAuth, completeProfile);
 userRoute.post("/professional/set-busy-days", isAuth, setBusyDays)
