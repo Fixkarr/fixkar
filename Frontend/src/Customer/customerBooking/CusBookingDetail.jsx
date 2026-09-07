@@ -125,10 +125,17 @@ if (!booking) {
 return (
   <div
     className="booking-details-page"
+    style={{
+      background: "linear-gradient(180deg,#f8fbff 0%,#eef4ff 100%)"
+    }}
   >
     <div
         className="booking-details-topbar"
-
+        style={{
+          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
+          borderBottomLeftRadius: "25px",
+          borderBottomRightRadius: "25px"
+        }}
       >
         <div className="booking-details-topbar-inner">
           <h5 className="booking-details-topbar-title">Booking Details</h5>
@@ -145,11 +152,18 @@ return (
       {/* 🔵 FLOATING MAIN CARD */}
       <div
         className="booking-details-shell"
+        style={{
+          background: "#ffffff",
+          border: "1px solid #e6f0ff"
+        }}
       >
 
         {/* ================= TOP PROFILE SECTION ================= */}
         <div
           className="booking-details-profile"
+          style={{
+            background: "linear-gradient(135deg,#0d6efd,#3a86ff)"
+          }}
         >
           <div className="booking-details-profile-row">
 
@@ -201,6 +215,10 @@ return (
             <div className="">
               <div
                 className="booking-details-info-tile"
+                style={{
+                  background: "#f1f5ff",
+                  border: "1px solid #e0e7ff"
+                }}
               >
                 <small className="">
                   <FaIdBadge className="" />
@@ -213,6 +231,10 @@ return (
             <div className="">
               <div
                 className="booking-details-info-tile"
+                style={{
+                  background: "#ecfdf5",
+                  border: "1px solid #bbf7d0"
+                }}
               >
                 <small className="">
                   <FaRupeeSign className="" />
@@ -231,6 +253,10 @@ return (
             <div className="">
               <div
                 className="booking-details-info-tile"
+                style={{
+                  background: "#eef2ff",
+                  border: "1px solid #c7d2fe"
+                }}
               >
                 <p className="">
                   <FaCalendarAlt className="" />
@@ -245,6 +271,10 @@ return (
             <div className="">
               <div
                 className="booking-details-info-tile"
+                style={{
+                  background: "#fef9c3",
+                  border: "1px solid #fde68a"
+                }}
               >
                 <p className="">
                   <FaClock className="" />
@@ -261,6 +291,10 @@ return (
           <div className="">
             <div
               className="booking-details-info-tile"
+              style={{
+                background: "#fdf2f8",
+                border: "1px solid #fbcfe8"
+              }}
             >
               <p className="">
                 <FaMapMarkerAlt className="" />
@@ -276,6 +310,10 @@ return (
           <div className="">
             <div
               className="booking-details-info-tile"
+              style={{
+                background: "#f8fafc",
+                border: "1px solid #e2e8f0"
+              }}
             >
               <p className="">
                 Problem Description
@@ -312,6 +350,7 @@ return (
             {/* Icon */}
             <div
               className="booking-details-audio-icon justify-content-center"
+              style={{ width: 36, height: 36, fontSize: "14px" }}
             >
               <FaMicrophone/>
             </div>
@@ -404,6 +443,10 @@ return (
   {/* PRICE CARD */}
   <div
     className="booking-details-price-card"
+    style={{
+      background: "#f9fafb",
+      border: "1px solid #eef2f7"
+    }}
   >
     <div className="mb-2">
       <span>Service Charge</span>
