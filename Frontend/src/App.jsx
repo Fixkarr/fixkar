@@ -498,8 +498,8 @@ socket.on("pickupProfessionalAccepted", (data) => {
         {/* Professional */}
           <Route element={<ProtectedRoute 
           allowedRole="professional"
-          requireOnboarded={true}
-          requireMobileVerified={true}/>
+          requireOnboarded={isOnboarded}
+          requireMobileVerified={isMobileVerified}/>
           }>
                <Route
           path="/professional/home"
