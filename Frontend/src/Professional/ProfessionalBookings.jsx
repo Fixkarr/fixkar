@@ -130,7 +130,7 @@ export default function ProfessionalBookings() {
       </p>
     </div>
 
-    <DashboardNavigator />
+   
   </div>
 </div>
 

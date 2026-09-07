@@ -127,6 +127,7 @@ const HireProfessionals = () => {
   };
 
   return (
+   <>
     <div className="professionals hire-professionals-page">
       {currentUserData && (
         <div
@@ -139,7 +140,7 @@ const HireProfessionals = () => {
         >
           <div className="hire-professionals-hero-inner">
             <h5 className="fw-bold mb-0 hire-hero-title">Hire Professionals</h5>
-            <DashboardNavigator />
+           
           </div>
           <p className="mt-2 mb-0 small opacity-75 hire-hero-description">
             Find Best Professionals near you!
@@ -342,6 +343,8 @@ const HireProfessionals = () => {
         )}
       </div>
     </div>
+    
+   </>
   );
 };
 

@@ -62,7 +62,7 @@ const CusHandleCancel = ({ booking }) => {
             {/* Pay Button */}
             <div className="text-center">
               <PayButton
-                bookingId={bookingId}
+                booking={booking}
                 paymentType="CANCEL"
                 label={`Pay ₹${visitingCharge + 50}`}
                 disabled={paymentLocked}

@@ -40,7 +40,10 @@ const CustomerBookings = () => {
     (b) => b.status !== "completed"
   ).length;
 
-  return <div className="customer-bookings-page">
+  return (
+    <>
+  
+  <div className="customer-bookings-page">
 
       {/* =========================================
           PREMIUM HERO SECTION
@@ -60,9 +63,9 @@ const CustomerBookings = () => {
               CUSTOMER DASHBOARD
             </div>
 
-            <h1>
+            <h3>
               My Bookings
-            </h1>
+            </h3>
 
             <p>
               Track, manage and review your Fixkar services
@@ -71,7 +74,7 @@ const CustomerBookings = () => {
 
             <div className="customer-bookings-hero-meta">
               <div className="customer-bookings-meta-icon">
-                <FaCalendarCheck />
+                <FaCalendarCheck size={20}/>
               </div>
 
               <div>
@@ -83,11 +86,6 @@ const CustomerBookings = () => {
             </div>
 
           </div>
-
-          <div className="customer-bookings-dashboard-nav">
-            <DashboardNavigator />
-          </div>
-
         </div>
       </section>
 
@@ -107,7 +105,7 @@ const CustomerBookings = () => {
               <div className="customer-stat-top">
 
                 <div className="customer-stat-icon">
-                  <FaClipboardList />
+                  <FaClipboardList size={20}/>
                 </div>
 
                 <span className="customer-stat-label">
@@ -135,7 +133,7 @@ const CustomerBookings = () => {
               <div className="customer-stat-top">
 
                 <div className="customer-stat-icon">
-                  <FaClock />
+                  <FaClock size={20}/>
                 </div>
 
                 <span className="customer-stat-label">
@@ -163,7 +161,7 @@ const CustomerBookings = () => {
               <div className="customer-stat-top">
 
                 <div className="customer-stat-icon">
-                  <FaCheckCircle />
+                  <FaCheckCircle size={20}/>
                 </div>
 
                 <span className="customer-stat-label">
@@ -250,29 +248,10 @@ const CustomerBookings = () => {
       {/* =========================================
           FLOATING HIRE BUTTON
       ========================================= */}
-      <button
-        type="button"
-        className="customer-hire-floating-btn"
-        onClick={() =>
-          navigate("/customer/hire-professionals")
-        }
-        aria-label="Hire a professional"
-      >
-        <span className="customer-hire-icon">
-          <FaPlus />
-        </span>
-
-        <span className="customer-hire-text">
-          <strong>Hire Professional</strong>
-          <small>Book a new service</small>
-        </span>
-
-        <span className="customer-hire-arrow">
-          <FaArrowRight />
-        </span>
-      </button>
 
     </div>
+
+    </>)
 
 };
 

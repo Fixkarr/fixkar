@@ -21,7 +21,8 @@ import axios from "axios"
 import { toast } from "react-toastify";
 import { server_url } from "../App";
 import { useSelector } from "react-redux";
-import DashboardNavigator from "../utils/DashboardNavigator";
+import '../css/contact.css'
+
 const Contact = () => {
   const {currentUserData} = useSelector(state=>state.user);
   const role = currentUserData?.user?.userId?.role
@@ -116,20 +117,13 @@ const contactPageSchema = {
       {pathname == "/contact" && <Navbar/>} 
       
       {currentUserData && <div
-        className="text-white p-4"
-        style={{
-          background: "linear-gradient(135deg,#0d6efd,#00c6ff)",
-          borderBottomLeftRadius: "25px",
-          borderBottomRightRadius: "25px"
-        }}
+        className="contact-topbar"
       >
-        <div className="d-flex justify-content-between align-items-center">
-          <h5 className="fw-bold mb-0">Contact & Support</h5>
-
-          <DashboardNavigator/>
+        <div className="contact-topbar-inner">
+          <h5 className="contact-topbar-title">Contact & Support</h5>
         </div>
 
-        <p className="mt-2 small opacity-75">
+        <p className="contact-topbar-description">
           Feel free to contact us anytime!
         </p>
       </div>}
@@ -137,91 +131,89 @@ const contactPageSchema = {
       </>
       }
     <div
-      className="contact d-flex align-items-center mt-5"
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #0d6efd, #4f9cff)",
-      }}
+      className="contact contact-page contact-main"
     >
-      <div className="container  mt-5">
+      <div className="container contact-container">
         {/* HEADER */}
-        <div className="text-center text-white mb-5">
-          <h1 className="fw-bold">Contact <span className="text-warning">Fixkar</span></h1>
+        <div className="contact-heading">
+          <h1 className="fw-bold">Contact <span className="contact-heading-brand">Fixkar</span></h1>
           <p className="opacity-75">
             We’re always ready to help you. Get in touch with us anytime.
           </p>
         </div>
 
         {/* CONTENT */}
-        <div className="row g-4 align-items-stretch justify-content-center">
+        <div className="contact-content-row">
 
           {/* LEFT: COMPANY DETAILS */}
-          <div className="col-lg-5 col-md-6 py-5">
-            <div className="bg-white h-100 p-4 rounded-4 shadow">
-              <FaMessage size={36} className="text-primary mb-3" />
+          <div className="contact-info-col">
+            <div className="contact-info-card">
+             <div className="contact-info-icon">
+              <FaMessage size={36} />
+            </div>
 
-              <h2 className="fw-bold mb-3">Fixkar – Service Support</h2>
+              <h2 className="contact-info-title">Fixkar – Service Support</h2>
 
-              <p className="text-muted small">
+              <p className="contact-info-description">
                 Fixkar Smart Solutions is a professional service platform connecting customers
                 with verified service professionals in varanasi. Reach out to us for any
                 support or queries.
               </p>
 
-              <hr />
+              <hr className="contact-divider" />
 
-              <ul className="list-unstyled small text-muted">
-                <li className="mb-2">
-                  <FaEnvelope className="me-2 text-primary" />
+              <ul className="contact-details">
+                <li className="contact-detail-item">
+                  <FaEnvelope className="contact-detail-icon" />
                     info@fixkarr.com
                 </li>
-                <li className="mb-2">
-                  <FaPhoneAlt className="me-2 text-primary" />
+                <li className="contact-detail-item">
+                  <FaPhoneAlt className="contact-detail-icon" />
                   +91 8795213106
                 </li>
-                <li className="mb-2">
-                  <FaMapMarkerAlt className="me-2 text-primary" />
+                <li className="contact-detail-item">
+                  <FaMapMarkerAlt className="contact-detail-icon" />
                   Varanasi, Uttar Pradesh, India
                 </li>
-                <li className="mb-2">
-                  <FaClock className="me-2 text-primary" />
+                <li className="contact-detail-item">
+                  <FaClock className="contact-detail-icon" />
                   Working Hours: 9:00 AM – 5:00 PM
                 </li>
               </ul>
 
-              <hr />
+              <hr className="contact-divider" />
 
-              <h6 className="fw-semibold mb-2">Follow Us</h6>
-              <div className="d-flex gap-3">
-                <a href="https://www.facebook.com/profile.php?id=61591695204940" className="text-primary fs-5"><FaFacebook /></a>
-                <a href="https://www.instagram.com/fixkar.official" className="text-danger fs-5"><FaInstagram /></a>
-                <a href="https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd" className="text-primary fs-5"><FaLinkedin /></a>
-                <a href="https://www.youtube.com/@fixkarofficial" className="text-primary fs-5"><FaYoutube /></a>
+              <h6 className="contact-follow-title">Follow Us</h6>
+              <div className="contact-socials">
+                <a href="https://www.facebook.com/profile.php?id=61591695204940" className="contact-social-link"><FaFacebook /></a>
+                <a href="https://www.instagram.com/fixkar.official" className="contact-social-instagram contact-social-link"><FaInstagram /></a>
+                <a href="https://www.linkedin.com/company/fixkar-smart-solutions-pvt-ltd" className="contact-social-link"><FaLinkedin /></a>
+                <a href="https://www.youtube.com/@fixkarofficial" className="contact-social-link"><FaYoutube /></a>
               </div>
-              <hr />
-              <h2 className="fw-semibold mb-2 fs-3"> <a href="https://fixkarr.com/about" target="_blank" className="text-muted">About Fixkar Smart Solutions</a></h2>
+              <hr className="contact-divider" />
+              <h2 className="fw-semibold mb-2 fs-3"> <a href="https://fixkarr.com/about" target="_blank" className="contact-about-link">About Fixkar Smart Solutions</a></h2>
 
             </div>
           </div>
 
           {/* RIGHT: CONTACT FORM */}
-          <div className="col-lg-6 col-md-6">
-            <div className="bg-white h-100 p-4 rounded-4 shadow">
-              <h5 className="fw-bold mb-4 text-primary">
+          <div className="contact-form-col">
+            <div className="contact-form-card">
+              <h5 className="contact-form-title">
                 Send us a Message
               </h5>
 
               <form onSubmit={handleSubmit}>
                 {/* NAME */}
-                <div className="mb-3">
-                  <label className="form-label fw-semibold">
-                    <FaUser className="me-2 text-primary" />
+                <div className="contact-form-group">
+                  <label className="contact-form-label">
+                    <FaUser size={20}/>
                     Your Name
                   </label>
                   <input
                     type="text"
                     name="name"
-                    className="form-control rounded-3"
+                    className="contact-form-control"
                     placeholder="Enter your name"
                     value={formData.name}
                     onChange={handleChange}
@@ -230,30 +222,30 @@ const contactPageSchema = {
                 </div>
 
                 {/* EMAIL */}
-                <div className="mb-3">
-                  <label className="form-label fw-semibold">
-                    <FaEnvelope className="me-2 text-primary" />
+                <div className="contact-form-group">
+                  <label className="contact-form-label">
+                    <FaEnvelope size={20}/>
                     Email Address
                   </label>
                   <input
                     type="email"
                     name="email"
-                    className="form-control rounded-3"
+                    className="contact-form-control"
                     placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleChange}
                     required
                   />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label fw-semibold">
-                    <FaPhone className="me-2 text-primary" />
+                <div className="contact-form-group">
+                  <label className="contact-form-label">
+                    <FaPhone size={20}/>
                     Phone Number
                   </label>
                   <input
                     type="number"
                     name="phone"
-                    className="form-control rounded-3"
+                    className=" contact-form-control"
                     placeholder="Enter your phone number"
                     value={formData.phone}
                     onChange={handleChange}
@@ -262,15 +254,15 @@ const contactPageSchema = {
                 </div>
 
                 {/* MESSAGE */}
-                <div className="mb-4">
-                  <label className="form-label fw-semibold">
-                    <FaMessage className="me-2 text-primary" />
+                <div className="contact-form-group">
+                  <label className="contact-form-label">
+                    <FaMessage size={20} />
                     Message
                   </label>
                   <textarea
                     name="message"
                     rows={4}
-                    className="form-control rounded-3"
+                    className="contact-form-control"
                     placeholder="Type your message here..."
                     value={formData.message}
                     onChange={handleChange}
@@ -281,10 +273,10 @@ const contactPageSchema = {
                 {/* SUBMIT */}
                 <button
                   type="submit"
-                  className="btn btn-primary w-100 rounded-pill py-2 fw-semibold"
+                  className="contact-submit"
                   disabled={loading}
                 >
-                  <FaPaperPlane className="me-2" />
+                  <FaPaperPlane size={20}/>
                   {loading ?  "Sending message!" : "Send Message"}
                 </button>
               </form>
@@ -294,7 +286,9 @@ const contactPageSchema = {
         </div>
       </div>
     </div>
+
     {pathname == '/contact' && <Footer/>}
+
     </>
   );
 };

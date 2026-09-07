@@ -68,6 +68,12 @@ export const applyOfferToBooking = async (req, res) => {
       });
     }
 
+    if(booking.rewardCreditsApplied){
+        return res.status(400).json({
+            message: "Reward credits already applied, cannot use offer"
+        });
+    }
+
     const offer = await Offer.findById(offerId);
 
     if (!offer || !offer.isActive) {
@@ -193,7 +199,6 @@ export const applyOfferToBooking = async (req, res) => {
     booking.offerLocked = true;
 
     await booking.save();
-
 
       io.to(booking.customerId.userId._id.toString()).emit(
                          "bookingUpdated",

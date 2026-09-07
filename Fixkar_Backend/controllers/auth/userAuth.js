@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs'
 import { genToken } from '../../utils/AuthToken.js';
 import redis from "../../services/redisClient.js";
 import { validatePassword } from "../../utils/passwordPolicy.js";
+import { generateUniqueReferralCode } from "../../utils/generateShortCode.js";
+import { processReferral } from "../../services/referral.service.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 const userCookieOptions = {
@@ -17,7 +19,7 @@ const clearAdminCookie = (res) => {
 };
 
 export const registerUserWithForm = async (req, res) => {
-    const { fullName, email, password, role, acceptedTerms, acceptedProfessionalPolicy } = req.body;
+    const { fullName, email, password, role, referralCode, acceptedTerms, acceptedProfessionalPolicy } = req.body;
 
     try {
         if (!fullName || !email || !password) {
@@ -37,8 +39,9 @@ export const registerUserWithForm = async (req, res) => {
         if (existingUser) return res.status(400).json({ message: "User already exists with this email" });
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const referCode = await generateUniqueReferralCode();
         const newUser = await User.create({
-            fullName, email, password: hashedPassword, role,
+            fullName, email, password: hashedPassword, role, referralCode : referCode,
             termsAcceptance: { accepted: true, acceptedAt: new Date(), acceptedIP: userIP, policyVersion: "v1.0" },
             professionalAcceptance: role === "professional" ? { accepted: true, acceptedAt: new Date(), acceptedIP: userIP, policyVersion: "v1.0" } : undefined,
         });
@@ -58,6 +61,16 @@ export const registerUserWithForm = async (req, res) => {
             const professional = await Professional.findOne({ userId: newUser._id }).populate("userId", '-password');
             return res.status(201).json({ message: "user registered successfully", user: professional });
         }
+
+       try {
+  await processReferral({
+    referralCode,
+    referredUser: newUser,
+  });
+} catch (referralError) {
+  console.error("Referral processing failed:", referralError);
+}
+
         return res.status(400).json({ message: "No role assigned to this user" });
     } catch (error) {
         console.log("error in registerCustomerWithForm controller", error);

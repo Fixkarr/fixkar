@@ -32,6 +32,13 @@ export const reachedToLocation = async (req, res)=>{
    if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
     }
+    
+    if (booking.status === "reached") {
+  return res.status(400).json({
+    success: false,
+    message: "Booking is already marked as reached",
+  });
+}
 
    if (
       booking.professionalId.userId._id.toString() !== professionalUserId

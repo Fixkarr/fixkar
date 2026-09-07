@@ -14,6 +14,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import DashboardNavigator from "../utils/DashboardNavigator";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -56,7 +57,7 @@ const DashboardLayout = () => {
           />
         )}
 
-        {(isUserAuthenticated || isAdminAuthenticated) && (
+        {(isAdminAuthenticated) && (
           <Sidebar
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
@@ -82,12 +83,13 @@ const DashboardLayout = () => {
                   }, ${isAdminAuthenticated ? "#2c5364" : "#4f9cff"})`,
                 }}
               >
+               { isAdminAuthenticated && (
                 <GiHamburgerMenu
                   size={18}
                   role="button"
                   aria-label="Open dashboard menu"
                   onClick={() => setIsSidebarOpen(true)}
-                />
+                />)}
 
                 <div className="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
                   <div
@@ -129,7 +131,9 @@ const DashboardLayout = () => {
           )}
 
           <div className="card border-0 shadow-sm rounded-4 p-1">
+            {isUserAuthenticated && <DashboardNavigator/>}
             <Outlet />
+             {isUserAuthenticated && <div className="dashboard-navigator-spacer" />}
           </div>
         </main>
       </div>

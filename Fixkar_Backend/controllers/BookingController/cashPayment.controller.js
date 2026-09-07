@@ -7,6 +7,8 @@ import { io } from "../../server.js";
 import { PlatformTransaction } from "../Admin/AdminModels/platformTransaction.js";
 import { rewardCompletedBookingCredits } from "../../utils/creditRewards.js";
 import { redeemCustomerCoupon } from "../../services/coupon.service.js";
+import { processReferralReward } from "../../services/referral.service.js";
+import { Customer } from "../../models/userModel.js";
 
 export const confirmCashPayment = async (req, res) => {
   const session = await mongoose.startSession();
@@ -14,29 +16,77 @@ export const confirmCashPayment = async (req, res) => {
   try {
     const { bookingId } = req.body;
     const booking = await Booking.findById(bookingId)
-      .populate({ path: "customerId", populate: { path: "userId", model: "User", select: "fullName" } })
-      .populate({ path: "professionalId", select: "profilePicture address userId profession, shortCode", populate: [{ path: "userId", model: "User", select: "fullName" }, { path: "profession", select: "name image skills commission", populate: { path: "skills", select: "name" } }, { path: "selectedSkills", select: "name" }] })
-      .populate("review").session(session);
+      .populate({
+        path: "customerId",
+        populate: { path: "userId", model: "User", select: "fullName" },
+      })
+      .populate({
+        path: "professionalId",
+        select: "profilePicture address userId profession, shortCode",
+        populate: [
+          { path: "userId", model: "User", select: "fullName" },
+          {
+            path: "profession",
+            select: "name image skills commission",
+            populate: { path: "skills", select: "name" },
+          },
+          { path: "selectedSkills", select: "name" },
+        ],
+      })
+      .populate("review")
+      .session(session);
     if (!booking) throw new Error("Booking not found");
-    if (booking.professionalId.userId._id.toString() !== req.userId.toString()) throw new Error("Not authorized to confirm this payment");
-    if (booking.status === "completed") throw new Error("Booking already completed");
-    const fullAmount = booking.isPriceLocked ? Number(booking.totalAmount) || 0 : (Number(booking.quoteAmount) || 0) + (Number(booking.visitingCharge) || 0);
+    if (booking.professionalId.userId._id.toString() !== req.userId.toString())
+      throw new Error("Not authorized to confirm this payment");
+    if (booking.status === "completed")
+      throw new Error("Booking already completed");
+    const fullAmount = booking.isPriceLocked
+      ? Number(booking.totalAmount) || 0
+      : (Number(booking.quoteAmount) || 0) +
+        (Number(booking.visitingCharge) || 0);
     if (!fullAmount || fullAmount <= 0) throw new Error("Invalid amount");
-    const discountAmount = booking.offerLocked && booking.discountAmount ? booking.discountAmount : 0;
-    if (await Payment.findOne({ bookingId, status: "paid" }).session(session)) throw new Error("Payment already confirmed");
+    const discountApplied = booking.offerLocked || booking.rewardCreditsApplied;
 
-    const payment = await Payment.create([{ bookingId: booking._id, customerId: booking.customerId._id, professionalId: booking.professionalId._id, amount: fullAmount - discountAmount, status: "paid", reason: "SERVICE_PAYMENT", paymentType: "FINAL", paymentMode: "CASH", discountAmount, paidAt: new Date() }], { session });
+    const discountAmount =
+      discountApplied && booking.discountAmount
+        ? Number(booking.discountAmount)
+        : 0;
+
+    if (await Payment.findOne({ bookingId, status: "paid" }).session(session))
+      throw new Error("Payment already confirmed");
+
+    const payment = await Payment.create(
+      [
+        {
+          bookingId: booking._id,
+          customerId: booking.customerId._id,
+          professionalId: booking.professionalId._id,
+          amount: fullAmount - discountAmount,
+          status: "paid",
+          reason: "SERVICE_PAYMENT",
+          paymentType: "FINAL",
+          paymentMode: "CASH",
+          discountAmount,
+          paidAt: new Date(),
+        },
+      ],
+      { session },
+    );
     booking.status = "completed";
     booking.currentPaymentId = payment[0]._id;
     booking.completedAt = new Date();
     // Persist the completion before milestone counting so the transaction's
     // completed-booking query includes this booking.
     await booking.save({ session });
+    await processReferralReward({
+      completedBookingId: booking._id,
+    });
 
-    const COMMISSION_PERCENT = Number(booking.professionalId.profession.commission);
+    const COMMISSION_PERCENT = Number(
+      booking.professionalId.profession.commission,
+    );
     const commission = (fullAmount * COMMISSION_PERCENT) / 100;
     const professionalAmount = fullAmount - commission;
-
 
     const wallet = await Wallet.findOneAndUpdate(
       { professionalId: booking.professionalId._id },
@@ -47,28 +97,115 @@ export const confirmCashPayment = async (req, res) => {
         },
         $setOnInsert: { professionalId: booking.professionalId._id },
       },
-      { new: true, upsert: true, session }
+      { new: true, upsert: true, session },
     );
 
-    const milestoneResult = await rewardCompletedBookingCredits({ booking, walletId: wallet._id, professionalEarnings: professionalAmount, session });
-    if (booking.offerLocked && booking.offerId) await redeemCustomerCoupon({ userId: booking.customerId.userId._id, bookingId: booking._id, discountAmount, paymentMode: "CASH", session });
+    const milestoneResult = await rewardCompletedBookingCredits({
+      booking,
+      walletId: wallet._id,
+      professionalEarnings: professionalAmount,
+      session,
+    });
+    if (booking.offerLocked && booking.offerId)
+      await redeemCustomerCoupon({
+        userId: booking.customerId.userId._id,
+        bookingId: booking._id,
+        discountAmount,
+        paymentMode: "CASH",
+        session,
+      });
 
-    await PlatformTransaction.create([{ bookingId: booking._id, paymentId: payment[0]._id, professionalId: booking.professionalId._id, paymentMode: "CASH", grossAmount: fullAmount, customerPaidAmount: fullAmount - discountAmount, discountAmount, professionalAmount, commission, profitOrLoss: commission - discountAmount }], { session });
-    const walletTransaction = await WalletTransaction.create([{ walletId: wallet._id, type: "CREDIT", grossAmount: fullAmount, commission, professionalAmount, reason: "SERVICE_PAYMENT", bookingId: booking._id, paymentMode: "CASH" }], { session });
+    if (
+  booking.rewardCreditsApplied &&
+  booking.rewardCreditsAmount > 0
+) {
+  const rewardCreditsUsed = Number(booking.rewardCreditsAmount);
+
+  const customer = await Customer.findById(
+    booking.customerId._id
+  ).session(session);
+
+  if (!customer) {
+    throw new Error("Customer not found while redeeming Reward Credits");
+  }
+
+  if (Number(customer.rewardCredits || 0) < rewardCreditsUsed) {
+    throw new Error("Insufficient Reward Credits");
+  }
+
+  customer.rewardCredits =
+    Number(customer.rewardCredits || 0) - rewardCreditsUsed;
+
+  await customer.save({ session });
+}
+
+    await PlatformTransaction.create(
+      [
+        {
+          bookingId: booking._id,
+          paymentId: payment[0]._id,
+          professionalId: booking.professionalId._id,
+          paymentMode: "CASH",
+          grossAmount: fullAmount,
+          customerPaidAmount: fullAmount - discountAmount,
+          discountAmount,
+          professionalAmount,
+          commission,
+          profitOrLoss: commission - discountAmount,
+        },
+      ],
+      { session },
+    );
+    const walletTransaction = await WalletTransaction.create(
+      [
+        {
+          walletId: wallet._id,
+          type: "CREDIT",
+          grossAmount: fullAmount,
+          commission,
+          professionalAmount,
+          reason: "SERVICE_PAYMENT",
+          bookingId: booking._id,
+          paymentMode: "CASH",
+        },
+      ],
+      { session },
+    );
     booking.walletTransaction = walletTransaction[0]._id;
     await booking.save({ session });
 
     await session.commitTransaction();
     session.endSession();
-    io.to(booking.professionalId.userId._id.toString()).emit("professionalMilestoneUnlocked", milestoneResult);
-    io.to(booking.customerId.userId._id.toString()).emit("bookingUpdated", booking);
-    io.to(booking.professionalId.userId._id.toString()).emit("bookingUpdated", booking);
-    return res.status(200).json({ success: true, message: "Cash payment confirmed successfully", milestones: milestoneResult });
+    io.to(booking.professionalId.userId._id.toString()).emit(
+      "professionalMilestoneUnlocked",
+      milestoneResult,
+    );
+    io.to(booking.customerId.userId._id.toString()).emit(
+      "bookingUpdated",
+      booking,
+    );
+    io.to(booking.professionalId.userId._id.toString()).emit(
+      "bookingUpdated",
+      booking,
+    );
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Cash payment confirmed successfully",
+        milestones: milestoneResult,
+      });
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
     console.error(error);
-    const status = /not authorized/i.test(error.message) ? 403 : /not found|already|invalid/i.test(error.message) ? 400 : 500;
-    return res.status(status).json({ message: error.message || "Cash payment confirmation failed" });
+    const status = /not authorized/i.test(error.message)
+      ? 403
+      : /not found|already|invalid/i.test(error.message)
+        ? 400
+        : 500;
+    return res
+      .status(status)
+      .json({ message: error.message || "Cash payment confirmation failed" });
   }
 };

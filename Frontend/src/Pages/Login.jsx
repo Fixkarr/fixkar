@@ -87,15 +87,13 @@ const Login = () => {
           values,
           { withCredentials: true }
         );
-
         setFloading(false);
         dispatch(setCurrentUserData(result.data));
         dispatch(setCurrentAdmin(null));
         navigate(from, { replace: true });
         resetForm();
       } catch (error) {
-       
-
+       toast.error(error?.response.data.message)
         setFloading(false);
       }
     },
@@ -104,8 +102,6 @@ const Login = () => {
   const handleLoginWithGoogle = async () => {
     try {
       setGloading(true);
-      
-
       if (Capacitor.getPlatform() === "android") {
          const loginOptions = {
         provider: "google",
@@ -178,13 +174,13 @@ const Login = () => {
       navigate(returnTo || "/", { replace: true });
     } catch (error) {
       toast.error(
-          "Google login failed"
+          error.response.data.message || "Google login failed"
       );
 
       setGloading(false);
     }
   };
-
+  
   return (
     <>
       <Navbar />

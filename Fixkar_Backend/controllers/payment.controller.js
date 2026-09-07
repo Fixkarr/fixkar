@@ -12,6 +12,7 @@ import mongoose from "mongoose";
 import { PlatformTransaction } from "./Admin/AdminModels/platformTransaction.js";
 import { rewardCompletedBookingCredits } from "../utils/creditRewards.js";
 import { redeemCustomerCoupon } from "../services/coupon.service.js";
+import { processReferralReward } from "../services/referral.service.js";
 export const createOrder = async (req, res) => {
   try {
     const { bookingId, paymentType } = req.body;
@@ -51,12 +52,17 @@ export const createOrder = async (req, res) => {
       const fullAmount = booking.isPriceLocked
         ? booking.totalAmount
         : booking.quoteAmount + booking.visitingCharge;
-      amount =
-        booking.offerLocked && booking.finalCustomerPayable
-          ? booking.finalCustomerPayable
-          : fullAmount;
-      discountAmount = booking.offerLocked ? booking.discountAmount : 0;
+
+        const discountApplied = booking.offerLocked || booking.rewardCreditsApplied;
+
+
+     amount = discountApplied && booking.finalCustomerPayable
+    ? booking.finalCustomerPayable
+    : fullAmount;
+    discountAmount = discountApplied ? Number(booking.discountAmount) || 0 : 0;
+
       paymentReason = "SERVICE_PAYMENT";
+
     } else if (paymentType === "CANCEL") {
       amount = 50 + (booking.visitingCharge || 0);
       paymentReason = "LATE_CANCELLATION_FEE";
@@ -200,13 +206,18 @@ export const verifyPayment = async (req, res) => {
     if (payment.paymentType === "FINAL") {
       booking.status = "completed";
       booking.completedAt = new Date();
+
       await booking.save({ session });
+      await processReferralReward({
+        completedBookingId: booking._id,
+      });
     }
     if (payment.paymentType === "CANCEL") {
       booking.status = "cancelled";
       booking.cancellationType = "late";
       await booking.save({ session });
     }
+
     const COMMISSION_PERCENT = Number(
       booking.professionalId.profession.commission,
     );
@@ -249,6 +260,7 @@ export const verifyPayment = async (req, res) => {
         professionalEarnings: professionalAmount,
         session,
       });
+
     if (
       payment.paymentType === "FINAL" &&
       booking.offerLocked &&
@@ -262,6 +274,34 @@ export const verifyPayment = async (req, res) => {
         session,
       });
     }
+
+    if (
+  payment.paymentType === "FINAL" &&
+  booking.rewardCreditsApplied &&
+  booking.rewardCreditsAmount > 0
+) {
+  const rewardCreditsUsed = Number(booking.rewardCreditsAmount);
+
+  const customer = await Customer.findOne({
+    _id: booking.customerId._id,
+  }).session(session);
+
+  if (!customer) {
+    throw new Error("Customer not found while redeeming Reward Credits");
+  }
+
+  if (Number(customer.rewardCredits || 0) < rewardCreditsUsed) {
+    throw new Error("Insufficient Reward Credits");
+  }
+
+  customer.rewardCredits =
+    Number(customer.rewardCredits || 0) - rewardCreditsUsed;
+
+  await customer.save({ session });
+}
+
+
+
     let notificationTitle = "",
       notificationMessage = "",
       type = "";

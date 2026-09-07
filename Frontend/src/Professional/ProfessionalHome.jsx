@@ -23,6 +23,8 @@ import { useProfileCompletion } from "../hooks/useProfileCompletion";
 import ProfileHealthCard from "./ProfileHealthCard/ProfileHealthCard";
 import ProfessionalAchievementCard from "./ProfessionalAchievementCard";
 import "./professional-dashboard.css";
+import ReferEarnBanner from "../Components/ReferEarnBanner";
+import useGetMyConversations from "../hooks/useGetMyConversations";
 
 const ProfessionalHome = () => {
   const [showNotificationModal, setShowNotificationModal] = useState(false);
@@ -30,6 +32,7 @@ const ProfessionalHome = () => {
   const { announcements, loading } = useGetAnnouncements();
   useGetMyBookings();
   useGetNotifications();
+  useGetMyConversations()
   const navigate = useNavigate();
   const { currentUserData } = useSelector((state) => state.user);
   const user = currentUserData?.user;
@@ -98,7 +101,7 @@ const ProfessionalHome = () => {
                   Manage availability & earnings
                 </small>
               </div>
-              <DashboardNavigator />
+            
             </div>
             <NeedHelp user="professional" />
             <div className="d-flex flex-wrap gap-2 mt-3">
@@ -232,6 +235,8 @@ const ProfessionalHome = () => {
             <AnnouncementBanner key={a._id} announcement={a} />
           ))
         )}
+
+        <ReferEarnBanner/>
 
         <div
           className="modal fade"

@@ -45,8 +45,17 @@ const bookingSchema = new mongoose.Schema({
     },
     discountAmount: { type: Number, default: 0 },
     finalCustomerPayable: { type: Number, default: 0 },
-    offerLocked: { type: Boolean, default: false }
+    offerLocked: { type: Boolean, default: false },
+    rewardCreditsApplied: {
+      type: Boolean,
+      default: false,
+    },
 
+    rewardCreditsAmount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
 },{timestamps : true})
 
 export const Booking = mongoose.model("Booking", bookingSchema);
