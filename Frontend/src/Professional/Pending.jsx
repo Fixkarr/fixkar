@@ -1,8 +1,28 @@
 import React from "react";
 import { FaClock, FaShieldAlt, FaCheckCircle } from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";
+import axios from 'axios'
+import {server_url} from '../App'
 
 const Pending = () => {
+
+  const [serviceRequest, setServiceRequest] = useState({});
+
+    useEffect(()=>{
+      const getServiceRequest = async ()=>{
+        try {
+          const response = await axios.get(`${server_url}/api/user/get-service-request`, {withCredentials : true});
+
+          setServiceRequest(response?.data?.serviceRequest);
+        } catch (error) {
+          
+        }
+      }
+
+      getServiceRequest();
+    },[])
+
+    console.log(serviceRequest);
   return (
     <>
       <style>{`
