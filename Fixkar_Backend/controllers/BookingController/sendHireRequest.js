@@ -8,8 +8,6 @@ import { pushNotification } from "../../services/pushNotification.js";
 import { sendWhatsAppMessage } from "../../utils/sendWhatsaAppMessage.js";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
 import { Service } from "../../models/serviceModel.js";
-import { findEligibleProfessionals } from "../../services/matchingEngine.js";
-import { calculateDistanceForProfessionals } from "../../services/calculateDistanceForProfessionals.js";
 import { handlePickupBooking } from "../../services/handlePickupBooking.js";
 export const sendHireRequest = async (req, res) => {
   try {
@@ -307,6 +305,8 @@ if (isDirectHire) {
       problemDescription,
       visitingCharge,
       workAddress,
+      customerLat,
+      customerLng,
       distanceInKm,
       mobileNumber,
       audioMessages,

@@ -12,6 +12,8 @@ const bookingSchema = new mongoose.Schema({
     workAddress : {type : String, required : true},
     distanceInKm : {type : Number},
     mobileNumber : {type : String, required : true},
+    customerLat : {type : Number, default : null, required : true},
+    customerLng : {type : Number, default : null, required : true},
     rejectMessage  : {type : String},
     reachedAt: { type: Date, default: null },
     journeyStartedAt : {type : Date, default : null},
