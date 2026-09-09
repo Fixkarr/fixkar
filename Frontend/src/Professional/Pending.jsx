@@ -22,7 +22,7 @@ const Pending = () => {
         className: "service-status-pending",
       };
 
-    case "accepted":
+    case "approved":
       return {
         label: "Service Approved",
         className: "service-status-approved",
