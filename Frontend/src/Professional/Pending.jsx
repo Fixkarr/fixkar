@@ -4,28 +4,15 @@ import { MdOutlinePendingActions } from "react-icons/md";
 import axios from 'axios'
 import {server_url} from '../App'
 import { useSelector } from "react-redux";
+import useGetServiceRequests from "../hooks/useGetServiceRequests";
 
 const Pending = () => {
   const {currentUserData} = useSelector(state=> state.user);
   const professionalId = currentUserData.user._id;
-  const [serviceRequest, setServiceRequest] = useState({});
+ 
+  const serviceRequest = useGetServiceRequests(professionalId);
 
-    useEffect(()=>{
-      const getServiceRequest = async ()=>{
-        try {
-          const response = await axios.get(`${server_url}/api/user/get-service-request`,  {
-            params: { professionalId },
-            withCredentials: true
-          });
-
-          setServiceRequest(response?.data?.serviceRequest);
-        } catch (error) {
-          
-        }
-      }
-
-      getServiceRequest();
-    },[])
+   
 
     const getServiceRequestStatus = (status) => {
   switch (status) {

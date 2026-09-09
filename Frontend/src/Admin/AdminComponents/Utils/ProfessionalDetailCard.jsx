@@ -86,18 +86,12 @@ const ProfessionalDetailCard = ({ p }) => {
         PROFILE HERO
     ========================================================= */}
     <div className="card border-0 shadow-sm overflow-hidden rounded-4 mb-3">
-
       <div className="fixkar-pro-hero p-3 p-md-4 text-white">
-
         <div className="row g-3 align-items-center">
-
           {/* PROFILE */}
-          <div className="col-12 col-lg-7">
-
+          <div className="col-12 col-lg-7">\
             <div className="d-flex align-items-center gap-3">
-
               <div className="fixkar-pro-avatar-wrap">
-
                 {p?.profilePicture ? (
                   <img
                     src={p.profilePicture}
@@ -1901,8 +1895,6 @@ const ProfessionalDetailCard = ({ p }) => {
               </strong>
             </div>
           </div>
-
-
           <div className="col-12 col-md-6">
             <div className="fixkar-meta-box">
               <small>Last Updated</small>
@@ -1915,8 +1907,6 @@ const ProfessionalDetailCard = ({ p }) => {
               </strong>
             </div>
           </div>
-
-
           <div className="col-12 col-md-6">
             <div className="fixkar-meta-box">
               <small>Accepted By</small>
@@ -1925,8 +1915,6 @@ const ProfessionalDetailCard = ({ p }) => {
               </strong>
             </div>
           </div>
-
-
           <div className="col-12 col-md-6">
             <div className="fixkar-meta-box">
               <small>Location Type</small>
@@ -1935,12 +1923,9 @@ const ProfessionalDetailCard = ({ p }) => {
               </strong>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
-
   </div>
 );
 };
