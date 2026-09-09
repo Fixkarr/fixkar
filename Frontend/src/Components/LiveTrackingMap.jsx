@@ -1,13 +1,18 @@
-    import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 
-const LiveTrackingMap = ({ booking }) => {
+const LiveTrackingMap = ({ booking, professionalLocation }) => {
   const googleLoaded = useLoadGoogleMaps();
 
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
-  const customerMarkerRef = useRef(null);
 
+  const customerMarkerRef = useRef(null);
+  const professionalMarkerRef = useRef(null);
+
+  // ================================
+  // CREATE MAP + CUSTOMER MARKER
+  // ================================
   useEffect(() => {
     if (!googleLoaded) return;
 
@@ -23,7 +28,6 @@ const LiveTrackingMap = ({ booking }) => {
       lng: Number(booking.customerLng),
     };
 
-    // Map create
     mapInstanceRef.current = new window.google.maps.Map(mapRef.current, {
       center: customerLocation,
       zoom: 15,
@@ -32,7 +36,7 @@ const LiveTrackingMap = ({ booking }) => {
       fullscreenControl: false,
     });
 
-    // Customer destination marker
+    // Customer fixed destination marker
     customerMarkerRef.current = new window.google.maps.Marker({
       position: customerLocation,
       map: mapInstanceRef.current,
@@ -47,10 +51,76 @@ const LiveTrackingMap = ({ booking }) => {
         customerMarkerRef.current.setMap(null);
       }
 
+      if (professionalMarkerRef.current) {
+        professionalMarkerRef.current.setMap(null);
+      }
+
       mapInstanceRef.current = null;
       customerMarkerRef.current = null;
+      professionalMarkerRef.current = null;
     };
-  }, [googleLoaded, booking?.customerLat, booking?.customerLng]);
+  }, [
+    googleLoaded,
+    booking?.customerLat,
+    booking?.customerLng,
+  ]);
+
+  // ================================
+  // PROFESSIONAL LIVE MARKER
+  // ================================
+  useEffect(() => {
+    if (!googleLoaded) return;
+
+    if (!mapInstanceRef.current) return;
+
+    if (
+      professionalLocation?.lat == null ||
+      professionalLocation?.lng == null
+    ) {
+      return;
+    }
+
+    const professionalPosition = {
+      lat: Number(professionalLocation.lat),
+      lng: Number(professionalLocation.lng),
+    };
+
+    // First location → create marker
+    if (!professionalMarkerRef.current) {
+      professionalMarkerRef.current = new window.google.maps.Marker({
+        position: professionalPosition,
+        map: mapInstanceRef.current,
+        title: "Professional",
+        label: {
+          text: "🚗",
+        },
+      });
+
+      // Map ko professional ke initial location tak bhi dikhao
+      const bounds = new window.google.maps.LatLngBounds();
+
+      bounds.extend({
+        lat: Number(booking.customerLat),
+        lng: Number(booking.customerLng),
+      });
+
+      bounds.extend(professionalPosition);
+
+      mapInstanceRef.current.fitBounds(bounds);
+
+      return;
+    }
+
+    // Next GPS update → only move marker
+    professionalMarkerRef.current.setPosition(
+      professionalPosition
+    );
+  }, [
+    googleLoaded,
+    professionalLocation,
+    booking?.customerLat,
+    booking?.customerLng,
+  ]);
 
   if (
     booking?.customerLat == null ||

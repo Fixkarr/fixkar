@@ -93,6 +93,7 @@ import AdminProtectedRoute from "./Components/AdminProtectedRoute.jsx";
 import { PushNotifications } from "@capacitor/push-notifications";
 import AIAssistant from "./Components/Ai_Assistant/AiAssistant.jsx";
 import Referrals from "./Components/Referrals.jsx";
+import { setProfessionalLiveLocation } from "./redux/location.slice.js";
 
 const App = () => {
   useGetCurrentUser();
@@ -330,6 +331,13 @@ useEffect(() => {
 
   // Abhi testing ke liye
   console.log("Professional live location:", data);
+  dispatch(
+    setProfessionalLiveLocation({
+      bookingId  : data?.bookingId,
+      lat: Number(data.latitude),
+      lng: Number(data.longitude),
+    })
+  )
 });
 
 socket.on("pickupRequest", (data) => {

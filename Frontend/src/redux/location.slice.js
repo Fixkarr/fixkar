@@ -6,6 +6,7 @@ const locationSlice = createSlice({
     selectedLocation: null,
     selectedService: null,
     selectedTask: null,
+    professionalLiveLocations: {},
   },
   reducers: {
     setSelectedLocation: (state, action) => {
@@ -16,9 +17,17 @@ const locationSlice = createSlice({
     },
     setSelectedTask: (state, action) => {
       state.selectedTask = action.payload;
-    }
+    },
+    setProfessionalLiveLocation: (state, action) => {
+  const { bookingId, lat, lng } = action.payload;
+
+  state.professionalLiveLocations[bookingId] = {
+    lat,
+    lng,
+  };
+},
   }
 });
 
-export const { setSelectedLocation, setSelectedService, setSelectedTask } = locationSlice.actions;
+export const { setSelectedLocation, setSelectedService, setSelectedTask, setProfessionalLiveLocation } = locationSlice.actions;
 export default locationSlice.reducer;

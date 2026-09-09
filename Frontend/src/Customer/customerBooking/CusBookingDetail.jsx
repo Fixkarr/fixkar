@@ -44,10 +44,13 @@ import LiveTrackingMap from '../../Components/LiveTrackingMap';
 const CusBookingDetail = () => {
     useGetMyBookings()
      const {myBookings} = useSelector(state=> state.bookings)
+     const { professionalLiveLocations } = useSelector(
+  state => state.location
+);
      const navigate = useNavigate()
-
-    const {bookingId} = useParams();
+     const {bookingId} = useParams();
      const booking = myBookings.find(book => book._id == bookingId)
+    const professionalLocation = professionalLiveLocations[bookingId] || null;
 
 const originalTotal =
   booking?.isPriceLocked
@@ -168,7 +171,7 @@ return (
             <p>{booking.workAddress}</p>
           </div>
             
-                <LiveTrackingMap booking={booking} />
+                <LiveTrackingMap booking={booking} professionalLocation={professionalLocation} />
 
           {/* ---------- PROBLEM ---------- */}
           <div className="booking-details-info-tile booking-details-problem-tile">
