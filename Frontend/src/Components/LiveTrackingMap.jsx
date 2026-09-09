@@ -235,9 +235,6 @@ const LiveTrackingMap = ({
     if (!googleLoaded) return;
 
     if (!window.google?.maps) {
-      console.log(
-        "Google Maps is not available yet"
-      );
 
       return;
     }
@@ -352,10 +349,6 @@ const LiveTrackingMap = ({
           markerLibrary.AdvancedMarkerElement;
 
         setLibrariesReady(true);
-
-        console.log(
-          "Google Maps Routes + Marker libraries loaded"
-        );
       } catch (error) {
         console.error(
           "Google Maps libraries error:",
@@ -720,13 +713,6 @@ const LiveTrackingMap = ({
           durationMinutes,
         });
 
-        console.log(
-          "Live route:",
-          {
-            distanceKm,
-            durationMinutes,
-          }
-        );
       } catch (error) {
         console.error(
           "Google Routes API error:",
