@@ -18,6 +18,7 @@ import { confirmPickupHire } from '../controllers/BookingController/confirmPicku
 import upload from '../middlewares/multer.js';
 import multerErrorHandler from '../middlewares/multerErrorHandler.js';
 import { setServerDistanceForDirectHire } from '../middlewares/setServerDistanceForDirectHire.js';
+import { startJourney } from '../controllers/BookingController/startJourney.js';
 
 const bookingRouter = express.Router();
 
@@ -33,7 +34,7 @@ bookingRouter.post('/confirm-pickup-hire', isAuth, confirmPickupHire)
 bookingRouter.post('/mark-reached', isAuth, reachedToLocation)
 bookingRouter.post('/verify-reached-otp', isAuth, verifyReachedOtp);
 bookingRouter.post('/send-quote-amount', isAuth, sendQuoteAmount)
-
+bookingRouter.post('/start-journey', isAuth, startJourney);
 
 
 //payment route

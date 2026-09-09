@@ -3,6 +3,7 @@ import { Notification } from "../../models/notificationModel.js";
 import { Payment } from "../../models/paymentModel.js";
 import { io } from '../../server.js'
 import { pushNotification } from "../../services/pushNotification.js";
+
 export const cancelCustomerBooking = async (req, res) => {
   try {
     const { bookingId } = req.body;
@@ -50,7 +51,9 @@ export const cancelCustomerBooking = async (req, res) => {
     const workDate = new Date(booking.workDate);
     workDate.setHours(0, 0, 0, 0);
 
-    if (workDate > today || booking.status === "pending") {
+    if ( booking.status === "pending" ||
+  booking.status === "accepted" ||
+  (workDate > today && booking.status !== "on-the-way")) {
       booking.status = "cancelled";
       booking.cancellationType = "free";
       await booking.save();
@@ -107,7 +110,7 @@ export const cancelCustomerBooking = async (req, res) => {
     }
 
     const payment = await Payment.findOne({ bookingId: booking._id });
-    console.log(payment);
+
     if(payment && payment.paymentType === "CANCEL" && payment.status === "paid"){
       return res.json({
         success : true,

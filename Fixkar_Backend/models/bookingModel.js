@@ -14,8 +14,10 @@ const bookingSchema = new mongoose.Schema({
     mobileNumber : {type : String, required : true},
     rejectMessage  : {type : String},
     reachedAt: { type: Date, default: null },
+    journeyStartedAt : {type : Date, default : null},
     reachedOTP : {type : String},
-    status : { type : String, enum : ['pending', 'accepted', 'reached', 'in-progress', "rejected", 'completed', 'cancelled', 'searching'], default : 'pending' },
+    status : { type : String, enum : ['pending', 'accepted', 'on-the-way', 'reached', 'in-progress', "rejected", 'completed', 'cancelled', 'searching'], default : 'pending' },
+
     startedAt : { type: Date },
     quoteAmount : { type: Number },
     service: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
