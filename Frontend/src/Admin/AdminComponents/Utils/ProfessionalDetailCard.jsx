@@ -42,12 +42,15 @@ import Info from "./Info";
 import BankVerificationActions from "./BankVerificationActions";
 import FormResponseSummary from "./FormResponseSummary";
 import { ClipLoader } from "react-spinners";
+import useGetServiceRequests from "../../../hooks/useGetServiceRequests";
 
 const ProfessionalDetailCard = ({ p }) => {
   const [reason, setReason] = useState("");
   const [accLoad, setAccLoad] = useState(false);
   const [rejLoad, setRejLoad] = useState(false);
   const [showRejectBox, setShowRejectBox] = useState(false);
+  const serviceRequest = useGetServiceRequests(p?._id);
+  console.log(serviceRequest)
   const handleAccept = async (proId) => {
     try {
       setAccLoad(true);
