@@ -19,10 +19,11 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
   const professionalMarkerRef = useRef(null);
 
   // ============================================
-  // CREATE REACT ICON SVG
+  // CREATE SVG DATA URL FROM REACT ICON
   // ============================================
   const createIconDataUrl = (icon) => {
-    const svg = ReactDOMServer.renderToStaticMarkup(icon);
+    const svgString =
+      ReactDOMServer.renderToStaticMarkup(icon);
 
     return (
       "data:image/svg+xml;charset=UTF-8," +
@@ -33,44 +34,22 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
           height="48"
           viewBox="0 0 48 48"
         >
-          ${svg
-            .replace(
-              "<svg",
-              `<svg x="8" y="8" width="32" height="32" fill="currentColor"`
-            )
-            .replace("</svg>", "</svg>")}
+          ${svgString}
         </svg>
       `)
     );
   };
 
   // ============================================
-  // CUSTOMER MARKER ICON
-  // ============================================
-  const customerIcon = {
-    url: createIconDataUrl(
-      <FaMapMarkerAlt color="#dc2626" size={32} />
-    ),
-    scaledSize: new window.google.maps.Size(48, 48),
-    anchor: new window.google.maps.Point(24, 42),
-  };
-
-  // ============================================
-  // PROFESSIONAL MARKER ICON
-  // ============================================
-  const professionalIcon = {
-    url: createIconDataUrl(
-      <FaCar color="#2563eb" size={30} />
-    ),
-    scaledSize: new window.google.maps.Size(48, 48),
-    anchor: new window.google.maps.Point(24, 24),
-  };
-
-  // ============================================
-  // CREATE MAP + CUSTOMER MARKER
+  // CREATE MAP
   // ============================================
   useEffect(() => {
     if (!googleLoaded) return;
+
+    if (!window.google?.maps) {
+      console.log("Google Maps is not available yet");
+      return;
+    }
 
     if (
       booking?.customerLat == null ||
@@ -86,32 +65,38 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
       lng: Number(booking.customerLng),
     };
 
-    // --------------------------------------------
+    // ==========================================
     // CREATE MAP
-    // --------------------------------------------
-    const map = new window.google.maps.Map(mapRef.current, {
-      center: customerLocation,
-      zoom: 15,
+    // ==========================================
+    const map = new window.google.maps.Map(
+      mapRef.current,
+      {
+        center: customerLocation,
+        zoom: 15,
 
-      mapTypeControl: false,
-      streetViewControl: false,
-      fullscreenControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
 
-      gestureHandling: "greedy",
-    });
+        gestureHandling: "greedy",
+      }
+    );
 
     mapInstanceRef.current = map;
 
-    // --------------------------------------------
+    // ==========================================
     // DIRECTIONS SERVICE
-    // --------------------------------------------
+    // ==========================================
     directionsServiceRef.current =
       new window.google.maps.DirectionsService();
 
     directionsRendererRef.current =
       new window.google.maps.DirectionsRenderer({
-        map,
+        map: map,
+
+        // We already have our own markers
         suppressMarkers: true,
+
         preserveViewport: true,
 
         polylineOptions: {
@@ -121,25 +106,48 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
         },
       });
 
-    // --------------------------------------------
+    // ==========================================
+    // CUSTOMER ICON
+    // ==========================================
+    const customerIcon = {
+      url: createIconDataUrl(
+        <FaMapMarkerAlt
+          color="#dc2626"
+          size={36}
+        />
+      ),
+
+      scaledSize:
+        new window.google.maps.Size(48, 48),
+
+      anchor:
+        new window.google.maps.Point(24, 42),
+    };
+
+    // ==========================================
     // CUSTOMER MARKER
-    // --------------------------------------------
+    // ==========================================
     customerMarkerRef.current =
       new window.google.maps.Marker({
         position: customerLocation,
+
         map,
+
         title: "Customer Location",
+
         icon: customerIcon,
+
+        zIndex: 10,
       });
 
-    // --------------------------------------------
+    // ==========================================
     // MAP READY
-    // --------------------------------------------
+    // ==========================================
     setMapReady(true);
 
-    // --------------------------------------------
+    // ==========================================
     // CLEANUP
-    // --------------------------------------------
+    // ==========================================
     return () => {
       if (customerMarkerRef.current) {
         customerMarkerRef.current.setMap(null);
@@ -156,9 +164,11 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
       mapInstanceRef.current = null;
 
       directionsServiceRef.current = null;
+
       directionsRendererRef.current = null;
 
       customerMarkerRef.current = null;
+
       professionalMarkerRef.current = null;
 
       setMapReady(false);
@@ -170,10 +180,12 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
   ]);
 
   // ============================================
-  // PROFESSIONAL LIVE LOCATION + ROUTE
+  // PROFESSIONAL LIVE LOCATION
   // ============================================
   useEffect(() => {
     if (!googleLoaded) return;
+
+    if (!window.google?.maps) return;
 
     if (!mapReady) return;
 
@@ -204,31 +216,54 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
     };
 
     // ==========================================
+    // PROFESSIONAL ICON
+    // ==========================================
+    const professionalIcon = {
+      url: createIconDataUrl(
+        <FaCar
+          color="#2563eb"
+          size={32}
+        />
+      ),
+
+      scaledSize:
+        new window.google.maps.Size(48, 48),
+
+      anchor:
+        new window.google.maps.Point(24, 24),
+    };
+
+    // ==========================================
     // CREATE PROFESSIONAL MARKER
     // ==========================================
     if (!professionalMarkerRef.current) {
       professionalMarkerRef.current =
         new window.google.maps.Marker({
           position: professionalPosition,
+
           map: mapInstanceRef.current,
+
           title: "Professional",
+
           icon: professionalIcon,
+
           zIndex: 100,
         });
 
-      // ----------------------------------------
-      // FIT CUSTOMER + PROFESSIONAL IN VIEW
-      // ----------------------------------------
+      // ========================================
+      // FIT BOTH LOCATIONS
+      // ========================================
       const bounds =
         new window.google.maps.LatLngBounds();
 
       bounds.extend(customerPosition);
+
       bounds.extend(professionalPosition);
 
       mapInstanceRef.current.fitBounds(bounds);
     } else {
       // ========================================
-      // UPDATE PROFESSIONAL POSITION
+      // UPDATE PROFESSIONAL LOCATION
       // ========================================
       professionalMarkerRef.current.setPosition(
         professionalPosition
@@ -289,7 +324,7 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
   }
 
   // ============================================
-  // MAP
+  // MAP UI
   // ============================================
   return (
     <div
