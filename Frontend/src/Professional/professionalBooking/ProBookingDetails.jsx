@@ -40,7 +40,7 @@ const ProBookingDetails = () => {
     const {myBookings} = useSelector(state=> state.bookings)
     const booking = myBookings.find(book => book._id == bookingId)
      const isReachedEnabled = (booking)=>{
-    if (booking.status !== "accepted") return false;
+    if (booking.status !== "on-the-way") return false;
 
      const now = new Date();
 

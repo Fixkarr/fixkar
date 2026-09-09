@@ -325,6 +325,12 @@ useEffect(() => {
       dispatch(updateBookingInRedux(booking));
       dispatch(refreshWallet())
     });
+    socket.on("professionalLocationUpdated", (data) => {
+  if (role !== "customer") return;
+
+  // Abhi testing ke liye
+  console.log("Professional live location:", data);
+});
 
 socket.on("pickupRequest", (data) => {
     if (role !== "professional") return;
@@ -351,6 +357,7 @@ socket.on("pickupProfessionalAccepted", (data) => {
       socket.off("notification");
       socket.off("pickupRequest");
       socket.off("pickupProfessionalAccepted");
+      socket.off("professionalLocationUpdated");
       socket.disconnect();
     };
   }, [userId, role]);
