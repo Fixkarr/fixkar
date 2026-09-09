@@ -39,40 +39,18 @@ import useGetMyBookings from '../../hooks/useGetMyBookings';
 import FixkarLoader from '../../Components/FixkarLoader';
 
 import './cusBookingDetails.css'
+import LiveTrackingMap from '../../Components/LiveTrackingMap';
 
 const CusBookingDetail = () => {
     useGetMyBookings()
-    const [offers, setOffers] = useState([]);
-    const [applyingOffer, setApplyingOffer] = useState(false);
-    const [loadingOffers, setLoadingOffers] = useState(false);
      const {myBookings} = useSelector(state=> state.bookings)
+     const { professionalLiveLocations } = useSelector(
+  state => state.location
+);
      const navigate = useNavigate()
-
-    const {bookingId} = useParams();
+     const {bookingId} = useParams();
      const booking = myBookings.find(book => book._id == bookingId)
-
-    useEffect(() => {
-      if (!booking?.quoteAmount || booking.status !== "in-progress" || booking.offerLocked) {
-        return;
-      }
-
-      const fetchOffers = async () => {
-        try {
-          setLoadingOffers(true);
-          const res = await axios.get(
-            `${server_url}/api/user/get-elligible-offers/${bookingId}`,
-            { withCredentials: true }
-          );
-          setOffers(res.data.offers || []);
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoadingOffers(false);
-        }
-      };
-
-      fetchOffers();
-    }, [booking?.quoteAmount, booking?.status, booking?.offerLocked, bookingId]);
+    const professionalLocation = professionalLiveLocations[bookingId] || null;
 
 const originalTotal =
   booking?.isPriceLocked
@@ -86,37 +64,6 @@ const finalPayable =
   booking?.offerLocked
     ? booking?.finalCustomerPayable
     : originalTotal;
-
-const handleApplyOffer = async (offer) => {
-  const confirmApply = window.confirm(
-    "Are you sure you want to apply this offer? You cannot remove it later."
-  );
-
-  if (!confirmApply) return;
-
-  try {
-    setApplyingOffer(true);
-
-    await axios.post(
-      `${server_url}/api/user/apply-offer`,
-      {
-        bookingId,
-        offerId: offer.offerId,
-      },
-      { withCredentials: true }
-    );
-    
-      toast.success("Offer applied successfully");
-
-  } catch (error) {
-   toast.error(
-  error?.response?.data?.message ||
-  "Failed to apply offer"
-);
-  } finally {
-    setApplyingOffer(false);
-  }
-};
 
 if (!booking) {
   return <FixkarLoader />
@@ -223,7 +170,8 @@ return (
             </p>
             <p>{booking.workAddress}</p>
           </div>
-
+            
+        
           {/* ---------- PROBLEM ---------- */}
           <div className="booking-details-info-tile booking-details-problem-tile">
             <p>Problem Description</p>
@@ -267,6 +215,11 @@ return (
               </div>
             </section>
           )}
+
+            {booking.status === "on-the-way" && 
+          <LiveTrackingMap booking={booking} professionalLocation={professionalLocation} />
+          }
+
 
           {/* ---------- ACTIONS ---------- */}
           {(booking.status == "pending" ||
@@ -363,56 +316,6 @@ return (
                     </div>
                   )}
                 </div>
-
-                {/* ---------- OFFERS ---------- */}
-                {loadingOffers ? (
-                  <div className="booking-details-offer-loading">
-                    <div className="booking-details-spinner" />
-                    <span>Checking best offers...</span>
-                  </div>
-                ) : !booking.offerLocked && offers.length > 0 ? (
-                  <div className="booking-details-offers">
-                    <div className="booking-details-offers-heading">
-                      <h6>
-                        <FaGift />
-                        Available Offers
-                      </h6>
-                    </div>
-
-                    {offers.map((offer) => {
-                      const isSelected = booking.offerId === offer.offerId;
-
-                      return (
-                        <div
-                          key={offer.offerId}
-                          className={`booking-details-offer ${
-                            isSelected ? "is-selected" : ""
-                          }`}
-                        >
-                          <div className="booking-details-offer-content">
-                            <div>
-                              <div className="booking-details-offer-title">
-                                <MdLocalOffer />
-                                {offer.title}
-                              </div>
-                              <small>You save ₹{offer.discount}</small>
-                            </div>
-
-                            {!booking.offerLocked && (
-                              <button
-                                disabled={applyingOffer}
-                                className="booking-details-offer-btn"
-                                onClick={() => handleApplyOffer(offer)}
-                              >
-                                {applyingOffer ? "Applying..." : "Apply"}
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : null}
 
                 {/* ---------- PAY BUTTON ---------- */}
                 {booking.status === "in-progress" && (

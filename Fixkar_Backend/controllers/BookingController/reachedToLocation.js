@@ -46,7 +46,7 @@ export const reachedToLocation = async (req, res)=>{
       return res.status(403).json({ message: "Unauthorized action" });
     }
 
-    if (!["accepted"].includes(booking.status)) {
+    if (!["on-the-way"].includes(booking.status)) {
       return res.status(400).json({
         message: "Booking cannot be marked as reached at this stage"
       });

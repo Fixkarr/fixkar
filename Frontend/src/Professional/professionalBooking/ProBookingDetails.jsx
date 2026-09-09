@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom';
  import {
@@ -30,31 +30,119 @@ import CustomAudioPlayer from '../../Components/CustomAudioPlayer';
 import useGetMyBookings from '../../hooks/useGetMyBookings';
 import FixkarLoader from '../../Components/FixkarLoader';
 import DashboardNavigator from '../../utils/DashboardNavigator';
+import { toast } from 'react-toastify';
+import socket from '../../socket';
+import LiveTrackingMap from '../../Components/LiveTrackingMap';
 
 const ProBookingDetails = () => {
   useGetMyBookings()
   const {bookingId} = useParams()
   useGetWalletTransaction(bookingId);
+  const [currentLocation, setCurrentLocation] = useState(null)
+  const watchIdRef = useRef(null)
     const [showCashModal, setShowCashModal] = useState(false);
     const {walletTransaction} = useSelector(state => state.wallet);
     const {myBookings} = useSelector(state=> state.bookings)
     const booking = myBookings.find(book => book._id == bookingId)
-     const isReachedEnabled = (booking)=>{
-    if (booking.status !== "accepted") return false;
+    const isReachedEnabled = (booking) => {
+  return booking.status === "on-the-way";
+}
 
-     const now = new Date();
+useEffect(() => {
 
-  const workDateTime = new Date(
-    `${booking.workDate} ${booking.workTime}`
-  );
+  if (booking?.status === "on-the-way") {
 
-  const BUFFER_MINUTES = 240;
-  const enableTime = new Date(
-    workDateTime.getTime() - BUFFER_MINUTES * 60 * 1000
-  );
+    startLocationTracking()
 
-  return now >= enableTime;
+  } else {
+
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current)
+      watchIdRef.current = null
+    }
+
   }
+
+}, [booking?.status])
+
+ const startLocationTracking = () => {
+
+    if (!navigator.geolocation) {
+      toast.error("Location service is not supported on this device")
+      return
+    }
+
+    // Already tracking
+    if (watchIdRef.current !== null) {
+      return
+    }
+
+    watchIdRef.current = navigator.geolocation.watchPosition(
+
+      (position) => {
+
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+
+        const heading =
+          position.coords.heading !== null
+            ? position.coords.heading
+            : null
+
+        // Local state update
+        setCurrentLocation({
+          lat: latitude,
+          lng: longitude,
+          heading,
+        })
+
+        // Send professional location to backend
+        socket.emit("professionalLocation", {
+          bookingId: booking._id,
+          latitude,
+          longitude,
+          heading,
+        })
+      },
+
+      (error) => {
+
+        console.error("Location error:", error)
+
+        if (error.code === 1) {
+          toast.error(
+            "Please allow location permission to start journey"
+          )
+        }
+
+        else if (error.code === 2) {
+          toast.error(
+            "Unable to detect your location"
+          )
+        }
+
+        else if (error.code === 3) {
+          toast.error(
+            "Location request timed out"
+          )
+        }
+      },
+
+      {
+        enableHighAccuracy: true,
+        maximumAge: 3000,
+        timeout: 10000,
+      }
+    )
+  }
+
+  useEffect(() => {
+
+  if (booking?.status === "on-the-way") {
+    startLocationTracking()
+  }
+
+}, [booking?.status])
 
   const fullAmount =
   booking?.isPriceLocked
@@ -309,6 +397,12 @@ const professionalReceivable = booking?.isPriceLocked
       
         {booking.rejectMessage && <p className="bg-danger-subtle text-danger p-2">Booking has been rejected with the message '{booking.rejectMessage}'</p>}
           {booking.status == "accepted" && <ProAcceptBooking booking={booking}/>}
+          {booking.status === "on-the-way" && currentLocation && (
+  <LiveTrackingMap
+    booking={booking}
+    professionalLocation={currentLocation}
+  />
+)}
           {booking.status == "reached" && <ProReached booking={booking}/>}
           {booking.status == "cancelled" && <ProCancelBooking booking={booking} transaction={walletTransaction}/>}
           {booking.status == "in-progress" && <ProInprogress booking={booking}/>}

@@ -106,6 +106,8 @@ export const confirmPickupHire = async (req, res) => {
       visitingCharge,
       workAddress: pickupRequest.workAddress,
       distanceInKm: pickupRequest.distanceInKm,
+      customerLat: pickupRequest.customerLocation?.customerLat || null,
+      customerLng: pickupRequest.customerLocation?.customerLng || null,
       mobileNumber: String(pickupRequest.customerMobileNumber),
       service: pickupRequest.serviceId,
       task: pickupRequest.taskId,

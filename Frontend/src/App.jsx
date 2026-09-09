@@ -93,6 +93,7 @@ import AdminProtectedRoute from "./Components/AdminProtectedRoute.jsx";
 import { PushNotifications } from "@capacitor/push-notifications";
 import AIAssistant from "./Components/Ai_Assistant/AiAssistant.jsx";
 import Referrals from "./Components/Referrals.jsx";
+import { setProfessionalLiveLocation } from "./redux/location.slice.js";
 
 const App = () => {
   useGetCurrentUser();
@@ -325,6 +326,23 @@ useEffect(() => {
       dispatch(updateBookingInRedux(booking));
       dispatch(refreshWallet())
     });
+    socket.on("professionalLocationUpdated", (data) => {
+  if (role !== "customer") return;
+
+  // Abhi testing ke liye
+  console.log("Professional live location:", data);
+  dispatch(
+    setProfessionalLiveLocation({
+      bookingId  : data?.bookingId,
+      lat: Number(data.latitude),
+      lng: Number(data.longitude),
+         heading:
+        data.heading != null
+          ? Number(data.heading)
+          : null,
+    })
+  )
+});
 
 socket.on("pickupRequest", (data) => {
     if (role !== "professional") return;
@@ -351,6 +369,7 @@ socket.on("pickupProfessionalAccepted", (data) => {
       socket.off("notification");
       socket.off("pickupRequest");
       socket.off("pickupProfessionalAccepted");
+      socket.off("professionalLocationUpdated");
       socket.disconnect();
     };
   }, [userId, role]);

@@ -25,6 +25,7 @@ import { Professional } from './models/userModel.js';
 import { csrfOriginCheck } from './middlewares/csrfOriginCheck.js';
 import Airouter from './Ai_Assistant/AiRoutes/ai.routes.js';
 import referralRoutes from './routes/referralRoutes.js';
+import { Booking } from './models/bookingModel.js';
 
 
 dotenv.config();
@@ -151,6 +152,57 @@ io.on("connection", (socket) => {
   socket.join(userId);
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  socket.on("professionalLocation", async ({ bookingId, latitude, longitude, heading })=>{
+     try {
+      if (
+        !bookingId ||
+        typeof latitude !== "number" ||
+        typeof longitude !== "number"
+      ) {
+        return;
+      }
+
+      const booking = await Booking.findById(bookingId)
+        .select("professionalId customerId status").populate("professionalId customerId", "_id userId");
+
+      if (!booking) {
+        return;
+      }
+
+      // Check: location bhejne wala isi booking ka professional hai
+      if (booking.professionalId?.userId?.toString() !== userId) {
+        return;
+      }
+
+      // Tracking sirf journey ke time
+      if (booking.status !== "on-the-way") {
+        return;
+      }
+
+      const customerUserId = booking.customerId?.userId?.toString();
+
+      if (!customerUserId) {
+        return;
+      }
+
+      // Professional ki location customer ko bhejo
+      io.to(customerUserId).emit("professionalLocationUpdated", {
+        bookingId,
+        latitude,
+        longitude,
+        heading,
+        timestamp: Date.now(),
+      });
+
+    } catch (error) {
+      console.error(
+        "Professional location error:",
+        error.message
+      );
+    }
+  })
+
+
 
   socket.on("disconnect", ()=>{
     if (userSocketMap[userId] === socket.id) {
