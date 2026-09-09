@@ -239,20 +239,21 @@ const LiveTrackingMap = ({
     // ==========================================
     // PROFESSIONAL ICON
     // ==========================================
-    const professionalIcon = {
-      url: createIconDataUrl(
-        <FaCar
-          color="#2563eb"
-          size={32}
-        />
-      ),
+    
+     const professionalIcon = {
+  url: "/Images/professional-icon.png",
 
-      scaledSize:
-        new window.google.maps.Size(48, 48),
+  scaledSize: new window.google.maps.Size(
+    64,
+    64
+  ),
 
-      anchor:
-        new window.google.maps.Point(24, 24),
-    };
+  anchor: new window.google.maps.Point(
+    32,
+    32
+  ),
+};
+    
 
     // ==========================================
     // CREATE PROFESSIONAL MARKER
@@ -261,13 +262,9 @@ const LiveTrackingMap = ({
       professionalMarkerRef.current =
         new window.google.maps.Marker({
           position: professionalPosition,
-
           map: mapInstanceRef.current,
-
           title: "Professional",
-
           icon: professionalIcon,
-
           zIndex: 100,
         });
 
@@ -317,10 +314,6 @@ const LiveTrackingMap = ({
           await Route.computeRoutes(request);
 
         if (!routes || routes.length === 0) {
-          console.warn(
-            "No route found between professional and customer"
-          );
-
           return;
         }
 
@@ -376,14 +369,6 @@ const LiveTrackingMap = ({
                 route.durationMillis / 60000
               )
             : null;
-
-        console.log(
-          "🚗 Route updated:",
-          {
-            distanceKm,
-            durationMinutes,
-          }
-        );
       } catch (error) {
         console.error(
           "Google Routes API error:",
@@ -416,9 +401,7 @@ const LiveTrackingMap = ({
     );
   }
 
-  // ============================================
-  // MAP UI
-  // ============================================
+
   return (
     <div
       ref={mapRef}
