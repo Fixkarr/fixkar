@@ -6,6 +6,7 @@ import { FaCircleArrowRight } from 'react-icons/fa6'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import socket from '../../socket'
+import { useRef } from 'react'
 
 const ProAcceptBooking = ({booking}) => {
   const [isStartingJourney, setIsStartingJourney] = useState(false)
@@ -26,7 +27,7 @@ const ProAcceptBooking = ({booking}) => {
         console.log("Professional location:", { latitude, longitude }) 
         
         socket.emit("professionalLocation", { bookingId: booking._id, latitude, longitude }) },
-         
+
         (error) => { 
           console.error("Location error:", error)
            if (error.code === 1) {
