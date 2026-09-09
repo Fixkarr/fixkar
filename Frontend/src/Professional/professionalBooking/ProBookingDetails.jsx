@@ -32,6 +32,7 @@ import FixkarLoader from '../../Components/FixkarLoader';
 import DashboardNavigator from '../../utils/DashboardNavigator';
 import { toast } from 'react-toastify';
 import socket from '../../socket';
+import LiveTrackingMap from '../../Components/LiveTrackingMap';
 
 const ProBookingDetails = () => {
   useGetMyBookings()
