@@ -1,8 +1,46 @@
-import React from "react";
-import { FaClock, FaShieldAlt, FaCheckCircle } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaClock, FaShieldAlt} from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";
+import axios from 'axios'
+import {server_url} from '../App'
+import { useSelector } from "react-redux";
+import useGetServiceRequests from "../hooks/useGetServiceRequests";
 
 const Pending = () => {
+  const {currentUserData} = useSelector(state=> state.user);
+  const professionalId = currentUserData.user._id;
+ 
+  const serviceRequest = useGetServiceRequests(professionalId);
+
+   
+
+    const getServiceRequestStatus = (status) => {
+  switch (status) {
+    case "pending_review":
+      return {
+        label: "Pending Review",
+        className: "service-status-pending",
+      };
+
+    case "accepted":
+      return {
+        label: "Service Approved",
+        className: "service-status-approved",
+      };
+
+    case "rejected":
+      return {
+        label: "Service Request Rejected",
+        className: "service-status-rejected",
+      };
+
+    default:
+      return {
+        label: "Unknown Status",
+        className: "service-status-pending",
+      };
+  }
+};
   return (
     <>
       <style>{`
@@ -359,6 +397,162 @@ const Pending = () => {
           animation: progressMove 2s ease-in-out infinite;
         }
 
+        /* ================= SERVICE REQUEST ================= */
+
+.service-request-card {
+  margin-bottom: 16px;
+  padding: 15px;
+  border-radius: 15px;
+  background: #ffffff;
+  border: 1px solid #e5edf8;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+}
+
+.service-request-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 13px;
+}
+
+.service-request-eyebrow {
+  display: block;
+  margin-bottom: 4px;
+  color: #94a3b8;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.service-request-header h5 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.service-request-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.service-request-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Pending */
+
+.service-status-pending {
+  color: #9a6700;
+  background: #fff7df;
+  border: 1px solid #f6e7b8;
+}
+
+.service-status-pending .service-request-status-dot {
+  background: #f0ad00;
+}
+
+/* Approved */
+
+.service-status-approved {
+  color: #16734a;
+  background: #eaf8f1;
+  border: 1px solid #d4efdf;
+}
+
+.service-status-approved .service-request-status-dot {
+  background: #20a66a;
+}
+
+/* Rejected */
+
+.service-status-rejected {
+  color: #b42318;
+  background: #fff0ef;
+  border: 1px solid #f7d5d2;
+}
+
+.service-status-rejected .service-request-status-dot {
+  background: #dc3545;
+}
+
+/* Description */
+
+.service-request-description {
+  padding: 11px 12px;
+  border-radius: 11px;
+  background: #f8fafc;
+  border: 1px solid #edf1f6;
+}
+
+.service-request-description > span {
+  display: block;
+  margin-bottom: 4px;
+  color: #94a3b8;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.service-request-description p {
+  margin: 0;
+  color: #64748b;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* Admin Note */
+
+.service-admin-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 10px;
+  padding: 11px 12px;
+  border-radius: 11px;
+  background: #f5f9ff;
+  border: 1px solid #e1ebfa;
+}
+
+.service-admin-note-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: #0d6efd;
+  background: #e8f1ff;
+  font-size: 10px;
+}
+
+.service-admin-note strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #334155;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.service-admin-note p {
+  margin: 0;
+  color: #64748b;
+  font-size: 9px;
+  line-height: 1.55;
+}
+
         /* ================= INFO ITEMS ================= */
 
         .pending-info-grid {
@@ -632,6 +826,19 @@ const Pending = () => {
           .pending-footer {
             padding: 11px;
           }
+
+          .service-request-header {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-request-status {
+  align-self: flex-start;
+}
+
+.service-request-card {
+  padding: 12px;
+}
         }
 
         @media (max-width: 360px) {
@@ -720,6 +927,61 @@ const Pending = () => {
               </div>
 
             </div>
+
+            {serviceRequest?._id && (
+  <div className="service-request-card">
+
+    <div className="service-request-header">
+      <div>
+        <span className="service-request-eyebrow">
+          SERVICE REQUEST
+        </span>
+
+        <h5>{serviceRequest.serviceName}</h5>
+      </div>
+
+      {(() => {
+        const status = getServiceRequestStatus(
+          serviceRequest.status
+        );
+
+        return (
+          <span
+            className={`service-request-status ${status.className}`}
+          >
+            <span className="service-request-status-dot"></span>
+            {status.label}
+          </span>
+        );
+      })()}
+    </div>
+
+    <div className="service-request-description">
+      <span>Description</span>
+
+      <p>
+        {serviceRequest.description}
+      </p>
+    </div>
+
+    {serviceRequest.adminNote?.trim() && (
+      <div className="service-admin-note">
+        <div className="service-admin-note-icon">
+          <FaShieldAlt />
+        </div>
+
+        <div>
+          <strong>Fixkar Team Response</strong>
+
+          <p>
+            {serviceRequest.adminNote}
+          </p>
+        </div>
+      </div>
+    )}
+
+  </div>
+)}
 
             {/* ================= INFO ================= */}
 

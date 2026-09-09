@@ -13,8 +13,9 @@ import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 import { FaCamera, FaIdCard, FaUserCheck } from "react-icons/fa6";
 import { FaBirthdayCake, FaInfoCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import useGetServices from "../hooks/useGetServices.jsx";
+import { setCurrentUserData } from "../redux/user.slice.js";
 
 const Onboarding = ({ userData }) => {
   useGetServices()
@@ -24,7 +25,7 @@ const Onboarding = ({ userData }) => {
   const googleLoaded = useLoadGoogleMaps(); // ✅ Google script load status
   const addressInputRef = useRef(null);
   const [isCustomService, setIsCustomService] = useState(false);
-
+  const dispatch = useDispatch();
    const [latLng, setLatLng] = useState({ lat: null, lng: null });
 
   // Date Validation
@@ -38,14 +39,14 @@ const Onboarding = ({ userData }) => {
       .required("Date of Birth is required")
       .max(new Date(maxDate), "You must be at least 18 years old"),
     address: Yup.string().required("Address is required"),
-   profession: Yup.string().when("serviceName", {
-            is: (serviceName) => !serviceName,
-            then: (schema) => schema.required("Please select a profession"),
-            otherwise: (schema) => schema.notRequired(),
-          }),
+  profession: Yup.string().when([], {
+  is: () => !isCustomService,
+  then: (schema) => schema.required("Please select a profession"),
+  otherwise: (schema) => schema.notRequired(),
+}),
 
-    serviceName: Yup.string().when("profession", {
-  is: (profession) => !profession,
+serviceName: Yup.string().when([], {
+  is: () => isCustomService,
   then: (schema) =>
     schema
       .required("Service name is required")
@@ -53,8 +54,8 @@ const Onboarding = ({ userData }) => {
   otherwise: (schema) => schema.notRequired(),
 }),
 
-description: Yup.string().when("profession", {
-  is: (profession) => !profession,
+description: Yup.string().when([], {
+  is: () => isCustomService,
   then: (schema) =>
     schema
       .required("Service description is required")
@@ -111,6 +112,7 @@ description: Yup.string().when("profession", {
 
         if (response.data.success) {
           toast.success("Onboarding completed successfully!");
+          dispatch(setCurrentUserData(response.data));
           resetForm();
           navigate("/application/pending");
         }

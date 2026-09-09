@@ -42,12 +42,23 @@ import Info from "./Info";
 import BankVerificationActions from "./BankVerificationActions";
 import FormResponseSummary from "./FormResponseSummary";
 import { ClipLoader } from "react-spinners";
+import useGetServiceRequests from "../../../hooks/useGetServiceRequests";
+import { useSelector } from "react-redux";
+import useGetServices from "../../../hooks/useGetServices";
 
 const ProfessionalDetailCard = ({ p }) => {
   const [reason, setReason] = useState("");
   const [accLoad, setAccLoad] = useState(false);
   const [rejLoad, setRejLoad] = useState(false);
   const [showRejectBox, setShowRejectBox] = useState(false);
+  useGetServices()
+   const { services } = useSelector(
+      (state) => state.services
+    );
+  const [serviceNote, setServiceNote] = useState("");
+  const [serviceActionLoad, setServiceActionLoad] = useState(false);
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+  const serviceRequest = useGetServiceRequests(p?._id);
   const handleAccept = async (proId) => {
     try {
       setAccLoad(true);
@@ -78,6 +89,40 @@ const ProfessionalDetailCard = ({ p }) => {
       setRejLoad(false);
     }
   };
+  const handleServiceRequestAction = async (status) => {
+  if (!serviceRequest?._id) return;
+
+  if (status === "approved" && !selectedServiceId) {
+    toast.error("Please select a service before approving");
+    return;
+  }
+
+  try {
+    setServiceActionLoad(true);
+
+    const result = await axios.patch(
+      `${server_url}/api/admin/update-service-request/${serviceRequest._id}`,
+      {
+        status,
+        adminNote: serviceNote.trim(),
+         newServiceId: status === "approved" ? selectedServiceId : undefined,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    toast.success(result.data.message);
+
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message ||
+      "Failed to update service request"
+    );
+  } finally {
+    setServiceActionLoad(false);
+  }
+};
 
  return (
   <div className="fixkar-pro-profile">
@@ -86,18 +131,12 @@ const ProfessionalDetailCard = ({ p }) => {
         PROFILE HERO
     ========================================================= */}
     <div className="card border-0 shadow-sm overflow-hidden rounded-4 mb-3">
-
       <div className="fixkar-pro-hero p-3 p-md-4 text-white">
-
         <div className="row g-3 align-items-center">
-
           {/* PROFILE */}
-          <div className="col-12 col-lg-7">
-
+          <div className="col-12 col-lg-7">\
             <div className="d-flex align-items-center gap-3">
-
               <div className="fixkar-pro-avatar-wrap">
-
                 {p?.profilePicture ? (
                   <img
                     src={p.profilePicture}
@@ -533,7 +572,7 @@ const ProfessionalDetailCard = ({ p }) => {
 
               <div className="d-flex flex-wrap gap-2">
 
-                {p.profession.skills.map((skill) => (
+                {p?.profession?.skills.map((skill) => (
                   <span
                     key={skill?._id || skill?.name}
                     className="badge bg-light text-dark border rounded-pill px-2 py-1"
@@ -550,6 +589,204 @@ const ProfessionalDetailCard = ({ p }) => {
         </div>
       </div>
     </div>
+
+    {/* =========================================================
+    SERVICE REQUEST
+      ========================================================= */}
+      {serviceRequest?._id && (
+  <div className="card border-0 shadow-sm rounded-4 mb-3">
+    <div className="card-body p-3 p-md-4">
+
+      <div className="d-flex justify-content-between align-items-start gap-3 mb-3">
+
+        <div>
+          <h6 className="fw-bold mb-1">
+            <FaPaperPlane className="text-primary me-2" />
+            Service Request
+          </h6>
+
+          <small className="text-muted">
+            Review and manage the professional's requested service.
+          </small>
+        </div>
+
+        <span
+          className={`badge rounded-pill ${
+            serviceRequest.status === "approved"
+              ? "bg-success-subtle text-success"
+              : serviceRequest.status === "rejected"
+                ? "bg-danger-subtle text-danger"
+                : "bg-warning-subtle text-warning-emphasis"
+          }`}
+        >
+          {serviceRequest.status === "pending_review"
+            ? "Pending Review"
+              : serviceRequest.status === "approved"
+              ? "Approved"
+              : "Rejected"}
+        </span>
+
+      </div>
+
+
+      {/* Requested Service */}
+
+      <div className="fixkar-info-box mb-3">
+        <FaTools />
+
+        <div>
+          <small>Requested Service</small>
+
+          <strong>
+            {serviceRequest.serviceName || "—"}
+          </strong>
+        </div>
+      </div>
+
+
+      {/* Description */}
+
+      <div className="fixkar-description-box mb-3">
+        <FaInfoCircle />
+
+        <div>
+          <small>Service Description</small>
+
+          <p className="mb-0">
+            {serviceRequest.description || "No description provided."}
+          </p>
+        </div>
+      </div>
+
+
+       {/* Admin actions only while pending */}
+      {serviceRequest.status === "pending_review" && (
+        <>
+          {/* Select actual Fixkar service */}
+          <div className="mb-3">
+
+            <label className="form-label small fw-semibold">
+              Assign Fixkar Service
+            </label>
+
+            <select
+              className="form-select rounded-3"
+              value={selectedServiceId}
+              onChange={(e) =>
+                setSelectedServiceId(e.target.value)
+              }
+            >
+              <option value="">
+                Select service
+              </option>
+
+              {services?.map((service) => (
+                <option
+                  key={service._id}
+                  value={service._id}
+                >
+                  {service.name}
+                </option>
+              ))}
+            </select>
+
+            <small className="text-muted">
+              This service will be assigned to the professional
+              after approval.
+            </small>
+
+          </div>
+
+
+          {/* Admin Note */}
+          <div className="mb-3">
+
+            <label className="form-label small fw-semibold">
+              Admin Note
+            </label>
+
+            <textarea
+              className="form-control rounded-3"
+              rows="3"
+              placeholder="Add a note for the professional..."
+              value={serviceNote}
+              onChange={(e) =>
+                setServiceNote(e.target.value)
+              }
+            />
+
+            <small className="text-muted">
+              Optional. This note will be visible to the
+              professional.
+            </small>
+
+          </div>
+
+
+          {/* Buttons */}
+          <div className="d-flex flex-column flex-sm-row gap-2">
+
+            <button
+              type="button"
+              className="btn btn-success rounded-pill px-4 fw-semibold flex-fill"
+              disabled={serviceActionLoad}
+              onClick={() =>
+                handleServiceRequestAction("approved")
+              }
+            >
+              {serviceActionLoad ? (
+                <ClipLoader size={16} color="#fff" />
+              ) : (
+                <>
+                  <FaCheck className="me-2" />
+                  Approve Service
+                </>
+              )}
+            </button>
+
+
+            <button
+              type="button"
+              className="btn btn-outline-danger rounded-pill px-4 fw-semibold flex-fill"
+              disabled={serviceActionLoad}
+              onClick={() =>
+                handleServiceRequestAction("rejected")
+              }
+            >
+              {serviceActionLoad ? (
+                <ClipLoader size={16} color="#dc3545" />
+              ) : (
+                <>
+                  <FaTimes className="me-2" />
+                  Reject Service
+                </>
+              )}
+            </button>
+
+          </div>
+        </>
+      )}
+
+
+      {/* Existing admin note */}
+      {serviceRequest.adminNote && (
+        <div className="mt-3 p-3 rounded-3 bg-light border">
+
+          <small className="fw-semibold d-block mb-1">
+            Admin Note
+          </small>
+
+          <p className="small text-muted mb-0">
+            {serviceRequest.adminNote}
+          </p>
+
+        </div>
+      )}
+
+
+    </div>
+  </div>
+)}
 
 
     {/* =========================================================
@@ -1901,8 +2138,6 @@ const ProfessionalDetailCard = ({ p }) => {
               </strong>
             </div>
           </div>
-
-
           <div className="col-12 col-md-6">
             <div className="fixkar-meta-box">
               <small>Last Updated</small>
@@ -1915,8 +2150,6 @@ const ProfessionalDetailCard = ({ p }) => {
               </strong>
             </div>
           </div>
-
-
           <div className="col-12 col-md-6">
             <div className="fixkar-meta-box">
               <small>Accepted By</small>
@@ -1925,8 +2158,6 @@ const ProfessionalDetailCard = ({ p }) => {
               </strong>
             </div>
           </div>
-
-
           <div className="col-12 col-md-6">
             <div className="fixkar-meta-box">
               <small>Location Type</small>
@@ -1935,12 +2166,9 @@ const ProfessionalDetailCard = ({ p }) => {
               </strong>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
-
   </div>
 );
 };

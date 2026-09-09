@@ -26,6 +26,7 @@ import { getProfessionalPickupRequests } from '../controllers/ProfessionalsContr
 import { acceptPickupRequest, rejectPickupRequest } from '../controllers/ProfessionalsController/pickup.controller.js';
 import { claimCouponController, validateCouponController, applyCouponToBookingController, getMyCouponClaims } from '../controllers/CouponController/coupon.controller.js';
 import { optionalAuth } from '../middlewares/optionalAuth.js';
+import { getServiceRequest } from '../controllers/ProfessionalsController/getServiceRequest.js';
 const userRoute = express.Router();
 
 userRoute.get("/current", isAuth ,getCurrentUser);
@@ -41,6 +42,7 @@ userRoute.post("/onboard", isAuth, upload.fields([
   { name: "poiFront", maxCount: 1 },
   { name: "poiBack", maxCount: 1 },
 ]), multerErrorHandler, onboard);
+userRoute.get("/get-service-request", getServiceRequest)
 
 userRoute.post("/professional/complete-profile", isAuth, completeProfile);
 userRoute.post("/professional/set-busy-days", isAuth, setBusyDays)
