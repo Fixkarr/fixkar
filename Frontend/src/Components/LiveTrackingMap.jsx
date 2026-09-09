@@ -87,29 +87,90 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
 
     // First location → create marker
     if (!professionalMarkerRef.current) {
-      professionalMarkerRef.current = new window.google.maps.Marker({
-        position: professionalPosition,
-        map: mapInstanceRef.current,
-        title: "Professional",
-        label: {
-          text: "🚗",
-        },
-      });
+  professionalMarkerRef.current = new window.google.maps.Marker({
+    position: professionalPosition,
+    map: mapInstanceRef.current,
+    title: "Professional",
 
-      // Map ko professional ke initial location tak bhi dikhao
-      const bounds = new window.google.maps.LatLngBounds();
+    icon: {
+      url:
+        "data:image/svg+xml;charset=UTF-8," +
+        encodeURIComponent(`
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewBox="0 0 48 48"
+          >
+            <circle
+              cx="24"
+              cy="24"
+              r="22"
+              fill="white"
+              stroke="#0d6efd"
+              stroke-width="2"
+            />
 
-      bounds.extend({
-        lat: Number(booking.customerLat),
-        lng: Number(booking.customerLng),
-      });
+            <path
+              d="M14 29
+                 L16 20
+                 Q17 17 20 17
+                 H28
+                 Q31 17 32 20
+                 L34 29
+                 V33
+                 H30
+                 V30
+                 H18
+                 V33
+                 H14
+                 Z"
+              fill="#0d6efd"
+            />
 
-      bounds.extend(professionalPosition);
+            <circle
+              cx="19"
+              cy="27"
+              r="2.5"
+              fill="white"
+            />
 
-      mapInstanceRef.current.fitBounds(bounds);
+            <circle
+              cx="29"
+              cy="27"
+              r="2.5"
+              fill="white"
+            />
 
-      return;
-    }
+            <rect
+              x="19"
+              y="19"
+              width="10"
+              height="6"
+              rx="1"
+              fill="white"
+            />
+          </svg>
+        `),
+
+      scaledSize: new window.google.maps.Size(48, 48),
+      anchor: new window.google.maps.Point(24, 24),
+    },
+  });
+
+  const bounds = new window.google.maps.LatLngBounds();
+
+  bounds.extend({
+    lat: Number(booking.customerLat),
+    lng: Number(booking.customerLng),
+  });
+
+  bounds.extend(professionalPosition);
+
+  mapInstanceRef.current.fitBounds(bounds);
+
+  return;
+}
 
     // Next GPS update → only move marker
     professionalMarkerRef.current.setPosition(
