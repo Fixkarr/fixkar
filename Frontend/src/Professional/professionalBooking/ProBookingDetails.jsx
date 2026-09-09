@@ -39,22 +39,9 @@ const ProBookingDetails = () => {
     const {walletTransaction} = useSelector(state => state.wallet);
     const {myBookings} = useSelector(state=> state.bookings)
     const booking = myBookings.find(book => book._id == bookingId)
-     const isReachedEnabled = (booking)=>{
-    if (booking.status !== "on-the-way") return false;
-
-     const now = new Date();
-
-  const workDateTime = new Date(
-    `${booking.workDate} ${booking.workTime}`
-  );
-
-  const BUFFER_MINUTES = 240;
-  const enableTime = new Date(
-    workDateTime.getTime() - BUFFER_MINUTES * 60 * 1000
-  );
-
-  return now >= enableTime;
-  }
+    const isReachedEnabled = (booking) => {
+  return booking.status === "on-the-way";
+}
 
   const fullAmount =
   booking?.isPriceLocked
