@@ -44,12 +44,14 @@ import FormResponseSummary from "./FormResponseSummary";
 import { ClipLoader } from "react-spinners";
 import useGetServiceRequests from "../../../hooks/useGetServiceRequests";
 import { useSelector } from "react-redux";
+import useGetServices from "../../../hooks/useGetServices";
 
 const ProfessionalDetailCard = ({ p }) => {
   const [reason, setReason] = useState("");
   const [accLoad, setAccLoad] = useState(false);
   const [rejLoad, setRejLoad] = useState(false);
   const [showRejectBox, setShowRejectBox] = useState(false);
+  useGetServices()
    const { services } = useSelector(
       (state) => state.services
     );
