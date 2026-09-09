@@ -4,19 +4,24 @@ import { FaCar, FaMapMarkerAlt } from "react-icons/fa";
 
 import useLoadGoogleMaps from "../hooks/useLoadGoogleMap";
 
-const LiveTrackingMap = ({ booking, professionalLocation }) => {
+const LiveTrackingMap = ({
+  booking,
+  professionalLocation,
+}) => {
   const googleLoaded = useLoadGoogleMaps();
 
   const [mapReady, setMapReady] = useState(false);
+  const [routesReady, setRoutesReady] = useState(false);
 
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
-  const directionsServiceRef = useRef(null);
-  const directionsRendererRef = useRef(null);
+  const RouteRef = useRef(null);
 
   const customerMarkerRef = useRef(null);
   const professionalMarkerRef = useRef(null);
+
+  const routePolylinesRef = useRef([]);
 
   // ============================================
   // CREATE SVG DATA URL FROM REACT ICON
@@ -47,7 +52,9 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
     if (!googleLoaded) return;
 
     if (!window.google?.maps) {
-      console.log("Google Maps is not available yet");
+      console.log(
+        "Google Maps is not available yet"
+      );
       return;
     }
 
@@ -72,6 +79,7 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
       mapRef.current,
       {
         center: customerLocation,
+
         zoom: 15,
 
         mapTypeControl: false,
@@ -83,28 +91,6 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
     );
 
     mapInstanceRef.current = map;
-
-    // ==========================================
-    // DIRECTIONS SERVICE
-    // ==========================================
-    directionsServiceRef.current =
-      new window.google.maps.DirectionsService();
-
-    directionsRendererRef.current =
-      new window.google.maps.DirectionsRenderer({
-        map: map,
-
-        // We already have our own markers
-        suppressMarkers: true,
-
-        preserveViewport: true,
-
-        polylineOptions: {
-          strokeColor: "#2563eb",
-          strokeOpacity: 0.9,
-          strokeWeight: 5,
-        },
-      });
 
     // ==========================================
     // CUSTOMER ICON
@@ -146,6 +132,33 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
     setMapReady(true);
 
     // ==========================================
+    // LOAD ROUTES LIBRARY
+    // ==========================================
+    const loadRoutesLibrary = async () => {
+      try {
+        const { Route } =
+          await window.google.maps.importLibrary(
+            "routes"
+          );
+
+        RouteRef.current = Route;
+
+        setRoutesReady(true);
+
+        console.log(
+          "Google Maps Routes Library loaded"
+        );
+      } catch (error) {
+        console.error(
+          "Failed to load Routes Library:",
+          error
+        );
+      }
+    };
+
+    loadRoutesLibrary();
+
+    // ==========================================
     // CLEANUP
     // ==========================================
     return () => {
@@ -157,21 +170,25 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
         professionalMarkerRef.current.setMap(null);
       }
 
-      if (directionsRendererRef.current) {
-        directionsRendererRef.current.setMap(null);
-      }
+      // Remove all route polylines
+      routePolylinesRef.current.forEach(
+        (polyline) => {
+          polyline.setMap(null);
+        }
+      );
+
+      routePolylinesRef.current = [];
 
       mapInstanceRef.current = null;
 
-      directionsServiceRef.current = null;
-
-      directionsRendererRef.current = null;
+      RouteRef.current = null;
 
       customerMarkerRef.current = null;
 
       professionalMarkerRef.current = null;
 
       setMapReady(false);
+      setRoutesReady(false);
     };
   }, [
     googleLoaded,
@@ -180,7 +197,7 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
   ]);
 
   // ============================================
-  // PROFESSIONAL LIVE LOCATION
+  // PROFESSIONAL LIVE LOCATION + ROUTE
   // ============================================
   useEffect(() => {
     if (!googleLoaded) return;
@@ -189,7 +206,11 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
 
     if (!mapReady) return;
 
+    if (!routesReady) return;
+
     if (!mapInstanceRef.current) return;
+
+    if (!RouteRef.current) return;
 
     if (
       professionalLocation?.lat == null ||
@@ -251,19 +272,18 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
         });
 
       // ========================================
-      // FIT BOTH LOCATIONS
+      // FIT CUSTOMER + PROFESSIONAL
       // ========================================
       const bounds =
         new window.google.maps.LatLngBounds();
 
       bounds.extend(customerPosition);
-
       bounds.extend(professionalPosition);
 
       mapInstanceRef.current.fitBounds(bounds);
     } else {
       // ========================================
-      // UPDATE PROFESSIONAL LOCATION
+      // UPDATE PROFESSIONAL POSITION
       // ========================================
       professionalMarkerRef.current.setPosition(
         professionalPosition
@@ -271,39 +291,112 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
     }
 
     // ==========================================
-    // DRAW DRIVING ROUTE
+    // CALCULATE NEW ROUTE
     // ==========================================
-    if (
-      directionsServiceRef.current &&
-      directionsRendererRef.current
-    ) {
-      directionsServiceRef.current.route(
-        {
+    const calculateRoute = async () => {
+      try {
+        const Route = RouteRef.current;
+
+        if (!Route) return;
+
+        const request = {
           origin: professionalPosition,
 
           destination: customerPosition,
 
-          travelMode:
-            window.google.maps.TravelMode.DRIVING,
-        },
+          travelMode: "DRIVING",
 
-        (result, status) => {
-          if (status === "OK" && result) {
-            directionsRendererRef.current.setDirections(
-              result
-            );
-          } else {
-            console.log(
-              "Google Maps route error:",
-              status
-            );
-          }
+          fields: [
+            "path",
+            "distanceMeters",
+            "durationMillis",
+          ],
+        };
+
+        const { routes } =
+          await Route.computeRoutes(request);
+
+        if (!routes || routes.length === 0) {
+          console.warn(
+            "No route found between professional and customer"
+          );
+
+          return;
         }
-      );
-    }
+
+        const route = routes[0];
+
+        // ========================================
+        // REMOVE OLD ROUTE
+        // ========================================
+        routePolylinesRef.current.forEach(
+          (polyline) => {
+            polyline.setMap(null);
+          }
+        );
+
+        routePolylinesRef.current = [];
+
+        // ========================================
+        // CREATE NEW ROUTE POLYLINE
+        // ========================================
+        const polylines =
+          route.createPolylines({
+            polylineOptions: {
+              strokeColor: "#2563eb",
+              strokeOpacity: 0.9,
+              strokeWeight: 5,
+            },
+          });
+
+        // ========================================
+        // ADD ROUTE TO MAP
+        // ========================================
+        polylines.forEach((polyline) => {
+          polyline.setMap(
+            mapInstanceRef.current
+          );
+        });
+
+        routePolylinesRef.current = polylines;
+
+        // ========================================
+        // ROUTE INFORMATION
+        // ========================================
+        const distanceKm =
+          route.distanceMeters
+            ? (
+                route.distanceMeters / 1000
+              ).toFixed(1)
+            : null;
+
+        const durationMinutes =
+          route.durationMillis
+            ? Math.ceil(
+                route.durationMillis / 60000
+              )
+            : null;
+
+        console.log(
+          "🚗 Route updated:",
+          {
+            distanceKm,
+            durationMinutes,
+          }
+        );
+      } catch (error) {
+        console.error(
+          "Google Routes API error:",
+          error
+        );
+      }
+    };
+
+    calculateRoute();
   }, [
     googleLoaded,
     mapReady,
+    routesReady,
     professionalLocation,
     booking?.customerLat,
     booking?.customerLng,
@@ -340,4 +433,3 @@ const LiveTrackingMap = ({ booking, professionalLocation }) => {
 };
 
 export default LiveTrackingMap;
-
