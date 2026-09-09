@@ -39,6 +39,7 @@ import useGetMyBookings from '../../hooks/useGetMyBookings';
 import FixkarLoader from '../../Components/FixkarLoader';
 
 import './cusBookingDetails.css'
+import LiveTrackingMap from '../../Components/LiveTrackingMap';
 
 const CusBookingDetail = () => {
     useGetMyBookings()
@@ -166,6 +167,8 @@ return (
             </p>
             <p>{booking.workAddress}</p>
           </div>
+            
+                <LiveTrackingMap booking={booking} />
 
           {/* ---------- PROBLEM ---------- */}
           <div className="booking-details-info-tile booking-details-problem-tile">
