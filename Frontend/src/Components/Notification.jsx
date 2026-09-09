@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa";
 import { LuCalendarCheck2 } from "react-icons/lu";
 import { MdOutlinePendingActions } from "react-icons/md";
-import { FaRegCalendarXmark } from "react-icons/fa6";
+import { FaRegCalendarXmark, FaRoute } from "react-icons/fa6";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { formatDate } from "../utils/formatTime&Date";
 import { server_url } from "../App";
@@ -32,6 +32,8 @@ const getIcon = (type) => {
       return <FaCalendarCheck className="text-primary fs-5" />;
     case "booking_rejected":
       return <FaCalendarTimes className="text-danger fs-5" />;
+    case "booking_on_the_way": 
+      return <FaRoute className="text-primary fs-5" />;
     case "booking_cancelled":
       return <FaRegCalendarXmark className="text-danger fs-5" />;
     case "booking_completed":
