@@ -19,13 +19,19 @@ const locationSlice = createSlice({
       state.selectedTask = action.payload;
     },
     setProfessionalLiveLocation: (state, action) => {
-  const { bookingId, lat, lng } = action.payload;
+  const {
+    bookingId,
+    lat,
+    lng,
+    heading,
+  } = action.payload;
 
   state.professionalLiveLocations[bookingId] = {
     lat,
     lng,
+    heading,
   };
-},
+  },
   }
 });
 

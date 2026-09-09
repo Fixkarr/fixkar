@@ -171,8 +171,7 @@ return (
             <p>{booking.workAddress}</p>
           </div>
             
-                <LiveTrackingMap booking={booking} professionalLocation={professionalLocation} />
-
+        
           {/* ---------- PROBLEM ---------- */}
           <div className="booking-details-info-tile booking-details-problem-tile">
             <p>Problem Description</p>
@@ -216,6 +215,11 @@ return (
               </div>
             </section>
           )}
+
+            {booking.status === "on-the-way" && 
+          <LiveTrackingMap booking={booking} professionalLocation={professionalLocation} />
+          }
+
 
           {/* ---------- ACTIONS ---------- */}
           {(booking.status == "pending" ||

@@ -336,6 +336,10 @@ useEffect(() => {
       bookingId  : data?.bookingId,
       lat: Number(data.latitude),
       lng: Number(data.longitude),
+         heading:
+        data.heading != null
+          ? Number(data.heading)
+          : null,
     })
   )
 });

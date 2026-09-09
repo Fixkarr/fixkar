@@ -152,7 +152,7 @@ io.on("connection", (socket) => {
   socket.join(userId);
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
-  socket.on("professionalLocation", async ({ bookingId, latitude, longitude })=>{
+  socket.on("professionalLocation", async ({ bookingId, latitude, longitude, heading })=>{
      try {
       if (
         !bookingId ||
@@ -190,6 +190,7 @@ io.on("connection", (socket) => {
         bookingId,
         latitude,
         longitude,
+        heading,
         timestamp: Date.now(),
       });
 
