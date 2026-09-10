@@ -53,7 +53,9 @@ export const uploadToCloudinary = (file, folder, resourceTypeOverride) => {
       },
       (error, result) => {
         if (error) {
-          console.error("Cloudinary Upload Error:", error);
+         return res.status(400).json({
+          message : error.message || "Failed to upload image!"
+         })
           reject(error);
         } else {
           resolve(result);

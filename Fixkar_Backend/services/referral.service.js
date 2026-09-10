@@ -73,7 +73,7 @@ export const processReferralReward = async ({completedBookingId,}) => {
   try {
       const completedBooking = await Booking.findOne({
       _id: completedBookingId,
-      status: "completed",
+      status: "completed"
     });
 
     if (!completedBooking) {
@@ -84,46 +84,52 @@ export const processReferralReward = async ({completedBookingId,}) => {
     }
 
     // 2. Booking ke basis par referred User find karo
-    let referredUser = null;
+   let customerUserId = null;
+let professionalUserId = null;
 
-    if (completedBooking.customerId) {
-      const customer = await Customer.findById(
-        completedBooking.customerId
-      ).select("userId");
+if (completedBooking.customerId) {
+  const customer = await Customer.findById(
+    completedBooking.customerId
+  ).select("userId");
 
-      if (customer) {
-        referredUser = await User.findById(customer.userId);
-      }
-    }
+  if (customer) {
+    customerUserId = customer.userId;
+  }
+}
 
-    if (!referredUser && completedBooking.professionalId) {
-      const professional = await Professional.findById(
-        completedBooking.professionalId
-      ).select("userId");
+if (completedBooking.professionalId) {
+  const professional = await Professional.findById(
+    completedBooking.professionalId
+  ).select("userId");
 
-      if (professional) {
-        referredUser = await User.findById(professional.userId);
-      }
-    }
+  if (professional) {
+    professionalUserId = professional.userId;
+  }
+}
 
-    if (!referredUser) {
-      return {
-        rewarded: false,
-        reason: "REFERRED_USER_NOT_FOUND",
-      };
-    }
+const referral = await Referral.findOne({
+  referredUserId: {
+    $in: [customerUserId, professionalUserId].filter(Boolean),
+  },
+});
 
-    // 3. Ab referral find karo
-    const referral = await Referral.findOne({
-      referredUserId: referredUser._id,
-    });
+if (!referral) {
+  return {
+    rewarded: false,
+    reason: "NO_REFERRAL",
+  };
+}
 
-    if (!referral) {
-      return {
-        rewarded: false,
-        reason: "NO_REFERRAL",
-      };
-    }
+const referredUser = await User.findById(
+  referral.referredUserId
+);
+
+if (!referredUser) {
+  return {
+    rewarded: false,
+    reason: "REFERRED_USER_NOT_FOUND",
+  };
+}
 
     // 2. Already rewarded hai to dobara reward nahi
     if (referral.status === "REWARDED") {
@@ -210,12 +216,6 @@ export const processReferralReward = async ({completedBookingId,}) => {
         rewarded: false,
         reason: "BOOKING_NOT_BELONG_TO_REFERRED_USER",
       };
-    }
-
-    if (referredUser.role === "customer") {
-      bookingQuery.customerId = referredProfile._id;
-    } else {
-      bookingQuery.professionalId = referredProfile._id;
     }
 
     // 7. Check karo ki ye referred user ki FIRST completed booking hai
