@@ -6951,3 +6951,21 @@ border-radius: 25px;
           white-space: nowrap;
         }
       }
+
+      /* =========================================
+   GLOBAL BOOTSTRAP MODAL
+   ========================================= */
+
+.modal-dialog {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.modal-content {
+  max-height: 60vh;
+  overflow: hidden;
+}
+
+.modal-body {
+  overflow-y: auto;
+}
