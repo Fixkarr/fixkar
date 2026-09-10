@@ -80,6 +80,7 @@ export const confirmCashPayment = async (req, res) => {
     await booking.save({ session });
     await processReferralReward({
       completedBookingId: booking._id,
+      session
     });
 
     const COMMISSION_PERCENT = Number(

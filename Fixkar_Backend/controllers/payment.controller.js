@@ -208,8 +208,9 @@ export const verifyPayment = async (req, res) => {
       booking.completedAt = new Date();
 
       await booking.save({ session });
-      await processReferralReward({
+    await processReferralReward({
         completedBookingId: booking._id,
+        session
       });
     }
     if (payment.paymentType === "CANCEL") {

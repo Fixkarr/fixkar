@@ -69,12 +69,13 @@ export const processReferral = async ({
   return referral;
 };
 
-export const processReferralReward = async ({completedBookingId,}) => {
+export const processReferralReward = async ({completedBookingId, session}) => {
   try {
       const completedBooking = await Booking.findOne({
       _id: completedBookingId,
       status: "completed"
-    });
+    }).session(session);
+
 
     if (!completedBooking) {
       return {
@@ -90,7 +91,7 @@ let professionalUserId = null;
 if (completedBooking.customerId) {
   const customer = await Customer.findById(
     completedBooking.customerId
-  ).select("userId");
+  ).select("userId").session(session);
 
   if (customer) {
     customerUserId = customer.userId;
@@ -100,7 +101,7 @@ if (completedBooking.customerId) {
 if (completedBooking.professionalId) {
   const professional = await Professional.findById(
     completedBooking.professionalId
-  ).select("userId");
+  ).select("userId").session(session);
 
   if (professional) {
     professionalUserId = professional.userId;
@@ -111,7 +112,9 @@ const referral = await Referral.findOne({
   referredUserId: {
     $in: [customerUserId, professionalUserId].filter(Boolean),
   },
-});
+}).session(session);
+
+
 
 if (!referral) {
   return {
@@ -122,7 +125,9 @@ if (!referral) {
 
 const referredUser = await User.findById(
   referral.referredUserId
-);
+).session(session);
+
+
 
 if (!referredUser) {
   return {
@@ -151,7 +156,8 @@ if (!referredUser) {
 
      const referrer = await User.findById(
       referral.referrerId
-    );
+    ).session(session);
+
 
     if (!referrer) {
       return {
@@ -170,7 +176,7 @@ if (!referredUser) {
       referrerMobile === referredMobile
     ) {
       referral.status = "REVERSED";
-      await referral.save();
+      await referral.save({session});
 
       return {
         rewarded: false,
@@ -187,11 +193,11 @@ if (!referredUser) {
     if (referredUser.role === "customer") {
       referredProfile = await Customer.findOne({
         userId: referredUser._id,
-      });
+      }).session(session);
     } else if (referredUser.role === "professional") {
       referredProfile = await Professional.findOne({
         userId: referredUser._id,
-      });
+      }).session(session);
     }
 
     if (!referredProfile) {
@@ -232,7 +238,8 @@ if (!referredUser) {
 
     const previousCompletedBooking = await Booking.findOne(
       previousCompletedBookingQuery
-    )
+    ).session(session)
+
 
     if (previousCompletedBooking) {
       return {
@@ -249,7 +256,7 @@ if (!referredUser) {
       // Professional ko wallet pending balance me reward
       const professional = await Professional.findOne({
         userId: referrer._id,
-      });
+      }).session(session);
 
       if (!professional) {
         return {
@@ -257,11 +264,11 @@ if (!referredUser) {
           reason: "REFERRER_PROFESSIONAL_NOT_FOUND",
         };
       }
-
+      
       const wallet = await Wallet.findOne({
         professionalId: professional._id,
-      });
-
+      }).session(session);
+   
       if (!wallet) {
         return {
           rewarded: false,
@@ -271,12 +278,12 @@ if (!referredUser) {
 
       wallet.pendingBalance += referral.rewardAmount;
       wallet.totalEarned += referral.rewardAmount;
-
-      await wallet.save();
+   
+      await wallet.save({session});
     } else {
          const customer = await Customer.findOne({
     userId: referrer._id,
-  });
+  }).session(session);
 
   if (!customer) {
     return {
@@ -287,15 +294,15 @@ if (!referredUser) {
 
   customer.rewardCredits = (customer.rewardCredits || 0) + referral.rewardAmount;
 
-  await customer.save();
+  await customer.save({session});
     }
 
     // 10. Reward successful
     referral.status = "REWARDED";
     referral.rewardedAt = new Date();
 
-    await referral.save();
-
+    await referral.save({session});
+  
     return {
       rewarded: true,
       reason: "REWARD_GRANTED",
