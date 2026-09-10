@@ -138,26 +138,30 @@ if (!isValidPassword) {
 };
 
 export const signOut = async (req, res) => {
-  try {
-    const token = req.cookies?.token;
+  const token = req.cookies?.token;
 
+  // Always send the browser-side deletion immediately. Server-side revocation
+  // below is the security backstop when a stale HttpOnly cookie survives.
+  res.clearCookie("token", userCookieOptions);
+
+  try {
     if (token) {
-      // Keep the token server-side revoked for the rest of its lifetime.
-      // This makes logout effective even if the browser keeps the HttpOnly cookie.
       const decoded = jwt.decode(token);
       const expiresAt = Number(decoded?.exp || 0);
-      const ttlSeconds = Math.max(1, expiresAt - Math.floor(Date.now() / 1000));
+      const now = Math.floor(Date.now() / 1000);
+      const ttlSeconds = expiresAt - now;
 
-      if (expiresAt > Math.floor(Date.now() / 1000)) {
+      if (ttlSeconds > 0) {
         await redis.set(getTokenKey(token), "1", "EX", ttlSeconds);
       }
     }
 
-    res.clearCookie("token", userCookieOptions);
     return res.status(200).json({ message: "Signout successful" });
   } catch (error) {
     console.log("error in signOutCustomer", error);
-    return res.status(500).json({ message: "Internal server error" });
+    // Cookie has already been cleared. Return an error so monitoring can catch
+    // a Redis outage instead of silently claiming server-side revocation worked.
+    return res.status(500).json({ message: "Logout could not be fully completed" });
   }
 };
 
