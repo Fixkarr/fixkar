@@ -2,9 +2,10 @@ import { User, Customer, Professional } from "../../models/userModel.js";
 import bcrypt from 'bcryptjs'
 import { genToken } from '../../utils/AuthToken.js';
 import redis from "../../services/redisClient.js";
-import { validatePassword } from "../../utils/passwordPolicy.js";
-import { generateUniqueReferralCode } from "../../utils/generateShortCode.js";
-import { processReferral } from "../../services/referral.service.js";
+import { getTokenKey } from '../../middlewares/isAuth.js';
+import { validatePassword } from '../../utils/passwordPolicy.js';
+import { generateUniqueReferralCode } from '../../utils/generateShortCode.js';
+import { processReferral } from '../../services/referral.service.js';
 
 const isProduction = process.env.NODE_ENV === "production";
 const userCookieOptions = {
@@ -137,6 +138,20 @@ if (!isValidPassword) {
 
 export const signOut = async (req, res) => {
   try {
+    const token = req.cookies?.token;
+
+    if (token) {
+      // Keep the token server-side revoked for the rest of its lifetime.
+      // This makes logout effective even if the browser keeps the HttpOnly cookie.
+      const decoded = jwt.decode(token);
+      const expiresAt = Number(decoded?.exp || 0);
+      const ttlSeconds = Math.max(1, expiresAt - Math.floor(Date.now() / 1000));
+
+      if (expiresAt > Math.floor(Date.now() / 1000)) {
+        await redis.set(getTokenKey(token), "1", "EX", ttlSeconds);
+      }
+    }
+
     res.clearCookie("token", userCookieOptions);
     return res.status(200).json({ message: "Signout successful" });
   } catch (error) {
