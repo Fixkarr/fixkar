@@ -1,10 +1,12 @@
 import { User, Customer, Professional } from "../../models/userModel.js";
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken';
 import { genToken } from '../../utils/AuthToken.js';
 import redis from "../../services/redisClient.js";
-import { validatePassword } from "../../utils/passwordPolicy.js";
-import { generateUniqueReferralCode } from "../../utils/generateShortCode.js";
-import { processReferral } from "../../services/referral.service.js";
+import { getTokenKey } from '../../middlewares/isAuth.js';
+import { validatePassword } from '../../utils/passwordPolicy.js';
+import { generateUniqueReferralCode } from '../../utils/generateShortCode.js';
+import { processReferral } from '../../services/referral.service.js';
 
 const isProduction = process.env.NODE_ENV === "production";
 const userCookieOptions = {
@@ -136,12 +138,30 @@ if (!isValidPassword) {
 };
 
 export const signOut = async (req, res) => {
+  const token = req.cookies?.token;
+
+  // Always send the browser-side deletion immediately. Server-side revocation
+  // below is the security backstop when a stale HttpOnly cookie survives.
+  res.clearCookie("token", userCookieOptions);
+
   try {
-    res.clearCookie("token", userCookieOptions);
+    if (token) {
+      const decoded = jwt.decode(token);
+      const expiresAt = Number(decoded?.exp || 0);
+      const now = Math.floor(Date.now() / 1000);
+      const ttlSeconds = expiresAt - now;
+
+      if (ttlSeconds > 0) {
+        await redis.set(getTokenKey(token), "1", "EX", ttlSeconds);
+      }
+    }
+
     return res.status(200).json({ message: "Signout successful" });
   } catch (error) {
     console.log("error in signOutCustomer", error);
-    return res.status(500).json({ message: "Internal server error" });
+    // Cookie has already been cleared. Return an error so monitoring can catch
+    // a Redis outage instead of silently claiming server-side revocation worked.
+    return res.status(500).json({ message: "Logout could not be fully completed" });
   }
 };
 
