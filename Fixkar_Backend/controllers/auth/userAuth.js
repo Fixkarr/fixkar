@@ -1,5 +1,6 @@
 import { User, Customer, Professional } from "../../models/userModel.js";
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken';
 import { genToken } from '../../utils/AuthToken.js';
 import redis from "../../services/redisClient.js";
 import { getTokenKey } from '../../middlewares/isAuth.js';
