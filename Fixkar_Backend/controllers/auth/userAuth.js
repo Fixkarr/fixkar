@@ -50,35 +50,38 @@ export const registerUserWithForm = async (req, res) => {
         const token = await genToken(newUser._id);
         res.cookie("token", token, { ...userCookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
         clearAdminCookie(res);
-        let registerUser;
+
         if (role === "customer") {
             await Customer.create({ userId: newUser._id });
-            registerUser = await Customer.findOne({ userId: newUser._id }).populate("userId");
-    
+            const customer = await Customer.findOne({ userId: newUser._id }).populate("userId");
+             try {
+                await processReferral({
+                    referralCode,
+                    referredUser: newUser,
+                });
+                } catch (referralError) {
+                console.error("Referral processing failed:", referralError);
+                }
+
+            return res.status(201).json({ message: "user registered successfully", user: customer });
         }
         if (role === "professional") {
             await Professional.create({ userId: newUser._id, address: { addressLine: "", lat: null, lng: null }, location: { type: "Point", coordinates: [] } });
-            registerUser = await Professional.findOne({ userId: newUser._id }).populate("userId", '-password');
-        
-        }else{
-             return res.status(400).json({
-                    message: "No role assigned to this user"
+            const professional = await Professional.findOne({ userId: newUser._id }).populate("userId", '-password');
+             try {
+                await processReferral({
+                    referralCode,
+                    referredUser: newUser,
                 });
+                } catch (referralError) {
+                console.error("Referral processing failed:", referralError);
+                }
+
+            return res.status(201).json({ message: "user registered successfully", user: professional });
         }
 
-       try {
-  await processReferral({
-    referralCode,
-    referredUser: newUser,
-  });
-} catch (referralError) {
-  console.error("Referral processing failed:", referralError);
-}
-
-       return res.status(201).json({
-    message: "user registered successfully",
-    user: registerUser
-});
+      
+        return res.status(400).json({ message: "No role assigned to this user" });
     } catch (error) {
         console.log("error in registerCustomerWithForm controller", error);
         return res.status(500).json({ message: "Internal Server Error" })
