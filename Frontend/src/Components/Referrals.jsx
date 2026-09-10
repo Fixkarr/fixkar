@@ -102,7 +102,7 @@ const Referrals = () => {
         return "Rewarded";
 
       case "REGISTERED":
-        return "Pending";
+        return "Registered";
 
       case "REVERSED":
         return "Reversed";
@@ -524,14 +524,14 @@ const Referrals = () => {
           <div className="referral-history-count">
             <FaUserGroup />
             <span>
-              {referralData.referrals.length} referrals
+              {referralData?.referrals?.length} referrals
             </span>
           </div>
 
         </div>
 
 
-        {referralData.referrals.length > 0 ? (
+        {referralData?.referrals?.length > 0 ? (
 
           <div className="referrals-history-list">
 
