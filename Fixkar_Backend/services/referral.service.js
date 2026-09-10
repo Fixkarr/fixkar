@@ -212,12 +212,6 @@ export const processReferralReward = async ({completedBookingId,}) => {
       };
     }
 
-    if (referredUser.role === "customer") {
-      bookingQuery.customerId = referredProfile._id;
-    } else {
-      bookingQuery.professionalId = referredProfile._id;
-    }
-
     // 7. Check karo ki ye referred user ki FIRST completed booking hai
     const previousCompletedBookingQuery = {
       _id: { $ne: completedBooking._id },
