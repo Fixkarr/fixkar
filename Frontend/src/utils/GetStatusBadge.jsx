@@ -7,7 +7,7 @@
       return <span className="badge bg-primary px-3 py-2">Accepted</span>;
 
     if (status === "on-the-way")
-      return <span className="badge bg-primary-subtle px-3 py-2">On the way</span>;
+      return <span className="badge bg-dark text-light px-3 py-2">On the way</span>;
 
     if (status === "in-progress")
       return <span className="badge bg-warning px-3 py-2">In Progress</span>;
