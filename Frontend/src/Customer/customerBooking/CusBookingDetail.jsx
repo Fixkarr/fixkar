@@ -61,7 +61,7 @@ const discountAmount =
   booking?.discountAmount || 0;
 
 const finalPayable =
-  booking?.offerLocked
+  booking?.offerLocked || booking?.rewardCreditsApplied
     ? booking?.finalCustomerPayable
     : originalTotal;
 

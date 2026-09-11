@@ -153,7 +153,7 @@ const discountAmount =
   booking?.discountAmount || 0;
 
 const cashReceivable =
-  booking?.offerLocked
+  booking?.offerLocked || booking?.rewardCreditsApplied
     ? booking?.finalCustomerPayable
     : fullAmount;
 
@@ -448,12 +448,12 @@ const professionalReceivable = booking?.isPriceLocked
                 )}
     </div>
 
-       {booking.offerLocked && (
-                <div className="alert alert-success mt-3 p-2">
-                  Customer applied ₹{discountAmount} discount.
-                  Platform will top-up this amount.
-                </div>
-              )}
+      {(booking.offerLocked || booking.rewardCreditsApplied) && (
+  <div className="alert alert-success mt-3 p-2">
+    Customer applied ₹{discountAmount} discount.
+    Platform will top-up this amount.
+  </div>
+)}
 
      <button
         className="mt-2 btn btn-outline-primary w-100 fw-semibold"
@@ -504,9 +504,6 @@ const professionalReceivable = booking?.isPriceLocked
               />
             )}
       </div>
-       
-
-
        
       </div>
       </div>
