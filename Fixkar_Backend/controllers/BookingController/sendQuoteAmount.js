@@ -40,6 +40,13 @@ export const sendQuoteAmount = async (req,res)=>{
     return res.status(400).json({ message: "This booking has a locked upfront price" });
   }
 
+  if (booking.offerLocked || booking.rewardCreditsApplied) {
+  return res.status(400).json({
+    message:
+      "Cannot send or change quote after an offer or Reward Credits have been applied."
+  });
+}
+
     const myId = req.userId;
     if(myId !== booking.professionalId.userId._id.toString()){
         return res.status(400).json({

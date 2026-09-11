@@ -8,6 +8,9 @@ const ProInprogress = ({booking}) => {
     if (booking?.isPriceLocked) {
       return <div className="alert alert-success mt-3 mb-0">Upfront price locked: ₹{booking.totalAmount}. You receive: ₹{booking.professionalReceivable || 0}. No quote is required.</div>;
     }
+     const discountApplied =
+    booking?.offerLocked || booking?.rewardCreditsApplied;
+
     const [quoteAmount, setQuoteAmount] = useState('')
 
     const sendQuoteAPI = async (bookingId)=>{
@@ -20,6 +23,19 @@ const ProInprogress = ({booking}) => {
       toast.error(error.response.data.message)
     }
   }
+
+   if (discountApplied) {
+    return (
+      <div className="alert alert-warning mt-4 mb-0">
+        <strong>Quote Locked</strong>
+        <p className="mb-0 mt-1">
+          Customer has already applied an offer or Reward Credits.
+          You cannot send or change the work charge for this booking.
+        </p>
+      </div>
+    );
+  }
+
   return (
      <div className="card border-0 shadow-sm rounded-4 mt-4">
     <div className="card-body">
