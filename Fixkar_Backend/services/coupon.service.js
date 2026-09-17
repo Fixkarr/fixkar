@@ -49,6 +49,11 @@ export const validateCoupon = async ({ userId, couponCode, bookingId = null, ses
   if (!booking) throw new Error("Booking not found");
   if (booking.status !== "in-progress") throw new Error("Coupon can only be applied while the service is in progress");
   if (booking.offerLocked) throw new Error("A coupon is already locked on this booking");
+  if (booking.rewardCreditsApplied) {
+  throw new Error(
+    "Reward Credits already applied, cannot use coupon"
+  );
+}
 
   // Fixed-price bookings use totalAmount. Inspection/quote bookings use the
   // professional's quote plus visiting charge as the finalized amount.
